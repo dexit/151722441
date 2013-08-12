@@ -1,0 +1,64 @@
+#dln-sidebar, #dln-sidebar-bg, #dln-header, .dln-panel .dln-panel-header, #dln-login, #dln-login .dln-login-lock, .ui-accordion .ui-accordion-header, .ui-tabs .ui-tabs-nav, .ui-datepicker, .fc-event-skin, .ui-dialog .ui-dialog-titlebar, .jGrowl .jGrowl-notification, .jGrowl .jGrowl-closer, #dln-user-tools .dln-dropdown-menu .dln-dropdown-box, #dln-user-tools .dln-dropdown-menu.open .dln-dropdown-trigger {
+    background-color: #0067C0;
+}
+
+#dln-user-tools .dln-dropdown-menu .dln-dropdown-trigger:hover, #dln-user-tools .dln-dropdown-menu.open .dln-dropdown-trigger {
+    background-color: #279BFF;
+}
+#dln-user-tools .dln-dropdown-menu .dln-dropdown-box {
+    border: 1px solid #58A3E5;
+    padding: 3px;
+    background-color: #279BFF;
+}
+#dln-header #dln-user-profile {
+	margin-top: 0px;
+	line-height: 32px;
+}
+#dln-header #dln-user-profile #dln-user-photo {
+	background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 2px 2px 2px 2px;
+    float: left;
+    height: 28px;
+    padding: 2px;
+    position: relative;
+    width: 28px;
+    margin-right: 5px;
+}
+
+#dln-header .dln-profile li a {
+	border-bottom: 1px solid #D0D0D0;
+    color: #323232;
+    display: block;
+    padding: 4px 8px;
+    text-decoration: none;
+    line-height: 32px;
+    font-weight: 700;
+}
+#dln-header .dln-profile li a:hover {
+	background-color: #D5D5D5;
+}
+#dln-header .dln-profile li a i {
+	margin: 0 5px;
+}
+#dln-header #dln-user-profile .dln-dropdown-box {
+	width: 150px;
+}
+
+@media only screen and (max-width : 599px) {
+    #dln-header #dln-user-profile {
+    	float:right;
+    }
+    #dln-user-tools #dln-user-message .dln-dropdown-box, #dln-user-tools #dln-user-notif .dln-dropdown-box {
+	    left: 0;
+	    -webkit-border-radius: 0px 6px 6px 6px !important;
+	    -moz-border-radius: 0px 6px 6px 6px !important;
+	    border-radius: 0px 6px 6px 6px !important;
+	}
+}
+@media only screen and (max-width : 340px) {
+    #dln-header #dln-user-info #dln-user-functions {
+        display:none;
+    }
+    #dln-header #dln-user-tools {
+    }
+}

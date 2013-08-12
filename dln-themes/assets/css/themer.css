@@ -1,0 +1,153 @@
+/*
+ * MWS Admin v2.1 - Themer Stylesheet
+ * This file is part of MWS Admin, an Admin template build for sale at ThemeForest.
+ * All copyright to this file is hold by Mairel Theafila <maimairel@yahoo.com> a.k.a nagaemas on ThemeForest.
+ * Last Updated:
+ * December 08, 2012
+ *
+ */
+
+/* Themer Wrapper
+================================================== */
+
+#dln-themer {
+    position: fixed;
+    bottom: 0;
+    right: -256px;
+    font-size: 12px;
+    z-index: 999;
+}
+
+/* Themer Toggler
+================================================== */
+
+#dln-themer #dln-themer-toggle {
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    left: 9px;
+    bottom: 8px;
+    cursor: pointer;
+    color: #fff;
+    text-align: center;
+    border: 1px solid #666666;
+}
+
+#dln-themer #dln-themer-toggle [class*="icon-"] {
+    font-size: 18px;
+    line-height: 32px;
+}
+
+#dln-themer #dln-themer-toggle.opened .icon-bended-arrow-left, 
+#dln-themer #dln-themer-toggle .icon-bended-arrow-right {
+    display: none;
+}
+
+#dln-themer #dln-themer-toggle .icon-bended-arrow-left, 
+#dln-themer #dln-themer-toggle.opened .icon-bended-arrow-right {
+    display: block;
+}
+
+/* Themer Dialog
+================================================== */
+
+#dln-themer #dln-themer-css-dialog {
+    display: none;
+}
+
+#dln-themer-css-dialog textarea {
+    height: 20em !important;
+    width: 100%;
+    font-family: "Courier New", Courier, monospace;
+}
+
+/* (4) Themer Content
+================================================== */
+
+#dln-themer #dln-themer-content {
+    float: right;
+    padding: 4px 6px 4px 58px;
+    position: relative;
+    border: 1px solid #666666;
+    background: #35353a url(../images/core/dln-dark-bg.png);
+    -webkit-border-radius: 4px 0 0 0;
+    -moz-border-radius: 4px 0 0 0;
+    border-radius: 4px 0 0 0;
+}
+
+#dln-themer #dln-themer-ribbon {
+    background: url(../images/core/themer.png) no-repeat;
+    width: 53px;
+    height: 109px;
+    position: absolute;
+    left: 0;
+    top: -10px;
+}
+
+#dln-themer #dln-themer-content .dln-themer-separator {
+    width: 100%;
+    border-top: 1px solid #323232;
+    border-bottom: 1px solid #666666;
+}
+
+#dln-themer #dln-themer-content .dln-themer-section {
+    margin: 7px 0;
+    padding: 0 12px;
+    display: block;
+}
+
+#dln-themer #dln-themer-content ul, 
+#dln-themer #dln-themer-content ul li {
+    margin: 0;
+    list-style: none;
+}
+
+#dln-themer #dln-themer-content ul li {
+    display: block;
+    margin: 16px 0;
+    color: #ffffff;
+}
+
+#dln-themer #dln-themer-content ul li span {
+    width: 120px;
+    float: left;
+}
+
+#dln-themer #dln-themer-content ul li ul {
+    display: block;
+    clear: both;
+}
+
+#dln-themer #dln-themer-content ul li .dln-cp-trigger, 
+#dln-themer #dln-themer-content ul li #dln-textglow-op, 
+#dln-themer #dln-themer-content ul li #dln-theme-presets {
+    float: left;
+}
+
+#dln-themer #dln-themer-content select {
+    width: 100%;
+    clear: both;
+    display: block;
+}
+
+#dln-themer #dln-themer-content label {
+    color: #ffffff;
+    display: block;
+    margin-bottom: 6px;
+    float: left;
+    width: 120px;
+}
+
+#dln-themer #dln-themer-content ul li #dln-textglow-op {
+    width: 100px;
+    margin-top: 6px;
+}
+
+#dln-themer #dln-themer-content ul li .dln-cp-trigger {
+    width: 15px;
+    height: 15px;
+    border: 1px solid #666666;
+    display: block;
+    background: #c5d52b;
+    cursor: pointer;
+}

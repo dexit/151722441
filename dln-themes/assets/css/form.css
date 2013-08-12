@@ -1,0 +1,544 @@
+/*
+ * MWS Admin v2.1 - Form Stylesheet
+ * This file is part of MWS Admin, an Admin template build for sale at ThemeForest.
+ * All copyright to this file is hold by Mairel Theafila <maimairel@yahoo.com> a.k.a nagaemas on ThemeForest.
+ * Last Updated:
+ * December 08, 2012
+ *
+ */
+   
+/* Form Style
+================================================== */
+ 
+.dln-form {
+    clear: both;
+    display: block;
+    margin-bottom: 0;
+}
+
+.dln-form .dln-form-row {
+    padding: 18px 24px;
+}
+
+.dln-form .dln-form-row.bordered {
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.dln-form .dln-form-row:last-child.bordered {
+    border-bottom: 0;
+}
+
+.ui-dialog .dln-form-row {
+    padding: 0 0 18px 0;
+}
+
+/* Button Row
+================================================== */
+
+.dln-form .dln-button-row {
+    padding: 16px 24px;
+    border-top: 1px solid #bcbcbc;
+    background-color: #d2d2d2;
+}
+
+.dln-form .dln-button-row .btn + .btn, 
+.dln-form .dln-button-row .btn-group + .btn, 
+.dln-form .dln-button-row .btn + .btn-group {
+    margin-left: 5px;
+}
+
+/* Fieldset
+================================================== */
+
+.dln-form fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.dln-form fieldset:first-child legend {
+    border-top: 0;
+}
+
+.dln-form fieldset legend {
+    margin: 0;
+    border: solid #ccc;
+    border-width: 1px 0;
+    background: #f8f8f8 repeat-x left bottom;
+    background-image: -ms-linear-gradient(top, #f8f8f8, #e7e7e7);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f8f8f8), to(#e7e7e7));
+    background-image: -webkit-linear-gradient(top, #f8f8f8, #e7e7e7);
+    background-image: -o-linear-gradient(top, #f8f8f8, #e7e7e7);
+    background-image: -moz-linear-gradient(top, #f8f8f8, #e7e7e7);
+    background-image: linear-gradient(top, #f8f8f8, #e7e7e7);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f8f8', endColorstr='#e7e7e7', GradientType=0);
+    color: #555;
+    line-height: 24px;
+    padding: 8px;
+    padding-left: 20px;
+    width: 100%;
+    display: block;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.dln-form fieldset:first-child {
+    border-top: 0;
+}
+
+/* Form Labels
+================================================== */
+
+.dln-form .dln-form-label {
+    padding-bottom: 5px;
+    cursor: pointer;
+    display: block;
+}
+
+.dln-form .dln-form-label .required {
+    color: #f00;
+}
+
+/* Form Inputs
+================================================== */
+
+.dln-form .dln-form-item {
+    position: relative;
+}
+
+.dln-form .dln-form-item .medium {
+    width: 75%;
+}
+
+.dln-form .dln-form-item .large {
+    width: 100%;
+}
+
+.dln-form .dln-form-item .small {
+    width: 55%;
+}
+
+select, 
+textarea, 
+input[type="text"], 
+input[type="password"], 
+input[type="datetime"], 
+input[type="datetime-local"], 
+input[type="date"], 
+input[type="month"], 
+input[type="time"],
+input[type="week"], 
+input[type="number"], 
+input[type="email"], 
+input[type="url"], 
+input[type="search"], 
+input[type="tel"], 
+input[type="color"] {
+    border: 1px solid #c5c5c5;
+    padding: 4px 6px;
+    color: #323232;
+    margin: 0;
+    min-height: 30px;
+    line-height: 20px;
+    background-color: #ffffff;
+    outline: none;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -webkit-box-shadow: inset 0px 1px 3px rgba(128, 128, 128, 0.1);
+    -moz-box-shadow: inset 0px 1px 3px rgba(128, 128, 128, 0.1);
+    box-shadow: inset 0px 1px 3px rgba(128, 128, 128, 0.1);
+}
+
+.dln-form textarea {
+    height: 10em;
+    resize: none;
+}
+
+.dln-form input[disabled],
+.dln-form select[disabled],
+.dln-form textarea[disabled],
+.dln-form input[readonly],
+.dln-form select[readonly],
+.dln-form textarea[readonly] {
+    background: #f0f0f0;
+}
+
+.dln-form select.error, 
+.dln-form textarea.error, 
+.dln-form input[type="text"].error, 
+.dln-form input[type="password"].error, 
+.dln-form input[type="datetime"].error, 
+.dln-form input[type="datetime-local"].error, 
+.dln-form input[type="date"].error, 
+.dln-form input[type="month"].error, 
+.dln-form input[type="time"].error,
+.dln-form input[type="week"].error, 
+.dln-form input[type="number"].error, 
+.dln-form input[type="email"].error, 
+.dln-form input[type="url"].error, 
+.dln-form input[type="search"].error, 
+.dln-form input[type="tel"].error, 
+.dln-form input[type="color"].error {
+    border-color: #eb979b;
+}
+
+/* Column Form Layout
+================================================== */
+
+.dln-form .dln-form-cols {
+    *zoom: 1;
+}
+
+.dln-form .dln-form-cols:before,
+.dln-form .dln-form-cols:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.dln-form .dln-form-cols:after {
+    clear: both;
+}
+
+.dln-form .dln-form-cols [class^="dln-form-col-"] .dln-form-label, 
+.dln-form .dln-form-cols [class*=" dln-form-col-"] .dln-form-label {
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dln-form .dln-form-cols [class^="dln-form-col-"], 
+.dln-form .dln-form-cols [class*=" dln-form-col-"] {
+    float: left;
+    margin-left: 1.8181818181818181%;
+}
+
+.dln-form .dln-form-cols [class^="dln-form-col-"]:first-child, 
+.dln-form .dln-form-cols [class*=" dln-form-col-"]:first-child {
+    margin-left: 0;
+}
+
+.dln-form .dln-form-cols .dln-form-item {
+    margin: 0 !important;
+}
+
+.dln-form .dln-form-cols .dln-form-col-8-8 {
+    width: 100%;
+}
+
+.dln-form .dln-form-cols .dln-form-col-7-8 {
+    width: 87.27272727272727%;
+}
+
+.dln-form .dln-form-cols .dln-form-col-6-8 {
+    width: 74.54545454545455%;
+}
+
+.dln-form .dln-form-cols .dln-form-col-5-8 {
+    width: 61.81818181818181%;
+}
+
+.dln-form .dln-form-cols .dln-form-col-4-8 {
+    width: 49.090909090909086%;
+}
+
+.dln-form .dln-form-cols .dln-form-col-3-8 {
+    width: 36.36363636363636%;
+}
+
+.dln-form .dln-form-cols .dln-form-col-2-8 {
+    width: 23.636363636363633%;
+}
+
+.dln-form .dln-form-cols .dln-form-col-1-8 {
+    width: 10.909090909090908%;
+}
+
+.dln-form .dln-form-cols [class^="dln-form-col-"] select, 
+.dln-form .dln-form-cols [class^="dln-form-col-"] textarea, 
+.dln-form .dln-form-cols [class^="dln-form-col-"] input {
+    width: 100%;
+}
+
+/* Form Layout
+================================================== */
+
+.dln-form .dln-form-inline .dln-form-item {
+    margin-left: 156px;
+}
+
+.dln-form .dln-form-inline .dln-form-label {
+    width: 140px;
+    float: left;
+    padding-top: 5px;
+}
+
+.dln-form .dln-form-inline .dln-form-block .dln-form-label {
+    width: auto;
+    float: none;
+    padding-top: 0;
+    margin-right: 0;
+}
+
+.dln-form .dln-form-inline .dln-form-block .dln-form-item {
+    margin-left: 0;
+}
+
+/* Form List
+================================================== */
+
+.dln-form .dln-form-list, 
+.dln-form .dln-form-list li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dln-form .dln-form-list li {
+    margin-bottom: 4px;
+}
+
+.dln-form .dln-form-list li:last-child {
+    margin-bottom: 0;
+}
+
+.dln-form .dln-form-list.inline {
+    margin-top: 4px;
+}
+
+.dln-form .dln-form-list.inline li {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin: 0 5px 0 0;
+    vertical-align: middle;
+}
+
+.dln-form .dln-form-list li > input, 
+.dln-form .dln-form-list li > label {
+    padding: 0;
+    margin: 0 1px 0 0;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+}
+
+/* Form Clearfix
+================================================== */
+
+.dln-form .dln-form-row:before,
+.dln-form .dln-form-row:after {
+    display: table;
+    content: "";
+    line-height: 0;
+}
+
+.dln-form .dln-form-row:after {
+    clear: both;
+}
+
+.dln-form .dln-form-row {
+    *zoom: 1;
+}
+
+/* Form Messages
+================================================== */
+
+.dln-form-message {
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid #d2d2d2;
+    padding: 15px 8px 15px 45px;
+    position: relative;
+    vertical-align: middle;
+    background-color: #f8f8f8;
+    background-position: 12px 12px;
+    background-repeat: no-repeat;
+    margin-bottom: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.dln-form-message p, 
+.dln-form-message ul, 
+.dln-form-message ol {
+    margin: 0;
+}
+
+.dln-form-message ul li, 
+.dln-form-message ol li {
+    list-style-position: inside;
+    list-style-type: inherit;
+    margin: 0;
+}
+
+.dln-form-message.error {
+    background-color: #ffcbca;
+    background-image: url(../images/core/message-error.png);
+    border-color: #eb979b;
+    color: #9b4449;
+}
+
+.dln-form-message.success {
+    background-color: #e1f1c0;
+    background-image: url(../images/core/message-success.png);
+    border-color: #b5d56d;
+    color: #62a426;
+}
+
+.dln-form-message.warning {
+    background-color: #fef0b1;
+    background-image: url(../images/core/message-warning.png);
+    border-color: #ddca76;
+    color: #a98b15;
+}
+
+.dln-form-message.info {
+    background-color: #bce5f7;
+    background-image: url(../images/core/message-info.png);
+    border-color: #a6d3e8;
+    color: #11689E;
+}
+
+.dln-panel-body.no-padding .dln-form-message {
+    margin-bottom: 0;
+    border-width: 0 0 1px 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.dln-panel-body.no-padding .dln-form-message + .dln-form-message {
+    border-top: 0;
+}
+
+/* Form Errors
+================================================== */
+
+.dln-form .dln-form-item .dln-error, 
+.dln-form .dln-form-item label.error, 
+.dln-form .dln-form-item span.error, 
+.dln-form .dln-form-item div.error {
+    background: none;
+    color: #c83139;
+    margin: 0;
+    width: auto;
+    float: none;
+    display: block;
+    padding: 5px 0 0;
+    font-size: 12px;
+}
+
+/* Other Elements
+================================================== */
+
+.dln-colorpicker {
+    background-image: url(../images/core/cpicker.png);
+    background-repeat: no-repeat;
+    background-position: right center;
+    padding-right: 32px;
+}
+
+.dln-form-item .ui-progressbar {
+    position: relative;
+    top: 7px;
+}
+
+.dln-form-item .ui-slider-horizontal {
+    position: relative;
+    top: 12px;
+}
+
+.dln-form-item .select2-container {
+    width: 100%;
+}
+
+.select2-container-multi .select2-choices .select2-search-field input {
+    min-height: 26px;
+    line-height: 16px;
+}
+
+.select2-container .select2-choice {
+    line-height: 28px;
+    height: 28px;
+}
+
+.csc-button {
+    outline: none;
+    float: right;
+    padding: 6px 9px;
+    margin: -7px -8px -7px 2px;
+    cursor: pointer;
+    z-index: 9999;
+    font-family: 'PTSansRegular', Arial, Helvetica, sans-serif;
+    background-color: #e0e0e0;
+    color: #666666;
+    border: 1px solid #ababab;
+    -webkit-border-radius: 0 3px 3px 0;
+    -moz-border-radius: 0 3px 3px 0;
+    border-radius: 0 3px 3px 0;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e8e5e5), color-stop(100%, #e0e0e0));
+    background-image: -webkit-linear-gradient(#e8e5e5,#e0e0e0);
+    background-image: -moz-linear-gradient(#e8e5e5,#e0e0e0);
+    background-image: -o-linear-gradient(#e8e5e5,#e0e0e0);
+    background-image: linear-gradient(#e8e5e5,#e0e0e0);
+}
+
+@media only screen and (max-width: 768px) {
+    
+    .dln-form .dln-form-inline .dln-form-label, 
+    .dln-form .dln-form-inline .dln-form-item {
+        display: block;
+        width: 100%;
+        margin: 0;
+        float: none;
+    }
+
+    .dln-form .dln-form-inline .dln-form-label {
+        padding-top: 0;
+    }
+
+    .dln-form .dln-form-inline .dln-form-list {
+        float: none;
+        width: auto;
+        display: block;
+    }
+
+    .dln-form .dln-form-list.inline li {
+        float: none;
+        margin-right: 0;
+    }
+}
+
+@media only screen and (max-width : 599px) {
+    .dln-form .dln-form-row {
+        padding: 16px 12px;
+    }
+
+    .dln-form .dln-button-row {
+        padding: 6px 8px;
+    }
+
+    .dln-form-message {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        background-position: 12px 7px;
+    }
+
+    #dln-login .dln-form .dln-form-row {
+        padding: 12px 0;
+    }
+}

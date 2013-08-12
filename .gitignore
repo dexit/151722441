@@ -1,0 +1,7 @@
+.buildpath
+.project
+.settings/org.eclipse.php.core.prefs
+.settings/org.eclipse.wst.common.project.facet.core.xml
+.externalToolBuilders/New_Builder.launch
+.settings/org.eclipse.core.resources.prefs
+.settings/org.eclipse.core.runtime.prefs

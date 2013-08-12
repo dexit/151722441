@@ -1,0 +1,156 @@
+/*
+ * MWS Admin v2.1 - Login Form Stylesheet
+ * This file is part of MWS Admin, an Admin template build for sale at ThemeForest.
+ * All copyright to this file is hold by Mairel Theafila <maimairel@yahoo.com> a.k.a nagaemas on ThemeForest.
+ * Last Updated:
+ * December 08, 2012
+ *
+ */
+
+@import url("form.css");
+@import url("button.css");
+
+/* Body
+================================================== */
+
+html, body {
+    height: 100%;
+}
+
+body {
+    color: #333;
+    background-color: #f0f0f0;
+    font-family: 'PT Sans', Arial, Helvetica, sans-serif;
+    min-width: 320px;
+}
+
+/* Login Wrapper
+================================================== */
+
+#dln-login-wrapper {
+    width: 300px;
+    left: 50%;
+    top: 50%;
+    margin-left: -150px;
+    margin-top: -142px;
+    position: absolute;
+}
+
+.dln-inset {
+    background-color: rgba(0, 0, 0, 0.15);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Login Box
+================================================== */
+
+#dln-login {
+    background-image: url(../images/core/dln-dark-bg.png);
+    position: relative;
+    padding: 12px 16px;
+    border: 1px solid #c0c0c0;
+    border-top: 2px solid #535353;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+}
+
+#dln-login h1 {
+    color: #ffffff;
+    padding: 0 8px 8px 8px;
+    font-size: 18px;
+    margin: 0;
+    position: relative;
+    background-image: url(../images/core/dln-login-stitch.png);
+    background-repeat: repeat-x;
+    background-position: left bottom;
+}
+
+#dln-login .dln-login-lock {
+    background-image: url(../images/core/dln-login-circle.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    color: #fff;
+    font-size: 20px;
+    line-height: 40px;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+#dln-login .dln-login-lock [class^="icon-"] {
+    top: -2px;
+    position: relative;
+}
+
+/* Login Form
+================================================== */
+
+#dln-login form {
+    background-image: url(../images/core/dln-login-stitch.png);
+    background-repeat: repeat-x;
+    background-position: left bottom;
+    position: relative;
+}
+
+#dln-login #dln-login-remember {
+    padding: 4px 6px;
+    font-size: 0.9em;
+    color: #ffffff;
+}
+
+#dln-login #dln-login-remember .dln-form-list {
+    margin-top: 0;
+}
+
+#dln-login .dln-form-row {
+    padding: 12px 0;
+}
+
+#dln-login .dln-login-username {
+    background-image: url(icons/icol16/src/user.png);
+    background-repeat: no-repeat;
+    background-position: 8px center;
+}
+
+#dln-login .dln-login-password {
+    background-image: url(icons/icol16/src/key.png);
+    background-repeat: no-repeat;
+    background-position: 8px center;
+}
+
+#dln-login .dln-login-username, 
+#dln-login .dln-login-password {
+    padding-left: 32px;
+    border: 1px solid #323232;
+    background-color: #fff;
+    min-height: 38px;
+    width: 100%;
+    -webkit-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.15);
+}
+
+#dln-login .dln-login-username.error, 
+#dln-login .dln-login-password.error {
+    border-color: #f3797f;
+}
+
+#dln-login .dln-login-button {
+    width: 100%;
+    border: 1px solid #284609;
+}

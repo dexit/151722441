@@ -1,0 +1,69 @@
+body, 
+#dln-container
+{
+	background-image:url('../images/core/bg/paper.png');
+}
+
+#dln-sidebar, 
+#dln-sidebar-bg, 
+#dln-header, 
+.dln-panel .dln-panel-header, 
+#dln-login, 
+#dln-login .dln-login-lock, 
+.ui-accordion .ui-accordion-header, 
+.ui-tabs .ui-tabs-nav, 
+.ui-datepicker, 
+.fc-event-skin, 
+.ui-dialog .ui-dialog-titlebar, 
+.jGrowl .jGrowl-notification, .jGrowl .jGrowl-closer, 
+#dln-user-tools .dln-dropdown-menu .dln-dropdown-box, 
+#dln-user-tools .dln-dropdown-menu.open .dln-dropdown-trigger
+{
+	background-color:#35353a;
+}
+
+#dln-header
+{
+	border-color:#c5d52b;
+}
+
+.dln-panel .dln-panel-header span, 
+#dln-navigation ul li.active a, 
+#dln-navigation ul li.active span, 
+#dln-user-tools #dln-username, 
+#dln-navigation ul li .dln-nav-tooltip, 
+#dln-user-tools #dln-user-info #dln-user-functions #dln-username, 
+.ui-dialog .ui-dialog-title, 
+.ui-state-default, 
+.ui-state-active, 
+.ui-state-hover, 
+.ui-state-focus, 
+.ui-state-default a, 
+.ui-state-active a, 
+.ui-state-hover a, 
+.ui-state-focus a
+{
+	color:#c5d52b;
+	text-shadow:0 0 6px rgba(197, 213, 42, 0.5);
+}
+
+#dln-searchbox .dln-search-submit, 
+.dln-panel .dln-panel-header .dln-collapse-button span, 
+.dataTables_wrapper .dataTables_paginate .paginate_disabled_previous, 
+.dataTables_wrapper .dataTables_paginate .paginate_enabled_previous, 
+.dataTables_wrapper .dataTables_paginate .paginate_disabled_next, 
+.dataTables_wrapper .dataTables_paginate .paginate_enabled_next, 
+.dataTables_wrapper .dataTables_paginate .paginate_active, 
+.dln-table tbody tr.odd:hover td, 
+.dln-table tbody tr.even:hover td, 
+.ui-slider-horizontal .ui-slider-range, 
+.ui-slider-vertical .ui-slider-range, 
+.ui-progressbar .ui-progressbar-value, 
+.ui-datepicker td.ui-datepicker-current-day, 
+.ui-datepicker .ui-datepicker-prev, 
+.ui-datepicker .ui-datepicker-next, 
+.ui-accordion-header .ui-accordion-header-icon, 
+.ui-dialog-titlebar-close
+{
+	background-color:#c5d52b;
+}
