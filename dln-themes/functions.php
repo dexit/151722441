@@ -2,9 +2,17 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! function_exists( 'bp_dln_enqueue_styles' ) ) 
+if ( ! function_exists( 'dln_require_files' ) )
 {
-	function bp_dln_enqueue_styles() 
+	function dln_require_files()
+	{
+		
+	}
+}
+
+if ( ! function_exists( 'dln_enqueue_styles' ) ) 
+{
+	function dln_enqueue_styles() 
 	{
 		if ( ! is_admin() ) 
 		{
@@ -48,7 +56,7 @@ if ( ! function_exists( 'bp_dln_enqueue_styles' ) )
 		
 	}
 	
-	add_action( 'wp_enqueue_scripts', 'bp_dln_enqueue_styles' );
+	add_action( 'wp_enqueue_scripts', 'dln_enqueue_styles' );
 }
 
 if ( ! function_exists( 'dln_disable_adminbar' ) ) 
