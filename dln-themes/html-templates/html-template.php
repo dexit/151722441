@@ -32,8 +32,7 @@ if ( ! class_exists( 'DLN_Html_Template' ) )
 		
 		private function includes()
 		{
-			require( $this->theme_dir . '/html-templates/sidebar/dln-slidebar-helper.php' );
-			require( $this->theme_dir . '/html-templates/sidebar/dln-slidebar-html.php' );
+			require( $this->theme_dir . '/html-templates/sidebar/dln-sidebar-helper.php' );
 		} 
 	} 
 }

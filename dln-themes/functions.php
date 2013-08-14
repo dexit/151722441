@@ -14,7 +14,11 @@ if ( ! function_exists( 'dln_enqueue_styles' ) )
 {
 	function dln_enqueue_styles() 
 	{
-		if ( ! is_admin() ) 
+		if ( ! function_exists( 'bp_get_version' ) ) {
+			var_dump('Error load BuddyPress version!');die();
+		}
+		
+		if ( ! is_admin() )
 		{
 			wp_enqueue_style( 'dln-colorpicker', 		get_template_directory_uri() . '/assets/plugins/colorpicker/colorpicker.css', array(), bp_get_version() );
 			wp_enqueue_style( 'dln-bootstrap', 			get_template_directory_uri() . '/assets/bootstrap/css/bootstrap.min.css', array(), bp_get_version() );
@@ -80,4 +84,10 @@ if ( ! function_exists( 'dln_disable_adminbar' ) )
 	}
 	
 	add_action( 'init', 'dln_disable_adminbar', 9 );
+}
+
+define( 'DLN_THEME_DIR', trailingslashit( WP_CONTENT_DIR . '/themes/dln-theme' ) );
+require DLN_THEME_DIR . '/html-templates/html-template.php';
+if ( class_exists( 'DLN_Html_Template' ) ) {
+	$template = DLN_Html_Template::instance();
 }

@@ -25,5 +25,8 @@
         </div>
         
         <!-- User Tools (notifications, logout, profile, change password) -->
-        
+        <?php
+        	if ( $template = locate_template( array( 'html-templates/sidebar/dln-sidebar-html.php' ), false ) ) 
+        		require_once $template;
+        ?>
     </div>
