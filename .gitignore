@@ -10,3 +10,8 @@ dln-themes/.settings/org.eclipse.core.resources.prefs
 dln-themes/.settings/org.eclipse.core.runtime.prefs
 dln-themes/.settings/org.eclipse.php.core.prefs
 dln-themes/.settings/org.eclipse.wst.common.project.facet.core.xml
+dln-plugin/.settings/org.eclipse.core.resources.prefs
+dln-plugin/.settings/org.eclipse.core.runtime.prefs
+dln-plugin/.settings/org.eclipse.php.core.prefs
+dln-plugin/.settings/org.eclipse.wst.common.project.facet.core.xml
+dln-plugin/.externalToolBuilders/New_Builder (2).launch

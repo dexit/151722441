@@ -1,3 +1,4 @@
+<?php dln_get_count_current_notification(); ?>
 <div id="dln-user-tools" class="clearfix">
         
         	<!-- Notifications -->
