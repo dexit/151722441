@@ -14,3 +14,39 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 global $dln_db_version;
 $dln_db_version = '1.0';
 
+
+if ( ! class_exists( 'DLNPlugin' ) )
+{
+	class DLNPlugin
+	{
+		private static $instance;
+		
+		public static function instance()
+		{
+			if ( ! isset( self::$instance ) )
+			{
+				self::$instance = new BuddyPress;
+				self::$instance->constants();
+				self::$instance->includes();
+			}
+			return self::$instance;
+		}
+		
+		private function __construct() { /* Do nothing here */ }
+		
+		private function constants()
+		{
+			if ( ! defined( 'BP_PLUGIN_DIR' ) )
+			{
+				define( 'DLN_PLUGIN_DIR', trailingslashit( WP_PLUGIN_DIR . '/dln-plugin/' ) );
+			}
+		}
+		
+		private function includes()
+		{
+			// Load core files
+			require( DLN_PLUGIN_DIR . 'dln-core/dln-notifications.php' );
+			
+		}
+	}
+}
