@@ -1,4 +1,8 @@
-<?php dln_get_count_current_notification(); ?>
+<?php 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+?>
+<?php echo dln_get_count_current_notification() ?>
 <div id="dln-user-tools" class="clearfix">
         
         	<!-- Notifications -->
@@ -6,7 +10,7 @@
             	<a href="#" data-toggle="dropdown" class="dln-dropdown-trigger"><i class="icon-exclamation-sign"></i></a>
                 
                 <!-- Unread notification count -->
-                <span class="dln-dropdown-notif">35</span>
+                <span class="dln-dropdown-notif"></span>
                 
                 <!-- Notifications dropdown -->
                 <div class="dln-dropdown-box">
@@ -65,7 +69,7 @@
             	<a href="#" data-toggle="dropdown" class="dln-dropdown-trigger"><i class="icon-envelope"></i></a>
                 
                 <!-- Unred messages count -->
-                <span class="dln-dropdown-notif"><?php echo dln_get_count_current_notification() ?></span>
+                <span class="dln-dropdown-notif">35</span>
                 
                 <!-- Messages dropdown -->
                 <div class="dln-dropdown-box">

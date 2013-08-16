@@ -1,4 +1,7 @@
 <?php
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 if ( ! class_exists( 'DLN_Html_Template' ) )
 {
 	class DLN_Html_Template

@@ -2,7 +2,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-if ( ! funtion_exists( 'dln_core_set_charset' ) )
+if ( ! function_exists( 'dln_core_set_charset' ) )
 {
 	function dln_core_set_charset()
 	{
@@ -33,7 +33,7 @@ if ( ! function_exists( 'dln_core_install_notification' ) )
 		$charset_collate	= dln_core_set_charset();
 		$dln_prefix			= dln_core_get_table_prefix();
 
-		$sql[] = "CREATE TABLE {$bp_prefix}dln_notifications (
+		$sql[] = "CREATE TABLE {$dln_prefix}dln_notifications (
 	  		    id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	  		    bp_id bigint(20) NOT NULL,
 			    user_id bigint(20) NOT NULL,
@@ -56,7 +56,7 @@ if ( ! function_exists( 'dln_core_install_notification' ) )
 	}
 }
 
-if ( ! funtion_exists( 'dln_core_db_check_update' ) )
+if ( ! function_exists( 'dln_core_db_check_update' ) )
 {
 	function dln_core_db_check_update()
 	{
@@ -67,4 +67,4 @@ if ( ! funtion_exists( 'dln_core_db_check_update' ) )
 		}
 	}
 }
-add_action( 'plugin_loaded', 'dln_core_db_check_update' );
+add_action( 'plugins_loaded', 'dln_core_db_check_update' );

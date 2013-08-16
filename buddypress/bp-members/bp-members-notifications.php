@@ -41,7 +41,7 @@ function bp_core_add_notification( $item_id, $user_id, $component_name, $compone
 		$notification->secondary_item_id = $secondary_item_id;
 
 	if ( $notification->save() ) {
-		apply_filter( 'dln-notification-save', $notification );
+		apply_filters( 'dln_notification_save', $notification );
 		return true;
 	}
 
