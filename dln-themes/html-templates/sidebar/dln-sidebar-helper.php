@@ -13,18 +13,8 @@ if ( ! function_exists( 'dln_get_current_notification' ) )
 		}
 		if ( !is_user_logged_in() )
 			return false;
-		$notifications = dln_core_get_nofitications_for_user( bp_loggedin_user_id(), 'object' );
-		var_dump($notifications);die();
+		$notifications = dln_core_get_nofitications_for_user( bp_loggedin_user_id(), 'object_fb' );
+		
 		return $notifications;
-	}
-}
-
-if ( ! function_exists( 'dln_get_count_current_notification' ) )
-{
-	function dln_get_count_current_notification()
-	{	
-		$notifications = dln_get_current_notification();
-		$count         = !empty( $notifications ) ? count( $notifications ) : 0;
-		return $count;
 	}
 }

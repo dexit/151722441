@@ -2,7 +2,24 @@
 // Exit if accessed directly
 if ( ! defined( 'ABSPATH' ) ) exit;
 ?>
-<?php echo dln_get_count_current_notification() ?>
+<?php 
+
+$notifications = dln_get_current_notification();
+$count_other = $count_message = 0;
+if ( $notifications )
+{
+	foreach ( $notifications as $i => $notify )
+	{
+		if ( $notify->type == 'messages' )
+		{
+			$count_message++;
+		} else {
+			$count_other++;
+		}
+	}
+}
+
+?>
 <div id="dln-user-tools" class="clearfix">
         
         	<!-- Notifications -->
@@ -10,52 +27,33 @@ if ( ! defined( 'ABSPATH' ) ) exit;
             	<a href="#" data-toggle="dropdown" class="dln-dropdown-trigger"><i class="icon-exclamation-sign"></i></a>
                 
                 <!-- Unread notification count -->
-                <span class="dln-dropdown-notif"></span>
+                <span class="dln-dropdown-notif"><?php echo $count_other ?></span>
                 
                 <!-- Notifications dropdown -->
                 <div class="dln-dropdown-box">
                 	<div class="dln-dropdown-content">
                         <ul class="dln-notifications">
-                        	<li class="read">
-                            	<a href="#">
-                                    <span class="message">
-                                        Lorem ipsum dolor sit amet consectetur adipiscing elit, et al commore
-                                    </span>
-                                    <span class="time">
-                                        January 21, 2012
-                                    </span>
-                                </a>
-                            </li>
-                        	<li class="read">
-                            	<a href="#">
-                                    <span class="message">
-                                        Lorem ipsum dolor sit amet
-                                    </span>
-                                    <span class="time">
-                                        January 21, 2012
-                                    </span>
-                                </a>
-                            </li>
-                        	<li class="unread">
-                            	<a href="#">
-                                    <span class="message">
-                                        Lorem ipsum dolor sit amet
-                                    </span>
-                                    <span class="time">
-                                        January 21, 2012
-                                    </span>
-                                </a>
-                            </li>
-                        	<li class="unread">
-                            	<a href="#">
-                                    <span class="message">
-                                        Lorem ipsum dolor sit amet
-                                    </span>
-                                    <span class="time">
-                                        January 21, 2012
-                                    </span>
-                                </a>
-                            </li>
+                        	<?php 
+							if ( $notifications )
+							{
+								foreach ( $notifications as $i => $item )
+								{
+									if ( $item->type != 'messages' )
+									{
+										echo '<li class="read">
+				                            	<a href="' . $item->href . '">
+				                                    <span class="message">
+				                                        ' . $item->content . '
+				                                    </span>
+				                                    <span class="time">
+				                                        ' . $item->send_time . '
+				                                    </span>
+				                                </a>
+				                            </li>';
+									}
+								}
+							}
+                        	?>
                         </ul>
                         <div class="dln-dropdown-viewall">
 	                        <a href="#">View All Notifications</a>

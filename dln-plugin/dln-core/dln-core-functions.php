@@ -60,7 +60,7 @@ if ( ! function_exists( 'dln_core_get_nofitications_for_user' ) )
 			$notification = $notifications[$i];
 			$grouped_notifications[$notification->component_name][$notification->component_action][] = $notification;
 		}
-		var_dump($grouped_notifications);
+		
 		// Bail if no notification groups
 		if ( empty( $grouped_notifications ) )
 			return false;
@@ -78,10 +78,9 @@ if ( ! function_exists( 'dln_core_get_nofitications_for_user' ) )
 	
 			// Loop through each actionable item and try to map it to a component
 			foreach ( (array) $action_arrays as $component_action_name => $component_action_items ) {
-	
+
 				// Get the number of actionable items
 				$action_item_count = count( $component_action_items );
-	
 				// Skip if the count is less than 1
 				if ( $action_item_count < 1 )
 					continue;
@@ -90,7 +89,39 @@ if ( ! function_exists( 'dln_core_get_nofitications_for_user' ) )
 				if ( isset( $bp->{$component_name}->notification_callback ) && is_callable( $bp->{$component_name}->notification_callback ) ) {
 	
 					// Function should return an object
-					if ( 'object' == $format ) {
+					if ( 'object_fb' == $format )
+					{
+						foreach ( $component_action_items as $index => $notification_detail )
+						{
+							$content = call_user_func(
+								$bp->{$component_name}->notification_callback,
+								$component_action_name,
+								$notification_detail->item_id,
+								$notification_detail->secondary_item_id,
+								1,
+								'array'
+							);
+							
+							// Create the object to be returned
+							$notification_object = new stdClass;
+							
+							// Minimal backpat with non-compatible notification
+							// callback functions
+							if ( is_string( $content ) ) {
+								$notification_object->content = $content;
+								$notification_object->href    = bp_loggedin_user_domain();
+							} else {
+								$notification_object->content = $content['text'];
+								$notification_object->href    = $content['link'];
+							}
+							
+							$notification_object->id 			= $notification_detail->id;
+							$notification_object->send_time 	= bp_core_time_since( $notification_detail->date_notified );
+							$notification_object->type			= $notification_detail->component_name;
+							$renderable[]            			= $notification_object;
+						}
+					}
+					else if ( 'object' == $format ) {
 	
 						// Retrieve the content of the notification using the callback
 						$content = call_user_func(
