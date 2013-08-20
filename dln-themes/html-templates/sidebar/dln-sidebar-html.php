@@ -42,6 +42,9 @@ if ( $notifications )
 									{
 										echo '<li class="read">
 				                            	<a href="' . $item->href . '">
+													<span class="sender">
+														' . $item->avatar . '
+													</span>
 				                                    <span class="message">
 				                                        ' . $item->content . '
 				                                    </span>
@@ -128,9 +131,9 @@ if ( $notifications )
 			<div class="dln-dropdown-menu" id="dln-user-profile">
 				<a class="dln-dropdown-trigger" data-toggle="dropdown" href="#">
 					<div id="dln-user-photo">
-						<img src="<?php echo get_template_directory_uri() ?>/assets/example/profile.jpg" alt="User Photo">
+						<?php echo dln_core_get_user_avatar() ?>
 	                </div>
-	                <span>Lê Nhất Định</span>
+	                <span><?php echo bp_get_displayed_user_fullname() ?></span>
                 </a>
                 
                 <!-- Messages dropdown -->

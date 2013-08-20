@@ -43,6 +43,13 @@
 #dln-header #dln-user-profile .dln-dropdown-box {
 	width: 150px;
 }
+#dln-user-tools .dln-dropdown-menu .dln-dropdown-box {
+	width: 250px;
+}
+#dln-user-tools .dln-dropdown-menu .dln-dropdown-box .dln-dropdown-content ul.dln-notifications .sender {
+	padding: 5px 10px 5px 0px;
+	float: left;
+}
 
 @media only screen and (max-width : 599px) {
     #dln-header #dln-user-profile {

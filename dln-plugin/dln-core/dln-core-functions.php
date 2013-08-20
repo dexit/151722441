@@ -44,9 +44,9 @@ if ( ! function_exists( 'dln_notification_save' ) )
 }
 add_filter( 'dln_notification_save', 'dln_notification_save' );
 
-if ( ! function_exists( 'dln_core_get_nofitications_for_user' ) )
+if ( ! function_exists( 'dln_core_get_notifications_for_user' ) )
 {
-	function dln_core_get_nofitications_for_user( $user_id, $format = 'simple' )
+	function dln_core_get_notifications_for_user( $user_id, $format = 'simple' )
 	{
 		global $bp;
 
@@ -115,6 +115,25 @@ if ( ! function_exists( 'dln_core_get_nofitications_for_user' ) )
 								$notification_object->href    = $content['link'];
 							}
 							
+							// Get user avatar
+							switch ( $component_action_name ) {
+								case 'new_at_mention':
+									$sender_id		= $notification_detail->secondary_item_id;
+									$fullname	 	= bp_core_get_user_displayname( $sender_id );
+									$notification_object->avatar	= bp_core_fetch_avatar( array( 
+											'item_id' 	=> $sender_id, 
+											'type'    	=> 'thumb', 
+											'alt'	  	=> sprintf( __( 'Profile picture of %s', 'buddypress' ), $fullname ),
+											'no_grav' 	=> true,
+											'height'	=> '28',
+											'width'		=> '28'
+									 ) );
+									break;
+								default:
+									$notification_object->avatar	= '';
+									break;
+							}
+							
 							$notification_object->id 			= $notification_detail->id;
 							$notification_object->send_time 	= bp_core_time_since( $notification_detail->date_notified );
 							$notification_object->type			= $notification_detail->component_name;
@@ -168,5 +187,20 @@ if ( ! function_exists( 'dln_core_get_nofitications_for_user' ) )
 	
 		// Filter and return
 		return apply_filters( 'dln_core_get_nofitications_for_user', $renderable, $user_id, $format );
+	}
+}
+
+if ( ! function_exists( 'dln_core_get_user_avatar' ) )
+{
+	function dln_core_get_user_avatar()
+	{
+		$avatar = bp_core_fetch_avatar( array(
+			'item_id' 	=> bp_displayed_user_id(),
+			'type'    	=> 'thumb',
+			'alt'	  	=> sprintf( __( 'Profile picture of %s', 'buddypress' ), bp_get_displayed_user_fullname() ),
+			'no_grav' 	=> true
+		) );
+		
+		return $avatar;
 	}
 }
