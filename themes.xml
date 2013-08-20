@@ -19,7 +19,11 @@
 	<target name="sync" depends="build">
 		
 		<copy todir="${dest.dir}" overwrite="true">
-			<fileset dir="${source.dir}" />
+			<fileset dir="${source.dir}">
+				<include name="**/style.css"/>
+				<include name="**/dln-styles.css"/>
+				<include name="**/*.php"/>
+			</fileset>
 		</copy>
 
 	</target>
