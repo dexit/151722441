@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Dashboard - Stilearn Metro Admin Template</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=9" />
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="stilearn metro admin bootstrap" />
+        <meta name="author" content="stilearning" />
+        
+        
+        <!-- styles -->
+        <link href="assets/css/bootstrap.css" rel="stylesheet" />
+        <link href="assets/css/bootstrap-responsive.css" rel="stylesheet" />
+        <!-- default theme -->
+        <link href="assets/css/metro-bootstrap.css" rel="stylesheet" />
+        <link href="assets/css/metro.css" rel="stylesheet" />
+        <link href="assets/css/metro-responsive.css" rel="stylesheet" />
+        <link href="assets/css/metro-helper.css" rel="stylesheet" />
+        <link href="assets/css/font-awesome.css" rel="stylesheet" />
+        <link href="assets/css/m-scrollbar/jquery.mCustomScrollbar.css" rel="stylesheet" />
+        
+        <!-- other -->
+        <link href="assets/css/select2/select2-metro.css" rel="stylesheet" />
+        <link href="assets/css/wysihtml5/bootstrap-wysihtml5.css" rel="stylesheet" />
+        <link href="assets/css/morrisjs/morris.css" rel="stylesheet" />
+
+        
+        <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+          <script src="assets/js/html5shiv.js"></script>
+          <script src="assets/js/lte-ie7.js"></script>
+        <![endif]-->
+        
+        <!-- fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png" />
+        <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png" />
+        <link rel="shortcut icon" href="ico/favicon.png" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+    <body>
+        <!-- start header-->
+        <header class="header">
+            <!-- start navbar, this navbar on top -->
+            <div id="navbar-top" class="navbar navbar-cyan">
+                <!-- navbar inner-->
+                <div class="navbar-inner">
+                    <!-- container-->
+                    <div class="container">
+                        
+                        <!--this btn-navbar contains the menu on the side-left, will be seen on portrait tablet and less. -->
+                        <a class="btn btn-navbar help-inline" data-toggle="collapse" data-target="#navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        
+                        <!-- Your brand here, images or text -->
+                        <a class="brand" href="index.html">
+                            <!-- just a sample brand, replace with your own -->
+                            <i class="aweso-th-large"></i> Stilearn
+                        </a>
+                        
+                        <!-- Un-collapse nav -->
+                        <div class="nav-uncollapse">
+                            <!-- pull left menu-->
+                            <ul class="nav pull-left hidden-phone">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="aweso-plus-sign aweso-large"></i> &nbsp;Create <i class="aweso-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                        <li><a tabindex="-1" href="#">Page</a></li>
+                                        <li><a tabindex="-1" href="#">Post</a></li>
+                                        <li><a tabindex="-1" href="#">User</a></li>
+                                        <li class="divider"></li>
+                                        <li><a tabindex="-1" href="#">Task</a></li>
+                                        <li><a tabindex="-1" href="#">Create Something</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <input class="hide" type="file" name="upload-files" />
+                                    <a href="#" data-toggle="upload" data-target="upload-files"><i class="aweso-upload aweso-large"></i> &nbsp;Upload</a>
+                                </li>
+                            </ul><!--/pull left menu-->
+
+                            <!-- pull right menu-->
+                            <ul class="nav pull-right">
+                                <!-- notification -->
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <div class="label">3</div>
+                                        <i class="aweso-bell-alt"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-extend" role="menu" aria-labelledby="dropdownMenu">
+                                        <li class="dropdown-header">You have 4 new notofications</li>
+                                        <li>
+                                            <a tabindex="-1" href="#">
+                                                <div class="media">
+                                                    <div class="pull-left">
+                                                        <img class="media-object" data-src="holder.js/32x32" />
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading"><small class="pull-right">Just Now</small> Update version</h4>
+                                                        <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque...</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a tabindex="-1" href="#">
+                                                <div class="media">
+                                                    <div class="pull-left">
+                                                        <img class="media-object" data-src="holder.js/32x32" />
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading"><small class="pull-right">5 minutes</small> Jane Smith</h4>
+                                                        <p>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit...</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a tabindex="-1" href="#">
+                                                <div class="media">
+                                                    <div class="pull-left">
+                                                        <img class="media-object" data-src="holder.js/32x32" />
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h4 class="media-heading"><small class="pull-right">3 hours</small> New comment</h4>
+                                                        <p>Tellus ac cursus commodo, tortor mauris condimentum nibh...</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-footer">
+                                            <a tabindex="-1" href="#"><i class="aweso-angle-right pull-right"></i> See all notifications</a>
+                                        </li>
+                                    </ul>
+                                </li><!-- /notification -->
+                                
+                                <!-- task -->
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <div class="label">5</div>
+                                        <i class="aweso-tasks"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-extend" role="menu" aria-labelledby="dropdownMenu">
+                                        <li class="dropdown-header">You have 6 tasks</li>
+                                        <li>
+                                            <a tabindex="-1" href="#">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="task-label"><small class="pull-right task-status">20%</small> upload some file</h4>
+                                                        <div class="progress progress-info">
+                                                            <div class="bar" style="width: 20%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a tabindex="-1" href="#">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="task-label"><small class="pull-right task-status">40%</small>  <span class="text-error">paused!</span> do something</h4>
+                                                        <div class="progress progress-warning">
+                                                            <div class="bar" style="width: 40%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a tabindex="-1" href="#">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="task-label"><small class="pull-right task-status">60%</small> do another task</h4>
+                                                        <div class="progress progress-info">
+                                                            <div class="bar" style="width: 60%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a tabindex="-1">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="task-label"><small class="pull-right task-status">80%</small> <span class="text-error">failed!</span> upload some file</h4>
+                                                        <div class="progress progress-danger">
+                                                            <div class="bar" style="width: 80%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a tabindex="-1" href="#">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <h4 class="task-label"><small class="pull-right task-status">100%</small> <span class="text-success">done!</span> another task</h4>
+                                                        <div class="progress progress-success">
+                                                            <div class="bar" style="width: 100%"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-footer">
+                                            <a tabindex="-1" href="#"><i class="aweso-angle-right pull-right"></i> See all tasks</a>
+                                        </li>
+                                    </ul>
+                                </li><!-- /task -->
+                                
+                                <!-- settings -->
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <i class="aweso-cog"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-extend" data-dropdown="no-propagation" role="menu" aria-labelledby="dropdownMenu">
+                                        <li class="dropdown-header">General settings</li>
+                                        <li>
+                                            <div class="setting-list">
+                                                <div class="icon"><i class="aweso-2x aweso-columns"></i></div>
+                                                <div class="content">Fluid Layout</div>
+                                                <div class="checker">
+                                                    <div class="checkbox-slide bg-silver help-block">
+                                                        <input class="input-fx" type="checkbox" id="layout-mode" name="layout-mode" checked="" />
+                                                        <label for="layout-mode"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="backgrounds hide">
+                                            <div class="setting-list">
+                                                <div class="background-label">Backgrounds</div>
+                                                <div class="background-choice">
+                                                    <a href="#" class="bg-item bg-black" data-bg="noimage"></a>
+                                                    <a href="#" class="bg-item bg-1" data-bg="01.jpg"></a>
+                                                    <a href="#" class="bg-item bg-2" data-bg="02.jpg"></a>
+                                                    <a href="#" class="bg-item bg-3" data-bg="03.jpg"></a>
+                                                    <a href="#" class="bg-item bg-4" data-bg="04.jpg"></a>
+                                                    <a href="#" class="bg-item bg-5" data-bg="05.jpg"></a>
+                                                    <a href="#" class="bg-item bg-6" data-bg="06.jpg"></a>
+                                                    <a href="#" class="bg-item bg-7" data-bg="07.jpg"></a>
+                                                    <a href="#" class="bg-item bg-8" data-bg="08.jpg"></a>
+                                                    <a href="#" class="bg-item bg-9" data-bg="09.jpg"></a>
+                                                    <a href="#" class="bg-item bg-10" data-bg="10.jpg"></a>
+                                                    <a href="#" class="bg-item bg-11" data-bg="11.jpg"></a>
+                                                    <a href="#" class="bg-item bg-12" data-bg="12.jpg"></a>
+                                                    <a href="#" class="bg-item bg-13" data-bg="13.jpg"></a>
+                                                    <a href="#" class="bg-item bg-14" data-bg="14.jpg"></a>
+                                                    <a href="#" class="bg-item bg-15" data-bg="15.jpg"></a>
+                                                    <a href="#" class="bg-item bg-16" data-bg="16.jpg"></a>
+                                                    <a href="#" class="bg-item bg-17" data-bg="17.jpg"></a>
+                                                    <a href="#" class="bg-item bg-18" data-bg="18.jpg"></a>
+                                                    <a href="#" class="bg-item bg-19" data-bg="19.jpg"></a>
+                                                    <a href="#" class="bg-item bg-20" data-bg="20.jpg"></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="setting-list">
+                                                <div class="icon"><i class="aweso-2x aweso-pushpin"></i></div>
+                                                <div class="content">Fixed Header</div>
+                                                <div class="checker">
+                                                    <div class="checkbox-slide bg-silver help-block">
+                                                        <input class="input-fx" type="checkbox" id="header-mode" name="header-mode" />
+                                                        <label for="header-mode"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="setting-list">
+                                                <div class="icon"><i class="aweso-2x aweso-pushpin"></i></div>
+                                                <div class="content">Fixed Sidebar</div>
+                                                <div class="checker">
+                                                    <div class="checkbox-slide bg-silver help-block">
+                                                        <input class="input-fx" type="checkbox" id="sidebar-mode" name="sidebar-mode" />
+                                                        <label for="sidebar-mode"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="setting-list">
+                                                <div class="icon"><i class="aweso-2x color-silver aweso-sign-blank"></i></div>
+                                                <div class="content">Light theme</div>
+                                                <div class="checker">
+                                                    <div class="checkbox-slide bg-silver help-block">
+                                                        <input class="input-fx" type="radio" value="light" id="theme-light" name="theme-mode" checked="" />
+                                                        <label for="theme-light"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="setting-list">
+                                                <div class="icon"><i class="aweso-2x aweso-sign-blank"></i></div>
+                                                <div class="content">Dark theme</div>
+                                                <div class="checker">
+                                                    <div class="checkbox-slide bg-silver help-block">
+                                                        <input class="input-fx" type="radio" value="dark" id="theme-dark" name="theme-mode" />
+                                                        <label for="theme-dark"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="setting-list">
+                                                <div class="icon"><i class="aweso-2x aweso-tint"></i></div>
+                                                <div class="content">Syncronize</div>
+                                                <div class="checker">
+                                                    <div class="checkbox-slide bg-silver help-block">
+                                                        <input class="input-fx" type="checkbox" id="syncronize-theme" name="syncronize-theme" checked="" />
+                                                        <label for="syncronize-theme"></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="syncronize">
+                                            <div class="setting-list">
+                                                <div class="themes-label">Theme colors</div>
+                                                <div class="themes-choice">
+                                                    <a href="#cyan" data-theme="cyan" class="bg-cyan"></a>
+                                                    <a href="#cobalt" data-theme="cobalt" class="bg-cobalt"></a>
+                                                    <a href="#indigo" data-theme="indigo" class="bg-indigo"></a>
+                                                    <a href="#violet" data-theme="violet" class="bg-violet"></a>
+                                                    <a href="#lime" data-theme="lime" class="bg-lime"></a>
+                                                    <a href="#green" data-theme="green" class="bg-green"></a>
+                                                    <a href="#emerald" data-theme="emerald" class="bg-emerald"></a>
+                                                    <a href="#teal" data-theme="teal" class="bg-teal"></a>
+                                                    <a href="#pink" data-theme="pink" class="bg-pink"></a>
+                                                    <a href="#magenta" data-theme="magenta" class="bg-magenta"></a>
+                                                    <a href="#crimson" data-theme="crimson" class="bg-crimson"></a>
+                                                    <a href="#red" data-theme="red" class="bg-red"></a>
+                                                    <a href="#orange" data-theme="orange" class="bg-orange"></a>
+                                                    <a href="#amber" data-theme="amber" class="bg-amber"></a>
+                                                    <a href="#yellow" data-theme="yellow" class="bg-yellow"></a>
+                                                    <a href="#brown" data-theme="brown" class="bg-brown"></a>
+                                                    <a href="#olive" data-theme="olive" class="bg-olive"></a>
+                                                    <a href="#steel" data-theme="steel" class="bg-steel"></a>
+                                                    <a href="#mauve" data-theme="mauve" class="bg-mauve"></a>
+                                                    <a href="#taupe" data-theme="taupe" class="bg-taupe"></a>
+                                                    <a href="#black" data-theme="inverse" class="bg-black"></a>
+                                                    <a href="#silver" data-theme="silver" class="bg-silver"></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="unsyncronize hide">
+                                            <div class="setting-list">
+                                                <div class="themes-label">Navbar colors</div>
+                                                <div class="themes-choice themes-navbar">
+                                                    <a href="#cyan" data-theme="cyan" class="bg-cyan"></a>
+                                                    <a href="#cobalt" data-theme="cobalt" class="bg-cobalt"></a>
+                                                    <a href="#indigo" data-theme="indigo" class="bg-indigo"></a>
+                                                    <a href="#violet" data-theme="violet" class="bg-violet"></a>
+                                                    <a href="#lime" data-theme="lime" class="bg-lime"></a>
+                                                    <a href="#green" data-theme="green" class="bg-green"></a>
+                                                    <a href="#emerald" data-theme="emerald" class="bg-emerald"></a>
+                                                    <a href="#teal" data-theme="teal" class="bg-teal"></a>
+                                                    <a href="#pink" data-theme="pink" class="bg-pink"></a>
+                                                    <a href="#magenta" data-theme="magenta" class="bg-magenta"></a>
+                                                    <a href="#crimson" data-theme="crimson" class="bg-crimson"></a>
+                                                    <a href="#red" data-theme="red" class="bg-red"></a>
+                                                    <a href="#orange" data-theme="orange" class="bg-orange"></a>
+                                                    <a href="#amber" data-theme="amber" class="bg-amber"></a>
+                                                    <a href="#yellow" data-theme="yellow" class="bg-yellow"></a>
+                                                    <a href="#brown" data-theme="brown" class="bg-brown"></a>
+                                                    <a href="#olive" data-theme="olive" class="bg-olive"></a>
+                                                    <a href="#steel" data-theme="steel" class="bg-steel"></a>
+                                                    <a href="#mauve" data-theme="mauve" class="bg-mauve"></a>
+                                                    <a href="#taupe" data-theme="taupe" class="bg-taupe"></a>
+                                                    <a href="#black" data-theme="inverse" class="bg-black"></a>
+                                                    <a href="#silver" data-theme="silver" class="bg-silver"></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="unsyncronize hide">
+                                            <div class="setting-list">
+                                                <div class="themes-label">Sidebar colors</div>
+                                                <div class="themes-choice themes-sidebar">
+                                                    <a href="#cyan" data-theme="cyan" class="bg-cyan"></a>
+                                                    <a href="#cobalt" data-theme="cobalt" class="bg-cobalt"></a>
+                                                    <a href="#indigo" data-theme="indigo" class="bg-indigo"></a>
+                                                    <a href="#violet" data-theme="violet" class="bg-violet"></a>
+                                                    <a href="#lime" data-theme="lime" class="bg-lime"></a>
+                                                    <a href="#green" data-theme="green" class="bg-green"></a>
+                                                    <a href="#emerald" data-theme="emerald" class="bg-emerald"></a>
+                                                    <a href="#teal" data-theme="teal" class="bg-teal"></a>
+                                                    <a href="#pink" data-theme="pink" class="bg-pink"></a>
+                                                    <a href="#magenta" data-theme="magenta" class="bg-magenta"></a>
+                                                    <a href="#crimson" data-theme="crimson" class="bg-crimson"></a>
+                                                    <a href="#red" data-theme="red" class="bg-red"></a>
+                                                    <a href="#orange" data-theme="orange" class="bg-orange"></a>
+                                                    <a href="#amber" data-theme="amber" class="bg-amber"></a>
+                                                    <a href="#yellow" data-theme="yellow" class="bg-yellow"></a>
+                                                    <a href="#brown" data-theme="brown" class="bg-brown"></a>
+                                                    <a href="#olive" data-theme="olive" class="bg-olive"></a>
+                                                    <a href="#steel" data-theme="steel" class="bg-steel"></a>
+                                                    <a href="#mauve" data-theme="mauve" class="bg-mauve"></a>
+                                                    <a href="#taupe" data-theme="taupe" class="bg-taupe"></a>
+                                                    <a href="#black" data-theme="inverse" class="bg-black"></a>
+                                                    <a href="#silver" data-theme="silver" class="bg-silver"></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="dropdown-footer">
+                                            <a tabindex="-1" href="#"><i class="aweso-angle-right pull-right"></i> Settings page</a>
+                                        </li>
+                                    </ul>
+                                </li><!-- /settings -->
+                                
+                                <!-- account -->
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        Bent Doe <i class="aweso-angle-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                        <li><a tabindex="-1" href="#">Profile</a></li>
+                                        <li><a tabindex="-1" href="#">Activity</a></li>
+                                        <li><a tabindex="-1" href="page-inbox.html">Inbox</a></li>
+                                        <li class="divider"></li>
+                                        <li><a tabindex="-1" href="page-login.html">Logout</a></li>
+                                    </ul>
+                                </li><!-- /account -->
+                            </ul><!--/pull right menu-->
+                        </div><!-- /uncollapse nav -->
+                        
+                        <!-- Everything you want hidden at 940px or less, leave it blank! (this use when side-left collapse) -->
+                        <div id="navbar-collapse" class="nav-collapse collapse hidden-desktop"></div>
+                        
+                    </div><!--/container-->
+                </div><!--/navbar-inner-->
+                
+            </div> <!--/ navbar-->
+        </header> <!--/ end header-->
+        
+        <!-- start section content-->
+        <section class="section-content">
+            <!-- side left, its part to menu on left-->
+            <div id="navside" class="side-left" data-collapse="navbar">
+                <form class="form-inline search-module" action="?" method="post" />
+                    <div class="input-append input-append-inline">
+                        <input name="search" class="input-block-level" type="text" placeholder="Type to search" />
+                        <button class="btn bg-cyan" type="button">
+                            <i class="aweso-search"></i>
+                        </button>
+                    </div>
+                </form>
+                <!--nav, this structure create with nav (find the bootstrap doc about .nav list) -->
+                <ul class="nav nav-list">
+                    <li class="dropdown-list active"> <!-- example use with dropdown list -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown-list">Dashboard</a>
+                        <ul class="dropdown-menu">
+                            <li class="active"><a href="index.html">Dashboard #1</a></li>
+                            <li><a href="index2.html">Dashboard #2</a></li>
+                            <li><a href="index3.html">Dashboard #3</a></li>
+                            <li><a href="index4.html">Dashboard #4</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-list">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown-list">Layouts</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="layout-blank.html">Blank</a></li>
+                            <li><a href="layout-full-width.html">Full Width</a></li>
+                            <li><a href="layout-top-menus.html">Top Menus</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="widgets.html">Widgets</a></li>
+                    <li class="dropdown-list">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown-list">Components</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="ui-general.html">General</a></li>
+                            <li><a href="ui-typography.html">Typography</a></li>
+                            <li><a href="ui-buttons.html">Buttons</a></li>
+                            <li><a href="ui-alert-notify.html">Alert & Notify</a></li>
+                            <li><a href="ui-gauge.html">Gauge</a></li>
+                            <li><a href="ui-calendar.html">Calendar</a></li>
+                            <li><a href="ui-scrollbar.html">Scrollbar</a></li>
+                            <li><a href="ui-tabs-collapse.html">Tabs & Collapses</a></li>
+                            <li><a href="ui-sliders-bars.html">Sliders & Bars</a></li>
+                            <li><a href="ui-tiles.html">Tiles</a></li>
+                            <li><a href="ui-appbar.html">Appbar</a></li>
+                            <li><a href="ui-splash-page.html">Splash Page</a></li>
+                            <li><a href="ui-media-object.html">Media Object</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-list">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown-list">Form</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="form-widget.html">Form Widget</a></li>
+                            <li><a href="form-elements.html">Elements</a></li>
+                            <li><a href="form-validation.html">Validation</a></li>
+                            <li><a href="form-wizard.html">Wizard</a></li>
+                            <li><a href="form-wysiwyg.html">Wysiwyg</a></li>
+                            <li><a href="form-code-editor.html">Code editor</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown-list">
+                        <a href="charts.html" class="dropdown-toggle" data-toggle="dropdown-list">Charts</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="chart-line.html">Lines Charts</a></li>
+                            <li><a href="chart-bar.html">Bar Charts</a></li>
+                            <li><a href="chart-pie.html">Pie Charts</a></li>
+                            <li><a href="chart-others.html">Other Charts</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="grids.html">Grids</a></li>
+                    <li class="dropdown-list">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown-list">Tables</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="table-basic.html">Basic</a></li>
+                            <li><a href="table-datatables.html">DataTables</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="icons.html"><span class="label">3</span> Icons</a>
+                    </li>
+                    <li class="dropdown-list">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown-list">Pages</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="page-login.html">Login</a></li>
+                            <li class="divider"></li>
+                            <li><a href="page-search.html">Search</a></li>
+                            <li><a href="page-invoices.html">Invoices</a></li>
+                            <li><a href="page-inbox.html">Inbox</a></li>
+                            <li><a href="page-gallery.html">Gallery</a></li>
+                            <li class="divider"></li>
+                            <li><a href="page-error-404.html">Error 404</a></li>
+                            <li><a href="page-error-500.html">Error 500</a></li>
+                            <li><a href="page-coming-soon.html">Coming Soon</a></li>
+                        </ul>
+                    </li>
+                </ul><!-- /nav -->
+            </div><!-- /side left-->
+            
+            
+            
+            <!-- start content -->
+            <div class="content">
+                <!-- content header -->
+                <header class="content-header">
+                    <!-- content action (optional)-->
+                    <ul class="content-action pull-right">
+                        <li>
+                            <div class="btn-group">
+                                <a class="btn btn-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Actions <i class="aweso-angle-down"></i>
+                                </a>
+                                <ul class="dropdown-menu black">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Some Action</a></li>
+                                    <li><a href="#">Other Action</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Something else</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="btn-group" data-toggle="buttons-radio">
+                                <button class="btn btn-link" data-content="widget"><i class="aweso-list-ul aweso-large" title="details view"></i></button>
+                                <button class="btn btn-link" data-content="tile"><i class="aweso-th aweso-large" title="tile view"></i></button>
+                            </div>
+                        </li>
+                        <li><button class="btn btn-link" data-toggle="button" data-content="toggle-pane"><i class="aweso-exchange aweso-large" title="toggle pane"></i></button></li>
+                    </ul> <!-- /content action -->
+
+                    <!-- content title-->
+                    <div class="page-header"><h1>Dashboard</h1></div>
+
+                    <!-- content breadcrumb -->
+                    <ul class="breadcrumb breadcrumb-inline">
+                        <li><a href="#">Home</a> <span class="divider"><i class="aweso-angle-right"></i></span></li>
+                        <li class="active">Dashboard</li>
+                    </ul>
+                </header> <!--/ content header -->
+                
+                
+                <!-- content page -->
+                <article class="content-page">
+                    <!-- main page, you're application here -->
+                    <div class="main-page">
+                        <div class="content-inner">
+                            <!-- STATS
+                            ================================================== -->
+                            <!-- widget stats -->
+                            <div class="widget border-cyan" id="widget-stats">
+                                <!-- widget header -->
+                                <div class="widget-header bg-cyan">
+                                    <!-- widget icon -->
+                                    <div class="widget-icon"><i class="aweso-bar-chart"></i></div>
+                                    <!-- widget title -->
+                                    <h4 class="widget-title">Stats</h4>
+                                    <!-- widget action, you can also use btn, btn-group, nav-tabs or nav-pills (also support dropdown). enjoy! -->
+                                    <div class="widget-action color-cyan">
+                                        <button data-toggle="collapse" data-collapse="#widget-stats" class="btn">
+                                            <i class="aweso-minus" data-toggle-icon="aweso-minus aweso-plus"></i>
+                                        </button>
+                                    </div>
+                                </div><!-- /widget header -->
+                                
+                                <!-- widget content -->
+                                <div class="widget-content">
+                                    <div class="row-fluid">
+                                        <div class="span8">
+                                            <!-- chart placeholder -->
+                                            <div id="stats-chart" style="height: 180px;"></div>
+                                        </div>
+                                        <div class="span4">
+                                            <div class="stats-overview bg-silver">
+                                                <div class="overview-today">
+                                                    <p class="overview-day muted">Today</p>
+                                                    <p class="overview-count color-cyan">1,956</p>
+                                                    <p class="overview-type muted">Hits</p>
+                                                    <p class="overview-count color-cyan">2,387</p>
+                                                    <p class="overview-type muted">Views</p>
+                                                </div>
+                                                <div class="overview-prev">
+                                                    <p class="overview-day muted">Yesterday</p>
+                                                    <p class="overview-count color-magenta">1,632</p>
+                                                    <p class="overview-type muted">Hits</p>
+                                                    <p class="overview-count color-magenta">1,839</p>
+                                                    <p class="overview-type muted">Views</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><!-- /row-fluid -->
+                                </div><!-- /widget content -->
+                            </div><!-- /widget stats -->
+                            
+                            
+                            
+                            <!-- CONTENT MANAGER & CHAT
+                            ================================================== -->
+                            <!-- row, content manager -->
+                            <div class="row-fluid" id="row2">
+                                <!-- content manager -->
+                                <div class="span8">
+                                    <!-- widget, content manager -->
+                                    <div class="widget border-cyan" id="widget-cm">
+                                        <div class="widget-header bg-cyan">
+                                            <!-- widget icon -->
+                                            <div class="widget-icon"><i class="aweso-comments"></i></div>
+                                            <!-- widget title -->
+                                            <h4 class="widget-title">Content Manager</h4>
+                                            <!-- widget action, you can also use btn, btn-group, nav-tabs or nav-pills (also support dropdown). enjoy! -->
+                                            <div class="widget-action color-cyan">
+                                                <ul class="nav nav-tabs">
+                                                    <li class="active"><a data-toggle="tab" href="#posts">Posts</a></li>
+                                                    <li><a data-toggle="tab" href="#comments">Comments</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="widget-content">
+                                            <div class="tab-content">
+                                                <!-- posts -->
+                                                <div class="tab-pane fade in active" id="posts">
+                                                    <table class="table" data-sorter="true"> 
+                                                        <thead> 
+                                                            <tr> 
+                                                                <th>&nbsp;</th> 
+                                                                <th>Entry Name</th> 
+                                                                <th>Category</th> 
+                                                                <th>Created On</th> 
+                                                                <th>Actions</th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>In mauris imperdiet, sed sed est ligula</td> 
+                                                                <td>Articles</td> 
+                                                                <td>05-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Erat interdum vel morbi mauris</td> 
+                                                                <td>Freebies</td> 
+                                                                <td>04-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr>
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Maecenas elit suscipit diam</td> 
+                                                                <td>Tutorials</td> 
+                                                                <td>04-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Porta congue sed non</td> 
+                                                                <td>Articles</td> 
+                                                                <td>03-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr>
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Gravida metus mattis sit dui eget in</td> 
+                                                                <td>Articles</td> 
+                                                                <td>03-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr>
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Maecenas elit suscipit diam</td> 
+                                                                <td>Tutorials</td> 
+                                                                <td>02-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Porta congue sed non</td> 
+                                                                <td>Articles</td> 
+                                                                <td>02-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr>
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Gravida metus mattis sit dui eget in</td> 
+                                                                <td>Articles</td> 
+                                                                <td>02-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr>
+                                                        </tbody> 
+                                                    </table>
+                                                </div><!-- /posts -->
+                                                
+                                                <!-- comments -->
+                                                <div class="tab-pane fade" id="comments">
+                                                    <table class="table" data-sorter="true"> 
+                                                        <thead> 
+                                                            <tr> 
+                                                                <th>&nbsp;</th> 
+                                                                <th>Comment</th> 
+                                                                <th>Posted by</th> 
+                                                                <th>Posted On</th> 
+                                                                <th>Actions</th> 
+                                                            </tr> 
+                                                        </thead> 
+                                                        <tbody> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Lorem Ipsum Dolor Sit Amet</td> 
+                                                                <td>Mark</td> 
+                                                                <td>06-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Ipsum Lorem Dolor Sit Amet</td> 
+                                                                <td>James</td> 
+                                                                <td>06-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr>
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Sit Amet Dolor Ipsum</td> 
+                                                                <td>Bent</td> 
+                                                                <td>06-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Dolor Lorem Amet</td> 
+                                                                <td>Alan Johnson</td> 
+                                                                <td>05-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Dolor Lorem Amet</td> 
+                                                                <td>Dobby</td> 
+                                                                <td>05-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr>
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Sit Amet Dolor Ipsum</td> 
+                                                                <td>Bent</td> 
+                                                                <td>04-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Dolor Lorem Amet</td> 
+                                                                <td>Johnson</td> 
+                                                                <td>04-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr> 
+                                                            <tr> 
+                                                                <td><input type="checkbox" /></td> 
+                                                                <td>Dolor Lorem Amet</td> 
+                                                                <td>Aweso</td> 
+                                                                <td>04-07-2013</td> 
+                                                                <td>
+                                                                    <div class="btn-group">
+                                                                        <a class="btn" href="#" title="edit"><i class="aweso-edit"></i></a>
+                                                                        <a class="btn" href="#" title="trash"><i class="aweso-trash"></i></a>
+                                                                    </div>
+                                                                </td> 
+                                                            </tr>
+                                                        </tbody> 
+                                                    </table>
+                                                </div><!-- /comments -->
+                                                
+                                            </div><!-- /tab content -->
+                                        </div><!-- /widget content -->
+                                    </div><!-- /widget, content manager -->
+                                </div><!-- /content manager -->
+                                
+                                <!-- chat -->
+                                <div class="span4">
+                                    <!-- widget chat -->
+                                    <div class="widget border-cyan" id="widget-chat">
+                                        <!-- widget header -->
+                                        <div class="widget-header bg-cyan">
+                                            <!-- widget icon -->
+                                            <div class="widget-icon"><i class="aweso-comment"></i></div>
+                                            <!-- widget title -->
+                                            <h4 class="widget-title">Chat</h4>
+                                            <!-- widget action, you can also use btn, btn-group, nav-tabs or nav-pills (also support dropdown). enjoy! -->
+                                            <div class="widget-action color-cyan">
+                                                <button class="btn color-white" data-toggle="add-others">&plus;</button>
+                                                <button data-toggle="collapse" data-collapse="#widget-chat" class="btn">
+                                                    <i class="aweso-minus" data-toggle-icon="aweso-minus aweso-plus"></i>
+                                                </button>
+                                            </div>
+                                        </div><!-- /widget header -->
+                                        
+                                        <!-- widget content -->
+                                        <div class="widget-content">
+                                            <div class="add-to-chat bg-cyan">
+                                                <form id="form-addtochat" />
+                                                    <select name="addtochat" class="input-large" multiple="">
+                                                        <option value="alexis" />Alexis
+                                                        <option value="bent" />Bent
+                                                        <option value="elissa" />Ellisa
+                                                        <option value="bootmask" />Bootmask
+                                                        <option value="others" />Other user
+                                                    </select>
+                                                    <button class="btn bg-cyan bordered" type="submit">add</button>
+                                                </form>
+                                            </div>
+                                            <!-- chat container, use mscrollbar -->
+                                            <div id="chat" class="chat-container" data-scrollbar="mscroll" data-theme="dark-thick" data-button="true" style="height: 420px;max-height: 420px">
+                                                <!-- chat module -->
+                                                <div class="chat-module">
+                                                    <!-- chat -->
+                                                    <ol class="chats">
+                                                        <li class="other">
+                                                            <div class="avatar">
+                                                                <img src="img/demo/2.jpg" alt="" title="john doe" />
+                                                            </div>
+                                                            <div class="messages">
+                                                                <div class="message-box">
+                                                                    <p>Et malesuada consequat donec morbi. Ridiculus wisi diam velit arcu, fringilla ante, nec et semper convallis, curabitur consectetuer massa sit in, consequat habitasse pede dictumst ornare eu.</p>
+                                                                    <time datetime="2013-06-05T20:00">john doe | 51 min</time>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="self">
+                                                            <div class="avatar">
+                                                                <img src="img/demo/1.jpg" alt="" title="me" />
+                                                            </div>
+                                                            <div class="messages">
+                                                                <p>Consequat pede integer sit, vestibulum pharetra. Eu nec non nulla non.</p>
+                                                                <time datetime="2013-06-05T20:14">37 mins</time>
+                                                            </div>
+                                                        </li>
+                                                        <li class="moderator">
+                                                            <div class="messages">
+                                                                <p>log: jane smith join to chat | 27 min</p>
+                                                            </div>
+                                                        </li>
+                                                        <li class="other">
+                                                            <div class="avatar">
+                                                                <img src="img/demo/3.jpg" alt="" title="jane smith" />
+                                                            </div>
+                                                            <div class="messages">
+                                                                <p>Duis enim parturient semper amet justo rutrum, ac sed neque. Scelerisque id, nulla urna ut donec.</p>
+                                                                <time datetime="2013-06-05T20:00">jane smith | 26 min</time>
+                                                            </div>
+                                                        </li>
+                                                        <li class="other">
+                                                            <div class="avatar">
+                                                                <img src="img/demo/2.jpg" alt="" title="john doe" />
+                                                            </div>
+                                                            <div class="messages">
+                                                                <div class="message-box">
+                                                                    <p>Et malesuada consequat donec morbi. Ridiculus wisi diam velit arcu, fringilla ante, nec et semper convallis</p>
+                                                                    <time datetime="2013-06-05T20:00">john doe | 21 min</time>
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                        <li class="self">
+                                                            <div class="avatar">
+                                                                <img src="img/demo/1.jpg" alt="" title="me" />
+                                                            </div>
+                                                            <div class="messages">
+                                                                <p>Consequat pede integer sit, vestibulum pharetra. Eu nec non nulla non.</p>
+                                                                <time datetime="2013-06-05T20:14">5 mins</time>
+                                                            </div>
+                                                        </li>
+                                                        <li class="other">
+                                                            <div class="avatar">
+                                                                <img src="img/demo/3.jpg" alt="" title="jane smith" />
+                                                            </div>
+                                                            <div class="messages">
+                                                                <p>Duis enim parturient semper amet justo rutrum, ac sed neque. Scelerisque id, nulla urna ut donec.</p>
+                                                                <time datetime="2013-06-05T20:00">jane smith | just now</time>
+                                                            </div>
+                                                        </li>
+                                                    </ol><!-- /chat -->
+                                                </div><!-- /chat module -->
+                                            </div><!-- /chat container -->
+                                            
+                                            <!-- chat action -->
+                                            <div class="chat-action bg-silver">
+                                                <form id="form-chat" />
+                                                    <div class="input-append input-append-inline" style="width: 100%">
+                                                        <input class="input-block-level" name="chat-text" type="text" autocomplete="off" />
+                                                        <button class="btn bg-cyan" type="submit"><i class="aweso-comment-alt"></i></button>
+                                                    </div>
+                                                </form>
+                                            </div><!-- /chat action -->
+                                            
+                                        </div><!-- /widget content -->
+                                    </div><!-- /widget chat -->
+                                </div><!-- /chat -->
+                            </div><!-- /row content manager -->
+                            
+                            
+                            
+                            
+                            <!-- QUICK POST
+                            ================================================== -->
+                            <!-- widget quick post -->
+                            <div class="widget border-cyan" id="widget-quickpost">
+                                <!-- widget header -->
+                                <div class="widget-header bg-cyan">
+                                    <!-- widget icon -->
+                                    <div class="widget-icon"><i class="aweso-file-text"></i></div>
+                                    <!-- widget title -->
+                                    <h4 class="widget-title">Quick Post</h4>
+                                    <!-- widget action, you can also use btn, btn-group, nav-tabs or nav-pills (also support dropdown). enjoy! -->
+                                    <div class="widget-action color-cyan">
+                                        <button data-toggle="collapse" data-collapse="#widget-quickpost" class="btn">
+                                            <i class="aweso-minus" data-toggle-icon="aweso-minus aweso-plus"></i>
+                                        </button>
+                                    </div>
+                                </div><!-- /widget header -->
+                                <!-- /widget content -->
+                                <div class="widget-content">
+                                    <form class="form-vertical" id="quickPost" action="" />
+                                        <div class="control-group">
+                                            <label class="control-label" for="post-title">Post Title</label>
+                                            <div class="controls">
+                                                <input id="post-title" class="input-block-level" name="post_title" type="text" autocomplete="off" />
+                                            </div>
+                                        </div><!-- /control-group -->
+                                        <div class="control-group">
+                                            <label class="control-label" for="post-content">Content</label>
+                                            <div class="controls">
+                                                <textarea id="post-content" style="width: 98.5%;" rows="10" name="post_content"></textarea>
+                                            </div>
+                                        </div><!-- /control-group -->
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <div class="control-group">
+                                                    <label class="control-label" for="post-category">Category</label>
+                                                    <div class="controls">
+                                                        <select id="post-category" data-form="select2" style="width: 99.5%;" name="post_category">
+                                                            <option value="articles" />Articles
+                                                            <option value="tutorials" />Tutorials
+                                                            <option value="frebies" />Freebies
+                                                            <option value="others" />Something Else
+                                                        </select>
+                                                    </div>
+                                                </div><!-- /control-group -->
+                                            </div>
+                                            <div class="span6">
+                                                <div class="control-group">
+                                                    <label class="control-label" for="post-tags">Tags</label>
+                                                    <div class="controls">
+                                                        <input id="post-tags" style="width: 99.5%;" name="post_tags" type="text" />
+                                                    </div>
+                                                </div><!-- /control-group -->
+                                            </div>
+                                        </div>
+                                        <div class="form-actions bg-silver">
+                                            <select data-form="select2" name="post_publish" style="margin-bottom: 0">
+                                                <option value="publish" />Published
+                                                <option value="draft" />Draft
+                                            </select>
+                                            <input class="btn bg-cyan" type="submit" value="Submit" />
+                                            <input class="btn btn-warning" type="reset" value="Reset" />
+                                        </div>
+                                    </form>
+                                </div><!-- /widget content -->
+                            </div><!-- /widget quick post -->
+                            
+                            
+                            
+                        </div><!-- /content-inner -->
+                    </div><!-- /main-page-->
+                </article> <!-- /content page -->
+                
+                
+            </div><!--/ end content -->
+        </section> <!-- /end section content-->
+        
+        
+        <!-- footer, I place the footer on here. -->
+        <footer class="footer">
+            <p>Copyright &copy; 2013. All Right Reserved.</p>
+        </footer><!--/ footer -->
+        
+        
+        
+        <!-- javascript
+        ================================================== -->
+        <!-- required js -->
+        <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.ui.touch-punch.min.js"></script>
+        <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="assets/js/m-scrollbar/jquery.mCustomScrollbar.min.js"></script>
+        
+        <!-- apps component js, optional -->
+        <script type="text/javascript" src="assets/js/morrisjs/raphael-min.js"></script>
+        <script type="text/javascript" src="assets/js/morrisjs/morris.min.js"></script>
+        <script type="text/javascript" src="assets/js/daterangepicker/moment.min.js"></script>
+        <script type="text/javascript" src="assets/js/select2/select2.min.js"></script>
+        <script type="text/javascript" src="assets/js/wysihtml5/wysihtml5-0.3.0.min.js"></script>
+        <script type="text/javascript" src="assets/js/wysihtml5/bootstrap-wysihtml5.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.tablesorter.min.js"></script>
+        <script type="text/javascript" src="assets/js/jquery.equalHeight.js"></script>
+        
+        <!-- metro js, required! -->
+        <script type="text/javascript" src="assets/js/metro-base.js"></script>
+        
+        <!-- demo js -->
+        <script type="text/javascript" src="assets/js/holder/holder.js"></script>
+        <script type="text/javascript" src="assets/js/demo/dashboard.js"></script>
+    </body>
+</html>
