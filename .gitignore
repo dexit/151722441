@@ -22,3 +22,6 @@ buddypress/.settings/org.eclipse.core.runtime.prefs
 buddypress/.settings/org.eclipse.php.core.prefs
 buddypress/.settings/org.eclipse.wst.common.project.facet.core.xml
 dln-themes/.externalToolBuilders/New_Builder.launch
+dln-bootplus/.settings/org.eclipse.core.runtime.prefs
+dln-bootplus/.settings/org.eclipse.php.core.prefs
+dln-bootplus/.settings/org.eclipse.wst.common.project.facet.core.xml
