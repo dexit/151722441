@@ -47,7 +47,7 @@
 .navbar .nav>li>a.dropdown-toggle.btn-profile {
 	width: 27px;
 	line-height: 24px;
-	margin-right: 6px;
+	margin: 0 6px;
 	height: 27px;
 	min-height: 27px;
 	padding: 0;
@@ -131,4 +131,14 @@
 	color: #737373;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.navbar .pull-right > li > .dropdown-menu.dropdown-notifications {
+	right: 9px;
+}
+
+@media (max-width: 979px) {
+	.navbar .btn-navbar {
+    display: none;
+  }
 }
