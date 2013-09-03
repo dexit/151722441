@@ -1,3 +1,12 @@
+body {
+    background: url("../img/bgnoise.gif") repeat scroll 0 0 transparent;
+    color: #444444;
+    font-family: Roboto,arial,sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+    margin: 0;
+}
+
 .dropdown-menu {
 	border-radius: 3px 3px 3px 3px;
 	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -135,6 +144,42 @@
 
 .navbar .pull-right > li > .dropdown-menu.dropdown-notifications {
 	right: 9px;
+}
+
+.media-heading {
+    font-weight: 700;
+}
+
+.dropdown-menu.dropdown-notifications > li {
+    border-top: 1px solid #D0D0D0;
+    padding: 10px;
+}
+
+.dropdown-menu.dropdown-notifications > li:hover, .dropdown-menu.dropdown-notifications > li:focus {
+    background-color: #FFFFFF;
+}
+
+.media img {
+	background-color: #FFFFFF;
+    border: 3px solid white;
+    border-radius: 30px 30px 30px 30px;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.3);
+    float: left;
+    position: relative;
+    top: 2px;
+    left: 2px;
+}
+
+.media .media-body, .media .media-heading, .media .media-heading .pull-right {
+	font-size: 11px;
+}
+
+.media .media-heading {
+    margin: 0 3px 5px;
+}
+
+.media .media-heading .pull-right {
+	font-style: italic;
 }
 
 @media (max-width: 979px) {
