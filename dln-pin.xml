@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="WPR" default="sync" basedir=".">
+	<property name="source.dir" location="./dln-pin/"/>
+	<property name="dest.dir" location="F:/xampp/htdocs/pinx/"/>
+
+	<!-- ============================================  -->
+    <!-- Target: prepare                               -->
+    <!-- ============================================  -->
+    <target name="prepare">	
+
+	</target>
+
+	<!-- ============================================  -->
+	<!-- Target: Build archive for module and plugin   -->
+	<!-- ============================================  -->
+   <target name="build" depends="prepare">
+    </target>
+	
+	<target name="sync" depends="build">
+		
+		<copy todir="${dest.dir}" overwrite="true">
+			<fileset dir="${source.dir}" />
+		</copy>
+
+	</target>
+</project>
+
+
+
+
+
