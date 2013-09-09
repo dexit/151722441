@@ -190,7 +190,7 @@ body {
   
 	.nav-collapse, .nav-collapse.collapse {
 	    height: auto;
-	    overflow: hidden;
+	    overflow: visible;
 	}
 	.nav-collapse .navbar-form, .nav-collapse .navbar-search {
 	    border: none;
