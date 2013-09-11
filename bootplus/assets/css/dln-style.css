@@ -212,25 +212,36 @@ body {
 	    display: inline;
 	    width: auto;
 	}
+	
+	.card.hovercard {
+		width: 228px;
+	}
 }
 
 @media (max-width: 767px) {
 	[class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
 	    float: left;
-	    margin-left: 20px;
-	    width: auto;
-	}
-	
-	.span4 {
-    	width: 300px;
+	    margin-left: 0;
+	    margin-right: 20px;
+	    width: 300px;
 	}
 	
 	.container {
-	    width: 645px;
+	    width: 640px;
 	}
 }
 
-@media (max-width: 690px) {
+@media (max-width: 617px) {
+	[class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
+	    width: 260px;
+	}
+	
+	.container {
+	    width: 560px;
+	}
+}
+
+@media (max-width: 497px) {	
 	[class*="span"], .uneditable-input[class*="span"], .row-fluid [class*="span"] {
 	    float: none;
 	    margin-left: 0;
@@ -238,6 +249,12 @@ body {
 	}
 	
 	.container {
-	    width: auto;
+	    width: 440px;
+	}
+}
+
+@media (max-width: 340px) {	
+	.container {
+	    width: 280px;
 	}
 }
