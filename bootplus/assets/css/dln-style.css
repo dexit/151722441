@@ -224,6 +224,10 @@ body {
 	.span4 {
     	width: 300px;
 	}
+	
+	.container {
+	    width: 645px;
+	}
 }
 
 @media (max-width: 690px) {
@@ -231,5 +235,9 @@ body {
 	    float: none;
 	    margin-left: 0;
 	    width: 100%;
+	}
+	
+	.container {
+	    width: auto;
 	}
 }
