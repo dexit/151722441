@@ -82,19 +82,19 @@ function import($sfilename, $auto_search = TRUE, $auto_error = FALSE){
 }
 
 /**
- * spAccess 数据缓存及存取程序
+ * spAccess Tạo cache data cho các functions
  *
- * @param method    数据存取模式，取值"w"为存入数据，取值"r"读取数据，取值"c"为删除数据
- * @param name    标识数据的名称
- * @param value    存入的值，在读取数据和删除数据的模式下均为NULL
- * @param life_time    变量的生存时间，默认为永久保存
+ * @param method    method read, write, clean "r", "w", "c"
+ * @param name    tag name
+ * @param value    dữ liệu đưa vào, mặc định là NULL
+ * @param life_time    timestamp
  */
 function spAccess($method, $name, $value = NULL, $life_time = -1){
-	// 使用function_access扩展点
+	// check function_access
 	if( $launch = spLaunch("function_access", array('method'=>$method, 'name'=>$name, 'value'=>$value, 'life_time'=>$life_time), TRUE) )return $launch;
 	// 准备缓存目录和缓存文件名称，缓存文件名称为$name的MD5值，文件后缀为php
 	if(!is_dir($GLOBALS['G_SP']['sp_cache']))__mkdirs($GLOBALS['G_SP']['sp_cache']);
-	$sfile = $GLOBALS['G_SP']['sp_cache'].'/'.$GLOBALS['G_SP']['sp_app_id'].md5($name).".php";
+	$sfile = $GLOBALS['G_SP']['sp_cache'].'/'.$GLOBALS['G_SP']['sp_app_id'].md5($name).'_'.$name.".php";
 	// 对$method进行判断，分别进行读写删的操作
 	if('w' == $method){
 		// 写数据，在$life_time为-1的时候，将增大$life_time值以令$life_time不过期

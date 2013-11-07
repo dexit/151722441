@@ -76,5 +76,6 @@ $user_config = array (
     'smtp_pass' => '',
     'smtp_port' => '',
   ),
-  'default_controller' => 'welcome',
+  //'default_controller' => 'welcome',
+	'default_controller' => 'pin',
 );

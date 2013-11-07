@@ -1,0 +1,78 @@
+.dln-social-cover {
+	
+}
+body .dln-social-cover {
+    border-radius: 0 0 0 0;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+body .dln-social-cover:after {
+    padding-top: 37.2%;
+}
+.dln-social-cover:after {
+    content: "";
+    display: block;
+    padding-top: 37.5%;
+}
+body .dln-social-cover-gradient {
+    background: none repeat scroll 0 center rgba(0, 0, 0, 0);
+    border-bottom: 2px solid #DDDDDD;
+}
+body .dln-social-cover > img {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+}
+body .dln-social-content {
+    -moz-box-sizing: border-box;
+    background: none repeat scroll 0 0 #FEFEFE;
+    height: auto;
+    padding-top: 6px;
+    position: relative;
+}
+body .dln-social-avatar {
+    background: none repeat scroll 0 0 #FFFFFF;
+    display: block;
+    margin-bottom: -80px;
+    margin-right: 20px;
+    max-height: 240px;
+    max-width: 160px;
+    overflow: hidden;
+    position: relative;
+    top: -100px;
+}
+body .box-generic {
+	padding: 0px;
+}
+body .dln-social-profile-name{
+	float:left;
+	font-weight: 700;
+	font-size: 18px;
+	margin: 0px;
+	font-family: Tahoma;
+}
+body .dln-social-rating {
+	line-height: 32px;
+	font-size: 16px;
+	margin-left: 20px;
+}
+body .dln-social-rating .rating {
+	padding-left: 10px;
+	float: left;
+}
+body .dln-social-likes{
+	clear:both;
+	font-size:11px;
+	color: #808080;
+}
+body .dln-nav-bar ul li{
+	background-color: #FAFAFA;
+}
+body .dln-social-nav-bar .menubar, body .dln-social-nav-bar .menubar ul, body .dln-social-nav-bar .menubar ul li {
+	height:32px;
+	line-height:32px;
+}
