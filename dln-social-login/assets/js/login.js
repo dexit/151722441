@@ -1,5 +1,5 @@
 jQuery.noConflict();
-(function($) { 
+(function($) {
 	$(function() {
 		
 		var _do_facebook_login = function() {
@@ -47,7 +47,7 @@ window.wp_social_login = function(config) {
 		}
 	}
 
-	jQuery.each(config, function(key, value) { 
+	jQuery.each(config, function(key, value) {
 		jQuery("#" + key).remove();
 		jQuery(form_id).append("<input type='hidden' id='" + key + "' name='" + key + "' value='" + value + "'>");
 	});  

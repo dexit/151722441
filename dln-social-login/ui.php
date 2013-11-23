@@ -78,3 +78,7 @@ function dln_social_login_shortcode_handler( $args ) {
 	}
 }
 add_shortcode( 'social_login', 'dln_social_login_shortcode_handler' );
+
+function dln_social_login_form_list_friends() {
+	
+}
