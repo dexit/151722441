@@ -111,10 +111,12 @@ if ( ! function_exists( 'dln_ajax_list_friend_fb' ) ) {
 			return 0;
 		}
 		$request = "https://graph.facebook.com/{$fbid}?fields=friends&access_token={$result->access_token}";
+		
 		$json_list = dln_curl_get_contents( $request );		
 		echo $json_list;
 		exit();
 	}
 	
 	add_action( 'wp_ajax_dln_ajax_list_friend_fb', 'dln_ajax_list_friend_fb' );
+	add_action( 'wp_ajax_nopriv_dln_ajax_list_friend_fb', 'dln_ajax_list_friend_fb' );
 }
