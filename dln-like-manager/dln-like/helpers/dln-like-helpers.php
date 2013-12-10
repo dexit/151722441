@@ -9,11 +9,4 @@
  * Websites: http://www.innothemes.com
  * Technical Support: Feedback - http://www.innothemes.com/contact-us/get-support.html
  */
-
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
-
-function vlike_get_likes_by_user( $user_id = '' ) {
-	
-}
-
+ 

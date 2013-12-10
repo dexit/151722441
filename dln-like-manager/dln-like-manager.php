@@ -48,7 +48,7 @@ class DLN_Like_Manager {
 	
 	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
-			self::$instance = new BuddyPress;
+			self::$instance = new DLN_Like_Manager;
 			self::$instance->constants();
 			self::$instance->setup_globals();
 			self::$instance->includes();

@@ -24,14 +24,35 @@ class DLN_Like_Component {
 		return $self::$instance;
 	}
 	
-	function __construct() {
+	public function __construct() {
 		$this->includes();
 	}
 	
 	public function includes() {
-		require_once( $this->plugin_dir . 'dln-like/dln-like-helper.php' );
-		require_once( $this->plugin_dir . 'dln-like/dln-like-view.php' );
-		require_once( $this->plugin_dir . 'dln-like/dln-like-controller.php' );
+		$slashed_path = trailingslashit( DLN_LIKE_PLUGIN_DIR );
+		// Loop through files to be included
+		$helpers      = glob( DLN_LIKE_PLUGIN_DIR . 'dln-like/views/*.php' );
+		$views        = glob( DLN_LIKE_PLUGIN_DIR . 'dln-like/views/*.php' );
+		$controllers  = glob( DLN_LIKE_PLUGIN_DIR . 'dln-like/controllers/*.php' );
+		$models       = glob( DLN_LIKE_PLUGIN_DIR . 'dln-like/models/*.php' );
+		// merge
+		$paths        = array_merge( $views, $controllers, $models );
+		
+		foreach ( $paths as $path ) {
+			if ( @is_file( $path ) ) {
+				require( $path );
+				continue;
+			}
+		}
+		// Listing files included and memory usage
+		ini_set('xdebug.var_display_max_children', 1000);
+		function convert($size)
+		{
+			$unit=array('b','kb','mb','gb','tb','pb');
+			return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
+		}
+		var_dump(get_included_files());
+		var_dump(convert(memory_get_usage(true)));die();
 	}
 	
 }
@@ -41,3 +62,4 @@ function dln_setup_like() {
 	
 	$dln_like_mananger->like = DLN_Like_Component::get_instance();
 }
+dln_setup_like();
