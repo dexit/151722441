@@ -8,8 +8,27 @@ Author: Dinh Le Nhat
 Author URI: http://www.facebook.com/lenhatdinh
 License: GPL2
  */
-// Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
+// require plugin files
+require_once( plugin_dir_path( __FILE__ ) . 'public/class-dln-like-manager.php' );
+
+// register hooks that are fired when the plugin is activated or deactivated.
+register_activation_hook( __FILE__, array( 'DLN_Like_Manager', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'DLN_Like_Manager', 'deactivate' ) );
+
+add_action( 'plugin_loaded', array( 'DLN_Like_Manager', 'get_instance' ) );
+
+if ( is_admin() && ( !defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
+	
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-dln-like-manager.php' );
+	add_action( 'plugin_loaded', array( 'DLN_Like_Manager_Admin', 'get_instance' ) );
+	
+}
 
 if ( ! class_exists( 'DLNLikeManager' ) ) {
 
@@ -112,3 +131,4 @@ function dln_like_mananger() {
 $GLOBALS['dln_like_mananger'] = dln_like_mananger();
 
 }
+?>

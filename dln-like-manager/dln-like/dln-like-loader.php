@@ -44,15 +44,6 @@ class DLN_Like_Component {
 				continue;
 			}
 		}
-		// Listing files included and memory usage
-		ini_set('xdebug.var_display_max_children', 1000);
-		function convert($size)
-		{
-			$unit=array('b','kb','mb','gb','tb','pb');
-			return @round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i];
-		}
-		var_dump(get_included_files());
-		var_dump(convert(memory_get_usage(true)));die();
 	}
 	
 }
