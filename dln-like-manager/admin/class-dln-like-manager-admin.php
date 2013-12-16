@@ -36,16 +36,7 @@ class DLN_Like_Manager_Admin {
 	 * 
 	 * @var      string
 	 */
-	public $plugin_slug = '';
-	
-	/**
-	* Slug of this plugin.
-	*
-	* @since    1.0.0
-	*
-	* @var      public
-	*/
-	public $plugin_slug;
+	public $plugin_slug = null;
 	
 	/**
 	 * Initialize the plugin by loading admin scripts & styles and adding a

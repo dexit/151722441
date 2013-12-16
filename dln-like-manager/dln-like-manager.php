@@ -25,7 +25,7 @@ add_action( 'plugin_loaded', array( 'DLN_Like_Manager', 'get_instance' ) );
 
 if ( is_admin() && ( !defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 	
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-dln-like-manager.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-dln-like-manager-admin.php' );
 	add_action( 'plugin_loaded', array( 'DLN_Like_Manager_Admin', 'get_instance' ) );
 	
 }
