@@ -21,6 +21,33 @@ class DLN_Like_Manager_Admin {
 	protected static $instance = null;
 	
 	/**
+	 * Slug of the plugin screen.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @var      string
+	 */
+	protected $plugin_screen_hook_suffix = null;
+	
+	/**
+	 * Slug of the plugin
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @var      string
+	 */
+	public $plugin_slug = '';
+	
+	/**
+	* Slug of this plugin.
+	*
+	* @since    1.0.0
+	*
+	* @var      public
+	*/
+	public $plugin_slug;
+	
+	/**
 	 * Initialize the plugin by loading admin scripts & styles and adding a
 	 * settings page and menu.
 	 *
@@ -61,6 +88,115 @@ class DLN_Like_Manager_Admin {
 		
 		return self::$instance;
 		
+	}
+	
+	/**
+	 * Register and enqueue admin-specific style sheet
+	 * 
+	 * @since	1.0.0
+	 * 
+	 * @return	null
+	 */
+	public function enqueue_admin_styles() {
+		
+		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
+			return;
+		}
+		
+		$screen = get_current_screen();
+		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
+			wp_enqueue_style( $this->plugin_slug . '-admin-styles', plugin_urL( 'assets/css/admin.css', __FILE__ ), array(), DLN_Like_Manager::VERSION );
+		}
+		
+	}
+	
+	/**
+	 * Register and enqueue admin-specific JavaScript
+	 * 
+	 * @since 	1.0.0
+	 * 
+	 * @return  null
+	 */
+	public function enqueue_admin_scripts() {
+		
+		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
+			return ;
+		}
+		
+		$screen = get_current_screen();
+		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
+			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array(), DLN_Like_Manager::VERSION );
+		}
+	}
+	
+	/**
+	* Register admin menu for plugin  add_plugin_admin_menu
+	* 
+	* @since 	1.0.0
+	* 
+	* @return   void
+	*/
+	public function add_plugin_admin_menu() {
+	
+		$this->plugin_screen_hook_suffix = add_options_page(
+			__( 'Page Title', $this->plugin_slug ),
+			__( 'Menu Text', $this->plugin_slug ),
+			'manage_options',
+			$this->plugin_slug,
+			array( $this, 'display_plugin_admin_page' )
+		);
+		
+	}
+	
+	/**
+	* Render the setting page for this plugin.
+	* 
+	* @since 	1.0.0
+	* 
+	* @return   void
+	*/
+	public function display_plugin_admin_page() {
+	
+		include_once( 'views/admin.php' );
+		
+	}
+	
+	/**
+	* Add settings action link to the plugins page.
+	* 
+	* @since 	1.0.0
+	* 
+	* @return   void
+	*/
+	public function add_action_links( $links ) {
+	
+		return array_merge(
+			array(
+				'settings' => '<a href="' . admin_url( 'options-general.php?page=' . $this->plugin_slug ) . '">' . __( 'Settings', $this->plugin_slug ) . '</a>'
+			),
+			$links
+		);
+		
+	}
+	
+	/**
+	* Actions are point in the execution of a page or process.
+	* 
+	* @since 	1.0.0
+	* 
+	* @return   void
+	*/
+	public function action_method_name() {
+	}
+	
+	/**
+	 * Filters are point in the execution of a page or process.
+	 *
+	 * @since 	1.0.0
+	 *
+	 * @return   void
+	 */
+	public function filter_method_name() {
 	}
 	
 }
