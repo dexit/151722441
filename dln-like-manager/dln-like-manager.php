@@ -14,6 +14,11 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
+// require includes files
+$files = glob( plugin_dir_path( __FILE__ ) . 'includes/*.php' );
+foreach ( $files as $file ) {
+    require( $file );
+}
 // require plugin files
 require_once( plugin_dir_path( __FILE__ ) . 'public/class-dln-like-manager.php' );
 
@@ -21,15 +26,14 @@ require_once( plugin_dir_path( __FILE__ ) . 'public/class-dln-like-manager.php' 
 register_activation_hook( __FILE__, array( 'DLN_Like_Manager', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'DLN_Like_Manager', 'deactivate' ) );
 
-add_action( 'plugin_loaded', array( 'DLN_Like_Manager', 'get_instance' ) );
+add_action( 'init', array( 'DLN_Like_Manager', 'get_instance' ) );
 
 if ( is_admin() && ( !defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 	
 	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-dln-like-manager-admin.php' );
-	add_action( 'plugin_loaded', array( 'DLN_Like_Manager_Admin', 'get_instance' ) );
+	add_action( 'admin_init', array( 'DLN_Like_Manager_Admin', 'get_instance' ) );
 	
 }
-
 // if ( ! class_exists( 'DLNLikeManager' ) ) {
 
 // class DLN_Like_Manager {

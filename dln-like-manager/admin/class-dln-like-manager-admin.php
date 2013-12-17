@@ -72,7 +72,6 @@ class DLN_Like_Manager_Admin {
 	 * @return    object    A single instance of this class.
 	 */
 	public static function get_instance() {
-		
 		if ( null == self::$instance ) {
 			self::$instance = new self;
 		}

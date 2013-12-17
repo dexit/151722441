@@ -1,6 +1,6 @@
 <?php
 /**
- * @package   DLN_Like_Manager_Admin
+ * @package   DLN_Like_Manager
  * @author    DinhLN <lenhatdinh@gmail.com>
  * @license   GPL-2.0+
  * @link      http://www.facebook.com/lenhatdinh
@@ -50,7 +50,7 @@ class DLN_Like_Manager {
 	 * @return   void
 	 */
 	private function __construct() {
-	
+		
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
 		
@@ -59,12 +59,16 @@ class DLN_Like_Manager {
 		
 		// Load public style and scripts
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		add_adtion( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		
 		// Define custon functionality
 		add_action( '@TODO', array( $this, 'action_method_name' ) );
 		add_action( '@TODO', array( $this, 'filter_method_name' ) );
 		
+		$this->include_files();
+
+		// Add shortcodes
+		$shortcodes = DLN_Like_Shortcode::get_instance();
 	}
 	
 	/**
@@ -85,12 +89,11 @@ class DLN_Like_Manager {
 	 * 
 	 * @return   object
 	 */
-	public function get_instance() {
-	
+	public static function get_instance() {
+		
 		if ( null == self::$instance ) {
 			self::$instance = new self;
 		}
-		
 		return self::$instance;
 	}
 	
@@ -129,6 +132,23 @@ class DLN_Like_Manager {
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 		
 		load_textdomain( $domain, trailingslashit( WP_LANG_DIR )  . $domain . '/' . $domain . '-' . $locale . '.mo');
+		
+	}
+	
+	/**
+	 * Require includes files.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @return   void
+	 */
+	private function include_files() {
+	
+		// require includes files
+		$files = glob( plugin_dir_path( __FILE__ ) . 'includes/*.php' );
+		foreach ( $files as $file ) {
+		    require_once( $file );
+		};
 		
 	}
 	
