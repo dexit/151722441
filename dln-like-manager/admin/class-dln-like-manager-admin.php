@@ -88,16 +88,14 @@ class DLN_Like_Manager_Admin {
 	 * @return	null
 	 */
 	public function enqueue_admin_styles() {
-		
 		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
 			return;
 		}
 		
 		$screen = get_current_screen();
 		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
-			wp_enqueue_style( $this->plugin_slug . '-admin-styles', plugin_urL( 'assets/css/admin.css', __FILE__ ), array(), DLN_Like_Manager::VERSION );
+			wp_enqueue_style( $this->plugin_slug . '-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), DLN_Like_Manager::VERSION );
 		}
-		
 	}
 	
 	/**
@@ -108,7 +106,6 @@ class DLN_Like_Manager_Admin {
 	 * @return  null
 	 */
 	public function enqueue_admin_scripts() {
-		
 		if ( ! isset( $this->plugin_screen_hook_suffix ) ) {
 			return ;
 		}
@@ -129,13 +126,28 @@ class DLN_Like_Manager_Admin {
 	public function add_plugin_admin_menu() {
 	
 		$this->plugin_screen_hook_suffix = add_options_page(
-			__( 'Page Title', $this->plugin_slug ),
+			__( 'DLN Like Manager', $this->plugin_slug ),
 			__( 'Menu Text', $this->plugin_slug ),
 			'manage_options',
 			$this->plugin_slug,
 			array( $this, 'display_plugin_admin_page' )
 		);
 		
+		add_action( 'admin_init', array( $this, 'register_setting_groups' ) );
+		
+	}
+	
+	/**
+	 * Register admin setting groups.
+	 *
+	 * @since    1.0.0
+	 *
+	 * @return   void
+	 */
+	public function register_setting_groups() {
+		register_setting( 'dln-like-manager-settings-group', 'dln_like_facebook_api_key' );
+		register_setting( 'dln-like-manager-settings-group', 'dln_like_facebook_secret_key' );
+		register_setting( 'dln-like-manager-settings-group', 'dln_like_facebook_permission' );
 	}
 	
 	/**
@@ -147,7 +159,7 @@ class DLN_Like_Manager_Admin {
 	*/
 	public function display_plugin_admin_page() {
 	
-		include_once( 'views/admin.php' );
+		include_once( 'views/setting_options.php' );
 		
 	}
 	

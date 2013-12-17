@@ -6,11 +6,11 @@
  * @link      http://www.facebook.com/lenhatdinh
  * @copyright 2013 by DinhLN
  */
+
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) { die; }
+
 ?>
 <div class="wrap">
-
-	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-
-	<!-- @TODO: Provide markup for your options page here. -->
-
+	<h2><?php echo esc_html( get_admin_page_title() . ' Settings' ); ?></h2>
 </div>

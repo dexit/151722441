@@ -7,4 +7,5 @@
  * @copyright 2013 by DinhLN
  */
 
-
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) { die; }
