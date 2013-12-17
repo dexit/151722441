@@ -13,14 +13,15 @@ if ( ! defined( 'WPINC' ) ) { die; }
 $client_id  = get_option( 'dln_like_facebook_api_key' );
 $secret_key = get_option( 'dln_like_facebook_secret_key' );
 
-if(isset($_GET['code'])) {
+if( isset( $_GET['code'] ) ) {
 	$code = $_GET['code'];
-	parse_str(dln_curl_get_contents("https://graph.facebook.com/oauth/access_token?" .
-			'client_id=' . $client_id . '&redirect_uri=' . urlencode( DLN_LIKE_PLUGIN_URL . '/public/views/callback.php' ) .
+	parse_str( dln_curl_get_contents( "https://graph.facebook.com/oauth/access_token?" .
+			'client_id=' . $client_id . 
+			'&redirect_uri=' . urlencode( DLN_LIKE_PLUGIN_URL . '/public/views/callback.php' ) .
 			'&client_secret=' .  $secret_key .
-			'&code=' . urlencode($code)));
+			'&code=' . urlencode( $code ) ) );
 
-	$signature = social_login_generate_signature($access_token);
+	$signature = social_login_generate_signature( $access_token );
 	?>
 	<html>
 	<head>
@@ -42,6 +43,8 @@ if(isset($_GET['code'])) {
 	$permission   = get_option( 'dln_like_facebook_api_key' );
 	$permission   = ( $permission ) ? $permission : 'email';
 	$redirect_uri = urlencode( DLN_LIKE_PLUGIN_URL . '/public/views/callback.php' );
-	wp_redirect( 'https://graph.facebook.com/oauth/authorize?client_id=' . $client_id . '&redirect_uri=' . $redirect_uri . '&scope=' . $permission );
+	wp_redirect( 'https://graph.facebook.com/oauth/authorize?client_id=' . $client_id . 
+				'&redirect_uri=' . $redirect_uri . 
+				'&scope=' . $permission );
 }
 ?>
