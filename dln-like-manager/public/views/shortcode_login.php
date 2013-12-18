@@ -18,3 +18,4 @@ if ( ! defined( 'WPINC' ) ) { die; }
 	<input type="hidden" name="client_id" value="<?php echo get_option( 'dln_like_facebook_api_key' ); ?>" />
 	<input type="hidden" name="redirect_uri" value="<?php echo urlencode( DLN_LIKE_PLUGIN_URL . '/public/views/callback.php' ); ?>" />
 </div>
+<input type="hidden" id="social_login_login_form_uri" value="<?php echo site_url( 'wp-login.php', 'login_post' ); ?>" />

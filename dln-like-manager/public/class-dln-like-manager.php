@@ -107,7 +107,9 @@ class DLN_Like_Manager {
 	 * @return   void
 	 */
 	public static function activate( $network_wide ) {
+		$tbl_user = DLN_Like_Model_User::get_instance();
 		
+		$tbl_user->create_table();
 	}
 	
 	/**

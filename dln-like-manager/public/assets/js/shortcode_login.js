@@ -31,19 +31,19 @@ jQuery.noConflict();
 
 
 window.wp_social_login = function(config) {
-	jQuery('#loginform').unbind('submit.simplemodal-login');
+	jQuery('#login_form').unbind('submit.simplemodal-login');
 
-	var form_id = '#loginform';
+	var form_id = '#login_form';
 
-	if(!jQuery('#loginform').length) {
+	if(!jQuery('#login_form').length) {
 		// if register form exists, just use that
 		if(jQuery('#registerform').length) {
 			form_id = '#registerform';
 		} else {
 			// create the login form
 			var login_uri = jQuery("#social_login_login_form_uri").val();
-			jQuery('body').append("<form id='loginform' method='post' action='" + login_uri + "'></form>");
-			jQuery('#loginform').append("<input type='hidden' id='redirect_to' name='redirect_to' value='" + window.location.href + "'>");
+			jQuery('body').append("<form id='login_form' method='post' action='" + login_uri + "'></form>");
+			jQuery('#login_form').append("<input type='hidden' id='redirect_to' name='redirect_to' value='" + window.location.href + "'>");
 		}
 	}
 

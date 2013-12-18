@@ -21,11 +21,36 @@ if ( ! defined( 'DLN_LIKE_PLUGIN_DIR' ) ) {
 if( ! defined( 'DLN_LIKE_PLUGIN_URL' ) ) {
 	define( 'DLN_LIKE_PLUGIN_URL', plugins_url() . '/' . basename( dirname( __FILE__ ) ) );
 }
+if( ! defined( 'DLN_LIKE_PATH' ) ) {
+	define( 'DLN_LIKE_PATH', dirname( __FILE__ ) );
+}
+if( ! defined( 'DLN_LIKE_MODEL_PATH' ) ) {
+	define( 'DLN_LIKE_MODEL_PATH', DLN_LIKE_PATH . DIRECTORY_SEPARATOR . 'models' );
+}
+
 // require includes files
 $files = glob( plugin_dir_path( __FILE__ ) . 'includes/*.php' );
 foreach ( $files as $file ) {
     require( $file );
 }
+// Setting autoload
+function dln_like_autoload( $class_name )
+{
+	// Convert class name to filename format.
+	$class_name = strtr( strtolower( $class_name ), '_', '-' );
+	$class_name = str_replace( 'dln-like-', '', $class_name );
+	$paths = array(
+		DLN_LIKE_MODEL_PATH,
+	);
+
+	// Search each path for the class.
+	foreach( $paths as $path ) {
+		if( file_exists( "$path/class-$class_name.php" ) )
+			require_once( "$path/class-$class_name.php" );
+	}
+}
+spl_autoload_register( 'dln_like_autoload' );
+
 // require plugin files
 require_once( plugin_dir_path( __FILE__ ) . 'public/class-dln-like-manager.php' );
 // register hooks that are fired when the plugin is activated or deactivated.
