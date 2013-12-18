@@ -7,6 +7,10 @@
  * @copyright 2013 by DinhLN
  */
 
+// Require wp-load.php
+$parse_uri = explode( 'wp-content', $_SERVER['SCRIPT_FILENAME'] );
+require_once( $parse_uri[0] . 'wp-load.php' );
+
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) { die; }
 
@@ -15,16 +19,21 @@ $secret_key = get_option( 'dln_like_facebook_secret_key' );
 
 if( isset( $_GET['code'] ) ) {
 	$code = $_GET['code'];
-	parse_str( dln_curl_get_contents( "https://graph.facebook.com/oauth/access_token?" .
+	$content = DLN_Like_Helpers::curl_get_contents( "https://graph.facebook.com/oauth/access_token?" .
 			'client_id=' . $client_id . 
 			'&redirect_uri=' . urlencode( DLN_LIKE_PLUGIN_URL . '/public/views/callback.php' ) .
 			'&client_secret=' .  $secret_key .
-			'&code=' . urlencode( $code ) ) );
-
-	$signature = social_login_generate_signature( $access_token );
+			'&code=' . urlencode( $code ) );
+	parse_str( $content );
+	if ( strpos( 'error', $content ) !== false OR ! isset( $access_token ) ) {
+		echo '<b>' . $content . '</b>';
+		return;
+	}
+	$signature = DLN_Like_Helpers::generate_signature( $access_token );
 	?>
 	<html>
 	<head>
+	<script type="text/javascript" src="<?php echo urlencode( DLN_LIKE_PLUGIN_URL . '/public/assets/js/shortcode_login.js' ) ?>"></script>
 	<script>
 	function init() {
 	  window.opener.wp_social_login({'action' : 'social_login', 'social_login_provider' : 'facebook',

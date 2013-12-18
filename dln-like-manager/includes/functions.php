@@ -58,7 +58,7 @@ class DLN_Like_Helpers {
 	 * 
 	 * @return   string
 	 */
-	public static function dln_curl_get_contents( $url = '' ) {
+	public static function curl_get_contents( $url = '' ) {
 	
 		$curl = curl_init();
 		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, 1 );
@@ -69,4 +69,32 @@ class DLN_Like_Helpers {
 		return $html;
 		
 	}
+
+	/**
+	 * Function generate signature SHA256.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @return   string
+	 */
+	public static function generate_signature( $data ) {
+		return hash( 'SHA256', AUTH_KEY . $data );
+	}
+	
+	/**
+	 * Function verify signature.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @return   void
+	 */
+	public static function verify_signature( $data, $signature, $redirect_to ) {
+		$generated_signature = self::generate_signature( $data );
+		
+		if ( $generated_signature != $signature ) {
+			wp_safe_redirect( $redirect_to );
+			exit();
+		}
+	}
+	
 }
