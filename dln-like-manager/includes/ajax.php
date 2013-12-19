@@ -142,7 +142,7 @@ class DLN_Like_Ajax {
 			var_dump( $user_id );die();
 		}
 		if ( $dln_provider_identity ) {
-			$tbl_user     = DLN_Like_Model_User::get_instance();
+			$tbl_user     = DLN_Class_Model_User::get_instance();
 			$exist_ui     = $tbl_user->get_user( $user_id );
 			$access_token = $_REQUEST[ 'social_login_access_token' ];
 			if ( ! $exist_ui ) {

@@ -24,8 +24,8 @@ if( ! defined( 'DLN_LIKE_PLUGIN_URL' ) ) {
 if( ! defined( 'DLN_LIKE_PATH' ) ) {
 	define( 'DLN_LIKE_PATH', dirname( __FILE__ ) );
 }
-if( ! defined( 'DLN_LIKE_CLASS_PATH' ) ) {
-	define( 'DLN_LIKE_CLASS_PATH', DLN_LIKE_PATH . DIRECTORY_SEPARATOR . 'classes' );
+if( ! defined( 'Class_PATH' ) ) {
+	define( 'Class_PATH', DLN_LIKE_PATH . DIRECTORY_SEPARATOR . 'classes' );
 }
 
 // require includes files
@@ -36,13 +36,13 @@ foreach ( $files as $file ) {
 // Setting autoload
 function dln_like_autoload( $class_name )
 {
-	if ( strpos( $class_name, 'DLN_Like_Model' ) === false )
+	if ( strpos( $class_name, 'DLN_Class' ) === false )
 		return;
 	// Convert class name to filename format.
 	$class_name = strtr( strtolower( $class_name ), '_', '-' );
-	$class_name = str_replace( 'dln-like-', '', $class_name );
+	$class_name = str_replace( 'dln-class-', '', $class_name );
 	$paths = array(
-		DLN_LIKE_CLASS_PATH,
+		Class_PATH,
 	);
 
 	// Search each path for the class.

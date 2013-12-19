@@ -1,6 +1,6 @@
 <?php
 /**
- * @package   DLN_Like_Model
+ * @package   DLN_Like_Class
  * @author    DinhLN <lenhatdinh@gmail.com>
  * @license   GPL-2.0+
  * @link      http://www.facebook.com/lenhatdinh
@@ -10,10 +10,10 @@
 /**
  * Class model for table dln_user.
  *
- * @package   DLN_Like_Model_User
+ * @package   DLN_Class_Model_User
  * @author    dinhln <lenhatdinh@gmail.com> - i - 2:58:01 PM
  */
-class DLN_Like_Model_User {
+class DLN_Class_Model_User {
 
 	/**
 	 * Instance of this class.
