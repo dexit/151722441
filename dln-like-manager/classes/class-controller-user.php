@@ -74,6 +74,7 @@ class DLN_Class_Controller_User {
 		extract( $r, EXTR_SKIP );
 		
 		// Cache first load list users
+		$model_user = DLN_Class_Model_User::get_instance();
 		if ( 1 == (int) $page && empty( $max ) && empty( $search_terms ) && empty( $filter ) && empty( $in ) && $sort == 'DESC' ) {
 			if ( ! $user = wp_cache_get( 'dln_list_users', 'dln_like' ) ) {
 				$args = array(
@@ -84,10 +85,22 @@ class DLN_Class_Controller_User {
 					'search_terms'     => $search_terms,
 					'filter'           => $filter,
 				);
-				$tbl_user = DLN_Class_Model_User::get_instance();
-				$user     = $tbl_user->get( $args );
+				$user = $model_user->get( $args );
+				wp_cache_set( 'dln_list_users', $user, 'dln_like' );
 			}
+		} else {
+			$args = array(
+				'page'             => $page,
+				'per_page'         => $per_page,
+				'max'              => $max,
+				'sort'             => $sort,
+				'search_terms'     => $search_terms,
+				'filter'           => $filter,
+			);
+			$user = $model_user->get( $args );
 		}
+		
+		return apply_filters_ref_array( 'dln_get_users', array( $user, $r ) );
 	}
 	
 }

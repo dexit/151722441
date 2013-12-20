@@ -220,10 +220,15 @@ class DLN_Class_Model_User {
 			$per_page = absint( $per_page );
 		
 			$pag_sql    = $wpdb->prepare( "LIMIT %d, %d", absint( ( $page - 1 ) * $per_page ), $per_page );
-			$activities = $wpdb->get_results( apply_filters( 'dln_user_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
+			$users      = $wpdb->get_results( apply_filters( 'dln_user_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY du.id {$sort} {$pag_sql}", $select_sql, $from_sql, $where_sql, $sort, $pag_sql ) );
 		} else {
-			$activities = $wpdb->get_results( apply_filters( 'dln_user_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $select_sql, $from_sql, $where_sql, $sort ) );
+			$users      = $wpdb->get_results( apply_filters( 'dln_user_get_user_join_filter', "{$select_sql} {$from_sql} {$join_sql} {$where_sql} ORDER BY du.id {$sort}", $select_sql, $from_sql, $where_sql, $sort ) );
 		}
+		
+		$total_users_sql = apply_filters( 'dln_user_toal_users_sql', "SELECT count(DISTINCT du.id) FROM {$this->table} du {$index_hint_sql} {$join_sql} {$where_sql} ORDER BY a.date_recorded {$sort}", $where_sql, $sort );
+		$total_users     = $wpdb->get_var( $total_users_sql );
+		
+		return array( 'users' => $users, 'total' => (int) $total_users );
 	}
 	
 	/**

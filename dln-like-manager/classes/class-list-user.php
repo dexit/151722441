@@ -93,16 +93,117 @@ class DLN_Class_List_User extends WP_List_Table {
 			$search_terms = $_REQUEST['s'];
 		}
 		
-		$tbl_user = DLN_Class_Model_User::get_instance();
-		
-		$users = $tbl_user::get( array( 
+		$controller_user = DLN_Class_Controller_User::get_instance();
+		$users           = $controller_user->get_users( array( 
 			'filter'       => $filter,
 			'in'           => $include_id,
 			'page'         => $page,
 			'per_page'     => $per_page,
 			'search_terms' => $search_terms,
 			'sort'         => $sort
-		 ) );
+		) );
+		
+		$new_users = array();
+		foreach ( $users['users'] as $user_item ) {
+			$new_users[] = (array) $user_item;
+		}
+		
+		// Set raw data to display
+		$this->items = $new_users;
+		
+		// Store information needed for handling table pagination.
+		$this->set_pagination_args( array(
+			'per_page'     => $per_page,
+			'total_items'  => $users['total'],
+			'total_pages'  => ceil( $users['total'] / $per_page )
+		) );
 	}
 	
+	/**
+	 * Get an array of all the columns on the page..
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @return   array
+	 */
+	public function get_column_info() {
+		$this->_column_headers = array(
+			$this->get_columns(),
+			array(),
+			$this->get_sortable_columns(),
+		);
+		
+		return $this->_column_headers;
+	}
+	
+	/**
+	 * Display a message on screen when no items are found.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @return   void
+	 */
+	public function no_items() {
+		__( 'No users found', DLN_LIKE_SLUG );
+	}
+	
+	/**
+	 * Output the User data table.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @return   void
+	 */
+	public function display() {
+		extract( $this->_args );
+		
+		$this->dislay_tablenav( 'top' ); 
+		
+		?>
+		<table class="<?php echo implode( ' ', $this->get_table_classes() ); ?>" cellspacing="0">
+			<thead>
+				<tr>
+					<?php $this->print_column_headers(); ?>
+				</tr>
+			</thead>
+
+			<tfoot>
+				<tr>
+					<?php $this->print_column_headers( false ); ?>
+				</tr>
+			</tfoot>
+
+			<tbody id="the-comment-list">
+				<?php $this->display_rows_or_placeholder(); ?>
+			</tbody>
+		</table>
+		<?php
+		
+		$this->display_tablenav( 'bottom' );
+	}
+	
+	/**
+	 * Generate content for a single row of the table.
+	 * 
+	 * @since    1.0.0
+	 * 
+	 * @return   void
+	 */
+	public function single_row( $item ) {
+		static $even = false;
+		
+		if ( $even ) {
+			$row_class = ' class="even"';
+		} else {
+			$row_class = ' class="alternate odd"';
+		}
+		
+		$root_id = $item['id'];
+		
+		echo '<tr' . $row_class . ' id="dln_user_' . esc_attr( $item['id'] ) . '" data-parent_id="' . esc_attr( $item['id'] ) . '" data-root_id="' . esc_attr( $root_id ) . '">';
+		echo $this->single_row_columns( $item );
+		echo '</tr>';
+		
+		$even = ! $even;
+	}
 }
