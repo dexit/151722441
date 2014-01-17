@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="WPR" default="sync" basedir=".">
-	<property name="source.dir" location="./dln-pin/"/>
-	<property name="dest.dir" location="F:/xampp/htdocs/pinx/"/>
+	<property name="source.dir" location="./dln-polls/"/>
+	<property name="dest.dir" location="C:/xampp/htdocs/wp38/wp-content/plugins/dln-polls"/>
 
 	<!-- ============================================  -->
     <!-- Target: prepare                               -->
