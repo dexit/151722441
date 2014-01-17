@@ -70,6 +70,7 @@ class DLN_Polls {
 		
 		// Add Custom post type
 		add_action( 'init', array( $this, 'custom_post_type' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_events_metaboxes' ) );
 
 		// Activate plugin when new blog is added
 		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
@@ -399,6 +400,10 @@ class DLN_Polls {
 				'query_var' => true,
 		);
 		register_taxonomy('dln_tag', array('dln_question', ), $args);
+	}
+	
+	public function add_events_metaboxes() {
+		add_meta_box('wpt_events_location', 'Event Location', 'wpt_events_location', 'dln_question', 'normal', 'high');
 	}
 	
 }
