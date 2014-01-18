@@ -2,7 +2,7 @@
 /**
  * Fired when the plugin is uninstalled.
  *
- * @package   DLN_Polls
+ * @package   DLN_Poll
  * @author    Your Name <email@example.com>
  * @license   GPL-2.0+
  * @link      http://example.com

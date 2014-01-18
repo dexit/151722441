@@ -2,7 +2,7 @@
 /**
  * Plugin Name.
  *
- * @package   DLN_Polls_Admin
+ * @package   DLN_Poll_Admin
  * @author    Your Name <email@example.com>
  * @license   GPL-2.0+
  * @link      http://example.com
@@ -18,10 +18,10 @@
  *
  * @TODO: Rename this class to a proper name for your plugin.
  *
- * @package DLN_Polls_Admin
+ * @package DLN_Poll_Admin
  * @author  Your Name <email@example.com>
  */
-class DLN_Polls_Admin {
+class DLN_Poll_Admin {
 
 	/**
 	 * Instance of this class.
@@ -63,10 +63,10 @@ class DLN_Polls_Admin {
 		 *
 		 * @TODO:
 		 *
-		 * - Rename "DLN_Polls" to the name of your initial plugin class
+		 * - Rename "DLN_Poll" to the name of your initial plugin class
 		 *
 		 */
-		$plugin = DLN_Polls::get_instance();
+		$plugin = DLN_Poll::get_instance();
 		$this->plugin_slug = $plugin->get_plugin_slug();
 
 		// Load admin style sheet and JavaScript.
@@ -122,7 +122,7 @@ class DLN_Polls_Admin {
 	 *
 	 * @TODO:
 	 *
-	 * - Rename "DLN_Polls" to the name your plugin
+	 * - Rename "DLN_Poll" to the name your plugin
 	 *
 	 * @since     1.0.0
 	 *
@@ -136,7 +136,7 @@ class DLN_Polls_Admin {
 
 		$screen = get_current_screen();
 		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
-			wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), DLN_Polls::VERSION );
+			wp_enqueue_style( $this->plugin_slug .'-admin-styles', plugins_url( 'assets/css/admin.css', __FILE__ ), array(), DLN_Poll::VERSION );
 		}
 
 	}
@@ -146,7 +146,7 @@ class DLN_Polls_Admin {
 	 *
 	 * @TODO:
 	 *
-	 * - Rename "DLN_Polls" to the name your plugin
+	 * - Rename "DLN_Poll" to the name your plugin
 	 *
 	 * @since     1.0.0
 	 *
@@ -160,7 +160,7 @@ class DLN_Polls_Admin {
 
 		$screen = get_current_screen();
 		if ( $this->plugin_screen_hook_suffix == $screen->id ) {
-			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), DLN_Polls::VERSION );
+			wp_enqueue_script( $this->plugin_slug . '-admin-script', plugins_url( 'assets/js/admin.js', __FILE__ ), array( 'jquery' ), DLN_Poll::VERSION );
 		}
 
 	}

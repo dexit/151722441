@@ -2,7 +2,7 @@
 /**
  * Plugin Name.
  *
- * @package   DLN_Polls
+ * @package   DLN_Poll
  * @author    Your Name <email@example.com>
  * @license   GPL-2.0+
  * @link      http://example.com
@@ -18,10 +18,10 @@
  *
  * @TODO: Rename this class to a proper name for your plugin.
  *
- * @package DLN_Polls
+ * @package DLN_Poll
  * @author  Your Name <email@example.com>
  */
-class DLN_Polls {
+class DLN_Poll {
 
 	/**
 	 * Plugin version, used for cache-busting of style and script file references.
@@ -46,7 +46,7 @@ class DLN_Polls {
 	 *
 	 * @var      string
 	 */
-	protected $plugin_slug = 'dln-polls';
+	protected $plugin_slug = 'dln-poll';
 
 	/**
 	 * Instance of this class.
@@ -309,17 +309,17 @@ class DLN_Polls {
 
 	public function custom_post_type() {
 		$labels = array(
-				'name' => _x( 'Questions', 'post type general name', 'dln-polls' ),
-				'singular_name' => _x( 'Question', 'post type singular name', 'dln-polls' ),
-				'add_new' => __( 'Add New Question', 'dln-polls' ),
-				'add_new_item' => __( 'Add New Question', 'dln-polls' ),
-				'edit_item' => __( 'Edit Question', 'dln-polls' ),
-				'new_item' => __( 'New Question', 'dln-polls' ),
-				'view_item' => __( 'View Question', 'dln-polls' ),
-				'search_items' => __( 'Search Questions', 'dln-polls' ),
-				'not_found' => __( 'No questions found.', 'dln-polls' ),
-				'not_found_in_trash' => __( 'No questions found in Trash.', 'dln-polls' ),
-				'menu_name' => __( 'Questions', 'dln-polls' ),
+				'name' => _x( 'Questions', 'post type general name', 'dln-poll' ),
+				'singular_name' => _x( 'Question', 'post type singular name', 'dln-poll' ),
+				'add_new' => __( 'Add New Question', 'dln-poll' ),
+				'add_new_item' => __( 'Add New Question', 'dln-poll' ),
+				'edit_item' => __( 'Edit Question', 'dln-poll' ),
+				'new_item' => __( 'New Question', 'dln-poll' ),
+				'view_item' => __( 'View Question', 'dln-poll' ),
+				'search_items' => __( 'Search Questions', 'dln-poll' ),
+				'not_found' => __( 'No questions found.', 'dln-poll' ),
+				'not_found_in_trash' => __( 'No questions found in Trash.', 'dln-poll' ),
+				'menu_name' => __( 'Questions', 'dln-poll' ),
 		);
 		$args = array(
 				'labels' => $labels,
@@ -342,17 +342,17 @@ class DLN_Polls {
 		register_post_type('dln_question', $args);
 		
 		$labels = array(
-				'name' => _x( 'Answers', 'post type general name', 'dln-polls' ),
-				'singular_name' => _x( 'Answer', 'post type singular name', 'dln-polls' ),
-				'add_new' => __( 'Add New Answer', 'dln-polls' ),
-				'add_new_item' => __( 'Add New Answer', 'dln-polls' ),
-				'edit_item' => __( 'Edit Answer', 'dln-polls' ),
-				'new_item' => __( 'New Answer', 'dln-polls' ),
-				'view_item' => __( 'View Answer', 'dln-polls' ),
-				'search_items' => __( 'Search Answer', 'dln-polls' ),
-				'not_found' => __( 'No answers found.', 'dln-polls' ),
-				'not_found_in_trash' => __( 'No answers found in Trash.', 'dln-polls' ),
-				'menu_name' => __( 'Answers', 'dln-polls' ),
+				'name' => _x( 'Answers', 'post type general name', 'dln-poll' ),
+				'singular_name' => _x( 'Answer', 'post type singular name', 'dln-poll' ),
+				'add_new' => __( 'Add New Answer', 'dln-poll' ),
+				'add_new_item' => __( 'Add New Answer', 'dln-poll' ),
+				'edit_item' => __( 'Edit Answer', 'dln-poll' ),
+				'new_item' => __( 'New Answer', 'dln-poll' ),
+				'view_item' => __( 'View Answer', 'dln-poll' ),
+				'search_items' => __( 'Search Answer', 'dln-poll' ),
+				'not_found' => __( 'No answers found.', 'dln-poll' ),
+				'not_found_in_trash' => __( 'No answers found in Trash.', 'dln-poll' ),
+				'menu_name' => __( 'Answers', 'dln-poll' ),
 		);
 		$args = array(
 				'labels' => $labels,
