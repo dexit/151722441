@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  *----------------------------------------------------------------------------*/
 
 // Define constant
-define( 'DLN_POLL_WP_VERSION', '3.8' );
+define ( 'DLN_POLL_WP_VERSION', '3.8' );
 define ( 'DLN_POLL_VERSION', '1.0.0' );
 define ( 'DLN_POLL_PATH', plugin_dir_path ( __FILE__ ) );
 define ( 'DLN_POLL_URL', plugins_url ( '', __FILE__ ) );
