@@ -42,6 +42,12 @@ define ( 'DLN_POLL_URL', plugins_url ( '', __FILE__ ) );
 define ( 'DLN_POLL_PLUGIN_FILE', plugin_basename ( __FILE__ ) );
 define ( 'DLN_POLL_PLUGIN_DIR', plugin_basename ( dirname ( __FILE__ ) ) );
 define ( 'DLN_POLL_INC', DLN_POLL_PATH . 'inc' );
+define ( 'DLN_SLUG', 'dln-poll' );
+define ( 'DLN_SLUG_ROOT','questions' );
+define ( 'DLN_SLUG_ASK', 'ask' );
+define ( 'DLN_SLUG_EDIT', 'edit' );
+define ( 'DLN_SLUG_CATEGORIES', 'categories' );
+define ( 'DLN_SLUG_TAGS', 'tags' );
 
 // Setup database table name
 global $wpdb;
@@ -50,6 +56,7 @@ $wpdb->dln_poll_voters               = $wpdb->prefix . 'dln_poll_voters';
 $wpdb->dln_poll_voters_custom_fields = $wpdb->prefix . 'dln_poll_votes_custom_fields';
 $wpdb->dln_poll_bans                 = $wpdb->prefix . 'dln_poll_bans';
 
+require_once (ABSPATH . 'wp-admin/includes/upgrade.php');
 require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-db-schema.php' );
 add_action( 'plugin_loaded', array( 'DLN_Poll_Schema', 'get_instance' ) );
 

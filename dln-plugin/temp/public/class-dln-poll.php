@@ -67,13 +67,9 @@ class DLN_Poll {
 
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
-		
-		// Add Custom post type
-		add_action( 'init', array( $this, 'custom_post_type' ) );
+		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_events_metaboxes' ) );
-
-		// Activate plugin when new blog is added
-		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
+		add_action( 'option_rewrite_rules', array(&$this, 'check_rewrite_rules') );
 
 		// Load public-facing style sheet and JavaScript.
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
@@ -87,6 +83,135 @@ class DLN_Poll {
 
 	}
 
+	public function init() {
+		global $wp, $wp_rewrite;
+		
+		// Ask page
+		$wp->add_query_var( 'dln_ask' );
+		$this->add_rewrite_rule( DLN_SLUG_ROOT . '/' . DLN_SLUG_ASK . '/?$', array (
+			'dln_ask' => 1
+		) );
+		
+		// Ask page
+		$wp->add_query_var( 'dln_edit' );
+		$this->add_rewrite_rule( DLN_SLUG_ROOT . '/' . DLN_SLUG_EDIT . '/?$', array (
+				'dln_ask' => 1
+		) );
+		
+		// Has to come before the 'question' post type definition
+		register_taxonomy( 'dln_question_category', 'dln_question', array(
+			'hierarchical' => true,
+			'rewrite' => array( 'slug' => DLN_SLUG_ROOT . '/' . DLN_SLUG_CATEGORIES, 'with_front' => false ),
+		
+			'capabilities' => array(
+				'manage_terms' => 'edit_others_questions',
+				'edit_terms' => 'edit_others_questions',
+				'delete_terms' => 'edit_others_questions',
+				'assign_terms' => 'edit_published_questions'
+			),
+			'labels' => array(
+				'name' => __( 'Question Categories', DLN_SLUG ),
+				'singular_name' => __( 'Question Category', DLN_SLUG ),
+				'search_items' => __( 'Search Question Categories', DLN_SLUG ),
+				'all_items' => __( 'All Question Categories', DLN_SLUG ),
+				'parent_item' => __( 'Parent Question Category', DLN_SLUG ),
+				'parent_item_colon' => __( 'Parent Question Category:', DLN_SLUG ),
+				'edit_item' => __( 'Edit Question Category', DLN_SLUG ),
+				'update_item' => __( 'Update Question Category', DLN_SLUG ),
+				'add_new_item' => __( 'Add New Question Category', DLN_SLUG ),
+				'new_item_name' => __( 'New Question Category Name', DLN_SLUG ),
+			)
+		) );
+		
+		// Has to come before the 'question' post type definition
+		register_taxonomy( 'dln_question_tag', 'dln_question', array(
+			'rewrite' => array( 'slug' => DLN_SLUG_ROOT . '/' . DLN_SLUG_TAGS, 'with_front' => false ),
+		
+			'capabilities' => array(
+				'manage_terms' => 'edit_others_questions',
+				'edit_terms' => 'edit_others_questions',
+				'delete_terms' => 'edit_others_questions',
+				'assign_terms' => 'edit_published_questions'
+			),
+		
+			'labels' => array(
+				'name'			=> __( 'Question Tags', DLN_SLUG ),
+				'singular_name'	=> __( 'Question Tag', DLN_SLUG ),
+				'search_items'	=> __( 'Search Question Tags', DLN_SLUG ),
+				'popular_items'	=> __( 'Popular Question Tags', DLN_SLUG ),
+				'all_items'		=> __( 'All Question Tags', DLN_SLUG ),
+				'edit_item'		=> __( 'Edit Question Tag', DLN_SLUG ),
+				'update_item'	=> __( 'Update Question Tag', DLN_SLUG ),
+				'add_new_item'	=> __( 'Add New Question Tag', DLN_SLUG ),
+				'new_item_name'	=> __( 'New Question Tag Name', DLN_SLUG ),
+				'separate_items_with_commas'	=> __( 'Separate question tags with commas', DLN_SLUG ),
+				'add_or_remove_items'			=> __( 'Add or remove question tags', DLN_SLUG ),
+				'choose_from_most_used'			=> __( 'Choose from the most used question tags', DLN_SLUG ),
+			)
+		) );
+		
+		$args = array(
+			'public' => true,
+			'rewrite' => array( 'slug' => QA_SLUG_ROOT, 'with_front' => false ),
+			'has_archive' => true,
+		
+			'capability_type' => 'question',
+			'capabilities' => array(
+				'read' => 'read_questions',
+				'edit_posts' => 'edit_published_questions',
+				'delete_posts' => 'delete_published_questions',
+			),
+			'map_meta_cap' => true,
+	
+			'supports' => array( 'title', 'editor', 'author', 'comments', 'revisions' ),
+		
+			'labels' => array(
+				'name'			=> __('Questions', DLN_SLUG),
+				'singular_name'	=> __('Question', DLN_SLUG),
+				'add_new'		=> __('Add New', DLN_SLUG),
+				'add_new_item'	=> __('Add New Question', DLN_SLUG),
+				'edit_item'		=> __('Edit Question', DLN_SLUG),
+				'new_item'		=> __('New Question', DLN_SLUG),
+				'view_item'		=> __('View Question', DLN_SLUG),
+				'search_items'	=> __('Search Questions', DLN_SLUG),
+				'not_found'		=> __('No questions found.', DLN_SLUG),
+				'not_found_in_trash'	=> __('No questions found in trash.', DLN_SLUG),
+			)
+		);
+		
+		register_post_type( 'dln_question', $args );
+	}
+	
+	public function add_rewrite_rule( $regex, $args, $position = 'top' ) {
+		global $wp, $wp_rewrite;
+	
+		$result = add_query_arg( $args, 'index.php' );
+		add_rewrite_rule( $regex, $result, $position );
+	}
+	
+	public function check_rewrite_rules($value) {
+		//prevent an infinite loop
+		if ( !post_type_exists( 'question' ) )
+			return $value;
+	
+		if (!is_array($value))
+			$value = array();
+	
+		$array_key = QA_SLUG_ROOT . '/' . QA_SLUG_ASK . '/?$';
+		if ( !array_key_exists($array_key, $value) ) {
+			$this->flush_rules();
+		}
+		return $value;
+	}
+	
+	/**
+	 * Flush rewrite rules when the plugin is activated.
+	 */
+	public function flush_rules() {
+		global $wp_rewrite;
+		$wp_rewrite->flush_rules();
+	}
+	
 	/**
 	 * Return the plugin slug.
 	 *
@@ -149,6 +274,8 @@ class DLN_Poll {
 		} else {
 			self::single_activate();
 		}
+		
+		DLN_Poll_Schema::create_poll_database();
 	}
 
 	/**
@@ -305,101 +432,6 @@ class DLN_Poll {
 	 */
 	public function filter_method_name() {
 		// @TODO: Define your filter hook callback here
-	}
-
-	public function custom_post_type() {
-		$labels = array(
-				'name' => _x( 'Questions', 'post type general name', 'dln-poll' ),
-				'singular_name' => _x( 'Question', 'post type singular name', 'dln-poll' ),
-				'add_new' => __( 'Add New Question', 'dln-poll' ),
-				'add_new_item' => __( 'Add New Question', 'dln-poll' ),
-				'edit_item' => __( 'Edit Question', 'dln-poll' ),
-				'new_item' => __( 'New Question', 'dln-poll' ),
-				'view_item' => __( 'View Question', 'dln-poll' ),
-				'search_items' => __( 'Search Questions', 'dln-poll' ),
-				'not_found' => __( 'No questions found.', 'dln-poll' ),
-				'not_found_in_trash' => __( 'No questions found in Trash.', 'dln-poll' ),
-				'menu_name' => __( 'Questions', 'dln-poll' ),
-		);
-		$args = array(
-				'labels' => $labels,
-				'description' => 'Câu hỏi',
-				'public' => true,
-				'publicly_queryable' => true,
-				'exclude_from_search' => true,
-				'show_ui' => true,
-				'menu_position' => 20,
-				'menu_icon' => null,
-				'capability_type' => post,
-				'hierarchical' => true,
-				'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'trackbacks', 'custom-fields', 'comments', 'revisions', 'page-attributes', ),
-				'taxonomies' => array('category', 'dln_tag', ),
-				'rewrite' => true,
-				'query_var' => true,
-				'can_export' => true,
-				'show_in_nav_menus' => false,
-		);
-		register_post_type('dln_question', $args);
-		
-		$labels = array(
-				'name' => _x( 'Answers', 'post type general name', 'dln-poll' ),
-				'singular_name' => _x( 'Answer', 'post type singular name', 'dln-poll' ),
-				'add_new' => __( 'Add New Answer', 'dln-poll' ),
-				'add_new_item' => __( 'Add New Answer', 'dln-poll' ),
-				'edit_item' => __( 'Edit Answer', 'dln-poll' ),
-				'new_item' => __( 'New Answer', 'dln-poll' ),
-				'view_item' => __( 'View Answer', 'dln-poll' ),
-				'search_items' => __( 'Search Answer', 'dln-poll' ),
-				'not_found' => __( 'No answers found.', 'dln-poll' ),
-				'not_found_in_trash' => __( 'No answers found in Trash.', 'dln-poll' ),
-				'menu_name' => __( 'Answers', 'dln-poll' ),
-		);
-		$args = array(
-				'labels' => $labels,
-				'description' => 'Trả lời',
-				'public' => true,
-				'publicly_queryable' => true,
-				'exclude_from_search' => true,
-				'show_ui' => true,
-				'menu_position' => 20,
-				'menu_icon' => null,
-				'capability_type' => post,
-				'hierarchical' => true,
-				'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'custom-fields', 'page-attributes', ),
-				'taxonomies' => array(),
-				'rewrite' => true,
-				'query_var' => true,
-				'can_export' => true,
-				'show_in_nav_menus' => false,
-		);
-		register_post_type('dln_answer', $args);
-		
-		$labels = array(
-				'name' => _x( 'Question Tags', 'taxonomy general name' ),
-				'singular_name' => _x( 'Question Tag', 'taxonomy singular name' ),
-				'search_items' => __( 'Search Question Tags' ),
-				'popular_items' => __( 'Popular Question Tags' ),
-				'all_items' => __( 'All Question Tags' ),
-				'edit_items' => __( 'Edit Question Tags' ),
-				'update_item' => __( 'Update Question Tags' ),
-				'add_new_item' => __( 'Add New Question Tag' ),
-				'new_item_name' => __( 'New Question Tag' ),
-				'separate_items_with_commas' => __( 'Separate question tags with commas' ),
-				'add_or_remove_items' => __( 'Add or remove question tags' ),
-				'choose_from_most_used' => __( 'Choose from the most used question tags' ),
-				'menu_name' => __( 'Question Tags' ),
-		);
-		$args = array(
-				'labels' => $labels,
-				'public' => true,
-				'show_in_nav_menus' => false,
-				'show_ui' => true,
-				'show_tagcloud' => true,
-				'hierarchical' => false,
-				'rewrite' => true,
-				'query_var' => true,
-		);
-		register_taxonomy('dln_tag', array('dln_question', ), $args);
 	}
 	
 	public function add_events_metaboxes() {
