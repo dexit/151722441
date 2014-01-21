@@ -32,13 +32,13 @@ class DLN_Core {
 		// Ask page
 		$wp->add_query_var( 'dln_ask' );
 		$this->add_rewrite_rule( DLN_SLUG_ROOT . '/' . DLN_SLUG_ASK . '/?$', array (
-				'dln_ask' => 1
+			'dln_ask' => 1
 		) );
 	
 		// Ask page
 		$wp->add_query_var( 'dln_edit' );
 		$this->add_rewrite_rule( DLN_SLUG_ROOT . '/' . DLN_SLUG_EDIT . '/?$', array (
-				'dln_ask' => 1
+			'dln_ask' => 1
 		) );
 	
 		// Has to come before the 'question' post type definition
@@ -95,7 +95,7 @@ class DLN_Core {
 	
 		$args = array(
 				'public' => true,
-				'rewrite' => array( 'slug' => QA_SLUG_ROOT, 'with_front' => false ),
+				'rewrite' => array( 'slug' => DLN_SLUG_ROOT, 'with_front' => false ),
 				'has_archive' => true,
 	
 				'capability_type' => 'question',
@@ -123,6 +123,7 @@ class DLN_Core {
 		);
 	
 		register_post_type( 'dln_question', $args );
+		$wp_rewrite->flush_rules();
 	}
 	
 	/**
@@ -148,16 +149,16 @@ class DLN_Core {
 	
 	public function check_rewrite_rules($value) {
 		//prevent an infinite loop
-		if ( !post_type_exists( 'question' ) )
+		if ( ! post_type_exists( 'dln_question' ) )
 			return $value;
-	
+		//var_dump($value);	
 		if ( ! is_array( $value ) )
 			$value = array();
-	
 		$array_key = DLN_SLUG_ROOT . '/' . DLN_SLUG_ASK . '/?$';
 		if ( ! array_key_exists( $array_key, $value ) ) {
 			$this->flush_rules();
 		}
+
 		return $value;
 	}
 	
@@ -171,7 +172,6 @@ class DLN_Core {
 	
 	public function template_redirect() {
 		global $wp_query;
-		
 		if ( ! $this->is_page_allowed() ) {
 			$redirect_url = site_url();
 			if ( isset( $this->g_settings["unauthorized"] ) )
@@ -181,12 +181,16 @@ class DLN_Core {
 			die;
 		}
 		
-		if ( is_qa_page( 'edit' ) ) {
+		if ( is_dln_page( 'ask' ) ) {
+			$this->load_template( 'ask-question.php' );
+		}
+		
+		if ( is_dln_page( 'edit' ) ) {
 			$post_type = $wp_query->posts[0]->post_type;
 			$this->load_template( "edit-{$post_type}.php" );
 		}
 		
-		if ( is_qa_page( 'user' ) ) {
+		if ( is_dln_page( 'user' ) ) {
 			$wp_query->queried_object_id = (int) $wp_query->get('author');
 			$wp_query->queried_object = get_userdata( $wp_query->queried_object_id );
 			$wp_query->is_post_type_archive = false;
@@ -194,14 +198,30 @@ class DLN_Core {
 			$this->load_template( 'user-question.php' );
 		}
 		
-		if ( ( is_qa_page( 'archive' ) && is_search() ) || is_qa_page( 'unanswered' ) ) {
+		if ( ( is_dln_page( 'archive' ) && is_search() ) || is_dln_page( 'unanswered' ) ) {
 			$this->load_template( 'archive-question.php' );
 		}
 		
 		// Redirect template loading to archive-question.php rather than to archive.php
-		if ( is_qa_page( 'tag' ) || is_qa_page( 'category' ) ) {
-			$wp_query->set( 'post_type', 'question' );
+		if ( is_dln_page( 'tag' ) || is_dln_page( 'category' ) ) {
+			$wp_query->set( 'post_type', 'dln_question' );
 		}
+	}
+	
+	/**
+	 * Load a template, with fallback to default-template.
+	 * 
+	 * @param unknown $name
+	 */
+	public function load_template( $name ) {
+		$path = locate_template( $name );
+		
+		if ( ! $path ) {
+			$path = DLN_PLUGIN_DIR . DLN_DEFAULT_TEMPLATE_DIR . "/$name";
+		}
+		
+		load_template( $path );
+		die;
 	}
 	
 	public function is_page_allowed() {

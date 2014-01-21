@@ -44,6 +44,8 @@ define ( 'DLN_SLUG_ASK', 'ask' );
 define ( 'DLN_SLUG_EDIT', 'edit' );
 define ( 'DLN_SLUG_CATEGORIES', 'categories' );
 define ( 'DLN_SLUG_TAGS', 'tags' );
+define ( 'DLN_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . basename( dirname( __FILE__ ) ) . '/' );
+define ( 'DLN_DEFAULT_TEMPLATE_DIR', 'dln-templates' );
 
 require_once( plugin_dir_path( __FILE__ ) . 'includes/functions.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-core.php' );
