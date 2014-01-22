@@ -26,6 +26,11 @@ class DLN_Core {
 		add_action( 'option_rewrite_rules', array(&$this, 'check_rewrite_rules') );
 	}
 	
+	/**
+	 * Init functions
+	 * 
+	 * @return void
+	 */
 	public function init() {
 		global $wp, $wp_rewrite;
 	
@@ -43,41 +48,41 @@ class DLN_Core {
 	
 		// Has to come before the 'question' post type definition
 		register_taxonomy( 'dln_question_category', 'dln_question', array(
-		'hierarchical' => true,
-		'rewrite' => array( 'slug' => DLN_SLUG_ROOT . '/' . DLN_SLUG_CATEGORIES, 'with_front' => false ),
+			'hierarchical' => true,
+			'rewrite' => array( 'slug' => DLN_SLUG_ROOT . '/' . DLN_SLUG_CATEGORIES, 'with_front' => false ),
 	
-		'capabilities' => array(
-		'manage_terms' => 'edit_others_questions',
-		'edit_terms' => 'edit_others_questions',
-		'delete_terms' => 'edit_others_questions',
-		'assign_terms' => 'edit_published_questions'
-				),
-				'labels' => array(
-				'name' => __( 'Question Categories', DLN_SLUG ),
-				'singular_name' => __( 'Question Category', DLN_SLUG ),
-				'search_items' => __( 'Search Question Categories', DLN_SLUG ),
-				'all_items' => __( 'All Question Categories', DLN_SLUG ),
-				'parent_item' => __( 'Parent Question Category', DLN_SLUG ),
-				'parent_item_colon' => __( 'Parent Question Category:', DLN_SLUG ),
-				'edit_item' => __( 'Edit Question Category', DLN_SLUG ),
-				'update_item' => __( 'Update Question Category', DLN_SLUG ),
-				'add_new_item' => __( 'Add New Question Category', DLN_SLUG ),
-				'new_item_name' => __( 'New Question Category Name', DLN_SLUG ),
-				)
+			'capabilities' => array(
+				'manage_terms' => 'edit_others_questions',
+				'edit_terms' => 'edit_others_questions',
+				'delete_terms' => 'edit_others_questions',
+				'assign_terms' => 'edit_published_questions'
+			),
+			'labels' => array(
+			'name' => __( 'Question Categories', DLN_SLUG ),
+			'singular_name' => __( 'Question Category', DLN_SLUG ),
+			'search_items' => __( 'Search Question Categories', DLN_SLUG ),
+			'all_items' => __( 'All Question Categories', DLN_SLUG ),
+			'parent_item' => __( 'Parent Question Category', DLN_SLUG ),
+			'parent_item_colon' => __( 'Parent Question Category:', DLN_SLUG ),
+			'edit_item' => __( 'Edit Question Category', DLN_SLUG ),
+			'update_item' => __( 'Update Question Category', DLN_SLUG ),
+			'add_new_item' => __( 'Add New Question Category', DLN_SLUG ),
+			'new_item_name' => __( 'New Question Category Name', DLN_SLUG ),
+			)
 		) );
 	
 		// Has to come before the 'question' post type definition
 		register_taxonomy( 'dln_question_tag', 'dln_question', array(
-		'rewrite' => array( 'slug' => DLN_SLUG_ROOT . '/' . DLN_SLUG_TAGS, 'with_front' => false ),
+			'rewrite' => array( 'slug' => DLN_SLUG_ROOT . '/' . DLN_SLUG_TAGS, 'with_front' => false ),
 	
-		'capabilities' => array(
-		'manage_terms' => 'edit_others_questions',
-		'edit_terms' => 'edit_others_questions',
-		'delete_terms' => 'edit_others_questions',
-		'assign_terms' => 'edit_published_questions'
-				),
+			'capabilities' => array(
+				'manage_terms' => 'edit_others_questions',
+				'edit_terms' => 'edit_others_questions',
+				'delete_terms' => 'edit_others_questions',
+				'assign_terms' => 'edit_published_questions'
+			),
 	
-				'labels' => array(
+			'labels' => array(
 				'name'			=> __( 'Question Tags', DLN_SLUG ),
 				'singular_name'	=> __( 'Question Tag', DLN_SLUG ),
 				'search_items'	=> __( 'Search Question Tags', DLN_SLUG ),
@@ -90,7 +95,7 @@ class DLN_Core {
 				'separate_items_with_commas'	=> __( 'Separate question tags with commas', DLN_SLUG ),
 				'add_or_remove_items'			=> __( 'Add or remove question tags', DLN_SLUG ),
 				'choose_from_most_used'			=> __( 'Choose from the most used question tags', DLN_SLUG ),
-				)
+			)
 		) );
 	
 		$args = array(
@@ -100,25 +105,25 @@ class DLN_Core {
 	
 				'capability_type' => 'question',
 				'capabilities' => array(
-						'read' => 'read_questions',
-						'edit_posts' => 'edit_published_questions',
-						'delete_posts' => 'delete_published_questions',
+					'read' => 'read_questions',
+					'edit_posts' => 'edit_published_questions',
+					'delete_posts' => 'delete_published_questions',
 				),
 				'map_meta_cap' => true,
 	
 				'supports' => array( 'title', 'editor', 'author', 'comments', 'revisions' ),
 	
 				'labels' => array(
-						'name'			=> __('Questions', DLN_SLUG),
-						'singular_name'	=> __('Question', DLN_SLUG),
-						'add_new'		=> __('Add New', DLN_SLUG),
-						'add_new_item'	=> __('Add New Question', DLN_SLUG),
-						'edit_item'		=> __('Edit Question', DLN_SLUG),
-						'new_item'		=> __('New Question', DLN_SLUG),
-						'view_item'		=> __('View Question', DLN_SLUG),
-						'search_items'	=> __('Search Questions', DLN_SLUG),
-						'not_found'		=> __('No questions found.', DLN_SLUG),
-						'not_found_in_trash'	=> __('No questions found in trash.', DLN_SLUG),
+					'name'			=> __('Questions', DLN_SLUG),
+					'singular_name'	=> __('Question', DLN_SLUG),
+					'add_new'		=> __('Add New', DLN_SLUG),
+					'add_new_item'	=> __('Add New Question', DLN_SLUG),
+					'edit_item'		=> __('Edit Question', DLN_SLUG),
+					'new_item'		=> __('New Question', DLN_SLUG),
+					'view_item'		=> __('View Question', DLN_SLUG),
+					'search_items'	=> __('Search Questions', DLN_SLUG),
+					'not_found'		=> __('No questions found.', DLN_SLUG),
+					'not_found_in_trash'	=> __('No questions found in trash.', DLN_SLUG),
 				)
 		);
 	
@@ -143,10 +148,21 @@ class DLN_Core {
 		add_rewrite_rule( $regex, $result, $position );
 	}
 	
+	/**
+	 * Install function
+	 * 
+	 * @return void
+	 */
 	public function install() {
 		// Nothing to do
 	}
 	
+	/**
+	 * Check rewrite rule function
+	 * 
+	 * @param array $value
+	 * @return array
+	 */
 	public function check_rewrite_rules($value) {
 		//prevent an infinite loop
 		if ( ! post_type_exists( 'dln_question' ) )

@@ -48,4 +48,8 @@ define ( 'DLN_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . basename( dirname( __FILE__ ) )
 define ( 'DLN_DEFAULT_TEMPLATE_DIR', 'dln-templates' );
 
 require_once( plugin_dir_path( __FILE__ ) . 'includes/functions.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/functions-template.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-core.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-core-edit.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-question.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-answer.php' );

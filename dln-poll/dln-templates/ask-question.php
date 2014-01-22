@@ -2,24 +2,17 @@
 
 <div id="qa-page-wrapper">
     <div id="qa-content-wrapper">
-    <?php do_action( 'qa_before_content', 'ask-question' ); ?>
+    <?php do_action( 'dln_before_content', 'ask-question' ); ?>
     
-    <?php the_qa_menu(); ?>
+    <?php //the_dln_menu(); ?>
     
     <div id="ask-question">
-    <?php the_question_form(); ?>
+    <?php dln_question_form(); ?>
     </div>
     
-    <?php do_action( 'qa_after_content', 'ask-question' ); ?>
+    <?php do_action( 'dln_after_content', 'ask-question' ); ?>
     </div>
-</div><!--#qa-page-wrapper-->
-
-<?php 
-global $qa_general_settings;
-
-if ( isset( $qa_general_settings["page_layout"] ) && $qa_general_settings["page_layout"] !='content' )	
-	get_sidebar( 'question' ); 
-?>
+</div><!--#dln-page-wrapper-->
 
 <?php get_footer( 'question' ); ?>
 
