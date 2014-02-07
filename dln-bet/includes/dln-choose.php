@@ -14,7 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-class DLN_Question {
+class DLN_Choose {
 	
 	/**
 	 * Instance of this class.
@@ -51,28 +51,35 @@ class DLN_Question {
 	private function __construct() {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
+		// Ajax
+		add_action('wp_ajax_dln_add_choose', array( $this, 'ajax_add_choose' ) );
+		add_action('wp_ajax_nopriv_dln_add_choose', array( $this, 'ajax_add_choose' ) );
 	}
 	
 	public function init() {
 	
 	}
 	
-	public function add_metabox() {
-		add_meta_box('dln_metabox_choose', 'Choose', array( $this, 'dln_metabox_choose'), 'dln_cau_hoi', 'normal', 'high');
-	}
-	
-	public function dln_metabox_choose() {
-		wp_enqueue_script( 'dln-admin-question', DLN_BET_PLUGIN_URL . 'assets/js/admin-question.js', array( 'jquery' ), DLN_BET_VERSION, true );
-		wp_localize_script( 'dln-admin-question', 'Dln_Ajax', DLN_Bet_Helper_Functions::localize_js() );
-?>
-<div class="submit">
-<?php submit_button( __( 'Add Choose', DLN_BET_SLUG ), 'secondary', 'addchoose', false, array( 'id' => 'newchoose-submit' ) ); ?>
-</div>
-<?php wp_nonce_field( 'dln-add-choose', '_ajax_nonce-dln-add-choose', false ); ?>
-
-<?php
+	public function ajax_add_choose() {
+		check_ajax_referer( 'dln-add-choose', '_ajax_nonce' );
+		$pid = (int) $_POST['post_id'];
+		if ( empty( $pid ) )
+			die(0);
+		$post = get_post( $pid );
+		
+		// Create draft choose
+		$draft = array(
+			'post_title' => '',
+			'post_content' => '',
+			'post_status' => 'draft',
+			'post_type' => 'dln_choose',
+			'post_parent' => $pid,
+			'post_author' => get_current_user_id()
+		);
+		$draft_id = wp_insert_post( $draft );
+		echo $draft_id;
+		exit();
 	}
 	
 }
-$_dln_question = DLN_Question::get_instance();
+$_dln_choose = DLN_Choose::get_instance();

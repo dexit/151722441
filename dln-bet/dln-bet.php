@@ -12,7 +12,7 @@
  * @copyright 2014 Your Name or Company Name
  *
  * @wordpress-plugin
- * Plugin Name:       DLN_Poll
+ * Plugin Name:       DLN_Bet
  * Plugin URI:        @TODO
  * Description:       @TODO
  * Version:           1.0.0
@@ -38,8 +38,16 @@ define ( 'DLN_BET_URL', plugins_url ( '', __FILE__ ) );
 define ( 'DLN_BET_PLUGIN_FILE', plugin_basename ( __FILE__ ) );
 define ( 'DLN_BET_PLUGIN_DIR', plugin_basename ( dirname ( __FILE__ ) ) );
 define ( 'DLN_BET_INC', DLN_BET_PATH . 'inc' );
-define ( 'DLN_SLUG', 'dln-bet' );
+define ( 'DLN_BET_SLUG', 'dln-bet' );
 define ( 'DLN_SLUG_QUESTION','dln_cau_hoi' );
+
+// The full url to the plugin directory
+if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || $_SERVER['SERVER_PORT'] == '443') {
+	define( 'DLN_BET_PLUGIN_URL', preg_replace('/^http:/', 'https:', WP_PLUGIN_URL) . '/' . basename( dirname( __FILE__ ) ) . '/' );
+} else {
+	define( 'DLN_BET_PLUGIN_URL', WP_PLUGIN_URL . '/' . basename( dirname( __FILE__ ) ) . '/' );
+}
 
 require_once( plugin_dir_path( __FILE__ ) . 'includes/functions.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-question.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-choose.php' );

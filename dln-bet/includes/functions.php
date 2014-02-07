@@ -9,4 +9,12 @@
  * Websites: http://www.innothemes.com
  * Technical Support: Feedback - http://www.innothemes.com/contact-us/get-support.html
  */
- 
+
+class DLN_Bet_Helper_Functions {
+	public static function localize_js() {
+		return array(
+			'ajaxurl'      => admin_url( 'admin-ajax.php' ),
+			'adminroot'    => admin_url()
+		);
+	}
+}
