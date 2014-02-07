@@ -1,0 +1,45 @@
+<?php
+/**
+ * The WordPress Plugin Boilerplate.
+ *
+ * A foundation off of which to build well-documented WordPress plugins that
+ * also follow WordPress Coding Standards and PHP best practices.
+ *
+ * @package   DLN_Bet
+ * @author    DinhLN <lenhatdinh@gmail.com>
+ * @license   GPL-2.0+
+ * @link      http://example.com
+ * @copyright 2014 Your Name or Company Name
+ *
+ * @wordpress-plugin
+ * Plugin Name:       DLN_Poll
+ * Plugin URI:        @TODO
+ * Description:       @TODO
+ * Version:           1.0.0
+ * Author:            @TODO
+ * Author URI:        @TODO
+ * Text Domain:       plugin-name-locale
+ * License:           GPL-2.0+
+ * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
+ * Domain Path:       /languages
+ * GitHub Plugin URI: https://github.com/<owner>/<repo>
+ */
+
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+	die;
+}
+
+// Define constant
+define ( 'DLN_BET_WP_VERSION', '3.8' );
+define ( 'DLN_BET_VERSION', '1.0.0' );
+define ( 'DLN_BET_PATH', plugin_dir_path ( __FILE__ ) );
+define ( 'DLN_BET_URL', plugins_url ( '', __FILE__ ) );
+define ( 'DLN_BET_PLUGIN_FILE', plugin_basename ( __FILE__ ) );
+define ( 'DLN_BET_PLUGIN_DIR', plugin_basename ( dirname ( __FILE__ ) ) );
+define ( 'DLN_BET_INC', DLN_BET_PATH . 'inc' );
+define ( 'DLN_SLUG', 'dln-bet' );
+define ( 'DLN_SLUG_QUESTION','dln_cau_hoi' );
+
+require_once( plugin_dir_path( __FILE__ ) . 'includes/functions.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-question.php' );
