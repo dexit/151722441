@@ -77,8 +77,29 @@ class DLN_Choose {
 			'post_author' => get_current_user_id()
 		);
 		$draft_id = wp_insert_post( $draft );
-		echo $draft_id;
+		$arr_result = array();
+		$arr_result['id'] = $draft_id;
+		$arr_result['action'] = 'dln_add_choose';
+		$arr_result['html'] = self::render_row_choose_html( $draft_id, '', '' );
+		echo json_encode( $arr_result );
 		exit();
+	}
+	
+	public static function render_row_choose_html( $id, $title = '', $multiple = '' ) {
+		$html_row = '';
+		if ( $id ) {
+			$html_row .= '<tr id="choose-row-' .$id. '">';
+			$html_row .= '<td><input class="choose-title" type="text" value="' .$title. '" size="20" id="choose_data[' .$id. '][title]" name="choose_data[' .$id. '][title]"></td>';
+			$html_row .= '<td><input class="choose-multiple" type="number" step="any" value="' .$multiple. '" size="20" id="choose_data[' .$id. '][multiple]" name="choose_data[' .$id. '][multiple]"></td>';
+			$html_row .= '<td><a href="' .get_edit_post_link( $id ). '" target="_blank">' .__( 'Link', DLN_BET_SLUG ). '</a></td>';
+			$html_row .= '<td>';
+			$html_row .= 	'<a class="choose-update" class="button" href="#" data-id="' .$id. '">' .__( 'Update', DLN_BET_SLUG ). '</a>';
+			$html_row .= 	'<a class="choose-delete" class="button" href="#" data-id="' .$id. '">' .__( 'Delete', DLN_BET_SLUG ). '</a>';
+			$html_row .= 	'<a class="choose-status" class="button" href="#" data-id="' .$id. '">' .__( 'Unsave', DLN_BET_SLUG ). '</a>';
+			$html_row .= '</td>';
+			$html_row .= '</tr>';
+		}
+		return $html_row;
 	}
 	
 }

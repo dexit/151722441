@@ -39,7 +39,8 @@ define ( 'DLN_BET_PLUGIN_FILE', plugin_basename ( __FILE__ ) );
 define ( 'DLN_BET_PLUGIN_DIR', plugin_basename ( dirname ( __FILE__ ) ) );
 define ( 'DLN_BET_INC', DLN_BET_PATH . 'inc' );
 define ( 'DLN_BET_SLUG', 'dln-bet' );
-define ( 'DLN_SLUG_QUESTION','dln_cau_hoi' );
+define ( 'DLN_SLUG_QUESTION','dln_match' );
+define ( 'DLN_SLUG_CHOOSE','dln_choose' );
 
 // The full url to the plugin directory
 if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || $_SERVER['SERVER_PORT'] == '443') {
@@ -49,5 +50,5 @@ if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || $_SERVER['SERVER_
 }
 
 require_once( plugin_dir_path( __FILE__ ) . 'includes/functions.php' );
-require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-question.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-match.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-choose.php' );
