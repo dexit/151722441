@@ -52,8 +52,9 @@ class DLN_Choose {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'init' ) );
 		// Ajax
-		add_action('wp_ajax_dln_add_choose', array( $this, 'ajax_add_choose' ) );
-		add_action('wp_ajax_nopriv_dln_add_choose', array( $this, 'ajax_add_choose' ) );
+		add_action( 'wp_ajax_dln_add_choose', array( $this, 'ajax_add_choose' ) );
+		add_action( 'wp_ajax_dln_delete_choose', array( $this, 'ajax_delete_choose' ) );
+		add_action( 'wp_ajax_nopriv_dln_add_choose', array( $this, 'ajax_add_choose' ) );
 	}
 	
 	public function init() {
@@ -77,12 +78,43 @@ class DLN_Choose {
 			'post_author' => get_current_user_id()
 		);
 		$draft_id = wp_insert_post( $draft );
+		
 		$arr_result = array();
 		$arr_result['id'] = $draft_id;
 		$arr_result['action'] = 'dln_add_choose';
 		$arr_result['html'] = self::render_row_choose_html( $draft_id, '', '' );
 		echo json_encode( $arr_result );
 		exit();
+	}
+	
+	public function ajax_delete_choose() {
+		check_ajax_referer( 'dln-delete-choose', '_ajax_nonce' );
+		$pid = (int) $_POST['post_id'];
+		if ( empty( $pid ) )
+			die(0);
+		wp_delete_post( $pid, true );
+		
+		$arr_result = array();
+		$arr_result['id'] = $pid;
+		$arr_result['action'] = 'dln_delete_choose';
+		echo json_encode( $arr_result );
+		exit();
+	}
+	
+	public static function delete_choose_parent_id( $parent_id ) {
+		if ( $parent_id ) {
+			// Delete post relate dln_match
+			$args = array(
+				'post_type'   => 'dln_choose',
+				'post_parent' => $parent_id,
+			);
+			$posts = get_posts( $args );
+			if ( array( $posts ) ) {
+				foreach ($posts as $post) {
+					wp_delete_post( $post->ID, true);
+				}
+			}
+		}
 	}
 	
 	public static function render_row_choose_html( $id, $title = '', $multiple = '' ) {
@@ -93,9 +125,9 @@ class DLN_Choose {
 			$html_row .= '<td><input class="choose-multiple" type="number" step="any" value="' .$multiple. '" size="20" id="choose_data[' .$id. '][multiple]" name="choose_data[' .$id. '][multiple]"></td>';
 			$html_row .= '<td><a href="' .get_edit_post_link( $id ). '" target="_blank">' .__( 'Link', DLN_BET_SLUG ). '</a></td>';
 			$html_row .= '<td>';
-			$html_row .= 	'<a class="choose-update" class="button" href="#" data-id="' .$id. '">' .__( 'Update', DLN_BET_SLUG ). '</a>';
+			//$html_row .= 	'<a class="choose-update" class="button" href="#" data-id="' .$id. '">' .__( 'Update', DLN_BET_SLUG ). '</a>';
 			$html_row .= 	'<a class="choose-delete" class="button" href="#" data-id="' .$id. '">' .__( 'Delete', DLN_BET_SLUG ). '</a>';
-			$html_row .= 	'<a class="choose-status" class="button" href="#" data-id="' .$id. '">' .__( 'Unsave', DLN_BET_SLUG ). '</a>';
+			//$html_row .= 	'<a class="choose-status" class="button" href="#" data-id="' .$id. '">' .__( 'Unsave', DLN_BET_SLUG ). '</a>';
 			$html_row .= '</td>';
 			$html_row .= '</tr>';
 		}

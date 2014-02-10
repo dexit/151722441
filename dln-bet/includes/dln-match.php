@@ -52,6 +52,7 @@ class DLN_Match {
 		// Load plugin text domain
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
+		add_action( 'save_post_dln_match', array( $this, 'save_dln_match' ) );
 	}
 	
 	public function init() {
@@ -60,6 +61,37 @@ class DLN_Match {
 	
 	public function add_metabox() {
 		add_meta_box('dln_metabox_choose', 'Choose', array( $this, 'dln_metabox_choose'), 'dln_match', 'normal', 'high');
+	}
+	
+	public function save_dln_match( $post_id ) {
+		if ( 'dln_match' == $_POST['post_type'] ) {
+			if ( ! current_user_can( 'edit_dln_match', $post_id ) ) {
+				return;
+			}
+		}
+		
+		// Save choose
+		$choose_data = ( isset( $_POST['choose_data'] ) ) ? $_POST['choose_data'] : '';
+		if ( ! $choose_data )
+			return;
+		
+		DLN_Choose::delete_choose_parent_id( $_POST['post_ID'] );
+		
+		foreach ( $choose_data as $id => $data ) {
+			if ( is_int( $id ) ) {
+				$args = array(
+					'ID'           => $id,
+					'post_title'   => $data['title'],
+					'post_content' => $data['title'],
+					'post_status'  => 'publish',
+					'post_type'    => 'dln_choose',
+					'post_parent'  => $_POST['post_ID'],
+					'post_author'  => get_current_user_id()
+				);
+				wp_insert_post( $args );
+			}
+		}
+		return;
 	}
 	
 	public function dln_metabox_choose() {
@@ -76,7 +108,6 @@ class DLN_Match {
 	<?php wp_nonce_field( 'dln-update-choose', '_ajax_nonce-dln-update-choose', false ); ?>
 	<?php wp_nonce_field( 'dln-delete-choose', '_ajax_nonce-dln-delete-choose', false ); ?>
 </p>
-
 
 <?php
 	}
