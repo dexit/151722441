@@ -101,6 +101,12 @@ class DLN_Choose {
 		exit();
 	}
 	
+	public static function update_choose_multiple( $parent_id, $multiple = 0 ) {
+		$multiple = str_replace( ',' , '.', $multiple);
+		$multiple = floatval( $multiple );
+		update_post_meta( $parent_id, 'choose_multiple', $multiple );
+	}
+	
 	public static function delete_choose_parent_id( $parent_id ) {
 		if ( $parent_id ) {
 			// Delete post relate dln_match
@@ -109,7 +115,7 @@ class DLN_Choose {
 				'post_parent' => $parent_id,
 			);
 			$posts = get_posts( $args );
-			if ( array( $posts ) ) {
+			if ( is_array( $posts ) ) {
 				foreach ($posts as $post) {
 					wp_delete_post( $post->ID, true);
 				}

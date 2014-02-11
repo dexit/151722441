@@ -75,10 +75,8 @@ class DLN_Match {
 		if ( ! $choose_data )
 			return;
 		
-		DLN_Choose::delete_choose_parent_id( $_POST['post_ID'] );
-		
 		foreach ( $choose_data as $id => $data ) {
-			if ( is_int( $id ) ) {
+			if ( isset( $data['title'] ) && ! empty( $data['title'] ) && is_int( $id ) ) {
 				$args = array(
 					'ID'           => $id,
 					'post_title'   => $data['title'],
@@ -88,7 +86,26 @@ class DLN_Match {
 					'post_parent'  => $_POST['post_ID'],
 					'post_author'  => get_current_user_id()
 				);
-				wp_insert_post( $args );
+				wp_update_post( $args );
+				// Update metadata
+				if ( isset( $data['multiple'] ) && $data['multiple'] != '' ) {
+					DLN_Choose::update_choose_multiple( $id, $data['multiple'] );
+				}
+			} else if( empty( $data['title'] ) ) {
+				$args = array(
+					'ID'           => $id,
+					'post_title'   => $data['title'],
+					'post_content' => $data['title'],
+					'post_status'  => 'dln_draft',
+					'post_type'    => 'dln_choose',
+					'post_parent'  => $_POST['post_ID'],
+					'post_author'  => get_current_user_id()
+				);
+				wp_update_post( $args );
+				// Update metadata
+				if ( isset( $data['multiple'] ) && $data['multiple'] != '' ) {
+					DLN_Choose::update_choose_multiple( $id, $data['multiple'] );
+				}
 			}
 		}
 		return;
@@ -141,11 +158,14 @@ class DLN_Match {
 			$args = array(
 				'post_parent' => $post_id,
 				'post_type'   => DLN_SLUG_CHOOSE,
-				'post_status' => 'any'
+				'post_status' => 'publish',
+				'orderby'     => 'ID',
+				'order'       => 'ASC'
 			);
 			$posts = get_posts( $args );
 			foreach( $posts as $i => $item ) {
-				$html_rows .= DLN_Choose::render_row_choose_html( $item->ID, $item->post_title, '' );
+				$multiple = get_post_meta( $item->ID, 'choose_multiple', true );
+				$html_rows .= DLN_Choose::render_row_choose_html( $item->ID, $item->post_title, $multiple );
 			}
 		}
 		
