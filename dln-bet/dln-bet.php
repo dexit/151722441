@@ -49,6 +49,10 @@ if ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || $_SERVER['SERVER_
 	define( 'DLN_BET_PLUGIN_URL', WP_PLUGIN_URL . '/' . basename( dirname( __FILE__ ) ) . '/' );
 }
 
+require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-dbschema.php' );
+register_activation_hook( __FILE__, array( 'DLN_Schema', 'activate' ) );
+register_activation_hook( __FILE__, array( 'DLN_Schema', 'deactivate' ) );
+
 require_once( plugin_dir_path( __FILE__ ) . 'includes/functions.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-match.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'includes/dln-choose.php' );

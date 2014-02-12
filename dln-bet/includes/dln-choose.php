@@ -53,8 +53,11 @@ class DLN_Choose {
 		add_action( 'init', array( $this, 'init' ) );
 		// Ajax
 		add_action( 'wp_ajax_dln_add_choose', array( $this, 'ajax_add_choose' ) );
-		add_action( 'wp_ajax_dln_delete_choose', array( $this, 'ajax_delete_choose' ) );
 		add_action( 'wp_ajax_nopriv_dln_add_choose', array( $this, 'ajax_add_choose' ) );
+		add_action( 'wp_ajax_dln_delete_choose', array( $this, 'ajax_delete_choose' ) );
+		add_action( 'wp_ajax_nopriv_dln_delete_choose', array( $this, 'ajax_delete_choose' ) );
+		add_action( 'wp_ajax_dln_add_bet', array( $this, 'ajax_add_bet' ) );
+		add_action( 'wp_ajax_nopriv_dln_add_bet', array( $this, 'ajax_add_bet' ) );
 	}
 	
 	public function init() {
@@ -99,6 +102,22 @@ class DLN_Choose {
 		$arr_result['action'] = 'dln_delete_choose';
 		echo json_encode( $arr_result );
 		exit();
+	}
+	
+	public function ajax_add_bet() {
+		check_ajax_referer( 'dln-add-bet', '_ajax_nonce' );
+		$pid     = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : '';
+		$user_id = isset( $_POST['user_id'] ) ? (int) $_POST['user_id'] : '';
+		if ( empty( $pid ) || empty( $user_id ) )
+			die(0);
+		$multiple = str_replace( ',' , '.', $multiple );
+		$multiple = isset( $_POST['multiple'] ) ? $_POST['multiple'] : '';
+		$multiple = floatval( $multiple );
+		
+		$cost = str_replace( ',' , '.', $cost );
+		$cost = isset( $_POST['cost'] ) ? $_POST['cost'] : '';
+		$cost = intval( $cost );
+		
 	}
 	
 	public static function update_choose_multiple( $parent_id, $multiple = 0 ) {
