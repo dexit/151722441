@@ -60,11 +60,11 @@ class DLN_Match {
 	}
 	
 	public function add_metabox() {
-		add_meta_box('dln_metabox_choose', 'Choose', array( $this, 'dln_metabox_choose'), 'dln_match', 'normal', 'high');
+		add_meta_box( 'dln_metabox_choose', 'Choose', array( $this, 'dln_metabox_choose'), 'dln_match', 'normal', 'high' );
 	}
 	
 	public function save_dln_match( $post_id ) {
-		if ( 'dln_match' == $_POST['post_type'] ) {
+		if ( isset( $_POST['post_type'] ) && ( 'dln_match' == $_POST['post_type'] ) ) {
 			if ( ! current_user_can( 'edit_dln_match', $post_id ) ) {
 				return;
 			}
@@ -108,6 +108,10 @@ class DLN_Match {
 				}
 			}
 		}
+		// Update max bet
+		$dln_max_bet = isset( $_POST['dln_max_bet'] ) ? $_POST['dln_max_bet'] : 0;
+		$dln_max_bet = intval( $dln_max_bet );
+		update_post_meta( $post_id, 'dln_max_bet', $dln_max_bet );
 		return;
 	}
 	
@@ -129,6 +133,20 @@ class DLN_Match {
 <?php
 	}
 	
+	public static function render_max_bet_form( $post_id ) {
+		if ( ! $post_id ) 
+			return;
+		
+		$max_bet = get_post_meta( $post_id, 'dln_max_bet', true );
+		$max_bet = intval( $max_bet );
+		?>
+		<div class="form-field">
+			<label for="dln_max_bet"><?php echo __( 'Limit Bet Amount', DLN_BET_SLUG ) ?></label>
+			<input id="dln_max_bet" name="dln_max_bet" type="text" value="<?php echo $max_bet ?>" />
+		</div>
+		<?php
+	}
+	
 	public static function render_the_match_table() {
 		$post_id = get_the_ID();
 		
@@ -148,6 +166,11 @@ class DLN_Match {
 				<?php echo $html_rows ?>
 			</tbody>
 		</table>
+		</div>
+		<div class="max-betting-group">
+		<?php 
+			self::render_max_bet_form( $post_id ); 
+		?>
 		</div>
 		<?php
 	}
