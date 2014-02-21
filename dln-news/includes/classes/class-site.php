@@ -47,7 +47,6 @@ class DLN_News_Site {
 			return;
 		
 		$ch  = curl_init();
-		var_dump(is_file('/cookie.txt'));
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_COOKIEJAR, '/cookie.txt');
 		curl_setopt($ch, CURLOPT_COOKIEFILE, '/cookie.txt');
@@ -76,9 +75,25 @@ class DLN_News_Site {
 		@$dom->loadHTML( $content );
 		$xpath = new DOMXPath( $dom );
 		$nodes = $xpath->query( "//a[starts-with(@id,'thread_title')]" );
-		foreach ( $nodes as $p ) {
-			var_dump( $p->nodeValue );
-		}
+		//foreach ( $nodes as $p ) {
+		//	var_dump( $p->nodeValue );
+		//}
+	}
+	
+	public static function dln_site_metabox_edit( $tag, $taxonomy ) {
+		var_dump($tag, $taxonomy);
+		?>
+		<h3><?php __( 'Site Meta Data', DLN_NEWS_SLUG ) ?></h3>
+		<tr class="form-field">
+			<th scope="row" valign="top"><label for="parent"><?php __('Parent', DLN_News_SLUG); ?></label></th>
+			<td>
+				<?php wp_dropdown_categories(array('hide_empty' => 0, 'hide_if_empty' => false, 'name' => 'parent', 'orderby' => 'name', 'taxonomy' => $taxonomy, 'selected' => $tag->parent, 'exclude_tree' => $tag->term_id, 'hierarchical' => true, 'show_option_none' => __('None'))); ?>
+				<?php if ( 'category' == $taxonomy ) : ?>
+				<p class="description"><?php _e('Categories, unlike tags, can have a hierarchy. You might have a Jazz category, and under that have children categories for Bebop and Big Band. Totally optional.'); ?></p>
+				<?php endif; ?>
+			</td>
+		</tr>
+		<?php
 	}
 	
 }

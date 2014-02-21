@@ -36,5 +36,5 @@ function dln_news_autoload( $class_name = '' ) {
 spl_autoload_register( 'dln_news_autoload' );
 require_once( plugin_dir_path( __FILE__ ) . 'public/class-dln-news.php' );
 // register hooks that are fired when the plugin is activated or deactivated.
-//register_activation_hook( __FILE__, array( 'DLN_News', 'activate' ) );
-//register_deactivation_hook( __FILE__, array( 'DLN_News', 'deactivate' ) );
+register_activation_hook( __FILE__, array( 'DLN_News', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'DLN_News', 'deactivate' ) );
