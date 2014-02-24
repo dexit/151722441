@@ -70,6 +70,12 @@ dln-bet/.settings/org.eclipse.core.runtime.prefs
 dln-bet/.settings/.jsdtscope
 dln-bet/.settings/org.eclipse.wst.jsdt.ui.superType.container
 dln-bet/.settings/org.eclipse.wst.jsdt.ui.superType.name
+<<<<<<< HEAD
+dln-theme-hc/.externalToolBuilders/New_Builder (9).launch
+dln-theme-hc/.settings/org.eclipse.core.resources.prefs
+dln-theme-hc/.settings/org.eclipse.core.runtime.prefs
+dln-theme-hc/.settings/org.eclipse.wst.common.project.facet.core.xml
+=======
 dln-news/.externalToolBuilders/New_Builder (12).launch
 dln-news/.settings/org.eclipse.core.resources.prefs
 dln-news/.settings/org.eclipse.core.runtime.prefs
@@ -80,7 +86,4 @@ dln-match/.settings/org.eclipse.core.resources.prefs
 dln-match/.settings/org.eclipse.core.runtime.prefs
 dln-match/.settings/org.eclipse.php.core.prefs
 dln-match/.settings/org.eclipse.wst.common.project.facet.core.xml
-dln-theme-hc/.externalToolBuilders/New_Builder (9).launch
-dln-theme-hc/.settings/org.eclipse.core.resources.prefs
-dln-theme-hc/.settings/org.eclipse.core.runtime.prefs
-dln-theme-hc/.settings/org.eclipse.wst.common.project.facet.core.xml
+>>>>>>> 848b846ee71f05af6cfa354014a177b6946efd13
