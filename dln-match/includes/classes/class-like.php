@@ -67,7 +67,7 @@ class DLN_Match_Like {
 				if ( $result )
 					die( 0 );
 				else {
-					$wpdb->query($wpdb->prepare("INSERT INTO ".$wpdb->prefix."wpv_voting (post_id, author_id, vote_count) VALUES (%d, %d, '')", $p_ID, $a_ID));
+					$wpdb->query($wpdb->prepare("INSERT INTO {$wpdb->prefix}dln_user_like (post_id, author_id, vote_count) VALUES (%d, %d, '')", $p_ID, $a_ID));
 				}
 				break;
 		}

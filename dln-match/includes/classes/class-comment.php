@@ -40,6 +40,7 @@ class DLN_Match_Comment {
 		// Load plugin text domain
 		add_action( 'admin_menu', array( $this, 'register_menu_comment' ) );
 		add_filter( 'manage_edit-comments_columns', array( $this, 'register_column_comment' ) );
+		add_action( 'manage_comments_custom_column', array( $this, 'dln_comment_column_row' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array($this, 'load_admin_style_comment' ) );
 	}	
 	
@@ -98,5 +99,16 @@ class DLN_Match_Comment {
 	public function register_column_comment($columns) {
 		$columns['like_count'] = __( 'Like Count', DLN_MATCH_SLUG );
 		return $columns;
+	}
+	
+	public function dln_comment_column_row( $column, $comment_id ) {
+		if ( ! $comment_id )
+			return;
+		if ( $column == 'like_count' ) {
+			$like_count = get_comment_meta( $comment_id, 'total_like' );
+			$like_count = intval( $like_count );
+			
+			echo '<span>' . $like_count . '</span>';
+		}
 	}
 }
