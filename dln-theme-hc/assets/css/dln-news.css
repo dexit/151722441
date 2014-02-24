@@ -1,0 +1,6 @@
+.mainpanel {
+	margin-left: 0px;
+}
+.headermenu .dropdown-menu:after {
+	top: -5px;
+}

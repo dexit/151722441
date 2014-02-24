@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="WPR" default="sync" basedir=".">
-	<property name="source.dir" location="./dln-themes/"/>
-	<property name="dest.dir" location="E:/xampp/htdocs/wordpress/wp-content/themes/dln-theme/"/>
+	<property name="source.dir" location="./dln-theme-hc/"/>
+	<property name="dest.dir" location="E:/xampp/htdocs/wp38/wp-content/themes/dln-theme/"/>
 
 	<!-- ============================================  -->
     <!-- Target: prepare                               -->
@@ -19,11 +19,7 @@
 	<target name="sync" depends="build">
 		
 		<copy todir="${dest.dir}" overwrite="true">
-			<fileset dir="${source.dir}">
-				<include name="**/style.css"/>
-				<include name="**/dln-styles.css"/>
-				<include name="**/*.php"/>
-			</fileset>
+			<fileset dir="${source.dir}" />
 		</copy>
 
 	</target>
