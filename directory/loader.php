@@ -47,8 +47,6 @@ define( 'DR_TEXT_DOMAIN', 'dr_text_domain' );
 // The key for the options array
 define( 'DR_OPTIONS_NAME', 'dr_options' );
 
-// include core files
-include_once 'core/wpmudev-dash-notification.php';
 //If another version of CustomPress not loaded, load ours.
 if(!class_exists('CustomPress_Core')) include_once 'core/custompress/loader.php';
 

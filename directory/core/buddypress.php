@@ -11,9 +11,6 @@ class Directory_Core_Buddypress extends Directory_Core {
 	*
 	* @return void
 	**/
-
-	function Directory_Core_Buddypress() { __construct();}
-
 	function __construct(){
 
 		parent::__construct(); //Get the inheritance right

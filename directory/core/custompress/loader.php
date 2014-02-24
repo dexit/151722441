@@ -47,10 +47,6 @@ define ( 'CP_TEXT_DOMAIN', 'custompress' );
 
 //define('CT_ALLOW_IMPORT', true);
 
-
-/* include CustomPress files */
-include_once 'core/wpmudev-dash-notification.php';
-
 include_once 'core/core.php';
 include_once 'core/content-types.php';
 include_once 'core/functions.php';

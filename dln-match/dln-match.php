@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: DLN News
+Plugin Name: DLN Match
 Plugin URI: http://www.facebook.com/lenhatdinh
 Description: Like Management for fb, pinterest or youtube...
 Version: 0.1
@@ -11,20 +11,21 @@ License: GPL2
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-define( 'DLN_NEWS_SLUG', 'dln-news' );
-define( 'DLN_NEWS_PLUGIN_DIR', trailingslashit( WP_PLUGIN_DIR . '/dln-news' ) );
-define( 'DLN_NEWS_PLUGIN_URL', plugins_url() . '/' . basename( dirname( __FILE__ ) ) );
-define( 'DLN_NEWS_PATH', dirname( __FILE__ ) );
-define( 'DLN_NEWS_CLASS_PATH', DLN_NEWS_PATH . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'classes' );
+define( 'DLN_MATCH_SLUG', 'dln-match' );
+define( 'DLN_MATCH_PLUGIN_DIR', trailingslashit( WP_PLUGIN_DIR . '/dln-match' ) );
+define( 'DLN_MATCH_PLUGIN_URL', plugins_url() . '/' . basename( dirname( __FILE__ ) ) );
+define( 'DLN_MATCH_PATH', dirname( __FILE__ ) );
+define( 'DLN_MATCH_CLASS_PATH', DLN_MATCH_PATH . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'classes' );
+define( 'DLN_VERSION', '1.0.0' );
 
-function dln_news_autoload( $class_name = '' ) {
-	if ( strpos( $class_name, 'DLN_News' ) === false )
+function dln_match_autoload( $class_name = '' ) {
+	if ( strpos( $class_name, 'DLN_Match' ) === false )
 		return;
 	// Convert class name to filename format.
 	$class_name = strtr( strtolower( $class_name ), '_', '-' );
-	$class_name = str_replace( 'dln-news-', '', $class_name );
+	$class_name = str_replace( 'dln-match-', '', $class_name );
 	$paths = array(
-		DLN_NEWS_CLASS_PATH,
+		DLN_MATCH_CLASS_PATH,
 	);
 	
 	// Search each path for the class.
@@ -33,8 +34,12 @@ function dln_news_autoload( $class_name = '' ) {
 			require( "$path/class-$class_name.php" );
 	}
 }
-spl_autoload_register( 'dln_news_autoload' );
-require_once( plugin_dir_path( __FILE__ ) . 'public/class-dln-news.php' );
+spl_autoload_register( 'dln_match_autoload' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/class-dln-match.php' );
+
+$_dln_match_comment = DLN_Match_Comment::get_instance();
+
 // register hooks that are fired when the plugin is activated or deactivated.
-register_activation_hook( __FILE__, array( 'DLN_News', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'DLN_News', 'deactivate' ) );
+register_activation_hook( __FILE__, array( 'DLN_Match', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'DLN_Match', 'deactivate' ) );
+
