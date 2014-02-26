@@ -5,12 +5,49 @@ function dln_get_notifications_objects() {
 		return false;
 	}
 
-	$notifications = bp_notifications_get_notifications_for_user( bp_loggedin_user_id(), 'object' );
-	var_dump($notifications);die();
-	$count         = ! empty( $notifications ) ? count( $notifications ) : 0;
-	$alert_class   = (int) $count > 0 ? 'pending-count alert' : 'count no-alert';
-	$menu_title    = '<span id="ab-pending-notifications" class="' . $alert_class . '">' . number_format_i18n( $count ) . '</span>';
-	$menu_link     = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
+	$notifications = BP_Notifications_Notification::get( array(
+		'user_id'        => bp_loggedin_user_id(),
+		'is_new'         => '1',
+		'component_name' => bp_notifications_get_registered_components(),
+	) );
 	
+	if ( ! $notifications )
+		return;
 	
+	$count_m = $count_f = $count_a = 0;
+	$arr_m = $arr_f = $arr_a = array();
+	foreach ( $notifications as $i => $nof ) {
+		switch ( $nof->component_name ) {
+			case 'messages':
+				$count_m++;
+				$arr_m[] = $nof;
+				break;
+			case 'friends':
+				$count_f++;
+				$arr_f[] = $nof;
+				break;
+			case 'activity':
+				$count_a++;
+				$arr_a[] = $nof;
+				break;
+		}
+	}
+	
+	$result = array();
+	$result['messages'] = array( 
+		'nof_count' => $count_m,
+		'nof_arr'   => $arr_m
+	);
+	$result['friends'] = array(
+		'nof_type'  => 'friends',
+		'nof_count' => $count_f,
+		'nof_arr'   => $arr_f
+	);
+	$result['activity'] = array(
+		'nof_count' => $count_a,
+		'nof_arr'   => $arr_a
+	);
+	return $result;
 }
+
+

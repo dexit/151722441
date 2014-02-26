@@ -4,3 +4,7 @@
 .headermenu .dropdown-menu:after {
 	top: -5px;
 }
+.user-list .desc span {
+	clear:both;
+	float:left;
+}
