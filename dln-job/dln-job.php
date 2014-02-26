@@ -31,6 +31,9 @@ class DLN_Job {
 		
 		if ( is_admin() )
 			include( 'includes/admin/class-dln-job-admin.php' );
+		
+		register_activation_hook( __FILE__, array( $this, 'activate' ) );
+		register_activation_hook( __FILE__, array( $this, 'deactivate' ) );
 		/*include( 'dln-job-functions.php' );
 		include( 'dln-job-template.php' );
 		include( 'includes/class-dln-job-post-types.php' );
@@ -93,6 +96,35 @@ class DLN_Job {
 		) );
 
 		wp_enqueue_style( 'wp-job-manager-frontend', JOB_MANAGER_PLUGIN_URL . '/assets/css/frontend.css' );*/
+	}
+	
+	public static function activate() {
+		self::setup_table_user_like();
+	}
+	
+	private static function setup_table_user_like() {
+		global $wpdb;
+	
+		if ( $id !== false)
+			switch_to_blog( $id );
+	
+		$charset_collate = '';
+		if ( ! empty($wpdb->charset) )
+			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty($wpdb->collate) )
+			$charset_collate .= " COLLATE $wpdb->collate";
+	
+		$tables = $wpdb->get_results("show tables like '{$wpdb->prefix}dln_user_like'");
+		if (!count($tables))
+			$wpdb->query("CREATE TABLE {$wpdb->prefix}dln_user_like (
+			ul_id bigint(20) unsigned NOT NULL auto_increment,
+			user_id bigint(20) unsigned NOT NULL default '0',
+			post_id bigint(20) unsigned NOT NULL default '0',
+			post_type varchar(255) default NULL,
+			like_amount int(20) unsigned NOT NULL default '0',
+			like_date datetime,
+			PRIMARY KEY	(ul_id)
+		) $charset_collate;");
 	}
 }
 

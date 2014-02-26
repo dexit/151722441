@@ -14,7 +14,8 @@ class DLN_Job_Admin {
 	 * @return void
 	 */
 	public function __construct() {
-		include_once( 'class-dln-job-user-infor.php' );
+		//include_once( 'class-dln-job-user-infor.php' );
+		include_once( 'class-dln-job-company.php' );
 	}
 }
 new DLN_Job_Admin();
