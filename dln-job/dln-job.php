@@ -28,6 +28,10 @@ class DLN_Job {
 
 		// Includes
 		//include( 'includes/class-dln-job-extend-wpjm.php' );
+		include( 'includes/class-dln-job-forms.php' );
+		include( 'includes/class-dln-job-shortcodes.php' );
+		
+		$this->forms = new DLN_Job_Forms();
 		
 		if ( is_admin() )
 			include( 'includes/admin/class-dln-job-admin.php' );
@@ -99,7 +103,7 @@ class DLN_Job {
 	}
 	
 	public static function activate() {
-		self::setup_table_user_like();
+		//self::setup_table_user_like();
 	}
 	
 	private static function setup_table_user_like() {
