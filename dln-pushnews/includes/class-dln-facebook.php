@@ -26,6 +26,7 @@ class DLN_Facebook {
 		// Hook to 'login_form_' . $action
 		add_action( 'login_form_social_login', array( $this, 'process_login' ) );
 		add_action( 'init', array( $this, 'ajax_login' ) );
+		add_action( 'wp_footer', 'render_login_page_uri' );
 	}
 	
 	public static function ajax_login() {
@@ -56,7 +57,6 @@ class DLN_Facebook {
 				$user_login = $username = $dln_provider_identity = $dln_provider_identity_key = $dln_email = $dln_first_name = $dln_last_name = $dln_profile_url = '';
 				self::verify_signature( $_REQUEST[ 'social_login_access_token' ], $dln_provided_signature, $redirect_to );
 				$fb_json = json_decode( DLN_Helpers::curl_get_contents("https://graph.facebook.com/me?access_token=" . $_REQUEST[ 'social_login_access_token' ]) );
-				var_dump($fb_json);die();
 				if ( isset( $fb_json->{ 'id' } ) ) {
 					$dln_provider_identity = $fb_json->{ 'id' };
 				} else {
@@ -86,7 +86,7 @@ class DLN_Facebook {
 		setcookie("social_login_current_provider", $social_login_provider, time()+3600, SITECOOKIEPATH, COOKIE_DOMAIN, false, true );
 		
 		// Get user by meta
-		$user_id = social_login_get_user_by_meta( $dln_provider_identity_key, $dln_provider_identity );
+		$user_id = self::get_user_by_meta( $dln_provider_identity_key, $dln_provider_identity );
 		if ( $user_id ) {
 			$user_data  = get_userdata( $user_id );
 			$user_login = $user_data->user_login;
@@ -112,10 +112,14 @@ class DLN_Facebook {
 			var_dump($user_id);die();
 		}
 		if ( $dln_provider_identity ) {
-			$exist_ui = dln_get_field( 'dln_users', 'fbid', "userid={$user_id}" );
+			$exist_ui = self::get_field( 'dln_users', 'fbid', "userid={$user_id}" );
 			$access_token = $_REQUEST[ 'social_login_access_token' ];
 			if ( ! $exist_ui ) {
-				dln_insert_field( 'dln_users', "(`userid`, `fbid`, `access_token`, `crawl`) VALUES({$user_id}, '{$dln_provider_identity}', '{$access_token}', 0)" );
+				$table  = 'dln_users';
+				$values = "(`userid`, `fbid`, `access_token`, `crawl`) VALUES({$user_id}, '{$dln_provider_identity}', '{$access_token}', 0)";
+				global $wpdb;
+				$table = $wpdb->prefix . $table;
+				$wpdb->get_row( "INSERT INTO {$table} {$values}" );
 			}
 		}
 		
@@ -128,6 +132,22 @@ class DLN_Facebook {
 		else
 			wp_safe_redirect( $redirect_to );
 		exit();
+	}
+	
+	public static function get_field( $table = '', $key = '', $where = '' ) {
+		if ( ! $table || ! $key || ! $where )
+			return null;
+		global $wpdb;
+		$table = $wpdb->prefix . $table;
+		$result = $wpdb->get_row( "SELECT * FROM {$table} WHERE {$where}" );
+		return $result;
+	}
+	
+	public static function get_user_by_meta( $meta_key, $meta_value ) {
+		global $wpdb;
+	
+		$sql = "SELECT user_id FROM $wpdb->usermeta WHERE meta_key = '%s' AND meta_value = '%s'";
+		return $wpdb->get_var( $wpdb->prepare( $sql, $meta_key, $meta_value ) );
 	}
 	
 	public static function add_stylesheets(){
@@ -148,11 +168,23 @@ class DLN_Facebook {
 	public static function add_javascripts(){
 		if( ! wp_script_is( 'dln-facebook-js', 'registered' ) ) {
 			wp_register_script( 'dln-facebook-js', DLN_PUSHNEWS_URL . '/assets/js/login.js' );
+			$scope = get_option( 'social_login_facebook_permission' );
+			$scope = ( $scope ) ? $scope : 'email';
+			$args = array( 'scope' => $scope );
+			wp_localize_script( 'dln-facebook-js', 'dln_vars', $args );
 		}
 		wp_print_scripts( 'jquery' );
 		wp_print_scripts( 'jquery-ui-core' );
 		wp_print_scripts( 'jquery-ui-dialog' );
 		wp_print_scripts( 'dln-facebook-js' );
+	}
+	
+	public static function render_login_page_uri() {
+		$social_login_login_form_uri = get_option( 'social_login_login_form_uri' );
+		$social_login_login_form_uri = ( $social_login_login_form_uri ) ? $social_login_login_form_uri : site_url( 'wp-login.php', 'login_post' );
+		?>
+		<input type="hidden" id="social_login_login_form_uri" value="<?php echo $social_login_login_form_uri ?>" />
+		<?php
 	}
 	
 	public static function render_form_login( $args = NULL ) {
@@ -196,6 +228,31 @@ class DLN_Facebook {
 			wp_safe_redirect( $redirect_to );
 			exit();
 		}
+	}
+
+	public static function activate() {
+		self::setup_table_dln_users();
+	}
+	
+	public static function setup_table_dln_users() {
+		global $wpdb;
+		
+		$charset_collate = '';
+		if ( ! empty($wpdb->charset) )
+			$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty($wpdb->collate) )
+			$charset_collate .= " COLLATE $wpdb->collate";
+		
+		$tables = $wpdb->get_results("show tables like '{$wpdb->prefix}dln_users'");
+		if (!count($tables))
+			$wpdb->query("CREATE TABLE {$wpdb->prefix}dln_users (
+			id bigint(20)  NOT NULL auto_increment,
+			userid bigint(35) default NULL,
+			fbid varchar(255) default NULL,
+			access_token text default NULL,
+			crawl tinyint(1) default '0',
+			PRIMARY KEY	(id)
+		) $charset_collate;");
 	}
 }
 new DLN_Facebook();

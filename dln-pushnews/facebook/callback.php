@@ -1,9 +1,5 @@
 <?php
 require_once( dirname( dirname( dirname( dirname( dirname( __FILE__ ))))) . '/wp-load.php' );
-//require_once( dirname( dirname( __FILE__ ) ) . '/dln-pushnews.php' );
-//require_once( dirname(__FILE__) . '/libs/base_facebook.php' );
-//require_once( dirname(__FILE__) . '/libs/facebook.php' );
-
 $client_id = get_option( 'social_login_facebook_api_key' );
 $secret_key = get_option( 'social_login_facebook_secret_key' );
 
@@ -36,7 +32,7 @@ function init() {
 <?php
 
 } else {
-  $permission = get_option( 'social_login_facebook_api_key' );
+  $permission = get_option( 'social_login_facebook_permission' );
   $permission = ( $permission ) ? $permission : 'email';
   $redirect_uri = urlencode( DLN_PUSHNEWS_URL . '/facebook/callback.php' );
   wp_redirect('https://graph.facebook.com/oauth/authorize?client_id=' . $client_id . '&redirect_uri=' . $redirect_uri . '&scope=' . $permission);

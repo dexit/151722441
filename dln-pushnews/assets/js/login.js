@@ -10,7 +10,7 @@ jQuery.noConflict();
 			if(client_id == "") {
 				alert("Social Connect plugin has not been configured for this provider");
 			} else {
-				window.open('https://graph.facebook.com/oauth/authorize?client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&scope=email',
+				window.open('https://graph.facebook.com/oauth/authorize?client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&scope=' + dln_vars.scope,
 				'','scrollbars=no,menubar=no,height=400,width=800,resizable=yes,toolbar=no,status=no');
 			}
 		};

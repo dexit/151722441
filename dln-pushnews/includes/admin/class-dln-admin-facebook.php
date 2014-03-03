@@ -41,6 +41,7 @@ class DLN_Admin_Facebook {
 		register_setting( 'social-login-settings-group', 'social_login_facebook_api_key' );
 		register_setting( 'social-login-settings-group', 'social_login_facebook_secret_key' );
 		register_setting( 'social-login-settings-group', 'social_login_facebook_permission' );
+		register_setting( 'social-login-settings-group', 'social_login_login_form_uri' );
 	}
 	
 	public static function render_facebook_settings() {
@@ -73,6 +74,11 @@ class DLN_Admin_Facebook {
 					<tr valign="top">
 						<th scope="row"><?php _e('Permission', DLN_PUSHNEWS); ?></th>
 						<td><input type="text" name="social_login_facebook_permission" value="<?php echo get_option('social_login_facebook_permission' ); ?>" /></td>
+					</tr>
+					
+					<tr valign="top">
+						<th scope="row"><?php _e('Redirect URI', DLN_PUSHNEWS); ?></th>
+						<td><input type="text" name="social_login_login_form_uri" value="<?php echo get_option('social_login_login_form_uri' ); ?>" /></td>
 					</tr>
 				</table>
 	

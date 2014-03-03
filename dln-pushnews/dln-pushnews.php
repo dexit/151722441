@@ -37,7 +37,7 @@ if ( ! class_exists( 'DLN_PushNews' ) ) {
 			if ( is_admin() )
 				include( 'includes/admin/class-dln-pushnews-admin.php' );
 	
-			//register_activation_hook( __FILE__, array( $this, 'activate' ) );
+			register_activation_hook( __FILE__, array( $this, 'activate' ) );
 			//register_activation_hook( __FILE__, array( $this, 'deactivate' ) );
 	
 			if ( is_admin() )
@@ -110,6 +110,7 @@ if ( ! class_exists( 'DLN_PushNews' ) ) {
 	
 		public static function activate() {
 			//self::setup_table_user_like();
+			DLN_Facebook::activate();
 		}
 	
 		private static function setup_table_user_like() {
