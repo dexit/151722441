@@ -24,7 +24,7 @@ class DLN_Skill {
 	}
 	
 	public function requires() {
-		$this->required_components = apply_filters( 'dln_required_components', array( 'connections' ) );
+		$this->required_components = apply_filters( 'dln_required_components', array( 'connections', 'form' ) );
 		
 		// Loop through required components
 		foreach( $this->required_components as $component ) {

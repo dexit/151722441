@@ -33,9 +33,7 @@ class DLN_Facebook {
 			add_action( 'wp_ajax_send_access_token', array( $this, 'ajax_send_access_token' ) );
 			add_action( 'wp_ajax_nopriv_send_access_token', array( $this, 'ajax_send_access_token' ) );
 			add_action( 'admin_print_footer_scripts', array( $this, 'fb_footer' ) );
-			
 			add_filter( 'logout_url', array( $this, 'fb_logout_url' ) );
-			
 			add_shortcode( 'dln_fb_login', array( $this, 'shortcode_dln_fb_login' ) );
 		}
 		
@@ -43,7 +41,7 @@ class DLN_Facebook {
 	
 	public function ajax_send_access_token() {
 		global $wpdb;
-		//check_ajax_referer( 'dln-get-user-fb', 'security' );
+		check_ajax_referer( 'dln-get-user-fb', 'security' );
 		$access_token = isset( $_POST['access_token'] ) ? $_POST['access_token'] : '';
 		
 		if ( ! $access_token )
@@ -56,35 +54,6 @@ class DLN_Facebook {
 				do_action('fb_connect_get_email_error');
 			}
 		
-			/*if( is_user_logged_in() ) {
-				global $current_user;
-				get_currentuserinfo();
-				$fb_uid = get_user_meta( $current_user->ID, 'fb_uid', true );
-		
-				if( $fb_uid == $user->id )
-					die(1);
-		
-				if( $user->email == $current_user->user_email ) {
-					//if FB email is the same as WP email we don't need to do anything.
-					do_action( 'fb_connect_wp_fb_same_email', $user );
-					$fb_uid = get_user_meta( $current_user->ID, 'fb_uid', true );
-					if( ! $fb_uid )
-						update_user_meta( $current_user->ID, 'fb_uid', $user->id );
-					die(1);
-				}
-				else {
-					//else we need to set fb_uid in user meta, this will be used to identify this user
-					do_action( 'fb_connect_wp_fb_different_email' );
-					$fb_uid = get_user_meta( $current_user->ID, 'fb_uid', true );
-					if( ! $fb_uid )
-						update_user_meta( $current_user->ID, 'fb_uid', $user->id );
-					$fb_email = get_user_meta($current_user->ID, 'fb_email', true);
-					if( ! $fb_uid )
-						update_user_meta( $current_user->ID, 'fb_email', $user->email );
-					//that's it, we don't need to do anything else, because the user is already logged in.
-					die(1);
-				}
-			} else {*/
 			$existing_user = $wpdb->get_var( 'SELECT DISTINCT `u`.`ID` FROM `' . $wpdb->users . '` `u` JOIN `' . $wpdb->usermeta . '` `m` ON `u`.`ID` = `m`.`user_id`  WHERE (`m`.`meta_key` = "fb_uid" AND `m`.`meta_value` = "' . $user->id . '" ) OR user_email = "' . $user->email . '" OR (`m`.`meta_key` = "fb_email" AND `m`.`meta_value` = "' . $user->email . '" )  LIMIT 1 ' );
 
 			$arr_data = new stdClass;
