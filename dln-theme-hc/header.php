@@ -93,7 +93,7 @@
 									
 									<?php endif; ?>
 
-									<li class="new"><a href="#">See All Users</a></li>
+									<li class="new"><a href="<?php echo bp_loggedin_user_domain() . bp_get_friends_slug() ?>">See All Users</a></li>
 								</ul>
 							</div>
 						</div>
@@ -104,23 +104,29 @@
 								data-toggle="dropdown">
 								<i class="glyphicon glyphicon-envelope"></i> 
 								<?php if ( $notifications['messages']['nof_count'] ): ?>
-									<span class="badge">1</span>
+									<span class="badge"><?php echo $notifications['messages']['nof_count'] ?></span>
 								<?php endif; ?>
 							</button>
 							<div class="dropdown-menu dropdown-menu-head pull-right">
 								<h5 class="title"><?php __( 'Messages', 'dln-theme-hc' ) ?></h5>
 								<ul class="dropdown-list gen-list">
-									<?php if ( $notifications['friends']['nof_arr'] ): ?>
-									<li class="new"><a href="#"> <span class="thumb"><img
-												src="images/photos/user1.png" alt="" /> </span> <span
-											class="desc"> <span class="name">Draniem Daamul <span
-													class="badge badge-success">new</span>
-											</span> <span class="msg">Lorem ipsum dolor sit amet...</span>
+									<?php $count = 0; ?>
+									<?php if ( bp_has_message_threads() ) : ?>
+									<?php while ( bp_message_threads() ) : bp_message_thread(); ?>
+									<?php $count++; ?>
+									<?php global $messages_template;?>
+									<li class="new">
+										<a href="<?php bp_message_thread_view_link(); ?>"> 
+											<span class="thumb"> <?php bp_message_thread_avatar() ?> </span> 
+											<span class="desc"> <span class="name"><?php echo bp_core_get_user_displayname( $messages_template->thread->last_sender_id ) ?> <span class="badge badge-success"><?php echo bp_message_thread_last_post_date() ?></span></span>
+											<span class="msg"><?php bp_message_thread_subject(); ?></span>
 										</span>
 									</a>
 									</li>
+									<?php if ( $count == 5 ) break; ?>
+									<?php endwhile; ?>
 									<?php endif; ?>
-									<li class="new"><a href="#">Read All Messages</a></li>
+									<li class="new"><a href="<?php echo bp_loggedin_user_domain() . bp_get_messages_slug() ?>">Read All Messages</a></li>
 								</ul>
 							</div>
 						</div>
@@ -129,51 +135,35 @@
 						<div class="btn-group">
 							<button class="btn btn-default dropdown-toggle tp-icon"
 								data-toggle="dropdown">
-								<i class="glyphicon glyphicon-globe"></i> <span class="badge">5</span>
+								<i class="glyphicon glyphicon-globe"></i> <span class="badge"><?php echo bp_notifications_get_unread_notification_count() ?></span>
 							</button>
 							<div class="dropdown-menu dropdown-menu-head pull-right">
-								<h5 class="title">You Have 5 New Notifications</h5>
+								<h5 class="title">You Have <?php echo bp_notifications_get_unread_notification_count() ?> New Notifications</h5>
 								<ul class="dropdown-list gen-list">
-									<li class="new"><a href="#"> <span class="thumb"><img
-												src="images/photos/user4.png" alt="" /> </span> <span
-											class="desc"> <span class="name">Zaham Sindilmaca <span
-													class="badge badge-success">new</span>
-											</span> <span class="msg">is now following you</span>
-										</span>
-									</a>
+								
+									<?php if ( bp_has_notifications() ) :?>
+									<?php while ( bp_the_notifications() ) : bp_the_notification(); ?>
+									<?php 
+									$item_id    = bp_get_the_notification_item_id();
+									$user       = get_userdata( $item_id );
+									$link       = bp_core_get_user_domain( $item_id );
+									$avatar     = get_avatar( $item_id, '36', '', $user->display_name );
+									?>
+									<li class="new">
+										<a href="<?php bp_the_notification_action_links() ?>"> 
+											<span class="thumb">
+												
+											</span> 
+											<span class="desc">
+												<span class="name"><?php echo $user->display_name ?> <span class="badge badge-success"><?php bp_the_notification_time_since() ?></span></span> 
+												<span class="msg"><?php bp_the_notification_description() ?></span>
+											</span>
+										</a>
 									</li>
-									<li class="new"><a href="#"> <span class="thumb"><img
-												src="images/photos/user5.png" alt="" /> </span> <span
-											class="desc"> <span class="name">Weno Carasbong <span
-													class="badge badge-success">new</span>
-											</span> <span class="msg">is now following you</span>
-										</span>
-									</a>
-									</li>
-									<li class="new"><a href="#"> <span class="thumb"><img
-												src="images/photos/user3.png" alt="" /> </span> <span
-											class="desc"> <span class="name">Veno Leongal <span
-													class="badge badge-success">new</span>
-											</span> <span class="msg">likes your recent status</span>
-										</span>
-									</a>
-									</li>
-									<li class="new"><a href="#"> <span class="thumb"><img
-												src="images/photos/user3.png" alt="" /> </span> <span
-											class="desc"> <span class="name">Nusja Nawancali <span
-													class="badge badge-success">new</span>
-											</span> <span class="msg">downloaded your work</span>
-										</span>
-									</a>
-									</li>
-									<li class="new"><a href="#"> <span class="thumb"><img
-												src="images/photos/user3.png" alt="" /> </span> <span
-											class="desc"> <span class="name">Nusja Nawancali <span
-													class="badge badge-success">new</span>
-											</span> <span class="msg">send you 2 messages</span>
-										</span>
-									</a>
-									</li>
+									
+									<?php endwhile ?>
+									<?php endif ?>
+									
 									<li class="new"><a href="#">See All Notifications</a></li>
 								</ul>
 							</div>

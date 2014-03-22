@@ -4,7 +4,14 @@
 .headermenu .dropdown-menu:after {
 	top: -5px;
 }
-.user-list .desc span {
+.user-list .desc span, .gen-list .desc .badge {
 	clear:both;
 	float:left;
+}
+.gen-list .thumb img {
+	height: 36px;
+	width: 36px;
+}
+.user-list li:hover, .gen-list li:hover {
+	background-color: #FCFCFC;
 }

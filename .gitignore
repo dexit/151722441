@@ -99,3 +99,12 @@ dln-skills/.settings/org.eclipse.wst.common.project.facet.core.xml
 dln-skill/.externalToolBuilders/New_Builder (2).launch
 dln-skill/.settings/org.eclipse.php.core.prefs
 dln-skill/.settings/org.eclipse.wst.common.project.facet.core.xml
+dln-theme-hc/.externalToolBuilders/New_Builder.launch
+dln-skill/.externalToolBuilders/New_Builder (1).launch
+dln-theme-skill/.externalToolBuilders/New_Builder (2).launch
+dln-theme-skill/.settings/org.eclipse.core.resources.prefs
+*.prefs
+dln-theme-skill/.settings/org.eclipse.wst.common.project.facet.core.xml
+dln-theme-skill/assets/images/touch/Thumbs.db
+dln-theme-hc/.externalToolBuilders/New_Builder.launch
+dln-theme-hc/.externalToolBuilders/New_Builder.launch

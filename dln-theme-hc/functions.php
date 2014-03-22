@@ -26,10 +26,6 @@ function dln_get_notifications_objects() {
 				$count_f++;
 				$arr_f[] = $nof;
 				break;
-			case 'activity':
-				$count_a++;
-				$arr_a[] = $nof;
-				break;
 		}
 	}
 	
@@ -42,10 +38,6 @@ function dln_get_notifications_objects() {
 		'nof_type'  => 'friends',
 		'nof_count' => $count_f,
 		'nof_arr'   => $arr_f
-	);
-	$result['activity'] = array(
-		'nof_count' => $count_a,
-		'nof_arr'   => $arr_a
 	);
 	return $result;
 }
