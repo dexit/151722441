@@ -2,22 +2,21 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-class DLN_Form_Submit_Company extends DLN_Form {
+class DLN_Form_Submit_Profile extends DLN_Form {
 	
-	public static $form_name = 'submit-company';
-	protected static $company_id;
-	protected static $preview_company;
+	public static $form_name = 'submit-profile';
+	protected static $preview_profile;
 	protected static $steps;
 	protected static $step = 0;
 	
 	public static function init() {
-		add_action( 'wp', array( $this, 'process' ) );
+		add_action( 'wp', array( __CLASS__, 'process' ) );
 		
-		self::$steps = (array) apply_filters( 'submit_company_steps', array(
+		self::$steps = (array) apply_filters( 'submit_profile_steps', array(
 			'submit' => array(
 				'name'     => __( 'Submit Details', 'dln-skill' ),
-				'view'     => array( $this, 'submit' ),
-				'handler'  => array( $this, 'submit_handler' ),
+				'view'     => array( __CLASS__, 'submit' ),
+				'handler'  => array( __CLASS__, 'submit_handler' ),
 				'priority' => 10
 			),
 		) );
@@ -38,9 +37,7 @@ class DLN_Form_Submit_Company extends DLN_Form {
 		global $post;
 		
 		self::init_fields();
-		
 		if ( is_user_logged_in() && empty( $_POST ) ) {
-			$company = get_post( self::$company_id );
 			$user = wp_get_current_user();
 			
 			if ( $user ) {
@@ -61,26 +58,38 @@ class DLN_Form_Submit_Company extends DLN_Form {
 				}
 			}
 			
-			self::$fields = apply_filters( 'submit_company_form_fields_get_company_data', self::$fields, $user );
+			self::$fields = apply_filters( 'submit_profile_form_fields_get_profile_data', self::$fields, $user );
 			
-			wp_enqueue_script( 'dln-form-comany-submission' );
+			wp_enqueue_script( 'dln-form-profile-submission' );
 			
-			dln_form_get_template( 'company-submit.php', array(
-				'form'               => self::form_name,
-				'company'            => self::get_company_id(),
+			dln_form_get_template( 'profile-submit.php', array(
+				'form'               => self::$form_name,
 				'action'             => self::get_action(),
 				'profile_fields'     => self::get_fields( 'profile' ),
-				'company_fields'     => self::get_fields( 'company' ),
 				'submit_button_text' => __( 'Create Profile For Free', 'dln-skill' )
 			) );
 		}
+	}
+
+	public static function submit_handler() {
+		//try {
+			self::init_fields();
+			
+			$values = self::get_posted_fields();
+			
+			if ( empty( $_POST['submit_profile'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'submit_form_posted' ) )
+				return;
+			
+			if ( is_wp_error( ( $return = self::validate_fields( $values ) ) ) )
+				throw new Exception( $return->get_error_message() );
+		//}
 	}
 	
 	public static function init_fields() {
 		if ( self::$fields )
 			return;
 		
-		self::$fields = apply_filters( 'submit_company_form_fields', array( 
+		self::$fields = apply_filters( 'submit_profile_form_fields', array( 
 			'profile' => array(
 				'first_name' => array(
 					'label'       => __( 'First Name', 'dln-skill' ),
@@ -126,7 +135,38 @@ class DLN_Form_Submit_Company extends DLN_Form {
 		 ) );
 	}
 
-	public static function get_company_id() {
-		return absint( self::$company_id );
+	/**
+	 * output function. Call the view handler.
+	 */
+	public static function output() {
+		$keys = array_keys( self::$steps );
+		
+		self::show_errors();
+		if ( isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['view'] ) ) {
+			call_user_func( self::$steps[ $keys[ self::$step ] ]['view'] );
+		}
+	}
+
+	protected static function get_posted_fields() {
+		self::init_fields();
+		
+		$values = array();
+		
+		foreach ( self::$fields as $group_key => $fields ) {
+			foreach ( $fields as $key => $field ) {
+				// Get the value
+				$field_type = str_replace( '-', '_', $field['type'] );
+				
+				if ( method_exists( __CLASS__, "get_posted_{$field_type}_field" ) )
+					$values[ $group_key ][ $key ] = call_user_func( __CLASS__ . "::get_posted_{$field_type}_field", $key, $field );
+				else
+					$values[ $group_key ][ $key ] = self::get_posted_field( $key, $field );
+				
+				// Set fields value
+				self::$fields[ $group_key ][ $key ]['value'] = $values[ $group_key ][ $key ];
+			}
+		}
+		
+		return $values;
 	}
 }

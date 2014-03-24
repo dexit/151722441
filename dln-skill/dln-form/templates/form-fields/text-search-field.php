@@ -1,4 +1,8 @@
-<input type="text" class="input-text"
+<?php
+wp_enqueue_script( 'dln-form-field-text-search' );
+?>
+<input
+	type="text" class="input-text"
 	name="<?php echo esc_attr( isset( $field['name'] ) ? $field['name'] : $key ); ?>"
 	id="<?php echo esc_attr( $key ); ?>"
 	placeholder="<?php echo esc_attr( $field['placeholder'] ); ?>"

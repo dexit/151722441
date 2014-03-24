@@ -16,7 +16,7 @@ class DLN_Skill {
 	public function __construct() {
 		// Define constants
 		define( 'DLN_SKILL_VERSION', '1.0.0' );
-		define( 'DLN_SKILL', 'dln-job' );
+		define( 'DLN_SKILL', 'dln-skill' );
 		define( 'DLN_SKILL_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 		define( 'DLN_SKILL_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 		
