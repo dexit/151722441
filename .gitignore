@@ -108,3 +108,6 @@ dln-theme-skill/.settings/org.eclipse.wst.common.project.facet.core.xml
 dln-theme-skill/assets/images/touch/Thumbs.db
 dln-theme-hc/.externalToolBuilders/New_Builder.launch
 dln-theme-hc/.externalToolBuilders/New_Builder.launch
+/dln-theme-skill/nbproject/private/
+dln-theme-skill/nbproject/project.properties
+dln-theme-skill/nbproject/project.xml

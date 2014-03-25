@@ -32,26 +32,18 @@
 		<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/stylesheet/dln-style.css">
 		<!-- START JAVASCRIPT SECTION - Load only modernizr script here -->
 		<script src="<?php echo get_template_directory_uri(); ?>/assets/library/modernizr/js/modernizr.min.js"></script>
+		
+		<?php wp_head(); ?>
 	<!--/ END JAVASCRIPT SECTION -->
 	</head>
 
 	<body data-page="page-profile">
         <!-- START Template Header -->
-        <header id="header" class="navbar navbar-fixed-top">
+        <header id="header" class="navbar">
             <!-- START Toolbar -->
             <div class="container navbar-toolbar clearfix">
                 <!-- START Left nav -->
                 <ul class="nav navbar-nav navbar-left">
-                    <!-- Offcanvas left: This menu will take position at the top of template header (mobile only). Make sure that only #header have the `position: relative`, or it may cause unwanted behavior -->
-                    <li class="navbar-main hidden-lg hidden-md">
-                        <a href="javascript:void(0);" data-toggle="offcanvas" data-direction="ltr" rel="tooltip" title="Menu sidebar">
-                            <span class="meta">
-                                <span class="icon"><i class="ico-paragraph-left3"></i></span>
-                            </span>
-                        </a>
-                    </li>
-                    <!--/ Offcanvas left -->
-
                     <!-- Message dropdown -->
                     <li class="dropdown custom">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
@@ -363,17 +355,6 @@
                         </ul>
                     </li>
                     <!--/ Profile dropdown -->
-                    
-                    <!-- Offcanvas right This menu will take position at the top of template header (mobile only). Make sure that only #header have the `position: relative`, or it may cause unwanted behavior -->
-                    <li class="navbar-main">
-                        <a href="javascript:void(0);" data-toggle="offcanvas" data-direction="rtl" rel="tooltip" title="Feed / contact sidebar">
-                            <span class="meta">
-                                <span class="icon"><i class="ico-users3"></i></span>
-                                <span class="hasnotification hasnotification-danger"></span>
-                            </span>
-                        </a>
-                    </li>
-                    <!--/ Offcanvas right -->
                 </ul>
                 <!--/ END Right nav -->
             </div>
@@ -963,203 +944,4 @@
             <!--/ END To Top Scroller -->
         </section>
         <!--/ END Template Main -->
-
-        <!-- START Template Sidebar (right) -->
-        <aside class="sidebar sidebar-right">
-            <!-- START Sidebar Content -->
-            <section class="content slimscroll">
-                <!-- START Sidebar Profile -->
-                <!-- START Panel -->
-				<div class="panel">
-				    <!-- thumbnail -->
-				    <div class="thumbnail">
-				        <!-- media -->
-				        <div class="media">
-				            <!-- meta -->
-				            <span class="meta text-center">
-				                <h5 class="semibold mb0">Erich Reyes</h5>
-				                <p class="nm"><i class="ico-user7 mr5"></i>Administrator</p>
-				            </span>
-				            <!-- meta -->
-				            <!-- indicator -->
-				            <div class="indicator"><span class="spinner"></span></div>
-				            <!--/ indicator -->
-				            <img data-toggle="unveil" src="image/background/400x250/placeholder.jpg" data-src="image/background/400x250/background3.jpg" alt="Cover" width="100%">
-				        </div>
-				        <!--/ media -->
-				    </div>
-				    <!--/ thumbnail -->
-				    <!-- panel body -->
-				    <div class="panel-body" style="margin-top:-55px;z-index:2;">
-				        <ul class="list-unstyled">
-				            <li class="text-center">
-				                <img class="img-circle" src="image/avatar/avatar7.jpg" alt="" width="75px" height="75px">
-				                <br>
-				                <!-- dropdown -->
-				                <div class="btn-group mt10">
-				                    <button type="button" class="btn btn-default"><span class="hasnotification hasnotification-success mr5"></span>Online</button>
-				                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
-				                    <ul class="dropdown-menu" role="menu">
-				                        <li><a href="#">Away</a></li>
-				                        <li><a href="#">Offline</a></li>
-				                        <li><a href="#">Busy</a></li>
-				                    </ul>
-				                </div>
-				                <!--/ dropdown -->
-				            </li>
-				        </ul>
-				    </div>
-				    <!--/ panel body -->
-				</div>
-				<!--/ END Panel -->
-                <!--/ END Sidebar Profile -->
-
-                <!-- START Sidebar contact -->
-                <div class="media-list media-list-contact">
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar1.jpg" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-success mr5"></span> Autumn Barker</span>
-				            <span class="media-meta ellipsis">Malaysia</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar2.jpg" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-success mr5"></span> Giselle Horn</span>
-				            <span class="media-meta ellipsis">Bolivia</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar.png" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-danger mr5"></span> Austin Shields</span>
-				            <span class="media-meta ellipsis">Timor-Leste</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar.png" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-danger mr5"></span> Caryn Gibson</span>
-				            <span class="media-meta ellipsis">Libya</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar3.jpg" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-success mr5"></span> Nash Evans</span>
-				            <span class="media-meta ellipsis">Honduras</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar4.jpg" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-default mr5"></span> Josiah Johnson</span>
-				            <span class="media-meta ellipsis">Belgium</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar.png" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-default mr5"></span> Philip Hewitt</span>
-				            <span class="media-meta ellipsis">Bahrain</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar5.jpg" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-default mr5"></span> Wilma Hunt</span>
-				            <span class="media-meta ellipsis">Dominica</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar6.jpg" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-success mr5"></span> Noah Gill</span>
-				            <span class="media-meta ellipsis">Guatemala</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar8.jpg" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-success mr5"></span> David Fisher</span>
-				            <span class="media-meta ellipsis">French Guiana</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar9.jpg" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-success mr5"></span> Samantha Avery</span>
-				            <span class="media-meta ellipsis">Jersey</span>
-				        </span>
-				    </a>
-				
-				    <a href="javascript:void(0);" class="media">
-				        <span class="media-object pull-left">
-				            <img src="image/avatar/avatar.png" class="img-circle" alt="">
-				        </span>
-				        <span class="media-body">
-				            <span class="media-heading"><span class="hasnotification hasnotification-success mr5"></span> Madaline Medina</span>
-				            <span class="media-meta ellipsis">Finland</span>
-				        </span>
-				    </a>
-				</div>
-                <!--/ END Sidebar contact -->
-            </section>
-            <!--/ END Sidebar Content -->
-        </aside>
-        <!--/ END Template Sidebar (right) -->
-
-        <!-- START JAVASCRIPT SECTION (Load javascripts at bottom to reduce load time) -->
-		<!-- Library script : mandatory -->
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/library/jquery/js/jquery.min.js"></script>
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/library/jquery/js/jquery-ui.min.js"></script>
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/library/jquery/js/jquery-ui-touch.min.js"></script>
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/library/jquery/js/jquery-migrate.min.js"></script>
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/library/bootstrap/js/bootstrap.min.js"></script>
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/library/core/js/core.min.js"></script>
-		<!--/ Library script -->
-		
-		<!-- application script -->
-		
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/plugins/magnific/js/jquery.magnific-popup.min.js"></script>
-		
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/javascript/app.min.js"></script>
-		<!--/ application script -->
-		<!--/ END JAVASCRIPT SECTION -->
-    </body>
-
-<!-- Mirrored from pampersdry.info/theme/adminre/html/page-profile.html by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 21 Mar 2014 01:45:38 GMT -->
-</html>
+       
