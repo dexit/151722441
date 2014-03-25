@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 				<fieldset class="fieldset-<?php esc_attr_e( $key ); ?>">
 					<label for="<?php esc_attr_e( $key ); ?>"><?php echo $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', 'dln-skill' ) . '</small>' ); ?></label>
 					<div class="field">
-						<?php dln_form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ); ?>
+						<?php dln_form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ) ?>
 					</div>
 				</fieldset>
 			<?php endforeach ?>
@@ -23,10 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 			<?php do_action( 'submit_profile_form_profile_fields_end' ) ?>
 			
 			<p>
-			<?php wp_nonce_field( 'submit_form_posted' ); ?>
-				<input type="hidden" name="dln_form" value="<?php echo $form; ?>" />
-				<input type="hidden" name="step" value="0" />
-				<input type="submit" name="submit_profile" class="button" value="<?php esc_attr_e( $submit_button_text ); ?>" />
+				<?php wp_nonce_field( 'submit_form_posted' ); ?>
+				<input type="hidden" id="company_id" name="company_id" value="<?php echo $company_id ?>" />
+				<input type="hidden" id="dln_form" name="dln_form" value="<?php echo $form ?>" />
+				<input type="hidden" id="step" name="step" value="<?php echo $step ?>" />
+				<input type="submit" id="submit_profile" name="submit_profile" class="button" value="<?php esc_attr_e( $submit_button_text ) ?>" />
 			</p>
 			
 		<?php else : ?>
