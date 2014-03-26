@@ -1,4 +1,12 @@
-<?php ?>
+<?php 
+
+$notifications = dln_get_notifications();
+$nof_count     = count( $notifications );
+$nof_link      = trailingslashit( bp_loggedin_user_domain() . bp_get_notifications_slug() );
+$avatar_link   = dln_get_avatar_link();
+$user_id       = bp_loggedin_user_id();
+$display_name  = bp_core_get_user_displayname( $user_id );
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,8 +38,6 @@
 		<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/stylesheet/uielement.min.css">
 		<!--/ Application stylesheet -->
 		<link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/assets/stylesheet/dln-style.css">
-		<!-- START JAVASCRIPT SECTION - Load only modernizr script here -->
-		<script src="<?php echo get_template_directory_uri(); ?>/assets/library/modernizr/js/modernizr.min.js"></script>
 		
 		<?php wp_head(); ?>
 	<!--/ END JAVASCRIPT SECTION -->
@@ -44,251 +50,41 @@
             <div class="container navbar-toolbar clearfix">
                 <!-- START Left nav -->
                 <ul class="nav navbar-nav navbar-left">
-                    <!-- Message dropdown -->
-                    <li class="dropdown custom">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-                            <span class="meta">
-                                <span class="icon"><i class="ico-bubbles2"></i></span>
-                            </span>
-                        </a>
-                        <!-- Dropdown menu -->
-                        <div class="dropdown-menu" role="menu">
-                            <div class="dropdown-header">
-                                <span class="title">Messages</span>
-                                <span class="option text-right"><a href="javascript:void(0);">New message</a></span>
-                            </div>
-                            <div class="dropdown-body slimscroll">
-                                <!-- Search form -->
-                                <form class="form-horizontal" action="#">
-                                    <div class="has-icon">
-                                        <input type="text" class="form-control" placeholder="Search message...">
-                                        <i class="ico-search form-control-icon"></i>
-                                    </div>
-                                </form>
-                                <!--/ Search form -->
-
-                                <!-- Message list -->
-                                <div class="media-list">
-								    <a href="page-message-rich.html" class="media border-dotted">
-								        <span class="pull-left">
-								            <img src="image/avatar/avatar6.jpg" class="media-object img-circle" alt="">
-								        </span>
-								        <span class="media-body">
-								            <span class="media-heading">Arthur Abbott</span>
-								            <span class="media-text ellipsis nm">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</span>
-								            <!-- meta icon -->
-								            <span class="media-meta"><i class="ico-star6"></i></span>
-								            <span class="media-meta"><i class="ico-attachment"></i></span>
-								            <span class="media-meta pull-right">2m</span>
-								            <!--/ meta icon -->
-								        </span>
-								    </a>
-								
-								    <a href="page-message-rich.html" class="media border-dotted read">
-								        <span class="pull-left">
-								            <img src="image/avatar/avatar1.jpg" class="media-object img-circle" alt="">
-								        </span>
-								        <span class="media-body">
-								            <span class="media-heading">Martina Poole</span>
-								            <span class="media-text ellipsis nm">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</span>
-								            <!-- meta icon -->
-								            <span class="media-meta"><i class="ico-reply"></i></span>
-								            <span class="media-meta"><i class="ico-attachment"></i></span>
-								            <span class="media-meta pull-right">20m</span>
-								            <!--/ meta icon -->
-								        </span>
-								    </a>
-								
-								    <a href="page-message-rich.html" class="media border-dotted">
-								        <span class="pull-left">
-								            <img src="image/avatar/avatar2.jpg" class="media-object img-circle" alt="">
-								        </span>
-								        <span class="media-body">
-								            <span class="media-heading">Elvis Christensen</span>
-								            <span class="media-text ellipsis nm">Duis aute irure dolor in reprehenderit in voluptate velit esse.</span>
-								            <!-- meta icon -->
-								            <span class="media-meta"><i class="ico-attachment"></i></span>
-								            <span class="media-meta pull-right">5h</span>
-								            <!--/ meta icon -->
-								        </span>
-								    </a>
-								
-								    <a href="page-message-rich.html" class="media border-dotted read">
-								        <span class="pull-left">
-								            <img src="image/avatar/avatar3.jpg" class="media-object img-circle" alt="">
-								        </span>
-								        <span class="media-body">
-								            <span class="media-heading">Walter Foster</span>
-								            <span class="media-text ellipsis nm">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
-								            <!-- meta icon -->
-								            <span class="media-meta"><i class="ico-attachment"></i></span>
-								            <span class="media-meta pull-right">21h</span>
-								            <!--/ meta icon -->
-								        </span>
-								    </a>
-								
-								    <a href="page-message-rich.html" class="media border-dotted read">
-								        <span class="pull-left">
-								            <img src="image/avatar/avatar4.jpg" class="media-object img-circle" alt="">
-								        </span>
-								        <span class="media-body">
-								            <span class="media-heading">Callum Santosr</span>
-								            <span class="media-text ellipsis nm">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
-								            <!-- meta icon -->
-								            <span class="media-meta pull-right">1d</span>
-								            <!--/ meta icon -->
-								        </span>
-								    </a>
-								
-								    <a href="page-message-rich.html" class="media border-dotted read">
-								        <span class="pull-left">
-								            <img src="image/avatar/avatar5.jpg" class="media-object img-circle" alt="">
-								        </span>
-								        <span class="media-body">
-								            <span class="media-heading">Noelani Blevins</span>
-								            <span class="media-text ellipsis nm">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis.</span>
-								            <!-- meta icon -->
-								            <span class="media-meta pull-right">2d</span>
-								            <!--/ meta icon -->
-								        </span>
-								    </a>
-								
-								    <a href="page-message-rich.html" class="media border-dotted read">
-								        <span class="pull-left">
-								            <img src="image/avatar/avatar8.jpg" class="media-object img-circle" alt="">
-								        </span>
-								        <span class="media-body">
-								            <span class="media-heading">Carl Johnson</span>
-								            <span class="media-text ellipsis nm">Curabitur consequat, lectus sit amet luctus vulputate, nisi sem</span>
-								            <!-- meta icon -->
-								            <span class="media-meta"><i class="ico-attachment"></i></span>
-								            <span class="media-meta pull-right">2w</span>
-								            <!--/ meta icon -->
-								        </span>
-								    </a>
-								
-								    <a href="page-message-rich.html" class="media border-dotted read">
-								        <span class="pull-left">
-								            <img src="image/avatar/avatar9.jpg" class="media-object img-circle" alt="">
-								        </span>
-								        <span class="media-body">
-								            <span class="media-heading">Tamara Moon</span>
-								            <span class="media-text ellipsis nm">Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus.</span>
-								            <!-- meta icon -->
-								            <span class="media-meta"><i class="ico-attachment"></i></span>
-								            <span class="media-meta pull-right">2w</span>
-								            <!--/ meta icon -->
-								        </span>
-								    </a>
-								</div>
-                                <!--/ Message list -->
-                            </div>
-                        </div>
-                        <!--/ Dropdown menu -->
-                    </li>
-                    <!--/ Message dropdown -->
-
                     <!-- Notification dropdown -->
                     <li class="dropdown custom">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="meta">
                                 <span class="icon"><i class="ico-bell"></i></span>
+                                <?php if ( $nof_count ) : ?>
                                 <span class="hasnotification hasnotification-danger"></span>
+                                <?php endif ?>
                             </span>
                         </a>
                         <!-- Dropdown menu -->
                         <div class="dropdown-menu" role="menu">
                             <div class="dropdown-header">
-                                <span class="title">Notification (5)</span>
-                                <span class="option text-right"><a href="javascript:void(0);">Clear all</a></span>
+                                <span class="title"><?php echo __( 'Notification', 'dln-theme-skill' ) . ' ' . $nof_count ?></span>
+                                <span class="option text-right"><a href="<?php echo $nof_link ?>"><?php echo __( 'View all', 'dln-theme-skill' ) ?></a></span>
                             </div>
                             <div class="dropdown-body slimscroll">
                                 <!-- Message list -->
                                 <div class="media-list">
-    <a href="javascript:void(0);" class="media border-dotted">
-        <span class="media-object pull-left">
-            <i class="ico-instagram2 bgcolor-teal"></i>
-        </span>
-        <span class="media-body">
-            <span class="media-text">Lorem ipsum <span class="text-primary semibold">dolor sit</span> amet, consectetur adipisicing elit.</span>
-            <!-- meta icon -->
-            <span class="media-meta pull-right">2m</span>
-            <!--/ meta icon -->
-        </span>
-    </a>
-
-    <a href="javascript:void(0);" class="media border-dotted">
-        <span class="media-object pull-left">
-            <i class="ico-queen"></i>
-        </span>
-        <span class="media-body">
-            <span class="media-text">Ut <span class="text-primary semibold">enim</span> ad minim veniam, aliquip ex ea commodo.</span>
-            <!-- meta icon -->
-            <span class="media-meta pull-right">10m</span>
-            <!--/ meta icon -->
-        </span>
-    </a>
-
-    <a href="javascript:void(0);" class="media read border-dotted">
-        <span class="media-object pull-left">
-            <i class="ico-file-check bgcolor-success"></i>
-        </span>
-        <span class="media-body">
-            <span class="media-text">Excepteur sint <span class="text-primary semibold">occaecat cupidatat</span> non laborum.</span>
-            <!-- meta icon -->
-            <span class="media-meta pull-right">1d</span>
-            <!--/ meta icon -->
-        </span>
-    </a>
-
-    <a href="javascript:void(0);" class="media read border-dotted">
-        <span class="media-object pull-left">
-            <i class="ico-basket2 bgcolor-info"></i>
-        </span>
-        <span class="media-body">
-            <span class="media-text">Duis aute irure dolor in <span class="text-primary semibold">reprehenderit</span> in voluptate.</span>
-            <!-- meta icon -->
-            <span class="media-meta pull-right">2d</span>
-            <!--/ meta icon -->
-        </span>
-    </a>
-
-    <a href="javascript:void(0);" class="media read border-dotted">
-        <span class="media-object pull-left">
-            <i class="ico-call-incoming"></i>
-        </span>
-        <span class="media-body">
-            <span class="media-text">Aliquip ex ea commodo consequat.</span>
-            <!-- meta icon -->
-            <span class="media-meta pull-right">1w</span>
-            <!--/ meta icon -->
-        </span>
-    </a>
-
-    <a href="javascript:void(0);" class="media read border-dotted">
-        <span class="media-object pull-left">
-            <i class="ico-alarm2"></i>
-        </span>
-        <span class="media-body">
-            <span class="media-text">Excepteur sint <span class="text-primary semibold">occaecat</span> cupidatat non.</span>
-            <!-- meta icon -->
-            <span class="media-meta pull-right">12w</span>
-            <!--/ meta icon -->
-        </span>
-    </a>
-
-    <a href="javascript:void(0);" class="media read border-dotted">
-        <span class="media-object pull-left">
-            <i class="ico-checkmark3 bgcolor-success"></i>
-        </span>
-        <span class="media-body">
-            <span class="media-text">Lorem ipsum dolor sit amet, <span class="text-primary semibold">consectetur</span> adipisicing elit.</span>
-            <!-- meta icon -->
-            <span class="media-meta pull-right">14w</span>
-            <!--/ meta icon -->
-        </span>
-    </a>
-</div>
+                                <?php if ( is_array( $notifications ) ): ?>
+                                <?php foreach ( $notifications as $i => $nof ) :?>
+								    <a href="<?php echo $nof->href ?>" class="media border-dotted">
+								        <span class="media-object pull-left">
+								            <i class="<?php echo $nof->icon ?>"></i>
+								        </span>
+								        <span class="media-body">
+								            <span class="media-text"><?php echo $nof->content ?></span>
+								            <!-- meta icon -->
+								            <span class="media-meta pull-right">2m</span>
+								            <!--/ meta icon -->
+								        </span>
+								    </a>
+								<?php endforeach ?>
+								<?php endif ?>
+								</div>
                                 <!--/ Message list -->
                             </div>
                         </div>
@@ -325,8 +121,8 @@
                     <li class="dropdown profile">
                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
                             <span class="meta">
-                                <span class="avatar"><img src="image/avatar/avatar7.jpg" class="img-circle" alt="" /></span>
-                                <span class="text hidden-xs hidden-sm">Erich Reyes</span>
+                                <span class="avatar"><?php echo $avatar_link ?></span>
+                                <span class="text hidden-xs hidden-sm"><?php echo $display_name ?></span>
                                 <span class="arrow"></span>
                             </span>
                         </a>
@@ -334,24 +130,24 @@
                             <li class="pa15">
                                 <h5 class="semibold hidden-xs hidden-sm">
                                     60% <br/>
-                                    <small class="text-muted">Profile complete</small>
+                                    <small class="text-muted"><?php __( 'Profile complete', 'dln-theme-skill' ) ?></small>
                                 </h5>
                                 <h5 class="semibold hidden-md hidden-lg">
-                                    Erich Reyes<br/>
-                                    <small class="text-muted">60% Profile complete</small>
+                                    <?php echo $display_name ?><br/>
+                                    <small class="text-muted"><?php sprintf( __( '%s Profile complete', 'dln-theme-skill' ), '60%' ) ?></small>
                                 </h5>
                                 <div class="progress progress-xs nm mt10">
                                     <div class="progress-bar progress-bar-warning" style="width: 60%">
-                                        <span class="sr-only">60% Complete</span>
+                                        <span class="sr-only"><?php sprintf( __( '%s Complete', 'dln-theme-skill' ), '60%' )?></span>
                                     </div>
                                 </div>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-user-plus2"></i></span> My Accounts</a></li>
-                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-cog4"></i></span> Profile Setting</a></li>
-                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-question"></i></span> Help</a></li>
+                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-user-plus2"></i></span><?php __( 'My Accounts', 'dln-theme-skill' ) ?></a></li>
+                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-cog4"></i></span><?php __( 'Profile Setting', 'dln-theme-skill' ) ?></a></li>
+                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-question"></i></span><?php __( 'Help', 'dln-theme-skill' ) ?></a></li>
                             <li class="divider"></li>
-                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-exit"></i></span> Sign Out</a></li>
+                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-exit"></i></span><?php __( 'Sign Out', 'dln-theme-skill' ) ?></a></li>
                         </ul>
                     </li>
                     <!--/ Profile dropdown -->

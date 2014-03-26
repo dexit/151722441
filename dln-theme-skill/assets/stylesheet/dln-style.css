@@ -11,3 +11,7 @@
 	box-shadow: none;
 	background-color: rgba(0, 0, 0, 0);
 }
+#header.navbar > .navbar-toolbar > .navbar-nav > .dropdown.custom > .dropdown-menu .dropdown-body, #header.navbar > .navbar-toolbar > .navbar-nav > .dropdown.custom > .dropdown-menu > .viewport {
+	height:auto;
+	max-height: 320px;
+}
