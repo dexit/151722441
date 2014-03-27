@@ -1,0 +1,49 @@
+// Post Types Export code for CustomPress
+global $CustomPress_Core;
+$CustomPress_Core->import=array (
+  'post_types' => 
+  array (
+    'dln_company' => 
+    array (
+      'labels' => 
+      array (
+        'name' => 'Company',
+        'singular_name' => 'Company',
+      ),
+      'supports' => 
+      array (
+        'title' => 'title',
+        'editor' => 'editor',
+        'author' => 'author',
+        'thumbnail' => 'thumbnail',
+        'custom_fields' => 'custom-fields',
+        'comments' => 'comments',
+      ),
+      'supports_reg_tax' => 
+      array (
+        'category' => '1',
+        'post_tag' => '1',
+      ),
+      'capability_type' => 'post',
+      'map_meta_cap' => true,
+      'description' => '',
+      'menu_position' => 50,
+      'show_ui' => true,
+      'show_in_nav_menus' => true,
+      'publicly_queryable' => true,
+      'exclude_from_search' => false,
+      'hierarchical' => false,
+      'has_archive' => false,
+      'rewrite' => 
+      array (
+        'with_front' => true,
+        'feeds' => false,
+        'pages' => true,
+        'ep_mask' => 0,
+      ),
+      'query_var' => true,
+      'can_export' => true,
+      'cf_columns' => NULL,
+    ),
+  ),
+);

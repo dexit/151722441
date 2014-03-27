@@ -26,7 +26,12 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 				'view'     => array( __CLASS__, 'submit_company' ),
 				'handler'  => array( __CLASS__, 'submit_company_handler' ),
 				'priority' => 20
-			) 
+			),
+			'submit_thankyou' => array(
+				'name'     => __( 'Thank you', 'dln-skill' ),
+				'view'     => array( __CLASS__, 'submit_thankyou' ),
+				'priority' => 30
+			),
 		) );
 		
 		uasort( self::$steps, array( __CLASS__, 'sort_by_priority' ) );
@@ -57,110 +62,6 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 		}
 	}
 	
-	public static function submit_company() {
-		self::init_fields();
-		
-		if ( is_user_logged_in() && empty( $_POST ) ) {
-			$user = wp_get_current_user();
-				
-			if ( $user ) {
-				foreach ( self::$fields as $group_key => $fields ) {
-					foreach ( $fields as $key => $field ) {
-						switch( $key ) {
-							case 'first_name' :
-								self::$fields[ $group_key ][ $key ]['value'] = $user->user_firstname;
-								break;
-							case 'last_name' :
-								self::$fields[ $group_key ][ $key ]['value'] = $user->user_lastname;
-								break;
-							case 'email' :
-								self::$fields[ $group_key ][ $key ]['value'] = $user->user_email;
-								break;
-						}
-					}
-				}
-			}
-				
-			self::$fields = apply_filters( 'submit_profile_form_fields_get_profile_data', self::$fields, $user );
-				
-			wp_enqueue_script( 'dln-form-profile-submission' );
-				
-			dln_form_get_template( 'profile-company-submit.php', array(
-			'form'               => self::$form_name,
-			'action'             => self::get_action(),
-			'profile_fields'     => self::get_fields( 'profile' ),
-			'company_id'         => self::$company_id,
-			'step'               => self::$step,
-			'submit_button_text' => __( 'Create Profile For Free', 'dln-skill' )
-			) );
-		}
-	}
-	
-	public static function submit() {
-		global $post;
-		
-		self::init_fields();
-		if ( is_user_logged_in() && empty( $_POST ) ) {
-			$user = wp_get_current_user();
-			
-			if ( $user ) {
-				foreach ( self::$fields as $group_key => $fields ) {
-					foreach ( $fields as $key => $field ) {
-						switch( $key ) {
-							case 'first_name' :
-								self::$fields[ $group_key ][ $key ]['value'] = $user->user_firstname;
-								break;
-							case 'last_name' :
-								self::$fields[ $group_key ][ $key ]['value'] = $user->user_lastname;
-								break;
-							case 'email' :
-								self::$fields[ $group_key ][ $key ]['value'] = $user->user_email;
-								break;
-						}
-					}
-				}
-			}
-			
-			self::$fields = apply_filters( 'submit_profile_form_fields_get_profile_data', self::$fields, $user );
-			
-			wp_enqueue_script( 'dln-form-profile-submission' );
-			
-			dln_form_get_template( 'profile-submit.php', array(
-				'form'               => self::$form_name,
-				'action'             => self::get_action(),
-				'profile_fields'     => self::get_fields( 'profile' ),
-				'company_id'         => self::$company_id,
-				'step'               => self::$step,
-				'submit_button_text' => __( 'Create Profile For Free', 'dln-skill' )
-			) );
-		}
-	}
-
-	public static function submit_handler() {
-		try {
-			if ( empty( $_POST['submit_profile'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'submit_form_posted' ) )
-				return;
-		
-			self::init_fields();
-			
-			$values = self::get_posted_fields();
-			
-			if ( is_wp_error( ( $return = self::validate_fields( $values ) ) ) )
-				throw new Exception( $return->get_error_message() );
-			
-			if ( ! is_user_logged_in() )
-				throw new Exception( __( 'You must be signed in to post a new profile.', 'dln-skill' ) );
-			
-			if ( empty( $_POST['company_id'] ) ) {
-				self::$cache_fields = $values;
-				self::$step = 1;
-			}
-		} catch ( Exception $e ) {
-			self::add_error( $e->getMessage() );
-			return;
-		}
-	}
-	
 	public static function init_fields() {
 		if ( self::$fields )
 			return;
@@ -181,7 +82,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 					'placeholder' => __( 'Last Name is required', 'dln-skill' ),
 					'priority'    => 2
 				),
-				'email' => array(
+				'work_email' => array(
 					'label'       => __( 'Work Email', 'dln-skill' ),
 					'type'        => 'text',
 					'required'    => true,
@@ -205,7 +106,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 				'is_hr' => array(
 					'label'    => __( 'I represent HR at my company', 'dln-skill' ),
 					'type'     => 'checkbox',
-					'priority' => 7
+					'priority' => 6
 				)
 			),
 			'company' => array(
@@ -269,6 +170,219 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 		return $options;
 	}
 	
+	public static function submit() {
+		global $post;
+	
+		self::init_fields();
+		if ( is_user_logged_in() && empty( $_POST ) ) {
+			$user = wp_get_current_user();
+				
+			if ( ! empty( $user ) ) {
+				foreach ( self::$fields as $group_key => $fields ) {
+					foreach ( $fields as $key => $field ) {
+						switch( $key ) {
+							case 'first_name' :
+								self::$fields[ $group_key ][ $key ]['value'] = $user->user_firstname;
+								break;
+							case 'last_name' :
+								self::$fields[ $group_key ][ $key ]['value'] = $user->user_lastname;
+								break;
+							case 'work_email' :
+								self::$fields[ $group_key ][ $key ]['value'] = $user->user_email;
+								break;
+						}
+					}
+				}
+			}
+				
+			self::$fields = apply_filters( 'submit_profile_form_fields_get_profile_data', self::$fields, $user );
+				
+			wp_enqueue_script( 'dln-form-profile-submission' );
+				
+			dln_form_get_template( 'profile-submit.php', array(
+				'form'               => self::$form_name,
+				'action'             => self::get_action(),
+				'profile_fields'     => self::get_fields( 'profile' ),
+				'company_id'         => self::$company_id,
+				'step'               => self::$step,
+				'submit_button_text' => __( 'Create Profile For Free', 'dln-skill' )
+			) );
+		}
+	}
+	
+	public static function submit_company() {
+		self::init_fields();
+	
+		if ( is_user_logged_in() && empty( $_POST ) ) {
+			$user = wp_get_current_user();
+	
+			if ( ! empty( $user ) && ! empty( $cache_fields ) ) {
+				foreach ( self::$fields as $group_key => $fields ) {
+					foreach ( $fields as $key => $field ) {
+						switch( $key ) {
+							case 'first_name' :
+								self::$fields[ $group_key ][ $key ]['value'] = $user->user_firstname;
+								break;
+							case 'last_name' :
+								self::$fields[ $group_key ][ $key ]['value'] = $user->user_lastname;
+								break;
+							case 'work_email' :
+								self::$fields[ $group_key ][ $key ]['value'] = $user->user_email;
+								break;
+						}
+					}
+				}
+			}
+	
+			self::$fields = apply_filters( 'submit_profile_form_fields_get_profile_data', self::$fields, $user );
+	
+			wp_enqueue_script( 'dln-form-profile-submission' );
+	
+			dln_form_get_template( 'profile-company-submit.php', array(
+			'form'               => self::$form_name,
+			'action'             => self::get_action(),
+			'profile_fields'     => self::get_fields( 'profile' ),
+			'company_fields'     => self::get_fields( 'company' ),
+			'company_id'         => self::$company_id,
+			'step'               => self::$step,
+			'submit_button_text' => __( 'Create Profile For Free', 'dln-skill' )
+			) );
+		}
+	}
+	
+	public static function submit_handler() {
+		try {
+			if ( empty( $_POST['submit_profile'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'submit_form_posted' ) )
+				return;
+	
+			self::init_fields();
+	
+			$values = self::get_posted_fields();
+	
+			if ( ! empty( $_POST['company_id'] ) ) {
+				$exclude_fields = array( 'company_website', 'company_type', 'employ_number', 'company_address' );
+				$return = self::validate_fields( $values, $exclude_fields );
+			} else {
+				$return = self::validate_fields( $values );
+			}
+			
+			if ( is_wp_error( ( $return ) ) )
+				throw new Exception( $return->get_error_message() );
+	
+			if ( ! is_user_logged_in() )
+				throw new Exception( __( 'You must be signed in to post a new profile.', 'dln-skill' ) );
+	
+			if ( empty( $_POST['company_id'] ) ) {
+				self::$cache_fields = $values;
+				self::$step = 1;
+			} else {
+				// Update user profile
+				self::update_profile_data( $values );
+			}
+			
+		} catch ( Exception $e ) {
+			self::add_error( $e->getMessage() );
+			return;
+		}
+	}
+	
+	public static function submit_company_handler() {
+		try {
+			if ( empty( $_POST['submit_profile_company'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'submit_form_posted' ) )
+				return;
+	
+			self::init_fields();
+	
+			$values = self::get_posted_fields();
+	
+			if ( is_wp_error( ( $return = self::validate_fields( $values ) ) ) )
+				throw new Exception( $return->get_error_message() );
+	
+			if ( ! is_user_logged_in() )
+				throw new Exception( __( 'You must be signed in to post a new profile.', 'dln-skill' ) );
+	
+			if ( empty( $_POST['company_id'] ) ) {
+				// Create company profile
+				self::save_company( $values['profile']['company_title'], 'company_pending', $values );
+				self::update_company_data( $values );
+			}
+			
+			// Update user profile 
+			self::update_profile_data( $values );
+			
+		} catch ( Exception $e ) {
+			self::add_error( $e->getMessage() );
+			return;
+		}
+	}
+	
+	/**
+	 * Update or create a company profile from posted data
+	 *
+	 * @param  string $company_title
+	 * @param  string $status
+	 * @param  array $values
+	 */
+	protected static function save_company( $company_title, $status = 'pending', $values ) {
+		$company_slug = array();
+		
+		// Prepend with company title
+		$company_slug[] = $company_title;
+		
+		// Prepend with company address
+		if ( ! empty( $values['company']['company_address'] ) )
+			$company_slug[] = $values['company']['company_address'];
+		
+		$company_data = apply_filters( 'submit_profile_company_save_data', array( 
+			'post_title'     => $company_title,
+			'post_name'      => sanitize_title( implode( '-', $company_slug ) ),
+			'post_content'   => '',
+			'post_type'      => DLN_COMPANY_SLUG,
+			'comment_status' => 'open'
+		), $company_title, $status, $values );
+		
+		if ( $status )
+			$company_data['post_status'] = $status;
+		
+		if ( self::$company_id ) {
+			$company_data['ID'] = self::$company_id;
+			wp_update_post( $company_data );
+		} else {
+			self::$company_id = wp_insert_post( $company_data );
+		}
+	}	
+	
+	/**
+	 * Set company meta + terms based on posted values
+	 *
+	 * @param  array $values
+	 */
+	protected static function update_company_data( $values ) {
+		wp_set_object_terms( self::$company_id, array( $values['company']['company_type'] ), DLN_COMPANY_TYPE_SLUG, false );
+		
+		wp_set_object_terms( self::$company_id, array( $values['company']['employ_number'] ), DLN_EMPLOYEE_NUMBER_SLUG, false );
+		
+		update_post_meta( self::$company_id, '_company_website', $values['company']['company_website'] );
+		update_post_meta( self::$company_id, '_company_address', $values['company']['company_address'] );
+		
+		do_action( 'dln_form_update_company_data', self::$company_id, $values );
+	}
+	
+	protected static function update_profile_data( $values ) {
+		$user_id = get_current_user_id();
+		if ( $user_id ) {
+			update_user_meta( $user_id, '_first_name', $values['profile']['first_name'] );
+			update_user_meta( $user_id, '_last_name', $values['profile']['last_name'] );
+			update_user_meta( $user_id, '_work_email', $values['profile']['work_email'] );
+			update_user_meta( $user_id, '_job_title', $values['profile']['job_title'] );
+			update_user_meta( $user_id, '_is_hr', $values['profile']['is_hr'] );
+			update_user_meta( $user_id, '_company_id', self::$company_id );
+		}
+		self::$step = 2;
+		
+		do_action( 'dln_form_update_profile_data', self::$company_id, $values );
+	}
+	
 	/**
 	 * Get the value of a posted field
 	 * 
@@ -310,16 +424,15 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 		return isset( $_POST[ $key ] ) ? sanitize_text_field( trim( stripslashes( $_POST[ $key ] ) ) ) : '';
 	}
 	
-	
 	/**
 	 * Validate the posted fields
 	 *
 	 * @return bool on success, WP_ERROR on failure
 	 */
-	protected static function validate_fields( $values ) {
+	protected static function validate_fields( $values, $exclude_fields = array() ) {
 		foreach( $values as $group_key => $fields ) {
 			foreach ( $fields as $key => $field ) {
-				if ( $field['required'] && empty( $values[ $group_key ][ $key ] ) ) {
+				if ( $field['required'] && empty( $values[ $group_key ][ $key ] ) && ! in_array( $key, $exclude_fields ) ) {
 					return new WP_Error( 'validation-error', sprintf( __( '%s is a required field', 'dln-skill' ), $field['label'] ) );
 				}
 			}

@@ -9,18 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 	<?php if ( apply_filters( 'submit_profile_form_show', true ) ) : ?>
 		<?php if ( dln_form_user_can_post_profile() ) : ?>
 			
-			<?php do_action( 'submit_profile_form_profile_fields_start' ) ?>
-			
-			<?php foreach( $profile_fields as $key => $field ) : ?>
-				<fieldset class="fieldset-<?php esc_attr_e( $key ); ?>">
-					<label for="<?php esc_attr_e( $key ); ?>"><?php echo $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', 'dln-skill' ) . '</small>' ); ?></label>
-					<div class="field">
-						<?php dln_form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ) ?>
-					</div>
-				</fieldset>
-			<?php endforeach ?>
-			
-			<?php do_action( 'submit_profile_form_profile_fields_end' ) ?>
+			<?php dln_form_profile_fields( $profile_fields ) // Load common profile fields?>
 			
 			<p>
 				<?php wp_nonce_field( 'submit_form_posted' ); ?>

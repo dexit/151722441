@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="WPR" default="sync" basedir=".">
 	<property name="source.dir" location="./dln-skill/"/>
-	<property name="dest.dir" location="C:/xampp/htdocs/wordpress/wp-content/plugins/dln-skill/"/>
+	<property name="dest.dir" location="C:/xampp/htdocs/wp/wp-content/plugins/dln-skill/"/>
 
 	<!-- ============================================  -->
     <!-- Target: prepare                               -->

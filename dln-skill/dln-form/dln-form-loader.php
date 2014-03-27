@@ -16,6 +16,10 @@ class DLN_Form_Loader {
 	}
 	
 	function __construct() {
+		define( 'DLN_COMPANY_SLUG', 'dln_company' );
+		define( 'DLN_COMPANY_TYPE_SLUG', 'dln_company_type' );
+		define( 'DLN_EMPLOYEE_NUMBER_SLUG', 'dln_employ_number' );
+		
 		include( 'dln-form-functions.php' );
 		include( 'dln-form-template.php' );
 		include( 'includes/class-dln-form-shortcodes.php' );

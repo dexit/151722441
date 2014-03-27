@@ -1,0 +1,72 @@
+// Taxonomies Export code for CustomPress
+global $CustomPress_Core;
+$CustomPress_Core->import=array (
+  'taxonomies' => 
+  array (
+    'dln_company_type' => 
+    array (
+      'object_type' => 
+      array (
+        0 => 'dln_company',
+      ),
+      'args' => 
+      array (
+        'labels' => 
+        array (
+          'name' => 'Company Types',
+          'singular_name' => 'Company Type',
+          'add_new_item' => 'Add New Company Type',
+        ),
+        'public' => true,
+        'show_admin_column' => NULL,
+        'hierarchical' => false,
+        'rewrite' => 
+        array (
+          'with_front' => true,
+          'hierarchical' => false,
+          'ep_mask' => 0,
+        ),
+        'query_var' => true,
+        'capabilities' => 
+        array (
+          'manage_terms' => 'manage_categories',
+          'edit_terms' => 'manage_categories',
+          'delete_terms' => 'manage_categories',
+          'assign_terms' => 'edit_posts',
+        ),
+      ),
+    ),
+    'dln_employ_number' => 
+    array (
+      'object_type' => 
+      array (
+        0 => 'dln_company',
+      ),
+      'args' => 
+      array (
+        'labels' => 
+        array (
+          'name' => 'Employ Number',
+          'singular_name' => 'Employ Number',
+        ),
+        'public' => true,
+        'show_admin_column' => NULL,
+        'hierarchical' => false,
+        'rewrite' => 
+        array (
+          'with_front' => true,
+          'hierarchical' => false,
+          'ep_mask' => 0,
+        ),
+        'query_var' => true,
+        'capabilities' => 
+        array (
+          'manage_terms' => 'manage_categories',
+          'edit_terms' => 'manage_categories',
+          'delete_terms' => 'manage_categories',
+          'assign_terms' => 'edit_posts',
+        ),
+      ),
+    ),
+  ),
+);
