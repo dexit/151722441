@@ -1,12 +1,11 @@
-<?php
-/**
- * @version    $Id$
- * @package    ITPGBLDR
- * @author     InnoThemes Team <support@innothemes.com>
- * @copyright  Copyright (C) 2012 InnoThemes.com. All Rights Reserved.
- * @license    GNU/GPL v2 or later http://www.gnu.org/licenses/gpl-2.0.html
- *
- * Websites: http://www.innothemes.com
- * Technical Support: Feedback - http://www.innothemes.com/contact-us/get-support.html
- */
- 
+<?php if ( is_array( $field['options'] ) ) : ?>
+<?php foreach ( $field['options'] as $option => $value ) :?>
+<input
+	type="checkbox"
+	name="<?php echo esc_attr( isset( $field['name'] ) ) ? $field['name'] : $key ?>[]"
+	id="<?php echo esc_attr( $key ) ?>" 
+	value="<?php echo esc_attr( $option )?>"
+	><?php echo esc_html( $value ) ?>
+</input>
+<?php endforeach ?>
+<?php endif ?>

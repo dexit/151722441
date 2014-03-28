@@ -42,6 +42,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 		} elseif ( ! empty( $_GET['step'] ) ) {
 			self::$step = is_numeric( $_GET['step'] ) ? max( absint( $_GET['step'] ), 0 ) : array_search( $_GET['step'], array_keys( self::$steps ) );
 		}
+		
 		self::$company_id = ! empty( $_REQUEST['company_id'] ) ? absint( $_REQUEST[ 'company_id' ] ) : 0;
 		
 		// Validate job ID if set
@@ -56,7 +57,6 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	 */
 	public static function process() {
 		$keys = array_keys( self::$steps );
-		
 		if ( isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['handler'] ) ) {
 			call_user_func( self::$steps[ $keys[ self::$step ] ]['handler'] );
 		}
@@ -104,8 +104,12 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 					'priority'    => 5
 				),
 				'is_hr' => array(
-					'label'    => __( 'I represent HR at my company', 'dln-skill' ),
+					'label'    => '',
 					'type'     => 'checkbox',
+					'options'  => array(
+						'true' => __( 'I represent HR at my company', 'dln-skill' )
+					),
+					'required' => false,
 					'priority' => 6
 				)
 			),
@@ -151,6 +155,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 		$keys = array_keys( self::$steps );
 		
 		self::show_errors();
+		
 		if ( isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['view'] ) ) {
 			call_user_func( self::$steps[ $keys[ self::$step ] ]['view'] );
 		}
@@ -176,7 +181,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 		self::init_fields();
 		if ( is_user_logged_in() && empty( $_POST ) ) {
 			$user = wp_get_current_user();
-				
+			
 			if ( ! empty( $user ) ) {
 				foreach ( self::$fields as $group_key => $fields ) {
 					foreach ( $fields as $key => $field ) {
@@ -212,22 +217,31 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	
 	public static function submit_company() {
 		self::init_fields();
-	
+		
 		if ( is_user_logged_in() && empty( $_POST ) ) {
 			$user = wp_get_current_user();
 	
-			if ( ! empty( $user ) && ! empty( $cache_fields ) ) {
+			if ( ! empty( $user ) && ! empty( self::$cache_fields ) ) {
 				foreach ( self::$fields as $group_key => $fields ) {
 					foreach ( $fields as $key => $field ) {
 						switch( $key ) {
 							case 'first_name' :
-								self::$fields[ $group_key ][ $key ]['value'] = $user->user_firstname;
+								self::$fields[ $group_key ][ $key ]['value'] = self::$cache_fields[$group_key]['firstname'];
 								break;
 							case 'last_name' :
-								self::$fields[ $group_key ][ $key ]['value'] = $user->user_lastname;
+								self::$fields[ $group_key ][ $key ]['value'] = self::$cache_fields[$group_key]['last_name'];
 								break;
 							case 'work_email' :
-								self::$fields[ $group_key ][ $key ]['value'] = $user->user_email;
+								self::$fields[ $group_key ][ $key ]['value'] = self::$cache_fields[$group_key]['work_email'];
+								break;
+							case 'job_title' :
+								self::$fields[ $group_key ][ $key ]['value'] = self::$cache_fields[$group_key]['job_title'];
+								break;
+							case 'company_title' :
+								self::$fields[ $group_key ][ $key ]['value'] = self::$cache_fields[$group_key]['company_title'];
+								break;
+							case 'is_hr' :
+								self::$fields[ $group_key ][ $key ]['value'] = self::$cache_fields[$group_key]['is_hr'];
 								break;
 						}
 					}
@@ -235,6 +249,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 			}
 	
 			self::$fields = apply_filters( 'submit_profile_form_fields_get_profile_data', self::$fields, $user );
+			var_dump( self::$fields );
 	
 			wp_enqueue_script( 'dln-form-profile-submission' );
 	
@@ -257,12 +272,12 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	
 			self::init_fields();
 	
-			$values = self::get_posted_fields();
-	
 			if ( ! empty( $_POST['company_id'] ) ) {
 				$exclude_fields = array( 'company_website', 'company_type', 'employ_number', 'company_address' );
+				$values = self::get_posted_fields( $exclude_fields );
 				$return = self::validate_fields( $values, $exclude_fields );
 			} else {
+				$values = self::get_posted_fields();
 				$return = self::validate_fields( $values );
 			}
 			
@@ -271,10 +286,10 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	
 			if ( ! is_user_logged_in() )
 				throw new Exception( __( 'You must be signed in to post a new profile.', 'dln-skill' ) );
-	
+			
 			if ( empty( $_POST['company_id'] ) ) {
 				self::$cache_fields = $values;
-				self::$step = 1;
+				self::$step         = 1;
 			} else {
 				// Update user profile
 				self::update_profile_data( $values );
@@ -391,23 +406,25 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	 * 
 	 * @return string
 	 */
-	protected static function get_posted_fields() {
+	protected static function get_posted_fields( $exclude_fields = array() ) {
 		self::init_fields();
 		
 		$values = array();
 		
 		foreach ( self::$fields as $group_key => $fields ) {
 			foreach ( $fields as $key => $field ) {
-				// Get the value
-				$field_type = str_replace( '-', '_', $field['type'] );
-				
-				if ( method_exists( __CLASS__, "get_posted_{$field_type}_field" ) )
-					$values[ $group_key ][ $key ] = call_user_func( __CLASS__ . "::get_posted_{$field_type}_field", $key, $field );
-				else
-					$values[ $group_key ][ $key ] = self::get_posted_field( $key, $field );
-				
-				// Set fields value
-				self::$fields[ $group_key ][ $key ]['value'] = $values[ $group_key ][ $key ];
+				if ( ! in_array( $key, $exclude_fields ) ) {
+					// Get the value
+					$field_type = str_replace( '-', '_', $field['type'] );
+					
+					if ( method_exists( __CLASS__, "get_posted_{$field_type}_field" ) )
+						$values[ $group_key ][ $key ] = call_user_func( __CLASS__ . "::get_posted_{$field_type}_field", $key, $field );
+					else
+						$values[ $group_key ][ $key ] = self::get_posted_field( $key, $field );
+					
+					// Set fields value
+					self::$fields[ $group_key ][ $key ]['value'] = $values[ $group_key ][ $key ];
+				}
 			}
 		}
 		
@@ -425,6 +442,26 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	}
 	
 	/**
+	 * Get the value of a posted checkbox field
+	 * @param  string $key
+	 * @param  array $field
+	 * @return array
+	 */
+	protected static function get_posted_checkbox_field( $key, $field ) {
+		return isset( $_POST[ $key ] ) ? array_map( 'sanitize_text_field',  $_POST[ $key ] ) : array();
+	}
+	
+	/**
+	 * Get the value of a posted select field
+	 * @param  string $key
+	 * @param  array $field
+	 * @return array
+	 */
+	protected static function get_posted_select_field( $key, $field ) {
+		return isset( $_POST[ $key ] ) ? array_map( 'sanitize_text_field',  $_POST[ $key ] ) : array();
+	}
+	
+	/**
 	 * Validate the posted fields
 	 *
 	 * @return bool on success, WP_ERROR on failure
@@ -432,12 +469,16 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	protected static function validate_fields( $values, $exclude_fields = array() ) {
 		foreach( $values as $group_key => $fields ) {
 			foreach ( $fields as $key => $field ) {
-				if ( $field['required'] && empty( $values[ $group_key ][ $key ] ) && ! in_array( $key, $exclude_fields ) ) {
+				if ( ! in_array( $key, $exclude_fields ) && isset( $field['required'] ) && empty( $values[ $group_key ][ $key ] ) ) {
 					return new WP_Error( 'validation-error', sprintf( __( '%s is a required field', 'dln-skill' ), $field['label'] ) );
 				}
 			}
 		}
 		
 		return apply_filters( 'submit_profile_form_validate_fields', true, self::$fields, $values );
+	}
+
+	protected static function sort_by_priority( $a, $b ) {
+		return $a['priority'] - $b['priority'];
 	}
 }

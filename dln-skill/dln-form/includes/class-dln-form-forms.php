@@ -20,8 +20,8 @@ class DLN_Forms {
 	}
 	
 	public function load_posted_form() {
-		if ( ! empty( $_POST['dln_manager_form'] ) ) {
-			$this->load_form_class( sanitiza_title( $_POST['dln_manager_form'] ) );
+		if ( ! empty( $_POST['dln_form'] ) ) {
+			$this->load_form_class( sanitize_title( $_POST['dln_form'] ) );
 		}
 	}
 	

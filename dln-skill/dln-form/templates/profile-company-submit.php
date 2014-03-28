@@ -15,7 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 			
 			<?php foreach( $company_fields as $key => $field ) : ?>
 				<fieldset class="fieldset-<?php esc_attr_e( $key ); ?>">
+					<?php if ( $field['label'] ) : ?>
 					<label for="<?php esc_attr_e( $key ); ?>"><?php echo $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', 'dln-skill' ) . '</small>' ); ?></label>
+					<?php endif ?>
 					<div class="field">
 						<?php dln_form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ) ?>
 					</div>
@@ -26,8 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 			
 			<p>
 				<?php wp_nonce_field( 'submit_form_posted' ); ?>
-				<input type="hidden" id="dln_form" name="dln_form" value="<?php echo $form ?>" />
-				<input type="hidden" id="step" name="step" value="<?php echo $step ?>" />
+				<input type="hidden" id="dln_form" name="dln_form" value="<?php echo esc_attr( $form ) ?>" />
+				<input type="hidden" id="step" name="step" value="<?php echo esc_attr( $step ) ?>" />
 				<input type="submit" id="submit_company_profile" name="submit_company_profile" class="button" value="<?php esc_attr_e( $submit_button_text ) ?>" />
 			</p>
 			
