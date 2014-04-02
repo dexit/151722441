@@ -34,15 +34,21 @@ function dln_form_profile_fields( $profile_fields ) {
 	do_action( 'submit_profile_form_profile_fields_start' );
 	
 	foreach( $profile_fields as $key => $field ) { ?>
-		<fieldset class="fieldset-<?php esc_attr_e( $key ); ?>">
+		<div class="form-group fieldset-<?php esc_attr_e( $key ); ?>">
 			<?php if ( $field['label'] ) : ?>
-			<label for="<?php esc_attr_e( $key ); ?>"><?php echo $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', 'dln-skill' ) . '</small>' ); ?></label>
+			<label class="col-sm-3 control-label" for="<?php esc_attr_e( $key ); ?>"><?php echo $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', 'dln-skill' ) . '</small>' ); ?></label>
 			<?php endif ?>
-			<div class="field">
+			<div class="col-sm-9">
 				<?php dln_form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ) ?>
 			</div>
-		</fieldset>
+		</div>
 	<?php }
 	
 	do_action( 'submit_profile_form_profile_fields_end' );
+}
+
+function dln_load_frontend_assets() {
+	wp_enqueue_script( 'dln-bootstrap-js' );
+	wp_enqueue_style( 'dln-bootstrap-css' );
+	wp_enqueue_style( 'dln-ui-element-css' );
 }

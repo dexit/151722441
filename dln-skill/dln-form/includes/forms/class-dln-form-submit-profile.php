@@ -151,6 +151,8 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	 * output function. Call the view handler.
 	 */
 	public static function output() {
+		dln_load_frontend_assets();
+				
 		$keys = array_keys( self::$steps );
 		
 		self::show_errors();

@@ -130,24 +130,23 @@ $display_name  = bp_core_get_user_displayname( $user_id );
                             <li class="pa15">
                                 <h5 class="semibold hidden-xs hidden-sm">
                                     60% <br/>
-                                    <small class="text-muted"><?php __( 'Profile complete', 'dln-theme-skill' ) ?></small>
+                                    <small class="text-muted"><?php _e( 'Profile complete', 'dln-theme-skill' ) ?></small>
                                 </h5>
                                 <h5 class="semibold hidden-md hidden-lg">
                                     <?php echo $display_name ?><br/>
-                                    <small class="text-muted"><?php sprintf( __( '%s Profile complete', 'dln-theme-skill' ), '60%' ) ?></small>
+                                    <small class="text-muted"><?php sprintf( _e( '%s Profile complete', 'dln-theme-skill' ), '60%' ) ?></small>
                                 </h5>
                                 <div class="progress progress-xs nm mt10">
                                     <div class="progress-bar progress-bar-warning" style="width: 60%">
-                                        <span class="sr-only"><?php sprintf( __( '%s Complete', 'dln-theme-skill' ), '60%' )?></span>
+                                        <span class="sr-only"><?php sprintf( _e( '%s Complete', 'dln-theme-skill' ), '60%' )?></span>
                                     </div>
                                 </div>
                             </li>
                             <li class="divider"></li>
-                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-user-plus2"></i></span><?php __( 'My Accounts', 'dln-theme-skill' ) ?></a></li>
-                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-cog4"></i></span><?php __( 'Profile Setting', 'dln-theme-skill' ) ?></a></li>
-                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-question"></i></span><?php __( 'Help', 'dln-theme-skill' ) ?></a></li>
+                            <li><a href="<?php echo bp_loggedin_user_domain() ?>"><span class="icon"><i class="ico-user-plus2"></i></span><?php _e( 'My Accounts', 'dln-theme-skill' ) ?></a></li>
+                            <li><a href="<?php echo bp_get_admin_url( 'settings.php' ) ?>"><span class="icon"><i class="ico-cog4"></i></span><?php _e( 'Profile Setting', 'dln-theme-skill' ) ?></a></li>
                             <li class="divider"></li>
-                            <li><a href="javascript:void(0);"><span class="icon"><i class="ico-exit"></i></span><?php __( 'Sign Out', 'dln-theme-skill' ) ?></a></li>
+                            <li><a href="<?php echo wp_logout_url() ?>"><span class="icon"><i class="ico-exit"></i></span><?php _e( 'Sign Out', 'dln-theme-skill' ) ?></a></li>
                         </ul>
                     </li>
                     <!--/ Profile dropdown -->

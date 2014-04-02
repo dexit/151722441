@@ -1,4 +1,4 @@
-<select
+<select class="form-control <?php echo ! empty( $field['class'] ) ? $field['class']: ''; ?>"
 	name="<?php echo esc_attr( isset( $field['name'] ) ? $field['name'] : $key ); ?>"
 	id="<?php echo esc_attr( $key ); ?>">
 	
