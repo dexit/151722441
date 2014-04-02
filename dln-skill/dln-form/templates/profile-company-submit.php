@@ -28,9 +28,10 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 			
 			<p>
 				<?php wp_nonce_field( 'submit_form_posted' ); ?>
+				<input type="hidden" id="company_id" name="company_id" value="<?php echo esc_attr( $company_id ) ?>" />
 				<input type="hidden" id="dln_form" name="dln_form" value="<?php echo esc_attr( $form ) ?>" />
 				<input type="hidden" id="step" name="step" value="<?php echo esc_attr( $step ) ?>" />
-				<input type="submit" id="submit_company_profile" name="submit_company_profile" class="button" value="<?php esc_attr_e( $submit_button_text ) ?>" />
+				<input type="submit" id="submit_profile_company" name="submit_company_profile" class="button" value="<?php esc_attr_e( $submit_button_text ) ?>" />
 			</p>
 			
 		<?php else : ?>

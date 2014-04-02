@@ -37,9 +37,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 		uasort( self::$steps, array( __CLASS__, 'sort_by_priority' ) );
 		
 		// Get step/job
-		if ( isset( $_POST['step'] ) ) {
-			self::$step = is_numeric( $_POST['step'] ) ? max( absint( $_POST['step'] ), 0 ) : array_search( $_POST['step'], array_keys( self::$steps ) );
-		} elseif ( ! empty( $_GET['step'] ) ) {
+		if ( ! empty( $_GET['step'] ) ) {
 			self::$step = is_numeric( $_GET['step'] ) ? max( absint( $_GET['step'] ), 0 ) : array_search( $_GET['step'], array_keys( self::$steps ) );
 		}
 		
@@ -57,6 +55,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	 */
 	public static function process() {
 		$keys = array_keys( self::$steps );
+		var_dump($_POST, self::$step);
 		if ( isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['handler'] ) ) {
 			call_user_func( self::$steps[ $keys[ self::$step ] ]['handler'] );
 		}
@@ -155,7 +154,6 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 		$keys = array_keys( self::$steps );
 		
 		self::show_errors();
-		
 		if ( isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['view'] ) ) {
 			call_user_func( self::$steps[ $keys[ self::$step ] ]['view'] );
 		}
@@ -171,7 +169,11 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	}
 	
 	public static function employ_number() {
-		$options = get_employ_number_options();
+		$options = array();
+		$terms = get_employ_number_options();
+		foreach ( $terms as $term ) {
+			$options[ $term->slug ] = $term->name;
+		}
 		return $options;
 	}
 	
@@ -218,7 +220,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	public static function submit_company() {
 		self::init_fields();
 		
-		if ( is_user_logged_in() && empty( $_POST ) ) {
+		if ( is_user_logged_in() ) {
 			$user = wp_get_current_user();
 	
 			if ( ! empty( $user ) && ! empty( self::$cache_fields ) ) {
@@ -226,7 +228,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 					foreach ( $fields as $key => $field ) {
 						switch( $key ) {
 							case 'first_name' :
-								self::$fields[ $group_key ][ $key ]['value'] = self::$cache_fields[$group_key]['firstname'];
+								self::$fields[ $group_key ][ $key ]['value'] = self::$cache_fields[$group_key]['first_name'];
 								break;
 							case 'last_name' :
 								self::$fields[ $group_key ][ $key ]['value'] = self::$cache_fields[$group_key]['last_name'];
@@ -247,9 +249,8 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 					}
 				}
 			}
-	
+			
 			self::$fields = apply_filters( 'submit_profile_form_fields_get_profile_data', self::$fields, $user );
-			var_dump( self::$fields );
 	
 			wp_enqueue_script( 'dln-form-profile-submission' );
 	
@@ -286,7 +287,6 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	
 			if ( ! is_user_logged_in() )
 				throw new Exception( __( 'You must be signed in to post a new profile.', 'dln-skill' ) );
-			
 			if ( empty( $_POST['company_id'] ) ) {
 				self::$cache_fields = $values;
 				self::$step         = 1;
@@ -297,6 +297,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 			
 		} catch ( Exception $e ) {
 			self::add_error( $e->getMessage() );
+			self::reset();
 			return;
 		}
 	}
@@ -305,7 +306,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 		try {
 			if ( empty( $_POST['submit_profile_company'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'submit_form_posted' ) )
 				return;
-	
+			
 			self::init_fields();
 	
 			$values = self::get_posted_fields();
@@ -315,11 +316,13 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	
 			if ( ! is_user_logged_in() )
 				throw new Exception( __( 'You must be signed in to post a new profile.', 'dln-skill' ) );
-	
+			
 			if ( empty( $_POST['company_id'] ) ) {
 				// Create company profile
 				self::save_company( $values['profile']['company_title'], 'company_pending', $values );
 				self::update_company_data( $values );
+			} else {
+				self::reset();
 			}
 			
 			// Update user profile 
@@ -327,9 +330,17 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 			
 		} catch ( Exception $e ) {
 			self::add_error( $e->getMessage() );
+			self::reset();
 			return;
 		}
 	}
+	
+	public static function reset() {
+		self::$step = 0;
+		self::$company_id = 0;
+		self::$cache_fields = null;
+		$_POST = null;
+	} 
 	
 	/**
 	 * Update or create a company profile from posted data
