@@ -25,6 +25,9 @@ class DLN_Form_Loader {
 		include( 'includes/class-dln-form-shortcodes.php' );
 		include( 'includes/class-dln-form-forms.php' );
 		
+		if ( is_admin() )
+			include( 'includes/admin/class-dln-form-admin.php' );
+		
 		// Init classes
 		$this->forms      = new DLN_Forms();
 		
