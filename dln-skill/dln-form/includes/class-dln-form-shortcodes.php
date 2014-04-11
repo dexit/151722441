@@ -18,7 +18,8 @@ class DLN_Form_Shortcodes {
 	public function __construct() {
 		add_action( 'wp', array( $this, 'shortcode_action_handler' ) );
 		
-		add_shortcode( 'submit_profile_form', array( $this, 'submit_profile_form' ) );
+		//add_shortcode( 'submit_profile_form', array( $this, 'submit_profile_form' ) );
+		add_shortcode( 'submit_point', array( $this, 'submit_point' ) );
 	}
 	
 	public function shortcode_action_handler() {
@@ -33,8 +34,12 @@ class DLN_Form_Shortcodes {
 		
 	}
 	
+	public function submit_point() {
+		return $GLOBALS['dln_form']->forms->get_form( 'submit-point' );
+	}
+	
 	public function submit_profile_form() {
-		return $GLOBALS['dln_form']->forms->get_form( 'submit-profile' );
+		//return $GLOBALS['dln_form']->forms->get_form( 'submit-profile' );
 	}
 	
 }

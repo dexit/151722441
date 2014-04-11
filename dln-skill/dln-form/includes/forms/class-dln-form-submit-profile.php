@@ -153,7 +153,7 @@ class DLN_Form_Submit_Profile extends DLN_Form {
 	 */
 	public static function output() {
 		dln_load_frontend_assets();
-		var_dump( $_POST, self::$step );
+		
 		$keys = array_keys( self::$steps );
 		
 		self::show_errors();

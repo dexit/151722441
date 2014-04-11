@@ -19,6 +19,7 @@ class DLN_Form_Loader {
 		define( 'DLN_COMPANY_SLUG', 'dln_company' );
 		define( 'DLN_COMPANY_TYPE_SLUG', 'dln_company_type' );
 		define( 'DLN_EMPLOYEE_NUMBER_SLUG', 'dln_employ_number' );
+		define( 'DLN_POINT_SLUG', 'dln_point' );
 		
 		include( 'dln-form-functions.php' );
 		include( 'dln-form-template.php' );

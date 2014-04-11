@@ -14,7 +14,7 @@ function dln_form_locate_template( $template_name, $template_path = '', $default
 		$template_path = 'dln_skill';
 	if ( ! $default_path )
 		$default_path = DLN_SKILL_PLUGIN_DIR . '/dln-form/templates/';
-	
+
 	$template = locate_template( 
 		array(
 			trailingslashit( $template_path ) . $template_name,
