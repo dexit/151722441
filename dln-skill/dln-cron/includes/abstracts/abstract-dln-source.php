@@ -3,37 +3,20 @@
 if ( ! defined( 'WPINC' ) ) { die; }
 
 abstract class DLN_Source {
-	
-<<<<<<< HEAD
-	
-	
-}
-=======
+
 	public static $xpath = '';
 	
-	public static function load_rss_source( $rss_url = '' ) {
+	public static function get_nodes( $rss_url = '' ) {
 		if ( ! $rss_url )
 			return;
 		
 		if ( ! self::check_url( $rss_url ) )
 			return;
 		
-		$source      = file_get_contents( $rss_url );
-		$doc         = new DOMDocument();
-		$content     = @$doc->loadHTML( $result );
-		self::$xpath = new DOMXPath( $doc );
-	}
-	
-	public static function get_nodes( $rss_url = '', $xpath_query = '' ) {
-		if ( ! $xpath_query )
-			return;
-		
-		if ( ! self::$xpath )
-			return;
-		
-		$xnodes = self::$xpath->query( $xpath_query );
-		
-		return $xnodes;
+		if (!($x = simplexml_load_file( $rss_url )))
+            return;
+
+		return $x;
 	}
 	
 	private static function check_url( $html ){
@@ -45,4 +28,3 @@ abstract class DLN_Source {
 	}
 	
 }
->>>>>>> f603692674b54ff7b82ac4a52fca73e9000e830e

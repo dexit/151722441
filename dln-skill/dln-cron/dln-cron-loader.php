@@ -21,8 +21,8 @@ class DLN_Cron_Loader {
 		if ( is_admin() )
 			include( 'includes/admin/class-dln-cron-admin.php' );
 		
-		// Init classes
-		//$this->forms      = new DLN_Forms();
+		include( 'includes/class-dln-cron-sources.php' );
+		include( 'includes/class-dln-cron-shortcodes.php' );
 		
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 	}

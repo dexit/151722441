@@ -4,27 +4,25 @@ if ( ! defined( 'WPINC' ) ) { die; }
 
 class DLN_Source_Dantri extends DLN_Source {
 	
-<<<<<<< HEAD
-=======
 	function __construct() {
 		
 	}
 	
->>>>>>> f603692674b54ff7b82ac4a52fca73e9000e830e
 	public static function init() {
+		self::get_links();
+	}
+	
+	public static function get_links() {
+		
+		$nodes = self::get_nodes( 'http://dantri.com.vn/trangchu.rss' );
+		var_dump($nodes);
+		if ( $nodes ) {
+			foreach ($nodes->channel->item as $item) {
+				$link = $item->link->__toString();
+				preg_match_all('/-(\d+).htm/', $link, $matches);
+				var_dump($link, $matches);
+			}
+		}
 		
 	}
-	
-<<<<<<< HEAD
-=======
-	public static function get_links() {
-		if ( ! self::$xpath ) 
-			self::load_rss_source( 'http://dantri.com.vn/trangchu.rss' );
-		$nodes = self::get_nodes( '//channel/item/link' );
-		foreach ( $nodes as $i => $node ) {
-			var_dump( $node );
-		}
-	}
-	
->>>>>>> f603692674b54ff7b82ac4a52fca73e9000e830e
 }

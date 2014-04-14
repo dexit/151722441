@@ -64,3 +64,11 @@ function dln_get_avatar_link() {
 	
 	return $link;
 }
+
+function dln_template_blank_page() {
+	if ( is_page_template( 'page-templates/blank-page.php' ) || is_attachment() || ! is_active_sidebar( 'sidebar-1' ) ) {
+		global $content_width;
+		$content_width = 960;
+	}
+}
+add_action( 'template_redirect', 'dln_template_blank_page' );
