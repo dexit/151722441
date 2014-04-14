@@ -16,9 +16,15 @@ class DLN_Cron_Sources {
 	}
 	
 	function __construct() {
+		add_action( 'init', array( $this, 'crawl_process' ) );
 	}
 	
 	public function crawl_process() {
+		if ( ! isset( $_GET['dln_crawl_news'] ) || ! isset( $_GET['dln_crawl_source'] ) )
+			return;
+
+		if ( ! ( $crawl_source = $_GET['dln_crawl_source'] ) ) 
+			return;
 		
 		if ( ! class_exists( 'DLN_Source' ) ) 
 			include( 'abstracts/abstract-dln-source.php' );
@@ -39,19 +45,6 @@ class DLN_Cron_Sources {
 		call_user_func( array( $source_class, "init" ) );
 		
 		return $source_class;
-	}
-	
-	public function load_source( $source_name = '' ) {
-		if ( ! $source_name )
-			return;
-		$source = $this->crawl_process( $source_name );
-		var_dump($source_name);die(123);
-		return $source;
-		//if ( $source = $this->crawl_process( $form_name ) ) {
-			//ob_start();
-			//call_user_func( array( $source, 'output' ) );
-			//return ob_get_clean();
-		//}
 	}
 	
 }

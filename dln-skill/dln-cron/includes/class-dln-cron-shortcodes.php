@@ -16,12 +16,13 @@ class DLN_Cron_Shortcodes {
 	}
 	
 	public function __construct() {
-		add_shortcode( 'crawl_dantri', array( $this, 'crawl_dantri' ) );
+		//add_shortcode( 'crawl_dantri', array( $this, 'crawl_dantri' ) );
 	}
 	
 	public function crawl_dantri() {
-		$cron_source = DLN_Cron_Sources::get_instance();
-		$cron_source->load_source( 'dantri' );
+		//$cron_source = DLN_Cron_Sources::get_instance();
+		//var_dump($cron_source);die();
+		//$cron_source->load_source( 'dantri' );
 		//$_GET['dln_crawl_news'] = 1;
 		//$_GET['dln_crawl_source'] = 'dantri';
 	}
