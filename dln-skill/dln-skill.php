@@ -21,6 +21,8 @@ class DLN_Skill {
 		define( 'DLN_SKILL_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
 		
 		$this->requires();
+		
+		register_activation_hook( __FILE__, array( $this, 'install' ) );
 	}
 	
 	public function requires() {
@@ -31,7 +33,10 @@ class DLN_Skill {
 			if ( file_exists( DLN_SKILL_PLUGIN_DIR . '/dln-' . $component . '/dln-' . $component . '-loader.php' ) )
 				include( DLN_SKILL_PLUGIN_DIR . '/dln-' . $component . '/dln-' . $component . '-loader.php' );
 		}
-		
+	}
+	
+	public static function install() {
+		DLN_Cron_Loader::activate();
 	}
 	
 }

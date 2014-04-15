@@ -25,29 +25,46 @@ class DLN_Source_Dantri extends DLN_Source {
 				if ( ! in_array( $id, $arr_ids ) ) {
 					$arr_ids[] = $id;
 				}
-				$obj_item       = new stdClass;
-				$obj_item->link = $link;
-				$obj_item->id   = $id;
-				$arr_objs[] = $obj_item;
+				$obj_item                = array();
+				$obj_item['link']        = $link;
+				$obj_item['host_id']     = $id;
+				$obj_item['site']        = 'dantri';
+				$obj_item['is_crawl']    = '0';
+				$obj_item['time_create'] = date( 'Y-m-d H:i:s', time() );
+				$arr_objs[]              = $obj_item;
 			}
 			
 			// Check id exists in db
-			$arr_ids = ( count( $arr_ids ) > 0 ) ? implode( $arr_ids, ',' ) : '';
-			$sql     = "SELECT id FROM {$wpdb->prefix}dln_crawl_links WHERE id IN ({$arr_ids})";
+			$str_ids = ( count( $arr_ids ) > 0 ) ? implode( $arr_ids, ',' ) : '';
+			$sql     = "SELECT id FROM {$wpdb->prefix}dln_crawl_links WHERE id IN ({$str_ids})";
 			$results = $wpdb->get_row( $sql );
 			if ( $results ) {
 				foreach ( $results as $i => $item ) {
-					self::write_log( 'Duplicate <b>id</b> of crawl link in Database: ' . $item['id'] . '<br />' );
+					if ( isset( $item['id'] ) ) {
+						self::write_log( 'Duplicate <b>id</b> of crawl link in Database: ' . $item['id'] . '<br />' );
+						$idx = array_search( $item['id'], $arr_ids );
+						if ( $idx )
+							unset( $arr_ids[$idx] );
+					}
 				}
 			}
 			
 			// Insert link to db
-			$wpdb->insert( 
-				$wpdb->prefix . 'dln_crawl_links',
-				array(
-					'link' => ''
-				)
-			);
+			if( $arr_objs ) {
+				foreach ( $arr_objs as $i => $obj ) {
+					if ( in_array( $obj['host_id'], $arr_ids ) ) {
+						$int = $wpdb->insert(
+							$wpdb->prefix . 'dln_crawl_links',
+							$obj
+						);
+						if ( $int ) {
+							self::write_log( 'Completed insert <b>id</b> of crawl link in Database: ' . $obj['host_id'] . ' - ' . $obj['link'] . '<br />' );
+						} else {
+							self::write_log( 'Error insert <b>id</b> of crawl link in Database: ' . $obj['host_id'] . '<br />' );
+						}
+					}
+				}
+			}
 		}
 	}
 }

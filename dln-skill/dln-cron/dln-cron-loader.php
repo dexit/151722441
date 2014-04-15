@@ -25,8 +25,6 @@ class DLN_Cron_Loader {
 		include( 'includes/class-dln-cron-shortcodes.php' );
 		
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
-		
-		register_activation_hook( __FILE__, array( 'DLN_Cron_Loader', 'activate' ) );
 	}
 	
 	public function register_assets() {
@@ -39,10 +37,8 @@ class DLN_Cron_Loader {
 	
 	public static function activate() {
 		require_once( 'includes/class-dln-install-db.php' );
-		DLN_Install_DB::get_instance();
 		DLN_Install_DB::create_crawl_database();
 	}
 	
 }
-
 $GLOBALS['dln_cron'] = DLN_Cron_Loader::get_instance();
