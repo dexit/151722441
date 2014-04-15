@@ -5,6 +5,14 @@ if ( ! defined( 'WPINC' ) ) { die; }
 abstract class DLN_Source {
 
 	public static $xpath = '';
+	public static $file = 'crawl.log';
+	
+	public static function write_log( $log = '' ) {
+		if ( ! $log )
+			return;
+		$path = DLN_SKILL_PLUGIN_DIR . "/dln-cron/logs/" . self::$file;
+		file_put_contents( $path, $log, FILE_APPEND );
+	}
 	
 	public static function get_nodes( $rss_url = '' ) {
 		if ( ! $rss_url )

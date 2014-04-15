@@ -25,6 +25,8 @@ class DLN_Cron_Loader {
 		include( 'includes/class-dln-cron-shortcodes.php' );
 		
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
+		
+		register_activation_hook( __FILE__, array( 'DLN_Cron_Loader', 'activate' ) );
 	}
 	
 	public function register_assets() {
@@ -33,6 +35,12 @@ class DLN_Cron_Loader {
 		
 		//wp_register_style( 'dln-bootstrap-css', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/bootstrap3/css/bootstrap.min.css', null, '3.1.1' );
 		//wp_register_style( 'dln-ui-element-css', DLN_SKILL_PLUGIN_URL . '/assets/theme-skill/css/uielement.min.css', array( 'dln-bootstrap-css' ), DLN_SKILL_VERSION );
+	}
+	
+	public static function activate() {
+		require_once( 'includes/class-dln-install-db.php' );
+		DLN_Install_DB::get_instance();
+		DLN_Install_DB::create_crawl_database();
 	}
 	
 }
