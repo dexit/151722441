@@ -39,11 +39,11 @@ class DLN_Install_DB {
 		
 		$sql = "CREATE TABLE {$wpdb->prefix}dln_crawl_links (
 			id int(11) NOT NULL AUTO_INCREMENT,
-			host_id int(11) NOT NULL,
+			host_id varchar(255) NOT NULL,
 			site varchar(255) NOT NULL,
 			link text NOT NULL,
 			time_create datetime NOT NULL,
-			is_crawl tinyint(1) NOT NULL,
+			is_crawl varchar(50) NOT NULL,
 			PRIMARY KEY  (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=MyISAM $db_charset_collate;";
 		

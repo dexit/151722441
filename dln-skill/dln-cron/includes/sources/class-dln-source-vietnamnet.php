@@ -22,8 +22,7 @@ class DLN_Source_VietnamNet extends DLN_Source {
 			$arr_ids = $arr_objs = array();
 			foreach ($nodes->channel->item as $item) {
 				$link     = $item->link->__toString();
-				preg_match_all('/(\d+)\/([^A-Za-z0-9-]+).html/', $link, $matches);
-				var_dump($matches);
+				preg_match_all('/\/(\d+)\/[a-z0-9-]+.html/', $link, $matches);
 				$id       = isset( $matches[1][0] ) ? $matches[1][0] : 0;
 				if ( ! in_array( $id, $arr_ids ) ) {
 					$arr_ids[] = $id;
@@ -37,9 +36,9 @@ class DLN_Source_VietnamNet extends DLN_Source {
 				}
 			}
 			
-			//$current_time = date( 'Y-m-d H:i:s', time() );
-			//$arr_ids = self::check_exist_ids( $arr_ids, self::$source_type );
-			//self::insert_links_to_db( $arr_objs, $arr_ids, $current_time );
+			$current_time = date( 'Y-m-d H:i:s', time() );
+			$arr_ids = self::check_exist_ids( $arr_ids, self::$source_type );
+			self::insert_links_to_db( $arr_objs, $arr_ids, $current_time );
 		}
 	}
 }
