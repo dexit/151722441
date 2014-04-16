@@ -2,9 +2,9 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-class DLN_Source_Dantri extends DLN_Source {
+class DLN_Source_VNExpress extends DLN_Source {
 	
-	public static $source_type = 'dan-tri';
+	public static $source_type = 'vnexpress';
 	
 	function __construct() {
 		
@@ -17,7 +17,7 @@ class DLN_Source_Dantri extends DLN_Source {
 	public static function get_links() {
 		global $wpdb;
 		
-		$nodes = self::get_nodes( 'http://dantri.com.vn/trangchu.rss' );
+		$nodes = self::get_nodes( 'http://vnexpress.net/rss/tin-moi-nhat.rss' );
 		if ( $nodes ) {
 			$arr_ids = $arr_objs = array();
 			foreach ($nodes->channel->item as $item) {
