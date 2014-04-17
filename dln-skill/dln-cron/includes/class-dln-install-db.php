@@ -27,8 +27,49 @@ class DLN_Install_DB {
 
 	public static function create_crawl_database() {
 		DLN_Install_DB::create_crawl_links_table();
+		DLN_Install_DB::create_crawl_link_hot_table();
+		DLN_Install_DB::create_crawl_link_hot_meta_table();
 	}
 
+	public static function create_crawl_link_hot_meta_table() {
+		global $wpdb;
+		
+		if ( ! empty( $wpdb->charset ) )
+			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$db_charset_collate .= " COLLATE $wpdb->collate";
+		
+		$sql = "CREATE TABLE {$wpdb->prefix}dln_crawl_link_hot_meta (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			link_id int(11) NOT NULL,
+			meta_key varchar(255) NOT NULL,
+			meta_value longtext NOT NULL,
+			PRIMARY KEY (id)
+		) CHARSET=" . self::get_charset() . ", ENGINE=MyISAM $db_charset_collate;";
+		
+		dbDelta( $sql );
+	}
+	
+	public static function create_crawl_link_hot_table() {
+		global $wpdb;
+		
+		if ( ! empty( $wpdb->charset ) )
+			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$db_charset_collate .= " COLLATE $wpdb->collate";
+		
+		$sql = "CREATE TABLE {$wpdb->prefix}dln_crawl_link_hot (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			link text NOT NULL,
+			site varchar(50) NOT NULL,
+			time_update datetime NOT NULL,
+			count int(11) NOT NULL,
+			PRIMARY KEY (id)
+		) CHARSET=" . self::get_charset() . ", ENGINE=MyISAM $db_charset_collate;";
+		
+		dbDelta( $sql );
+	}
+	
 	public static function create_crawl_links_table() {
 		global $wpdb;
 		
@@ -40,11 +81,11 @@ class DLN_Install_DB {
 		$sql = "CREATE TABLE {$wpdb->prefix}dln_crawl_links (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			host_id varchar(255) NOT NULL,
-			site varchar(255) NOT NULL,
+			site varchar(50) NOT NULL,
 			link text NOT NULL,
 			time_create datetime NOT NULL,
 			is_crawl varchar(50) NOT NULL,
-			PRIMARY KEY  (id)
+			PRIMARY KEY (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=MyISAM $db_charset_collate;";
 		
 		dbDelta( $sql );

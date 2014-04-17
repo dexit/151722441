@@ -16,6 +16,7 @@ class DLN_Cron_Loader {
 	}
 	
 	function __construct() {
+		date_default_timezone_set( "Asia/Ho_Chi_Minh" );
 		define( 'DLN_COMPANY_SLUG', 'dln_cron' );
 		
 		if ( is_admin() )

@@ -42,7 +42,7 @@ class DLN_Cron_Sources {
 			include $source_file;
 		
 		// Init the form
-		call_user_func( array( $source_class, "init" ) );
+		$source_class::get_instance();
 		
 		return $source_class;
 	}
