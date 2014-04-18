@@ -4,11 +4,12 @@ if ( ! defined( 'WPINC' ) ) { die; }
 
 abstract class DLN_Source {
 
-	public static $xpath = '';
-	public static $file  = 'crawl.log.html';
-	public $source_type  = '';
-	public $rss_url      = '';
-	public $regex        = '';
+	public static $file_log = 'crawl.log.html';
+	public static $fb_log   = 'crawl-fb.log.html';
+	public static $xpath    = '';
+	public $source_type     = '';
+	public $rss_url         = '';
+	public $regex           = '';
 	
 	public function __construct() {
 		$this->get_links();
@@ -31,7 +32,6 @@ abstract class DLN_Source {
 					$obj_item['link']        = trim( $link );
 					$obj_item['host_id']     = trim( $id );
 					$obj_item['site']        = $this->source_type;
-					$obj_item['is_crawl']    = '0';
 					$obj_item['time_create'] = date( 'Y-m-d H:i:s', time() );
 					$arr_objs[]              = $obj_item;
 				}
@@ -44,14 +44,80 @@ abstract class DLN_Source {
 	}
 	
 	public function get_hot_link() {
+		global $wpdb;
 		
+		// Get last 24h
+		$last_time = time() - ( 24 * 60 * 60 );
+		$last_time = date( 'Y-m-d H:i:s', $last_time );
+		
+		$sql = $wpdb->prepare(
+			"SELECT *
+			FROM {$wpdb->dln_crawl_links}
+			WHERE time_create >= %s
+			ORDER BY crawl ASC 
+			LIMIT 50", $last_time
+		);
+		
+		$items = $wpdb->get_results( $sql , ARRAY_A );
+		
+		$links = $ids = array();
+		if ( ! empty( $items ) ) {
+			foreach( $items as $i => $item ) {
+				if ( isset( $item['link'] ) && ! in_array( $item['link'], $links ) ) {
+					$links[] = $item['link'];
+					$ids[]   = $item['host_id'];
+				}
+			}
+		}
+		$links      = implode( "','" , $links );
+		$fql        = urlencode( "SELECT url, normalized_url, total_count, share_count, like_count, comment_count FROM link_stat WHERE url IN ('{$links}')" );
+		$app_id     = FB_APP_ID;
+		$app_secret = FB_SECRET;
+		$content    = json_decode( file_get_contents( "https://graph.facebook.com//fql?q={$fql}&access_token={$app_id}|{$app_secret}" ) );
+		if ( ! empty( $items ) && isset( $content->data ) ) {
+			$arr_data = $content->data;
+			if ( is_array( $arr_data ) ) {
+				foreach ( $arr_data as $i => $data ) {
+					foreach( $items as $j => $item ) {
+						if (  $data->url == $item['link'] ) {
+							$id            = $item['id'];
+							$current_time  = date( 'Y-m-d H:i:s', time() );
+							$item['crawl'] = $item['crawl'] + 1;
+							unset( $item['id'] );
+							$item['total_count'] = $data->total_count;
+							$item['time_update'] = $current_time;
+							
+							$int = $wpdb->update( $wpdb->dln_crawl_links, $item, array( 'id' => $id ) );
+							
+							if ( $int ) {
+								self::write_log( 'Completed update <b>id</b> of crawl link in Database: ' . $item['host_id'] . ' at time ' . $current_time . '<br />', 'fb_log' );
+							} else {
+								self::write_log( 'Error insert <b>id</b> of crawl link in Database: ' . $item['host_id'] . ' at time ' . $current_time . '<br />', 'fb_log' );
+							}
+						}
+					}
+				}
+			}
+		} else {
+			self::write_log( 'Error at article id: ' . implode( ', ', $ids ), 'fb_log' );
+		}
+		var_dump($content);
 	}
 	
-	public static function write_log( $log = '' ) {
+	public static function write_log( $log = '', $type = 'crawl' ) {
 		if ( ! $log )
 			return;
 		$log = $log . "\n";
-		$path = DLN_SKILL_PLUGIN_DIR . "/dln-cron/logs/" . self::$file;
+		switch( $type ) {
+			case 'fb_log':
+				$path = DLN_SKILL_PLUGIN_DIR . "/dln-cron/logs/" . self::$fb_log;
+				break;
+			case 'crawl':
+			default:
+				$path = DLN_SKILL_PLUGIN_DIR . "/dln-cron/logs/" . self::$file_log;
+				break;
+		}
+		
 		$file = fopen( $path, 'a+' );
 		fwrite( $file, $log );
 		fclose( $file );
@@ -73,8 +139,8 @@ abstract class DLN_Source {
 	public static function check_exist_ids( $arr_ids, $source_type ) {
 		global $wpdb;
 		// Check id exists in db
-		$str_ids = ( count( $arr_ids ) > 0 ) ? implode( $arr_ids, ',' ) : '';
-		$sql     = "SELECT host_id FROM {$wpdb->prefix}dln_crawl_links WHERE site = '" . $source_type . "' AND host_id IN ({$str_ids})";
+		$str_ids = ( count( $arr_ids ) > 0 ) ? implode( $arr_ids, "','" ) : "";
+		$sql     = "SELECT host_id FROM {$wpdb->dln_crawl_links} WHERE site = '" . $source_type . "' AND host_id IN ('{$str_ids}')";
 		$results = $wpdb->get_col( $sql );
 		if ( $results ) {
 			foreach ( $results as $i => $item ) {
@@ -95,17 +161,32 @@ abstract class DLN_Source {
 			foreach ( $arr_objs as $i => $obj ) {
 				if ( in_array( $obj['host_id'], $arr_ids ) ) {
 					$int = $wpdb->insert(
-						$wpdb->prefix . 'dln_crawl_links',
+						$wpdb->dln_crawl_links,
 						$obj
 					);
 					if ( $int ) {
-						self::write_log( 'Completed insert <b>id</b> of crawl link in Database: ' . $obj['host_id'] . ' - ' . $obj['link'] . '  at time ' . $current_time . '<br />' );
+						self::write_log( 'Completed insert <b>id</b> of crawl link in Database: ' . $obj['host_id'] . ' - ' . $obj['link'] . ' at time ' . $current_time . '<br />' );
 					} else {
 						self::write_log( 'Error insert <b>id</b> of crawl link in Database: ' . $obj['host_id'] . ' at time ' . $current_time . '<br />' );
 					}
 				}
 			}
 		}
+	}
+	
+	public static function file_get_contents_curl( $url ) {
+		$ch = curl_init();
+	
+		curl_setopt( $ch, CURLOPT_AUTOREFERER, TRUE );
+		curl_setopt( $ch, CURLOPT_HEADER, 0 );
+		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, TRUE );
+	
+		$data = curl_exec( $ch );
+		curl_close( $ch );
+	
+		return $data;
 	}
 	
 	private static function check_url( $html ){

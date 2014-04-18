@@ -19,6 +19,10 @@ class DLN_Cron_Loader {
 		date_default_timezone_set( "Asia/Ho_Chi_Minh" );
 		define( 'DLN_COMPANY_SLUG', 'dln_cron' );
 		
+		global $wpdb;
+		$wpdb->dln_crawl_links      = $wpdb->prefix . 'dln_crawl_links';
+		$wpdb->dln_crawl_links_meta = $wpdb->prefix . 'dln_crawl_links_meta';
+		
 		if ( is_admin() )
 			include( 'includes/admin/class-dln-cron-admin.php' );
 		

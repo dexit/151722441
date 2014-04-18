@@ -18,8 +18,10 @@ class DLN_Facebook {
 	}
 	
 	function __construct() {
-		define( 'FB_APP_ID', get_option( 'dln_fb_app_id' ) );
-		define( 'FB_SECRET', get_option( 'dln_fb_secret' ) );
+		if ( ! defined( 'FB_APP_ID' ) )
+			define( 'FB_APP_ID', get_option( 'dln_fb_app_id' ) );
+		if ( ! defined( 'FB_SECRET' ) )
+			define( 'FB_SECRET', get_option( 'dln_fb_secret' ) );
 		
 		//add options page, setup menu, etc.. - backend
 		add_action( 'admin_menu', array( $this, 'fb_setting_menu' ) );

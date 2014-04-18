@@ -5,9 +5,7 @@ class DLN_Install_DB {
 
 	protected static $instane = null;
 
-	private function __construct() {
-
-	}
+	private function __construct() { }
 
 	public static function get_instance() {
 		if ( null == self::$instane ) {
@@ -27,11 +25,10 @@ class DLN_Install_DB {
 
 	public static function create_crawl_database() {
 		DLN_Install_DB::create_crawl_links_table();
-		DLN_Install_DB::create_crawl_link_hot_table();
-		DLN_Install_DB::create_crawl_link_hot_meta_table();
+		DLN_Install_DB::create_crawl_links_meta_table();
 	}
 
-	public static function create_crawl_link_hot_meta_table() {
+	public static function create_crawl_links_meta_table() {
 		global $wpdb;
 		
 		if ( ! empty( $wpdb->charset ) )
@@ -39,31 +36,11 @@ class DLN_Install_DB {
 		if ( ! empty( $wpdb->collate ) )
 			$db_charset_collate .= " COLLATE $wpdb->collate";
 		
-		$sql = "CREATE TABLE {$wpdb->prefix}dln_crawl_link_hot_meta (
+		$sql = "CREATE TABLE {$wpdb->dln_crawl_links_meta} (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			link_id int(11) NOT NULL,
 			meta_key varchar(255) NOT NULL,
 			meta_value longtext NOT NULL,
-			PRIMARY KEY (id)
-		) CHARSET=" . self::get_charset() . ", ENGINE=MyISAM $db_charset_collate;";
-		
-		dbDelta( $sql );
-	}
-	
-	public static function create_crawl_link_hot_table() {
-		global $wpdb;
-		
-		if ( ! empty( $wpdb->charset ) )
-			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-		if ( ! empty( $wpdb->collate ) )
-			$db_charset_collate .= " COLLATE $wpdb->collate";
-		
-		$sql = "CREATE TABLE {$wpdb->prefix}dln_crawl_link_hot (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			link text NOT NULL,
-			site varchar(50) NOT NULL,
-			time_update datetime NOT NULL,
-			count int(11) NOT NULL,
 			PRIMARY KEY (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=MyISAM $db_charset_collate;";
 		
@@ -78,13 +55,15 @@ class DLN_Install_DB {
 		if ( ! empty( $wpdb->collate ) )
 			$db_charset_collate .= " COLLATE $wpdb->collate";
 		
-		$sql = "CREATE TABLE {$wpdb->prefix}dln_crawl_links (
+		$sql = "CREATE TABLE {$wpdb->dln_crawl_links} (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			host_id varchar(255) NOT NULL,
 			site varchar(50) NOT NULL,
 			link text NOT NULL,
 			time_create datetime NOT NULL,
-			is_crawl varchar(50) NOT NULL,
+			time_update datetime NOT NULL,
+			total_count int(11) DEFAULT 0,
+			crawl int(11) DEFAULT 0,
 			PRIMARY KEY (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=MyISAM $db_charset_collate;";
 		
