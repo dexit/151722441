@@ -29,22 +29,24 @@ class DLN_Cron_Sources {
 		if ( ! class_exists( 'DLN_Source' ) ) 
 			include( 'abstracts/abstract-dln-source.php' );
 		
-		$source_class = 'DLN_Source_' . str_replace( '-', '_', $crawl_source );
-		$source_file  = DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/sources/class-dln-source-' . $crawl_source . '.php';
+		$arr_sources = explode( ',', $crawl_source );
+		foreach ( $arr_sources as $i => $source ) {
+			$source_class = 'DLN_Source_' . str_replace( '-', '_', $source );
+			$source_file  = DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/sources/class-dln-source-' . $source . '.php';
+			
+			if ( class_exists( $source_class ) )
+				return $form_class;
+			
+			if ( ! file_exists( $source_file ) )
+				return false;
+			
+			if ( ! class_exists( $source_class ) )
+				include $source_file;
+			
+			// Init the source
+			$source_class::get_instance();
+		}
 		
-		if ( class_exists( $source_class ) )
-			return $form_class;
-		
-		if ( ! file_exists( $source_file ) )
-			return false;
-		
-		if ( ! class_exists( $source_class ) )
-			include $source_file;
-		
-		// Init the form
-		$source_class::get_instance();
-		
-		return $source_class;
 	}
 	
 }
