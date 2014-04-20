@@ -9,11 +9,31 @@ abstract class DLN_Source {
 	public static $xpath    = '';
 	public $source_type     = '';
 	public $rss_url         = '';
+	public $html_url        = '';
 	public $regex           = '';
+	public $type_crawl      = 'rss';
 	
 	public function __construct() {
-		$this->get_links();
-		$this->get_hot_link();
+		switch( $this->type_crawl ) {
+			case 'rss':
+				$this->get_links();
+				$this->get_hot_link();
+				break;
+			case 'html':
+				if ( $this->html_url ) {
+					$dom  = new DOMDocument( '1.0', 'utf-8' );
+					$html = self::file_get_contents_curl( $this->html_url );
+					@$dom->loadHTML( $html );
+					$xpath = new DOMXPath( $dom );
+					$nodes = $xpath->query( '//div[@id="isofeatured"]/a' );
+					var_dump($nodes, count( $nodes ));
+					foreach( $nodes as $i => $node ) {
+						var_dump($node->getAttribute('href'));
+					}
+				}
+				break;
+		}
+		
 	}
 	
 	public function get_links() {
@@ -22,8 +42,9 @@ abstract class DLN_Source {
 		$nodes    = self::get_nodes( $this->rss_url );
 		if ( $nodes ) {
 			$arr_ids = $arr_objs = array();
-			foreach ($nodes->channel->item as $item) {
-				$link     = $item->link->__toString();
+			
+			foreach ( $nodes->getElementsByTagName( 'item' ) as $item) {
+				$link     = $item->getElementsByTagName( 'link' )->item(0)->nodeValue;
 				preg_match_all( $this->regex, $link, $matches );
 				$id       = isset( $matches[1][0] ) ? $matches[1][0] : 0;
 				if ( ! in_array( $id, $arr_ids ) ) {
@@ -36,7 +57,7 @@ abstract class DLN_Source {
 					$arr_objs[]              = $obj_item;
 				}
 			}
-				
+			
 			$current_time = date( 'Y-m-d H:i:s', time() );
 			$arr_ids = self::check_exist_ids( $arr_ids, $this->source_type );
 			self::insert_links_to_db( $arr_objs, $arr_ids, $current_time );
@@ -130,10 +151,11 @@ abstract class DLN_Source {
 		if ( ! self::check_url( $rss_url ) )
 			return;
 		
-		if (!($x = simplexml_load_file( $rss_url )))
-            return;
+		$dom = new DOMDocument( '1.0', 'utf-8' );
+		$xml = self::file_get_contents_curl( $rss_url );
+		$dom->loadXML( $xml );
 
-		return $x;
+		return $dom;
 	}
 	
 	public static function check_exist_ids( $arr_ids, $source_type ) {
@@ -175,18 +197,17 @@ abstract class DLN_Source {
 	}
 	
 	public static function file_get_contents_curl( $url ) {
+		$agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
+
 		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_VERBOSE, true);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_USERAGENT, $agent);
+		curl_setopt($ch, CURLOPT_URL,$url);
+		$result=curl_exec($ch);
 	
-		curl_setopt( $ch, CURLOPT_AUTOREFERER, TRUE );
-		curl_setopt( $ch, CURLOPT_HEADER, 0 );
-		curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-		curl_setopt( $ch, CURLOPT_URL, $url );
-		curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, TRUE );
-	
-		$data = curl_exec( $ch );
-		curl_close( $ch );
-	
-		return $data;
+		return $result;
 	}
 	
 	private static function check_url( $html ){

@@ -35,8 +35,8 @@ class DLN_Cron_Sources {
 			$source_file  = DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/sources/class-dln-source-' . $source . '.php';
 			
 			if ( class_exists( $source_class ) )
-				return $form_class;
-			
+				return $source_class;
+
 			if ( ! file_exists( $source_file ) )
 				return false;
 			
