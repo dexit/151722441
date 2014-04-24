@@ -24,10 +24,31 @@ class DLN_Install_DB {
 	}
 
 	public static function create_crawl_database() {
-		DLN_Install_DB::create_crawl_links_table();
-		DLN_Install_DB::create_crawl_links_meta_table();
+		//DLN_Install_DB::create_crawl_links_table();
+		//DLN_Install_DB::create_crawl_links_meta_table();
+		DLN_Install_DB::create_source_links();
 	}
 
+	public static function create_source_links() {
+		global $wpdb;
+		
+		if ( ! empty( $wpdb->charset ) )
+			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$db_charset_collate .= " COLLATE $wpdb->collate";
+		
+		$sql = "CREATE TABLE {$wpdb->dln_source_link} (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			term_id int(11) NOT NULL,
+			hash varchar(255) NOT NULL,
+			link text NOT NULL,
+			crawl int(11) DEFAULT 0,
+			PRIMARY KEY (id)
+		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
+		
+		dbDelta( $sql );
+	}
+	
 	public static function create_crawl_links_meta_table() {
 		global $wpdb;
 		
@@ -42,7 +63,7 @@ class DLN_Install_DB {
 			meta_key varchar(255) NOT NULL,
 			meta_value longtext NOT NULL,
 			PRIMARY KEY (id)
-		) CHARSET=" . self::get_charset() . ", ENGINE=MyISAM $db_charset_collate;";
+		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
 		
 		dbDelta( $sql );
 	}

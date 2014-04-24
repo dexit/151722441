@@ -22,12 +22,14 @@ class DLN_Cron_Loader {
 		global $wpdb;
 		$wpdb->dln_crawl_links      = $wpdb->prefix . 'dln_crawl_links';
 		$wpdb->dln_crawl_links_meta = $wpdb->prefix . 'dln_crawl_links_meta';
+		$wpdb->dln_source_link      = $wpdb->prefix . 'dln_source_link';
 		
 		if ( is_admin() )
 			include( 'includes/admin/class-dln-cron-admin.php' );
 		
 		include( 'includes/class-dln-cron-sources.php' );
 		include( 'includes/class-dln-cron-shortcodes.php' );
+		include( 'includes/class-dln-cron-terms.php' );
 		
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 	}
