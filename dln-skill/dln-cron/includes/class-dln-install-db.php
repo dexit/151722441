@@ -5,7 +5,10 @@ class DLN_Install_DB {
 
 	protected static $instane = null;
 
-	private function __construct() { }
+	private function __construct() {
+		DLN_Install_DB::create_source_links();
+		DLN_Install_DB::create_source_folder();
+	}
 
 	public static function get_instance() {
 		if ( null == self::$instane ) {
@@ -23,12 +26,23 @@ class DLN_Install_DB {
 		}
 	}
 
-	public static function create_crawl_database() {
-		//DLN_Install_DB::create_crawl_links_table();
-		//DLN_Install_DB::create_crawl_links_meta_table();
-		DLN_Install_DB::create_source_links();
+	public static function create_source_folder() {
+		global $wpdb;
+		
+		if ( ! empty( $wpdb->charset ) )
+			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$db_charset_collate .= " COLLATE $wpdb->collate";
+		
+		$sql = "CREATE TABLE {$wpdb->dln_source_folder} (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			source_id int(11) NOT NULL,
+			folder_id int(11) NOT NULL
+		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
+		
+		dbDelta( $sql );
 	}
-
+	
 	public static function create_source_links() {
 		global $wpdb;
 		
@@ -92,3 +106,5 @@ class DLN_Install_DB {
 	}
 
 }
+
+DLN_Install_DB::get_instance();

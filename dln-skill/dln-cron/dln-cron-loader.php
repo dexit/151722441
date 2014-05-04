@@ -20,9 +20,10 @@ class DLN_Cron_Loader {
 		define( 'DLN_COMPANY_SLUG', 'dln_cron' );
 		
 		global $wpdb;
-		$wpdb->dln_crawl_links      = $wpdb->prefix . 'dln_crawl_links';
-		$wpdb->dln_crawl_links_meta = $wpdb->prefix . 'dln_crawl_links_meta';
+		//$wpdb->dln_crawl_links      = $wpdb->prefix . 'dln_crawl_links';
+		//$wpdb->dln_crawl_links_meta = $wpdb->prefix . 'dln_crawl_links_meta';
 		$wpdb->dln_source_link      = $wpdb->prefix . 'dln_source_link';
+		$wpdb->dln_source_folder    = $wpdb->prefix . 'dln_source_folder';
 		
 		if ( is_admin() )
 			include( 'includes/admin/class-dln-cron-admin.php' );
@@ -37,14 +38,16 @@ class DLN_Cron_Loader {
 	public function register_assets() {
 		//wp_register_script( 'dln-form-field-text-search', DLN_SKILL_PLUGIN_URL . '/dln-form/assets/js/fields/text-search.js', array( 'jquery' ), DLN_SKILL_VERSION, true );
 		//wp_register_script( 'dln-bootstrap-js', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/bootstrap3/js/bootstrap.min.js', array( 'jquery' ), '3.1.1', true );
+		wp_register_script( 'dln-select2-js', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/select2/select2.min.js', array( 'jquery' ), '3.4.8', true );
+		wp_register_script( 'dln-term-admin-js', DLN_SKILL_PLUGIN_URL . '/dln-cron/assets/js/term-admin.js', array( 'jquery' ), '1.0.0', true );
 		
+		wp_register_style( 'dln-select2-css', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/select2/select2.css', null, '3.4.8' );
 		//wp_register_style( 'dln-bootstrap-css', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/bootstrap3/css/bootstrap.min.css', null, '3.1.1' );
 		//wp_register_style( 'dln-ui-element-css', DLN_SKILL_PLUGIN_URL . '/assets/theme-skill/css/uielement.min.css', array( 'dln-bootstrap-css' ), DLN_SKILL_VERSION );
 	}
 	
 	public static function activate() {
 		require_once( 'includes/class-dln-install-db.php' );
-		DLN_Install_DB::create_crawl_database();
 	}
 	
 }
