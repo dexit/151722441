@@ -16,10 +16,20 @@ class DLN_Term_Source {
 	}
 	
 	function __construct() {
+		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'dln_source_edit_form_fields', array( $this, 'edit_dln_source' ), 10, 2 );
 		add_action( 'edited_dln_source', array( $this, 'save_dln_source' ), 10, 2 );
 		add_action( 'dln_source_add_form_fields', array( $this, 'edit_quick_dln_source' ), 10, 1 );
 		add_action( 'created_dln_source', array( $this, 'save_quick_dln_source' ), 10, 2 );
+	}
+	
+	public function init() {
+		if ( ! is_admin() ) 
+			return false;
+		// Load assets
+		wp_enqueue_script( 'dln-select2-js', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/select2/select2.min.js', array( 'jquery' ), '3.4.8', true );
+		wp_enqueue_script( 'dln-term-admin-js', DLN_SKILL_PLUGIN_URL . '/dln-cron/assets/js/term-admin.js', array( 'jquery' ), '1.0.0', true );
+		wp_enqueue_style( 'dln-select2-css', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/select2/select2.css', null, '3.4.8' );
 	}
 	
 	public function save_dln_source( $term_id, $tt_id ) {
@@ -41,9 +51,9 @@ class DLN_Term_Source {
 		}
 		
 		$return = self::insert_source( $term_id, $data );
-		
+
 		if ( isset( $_POST['dln_source_folder'] ) && $return ) {
-			self::insert_source_folder( $term_id, $folder_id );
+			self::insert_source_folder( $term_id, $_POST['dln_source_folder'] );
 		}
 	}
 	
@@ -106,10 +116,6 @@ class DLN_Term_Source {
 	}
 	
 	private function edit_form_content( $term_id = '' ) {
-		// Load assets
-		wp_enqueue_script( 'dln-select2-js' );
-		wp_enqueue_script( 'dln-term-admin-js' );
-		wp_enqueue_script( 'dln-select2-css' );
 		// Update
 		$source          = self::select_source( $term_id );
 		$hash            = isset( $source['hash'] ) ? $source['hash'] : '';
@@ -127,15 +133,14 @@ class DLN_Term_Source {
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="dln_source_folder"><?php echo __( 'Folder', DLN_SKILL ) ?></label></th>
 			<td>
-				<input type="text" name="dln_source_folder" id="dln_source_folder" size="40" value="<?php echo $folders?>" /> <br />
 				<select name="dln_source_folder" id="dln_source_folder" class="select2">
 					<option value="0"><?php echo __( '(None)', DLN_SKILL )?></option>
 					<?php foreach ( $folders as $i => $folder ) : ?>
 					<?php if ( ! empty( $folder ) ) :?>
-					<?php if ( ! empty( $folder_selected ) && $folder_selected == $folder['term_id'] ) :?>
-					<option value="<?php echo $folder['term_id']?>" selected="selected"><?php echo $folder['name']?></option>
+					<?php if ( ! empty( $folder_selected ) && $folder_selected == $folder->term_id ) :?>
+					<option value="<?php echo $folder->term_id ?>" selected="selected"><?php echo $folder->name ?> (<?php echo $folder->count ?>)</option>
 					<?php else : ?>
-					<option value="<?php echo $folder['term_id']?>"><?php echo $folder['name']?></option>
+					<option value="<?php echo $folder->term_id ?>"><?php echo $folder->name ?> (<?php echo $folder->count ?>)</option>
 					<?php endif ?>
 					<?php endif ?>
 					<?php endforeach ?>

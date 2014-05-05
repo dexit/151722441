@@ -3,7 +3,7 @@ require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
 
 class DLN_Install_DB {
 
-	protected static $instane = null;
+	protected static $instance = null;
 
 	private function __construct() {
 		DLN_Install_DB::create_source_links();
@@ -11,7 +11,7 @@ class DLN_Install_DB {
 	}
 
 	public static function get_instance() {
-		if ( null == self::$instane ) {
+		if ( null == self::$instance ) {
 			self::$instance = new self;
 		}
 
@@ -37,7 +37,8 @@ class DLN_Install_DB {
 		$sql = "CREATE TABLE {$wpdb->dln_source_folder} (
 			id int(11) NOT NULL AUTO_INCREMENT,
 			source_id int(11) NOT NULL,
-			folder_id int(11) NOT NULL
+			folder_id int(11) NOT NULL,
+			PRIMARY KEY  (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
 		
 		dbDelta( $sql );
@@ -57,7 +58,7 @@ class DLN_Install_DB {
 			hash varchar(255) NOT NULL,
 			link text NOT NULL,
 			crawl int(11) DEFAULT 0,
-			PRIMARY KEY (id)
+			PRIMARY KEY  (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
 		
 		dbDelta( $sql );
