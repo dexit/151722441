@@ -21,6 +21,9 @@ class DLN_Term_Source {
 		add_action( 'edited_dln_source', array( $this, 'save_dln_source' ), 10, 2 );
 		add_action( 'dln_source_add_form_fields', array( $this, 'edit_quick_dln_source' ), 10, 1 );
 		add_action( 'created_dln_source', array( $this, 'save_quick_dln_source' ), 10, 2 );
+		
+		add_filter( 'manage_edit-dln_source_columns', array( $this, 'column_header_dln_source' ), 10, 1 );
+		add_filter( 'manage_dln_source_custom_column', array( $this, 'column_prepare_folder_display' ), 10, 3 );
 	}
 	
 	public function init() {
@@ -28,8 +31,32 @@ class DLN_Term_Source {
 			return false;
 		// Load assets
 		wp_enqueue_script( 'dln-select2-js', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/select2/select2.min.js', array( 'jquery' ), '3.4.8', true );
+		wp_enqueue_script( 'dln-select2-locale-js', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/select2/select2_locale_vi.js', array( 'jquery', 'dln-select2-js' ), '3.4.8', true );
 		wp_enqueue_script( 'dln-term-admin-js', DLN_SKILL_PLUGIN_URL . '/dln-cron/assets/js/term-admin.js', array( 'jquery' ), '1.0.0', true );
+		
 		wp_enqueue_style( 'dln-select2-css', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/select2/select2.css', null, '3.4.8' );
+		wp_enqueue_style( 'dln-select2-bootstrap-css', DLN_SKILL_PLUGIN_URL . '/assets/3rd-party/select2/select2-bootstrap.css', null, '3.4.8' );
+		wp_enqueue_style( 'dln-cron-admin-css', DLN_SKILL_PLUGIN_URL . '/dln-cron/assets/css/dln-cron-admin.css', null, '1.0.0' );
+	}
+	
+	public function column_prepare_folder_display( $empty = '', $custom_column, $term_id ) {
+		if ( $custom_column != 'folder_name' ) return '';
+		if ( ! $term_id ) return '';
+		
+		$folders = DLN_Term_Helper::select_folder_name( $term_id );
+		if ( ! $folders ) return '';
+		$html = '';
+		foreach ( $folders as $i => $folder ) {
+			if ( isset( $folder['folder_name'] ) ) {
+				$html .= $folder['folder_name'] . ', ';
+			}
+		}
+		return esc_html( $html );
+	}
+	
+	public function column_header_dln_source( $columns ) {
+		$columns['folder_name'] = __('Folder', DLN_SKILL );
+		return $columns;
 	}
 	
 	public function save_dln_source( $term_id, $tt_id ) {
@@ -52,7 +79,7 @@ class DLN_Term_Source {
 		
 		$return = self::insert_source( $term_id, $data );
 
-		if ( isset( $_POST['dln_source_folder'] ) && $return ) {
+		if ( isset( $_POST['dln_source_folder'] ) ) {
 			self::insert_source_folder( $term_id, $_POST['dln_source_folder'] );
 		}
 	}
@@ -133,14 +160,14 @@ class DLN_Term_Source {
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="dln_source_folder"><?php echo __( 'Folder', DLN_SKILL ) ?></label></th>
 			<td>
-				<select name="dln_source_folder" id="dln_source_folder" class="select2">
+				<select name="dln_source_folder" id="dln_source_folder" class="select2 input-medium">
 					<option value="0"><?php echo __( '(None)', DLN_SKILL )?></option>
 					<?php foreach ( $folders as $i => $folder ) : ?>
 					<?php if ( ! empty( $folder ) ) :?>
 					<?php if ( ! empty( $folder_selected ) && $folder_selected == $folder->term_id ) :?>
-					<option value="<?php echo $folder->term_id ?>" selected="selected"><?php echo $folder->name ?> (<?php echo $folder->count ?>)</option>
+					<option value="<?php echo $folder->term_id ?>" selected="selected"><?php echo $folder->name ?> (<?php echo $folder->count_source ?>)</option>
 					<?php else : ?>
-					<option value="<?php echo $folder->term_id ?>"><?php echo $folder->name ?> (<?php echo $folder->count ?>)</option>
+					<option value="<?php echo $folder->term_id ?>"><?php echo $folder->name ?> (<?php echo $folder->count_source ?>)</option>
 					<?php endif ?>
 					<?php endif ?>
 					<?php endforeach ?>
