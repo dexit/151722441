@@ -26,7 +26,7 @@ class DLN_Cron_Sources {
 		include( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/sources/class-dln-source-helper.php' );
 		
 		// Get source link
-		$sources = self::get_source_link( 40 );
+		$sources = self::get_source_link( 10 );
 		if ( ! empty( $sources ) ) {
 			foreach ( $sources as $i => $source ) {
 				if ( isset( $source['link'] ) && $source['link'] ) {
@@ -62,8 +62,15 @@ class DLN_Cron_Sources {
 			$arr_new_posts = array_merge( $posts );
 			$posts         = $arr_new_posts;
 		}
-		var_dump($posts);
 		
+		if ( ! empty( $posts ) ) {
+			foreach ( $posts as $i => $post ) {
+				// Get google news api
+				if ( $post->title ) {
+					$data = DLN_Source_Helper::load_google_news( $post->title );
+				}
+			}
+		}
 	}
 	
 	public static function get_post_link_added( $site = '', $hashes = '' ) {
