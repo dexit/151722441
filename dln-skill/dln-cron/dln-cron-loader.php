@@ -24,10 +24,12 @@ class DLN_Cron_Loader {
 		//$wpdb->dln_crawl_links_meta = $wpdb->prefix . 'dln_crawl_links_meta';
 		$wpdb->dln_source_link      = $wpdb->prefix . 'dln_source_link';
 		$wpdb->dln_source_folder    = $wpdb->prefix . 'dln_source_folder';
+		$wpdb->dln_post_link        = $wpdb->prefix . 'dln_post_link';
 		
 		if ( is_admin() )
 			include( 'includes/admin/class-dln-cron-admin.php' );
 		
+		include( 'includes/class-dln-cron-helper.php' );
 		include( 'includes/class-dln-cron-sources.php' );
 		include( 'includes/class-dln-cron-shortcodes.php' );
 		include( 'includes/class-dln-cron-terms.php' );

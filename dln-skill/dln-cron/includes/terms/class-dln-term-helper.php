@@ -15,15 +15,6 @@ class DLN_Term_Helper {
 		return self::$instance;
 	}
 	
-	public static function generate_hash( $url = '' ) {
-		if ( ! $url )
-			return '';
-		$arr_url = parse_url( $url );
-		$hash    = md5( $arr_url['host'] . '|' . $arr_url['path'] );
-		
-		return $hash;
-	}
-	
 	public static function get_term_folder() {
 		global $wpdb;
 		
@@ -44,7 +35,7 @@ class DLN_Term_Helper {
 			}
 		}
 		$ids    = ( ! empty( $arr_ids ) ) ? implode( ',', $arr_ids ) : '';
-		$sql    = $wpdb->prepare( "SELECT folder_id, COUNT(source_id) AS count_source FROM $wpdb->dln_source_folder WHERE folder_id IN ( %s ) GROUP BY folder_id", $ids );
+		$sql    = $wpdb->prepare( "SELECT folder_id, COUNT(source_id) AS count_source FROM $wpdb->dln_source_folder WHERE folder_id IN ( %s ) GROUP BY folder_id", esc_sql( $ids ) );
 		$result = $wpdb->get_results( $sql, ARRAY_A );
 		if ( ! empty( $result ) ) {
 			foreach( $terms as $i => $term ) {
@@ -74,7 +65,7 @@ class DLN_Term_Helper {
 		if ( empty( $source_id ) )
 			return false;
 	
-		$sql    = $wpdb->prepare( "SELECT * FROM {$wpdb->dln_source_folder} AS sfolder WHERE sfolder.source_id = %d", $source_id );
+		$sql    = $wpdb->prepare( "SELECT * FROM {$wpdb->dln_source_folder} AS sfolder WHERE sfolder.source_id = %d", (int) esc_sql( $source_id ) );
 		$return = $wpdb->get_row( $sql, ARRAY_A );
 	
 		return $return;
@@ -88,7 +79,7 @@ class DLN_Term_Helper {
 								FROM {$wpdb->dln_source_folder} AS sfolder 
 								INNER JOIN {$wpdb->terms} AS term 
 								ON term.term_id = sfolder.folder_id
-								WHERE sfolder.source_id = %d", $source_id );
+								WHERE sfolder.source_id = %d", (int) esc_sql( $source_id ) );
 		$return = $wpdb->get_results( $sql, ARRAY_A );
 		return $return;
 	}

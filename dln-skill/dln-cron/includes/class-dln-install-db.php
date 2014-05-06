@@ -5,17 +5,18 @@ class DLN_Install_DB {
 
 	protected static $instance = null;
 
-	private function __construct() {
-		DLN_Install_DB::create_source_links();
-		DLN_Install_DB::create_source_folder();
-	}
-
 	public static function get_instance() {
 		if ( null == self::$instance ) {
 			self::$instance = new self;
 		}
 
 		return self::$instance;
+	}
+	
+	function __construct() {
+		DLN_Install_DB::create_source_links();
+		DLN_Install_DB::create_source_folder();
+		DLN_Install_DB::create_post_links();
 	}
 
 	public static function get_charset() {
@@ -57,6 +58,29 @@ class DLN_Install_DB {
 			term_id int(11) NOT NULL,
 			hash varchar(255) NOT NULL,
 			link text NOT NULL,
+			priority int(11) DEFAULT 10,
+			crawl int(11) DEFAULT 0,
+			PRIMARY KEY  (id)
+		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
+		
+		dbDelta( $sql );
+	}
+	
+	public static function create_post_links() {
+		global $wpdb;
+		
+		if ( ! empty( $wpdb->charset ) )
+			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$db_charset_collate .= " COLLATE $wpdb->collate";
+		
+		$sql = "CREATE TABLE {$wpdb->dln_post_link} (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			post_id int(11) NOT NULL,
+			site varchar(50) NOT NULL,
+			hash varchar(255) NOT NULL,
+			link text NOT NULL,
+			time_create datetime NOT NULL,
 			crawl int(11) DEFAULT 0,
 			PRIMARY KEY  (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";

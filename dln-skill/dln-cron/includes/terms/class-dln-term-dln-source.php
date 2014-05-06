@@ -40,22 +40,32 @@ class DLN_Term_Source {
 	}
 	
 	public function column_prepare_folder_display( $empty = '', $custom_column, $term_id ) {
-		if ( $custom_column != 'folder_name' ) return '';
+		if ( $custom_column != 'folder_name' && $custom_column != 'priority' ) return '';
 		if ( ! $term_id ) return '';
 		
-		$folders = DLN_Term_Helper::select_folder_name( $term_id );
-		if ( ! $folders ) return '';
-		$html = '';
-		foreach ( $folders as $i => $folder ) {
-			if ( isset( $folder['folder_name'] ) ) {
-				$html .= $folder['folder_name'] . ', ';
-			}
+		switch ( $custom_column ) {
+			case 'folder_name':
+				$folders = DLN_Term_Helper::select_folder_name( $term_id );
+				if ( ! $folders ) return '';
+				$html = '';
+				foreach ( $folders as $i => $folder ) {
+					if ( isset( $folder['folder_name'] ) ) {
+						$html .= $folder['folder_name'] . ', ';
+					}
+				}
+				break;
+			case 'priority':
+				$source = self::select_source( $term_id );
+				if ( ! $source ) return '';
+				$html = isset( $source['priority'] ) ? $source['priority'] : '';
+				break;
 		}
 		return esc_html( $html );
 	}
 	
 	public function column_header_dln_source( $columns ) {
 		$columns['folder_name'] = __('Folder', DLN_SKILL );
+		$columns['priority']    = __('Priority', DLN_SKILL );
 		return $columns;
 	}
 	
@@ -67,11 +77,14 @@ class DLN_Term_Source {
 			$data['link'] = $_POST['dln_source_link'];
 			if ( isset( $_POST['dln_source_hash'] ) ) {
 				if ( empty( $_POST['dln_source_hash'] ) ) {
-					$data['hash'] = DLN_Term_Helper::generate_hash( $data['link'] );
+					$data['hash'] = DLN_Cron_Helper::generate_hash( $data['link'] );
 				} else {
 					$data['hash'] = $_POST['dln_source_hash'];
 				}
 			}
+		}
+		if ( isset( $_POST['dln_source_priority'] ) ) {
+			$data['priority'] = $_POST['dln_source_priority'];
 		}
 		if ( isset( $_POST['dln_source_crawl'] ) ) {
 			$data['crawl'] = $_POST['dln_source_crawl'];
@@ -136,7 +149,7 @@ class DLN_Term_Source {
 		if ( ! $term_id )
 			return false;
 	
-		$sql    = $wpdb->prepare( "SELECT * FROM {$wpdb->dln_source_link} AS link WHERE link.term_id = %d", $term_id );
+		$sql    = $wpdb->prepare( "SELECT * FROM {$wpdb->dln_source_link} AS link WHERE link.term_id = %d", (int) esc_sql( $term_id ) );
 		$return = $wpdb->get_row( $sql, ARRAY_A );
 	
 		return $return;
@@ -147,6 +160,7 @@ class DLN_Term_Source {
 		$source          = self::select_source( $term_id );
 		$hash            = isset( $source['hash'] ) ? $source['hash'] : '';
 		$link            = isset( $source['link'] ) ? $source['link'] : '';
+		$priority        = isset( $source['priority'] ) ? $source['priority'] : '10';
 		$crawl           = isset( $source['crawl'] ) ? $source['crawl'] : '0';
 		$folder_selected = DLN_Term_Helper::get_selected_folder( $term_id );
 		$folders         = DLN_Term_Helper::get_term_folder();
@@ -178,6 +192,12 @@ class DLN_Term_Source {
 			<th scope="row" valign="top"><label for="dln_source_hash"><?php echo __( 'Hash Value', DLN_SKILL ) ?></label></th>
 			<td>
 				<input type="text" name="dln_source_hash" id="dln_source_hash" size="40" value="<?php echo $hash ?>"/><br />
+			</td>
+		</tr>
+		<tr class="form-field">
+			<th scope="row" valign="top"><label for="dln_source_priority"><?php echo __( 'Priority', DLN_SKILL ) ?></label></th>
+			<td>
+				<input type="number" name="dln_source_priority" id="dln_source_priority" size="40" value="<?php echo $priority ?>" /><br /> 
 			</td>
 		</tr>
 		<tr class="form-field">
