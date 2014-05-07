@@ -22,14 +22,16 @@ class DLN_Source_Helper {
 		$rss_url = esc_url( $rss_url );
 		$amount  = (int) $amount ? (int) $amount : 10;
 		$arr_url = array(
+			'v'    => '1.0',
 			'output' => 'json',
 			'num'    => $amount,
 			'q'      => $rss_url
 		);
 		
-		$link    = self::$google_link_api . "feed/load?v=1.0&" . http_build_query( $arr_url );
+		$link    = self::$google_link_api . "feed/load?" . http_build_query( $arr_url );
 		$content = file_get_contents( $link );
 		$jobject = json_decode( $content );
+		
 		$result  = $arr_hashes = array();
 		if ( isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
 			foreach( $jobject->responseData->feed->entries as $i => $entry ) {
@@ -40,8 +42,8 @@ class DLN_Source_Helper {
 				$obj->title          = $entry->title;
 				$obj->link           = $url;
 				$obj->publishedDate  = $entry->publishedDate;
-				$obj->contentSnippet = $entry->contentSnippet;
-				$obj->content        = $entry->content;
+				$obj->contentSnippet = wp_strip_all_tags( $entry->contentSnippet );
+				$obj->content        = wp_strip_all_tags( $entry->content );
 				$obj->categories     = $entry->categories;
 				$obj->hash           = $hash;
 				
@@ -52,17 +54,60 @@ class DLN_Source_Helper {
 		return array( 'post' => $result, 'hash' => $arr_hashes);
 	}
 	
-	public static function load_google_news( $query = '' ) {
-		if ( ! $query ) return false;
+	public static function load_google_news( $query = '', $comapre_url = '', $new_obj ) {
+		if ( ! $query || ! $comapre_url ) return $new_obj;
 		
 		$arr_url = array(
+			'v'    => '1.0',
 			'ned'  => 'vi_vn',
-			'q'    => 'Cưa đầu đạn, một người chết với mảnh đạn găm đầy cơ thể'
+			'q'    => $query
 		);
-		$link    = self::$google_link_api . "search/news?v=1.0&" . http_build_query( $arr_url );
+		$link    = self::$google_link_api . "search/news?" . http_build_query( $arr_url );
 		$content = file_get_contents( $link );
 		$jobject = json_decode( $content );
-		var_dump($jobject);die();
+		
+		if ( isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
+			foreach ( $jobject->responseData->results as $i => $result ) {
+				if ( $result->unescapedUrl == $comapre_url ) {
+					$new_obj->publishedDateNew = $result->publishedDate;
+					// get image from google news api
+					if ( isset( $result->image ) ) {
+						$new_obj->image = $result->image;
+					} else {
+						$result->image = '';
+					}
+					break;
+				}
+			}
+		}
+		return $new_obj;
+	}
+	
+	public static function load_google_images( $query = '', $comapre_url = '', $new_obj ) {
+		if ( ! $query || ! $comapre_url ) return $new_obj;
+		
+		$arr_url = array(
+				'v'    => '1.0',
+				'ned'  => 'vi_vn',
+				'q'    => $query
+		);
+		$link    = self::$google_link_api . "search/images?" . http_build_query( $arr_url );
+		$content = file_get_contents( $link );
+		$jobject = json_decode( $content );
+		var_dump($jobject);
+		/*if ( isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
+			foreach ( $jobject->responseData->results as $i => $result ) {
+				if ( $result->unescapedUrl == $comapre_url ) {
+					$new_obj->publishedDateNew = $result->publishedDate;
+					// get image from google news api
+					if ( isset( $result->image ) ) {
+						$new_obj->image = $result->image;
+					}
+					break;
+				}
+			}
+		}*/
+		return $new_obj;
 	}
 	
 }

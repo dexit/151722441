@@ -65,9 +65,14 @@ class DLN_Cron_Sources {
 		
 		if ( ! empty( $posts ) ) {
 			foreach ( $posts as $i => $post ) {
-				// Get google news api
+				// Get published date use google news api
 				if ( $post->title ) {
-					$data = DLN_Source_Helper::load_google_news( $post->title );
+					$data = DLN_Source_Helper::load_google_news( $post->title, $post->link, $post );
+					// Get image use google images api
+					//if ( empty( $post->image ) ) {
+					//	$data = DLN_Source_Helper::load_google_images( $post->title, $post->link, $post );
+						//var_dump( $data );
+					//}
 				}
 			}
 		}
