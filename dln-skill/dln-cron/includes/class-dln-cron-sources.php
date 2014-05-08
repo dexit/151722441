@@ -23,7 +23,8 @@ class DLN_Cron_Sources {
 	public function crawl_source() {
 		if ( ! isset( $_GET['dln_crawl_source'] ) ) return;
 		
-		include( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/sources/class-dln-source-helper.php' );
+		include_once( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/libraries/simplepie/autoloader.php' );
+		include_once( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/sources/class-dln-source-helper.php' );
 		
 		// Get source link
 		$sources = self::get_source_link( 10 );
@@ -37,7 +38,9 @@ class DLN_Cron_Sources {
 	}
 	
 	private static function process_crawl_data( $link ) {
-		$data = DLN_Source_Helper::load_google_feed_rss( $link );
+		//$data = DLN_Source_Helper::load_google_feed_rss( $link );
+		$data = DLN_Source_Helper::load_rss_link( $link );
+		var_dump($data);die();
 		// get links added in db
 		$hashes     = $data['hash'];
 		$posts      = $data['post']; 
