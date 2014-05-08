@@ -6,7 +6,8 @@ class DLN_Source_Helper {
 	
 	public static $instance;
 	public static $google_link_api = 'https://ajax.googleapis.com/ajax/services/';
-	public static $feed;
+	public static $rss;
+	public static $ip;
 	
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
@@ -17,39 +18,48 @@ class DLN_Source_Helper {
 		return self::$instance;
 	}
 	
-	function __construct() { }
+	function __construct() { 
+		self::$ip = self::get_real_ip_addr();
+	}
 	
-	public static function get_instance_feed( $rss_url ) {
-		if ( ! $rss_url ) return false;
-		
+	public static function get_instance_rss_php() {
 		// Create instance SimplePie
-		if ( null == self::$feed ) {
-			self::$feed = new SimplePie();
-			/*$upload_dir = wp_upload_dir();
-			$dir        = $upload_dir['basedir'] . '/dln_cache';
-			if( ! is_dir( $dir ) ) {
-				mkdir( $dir );
-			}
-			self::$feed->set_cache_location( $dir );*/
-			self::$feed->enable_cache(false);
+		if ( null == self::$rss ) {
+			self::$rss = new rss_php();
 		}
 		
-		// Set feed url
-		self::$feed->set_feed_url( $rss_url );
-		
-		// Run SimplePie.
-		self::$feed->init();
-		// This makes sure that the content is sent to the browser as text/html and the UTF-8 character set (since we didn't change it).
-		self::$feed->handle_content_type();
-		
-		return self::$feed;
+		return self::$rss;
 	}
 	
 	public static function load_rss_link( $rss_url = '' ) {
 		if ( ! $rss_url ) return;
 		
-		$feed = self::get_instance_feed( $rss_url );
-		var_dump( $rss_url, $feed->get_item(0) );
+		$rss   = self::get_instance_rss_php();
+		$rss->load( $rss_url );
+		$items = $rss->getItems();
+		
+		$result = $arr_hashes = array();
+		if ( $items ) {
+			foreach ( $items as $i => $item ) {
+				$url  = isset( $item['link'] ) ? trim( $item['link'] ) : '';
+				$url  = esc_url( $url );
+				$hash = DLN_Cron_Helper::generate_hash( $url );
+				
+				$obj              = new stdClass;
+				$obj->title       = isset( $item['title'] ) ? trim( $item['title'] ) : '';
+				$obj->link        = $url;
+				$obj->description = isset( $item['description'] ) ? wp_strip_all_tags( trim( $item['description'] ) ) : '';
+				$publishDate      = isset( $item['pubDate'] ) ? strtotime( trim( $item['pubDate'] ) ) : '';
+				$obj->publishDate = ! empty( $publishDate ) ? date( 'Y-m-d H:i:s', $publishDate ) : '';
+				$obj->hash        = ! empty( $hash ) ? $hash : '';
+				
+				if ( $hash ) {
+					$arr_hashes[] = $hash;
+				}
+				$result[]     = $obj;
+			}
+		}
+		return array( 'post' => $result, 'hash' => $arr_hashes);
 	}
 	
 	public static function load_google_feed_rss( $rss_url = '', $amount = 10 ) {
@@ -96,16 +106,17 @@ class DLN_Source_Helper {
 		$arr_url = array(
 			'v'    => '1.0',
 			'ned'  => 'vi_vn',
+			'userip' => self::$ip,
 			'q'    => $query
 		);
 		$link    = self::$google_link_api . "search/news?" . http_build_query( $arr_url );
-		$content = file_get_contents( $link );
+		$content = self::file_get_contents_curl( $link );
 		$jobject = json_decode( $content );
-		var_dump($jobject);
+		
 		if ( isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
 			foreach ( $jobject->responseData->results as $i => $result ) {
 				if ( $result->unescapedUrl == $comapre_url ) {
-					$new_obj->publishedDateNew = $result->publishedDate;
+					$new_obj->publishedDateNew = date( 'Y-m-d H:i:s', strtotime( $result->publishedDate ) );
 					// get image from google news api
 					if ( isset( $result->image ) ) {
 						$new_obj->image = $result->image;
@@ -125,25 +136,42 @@ class DLN_Source_Helper {
 		$arr_url = array(
 				'v'    => '1.0',
 				'ned'  => 'vi_vn',
+				'rsz'  => '8',
 				'q'    => $query
 		);
 		$link    = self::$google_link_api . "search/images?" . http_build_query( $arr_url );
-		$content = file_get_contents( $link );
+		$content = self::file_get_contents_curl( $link );
 		$jobject = json_decode( $content );
-		var_dump($jobject);
-		/*if ( isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
+
+		if ( isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
+			$parse_url = parse_url( $comapre_url );
+			$host      = isset( $parse_url['host'] ) ? $parse_url['host'] : '';
 			foreach ( $jobject->responseData->results as $i => $result ) {
-				if ( $result->unescapedUrl == $comapre_url ) {
-					$new_obj->publishedDateNew = $result->publishedDate;
-					// get image from google news api
-					if ( isset( $result->image ) ) {
-						$new_obj->image = $result->image;
-					}
+				if ( $result->visibleUrl == $host ) {
+					// get image from google images api
+					$new_obj->image = $result->url;
 					break;
 				}
 			}
-		}*/
+		}
 		return $new_obj;
+	}
+	
+	private static function get_real_ip_addr()
+	{
+		if (!empty($_SERVER['HTTP_CLIENT_IP']))   //check ip from share internet
+		{
+			$ip=$_SERVER['HTTP_CLIENT_IP'];
+		}
+		elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR']))   //to check ip is pass from proxy
+		{
+			$ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+		}
+		else
+		{
+			$ip=$_SERVER['REMOTE_ADDR'];
+		}
+		return $ip;
 	}
 	
 	private static function get_nodes( $rss_url = '' ) {
@@ -160,7 +188,7 @@ class DLN_Source_Helper {
 		return $dom;
 	}
 	
-	/*public static function file_get_contents_curl( $url ) {
+	private static function file_get_contents_curl( $url ) {
 		$agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
 	
 		$ch = curl_init();
@@ -173,14 +201,6 @@ class DLN_Source_Helper {
 	
 		return $result;
 	}
-	
-	private static function check_url( $html ){
-		return $result = preg_replace(
-			'%\b(([\w-]+://?|www[.])[^\s()<>]+(?:\([\w\d]+\)|([^[:punct:]\s]|/)))%s',
-			'<a href="$1">$1</a>',
-			$html
-		);
-	}*/
 }
 
 DLN_Source_Helper::get_instance();

@@ -23,7 +23,7 @@ class DLN_Cron_Sources {
 	public function crawl_source() {
 		if ( ! isset( $_GET['dln_crawl_source'] ) ) return;
 		
-		include_once( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/libraries/simplepie/autoloader.php' );
+		include_once( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/libraries/rss_php/rss_php.php' );
 		include_once( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/sources/class-dln-source-helper.php' );
 		
 		// Get source link
@@ -38,9 +38,8 @@ class DLN_Cron_Sources {
 	}
 	
 	private static function process_crawl_data( $link ) {
-		//$data = DLN_Source_Helper::load_google_feed_rss( $link );
 		$data = DLN_Source_Helper::load_rss_link( $link );
-		var_dump($data);die();
+		
 		// get links added in db
 		$hashes     = $data['hash'];
 		$posts      = $data['post']; 
@@ -70,12 +69,12 @@ class DLN_Cron_Sources {
 			foreach ( $posts as $i => $post ) {
 				// Get published date use google news api
 				if ( $post->title ) {
-					$data = DLN_Source_Helper::load_google_news( $post->title, $post->link, $post );
+					$post = DLN_Source_Helper::load_google_news( $post->title, $post->link, $post );
 					// Get image use google images api
-					//if ( empty( $post->image ) ) {
-					//	$data = DLN_Source_Helper::load_google_images( $post->title, $post->link, $post );
-						//var_dump( $data );
-					//}
+					if ( empty( $post->image ) ) {
+						$data = DLN_Source_Helper::load_google_images( $post->title, $post->link, $post );
+						var_dump( $data );
+					}
 				}
 			}
 		}
