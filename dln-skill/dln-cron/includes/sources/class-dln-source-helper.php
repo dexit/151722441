@@ -34,32 +34,44 @@ class DLN_Source_Helper {
 	public static function load_rss_link( $rss_url = '' ) {
 		if ( ! $rss_url ) return;
 		
-		$rss   = self::get_instance_rss_php();
+		$rss    = self::get_instance_rss_php();
 		$rss->load( $rss_url );
-		$items = $rss->getItems();
+		$items  = $rss->getItems( true );
 		
-		$result = $arr_hashes = array();
+		$result = $arr_hashes = $arr_urls = array();
 		if ( $items ) {
 			foreach ( $items as $i => $item ) {
-				$url  = isset( $item['link'] ) ? trim( $item['link'] ) : '';
+				$data = $item->children;
+				$url  = isset( $data['link'] ) ? trim( $data['link']->valueData ) : '';
 				$url  = esc_url( $url );
 				$hash = DLN_Cron_Helper::generate_hash( $url );
 				
 				$obj              = new stdClass;
-				$obj->title       = isset( $item['title'] ) ? trim( $item['title'] ) : '';
+				$obj->title       = isset( $data['title'] ) ? trim( $data['title']->valueData ) : '';
 				$obj->link        = $url;
-				$obj->description = isset( $item['description'] ) ? wp_strip_all_tags( trim( $item['description'] ) ) : '';
-				$publishDate      = isset( $item['pubDate'] ) ? strtotime( trim( $item['pubDate'] ) ) : '';
+				$description      = isset( $data['description'] ) ? wp_strip_all_tags( trim( $data['description']->valueData ) ) : '';
+				$obj->description = preg_replace( '!\s+!', ' ', $description );
+				$publishDate      = isset( $data['pubDate'] ) ? strtotime( trim( $data['pubDate']->valueData ) ) : '';
 				$obj->publishDate = ! empty( $publishDate ) ? date( 'Y-m-d H:i:s', $publishDate ) : '';
 				$obj->hash        = ! empty( $hash ) ? $hash : '';
+				$obj->image       = isset( $data['image'] ) ? esc_url( $data['image']->valueData ) : '';
+				$obj->category    = isset( $data['category'] ) ? esc_url( $data['category']->valueData ) : '';
+				// If exists enclosure then process image for it (Ex: news.zing.vn)
+				if ( ! $obj->image && isset( $data['enclosure'] ) ) {
+					$attrs        = $data['enclosure']->attributeNodes;
+					if ( in_array( $attrs['type'], array( 'image/jpeg', 'image/png', 'image/gif' ) ) ) {
+						$obj->image = isset( $attrs['url'] ) ? $attrs['url'] : '';
+					}
+				}
 				
 				if ( $hash ) {
 					$arr_hashes[] = $hash;
 				}
-				$result[]     = $obj;
+				$result[]         = $obj;
+				$arr_urls[]       = $url;
 			}
 		}
-		return array( 'post' => $result, 'hash' => $arr_hashes);
+		return array( 'post' => $result, 'hash' => $arr_hashes, 'urls' => $arr_urls );
 	}
 	
 	public static function load_google_feed_rss( $rss_url = '', $amount = 10 ) {
@@ -113,7 +125,7 @@ class DLN_Source_Helper {
 		$content = self::file_get_contents_curl( $link );
 		$jobject = json_decode( $content );
 		
-		if ( isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
+		if ( empty( $new_obj->image ) && isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
 			foreach ( $jobject->responseData->results as $i => $result ) {
 				if ( $result->unescapedUrl == $comapre_url ) {
 					$new_obj->publishedDateNew = date( 'Y-m-d H:i:s', strtotime( $result->publishedDate ) );
@@ -143,7 +155,7 @@ class DLN_Source_Helper {
 		$content = self::file_get_contents_curl( $link );
 		$jobject = json_decode( $content );
 
-		if ( isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
+		if ( empty( $new_obj->image ) && isset( $jobject->responseStatus ) && $jobject->responseStatus == '200' ) {
 			$parse_url = parse_url( $comapre_url );
 			$host      = isset( $parse_url['host'] ) ? $parse_url['host'] : '';
 			foreach ( $jobject->responseData->results as $i => $result ) {

@@ -94,7 +94,7 @@ abstract class DLN_Source {
 		$fql        = urlencode( "SELECT url, normalized_url, total_count, share_count, like_count, comment_count FROM link_stat WHERE url IN ('{$links}')" );
 		$app_id     = FB_APP_ID;
 		$app_secret = FB_SECRET;
-		$content    = json_decode( file_get_contents( "https://graph.facebook.com//fql?q={$fql}&access_token={$app_id}|{$app_secret}" ) );
+		$content    = json_decode( file_get_contents( "https://graph.facebook.com/fql?q={$fql}&access_token={$app_id}|{$app_secret}" ) );
 		if ( ! empty( $items ) && isset( $content->data ) ) {
 			$arr_data = $content->data;
 			if ( is_array( $arr_data ) ) {
