@@ -52,7 +52,7 @@ class DLN_Source_Helper {
 				$description      = isset( $data['description'] ) ? wp_strip_all_tags( trim( $data['description']->valueData ) ) : '';
 				$obj->description = preg_replace( '!\s+!', ' ', $description );
 				$publishDate      = isset( $data['pubDate'] ) ? strtotime( trim( $data['pubDate']->valueData ) ) : '';
-				$obj->publishDate = ! empty( $publishDate ) ? date( 'Y-m-d H:i:s', $publishDate ) : '';
+				$obj->publishDate = ! empty( $publishDate ) ? date( 'Y-m-d H:i:s', $publishDate ) : date( 'Y-m-d H:i:s' );
 				$obj->hash        = ! empty( $hash ) ? $hash : '';
 				$obj->image       = isset( $data['image'] ) ? esc_url( $data['image']->valueData ) : '';
 				$obj->category    = isset( $data['category'] ) ? esc_url( $data['category']->valueData ) : '';
@@ -74,7 +74,7 @@ class DLN_Source_Helper {
 		return array( 'post' => $result, 'hash' => $arr_hashes, 'urls' => $arr_urls );
 	}
 	
-	public static function load_google_feed_rss( $rss_url = '', $amount = 10 ) {
+	public static function load_google_feed_rss( $rss_url = '', $amount = 50 ) {
 		if ( ! $rss_url ) return;
 		
 		$rss_url = esc_url( $rss_url );

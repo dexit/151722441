@@ -83,6 +83,7 @@ class DLN_Install_DB {
 			time_create datetime NOT NULL,
 			time_update datetime NOT NULL,
 			crawl int(11) DEFAULT 0,
+			total_count int(11) DEFAULT 0,
 			PRIMARY KEY  (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
 		

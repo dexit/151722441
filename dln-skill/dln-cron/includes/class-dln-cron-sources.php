@@ -31,14 +31,17 @@ class DLN_Cron_Sources {
 		if ( ! empty( $sources ) ) {
 			foreach ( $sources as $i => $source ) {
 				if ( isset( $source['link'] ) && $source['link'] ) {
-					self::process_crawl_data( $source['link'], $source['term_id'] );
+					self::process_crawl_data( $source['link'], $source['term_id'], $source['crawl'] );
 				}
 			}
 		}
+		die();
 	}
 	
-	private static function process_crawl_data( $link, $term_id ) {
-		$data = DLN_Source_Helper::load_rss_link( $link );
+	private static function process_crawl_data( $rss_link , $term_id, $crawl_count = 0 ) {
+		if ( ! $rss_link || ! $term_id ) return;
+		
+		$data = DLN_Source_Helper::load_rss_link( $rss_link );
 		
 		// get links added in db
 		$hashes     = $data['hash'];
@@ -49,8 +52,8 @@ class DLN_Cron_Sources {
 		if ( ! empty( $hashes ) ) {
 			$str_hashes = implode( ',', $hashes );
 		}
-		$arr_url = parse_url( esc_url( $link ) );
-		$site    = isset( $arr_url['host'] ) ? $arr_url['host'] : '';
+		$arr_url      = parse_url( esc_url( $rss_link ) );
+		$site         = isset( $arr_url['host'] ) ? $arr_url['host'] : '';
 		$hashes_added = self::get_post_link_added( $site, $str_hashes );
 		
 		// Exclude links added
@@ -73,7 +76,8 @@ class DLN_Cron_Sources {
 			$fql        = urlencode( "SELECT url, normalized_url, total_count, share_count, like_count, comment_count, comments_fbid FROM link_stat WHERE url IN ('{$links}')" );
 			$app_id     = FB_APP_ID;
 			$app_secret = FB_SECRET;
-			$jfb_object = json_decode( self::file_get_contents_curl( "https://graph.facebook.com/fql?q={$fql}&access_token={$app_id}|{$app_secret}" ) );
+
+			$jfb_object = json_decode( self::file_get_contents_curl( "https://graph.facebook.com/fql?q={$fql}&access_token={$app_id}|{$app_secret}" ), false, 512, JSON_BIGINT_AS_STRING );
 			if ( ! empty( $jfb_object ) && isset( $jfb_object->data ) ) {
 				foreach ( $posts as $i => $post ) {
 					foreach( $jfb_object->data as $j => $fb_obj ) {
@@ -88,30 +92,61 @@ class DLN_Cron_Sources {
 				}
 			}
 		}
-
 		if ( ! empty( $posts ) ) {
 			foreach ( $posts as $i => $post ) {
 				// Get published date use google news api
 				if ( $post->title ) {
-					$post = DLN_Source_Helper::load_google_news( $post->title, $post->link, $post );
+					//$post = DLN_Source_Helper::load_google_news( $post->title, $post->link, $post );
 					// Get image use google images api
-					if ( empty( $post->image ) ) {
-						$post    = DLN_Source_Helper::load_google_images( $post->title, $post->link, $post );
+					//if ( empty( $post->image ) ) {
+						//$post    = DLN_Source_Helper::load_google_images( $post->title, $post->link, $post );
 						$post_id = self::insert_post_link( $post, $term_id );
-					}
+						if ( $post_id ) {
+							// Insert to dln_post_link
+							$link         = esc_url( $post->link );
+							$arr_url      = parse_url( $link );
+							$site         = isset( $arr_url['host'] ) ? $arr_url['host'] : '';
+							$hash         = DLN_Cron_Helper::generate_hash( $link );
+							$data = array( 
+								'post_id'     => $post_id,
+								'site'        => $site,
+								'link'        => $link,
+								'hash'        => $hash,
+								'time_create' => date( 'Y-m-d H:i:s' ),
+								'total_count' => $post->total_count,
+							);
+							self::insert_dln_post_link( $data );
+						}
+					//}
 				}
 			}
+			
+			// Update crawl count source link
+			$crawl_count = intval( $crawl_count ) + 1;
+			$data = array( 
+				'crawl' => $crawl_count
+			);
+			self::update_source_link( $data, $term_id );
 		}
+		var_dump($posts);
+	}
+	
+	public static function update_source_link( $data, $term_id ) {
+		if ( empty( $data ) ) return;
+		
+		global $wpdb;
+		$result = $wpdb->update( $wpdb->dln_source_link, $data, array( 'term_id' => $term_id ) );
+		
+		return $result;
 	}
 	
 	public static function insert_post_link( $data = array(), $term_id = '' ) {
-		if ( ! is_array( $data ) || empty( $term_id ) ) return;
+		if ( empty( $data ) || empty( $term_id ) ) return;
 		
-		global $wpdb;
-		$terms = array_map( 'intval', $term_id );
+		$terms = array_map( 'intval', array( $term_id ) );
 		$post  = array(
 			'post_title'     => $data->title,
-			'post_name'      => sanitize_title( implode( '-', $data->title ) ),
+			'post_name'      => sanitize_title( $data->title ),
 			'post_content'   => $data->description,
 			'post_type'      => 'dln_article',
 			'post_status'    => 'pending',
@@ -120,12 +155,36 @@ class DLN_Cron_Sources {
 				'dln_source' => $terms
 			)
 		);
-		$post_id = wp_insert_post( $post );
-		// Update post meta
-		if ( $post_id ) {
-			update_post_meta( $post_id, $meta_key, $meta_value );
-			update_post_meta( $post_id, $meta_key, $meta_value );
+		$post_id = wp_insert_post( $post, true );
+		
+		if ( is_wp_error( $post_id ) ) {
+			echo $post_id->get_error_message();
+			die();
 		}
+		
+		if ( empty( $post_id ) )
+			return $post_id;
+		
+		// Update post meta
+		if ( ! empty( $data->publishDate ) ) {
+			update_post_meta( $post_id, 'dln_publish_date', $data->publishDate );
+		}
+		if ( ! empty( $data->category ) ) {
+			update_post_meta( $post_id, 'dln_category', $data->category );
+		}
+		if ( ! empty( $data->share_count ) ) {
+			update_post_meta( $post_id, 'dln_share_count', $data->share_count );
+		}
+		if ( ! empty( $data->like_count ) ) {
+			update_post_meta( $post_id, 'dln_like_count', $data->like_count );
+		}
+		if ( ! empty( $data->comment_count ) ) {
+			update_post_meta( $post_id, 'dln_comment_count', $data->comment_count );
+		}
+		if ( ! empty( $data->comments_fbid ) ) {
+			update_post_meta( $post_id, 'dln_comments_fbid', $data->comments_fbid );
+		}
+		
 		return $post_id;
 	}
 	
@@ -138,11 +197,20 @@ class DLN_Cron_Sources {
 		return $result;
 	}
 	
+	public static function insert_dln_post_link( $data = array() ) {
+		if ( ! is_array( $data ) ) return false;
+		
+		global $wpdb;
+		$result_id = $wpdb->insert( $wpdb->dln_post_link, $data );
+		
+		return $result_id;
+	}
+	
 	public static function get_source_link( $limit = 10 ) {
 		global $wpdb;
 		if ( ! $limit ) return;
 		
-		$sql    = $wpdb->prepare( "SELECT link, term_id FROM {$wpdb->dln_source_link} ORDER BY crawl, priority ASC LIMIT 0, %d", ( int ) esc_sql( $limit ) );
+		$sql    = $wpdb->prepare( "SELECT link, term_id, crawl FROM {$wpdb->dln_source_link} ORDER BY crawl, priority ASC LIMIT 0, %d", ( int ) esc_sql( $limit ) );
 		$result = $wpdb->get_results( $sql, ARRAY_A );
 		
 		return $result; 
