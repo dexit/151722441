@@ -19,6 +19,7 @@ class DLN_Cron_Terms {
 		// Require terms
 		include( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/terms/class-dln-term-helper.php' );
 		include( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/terms/class-dln-term-dln-source.php' );
+		include( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/terms/class-dln-term-dln-article.php' );
 	}
 }
 

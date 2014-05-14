@@ -181,6 +181,7 @@ class DLN_Term_Source {
 					<?php if ( ! empty( $folder_selected ) && $folder_selected == $folder->term_id ) :?>
 					<option value="<?php echo $folder->term_id ?>" selected="selected"><?php echo $folder->name ?> (<?php echo $folder->count_source ?>)</option>
 					<?php else : ?>
+					<?php $folder->count_source = isset( $folder->count_source ) ? $folder->count_source : 0 ?>
 					<option value="<?php echo $folder->term_id ?>"><?php echo $folder->name ?> (<?php echo $folder->count_source ?>)</option>
 					<?php endif ?>
 					<?php endif ?>

@@ -46,7 +46,7 @@ class DLN_Term_Helper {
 				}
 			}
 		}
-	
+		
 		return $terms;
 	}
 	

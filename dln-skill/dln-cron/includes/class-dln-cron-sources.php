@@ -28,17 +28,28 @@ class DLN_Cron_Sources {
 		
 		// Get source link
 		$sources = self::get_source_link( 10 );
+		
 		if ( ! empty( $sources ) ) {
+			// Process folder ids
+			$term_ids = array();
 			foreach ( $sources as $i => $source ) {
-				if ( isset( $source['link'] ) && $source['link'] ) {
-					self::process_crawl_data( $source['link'], $source['term_id'], $source['crawl'] );
+				if ( isset( $source['term_id'] ) ) {
+					$term_ids[] = $source['term_id'];
 				}
 			}
+			$folders = self::get_folders_by_source_id( $term_ids );
+			foreach ( $sources as $i => $source ) {
+				if ( isset( $source['link'] ) && $source['link'] ) {
+					self::process_crawl_data( $source['link'], $source['term_id'], $folders );
+				}
+			}
+		} else {
+			self::reset_crawl_count();
 		}
 		die();
 	}
 	
-	private static function process_crawl_data( $rss_link , $term_id, $crawl_count = 0 ) {
+	private static function process_crawl_data( $rss_link , $term_id, $folders ) {
 		if ( ! $rss_link || ! $term_id ) return;
 		
 		$data = DLN_Source_Helper::load_rss_link( $rss_link );
@@ -48,13 +59,9 @@ class DLN_Cron_Sources {
 		$posts      = $data['post']; 
 		$arr_urls   = $data['urls'];
 		
-		$str_hashes = '';
-		if ( ! empty( $hashes ) ) {
-			$str_hashes = implode( ',', $hashes );
-		}
 		$arr_url      = parse_url( esc_url( $rss_link ) );
 		$site         = isset( $arr_url['host'] ) ? $arr_url['host'] : '';
-		$hashes_added = self::get_post_link_added( $site, $str_hashes );
+		$hashes_added = self::get_post_link_added( $site, $hashes );
 		
 		// Exclude links added
 		if ( ! empty( $hashes_added ) ) {
@@ -92,6 +99,7 @@ class DLN_Cron_Sources {
 				}
 			}
 		}
+		
 		if ( ! empty( $posts ) ) {
 			foreach ( $posts as $i => $post ) {
 				// Get published date use google news api
@@ -100,7 +108,7 @@ class DLN_Cron_Sources {
 					// Get image use google images api
 					//if ( empty( $post->image ) ) {
 						//$post    = DLN_Source_Helper::load_google_images( $post->title, $post->link, $post );
-						$post_id = self::insert_post_link( $post, $term_id );
+						$post_id = self::insert_post_link( $post, $term_id, $folders );
 						if ( $post_id ) {
 							// Insert to dln_post_link
 							$link         = esc_url( $post->link );
@@ -120,14 +128,15 @@ class DLN_Cron_Sources {
 					//}
 				}
 			}
-			
-			// Update crawl count source link
-			$crawl_count = intval( $crawl_count ) + 1;
-			$data = array( 
-				'crawl' => $crawl_count
-			);
-			self::update_source_link( $data, $term_id );
 		}
+		
+		// Update crawl count source link
+		$crawl_count = 1;
+		$data = array(
+			'crawl' => $crawl_count
+		);
+		self::update_source_link( $data, $term_id );
+		
 		var_dump($posts);
 	}
 	
@@ -140,10 +149,19 @@ class DLN_Cron_Sources {
 		return $result;
 	}
 	
-	public static function insert_post_link( $data = array(), $term_id = '' ) {
+	public static function insert_post_link( $data = array(), $term_id = '', $folders ) {
 		if ( empty( $data ) || empty( $term_id ) ) return;
 		
 		$terms = array_map( 'intval', array( $term_id ) );
+		// Process folder term 
+		$arr_folders = array();
+		if ( ! empty( $folders ) ) {
+			foreach ( $folders as $i => $folder ) {
+				if ( isset( $folder['source_id'] ) && $folder['source_id'] == $term_id ) {
+					$arr_folders[] = intval( $folder['folder_id'] );
+				}
+			}
+		}
 		$post  = array(
 			'post_title'     => $data->title,
 			'post_name'      => sanitize_title( $data->title ),
@@ -152,7 +170,8 @@ class DLN_Cron_Sources {
 			'post_status'    => 'pending',
 			'comment_status' => 'open',
 			'tax_input'      => array(
-				'dln_source' => $terms
+				'dln_source' => $terms,
+				'dln_folder' => $arr_folders
 			)
 		);
 		$post_id = wp_insert_post( $post, true );
@@ -184,6 +203,12 @@ class DLN_Cron_Sources {
 		if ( ! empty( $data->comments_fbid ) ) {
 			update_post_meta( $post_id, 'dln_comments_fbid', $data->comments_fbid );
 		}
+		if ( ! empty( $data->link ) ) {
+			update_post_meta( $post_id, 'dln_link', $data->link );
+		}
+		if ( ! empty( $data->total_count ) ) {
+			update_post_meta( $post_id, 'dln_total_count', $data->total_count );
+		}
 		
 		return $post_id;
 	}
@@ -191,8 +216,14 @@ class DLN_Cron_Sources {
 	public static function get_post_link_added( $site = '', $hashes = '' ) {
 		if ( ! $site || ! $hashes ) return;
 		
+		$str_hashes = '';
+		if ( ! empty( $hashes ) ) {
+			$str_hashes = implode( "','", $hashes );
+		}
+		
 		global $wpdb;
-		$sql    = $wpdb->prepare( "SELECT hash FROM {$wpdb->dln_post_link} WHERE site = %s AND hash IN ( %s )", $site, $hashes );
+		$sql    = $wpdb->prepare( "SELECT hash FROM {$wpdb->dln_post_link} WHERE site = %s AND hash IN ( '{$str_hashes}' )", $site );
+
 		$result = $wpdb->get_results( $sql, ARRAY_A );
 		return $result;
 	}
@@ -206,15 +237,33 @@ class DLN_Cron_Sources {
 		return $result_id;
 	}
 	
-	public static function get_source_link( $limit = 10 ) {
+	private static function get_folders_by_source_id( $term_ids = array() ) {
+		if ( empty( $term_ids ) ) return false;
+		
+		global $wpdb;
+		$str_term_ids = implode( "','", $term_ids );
+		$sql    = $wpdb->prepare( "SELECT source_id, folder_id FROM {$wpdb->dln_source_folder} WHERE source_id IN ('{$str_term_ids}') AND 1 = %d", 1 );
+		$result = $wpdb->get_results( $sql, ARRAY_A );
+		
+		return $result;
+	}
+	
+	private static function get_source_link( $limit = 10 ) {
 		global $wpdb;
 		if ( ! $limit ) return;
 		
-		$sql    = $wpdb->prepare( "SELECT link, term_id, crawl FROM {$wpdb->dln_source_link} ORDER BY crawl, priority ASC LIMIT 0, %d", ( int ) esc_sql( $limit ) );
+		$sql    = $wpdb->prepare( "SELECT link, term_id FROM {$wpdb->dln_source_link} WHERE crawl = %d ORDER BY crawl, priority ASC LIMIT 0, %d", 0,  ( int ) esc_sql( $limit ) );
 		$result = $wpdb->get_results( $sql, ARRAY_A );
 		
 		return $result; 
-	}	
+	}
+	
+	private static function reset_crawl_count() {
+		global $wpdb;
+		
+		$sql = $wpdb->prepare( "UPDATE {$wpdb->dln_source_link} SET crawl = %d WHERE 1 = 1", 0 );
+		$wpdb->query( $sql );
+	}
 	
 	public function crawl_process() {
 		if ( ! isset( $_GET['dln_crawl_news'] ) || ! isset( $_GET['dln_crawl_source'] ) )

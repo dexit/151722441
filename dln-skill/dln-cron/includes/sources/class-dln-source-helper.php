@@ -54,7 +54,7 @@ class DLN_Source_Helper {
 				$publishDate      = isset( $data['pubDate'] ) ? strtotime( trim( $data['pubDate']->valueData ) ) : '';
 				$obj->publishDate = ! empty( $publishDate ) ? date( 'Y-m-d H:i:s', $publishDate ) : date( 'Y-m-d H:i:s' );
 				$obj->hash        = ! empty( $hash ) ? $hash : '';
-				$obj->image       = isset( $data['image'] ) ? esc_url( $data['image']->valueData ) : '';
+				$obj->image       = isset( $data['image']->valueData )   ? esc_url( $data['image']->valueData ) : '';
 				$obj->category    = isset( $data['category'] ) ? esc_url( $data['category']->valueData ) : '';
 				// If exists enclosure then process image for it (Ex: news.zing.vn)
 				if ( ! $obj->image && isset( $data['enclosure'] ) ) {

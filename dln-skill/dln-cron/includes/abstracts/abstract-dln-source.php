@@ -122,7 +122,6 @@ abstract class DLN_Source {
 		} else {
 			self::write_log( 'Error at article id: ' . implode( ', ', $ids ), 'fb_log' );
 		}
-		var_dump($content);
 	}
 	
 	public static function write_log( $log = '', $type = 'crawl' ) {
