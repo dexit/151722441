@@ -60,6 +60,7 @@ class DLN_Install_DB {
 			link text NOT NULL,
 			priority int(11) DEFAULT 10,
 			crawl tinyint DEFAULT 0,
+			enable tinyint DEFAULT 1,
 			PRIMARY KEY  (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
 		

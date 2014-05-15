@@ -40,8 +40,13 @@ class DLN_Term_Source {
 	}
 	
 	public function column_prepare_folder_display( $empty = '', $custom_column, $term_id ) {
-		if ( $custom_column != 'folder_name' && $custom_column != 'priority' ) return '';
+		if ( $custom_column != 'folder_name' && $custom_column != 'priority'
+			&& $custom_column != 'enable' ) return '';
 		if ( ! $term_id ) return '';
+		
+		// Get source link 
+		$source = self::select_source( $term_id );
+		if ( ! $source ) return '';
 		
 		switch ( $custom_column ) {
 			case 'folder_name':
@@ -55,9 +60,10 @@ class DLN_Term_Source {
 				}
 				break;
 			case 'priority':
-				$source = self::select_source( $term_id );
-				if ( ! $source ) return '';
 				$html = isset( $source['priority'] ) ? $source['priority'] : '';
+				break;
+			case 'enable':
+				$html = isset( $source['enable'] ) ? $source['enable'] : '';
 				break;
 		}
 		return esc_html( $html );
@@ -66,7 +72,12 @@ class DLN_Term_Source {
 	public function column_header_dln_source( $columns ) {
 		$columns['folder_name'] = __('Folder', DLN_SKILL );
 		$columns['priority']    = __('Priority', DLN_SKILL );
+		$columns['enable']      = __('Enable', DLN_SKILL);
 		return $columns;
+	}
+	
+	public function save_quick_dln_source( $term_id, $tt_id ) {
+		$this->save_dln_source( $term_id, $tt_id );
 	}
 	
 	public function save_dln_source( $term_id, $tt_id ) {
@@ -83,22 +94,24 @@ class DLN_Term_Source {
 				}
 			}
 		}
+		
 		if ( isset( $_POST['dln_source_priority'] ) ) {
 			$data['priority'] = $_POST['dln_source_priority'];
 		}
+		
 		if ( isset( $_POST['dln_source_crawl'] ) ) {
 			$data['crawl'] = $_POST['dln_source_crawl'];
 		}
 		
+		if ( isset( $_POST['dln_source_enable'] ) ) {
+			$data['enable'] = $_POST['dln_source_enable'];
+		}
+	
 		$return = self::insert_source( $term_id, $data );
-
+	
 		if ( isset( $_POST['dln_source_folder'] ) ) {
 			self::insert_source_folder( $term_id, $_POST['dln_source_folder'] );
 		}
-	}
-	
-	public function save_quick_dln_source( $term_id, $tt_id ) {
-		$this->save_dln_source( $term_id, $tt_id );
 	}
 	
 	public function edit_quick_dln_source( $taxonomy ) {
@@ -162,6 +175,7 @@ class DLN_Term_Source {
 		$link            = isset( $source['link'] ) ? $source['link'] : '';
 		$priority        = isset( $source['priority'] ) ? $source['priority'] : '10';
 		$crawl           = isset( $source['crawl'] ) ? $source['crawl'] : '0';
+		$enable          = isset( $source['enable'] ) ? $source['enable'] : '1'; 
 		$folder_selected = DLN_Term_Helper::get_selected_folder( $term_id );
 		$folders         = DLN_Term_Helper::get_term_folder();
 		?>
@@ -205,6 +219,12 @@ class DLN_Term_Source {
 			<th scope="row" valign="top"><label for="dln_source_crawl"><?php echo __( 'Crawl Count', DLN_SKILL ) ?></label></th>
 			<td>
 				<input type="text" name="dln_source_crawl" id="dln_source_crawl" size="40" readonly="readonly" value="<?php echo $crawl ?>"/><br />
+			</td>
+		</tr>
+		<tr class="form-field">
+			<th scope="row" valign="top"><label for="dln_source_enable"><?php echo __( 'Enable', DLN_SKILL ) ?></label></th>
+			<td>
+				<input type="text" name="dln_source_enable" id="dln_source_enable" size="40" value="<?php echo $enable ?>"/><br />
 			</td>
 		</tr>
 		<p />

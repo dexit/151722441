@@ -34,12 +34,12 @@ class DLN_Term_Article {
 			case 'dln_publish_date_column':
 				$html = get_post_meta( $post_id , 'dln_publish_date' , true ); 
 				break;
-			//case 'dln_share_count_column':
-			//	$html = get_post_meta( $post_id , 'dln_share_count' , true ); 
-			//	break;
-			//case 'dln_like_count_column':
-			//	$html = get_post_meta( $post_id , 'dln_like_count' , true );
-			//	break;
+			case 'dln_share_count_column':
+				$html = get_post_meta( $post_id , 'dln_share_count' , true ); 
+				break;
+			case 'dln_like_count_column':
+				$html = get_post_meta( $post_id , 'dln_like_count' , true );
+				break;
 			//case 'dln_comment_count_column':
 			//	$html = get_post_meta( $post_id , 'dln_comment_count' , true );
 			//	break;
@@ -52,18 +52,25 @@ class DLN_Term_Article {
 	
 	public function column_header_dln_source( $columns ) {
 		$columns['dln_publish_date_column']  = __('Publish Date', DLN_SKILL );
-		//$columns['dln_share_count_column']   = __('FB Share', DLN_SKILL );
-		//$columns['dln_like_count_column']    = __('FB Like', DLN_SKILL );
+		$columns['dln_share_count_column']   = __('FB Share', DLN_SKILL );
+		$columns['dln_like_count_column']    = __('FB Like', DLN_SKILL );
 		//$columns['dln_comment_count_column'] = __('FB Comment', DLN_SKILL );
 		$columns['dln_total_count_column']   = __('FB Total', DLN_SKILL );
+		
+		unset( $columns['author'] );
+		if ( isset( $_GET['show_category'] ) && $_GET['show_category'] == '1' ) {
+			return $columns;			
+		} else {
+			unset( $columns['categories'] );			
+		}
 		
 		return $columns;
 	}
 	
 	public function sortable_column_dln_article( $sortable_columns ) {
 		$sortable_columns[ 'dln_publish_date_column' ]  = 'dln_publish_date';
-		//$sortable_columns[ 'dln_share_count_column' ]   = 'dln_share_count';
-		//$sortable_columns[ 'dln_like_count_column' ]    = 'dln_like_count';
+		$sortable_columns[ 'dln_share_count_column' ]   = 'dln_share_count';
+		$sortable_columns[ 'dln_like_count_column' ]    = 'dln_like_count';
 		//$sortable_columns[ 'dln_comment_count_column' ] = 'dln_comment_count';
 		$sortable_columns[ 'dln_total_count_column' ]   = 'dln_total_count';
 		
@@ -77,14 +84,14 @@ class DLN_Term_Article {
 					$query->set( 'meta_key', 'dln_publish_date' );
 					$query->set( 'orderby', 'meta_value' );
 					break;
-				//case 'dln_share_count_column':
-				//	$query->set( 'meta_key', 'dln_share_count' );
-				//	$query->set( 'orderby', 'meta_value' );
-				//	break;
-				//case 'dln_like_count':
-				//	$query->set( 'meta_key', 'dln_like_count' );
-				//	$query->set( 'orderby', 'meta_value' );
-				//	break;
+				case 'dln_share_count_column':
+					$query->set( 'meta_key', 'dln_share_count' );
+					$query->set( 'orderby', 'meta_value' );
+					break;
+				case 'dln_like_count':
+					$query->set( 'meta_key', 'dln_like_count' );
+					$query->set( 'orderby', 'meta_value' );
+					break;
 				//case 'dln_comment_count':
 				//	$query->set( 'meta_key', 'dln_comment_count' );
 				//	$query->set( 'orderby', 'meta_value' );
@@ -107,6 +114,14 @@ class DLN_Term_Article {
 			switch( $orderby ) {
 				case 'dln_total_count':
 					$pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'dln_total_count'";
+					$pieces[ 'orderby' ] = "ABS( wp_rd.meta_value ) $order, " . $pieces[ 'orderby' ];
+					break;
+				case 'dln_share_count':
+					$pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'dln_share_count'";
+					$pieces[ 'orderby' ] = "ABS( wp_rd.meta_value ) $order, " . $pieces[ 'orderby' ];
+					break;
+				case 'dln_like_count':
+					$pieces[ 'join' ] .= " LEFT JOIN $wpdb->postmeta wp_rd ON wp_rd.post_id = {$wpdb->posts}.ID AND wp_rd.meta_key = 'dln_like_count'";
 					$pieces[ 'orderby' ] = "ABS( wp_rd.meta_value ) $order, " . $pieces[ 'orderby' ];
 					break;
 				}

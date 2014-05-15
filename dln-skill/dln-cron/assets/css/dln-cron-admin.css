@@ -21,3 +21,6 @@
 .input-xxlarge {
   width: 530px;
 }
+.column-dln_like_count_column, .column-dln_share_count_column, .column-dln_total_count_column, .column-dln_publish_date_column {
+	width: 6%;
+}

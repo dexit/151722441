@@ -29,6 +29,11 @@ class DLN_Cron_Sources {
 		// Get source link
 		$sources = self::get_source_link( 10 );
 		
+		if ( empty( $sources ) ) {
+			self::reset_crawl_count();
+			$sources = self::get_source_link( 10 );
+		}
+		
 		if ( ! empty( $sources ) ) {
 			// Process folder ids
 			$term_ids = array();
@@ -43,8 +48,6 @@ class DLN_Cron_Sources {
 					self::process_crawl_data( $source['link'], $source['term_id'], $folders );
 				}
 			}
-		} else {
-			self::reset_crawl_count();
 		}
 		die();
 	}
@@ -75,6 +78,13 @@ class DLN_Cron_Sources {
 			}
 			$arr_new_posts = array_merge( $posts );
 			$posts         = $arr_new_posts;
+		}
+		
+		// Re-validate url
+		foreach ( $posts as $i => $post ) {
+			if ( ! self::is_valid_url( $post->link ) ) {
+				unset( $posts[$i] );
+			}
 		}
 		
 		// Assign facebook information for posts
@@ -115,7 +125,7 @@ class DLN_Cron_Sources {
 							$arr_url      = parse_url( $link );
 							$site         = isset( $arr_url['host'] ) ? $arr_url['host'] : '';
 							$hash         = DLN_Cron_Helper::generate_hash( $link );
-							$data = array( 
+							$data = array(
 								'post_id'     => $post_id,
 								'site'        => $site,
 								'link'        => $link,
@@ -137,7 +147,13 @@ class DLN_Cron_Sources {
 		);
 		self::update_source_link( $data, $term_id );
 		
-		var_dump($posts);
+		var_dump( $posts, date( 'Y-m-d H:i:s' ) );
+	}
+	
+	private static function is_valid_url( $url = '' ) {
+		if ( ! $url ) return false;
+		
+		return preg_match('|^http(s)?://[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(/.*)?$|i', $url);
 	}
 	
 	public static function update_source_link( $data, $term_id ) {
@@ -223,7 +239,7 @@ class DLN_Cron_Sources {
 		
 		global $wpdb;
 		$sql    = $wpdb->prepare( "SELECT hash FROM {$wpdb->dln_post_link} WHERE site = %s AND hash IN ( '{$str_hashes}' )", $site );
-
+		
 		$result = $wpdb->get_results( $sql, ARRAY_A );
 		return $result;
 	}
@@ -252,7 +268,7 @@ class DLN_Cron_Sources {
 		global $wpdb;
 		if ( ! $limit ) return;
 		
-		$sql    = $wpdb->prepare( "SELECT link, term_id FROM {$wpdb->dln_source_link} WHERE crawl = %d ORDER BY crawl, priority ASC LIMIT 0, %d", 0,  ( int ) esc_sql( $limit ) );
+		$sql    = $wpdb->prepare( "SELECT link, term_id FROM {$wpdb->dln_source_link} WHERE enable = %d AND crawl = %d ORDER BY crawl, priority ASC LIMIT 0, %d", 1, 0,  ( int ) esc_sql( $limit ) );
 		$result = $wpdb->get_results( $sql, ARRAY_A );
 		
 		return $result; 
