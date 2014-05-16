@@ -25,6 +25,7 @@ class DLN_Cron_Loader {
 		$wpdb->dln_source_link      = $wpdb->prefix . 'dln_source_link';
 		$wpdb->dln_source_folder    = $wpdb->prefix . 'dln_source_folder';
 		$wpdb->dln_post_link        = $wpdb->prefix . 'dln_post_link';
+		$wpdb->dln_source_post      = $wpdb->prefix . 'dln_source_post';
 		
 		if ( is_admin() )
 			include( 'includes/admin/class-dln-cron-admin.php' );

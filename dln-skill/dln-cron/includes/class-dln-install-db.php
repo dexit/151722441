@@ -17,6 +17,7 @@ class DLN_Install_DB {
 		DLN_Install_DB::create_source_links();
 		DLN_Install_DB::create_source_folder();
 		DLN_Install_DB::create_post_links();
+		DLN_Install_DB::create_source_post();
 	}
 
 	public static function get_charset() {
@@ -27,6 +28,24 @@ class DLN_Install_DB {
 		}
 	}
 
+	public static function create_source_post() {
+		global $wpdb;
+	
+		if ( ! empty( $wpdb->charset ) )
+			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$db_charset_collate .= " COLLATE $wpdb->collate";
+	
+		$sql = "CREATE TABLE {$wpdb->dln_source_post} (
+		id int(11) NOT NULL AUTO_INCREMENT,
+		source_id int(11) NOT NULL,
+		post_id int(11) NOT NULL,
+		PRIMARY KEY  (id)
+		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
+	
+		dbDelta( $sql );
+	}
+	
 	public static function create_source_folder() {
 		global $wpdb;
 		

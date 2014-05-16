@@ -26,7 +26,7 @@ class DLN_Term_Article {
 	public function column_prepare_folder_display( $custom_column, $post_id ) {
 		if ( $custom_column != 'dln_publish_date_column' && $custom_column != 'dln_share_count_column'
 			&& $custom_column != 'dln_like_count_column' && $custom_column != 'dln_comment_count_column'
-			&& $custom_column != 'dln_total_count_column' ) return '';
+			&& $custom_column != 'dln_total_count_column' && $custom_column != 'dln_comments_fbid_column' ) return '';
 		
 		if ( ! $post_id ) return '';
 		
@@ -46,6 +46,9 @@ class DLN_Term_Article {
 			case 'dln_total_count_column':
 				$html = get_post_meta( $post_id , 'dln_total_count' , true );
 				break;
+			case 'dln_comments_fbid_column':
+				$html = get_post_meta( $post_id , 'dln_comments_fbid' , true );
+				break;
 		}
 		echo esc_html( $html );
 	}
@@ -63,6 +66,10 @@ class DLN_Term_Article {
 		} else {
 			unset( $columns['categories'] );			
 		}
+		
+		if ( isset( $_GET['show_fbid'] ) && $_GET['show_fbid'] == 1 ) {
+			$columns['dln_comments_fbid_column']   = __('FB ID', DLN_SKILL );
+		} 
 		
 		return $columns;
 	}

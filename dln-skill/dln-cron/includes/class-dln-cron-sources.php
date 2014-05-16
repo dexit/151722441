@@ -18,6 +18,16 @@ class DLN_Cron_Sources {
 	function __construct() {
 		//add_action( 'init', array( $this, 'crawl_process' ) );
 		add_action( 'init', array( $this, 'crawl_source' ) );
+		add_action( 'init', array( $this, 'crawl_post' ) );
+	}
+	
+	public function crawl_post() {
+		if ( ! isset( $_GET['dln_crawl_post'] ) ) return;
+		
+		include_once( DLN_SKILL_PLUGIN_DIR . '/dln-cron/includes/posts/class-dln-post-helper.php' );
+		
+		$sources = DLN_Post_Helper::get_post_link( 100 );
+		
 	}
 	
 	public function crawl_source() {
@@ -67,18 +77,23 @@ class DLN_Cron_Sources {
 		$hashes_added = self::get_post_link_added( $site, $hashes );
 		
 		// Exclude links added
+		$post_added_ids = array();
 		if ( ! empty( $hashes_added ) ) {
 			$arr_new_posts = array();
 			foreach ( $posts as $i => $post ) {
 				foreach ( $hashes_added as $j => $hash ) {
 					if ( isset( $hash['hash'] ) && $post->hash == $hash['hash'] ) {
 						unset( $posts[$i] );
+						$post_added_ids[] = $hash['post_id'];
 					}
 				}
 			}
 			$arr_new_posts = array_merge( $posts );
 			$posts         = $arr_new_posts;
 		}
+		
+		// Add relation for post and source
+		self::add_relate_post_source( $post_added_ids, $term_id );
 		
 		// Re-validate url
 		foreach ( $posts as $i => $post ) {
@@ -111,6 +126,7 @@ class DLN_Cron_Sources {
 		}
 		
 		if ( ! empty( $posts ) ) {
+			$arr_post_ids = array();
 			foreach ( $posts as $i => $post ) {
 				// Get published date use google news api
 				if ( $post->title ) {
@@ -134,10 +150,12 @@ class DLN_Cron_Sources {
 								'total_count' => $post->total_count,
 							);
 							self::insert_dln_post_link( $data );
+							$arr_post_ids[] = $post_id;
 						}
 					//}
 				}
 			}
+			self::add_relate_post_source( $arr_post_ids, $term_id );
 		}
 		
 		// Update crawl count source link
@@ -229,7 +247,7 @@ class DLN_Cron_Sources {
 		return $post_id;
 	}
 	
-	public static function get_post_link_added( $site = '', $hashes = '' ) {
+	private static function get_post_link_added( $site = '', $hashes = '' ) {
 		if ( ! $site || ! $hashes ) return;
 		
 		$str_hashes = '';
@@ -238,10 +256,44 @@ class DLN_Cron_Sources {
 		}
 		
 		global $wpdb;
-		$sql    = $wpdb->prepare( "SELECT hash FROM {$wpdb->dln_post_link} WHERE site = %s AND hash IN ( '{$str_hashes}' )", $site );
+		$sql    = $wpdb->prepare( "SELECT post_id, hash FROM {$wpdb->dln_post_link} WHERE site = %s AND hash IN ( '{$str_hashes}' )", $site );
 		
 		$result = $wpdb->get_results( $sql, ARRAY_A );
 		return $result;
+	}
+	
+	private static function add_relate_post_source( $arr_post_ids = array(), $term_id = '' ) {
+		if ( ! is_array( $arr_post_ids ) || ! $term_id ) return false;
+		
+		$str_post_ids = '';
+		if ( ! empty( $arr_post_ids ) ) {
+			$str_post_ids = implode( "','", $arr_post_ids );
+		}
+		
+		global $wpdb;
+		$sql    = $wpdb->prepare( "SELECT post_id FROM {$wpdb->dln_source_post} WHERE source_id = %d AND post_id IN ( '{$str_post_ids}' )", $term_id );
+		$posts  = $wpdb->get_results( $sql, ARRAY_A );
+		
+		if ( ! empty( $posts ) ) {
+			foreach ( $arr_post_ids as $i => $post_id ) {
+				foreach ( $posts as $j => $post ) {
+					if ( isset( $post['post_id'] ) && $post_id == $post['post_id'] ) {
+						unset( $arr_post_ids[$i] );
+					}
+				}
+			}
+		}
+		
+		if ( ! empty( $arr_post_ids ) ) {
+			foreach( $arr_post_ids as $i => $post_id ) {
+				$data = array(
+					'source_id' => $term_id,
+					'post_id'   => $post_id
+				);
+				$wpdb->insert( $wpdb->dln_source_post, $data );
+			}
+		}
+		
 	}
 	
 	public static function insert_dln_post_link( $data = array() ) {
