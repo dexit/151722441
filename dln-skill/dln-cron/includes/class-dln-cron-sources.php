@@ -65,7 +65,8 @@ class DLN_Cron_Sources {
 	private static function process_crawl_data( $rss_link , $term_id, $folders ) {
 		if ( ! $rss_link || ! $term_id ) return;
 		
-		$data = DLN_Source_Helper::load_rss_link( $rss_link );
+		//$data = DLN_Source_Helper::load_rss_link( $rss_link );
+		$data = DLN_Source_Helper::load_google_feed_rss( $rss_link );
 		
 		// get links added in db
 		$hashes     = $data['hash'];
@@ -146,7 +147,7 @@ class DLN_Cron_Sources {
 								'site'        => $site,
 								'link'        => $link,
 								'hash'        => $hash,
-								'time_create' => date( 'Y-m-d H:i:s' ),
+								'time_create' => $post->publishedDate,
 								'total_count' => $post->total_count,
 							);
 							self::insert_dln_post_link( $data );
@@ -199,7 +200,7 @@ class DLN_Cron_Sources {
 		$post  = array(
 			'post_title'     => $data->title,
 			'post_name'      => sanitize_title( $data->title ),
-			'post_content'   => $data->description,
+			'post_content'   => $data->content,
 			'post_type'      => 'dln_article',
 			'post_status'    => 'pending',
 			'comment_status' => 'open',
@@ -219,11 +220,11 @@ class DLN_Cron_Sources {
 			return $post_id;
 		
 		// Update post meta
-		if ( ! empty( $data->publishDate ) ) {
-			update_post_meta( $post_id, 'dln_publish_date', $data->publishDate );
+		if ( ! empty( $data->publishedDate ) ) {
+			update_post_meta( $post_id, 'dln_publish_date', $data->publishedDate );
 		}
-		if ( ! empty( $data->category ) ) {
-			update_post_meta( $post_id, 'dln_category', $data->category );
+		if ( ! empty( $data->categories ) ) {
+			update_post_meta( $post_id, 'dln_category', implode( ',', $data->categories ) );
 		}
 		if ( ! empty( $data->share_count ) ) {
 			update_post_meta( $post_id, 'dln_share_count', $data->share_count );
