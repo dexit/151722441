@@ -55,7 +55,7 @@ class DLN_Source_Helper {
 				$obj->publishedDate = ! empty( $publishedDate ) ? date( 'Y-m-d H:i:s', $publishedDate ) : date( 'Y-m-d H:i:s' );
 				$obj->hash        = ! empty( $hash ) ? $hash : '';
 				$obj->image       = isset( $data['image']->valueData )   ? esc_url( $data['image']->valueData ) : '';
-				$obj->categories  = isset( $data['category'] ) ? esc_url( $data['category']->valueData ) : '';
+				//$obj->categories  = isset( $data['category'] ) ? esc_url( $data['category']->valueData ) : '';
 				// If exists enclosure then process image for it (Ex: news.zing.vn)
 				if ( ! $obj->image && isset( $data['enclosure'] ) ) {
 					$attrs        = $data['enclosure']->attributeNodes;
@@ -103,7 +103,7 @@ class DLN_Source_Helper {
 				//$obj->contentSnippet = wp_strip_all_tags( trim( $entry->contentSnippet ) );
 				$content             = preg_replace( '/\s+/', ' ', wp_strip_all_tags( trim( $entry->content ) ) );
 				$obj->content        = $content;
-				$obj->categories     = $entry->categories;
+				//$obj->categories     = $entry->categories;
 				$obj->hash           = $hash;
 				
 				$result[]         = $obj;

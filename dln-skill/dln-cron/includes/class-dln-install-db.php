@@ -78,8 +78,8 @@ class DLN_Install_DB {
 			hash varchar(255) NOT NULL,
 			link text NOT NULL,
 			priority int(11) DEFAULT 10,
-			crawl tinyint DEFAULT 0,
-			enable tinyint DEFAULT 1,
+			crawl tinyint(1) DEFAULT 0,
+			enable tinyint(1) DEFAULT 1,
 			PRIMARY KEY  (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
 		
@@ -102,8 +102,10 @@ class DLN_Install_DB {
 			link text NOT NULL,
 			time_create datetime NOT NULL,
 			time_update datetime NOT NULL,
-			crawl int(11) DEFAULT 0,
+			crawl tinyint(1) DEFAULT 0,
+			is_fetch tinyint(1) DEFAULT 0,
 			total_count int(11) DEFAULT 0,
+			comment_fbid varchar(50) NOT NULL,
 			PRIMARY KEY  (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
 		

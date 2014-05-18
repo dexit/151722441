@@ -28,6 +28,13 @@ class DLN_Cron_Sources {
 		
 		$sources = DLN_Post_Helper::get_post_link( 100 );
 		
+		if ( ! empty( $sources ) ) {
+			foreach ( $sources as $i => $source ) {
+				if ( isset( $source['link'] ) && ! empty( $source['link'] ) ) {
+					DLN_Post_Helper::fetch_image_post( $source['post_id'], $source['link'], $source['comment_fbid'] );
+				}
+			}
+		}
 	}
 	
 	public function crawl_source() {
@@ -65,8 +72,8 @@ class DLN_Cron_Sources {
 	private static function process_crawl_data( $rss_link , $term_id, $folders ) {
 		if ( ! $rss_link || ! $term_id ) return;
 		
-		//$data = DLN_Source_Helper::load_rss_link( $rss_link );
-		$data = DLN_Source_Helper::load_google_feed_rss( $rss_link );
+		$data = DLN_Source_Helper::load_rss_link( $rss_link );
+		//$data = DLN_Source_Helper::load_google_feed_rss( $rss_link );
 		
 		// get links added in db
 		$hashes     = $data['hash'];
@@ -110,7 +117,7 @@ class DLN_Cron_Sources {
 			$app_id     = FB_APP_ID;
 			$app_secret = FB_SECRET;
 
-			$jfb_object = json_decode( self::file_get_contents_curl( "https://graph.facebook.com/fql?q={$fql}&access_token={$app_id}|{$app_secret}" ), false, 512, JSON_BIGINT_AS_STRING );
+			$jfb_object = json_decode( file_get_contents_curl( "https://graph.facebook.com/fql?q={$fql}&access_token={$app_id}|{$app_secret}" ), false, 512, JSON_BIGINT_AS_STRING );
 			if ( ! empty( $jfb_object ) && isset( $jfb_object->data ) ) {
 				foreach ( $posts as $i => $post ) {
 					foreach( $jfb_object->data as $j => $fb_obj ) {
@@ -143,12 +150,13 @@ class DLN_Cron_Sources {
 							$site         = isset( $arr_url['host'] ) ? $arr_url['host'] : '';
 							$hash         = DLN_Cron_Helper::generate_hash( $link );
 							$data = array(
-								'post_id'     => $post_id,
-								'site'        => $site,
-								'link'        => $link,
-								'hash'        => $hash,
-								'time_create' => $post->publishedDate,
-								'total_count' => $post->total_count,
+								'post_id'      => $post_id,
+								'site'         => $site,
+								'link'         => $link,
+								'hash'         => $hash,
+								'time_create'  => date( 'Y-m-d H:i:s' ),
+								'total_count'  => $post->total_count,
+								'comment_fbid' => $post->comments_fbid,
 							);
 							self::insert_dln_post_link( $data );
 							$arr_post_ids[] = $post_id;
@@ -223,9 +231,12 @@ class DLN_Cron_Sources {
 		if ( ! empty( $data->publishedDate ) ) {
 			update_post_meta( $post_id, 'dln_publish_date', $data->publishedDate );
 		}
-		if ( ! empty( $data->categories ) ) {
-			update_post_meta( $post_id, 'dln_category', implode( ',', $data->categories ) );
+		if ( ! empty( $data->image ) ) {
+			update_post_meta( $post_id, 'dln_image', $data->image );
 		}
+		//if ( ! empty( $data->categories ) ) {
+		//	update_post_meta( $post_id, 'dln_category', implode( ',', $data->categories ) );
+		//}
 		if ( ! empty( $data->share_count ) ) {
 			update_post_meta( $post_id, 'dln_share_count', $data->share_count );
 		}
@@ -234,9 +245,6 @@ class DLN_Cron_Sources {
 		}
 		if ( ! empty( $data->comment_count ) ) {
 			update_post_meta( $post_id, 'dln_comment_count', $data->comment_count );
-		}
-		if ( ! empty( $data->comments_fbid ) ) {
-			update_post_meta( $post_id, 'dln_comments_fbid', $data->comments_fbid );
 		}
 		if ( ! empty( $data->link ) ) {
 			update_post_meta( $post_id, 'dln_link', $data->link );
@@ -362,22 +370,6 @@ class DLN_Cron_Sources {
 			$source_class::get_instance();
 		}
 		
-	}
-	
-	public static function file_get_contents_curl( $url = '' ) {
-		if ( ! $url ) return false;
-		
-		$agent= 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.0.3705; .NET CLR 1.1.4322)';
-
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_VERBOSE, true);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_USERAGENT, $agent);
-		curl_setopt($ch, CURLOPT_URL,$url);
-		$result=curl_exec($ch);
-	
-		return $result;
 	}
 	
 }
