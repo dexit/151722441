@@ -1,0 +1,82 @@
+.dln-usermarker .marker{
+    display: block;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    background: #157efb;
+    border-radius: 50%;
+    animation: pulse 1s ease-in-out infinite alternate;
+    -webkit-animation: pulse 1s ease-in-out infinite alternate;
+    box-shadow: 0 0 0 2.25px white, 0 0 3px rgba(0, 0, 0, 0.4);
+}
+.dln-usermarker .marker::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 54px;
+    height: 54px;
+    margin-left: -27px;
+    margin-top: -26px;
+    box-shadow: 0 0 3px 3px #157efb;
+    border-radius: 50%;
+    animation: sonar 2s linear infinite;
+    -webkit-animation: sonar 2s linear infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale3d(0.8, 0.8, 0.8);
+        -ms-transform: scale3d(0.8, 0.8, 0.8);
+        -webkit-transform: scale3d(0.8, 0.8, 0.8);
+    }
+
+    100% {
+        transform: scale3d(1, 1, 1);
+        -ms-transform: scale3d(1, 1, 1);
+        -webkit-transform: scale3d(1, 1, 1);
+    }
+}
+@-webkit-keyframes pulse {
+    0% {
+        transform: scale3d(0.8, 0.8, 0.8);
+        -ms-transform: scale3d(0.8, 0.8, 0.8);
+        -webkit-transform: scale3d(0.8, 0.8, 0.8);
+    }
+
+    100% {
+        transform: scale3d(1, 1, 1);
+        -ms-transform: scale3d(1, 1, 1);
+        -webkit-transform: scale3d(1, 1, 1);
+    }
+}
+@keyframes sonar {
+    0% {
+        transform: scale3d(0.5, 0.5, 0.5);
+        -ms-transform: scale3d(0.5, 0.5, 0.5);
+        -webkit-transform: scale3d(0.5, 0.5, 0.5);
+        opacity: 1;
+    }
+
+    50%, 100% {
+        transform: scale3d(1, 1, 1);
+        -ms-transform: scale3d(1, 1, 1);
+        -webkit-transform: scale3d(1, 1, 1);
+        opacity: 0;
+    }
+}
+@-webkit-keyframes sonar {
+    0% {
+        transform: scale3d(0.5, 0.5, 0.5);
+        -ms-transform: scale3d(0.5, 0.5, 0.5);
+        -webkit-transform: scale3d(0.5, 0.5, 0.5);
+        opacity: 1;
+    }
+
+    50%, 100% {
+        transform: scale3d(1, 1, 1);
+        -ms-transform: scale3d(1, 1, 1);
+        -webkit-transform: scale3d(1, 1, 1);
+        opacity: 0;
+    }
+}
