@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head lang="en">
+<head lang="en" ng-app="DLNApp">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
     <title>DinhLN Hot Point</title>
@@ -32,7 +32,7 @@
 					</div>
 
 					<ul class="list-table">
-						<li><button type="button" class="btn btn-block btn-facebook">Connect with <i class="ico-facebook2 m15"></i></button></li>
+						<li><button type="button" ng-click="session.facebookLogin()" class="btn btn-block btn-facebook">Connect with <i class="ico-facebook2 m15"></i></button></li>
 						<li><button type="button" class="btn btn-block btn-twitter">Connect with <i class="ico-twitter2 m15"></i></button></li>
 					</ul>
 
@@ -43,11 +43,14 @@
 	</section>
 
 <script src="assets/3rd-party/jquery/js/jquery.min.js"></script>
-<script src="assets/3rd-party/jquery/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="assets/js/libs/angular.js"></script>
+<script type="text/javascript" src="assets/js/app.js"></script>
+<script type="text/javascript" src="assets/js/services/session-service.js"></script>
+<!--<script src="assets/3rd-party/jquery/js/jquery-ui.min.js"></script>
 <script src="assets/3rd-party/jquery/js/jquery-ui-touch.min.js"></script>
 <script src="assets/3rd-party/jquery/js/jquery-migrate.min.js"></script>
 <script src="assets/3rd-party/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/js/core.min.js"></script>
-<script src="assets/js/app.min.js"></script>
+<script src="assets/js/app.min.js"></script>-->
 </body>
 </html>
