@@ -8,3 +8,5 @@ module.exports = function (app, passport) {
 		console.log(req, res);
 	});
 };
+
+https://www.facebook.com/dialog/oauth?response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fauth%2Ffacebook%2Fcallback&client_id=251847918233636
