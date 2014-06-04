@@ -1,59 +1,26 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('static-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var passport = require('passport'),
+	http = require('http'),
+//mongodbURI = '<my mongodb uri>', /* For example: mongodb://localhost/my-app-db */
+	facebookAppId = '251847918233636',
+	facebookAppSecret = '31f3e2be38cd9a9e6e0a399c40ef18cd';
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+//mongoose.connect(mongodbURI);
 
-var app = express();
+/*var models_path = __dirname + '/app/models';
+ fs.readdirSync(models_path).forEach(function(file) {
+ if (file.substring(-3) === '.js') {
+ require(models_path + '/' + file);
+ }
+ });*/
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hjs');
+require('./config/passport')(passport, facebookAppId, facebookAppSecret);
 
-app.use(favicon());
-app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+var app = require('./config/express')(passport);
 
-app.use('/', routes);
-//app.use('/users', users);
+require('./config/routes')(app, passport);
 
-/// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+http.createServer(app).listen(app.get('port'), function(){
+	console.log('Express server listening on port ' + app.get('port'));
 });
 
-/// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
-
-
-module.exports = app;
+exports = module.exports = app;
