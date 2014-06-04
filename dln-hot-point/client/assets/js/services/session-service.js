@@ -1,4 +1,4 @@
-angular.module('DLNApp').factory('sessionService', ['$rootScope', '$window', '$http',
+angular.module('dlnApp').factory('sessionService', ['$rootScope', '$window', '$http',
     function ($rootScope, $window, $http) {
     var session = {
         init: function () {

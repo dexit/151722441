@@ -1,5 +1,6 @@
-angular.module('DLNApp', [])
+angular.module('dlnApp', [])
 	.run(['$rootScope', '$window', 'sessionService',
 	function ($rootScope, $window, $sessionService) {
-		$rootScope.session = sessionService;
+		$rootScope.session = $sessionService;
 	}]);
+angular.module();

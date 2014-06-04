@@ -19,8 +19,10 @@ dlnApp.config(function ($routeProvider) {
 });
 
 // Cretate controller and inject to AngularJS $scope
-dlnApp.controller('mainController', function($scope) {
+dlnApp.controller('mainController', function($scope, $sessionService) {
+	console.log('ok');
 	$scope.message = 'Welcome!';
+	$scope.session = $sessionService;
 });
 
 dlnApp.controller('loginController', function($scope){
