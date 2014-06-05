@@ -44,6 +44,7 @@
 			cookie     : true,  // enable cookies to allow the server to access
 			// the session
 			xfbml      : true,  // parse social plugins on this page
+            oauth      : true,
 			version    : 'v2.0' // use version 2.0
 		});
 
@@ -63,6 +64,13 @@
 			statusChangeCallback(response);
 		});
 
+        FB.Event.subscribe('auth.login', function(response) {
+            if ( response.authResponse ) {
+                console.log(response.authResponse.accessToken);
+                alert(response.authResponse.accessToken);
+            }
+        });
+
 	};
 
 	// Load the SDK asynchronously
@@ -70,20 +78,20 @@
 		var js, fjs = d.getElementsByTagName(s)[0];
 		if (d.getElementById(id)) return;
 		js = d.createElement(s); js.id = id;
-		js.src = "//connect.facebook.net/en_US/sdk.js";
+		js.src = "//connect.facebook.net/vi_VN/sdk.js";
 		fjs.parentNode.insertBefore(js, fjs);
 	}(document, 'script', 'facebook-jssdk'));
 
 	// Here we run a very simple test of the Graph API after login is
 	// successful.  See statusChangeCallback() for when this call is made.
 	function testAPI() {
-		console.log('Welcome!  Fetching your information.... ');
-		FB.api('/me', function(response) {
-			console.log('Successful login for: ' + response.name);
-			document.getElementById('status').innerHTML =
-					'Thanks for logging in, ' + response.name + '!';
-		});
-	}
+        console.log('Welcome!  Fetching your information.... ');
+        FB.api('/me', function(response) {
+            console.log('Successful login for: ' + response.name);
+            document.getElementById('status').innerHTML =
+                    'Thanks for logging in, ' + response.name + '!';
+        });
+    }
 </script>
 
 <!--

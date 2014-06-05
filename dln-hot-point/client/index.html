@@ -32,6 +32,24 @@
     <script type="text/javascript" src="assets/app/app.js"></script>
     <script type="text/javascript" src="assets/app/controllers/main.js"></script>
     <script type="text/javascript" src="assets/app/services/session-service.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            window.isphone = false;
+            if ( document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 ) {
+                window.isphone = true;
+            }
+
+            if ( window.isphone ) {
+                document.addEventListener("deviceready", onDeviceReady, false);
+            } else {
+                onDeviceReady();
+            }
+        });
+        function onDeviceReady() {
+            console.log(window.localStorage);
+            console.log(window.localStorage.getItem('user'));
+        };
+    </script>
     <!--<script src="assets/3rd-party/jquery/js/jquery-ui.min.js"></script>
     <script src="assets/3rd-party/jquery/js/jquery-ui-touch.min.js"></script>
     <script src="assets/3rd-party/jquery/js/jquery-migrate.min.js"></script>
