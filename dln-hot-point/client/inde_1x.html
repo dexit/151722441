@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="assets/3rd-party/leaflet/leaflet.css" />
+    <link rel="stylesheet" href="assets/3rd-party/leaflet-usermarker/src/leaflet.usermarker.css" />
+</head>
+<body>
+<div id="map" style="width:100%; height:500px;"></div>
+<div id="controls">
+    <div class="group">
+        <button id="marker-add">Add marker for your current position</button><br>
+        <button id="marker-popup">Bind popup to marker</button><br>
+        <button id="marker-remove">Remove marker</button>
+    </div>
+</div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script src="assets/3rd-party/leaflet/leaflet.js"></script>
+<script src="assets/3rd-party/leaflet-usermarker/src/leaflet.usermarker.js"></script>
+
+<script src="assets/js/dln-util.js"></script>
+<script src="assets/js/dln-class.js"></script>
+<script src="assets/js/dln-marker.js"></script>
+<script src="assets/js/dln-map.js"></script>
+<script>
+    // initialize map
+    var map = L.map('map').setView([38, 0], 2);
+    var marker = null;
+
+    var tile = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, Imagery &copy; <a href="http://cloudmade.com">CloudMade</a>',
+        maxZoom: 18
+    }).addTo(map);
+
+    tile.on('load', function () {
+        if ( ! marker ) {
+            map.on("locationfound", function(location) {
+                if (!marker)
+                    marker = L.userMarker(location.latlng, {pulsing:true}).addTo(map);
+
+                marker.setLatLng(location.latlng);
+                marker.setAccuracy(location.accuracy);
+            });
+        }
+    });
+    map.locate({
+        watch: false,
+        locate: true,
+        setView: true,
+        enableHighAccuracy: true
+    });
+
+</script>
+</body>
+</html>
