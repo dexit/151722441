@@ -7,14 +7,17 @@
 	var js, fjs = d.getElementsByTagName(s)[0];
 	if (d.getElementById(id)) return;
 	js = d.createElement(s); js.id = id;
-	js.src = "//connect.facebook.net/vi_VN/sdk.js";
+	js.src = "http://connect.facebook.net/vi_VN/sdk.js";
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+var client_id    = '251847918233636';
+var redirect_uri = encodeURI('http://localhost:3000/auth/facebook/callback');
 
 // Setup Facebook JS SDK
 window.fbAsyncInit = function () {
 	FB.init({
-		appId      : '251847918233636',
+		appId      : client_id,
 		cookie     : true,  // enable cookies to allow the server to access
 		// the session
 		xfbml      : true,  // parse social plugins on this page
@@ -32,6 +35,7 @@ window.fbAsyncInit = function () {
 };
 
 function statusChangeCallback(response) {
+
 	if ( response.status === 'connected' ) {
 		// get user information
 		FB.api('/me', function (user_response) {
@@ -44,15 +48,30 @@ function statusChangeCallback(response) {
 		});
 	} else if (response.status === 'not_authorized') {
 		console.log('not_authorized');
+		window.location = auth_uri;
 	} else {
 		console.log('otherwise');
+		window.location = auth_uri;
 	}
 }
 
 $(document).ready(function () {
 	$('#dln_login_facebook').on('click', function (e) {
-		FB.login(function (response) {
-			statusChangeCallback(response);
-		});
+		var is_mobile = true;
+		var display = ( is_mobile == true ) ? 'popup' : 'page';
+
+		var auth_uri = encodeURI('https://www.facebook.com/dialog/oauth?client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&scope=email&response_type=token&display=' + display);
+		window.location =  auth_uri;
+		/*FB.getLoginStatus(function(response) {
+			if (response.status === 'connected') {
+				FB.login(function (response) {
+					statusChangeCallback(response);
+				});
+			} else if (response.status == 'not_authorized') {
+				window.location =  auth_uri;
+			} else {
+				window.location =  auth_uri;
+			}
+		});*/
 	});
 });

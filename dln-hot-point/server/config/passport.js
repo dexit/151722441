@@ -1,8 +1,10 @@
-var FacebookStrategy = require('passport-facebook').Strategy;
+'use strict';
 
+var mongoose = require('mongoose'),
+	User = require('../models/user'),
+	FacebookStrategy = require('passport-facebook').Strategy;
 
 module.exports = function (passport, facebookAppId, facebookAppSecret) {
-
 	passport.serializeUser(function(user, done) {
 		done(null, user.id);
 	});
@@ -18,8 +20,7 @@ module.exports = function (passport, facebookAppId, facebookAppSecret) {
 		clientSecret: facebookAppSecret,
 		callbackURL: '/auth/facebook/callback'
 	}, function(accessToken, refreshToken, profile, done) {
-		console.log(accessToken, refreshToken, profile, done);
-		/*User.findOne({ 'facebook.id': profile.id }, function (err, user) {
+		User.findOne({ 'facebook.id': profile.id }, function (err, user) {
 			if (err) { return done(err); }
 			if (!user) {
 				user = new User({
@@ -39,6 +40,6 @@ module.exports = function (passport, facebookAppId, facebookAppSecret) {
 			} else {
 				return done(err, user);
 			}
-		});*/
+		});
 	}));
 };
