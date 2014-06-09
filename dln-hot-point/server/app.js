@@ -3,17 +3,16 @@ var fs = require('fs'),
 	passport = require('passport'),
 	http = require('http'),
 	mongodbURI = 'mongodb://localhost/test1234', /* For example: mongodb://localhost/my-app-db */
-	facebookAppId = '251847918233636',
-	facebookAppSecret = '31f3e2be38cd9a9e6e0a399c40ef18cd';
+	facebookAppId = '1446113338979798',
+	facebookAppSecret = '0b996585ef99c01b4c486006a525e3d6';
 
 mongoose.connect(mongodbURI);
 
 var models_path = __dirname + '/models';
-console.log(models_path);
  fs.readdirSync(models_path).forEach(function(file) {
- if (file.substring(-3) === '.js') {
-    require(models_path + '/' + file);
- }
+	 if (file.substring(-3) === '.js') {
+	    require(models_path + '/' + file);
+	 }
  });
 
 require('./config/passport')(passport, facebookAppId, facebookAppSecret);

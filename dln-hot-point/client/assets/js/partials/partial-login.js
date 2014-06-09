@@ -11,9 +11,6 @@
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-var client_id    = '251847918233636';
-var redirect_uri = encodeURI('http://localhost:3000/auth/facebook/callback');
-
 // Setup Facebook JS SDK
 window.fbAsyncInit = function () {
 	FB.init({
@@ -35,7 +32,6 @@ window.fbAsyncInit = function () {
 };
 
 function statusChangeCallback(response) {
-
 	if ( response.status === 'connected' ) {
 		// get user information
 		FB.api('/me', function (user_response) {
@@ -58,20 +54,22 @@ function statusChangeCallback(response) {
 $(document).ready(function () {
 	$('#dln_login_facebook').on('click', function (e) {
 		var is_mobile = true;
-		var display = ( is_mobile == true ) ? 'popup' : 'page';
+		var display = ( is_mobile == true ) ? 'popup' : 'page',
+			width  = $(window).width(),
+			height = $(window).height();
 
 		var auth_uri = encodeURI('https://www.facebook.com/dialog/oauth?client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&scope=email&response_type=token&display=' + display);
-		window.location =  auth_uri;
-		/*FB.getLoginStatus(function(response) {
+
+		window.open(auth_uri, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
+
+		FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
-				FB.login(function (response) {
-					statusChangeCallback(response);
-				});
+				statusChangeCallback(response);
 			} else if (response.status == 'not_authorized') {
 				window.location =  auth_uri;
 			} else {
 				window.location =  auth_uri;
 			}
-		});*/
+		});
 	});
 });
