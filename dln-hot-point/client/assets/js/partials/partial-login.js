@@ -12,7 +12,7 @@
 }(document, 'script', 'facebook-jssdk'));
 
 var client_id    = '251847918233636';
-var redirect_uri = encodeURI('http://localhost:3000/auth/facebook/callback');
+var redirect_uri = encodeURI('http://192.168.0.17:3000/auth/facebook/callback');
 
 // Setup Facebook JS SDK
 window.fbAsyncInit = function () {

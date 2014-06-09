@@ -2,7 +2,7 @@ var fs = require('fs'),
 	mongoose = require('mongoose'),
 	passport = require('passport'),
 	http = require('http'),
-	mongodbURI = 'mongodb://localhost/test1234', /* For example: mongodb://localhost/my-app-db */
+	mongodbURI = 'mongodb://192.168.0.17/dinhlndb', /* For example: mongodb://localhost/my-app-db */
 	facebookAppId = '251847918233636',
 	facebookAppSecret = '31f3e2be38cd9a9e6e0a399c40ef18cd';
 
