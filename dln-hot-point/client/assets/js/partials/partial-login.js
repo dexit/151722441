@@ -3,7 +3,7 @@
  */
 'use strict';
 // Load Facebook JS SDK asynchronously
-(function(d, s, id) {
+/*(function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];
 	if (d.getElementById(id)) return;
 	js = d.createElement(s); js.id = id;
@@ -11,13 +11,10 @@
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-var client_id    = '251847918233636';
-var redirect_uri = encodeURI('http://192.168.0.17:3000/auth/facebook/callback');
-
 // Setup Facebook JS SDK
 window.fbAsyncInit = function () {
 	FB.init({
-		appId      : client_id,
+		appId      : '1446113338979798',
 		cookie     : true,  // enable cookies to allow the server to access
 		// the session
 		xfbml      : true,  // parse social plugins on this page
@@ -35,7 +32,6 @@ window.fbAsyncInit = function () {
 };
 
 function statusChangeCallback(response) {
-
 	if ( response.status === 'connected' ) {
 		// get user information
 		FB.api('/me', function (user_response) {
@@ -53,20 +49,21 @@ function statusChangeCallback(response) {
 		console.log('otherwise');
 		window.location = auth_uri;
 	}
-}
+}*/
 
 $(document).ready(function () {
 	$('#dln_login_facebook').on('click', function (e) {
 		var is_mobile = true;
-		var display = ( is_mobile == true ) ? 'popup' : 'page';
+		var width  = $(window).width(),
+			height = $(window).height(),
+			path_url  = location.pathname;
 
-		var auth_uri = encodeURI('https://www.facebook.com/dialog/oauth?client_id=' + client_id + '&redirect_uri=' + redirect_uri + '&scope=email&response_type=token&display=' + display);
-		window.location =  auth_uri;
+		var url_login = encodeURI( dlnServerUrl + '/auth/facebook?path_url=' + path_url );
+		window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
+
 		/*FB.getLoginStatus(function(response) {
 			if (response.status === 'connected') {
-				FB.login(function (response) {
-					statusChangeCallback(response);
-				});
+				statusChangeCallback(response);
 			} else if (response.status == 'not_authorized') {
 				window.location =  auth_uri;
 			} else {
