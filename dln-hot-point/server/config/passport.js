@@ -20,6 +20,7 @@ module.exports = function (passport, facebookAppId, facebookAppSecret) {
 		clientSecret: facebookAppSecret,
 		callbackURL: '/auth/facebook/callback'
 	}, function(accessToken, refreshToken, profile, done) {
+		console.log(arr_uuids);
 		User.findOne({ 'facebook.id': profile.id }, function (err, user) {
 			if (err) { return done(err); }
 			if (!user) {

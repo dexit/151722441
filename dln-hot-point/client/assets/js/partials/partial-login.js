@@ -52,23 +52,17 @@ function statusChangeCallback(response) {
 }*/
 
 $(document).ready(function () {
-	$('#dln_login_facebook').on('click', function (e) {
-		var is_mobile = true;
-		var width  = $(window).width(),
-			height = $(window).height(),
-			path_url  = location.pathname;
-
-		var url_login = encodeURI( dlnServerUrl + '/auth/facebook?path_url=' + path_url );
-		window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
-
-		/*FB.getLoginStatus(function(response) {
-			if (response.status === 'connected') {
-				statusChangeCallback(response);
-			} else if (response.status == 'not_authorized') {
-				window.location =  auth_uri;
-			} else {
-				window.location =  auth_uri;
-			}
-		});*/
-	});
+	//document.addEventListener('deviceready', onDeviceReady, false);
+	//function onDeviceReady() {
+		$('#dln_login_facebook').on('click', function (e) {
+			var is_mobile = true;
+			var width     = $(window).width(),
+				height    = $(window).height(),
+				path_url  = location.pathname,
+				uuid      = $.now();
+			var url_login = encodeURI( dlnServerUrl + '/auth/facebook?uuid=' + uuid );
+			//window.location =  url_login;
+			window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
+		});
+	//}
 });
