@@ -60,7 +60,7 @@ $(document).ready(function () {
 				height    = $(window).height(),
 				path_url  = location.pathname,
 				uuid      = $.now();
-			var url_login = encodeURI( dlnServerUrl + '/auth/facebook?uuid=' + uuid );
+			var url_login = encodeURI( dlnServer + '/wp/oauth/facebook?uuid=' + uuid );
 			//window.location =  url_login;
 			window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
 		});

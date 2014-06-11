@@ -28,7 +28,8 @@ class DLN_Skill {
 	}
 	
 	public function requires() {
-		$this->required_components = apply_filters( 'dln_required_components', array( 'connections', 'cron' ) );
+		//$this->required_components = apply_filters( 'dln_required_components', array( 'connections', 'cron' ) );
+		$this->required_components = apply_filters( 'dln_required_components', array( 'oauth' ) );
 		
 		// Loop through required components
 		foreach( $this->required_components as $component ) {
@@ -38,7 +39,7 @@ class DLN_Skill {
 	}
 	
 	public static function install() {
-		DLN_Cron_Loader::activate();
+		//DLN_Cron_Loader::activate();
 	}
 	
 }
