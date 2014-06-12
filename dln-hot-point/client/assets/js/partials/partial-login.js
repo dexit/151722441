@@ -60,14 +60,15 @@ $(document).ready(function () {
 				height    = $(window).height(),
 				path_url  = location.pathname,
 				uuid      = $.now();
-			var url_login = encodeURI( dlnServer + '/wp/oauth/facebook?uuid=' + uuid );
+			var url_login = encodeURI( dlnServer + '/wordpress/oauth/facebook?uuid=' + uuid );
 			//window.location =  url_login;
 			var popup = window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
 			var popupTimer = window.setInterval(function () {
 				if ( popup.closed !== false ) {
 					window.clearInterval( popupTimer );
 					$.ajax({
-						url: dlnServer + '/wp/oauth/f'
+						url: dlnServer + '/wordpress/dln-json/fbusers/' + uuid,
+						
 					});
 				}
 			}, 200);

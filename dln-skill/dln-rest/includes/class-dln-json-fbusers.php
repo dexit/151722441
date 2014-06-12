@@ -24,13 +24,13 @@ class DLN_JSON_FBUsers {
 	public function get_user( $id, $context = 'view' ) {
 		$current_user_id = get_current_user_id();
 		
-		if ( $current_user_id !== $id && ! $current_user_can( 'list_fbusers' ) ) {
+		/*if ( $current_user_id !== $id && ! current_user_can( 'list_fbusers' ) ) {
 			return new WP_Error( 'json_fbuser_cannot_list', __( 'Sorry, you are not allowed to view this user.' ), array( 'status' => 403 ) );
-		}
+		}*/
 		
 		if ( ! $id ) return;
 		
-		$user = self::get_user_by_meta_data( 'uuid', $id );
+		$user = self::get_user_by_meta_data( 'dln_uuid', $id );
 		
 		if ( empty( $user->ID ) ) {
 			return new WP_Error( 'json_fbuser_invalid_id', __( 'Invalid user ID' ), array( 'status' => 400 ) );
@@ -62,7 +62,7 @@ class DLN_JSON_FBUsers {
 		// Get the results from the query, returning the first user
 		$users = $user_query->get_results();
 		
-		return $users[0];
+		return isset( $users[0] ) ? $users[0] : 0;
 	}
 	
 }

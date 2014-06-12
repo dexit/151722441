@@ -17,7 +17,6 @@ class DLN_Rest_Loader {
 	
 	function __construct() {
 		include( 'includes/class-dln-json-fbusers.php' );
-		
 		add_action( 'wp_json_server_before_serve', array( $this, 'json_api_filters' ) );
 	}
 	

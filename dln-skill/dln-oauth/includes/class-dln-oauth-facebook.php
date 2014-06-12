@@ -8,7 +8,7 @@ class DLN_OAuth_Facebook {
 	
 	protected $fb_secret    = '0b996585ef99c01b4c486006a525e3d6';
 	
-	protected $redirect_uri = 'http://localhost/wp/oauth/facebook';
+	protected $redirect_uri = '/oauth/facebook';
 	
 	protected $display      = 'popup';
 	
@@ -24,6 +24,7 @@ class DLN_OAuth_Facebook {
 	}
 	
 	function __construct() {
+		$this->redirect_uri = home_url() . $this->redirect_uri;
 		if ( isset( $_GET['code'] ) && ! empty( $_GET['code'] ) ) {
 			$this->process_code();
 		} else {
