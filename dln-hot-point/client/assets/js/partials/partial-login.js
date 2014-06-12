@@ -62,7 +62,15 @@ $(document).ready(function () {
 				uuid      = $.now();
 			var url_login = encodeURI( dlnServer + '/wp/oauth/facebook?uuid=' + uuid );
 			//window.location =  url_login;
-			window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
+			var popup = window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
+			var popupTimer = window.setInterval(function () {
+				if ( popup.closed !== false ) {
+					window.clearInterval( popupTimer );
+					$.ajax({
+						url: dlnServer + '/wp/oauth/f'
+					});
+				}
+			}, 200);
 		});
 	//}
 });
