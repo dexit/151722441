@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: DLN Skill
+Plugin Name: Skill
 Plugin URI: http://www.facebook.com/lenhatdinh
 Description: Like Management for fb, pinterest or youtube...
 Version: 1.0.0

@@ -2,55 +2,6 @@
  * Created by dinhln on 6/5/2014.
  */
 'use strict';
-// Load Facebook JS SDK asynchronously
-/*(function(d, s, id) {
-	var js, fjs = d.getElementsByTagName(s)[0];
-	if (d.getElementById(id)) return;
-	js = d.createElement(s); js.id = id;
-	js.src = "http://connect.facebook.net/vi_VN/sdk.js";
-	fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));
-
-// Setup Facebook JS SDK
-window.fbAsyncInit = function () {
-	FB.init({
-		appId      : '1446113338979798',
-		cookie     : true,  // enable cookies to allow the server to access
-		// the session
-		xfbml      : true,  // parse social plugins on this page
-		oauth      : true,
-		version    : 'v2.0' // use version 2.0
-	});
-
-	// set callback events
-	FB.Event.subscribe('auth.login', function(response) {
-		if ( response.authResponse ) {
-			console.log(response.authResponse.accessToken);
-			alert(response.authResponse.accessToken);
-		}
-	});
-};
-
-function statusChangeCallback(response) {
-	if ( response.status === 'connected' ) {
-		// get user information
-		FB.api('/me', function (user_response) {
-			var user = window.localStorage.getItem( 'user' );
-			var user_infor = JSON.stringify(user_response);
-			console.log(user_infor);
-			if ( ! user ) {
-				window.localStorage.setItem( 'user', user_infor );
-			}
-		});
-	} else if (response.status === 'not_authorized') {
-		console.log('not_authorized');
-		window.location = auth_uri;
-	} else {
-		console.log('otherwise');
-		window.location = auth_uri;
-	}
-}*/
-
 $(document).ready(function () {
 	//document.addEventListener('deviceready', onDeviceReady, false);
 	//function onDeviceReady() {
@@ -60,17 +11,25 @@ $(document).ready(function () {
 				height    = $(window).height(),
 				path_url  = location.pathname,
 				uuid      = $.now();
-			var url_login = encodeURI( dlnServer + '/wordpress/oauth/facebook?uuid=' + uuid );
-			//window.location =  url_login;
+			var url_login = encodeURI( dlnWPServer + '/oauth/facebook?uuid=' + uuid );
 			var popup = window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
 			var popupTimer = window.setInterval(function () {
-				if ( popup.closed !== false ) {
-					window.clearInterval( popupTimer );
-					$.ajax({
-						url: dlnServer + '/wordpress/dln-json/fbusers/' + uuid,
-						
-					});
-				}
+					if ( popup.closed !== false ) {
+						window.clearInterval( popupTimer );
+						$.ajax({
+							url: dlnWPServer + '/wp-json/fbusers/' + uuid,
+							dataType: 'json',
+							type: 'GET',
+							success: function (response) {
+								if ( response ) {
+									if ( response.ID ) {
+										window.localStorage.setItem('user_json', JSON.stringify(response));
+									}
+								}
+								window.location = '#/success_login';
+							}
+						});
+					}
 			}, 200);
 		});
 	//}

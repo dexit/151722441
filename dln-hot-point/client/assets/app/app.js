@@ -2,6 +2,7 @@
 
 var dlnApp       = angular.module('dlnApp', ['ngRoute', 'dlnAppController']),
 	dlnServer    = 'http://localhost',
+	dlnWPServer  = dlnServer + '/wordpress',
 	dlnPort      = '3000',
 	dlnServerUrl = dlnServer + ':' + dlnPort;
 

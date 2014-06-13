@@ -5,6 +5,7 @@ class DLN_JSON_FBUsers {
 	protected $servers;
 
 	public function __construct( WP_JSON_ResponseHandler $server ) {
+		header("Access-Control-Allow-Origin: *");
 		$this->server = $server;
 	}
 	
