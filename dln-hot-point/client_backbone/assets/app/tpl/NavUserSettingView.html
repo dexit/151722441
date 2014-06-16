@@ -1,0 +1,35 @@
+<!-- Profile dropdown -->
+<li class="navbar-main">
+	<a data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);">
+						<span class="meta">
+						<span class="avatar"><img alt="" class="img-circle" src="{{userHelper.avatar}}"></span>
+						<span class="text hidden-xs hidden-sm">{{userHelper.name}}</span>
+						<span class="arrow"></span>
+						</span>
+	</a>
+	<ul role="menu" class="dropdown-menu">
+		<li class="pa15">
+			<h5 class="semibold hidden-xs hidden-sm">
+				60% <br>
+				<small class="text-muted">Profile complete</small>
+			</h5>
+			<h5 class="semibold hidden-md hidden-lg">{{userHelper.name}}<br>
+				<small class="text-muted">{{userHelper.email}}</small>
+			</h5>
+			<!--<div class="progress progress-xs nm mt10">
+				<div style="width: 60%" class="progress-bar progress-bar-warning">
+					<span class="sr-only">60% Complete</span>
+				</div>
+			</div>-->
+		</li>
+		<li class="divider"></li>
+		<li><a href="javascript:void(0);"><span class="icon"><i class="ico-user-plus2"></i></span> My Accounts</a>
+		</li>
+		<li><a href="javascript:void(0);"><span class="icon"><i class="ico-cog4"></i></span> Profile Setting</a>
+		</li>
+		<li><a href="javascript:void(0);"><span class="icon"><i class="ico-question"></i></span> Help</a></li>
+		<li class="divider"></li>
+		<li><a href="javascript:void(0);" ng-click="userHelper.logout()"><span class="icon"><i class="ico-exit"></i></span> Sign Out</a></li>
+	</ul>
+</li>
+<!--/ Offcanvas right -->

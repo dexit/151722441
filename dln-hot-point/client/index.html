@@ -1,61 +1,172 @@
 <!DOCTYPE html>
 <html ng-app="dlnApp">
 <head lang="en">
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
-    <title>DinhLN Hot Point</title>
-    <meta name="description" content="DinhLN Hot Point">
-    <meta name="viewport" content="width=device-width, user-scaleable=no, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+	<title>DinhLN Hot Point</title>
+	<meta name="description" content="DinhLN Hot Point">
+	<meta name="viewport" content="width=device-width, user-scaleable=no, initial-scale=1.0">
 
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/images/touch/apple-touch-icon-144x144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/images/touch/apple-touch-icon-114x114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="asets/images/touch/apple-touch-icon-72x72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/images/touch/apple-touch-icon-57x57-precomposed.png">
-    <link rel="shortcut icon" href="assets/images/touch/apple-touch-icon.png">
+	<link rel="apple-touch-icon-precomposed" sizes="144x144"
+			href="assets/images/touch/apple-touch-icon-144x144-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="114x114"
+			href="assets/images/touch/apple-touch-icon-114x114-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72"
+			href="asets/images/touch/apple-touch-icon-72x72-precomposed.png">
+	<link rel="apple-touch-icon-precomposed" href="assets/images/touch/apple-touch-icon-57x57-precomposed.png">
+	<link rel="shortcut icon" href="assets/images/touch/apple-touch-icon.png">
 
-    <link rel="stylesheet" href="assets/3rd-party/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/3rd-party/jquery/css/jquery-ui.min.css">
+	<link rel="stylesheet" href="assets/3rd-party/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/3rd-party/jquery/css/jquery-ui.min.css">
 
-    <link rel="stylesheet" href="assets/css/layout.min.css">
-    <link rel="stylesheet" href="assets/css/uielement.min.css">
+	<link rel="stylesheet" href="assets/css/layout.min.css">
+	<link rel="stylesheet" href="assets/css/uielement.min.css">
+	<link rel="stylesheet" href="assets/3rd-party/topcoat/css/topcoat-mobile-light.css">
+	<link rel="stylesheet" href="assets/css/dln-app.css">
 </head>
-    <body data-page="page-login">
-    <section id="main" role="main">
-        <section class="container" ng-view>
-        </section>
-    </section>
+<body data-page="page-login">
+	<header class="navbar navbar-fixed-top" id="header">
+	<!-- START navbar header -->
+		<div class="navbar-header navbar-toolbar clearfix">
+			<!-- Brand -->
+			<a class="navbar-brand">
+				<span class="template-logo"></span>
+			</a>
 
-    <!--<script src="assets/3rd-party/modernizr/js/modernizr.min.js"></script>-->
-    <script type="text/javascript" src="assets/3rd-party/jquery/js/jquery.min.js"></script>
-    <script type="text/javascript" src="assets/app/libs/angular.js"></script>
-    <script type="text/javascript" src="assets/app/libs/angular-route.js"></script>
-    <script type="text/javascript" src="assets/app/app.js"></script>
-    <script type="text/javascript" src="assets/app/controllers/main.js"></script>
-    <script type="text/javascript" src="assets/app/controllers/success.js"></script>
-    <script type="text/javascript" src="assets/app/services/session-service.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            window.isphone = false;
-            if ( document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1 ) {
-                window.isphone = true;
-            }
+			<ul class="nav navbar-nav navbar-left">
+				<!-- Offcanvas left: This menu will take position at the top of template header (mobile only). Make sure that only #header have the `position: relative`, or it may cause unwanted behavior -->
+				<li class="navbar-main hidden-lg hidden-md">
+					<a title="Menu sidebar" rel="tooltip" data-direction="ltr" data-toggle="offcanvas" href="javascript:void(0);">
+							<span class="meta">
+							<span class="icon"><i class="ico-paragraph-left3"></i></span>
+							</span>
+					</a>
+				</li>
+				<!--/ Search form toggler -->
+			</ul>
+			<!-- START navbar form -->
+			<!-- START Right nav -->
+			<ul ng-show="userHelper.checkUserLoggedIn()" class="nav navbar-nav navbar-right">
+				<!-- Profile dropdown -->
+				<li class="navbar-main">
+					<a data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);">
+						<span class="meta">
+						<span class="avatar"><img alt="" class="img-circle" src="{{userHelper.avatar}}"></span>
+						<span class="text hidden-xs hidden-sm">{{userHelper.name}}</span>
+						<span class="arrow"></span>
+						</span>
+					</a>
+					<ul role="menu" class="dropdown-menu">
+						<li class="pa15">
+							<h5 class="semibold hidden-xs hidden-sm">
+								60% <br>
+								<small class="text-muted">Profile complete</small>
+							</h5>
+							<h5 class="semibold hidden-md hidden-lg">{{userHelper.name}}<br>
+								<small class="text-muted">{{userHelper.email}}</small>
+							</h5>
+							<!--<div class="progress progress-xs nm mt10">
+								<div style="width: 60%" class="progress-bar progress-bar-warning">
+									<span class="sr-only">60% Complete</span>
+								</div>
+							</div>-->
+						</li>
+						<li class="divider"></li>
+						<li><a href="javascript:void(0);"><span class="icon"><i class="ico-user-plus2"></i></span> My Accounts</a>
+						</li>
+						<li><a href="javascript:void(0);"><span class="icon"><i class="ico-cog4"></i></span> Profile Setting</a>
+						</li>
+						<li><a href="javascript:void(0);"><span class="icon"><i class="ico-question"></i></span> Help</a></li>
+						<li class="divider"></li>
+						<li><a href="javascript:void(0);" ng-click="userHelper.logout()"><span class="icon"><i class="ico-exit"></i></span> Sign Out</a></li>
+					</ul>
+				</li>
+				<!--/ Offcanvas right -->
+			</ul>
 
-            if ( window.isphone ) {
-                document.addEventListener("deviceready", onDeviceReady, false);
-            } else {
-                onDeviceReady();
-            }
-        });
-        function onDeviceReady() {
-            console.log(window.localStorage);
-            console.log(window.localStorage.getItem('user'));
-        };
-    </script>
-    <!--<script src="assets/3rd-party/jquery/js/jquery-ui.min.js"></script>
-    <script src="assets/3rd-party/jquery/js/jquery-ui-touch.min.js"></script>
-    <script src="assets/3rd-party/jquery/js/jquery-migrate.min.js"></script>
-    <script src="assets/3rd-party/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/core.min.js"></script>
-    <script src="assets/js/app.min.js"></script>-->
+			<!--/ Brand -->
+		</div>
+	<!--/ END Toolbar / link -->
+	</header>
+
+	<aside class="sidebar sidebar-left sidebar-menu">
+		<!-- START Sidebar Content -->
+		<div class="viewport" style="position: relative; overflow: hidden; width: auto;"><section class="content slimscroll" style="overflow: hidden; width: auto;">
+			<!-- START Template Navigation/Menu -->
+			<ul class="topmenu" id="nav">
+				<li class="menuheader">MAIN MENU</li>
+				<li class="active">
+					<a href="#/login">
+						<span class="figure"><i class="ico-home2"></i></span>
+						<span class="text">Dashboard</span>
+						<span class="number"><span class="label label-danger">5</span></span>
+					</a>
+				</li>
+				<li class="open">
+					<a data-parent="#nav" data-target="#components" data-toggle="submenu" href="javascript:void(0);">
+						<span class="figure"><i class="ico-screwdriver"></i></span>
+						<span class="text">Components</span>
+						<span class="arrow"></span>
+					</a>
+					<!-- START 2nd Level Menu -->
+					<ul class="submenu collapse" id="components" style="height: 0px;">
+						<li>
+							<a href="component-animation.html">
+								<span class="text">Animation</span>
+							</a>
+						</li>
+						<li>
+							<a href="component-typography.html">
+								<span class="text">Typography</span>
+							</a>
+						</li>
+					</ul>
+					<!--/ END 2nd Level Menu -->
+				</li>
+				<li class="menuheader">OTHERS</li>
+			</ul>
+			<!--/ END Template Navigation/Menu -->
+		</section><div class="scrollbar" style="background: none repeat scroll 0% 0% rgb(0, 0, 0); width: 6px; position: absolute; top: 0px; opacity: 0.4; border-radius: 7px; z-index: 99; right: 0px; height: 855px; display: none;"></div><div class="scrollrail" style="width: 6px; height: 100%; position: absolute; top: 0px; display: block; border-radius: 7px; background: none repeat scroll 0% 0% rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 0px;"></div></div>
+		<!--/ END Sidebar Container -->
+	</aside>
+
+<section id="main" role="main">
+	<section class="container">
+	</section>
+</section>
+
+<script type="text/javascript" src="assets/3rd-party/jquery/js/jquery.min.js"></script>
+<script type="text/javascript" src="assets/app/libs/angular.js"></script>
+<script type="text/javascript" src="assets/app/libs/angular-route.js"></script>
+<script type="text/javascript" src="assets/app/app.js"></script>
+<script type="text/javascript" src="assets/app/helpers/user-helper.js"></script>
+<script type="text/javascript" src="assets/app/controllers/main-controller.js"></script>
+<script type="text/javascript" src="assets/app/controllers/success-controller.js"></script>
+<script type="text/javascript">
+	$(document).ready(function () {
+		window.isphone = false;
+		if (document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1) {
+			window.isphone = true;
+		}
+
+		if (window.isphone) {
+			document.addEventListener("deviceready", onDeviceReady, false);
+		} else {
+			onDeviceReady();
+		}
+	});
+	function onDeviceReady() {
+		console.log(window.localStorage);
+		console.log(window.localStorage.getItem('user'));
+	}
+	;
+</script>
+<script src="assets/3rd-party/modernizr/js/modernizr.min.js"></script>
+<script src="assets/3rd-party/jquery/js/jquery-ui.min.js"></script>
+ <script src="assets/3rd-party/jquery/js/jquery-ui-touch.min.js"></script>
+ <script src="assets/3rd-party/jquery/js/jquery-migrate.min.js"></script>
+ <script src="assets/3rd-party/bootstrap/js/bootstrap.min.js"></script>
+ <script src="assets/js/core.min.js"></script>
+ <script src="assets/js/app.min.js"></script>
 </body>
 </html>

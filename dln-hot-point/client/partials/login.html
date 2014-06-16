@@ -1,13 +1,13 @@
 <script type="text/javascript" src="./assets/js/partials/partial-login.js"></script>
 <div class="row">
-    <div class="col-lg-4 col-lg-offset-4">
+    <div ng-hide="userHelper.checkUserLoggedIn()" class="col-lg-4 col-lg-offset-4">
         <div class="text-center" style="margin-bottom:40px">
             <span class="template-logo template-logo-inverse"></span>
             <h5 class="semibold text-muted mt-10">Login to your account.</h5>
         </div>
 
         <ul class="list-table">
-            <li><button type="button" id="dln_login_facebook" class="btn btn-block btn-facebook">Connect with <i class="ico-facebook2 m15"></i></button></li>
+            <li><button type="button" id="dln_login_facebook" ng-click="userHelper.login()" class="btn btn-block btn-facebook">Connect with <i class="ico-facebook2 m15"></i></button></li>
             <li><button type="button" class="btn btn-block btn-twitter">Connect with <i class="ico-twitter2 m15"></i></button></li>
         </ul>
         <hr />

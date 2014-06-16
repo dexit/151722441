@@ -21,10 +21,10 @@ dlnApp.config(['$routeProvider', function ($routeProvider) {
 		controller: 'successController'
 	})
 	$routeProvider.otherwise({
-		redirectTo: '/'
+		redirectTo: '/login'
 	});
 }]);
 
-dlnApp.run(['$rootScope', '$window', 'sessionService', function($rootScope, $window, sessionService) {
-	$rootScope.session = sessionService;
+dlnApp.run(['$rootScope', '$window', 'userHelper', function($rootScope, $window, userHelper) {
+	$rootScope.userHelper = userHelper;
 }]);
