@@ -1,11 +1,21 @@
-app.views.NavView = Backbone.View.extend({
+define(function (require) {
+	'use strict';
 
-	initialize: function () {
+	var $        = require('jquery'),
+		_        = require('underscore'),
+		Backbone = require('backbone'),
+		tpl      = require('text!tpl/NavView.html'),
+		template = _.template(tpl);
 
-	},
+	return Backbone.View.extend({
 
-	render: function () {
-		this.$el.html(this.template());
-		return this;
-	},
+		initialize: function () {
+			this.render();
+		},
+
+		render: function () {
+			this.$el.html(template);
+			return this;
+		},
+	});
 });
