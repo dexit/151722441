@@ -1,5 +1,9 @@
+<%
+if ( ! is_loggedin )
+{
+%>
 <div class="row">
-	<div ng-hide="userHelper.checkUserLoggedIn()" class="col-lg-4 col-lg-offset-4">
+	<div class="col-lg-4 col-lg-offset-4">
 		<div class="text-center" style="margin-bottom:40px">
 			<span class="template-logo template-logo-inverse"></span>
 			<h5 class="semibold text-muted mt-10">Login to your account.</h5>
@@ -12,3 +16,6 @@
 		<hr />
 	</div>
 </div>
+<%
+}
+%>

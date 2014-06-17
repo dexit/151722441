@@ -1,11 +1,7 @@
-define(function (require) {
+define(['jquery', 'underscore', 'backbone',
+	'text!tpl/NavView.html',
+], function ($, _, Backbone, tpl) {
 	'use strict';
-
-	var $        = require('jquery'),
-		_        = require('underscore'),
-		Backbone = require('backbone'),
-		tpl      = require('text!tpl/NavView.html'),
-		template = _.template(tpl);
 
 	return Backbone.View.extend({
 
@@ -14,6 +10,10 @@ define(function (require) {
 		},
 
 		render: function () {
+			var params = {
+
+			};
+			var template = _.template( tpl, params );
 			this.$el.html(template);
 			return this;
 		},

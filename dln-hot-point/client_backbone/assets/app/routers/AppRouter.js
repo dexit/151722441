@@ -1,8 +1,9 @@
-define(function (require) {
+define(['jquery', 'underscore', 'backbone',
+	'views/NavView',
+	'views/HomeView',
+	'views/LoginView'
+],function ($, _, Backbone, NavView, HomeView, LoginView) {
 	'use strict';
-
-	var $           = require('jquery'),
-		Backbone    = require('backbone');
 
 	var AppRouter = Backbone.Router.extend({
 		routes: {
@@ -14,24 +15,19 @@ define(function (require) {
 		},
 
 		home: function () {
-			var NavView  = require('views/NavView');
-			var HomeView = require( 'views/HomeView' );
-			var navView  = new NavView({ el: $('#nav_view') });
-			var homeView = new HomeView({ el: $('#home_view') });
-			//homeView.delegateEvents();
+			var navView  = new NavView({ el: $('#content') });
+			$(navView.el).insertBefore('#main');
+			var homeView = new HomeView({ el: $('#main .container') });
+			homeView.delegateEvents();
 		},
 
-		/*login: function() {
-			app.navView = new app.views.NavView();
-			app.navView.render();
-			if ( ! app.loginView ) {
-				app.loginView = new app.views.LoginView();
-				app.loginView.render();
-			} else {
-				console.log( 'reusing login view' );
-				app.loginView.delegateEvents();
-			}
-		},*/
+		login: function() {
+			console.log('ok');
+			var navView  = new NavView();
+			console.log(navView.render());
+			//var loginView = new LoginView({ el: $('#main .container') });
+			//loginView.delegateEvents();
+		},
 	});
 
 	var initialize = function () {
