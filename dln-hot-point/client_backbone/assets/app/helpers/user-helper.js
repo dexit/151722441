@@ -1,4 +1,4 @@
-define([ 'jquery' ], function ($) {
+app.helpers.user = function () {
 	var userHelper = {
 		resetUser: function () {
 			this.avatar = null;
@@ -79,4 +79,4 @@ define([ 'jquery' ], function ($) {
 	};
 
 	return userHelper;
-});
+};

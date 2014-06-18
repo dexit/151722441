@@ -1,43 +1,28 @@
-define(['jquery', 'underscore', 'backbone',
-	'views/ShellView',
-	'views/HomeView',
-	'views/LoginView'
-],function ($, _, Backbone, ShellView, HomeView, LoginView) {
-	'use strict';
+app.routers.AppRouter = Backbone.Router.extend({
+	routes: {
+		''              : 'home',
+		'login'         : 'login',
+		'success_login' : 'success_login',
+		// Default
+		'*actions': 'defaultAction'
+	},
 
-	var AppRouter = Backbone.Router.extend({
-		routes: {
-			''              : 'home',
-			'login'         : 'login',
-			'success_login' : 'success_login',
-			// Default
-			'*actions': 'defaultAction'
-		},
+	initialize: function () {
 
-		initialize: function () {
-			var shellView  = new ShellView({ el: $('#dln_content') });
-			shellView.delegateEvents();
-		},
+	},
 
-		home: function () {
-			var homeView = new HomeView({ el: $('#main .container') });
-			homeView.delegateEvents();
-		},
+	home: function () {
+		console.log('home');
+		app.shellView = new app.views.ShellView({ el: $('#dln_content') });
+		app.shellView.delegateEvents();
+		app.homeView = new app.views.HomeView({ el: $('#main .container') });
+		app.homeView.delegateEvents();
+	},
 
-		login: function() {
-			console.log('ok');
-			var loginView = new LoginView({ el: $('#main .container') });
-			loginView.delegateEvents();
-		},
-	});
+	login: function() {
+		console.log('login');
+		app.loginView = new app.views.LoginView({ el: $('#main .container') });
+		app.loginView.delegateEvents();
+	}
 
-	var initialize = function () {
-		var app_router = new AppRouter;
-
-		Backbone.history.start();
-	};
-
-	return {
-		initialize: initialize
-	};
 });
