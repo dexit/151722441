@@ -1,21 +1,11 @@
-define(['jquery', 'underscore', 'backbone',
-	'text!tpl/ShellView.html',
-], function ($, _, Backbone, tpl) {
-	'use strict';
+app.views.ShellView = Backbone.View.extend({
 
-	return Backbone.View.extend({
+	initialize: function () {
+		this.render();
+	},
 
-		initialize: function () {
-			this.render();
-		},
-
-		render: function () {
-			var params = {
-
-			};
-			var template = _.template( tpl, params );
-			this.$el.html(template);
-			return this;
-		},
-	});
+	render: function () {
+		this.$el.html(this.template());
+		return this;
+	}
 });
