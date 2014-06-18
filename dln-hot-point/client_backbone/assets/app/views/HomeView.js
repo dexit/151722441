@@ -14,8 +14,6 @@ define([ 'jquery', 'underscore', 'backbone',
 
 		render: function () {
 			var template = _.template(tpl);
-			var navView  = new NavView({ el: $('#nav_view') });
-			//$('.nav-view').html(this.navView.render());
 			this.$el.html(template);
 			//var userHelper = app.helpers.user();
 			/*if ( userHelper.checkUserLoggedIn() ) {

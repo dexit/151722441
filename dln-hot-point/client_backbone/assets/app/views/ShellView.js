@@ -1,5 +1,5 @@
 define(['jquery', 'underscore', 'backbone',
-	'text!tpl/NavView.html',
+	'text!tpl/ShellView.html',
 ], function ($, _, Backbone, tpl) {
 	'use strict';
 
