@@ -1,15 +1,25 @@
-app.views.HomeView = Backbone.View.extend({
+define([ 'jquery', 'underscore', 'backbone',
+	'text!tpl/HomeView.html'
+], function ($, _, Backbone, tpl) {
+	'use strict';
 
-	initialize: function () {
-		this.render();
-	},
+	return Backbone.View.extend({
+		initialize: function () {
 
-	render: function () {
-		this.$el.html(this.template());
-		return this;
-		//var userHelper = app.helpers.user();
-		//if ( userHelper.checkUserLoggedIn() ) {
-		//	$('.nav-user-setting', this.el).append( this.navUserSettingView.render().el );
-		//}
-	}
+			//var NavUserSettingView = require('app/views/NavUserSettingView');
+
+			//var navUserSettingView = new NavUserSettingView();
+			this.render();
+		},
+
+		render: function () {
+			var template = _.template(tpl);
+			this.$el.html(template);
+			//var userHelper = app.helpers.user();
+			/*if ( userHelper.checkUserLoggedIn() ) {
+			 $('.nav-user-setting', this.el).append( this.navUserSettingView.render().el );
+			 }*/
+			return this;
+		},
+	});
 });

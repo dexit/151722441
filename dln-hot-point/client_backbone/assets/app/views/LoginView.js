@@ -1,16 +1,22 @@
-app.views.LoginView = Backbone.View.extend({
+define([ 'jquery', 'underscore', 'backbone',
+	'text!tpl/LoginView.html',
+	'helpers/user-helper'
+],function ($, _, Backbone, tpl, userHelper) {
+	'use strict';
 
-	initialize: function () {
-		this.render();
-	},
+	return Backbone.View.extend({
+		initialize: function () {
+			this.render();
+		},
 
-	render: function () {
-		var is_loggedin = app.helpers.user.checkUserLoggedIn();
-		var params = {
-			is_loggedin : is_loggedin
-		};
-		var template = _.template( tpl, params );
-		this.$el.html( this.template(), params );
-		return this;
-	},
+		render: function () {
+			var is_loggedin = userHelper.checkUserLoggedIn();
+			var params = {
+				is_loggedin : is_loggedin
+			};
+			var template = _.template( tpl, params );
+			this.$el.html( template );
+			return this;
+		},
+	});
 });

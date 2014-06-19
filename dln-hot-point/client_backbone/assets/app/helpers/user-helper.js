@@ -1,4 +1,4 @@
-app.helpers.user = function () {
+define([ 'jquery' ], function ($) {
 	var userHelper = {
 		resetUser: function () {
 			this.avatar = null;
@@ -31,9 +31,9 @@ app.helpers.user = function () {
 		login: function () {
 			var is_mobile = true;
 			var width     = $(window).width(),
-					height    = $(window).height(),
-					path_url  = location.pathname,
-					uuid      = $.now();
+				height    = $(window).height(),
+				path_url  = location.pathname,
+				uuid      = $.now();
 			var url_login = encodeURI( dlnWPServer + '/oauth/facebook?uuid=' + uuid );
 			var popup = window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
 			var popupTimer = window.setInterval(function () {
@@ -79,4 +79,4 @@ app.helpers.user = function () {
 	};
 
 	return userHelper;
-};
+});
