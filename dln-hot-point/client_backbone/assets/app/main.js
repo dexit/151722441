@@ -1,10 +1,11 @@
 require.config({
 	paths: {
-		jquery: '../3rd-party/jquery/js/jquery.min',
+		jquery: 'lib/jquery-1.9.1.min',
 		underscore: 'lib/underscore-min',
 		backbone: 'lib/backbone-min',
 		text: 'lib/require-text',
 		route: 'routers/AppRouter',
+		fastclick: 'lib/fastclick'
 	},
 
 	shim: {
@@ -23,5 +24,7 @@ require.config({
 require([
 	'app'
 ], function (App) {
-	App.initialize();
+	//$(document).on('load', function () {
+		App.initialize();
+	//});
 });

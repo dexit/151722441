@@ -1,4 +1,9 @@
-define([ 'jquery' ], function ($) {
+define([ 'jquery', 'backbone' ], function ($, Backbone) {
+	var dlnServer    = 'http://192.168.0.11',
+		dlnWPServer  = dlnServer + '/wordpress',
+		dlnPort      = '3000',
+		dlnServerUrl = dlnServer + ':' + dlnPort;
+
 	var userHelper = {
 		resetUser: function () {
 			this.avatar = null;

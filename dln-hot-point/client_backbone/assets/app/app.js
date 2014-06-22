@@ -1,8 +1,8 @@
 define(['jquery', 'underscore', 'backbone',
-	'routers/AppRouter'
-], function ($, _, Backbone, AppRouter) {
+	'routers/AppRouter',
+	'fastclick'
+], function ($, _, Backbone, AppRouter, FastClick) {
 	var initialize = function () {
-		console.log('ok');
 		var app = {
 			views: {},
 			models: {},
@@ -10,17 +10,31 @@ define(['jquery', 'underscore', 'backbone',
 			utils: {},
 			helpers: {}
 		};
-		$(document).on('ready', function () {
-			/*app.router = new app.routers.AppRouter();
-			app.router.initialize
-			app.utils.templates.load(['HomeView', 'LoginView', 'ShellView'], function () {
-				app.router = new app.routers.AppRouter();
-				Backbone.history.start();
-			});*/
-			var app_router = new AppRouter();
-			console.log(app_router);
-			Backbone.history.start();
-		});
+
+		window.addEventListener('load', function () {
+			new FastClick(document.body);
+		}, false);
+
+		console.log('ready');
+		// are we running in native app or in a browser?
+		window.isphone = false;
+		if(document.URL.indexOf("http://") === -1
+				&& document.URL.indexOf("https://") === -1) {
+			window.isphone = true;
+		}
+
+		console.log('app');
+		var app_router = new AppRouter();
+		Backbone.history.start();
+		if( window.isphone ) {
+			document.addEventListener("deviceready", onDeviceReady, true);
+		} else {
+			onDeviceReady();
+		}
+
+		function onDeviceReady() {
+
+		}
 
 	};
 	return {

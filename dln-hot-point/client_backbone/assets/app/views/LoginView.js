@@ -16,6 +16,12 @@ define([ 'jquery', 'underscore', 'backbone',
 			};
 			var template = _.template( tpl, params );
 			this.$el.html( template );
+
+			$('#dln_login_facebook').on('click', function (e) {
+				e.preventDefault();
+				userHelper.login();
+			});
+
 			return this;
 		},
 	});

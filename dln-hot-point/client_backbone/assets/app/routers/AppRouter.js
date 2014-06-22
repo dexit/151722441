@@ -20,12 +20,13 @@ define(['jquery', 'underscore', 'backbone',
 		},
 
 		home: function () {
+			console.log('home');
 			var homeView = new HomeView({ el: $('#main .container') });
 			homeView.delegateEvents();
 		},
 
 		login: function() {
-			console.log('ok');
+			console.log('login');
 			var loginView = new LoginView({ el: $('#main .container') });
 			loginView.delegateEvents();
 		},

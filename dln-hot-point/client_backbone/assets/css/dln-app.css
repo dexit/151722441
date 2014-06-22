@@ -4,4 +4,12 @@
 #header.navbar .navbar-nav > li > a > .meta > .avatar {
     width: 36px;
     height: 36px;
-}}
+}
+#dln_map {
+    width: 100%;
+    height: 500px;
+    display:block;
+    position: absolute;
+    left: 0;
+    top: 100px;
+}
