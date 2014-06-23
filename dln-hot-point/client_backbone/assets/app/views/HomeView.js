@@ -5,20 +5,39 @@ define([ 'jquery', 'underscore', 'backbone',
 
 	return Backbone.View.extend({
 		initialize: function () {
-
-			//var NavUserSettingView = require('app/views/NavUserSettingView');
-
-			//var navUserSettingView = new NavUserSettingView();
 			this.render();
+		},
+
+		before_render: function () {
+
 		},
 
 		render: function () {
 			var template = _.template(tpl);
 			this.$el.html(template);
-			//var userHelper = app.helpers.user();
-			/*if ( userHelper.checkUserLoggedIn() ) {
-			 $('.nav-user-setting', this.el).append( this.navUserSettingView.render().el );
-			 }*/
+
+			// Set full width for container
+			if ( ! $('#main .container').hasClass('dln-full-width') ) {
+				$('#main .container').addClass('dln-full-width');
+			}
+
+			// Bind resize window to fill dln_map
+			if ( $('#dln_map').length ) {
+				$(window).on('resize', function () {
+					var window_height = $(window).height();
+					if ( window_height > 100 ) {
+						$('#dln_map').height(window_height);
+					} else {
+						$('#dln_map').height(500);
+					}
+				});
+				$(window).resize();
+			}
+
+			//var map = new L.Map('dln_map', {center: new L.LatLng( 51.51, -0.11 ), zoom: 9});
+			//var googleLayer = new L.Google('ROADMAP');
+			//map.addLayer(googleLayer);
+
 			return this;
 		},
 	});

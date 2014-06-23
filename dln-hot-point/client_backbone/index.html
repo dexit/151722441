@@ -3,7 +3,7 @@
 <head lang="en">
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
-	<title>DinhLN Hot Point</title>
+	<title>asdfasdfasd</title>
 	<meta name="description" content="DinhLN Hot Point">
 	<meta name="viewport" content="width=device-width, user-scaleable=no, initial-scale=1.0">
 
@@ -15,45 +15,43 @@
 			href="asets/images/touch/apple-touch-icon-72x72-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" href="assets/images/touch/apple-touch-icon-57x57-precomposed.png">
 	<link rel="shortcut icon" href="assets/images/touch/apple-touch-icon.png">
-
 	<link rel="stylesheet" href="assets/3rd-party/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/3rd-party/jquery/css/jquery-ui.min.css">
-
 	<link rel="stylesheet" href="assets/css/layout.min.css">
 	<link rel="stylesheet" href="assets/css/uielement.min.css">
+
 	<link rel="stylesheet" href="assets/css/dln-app.css">
-	<script src="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.js"></script>
+    <link rel="stylesheet" href="assets/3rd-party/dln-icon-point/css/dln-icon-point.css">
+
+	<script src="assets/3rd-party/leaflet/leaflet.js"></script>
 	<script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
-	<script src="http://matchingnotes.com/javascripts/leaflet-google.js"></script>
+
 </head>
 <body data-page="page-login">
 
-<div id="dln_content">
+<!--<div id="dln_content">
 
+</div>-->
+
+<div class="dln-collection-points">
+    <div class="dln-btn dln-btn-hide dln_congestion">
+        <a href="javascript:void(0)"><i class="dln-icon-congestion"></i></a>
+    </div>
+    <div class="dln-btn dln-btn-hide dln_accident">
+        <a href="javascript:void(0)"><i class="dln-icon-accident"></i></a>
+    </div>
+    <div class="dln-btn dln-btn-hide dln_incident">
+        <a href="javascript:void(0)"><i class="dln-icon-congestion"></i></a>
+    </div>
+    <div class="dln-btn dln-btn-main dln_check_point">
+        <a href="javascript:void(0)"><i class="dln-icon-check-point"></i></a>
+    </div>
 </div>
 
 <!--<script type="text/javascript" src="assets/app/helpers/user-helper.js"></script>
 <script type="text/javascript" src="assets/app/controllers/main-controller.js"></script>
 <script type="text/javascript" src="assets/app/controllers/success-controller.js"></script>-->
-<script type="text/javascript">
-	/*$(document).ready(function () {
-	 window.isphone = false;
-	 if (document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1) {
-	 window.isphone = true;
-	 }
 
-	 if (window.isphone) {
-	 document.addEventListener("deviceready", onDeviceReady, false);
-	 } else {
-	 onDeviceReady();
-	 }
-	 });
-	 function onDeviceReady() {
-	 console.log(window.localStorage);
-	 console.log(window.localStorage.getItem('user'));
-	 }
-	 ;*/
-</script>
 
 <!--
 <script type="text/javascript" src="assets/3rd-party/modernizr/js/modernizr.min.js"></script>
@@ -74,6 +72,35 @@
 <script type="text/javascript" src="assets/js/core.min.js"></script>
 <script type="text/javascript" src="assets/js/app.min.js"></script>
 <script type="text/javascript" src="assets/app/lib/require.js" data-main="assets/app/main"></script>
+<script type="text/javascript" src="assets/3rd-party/leaflet-google/leaflet-google.js"></script>
+<script type="text/javascript">
+    (function ($) {
+        $(document).ready(function () {
+            $('.dln_check_point').click(function () {
+                $(this).closest('.dln-collection-points').find('.dln-btn-hide').toggleClass('open');
+            });
+        });
+    })(jQuery);
+
+    /*$(document).ready(function () {
+     window.isphone = false;
+     if (document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1) {
+     window.isphone = true;
+     }
+
+     if (window.isphone) {
+     document.addEventListener("deviceready", onDeviceReady, false);
+     } else {
+     onDeviceReady();
+     }
+     });
+     function onDeviceReady() {
+     console.log(window.localStorage);
+     console.log(window.localStorage.getItem('user'));
+     }
+     ;*/
+</script>
+
 
 </body>
 </html>
