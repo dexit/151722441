@@ -1,6 +1,31 @@
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.3.1/leaflet.css" />
+<link rel="stylesheet" href="assets/3rd-party/leaflet/leaflet.css" />
+<link rel="stylesheet" href="assets/3rd-party/leaflet-usermarker/src/leaflet.usermarker.css" />
+<link rel="stylesheet" href="assets/css/dln-marker.css" />
 
+<div id="dln_map" style="width:100%; height:720px;display:block;"></div>
+
+<div class="dln-collection-points">
+	<div class="dln-btn dln-btn-hide dln_congestion">
+		<a href="javascript:void(0)"><i class="dln-icon-congestion"></i></a>
+	</div>
+	<div class="dln-btn dln-btn-hide dln_accident">
+		<a href="javascript:void(0)"><i class="dln-icon-accident"></i></a>
+	</div>
+	<div class="dln-btn dln-btn-hide dln_incident">
+		<a href="javascript:void(0)"><i class="dln-icon-congestion"></i></a>
+	</div>
+	<div class="dln-btn dln-btn-main dln_check_point">
+		<a href="javascript:void(0)"><i class="dln-icon-check-point"></i></a>
+	</div>
+</div>
+
+<script src="assets/3rd-party/leaflet/leaflet.js"></script>
+<script src="assets/3rd-party/leaflet-usermarker/src/leaflet.usermarker.js"></script>
+<script src="assets/js/dln-util.js"></script>
+<script src="assets/js/dln-geo.js"></script>
+<script src="assets/js/dln-class.js"></script>
+<script src="assets/js/dln-marker.js"></script>
+<script src="assets/js/dln-map.js"></script>
 <script type="text/javascript">
-
+	var dln_map = new DLN_MapUser();
 </script>
-<div id="dln_map"></div>

@@ -21,31 +21,15 @@
 	<link rel="stylesheet" href="assets/css/uielement.min.css">
 
 	<link rel="stylesheet" href="assets/css/dln-app.css">
-    <link rel="stylesheet" href="assets/3rd-party/dln-icon-point/css/dln-icon-point.css">
+   <link rel="stylesheet" href="assets/3rd-party/dln-icon-point/css/dln-icon-point.css">
 
-	<script src="assets/3rd-party/leaflet/leaflet.js"></script>
-	<script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false"></script>
+	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
 </head>
 <body data-page="page-login">
 
-<!--<div id="dln_content">
+<div id="dln_content">
 
-</div>-->
-
-<div class="dln-collection-points">
-    <div class="dln-btn dln-btn-hide dln_congestion">
-        <a href="javascript:void(0)"><i class="dln-icon-congestion"></i></a>
-    </div>
-    <div class="dln-btn dln-btn-hide dln_accident">
-        <a href="javascript:void(0)"><i class="dln-icon-accident"></i></a>
-    </div>
-    <div class="dln-btn dln-btn-hide dln_incident">
-        <a href="javascript:void(0)"><i class="dln-icon-congestion"></i></a>
-    </div>
-    <div class="dln-btn dln-btn-main dln_check_point">
-        <a href="javascript:void(0)"><i class="dln-icon-check-point"></i></a>
-    </div>
 </div>
 
 <!--<script type="text/javascript" src="assets/app/helpers/user-helper.js"></script>
@@ -72,13 +56,14 @@
 <script type="text/javascript" src="assets/js/core.min.js"></script>
 <script type="text/javascript" src="assets/js/app.min.js"></script>
 <script type="text/javascript" src="assets/app/lib/require.js" data-main="assets/app/main"></script>
-<script type="text/javascript" src="assets/3rd-party/leaflet-google/leaflet-google.js"></script>
+
+<script src="assets/3rd-party/leaflet/leaflet.js"></script>
+<script src="assets/3rd-party/leaflet-usermarker/src/leaflet.usermarker.js"></script>
+
 <script type="text/javascript">
     (function ($) {
         $(document).ready(function () {
-            $('.dln_check_point').click(function () {
-                $(this).closest('.dln-collection-points').find('.dln-btn').toggleClass('open');
-            });
+
         });
     })(jQuery);
 
@@ -99,6 +84,33 @@
      console.log(window.localStorage.getItem('user'));
      }
      ;*/
+
+	 document.addEventListener("deviceready", onDeviceReady, false);
+
+	 // Cordova is ready
+	 //
+	 function onDeviceReady() {
+		 navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	 }
+
+	 function onError(error) {
+		 console.log(error);
+	 }
+
+	 // onSuccess Geolocation
+	 //
+	 function onSuccess(position) {
+		 console.log(position);
+		 var element = document.getElementById('geolocation');
+		 element.innerHTML = 'Latitude: '           + position.coords.latitude              + '<br />' +
+				 'Longitude: '          + position.coords.longitude             + '<br />' +
+				 'Altitude: '           + position.coords.altitude              + '<br />' +
+				 'Accuracy: '           + position.coords.accuracy              + '<br />' +
+				 'Altitude Accuracy: '  + position.coords.altitudeAccuracy      + '<br />' +
+				 'Heading: '            + position.coords.heading               + '<br />' +
+				 'Speed: '              + position.coords.speed                 + '<br />' +
+				 'Timestamp: '          +                                   position.timestamp          + '<br />';
+	 }
 </script>
 
 

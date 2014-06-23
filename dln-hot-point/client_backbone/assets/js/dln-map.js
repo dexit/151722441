@@ -5,7 +5,7 @@
     var DLN = DLN || {};
     DLN_MapUser = Class.extend({
         options: {
-            mapId: 'map',
+            mapId: 'dln_map',
             tileUrl: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
         },
 
@@ -30,7 +30,8 @@
                 enableHighAccuracy: true
             });
             _this._map.on('locationfound', function(location) {
-                if(!_this.marker) {
+				console.log(location, _this._map);
+                if(typeof(_this.marker) == 'undefined') {
                     _this.marker = L.dlnUserMarker(location.latlng, {pulsing:true}).addTo(_this._map);
                     _this._map.setZoom(16);
                 }
