@@ -33,7 +33,21 @@
     display: inline-block;
     width: 100%;
     position: relative;
-    top: -3px;
+    top: -2px;
+}
+.dln-btn-main .dln-icon-check-point{
+    -webkit-transition: all 250ms ease-in-out;
+    -moz-transition: all 250ms ease-in-out;
+    -o-transition: all 250ms ease-in-out;
+    -ms-transition: all 250ms ease-in-out;
+    transition: all 250ms ease-in-out;
+}
+.dln-btn-main.open .dln-icon-check-point, .dln-btn-hide a:active i {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
 }
 .dln-btn-hide {
     -webkit-transition: -webkit-transform 250ms cubic-bezier(0.25, 0.25, 0.4, 1.65),opacity 250ms cubic-bezier(0.25, 0.25, 0.4, 1),height 250ms cubic-bezier(0.25, 0.25, 0.4, 1),width 250ms cubic-bezier(0.25, 0.25, 0.4, 1);
@@ -44,6 +58,8 @@
     width: 0px;
     height: 0px;
     font-size: 1px;
+    margin: 20px;
+    opacity: 0;
 }
 .dln_congestion.open {
     -webkit-transform: translate(-70px, -18px);
@@ -54,6 +70,8 @@
     height: 42px;
     width: 42px;
     font-size: 24px;
+    margin: 0;
+    opacity: 1;
 }
 .dln_accident.open {
     -webkit-transform: translate(0px, -65px);
@@ -64,6 +82,8 @@
     height: 42px;
     width: 42px;
     font-size: 24px;
+    margin: 0;
+    opacity: 1;
 }
 .dln_incident.open {
     -webkit-transform: translate(70px, -18px);
@@ -74,6 +94,8 @@
     height: 42px;
     width: 42px;
     font-size: 24px;
+    margin: 0;
+    opacity: 1;
 }
 .dln-collection-points {
     position: absolute;
