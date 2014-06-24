@@ -61,11 +61,27 @@
 <script src="assets/3rd-party/leaflet-usermarker/src/leaflet.usermarker.js"></script>
 
 <script type="text/javascript">
-    (function ($) {
-        $(document).ready(function () {
+	/*document.addEventListener( 'deviceready', onDeviceReady, false );
 
-        });
-    })(jQuery);
+	function onDeviceReady() {
+		checkConnection();
+	}
+
+	function checkConnection() {
+		console.log(navigator, navigator.connection);
+		var networkState = navigator.connection.type;
+
+		var states = {};
+		states[Connection.UNKNOWN]  = 'Unknown connection';
+		states[Connection.ETHERNET] = 'Ethernet connection';
+		states[Connection.WIFI]     = 'WiFi connection';
+		states[Connection.CELL_2G]  = 'Cell 2G connection';
+		states[Connection.CELL_3G]  = 'Cell 3G connection';
+		states[Connection.CELL_4G]  = 'Cell 4G connection';
+		states[Connection.NONE]     = 'No network connection';
+
+		alert('Connection type: ' + states[networkState]);
+	}*/
 
     /*$(document).ready(function () {
      window.isphone = false;
@@ -85,7 +101,7 @@
      }
      ;*/
 
-	 document.addEventListener("deviceready", onDeviceReady, false);
+	 /*document.addEventListener("deviceready", onDeviceReady, false);
 
 	 // Cordova is ready
 	 //
@@ -110,7 +126,7 @@
 				 'Heading: '            + position.coords.heading               + '<br />' +
 				 'Speed: '              + position.coords.speed                 + '<br />' +
 				 'Timestamp: '          +                                   position.timestamp          + '<br />';
-	 }
+	 }*/
 </script>
 
 

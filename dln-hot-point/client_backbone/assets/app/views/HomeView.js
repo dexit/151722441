@@ -51,7 +51,8 @@ define([ 'jquery', 'underscore', 'backbone',
 				});
 				$('.dln_check_point').click(function () {
 					// Start tracking the User
-					/*var watch_id = navigator.geolocation.watchPosition(
+					console.log(navigator.geolocation);
+					var watch_id = navigator.geolocation.watchPosition(
 
 							// Success
 							function(position){
@@ -65,7 +66,7 @@ define([ 'jquery', 'underscore', 'backbone',
 
 							// Settings
 							{ frequency: 3000, enableHighAccuracy: true });
-					console.log(watch_id);*/
+					console.log(watch_id);
 
 					$(this).closest('.dln-collection-points').find('.dln-btn').toggleClass('open');
 				});
