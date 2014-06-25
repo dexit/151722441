@@ -5,7 +5,7 @@
     var DLN = DLN || {};
     DLN_MapUser = Class.extend({
         options: {
-            mapId: 'map',
+            mapId: 'dln_map',
             tileUrl: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
         },
 

@@ -1,28 +1,23 @@
-define([ 'jquery', 'underscore', 'backbone',
-	'text!tpl/LoginView.html',
-	'helpers/user-helper'
-],function ($, _, Backbone, tpl, userHelper) {
-	'use strict';
+app.views.LoginView =  Backbone.View.extend({
+	initialize: function () {
+		var that = this;
+		app.utils.templates.get( 'LoginView', function (tpl) {
+			that.render(tpl);
+		} );
+	},
 
-	return Backbone.View.extend({
-		initialize: function () {
-			this.render();
-		},
+	render: function (tpl) {
+		var userHelper  = new app.helpers.userHelper();
+		var is_loggedin = userHelper.checkUserLoggedIn();
+		var params = {
+			is_loggedin : is_loggedin
+		};
+		var template = _.template( tpl, params );
+		this.$el.html( template );
 
-		render: function () {
-			var is_loggedin = userHelper.checkUserLoggedIn();
-			var params = {
-				is_loggedin : is_loggedin
-			};
-			var template = _.template( tpl, params );
-			this.$el.html( template );
-
-			$('#dln_login_facebook').on('click', function (e) {
-				e.preventDefault();
-				userHelper.login();
-			});
-
-			return this;
-		},
-	});
+		$('#dln_login_facebook').on('click', function (e) {
+			e.preventDefault();
+			userHelper.login();
+		});
+	},
 });

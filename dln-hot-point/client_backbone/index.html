@@ -15,8 +15,8 @@
 			href="asets/images/touch/apple-touch-icon-72x72-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" href="assets/images/touch/apple-touch-icon-57x57-precomposed.png">
 	<link rel="shortcut icon" href="assets/images/touch/apple-touch-icon.png">
+	<link rel="stylesheet" href="assets/3rd-party/jquery-mobile/jquery.mobile-1.4.2.min.css">
 	<link rel="stylesheet" href="assets/3rd-party/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/3rd-party/jquery-mobile/jquery.mobile-1.4.2.min.css">
 	<link rel="stylesheet" href="assets/css/layout.min.css">
 	<link rel="stylesheet" href="assets/css/uielement.min.css">
 
@@ -52,6 +52,18 @@
 <script type="text/javascript" src="assets/3rd-party/jquery/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="assets/3rd-party/jquery/js/jquery-ui-touch.min.js"></script>
 <script type="text/javascript" src="assets/3rd-party/jquery/js/jquery-migrate.min.js"></script>
+<script type="text/javascript">
+	$(document).bind("mobileinit", function(){
+		$.extend(  $.mobile , {
+			allowCrossDomainPages: true
+		});
+	});
+	document.addEventListener('deviceready', function () {
+		$.mobile.allowCrossDomainPages = true;
+		$.support.cors = true;
+		$.mobile.phonegapNavigationEnabled = true;
+	}, false);
+</script>
 <script type="text/javascript" src="assets/3rd-party/jquery-mobile/jquery.mobile-1.4.2.min.js"></script>
 <script type="text/javascript" src="assets/3rd-party/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="assets/js/core.min.js"></script>
@@ -66,12 +78,12 @@
 <script type="text/javascript" src="assets/app/routers/AppRouter.js"></script>
 <script type="text/javascript" src="assets/app/views/ShellView.js"></script>
 <script type="text/javascript" src="assets/app/views/HomeView.js"></script>
+<script type="text/javascript" src="assets/app/views/LoginView.js"></script>
+
 <!--<script type="text/javascript" src="assets/app/lib/require.js" data-main="assets/app/main"></script>-->
 
-<script src="assets/3rd-party/leaflet/leaflet.js"></script>
-<script src="assets/3rd-party/leaflet-usermarker/src/leaflet.usermarker.js"></script>
-
 <script type="text/javascript">
+
 	/*document.addEventListener( 'deviceready', onDeviceReady, false );
 
 	function onDeviceReady() {

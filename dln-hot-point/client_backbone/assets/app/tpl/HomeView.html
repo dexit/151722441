@@ -20,6 +20,7 @@
 </div>
 
 <script src="assets/3rd-party/leaflet/leaflet.js"></script>
+<script src="assets/3rd-party/leaflet-google/leaflet-google.js"></script>
 <script src="assets/3rd-party/leaflet-usermarker/src/leaflet.usermarker.js"></script>
 <script src="assets/js/dln-util.js"></script>
 <script src="assets/js/dln-geo.js"></script>
@@ -27,5 +28,8 @@
 <script src="assets/js/dln-marker.js"></script>
 <script src="assets/js/dln-map.js"></script>
 <script type="text/javascript">
-	var dln_map = new DLN_MapUser();
+	//$(window).on('ready', function () {
+	console.log('ready');
+	app.globals.map = new DLN_MapUser();
+	//});
 </script>

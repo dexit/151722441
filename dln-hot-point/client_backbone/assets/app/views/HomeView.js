@@ -1,4 +1,5 @@
 app.views.HomeView =  Backbone.View.extend({
+
 	initialize: function () {
 		var that = this;
 		app.utils.templates.get( 'HomeView', function(tpl){
@@ -7,8 +8,9 @@ app.views.HomeView =  Backbone.View.extend({
 	},
 
 	render: function (tpl) {
-		var template = _.template(tpl);
-		this.$el.html(template);
+		//var template = _.template(tpl);
+		$('#main .container').html(tpl);
+		//this.$el.html(template);
 
 		// Set full width for container
 		if ( ! $('#main .container').hasClass('dln-full-width') ) {
@@ -30,7 +32,7 @@ app.views.HomeView =  Backbone.View.extend({
 		//var map = new L.Map('dln_map', {center: new L.LatLng( 51.51, -0.11 ), zoom: 9});
 		//var googleLayer = new L.Google('ROADMAP');
 		//map.addLayer(googleLayer);
-		/*if ( $('.dln_check_point').length ) {
+		if ( $('.dln_check_point').length ) {
 			$(window).on('resize', function () {
 				var window_height = $(window).height();
 				var window_width  =  $(window).width();
@@ -43,27 +45,20 @@ app.views.HomeView =  Backbone.View.extend({
 				}
 			});
 			$('.dln_check_point').click(function () {
-				// Start tracking the User
-				console.log(navigator.geolocation);
-				var watch_id = navigator.geolocation.watchPosition(
-
-					// Success
-					function(position){
-						console.log(position);
-					},
-
-					// Error
-					function(error){
-						console.log(error);
-					},
-
-					// Settings
-					{ frequency: 3000, enableHighAccuracy: true });
-				console.log(watch_id);
+				var current_map = app.globals.map.getMap();
+				current_map.locate({
+					watch: true,
+					locate: true,
+					setView: false,
+					maxZoom: 16,
+					enableHighAccuracy: true
+				});
 
 				$(this).closest('.dln-collection-points').find('.dln-btn').toggleClass('open');
 			});
-		}*/
+		}
+
+
 
 		$(window).resize();
 	},
