@@ -1,32 +1,30 @@
-define(['jquery', 'underscore', 'backbone',
-	'text!tpl/ShellView.html',
-	'helpers/user-helper'
-], function ($, _, Backbone, tpl, userHelper) {
-	'use strict';
+app.views.ShellView = Backbone.View.extend({
 
-	return Backbone.View.extend({
+	initialize: function () {
+		var that = this;
+		app.utils.templates.get( 'ShellView', function(tpl){
+			that.render(tpl);
+		});
+	},
 
-		initialize: function () {
-			this.render();
-		},
+	render: function (tpl) {
+		var userHelper  = new app.helpers.userHelper();
+		var is_loggedin = userHelper.checkUserLoggedIn();
+		var user        = userHelper.getCurrentUser();
+		var params = {
+			is_loggedin : is_loggedin,
+			user: user,
+		};
 
-		render: function () {
-			var is_loggedin = userHelper.checkUserLoggedIn();
-			var user        = userHelper.getCurrentUser();
-			var params = {
-				is_loggedin : is_loggedin,
-				user: user,
-			};
-			var template = _.template( tpl, params );
-			this.$el.html(template);
+		var template = _.template( tpl, params );
+		this.$el.html(template);
 
-			// Set logout action
-			$('#dln_logout').on('click', function (e) {
-				e.preventDefault();
-				userHelper.logout();
-			});
+		// Set logout action
+		$('#dln_logout').on('click', function (e) {
+			e.preventDefault();
+			userHelper.logout();
+		});
 
-			return this;
-		},
-	});
+		return this;
+	},
 });

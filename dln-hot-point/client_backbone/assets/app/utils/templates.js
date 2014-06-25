@@ -1,4 +1,4 @@
-app.utils.templates = (function() {
+/*app.utils.templates = (function() {
 
 	var load = function(views, callback) {
 
@@ -21,5 +21,23 @@ app.utils.templates = (function() {
 	return {
 		load: load
 	};
+}());*/
+app.utils.templates = {
+	deferreds: {},
 
-}());
+	get: function (id, callback) {
+		var deferred = this.deferreds[id];
+
+		if ( deferred ) {
+			callback(deferred);
+		} else {
+			var that = this;
+			$.get('assets/app/tpl/' + id + '.html', function ( deferred ) {
+				that.deferreds[id] = deferred;
+				callback(deferred);
+			}, 'html').fail(function () {
+				console.log(id + " not found");
+			});
+		}
+	},
+};
