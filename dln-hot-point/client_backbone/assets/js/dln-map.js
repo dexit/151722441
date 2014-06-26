@@ -6,7 +6,8 @@
 	DLN_MapUser = Class.extend({
 		options: {
 			mapId: 'dln_map',
-			tileUrl: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+			//tileUrl: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
+			tileUrl: 'http://mt1.google.com/vt/lyrs=m@110&hl=pl&x={x}&y={y}&z={z}'
 		},
 
 		init: function(options){
@@ -15,8 +16,11 @@
 
 			_this._map = L.map(options.mapId, {
 				doubleClickZoom: false,
-				minZoom: '1',
-				maxZoom: '19'
+				minZoom: 1,
+				maxZoom: 19,
+				fadeAnimation: true,
+				zoomAnimation: true,
+				markerZoomAnimation: true,
 			});
 			// set lat/long HaNoi
 			_this._map.setView([21.0333, 105.85], 16);
@@ -35,6 +39,7 @@
 			_this._map.on('latlng', function () {
 				console.log('latlng');
 			});
+
 			// get current gps
 			_this._map.locate({
 				watch: false,
@@ -42,14 +47,29 @@
 				setView: true,
 				enableHighAccuracy: true
 			});
+
 			_this._map.on('locationfound', function(location) {
+				// Cache last latlong
+				if (location.latlng) {
+					_this.cache_latlng = location.latlng;
+				}
 				if(!_this.marker) {
 					_this.marker = L.dlnUserMarker(location.latlng, {pulsing:true}).addTo(_this._map);
 					_this._map.setZoom(16);
 				}
 				_this.marker.setLatLng(location.latlng);
+
 				$.mobile.loading( "hide" );
+
+				$('body').trigger('on_load_backbone');
 			});
+		},
+
+		setCenterView: function() {
+			var _this = this;
+			if ( _this.cache_latlng ) {
+				_this.map.setView( _this.cache_latlng );
+			}
 		},
 
 		setPosUser:function(map, position){
@@ -63,7 +83,8 @@
 		setTile: function(map, tileUrl) {
 			this._tile = L.tileLayer(tileUrl, {
 				attribution: 'DinhLN Hot Points',
-				maxZoom: 20
+				maxZoom: 19,
+				errorTileUrl: '/dln.png',
 			}).addTo(map);
 		},
 
@@ -71,4 +92,9 @@
 			return this._tile;
 		},
 	});
+
+	DLN_MapUser.getInstance = function () {
+		if (DLN_MapUser.instance == undefined) DLN_MapUser.instance = new DLN_MapUser();
+		return DLN_MapUser.instance;
+	};
 })(window);

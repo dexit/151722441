@@ -13,6 +13,9 @@
     padding: 0 !important;
     width: auto;
 }
+.dln_check_point {
+    display: none;
+}
 .dln-btn {
     font-size: 32px;
     border: 4px solid #FFFFFF;

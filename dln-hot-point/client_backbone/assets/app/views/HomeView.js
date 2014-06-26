@@ -7,16 +7,9 @@ app.views.HomeView =  Backbone.View.extend({
 		});
 	},
 
-	render: function (tpl) {
-		//var template = _.template(tpl);
-		$('#main .container').html(tpl);
-		//this.$el.html(template);
-
-		// Set full width for container
-		if ( ! $('#main .container').hasClass('dln-full-width') ) {
-			$('#main .container').addClass('dln-full-width');
-		}
-
+	loadEvents: function () {
+		console.log($('.dln_check_point'));
+		$('.dln_check_point').show();
 		// Bind resize window to fill dln_map
 		if ( $('#dln_map').length ) {
 			$(window).on('resize', function () {
@@ -28,10 +21,24 @@ app.views.HomeView =  Backbone.View.extend({
 				}
 			});
 		}
+	},
 
-		//var map = new L.Map('dln_map', {center: new L.LatLng( 51.51, -0.11 ), zoom: 9});
-		//var googleLayer = new L.Google('ROADMAP');
-		//map.addLayer(googleLayer);
+	render: function (tpl) {
+		var that = this;
+		//var template = _.template(tpl);
+		$('#main .container').html(tpl);
+		//this.$el.html(template);
+
+		// Set full width for container
+		if ( ! $('#main .container').hasClass('dln-full-width') ) {
+			$('#main .container').addClass('dln-full-width');
+		}
+
+		// Bind event load view
+		$('body').bind('on_load_backbone', function () {
+			that.loadEvents();
+		});
+
 		if ( $('.dln_check_point').length ) {
 			$(window).on('resize', function () {
 				var window_height = $(window).height();
@@ -44,6 +51,7 @@ app.views.HomeView =  Backbone.View.extend({
 					});
 				}
 			});
+
 			$('.dln_check_point').click(function () {
 				var current_map = app.globals.map.getMap();
 				current_map.locate({
@@ -57,8 +65,6 @@ app.views.HomeView =  Backbone.View.extend({
 				$(this).closest('.dln-collection-points').find('.dln-btn').toggleClass('open');
 			});
 		}
-
-
 
 		$(window).resize();
 	},

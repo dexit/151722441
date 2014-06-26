@@ -29,9 +29,6 @@
             // call super
             L.Marker.prototype.initialize.call(this, latlng, this.options);
 
-            this.on("move", function() {
-            }).on("remove", function() {
-            });
         },
 
         setPulsing: function(pulsing) {
