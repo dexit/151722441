@@ -27,8 +27,8 @@
         following tag to your config.xml; you will still have the INTERNET
         permission on your app, which PhoneGap requires.
     -->
-    <preference name="permissions"                value="none"/>
-	
+    <preference name="permissions"                value="INTERNET"/>
+
 	<gap:plugin name="org.apache.cordova.network-information" version="0.2.7" />
 	<gap:plugin name="org.apache.cordova.geolocation" version="0.3.7" />
 	<gap:plugin name="it.mobimentum.phonegapspinnerplugin" version="1.0.0" />

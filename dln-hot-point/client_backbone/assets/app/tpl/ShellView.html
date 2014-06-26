@@ -1,388 +1,284 @@
-<header id="header" class="navbar navbar-fixed-top">
-	<!-- START navbar header -->
-	<div class="navbar-header">
-		<!-- Brand -->
-		<a class="navbar-brand" href="javascript:void(0);">
-			<span class="template-logo"></span>
+<header class="bg-primary header header-md navbar navbar-fixed-top-xs box-shadow">
+	<div class="navbar-header aside-md dk"><a class="btn btn-link visible-xs"
+	                                          data-toggle="class:nav-off-screen,open" data-target="#nav,html"> <i
+			class="fa fa-bars"></i> </a> <a href="index-2.html" class="navbar-brand"> <img src="assets/images/logo.png"
+	                                                                                       class="m-r-sm"
+	                                                                                       alt="scale"> <span
+			class="hidden-nav-xs">Scale</span> </a> <a class="btn btn-link visible-xs" data-toggle="dropdown"
+	                                                   data-target=".user"> <i class="fa fa-cog"></i> </a></div>
+	<ul class="nav navbar-nav hidden-xs">
+		<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="i i-grid"></i>
 		</a>
-		<!--/ Brand -->
-	</div>
-	<!--/ END navbar header -->
-
-	<!-- START Toolbar -->
-	<div class="navbar-toolbar clearfix">
-		<!-- START Left nav -->
-		<ul class="nav navbar-nav navbar-left">
-			<!-- Offcanvas left: This menu will take position at the top of template header (mobile only). Make sure that only #header have the `position: relative`, or it may cause unwanted behavior -->
-			<li class="navbar-main hidden-lg hidden-md">
-				<a href="javascript:void(0);" data-toggle="offcanvas" data-direction="ltr" rel="tooltip" title="Menu sidebar">
-					 <span class="meta">
-						  <span class="icon"><i class="ico-paragraph-left3"></i></span>
-					 </span>
-				</a>
-			</li>
-			<!--/ Offcanvas left -->
-
-			<!-- Message dropdown -->
-			<li class="dropdown custom">
-				<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-					 <span class="meta">
-						  <span class="icon"><i class="ico-bubbles2"></i></span>
-					 </span>
-				</a>
-				<!-- Dropdown menu -->
-				<div class="dropdown-menu" role="menu">
-					<div class="dropdown-header">
-						<span class="title">Messages</span>
-						<span class="option text-right"><a href="javascript:void(0);">New message</a></span>
+			<section class="dropdown-menu aside-lg bg-white on animated fadeInLeft">
+				<div class="row m-l-none m-r-none m-t m-b text-center">
+					<div class="col-xs-4">
+						<div class="padder-v"><a href="#"> <span class="m-b-xs block"> <i
+								class="i i-mail i-2x text-primary-lt"></i> </span>
+							<small class="text-muted">Mailbox</small>
+						</a></div>
 					</div>
-					<div class="dropdown-body slimscroll">
-						<!-- Search form -->
-						<form class="form-horizontal" action="#">
-							<div class="has-icon">
-								<input type="text" class="form-control" placeholder="Search message...">
-								<i class="ico-search form-control-icon"></i>
-							</div>
-						</form>
-						<!--/ Search form -->
-
-						<!-- Message list -->
-						<div class="media-list">
-							<a href="page-message-rich.html" class="media border-dotted">
-					  <span class="pull-left">
-							<img src="image/avatar/avatar6.jpg" class="media-object img-circle" alt="">
-					  </span>
-					  <span class="media-body">
-							<span class="media-heading">Arthur Abbott</span>
-							<span class="media-text ellipsis nm">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</span>
-							<!-- meta icon -->
-							<span class="media-meta"><i class="ico-star6"></i></span>
-							<span class="media-meta"><i class="ico-attachment"></i></span>
-							<span class="media-meta pull-right">2m</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="page-message-rich.html" class="media border-dotted read">
-					  <span class="pull-left">
-							<img src="image/avatar/avatar1.jpg" class="media-object img-circle" alt="">
-					  </span>
-					  <span class="media-body">
-							<span class="media-heading">Martina Poole</span>
-							<span class="media-text ellipsis nm">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.</span>
-							<!-- meta icon -->
-							<span class="media-meta"><i class="ico-reply"></i></span>
-							<span class="media-meta"><i class="ico-attachment"></i></span>
-							<span class="media-meta pull-right">20m</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="page-message-rich.html" class="media border-dotted">
-					  <span class="pull-left">
-							<img src="image/avatar/avatar2.jpg" class="media-object img-circle" alt="">
-					  </span>
-					  <span class="media-body">
-							<span class="media-heading">Elvis Christensen</span>
-							<span class="media-text ellipsis nm">Duis aute irure dolor in reprehenderit in voluptate velit esse.</span>
-							<!-- meta icon -->
-							<span class="media-meta"><i class="ico-attachment"></i></span>
-							<span class="media-meta pull-right">5h</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="page-message-rich.html" class="media border-dotted read">
-					  <span class="pull-left">
-							<img src="image/avatar/avatar3.jpg" class="media-object img-circle" alt="">
-					  </span>
-					  <span class="media-body">
-							<span class="media-heading">Walter Foster</span>
-							<span class="media-text ellipsis nm">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
-							<!-- meta icon -->
-							<span class="media-meta"><i class="ico-attachment"></i></span>
-							<span class="media-meta pull-right">21h</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="page-message-rich.html" class="media border-dotted read">
-					  <span class="pull-left">
-							<img src="image/avatar/avatar4.jpg" class="media-object img-circle" alt="">
-					  </span>
-					  <span class="media-body">
-							<span class="media-heading">Callum Santosr</span>
-							<span class="media-text ellipsis nm">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</span>
-							<!-- meta icon -->
-							<span class="media-meta pull-right">1d</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="page-message-rich.html" class="media border-dotted read">
-					  <span class="pull-left">
-							<img src="image/avatar/avatar5.jpg" class="media-object img-circle" alt="">
-					  </span>
-					  <span class="media-body">
-							<span class="media-heading">Noelani Blevins</span>
-							<span class="media-text ellipsis nm">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis.</span>
-							<!-- meta icon -->
-							<span class="media-meta pull-right">2d</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="page-message-rich.html" class="media border-dotted read">
-					  <span class="pull-left">
-							<img src="image/avatar/avatar8.jpg" class="media-object img-circle" alt="">
-					  </span>
-					  <span class="media-body">
-							<span class="media-heading">Carl Johnson</span>
-							<span class="media-text ellipsis nm">Curabitur consequat, lectus sit amet luctus vulputate, nisi sem</span>
-							<!-- meta icon -->
-							<span class="media-meta"><i class="ico-attachment"></i></span>
-							<span class="media-meta pull-right">2w</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="page-message-rich.html" class="media border-dotted read">
-					  <span class="pull-left">
-							<img src="image/avatar/avatar9.jpg" class="media-object img-circle" alt="">
-					  </span>
-					  <span class="media-body">
-							<span class="media-heading">Tamara Moon</span>
-							<span class="media-text ellipsis nm">Aliquam ultrices iaculis odio. Nam interdum enim non nisi. Aenean eget metus.</span>
-							<!-- meta icon -->
-							<span class="media-meta"><i class="ico-attachment"></i></span>
-							<span class="media-meta pull-right">2w</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-						</div>
-						<!--/ Message list -->
+					<div class="col-xs-4">
+						<div class="padder-v"><a href="#"> <span class="m-b-xs block"> <i
+								class="i i-calendar i-2x text-danger-lt"></i> </span>
+							<small class="text-muted">Calendar</small>
+						</a></div>
+					</div>
+					<div class="col-xs-4">
+						<div class="padder-v"><a href="#"> <span class="m-b-xs block"> <i
+								class="i i-map i-2x text-success-lt"></i> </span>
+							<small class="text-muted">Map</small>
+						</a></div>
+					</div>
+					<div class="col-xs-4">
+						<div class="padder-v"><a href="#"> <span class="m-b-xs block"> <i
+								class="i i-paperplane i-2x text-info-lt"></i> </span>
+							<small class="text-muted">Trainning</small>
+						</a></div>
+					</div>
+					<div class="col-xs-4">
+						<div class="padder-v"><a href="#"> <span class="m-b-xs block"> <i
+								class="i i-images i-2x text-muted"></i> </span>
+							<small class="text-muted">Photos</small>
+						</a></div>
+					</div>
+					<div class="col-xs-4">
+						<div class="padder-v"><a href="#"> <span class="m-b-xs block"> <i
+								class="i i-clock i-2x text-warning-lter"></i> </span>
+							<small class="text-muted">Timeline</small>
+						</a></div>
 					</div>
 				</div>
-				<!--/ Dropdown menu -->
-			</li>
-			<!--/ Message dropdown -->
-
-			<!-- Notification dropdown -->
-			<li class="dropdown custom">
-				<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-												 <span class="meta">
-													  <span class="icon"><i class="ico-bell"></i></span>
-													  <span class="hasnotification hasnotification-danger"></span>
-												 </span>
-				</a>
-				<!-- Dropdown menu -->
-				<div class="dropdown-menu" role="menu">
-					<div class="dropdown-header">
-						<span class="title">Notification (5)</span>
-						<span class="option text-right"><a href="javascript:void(0);">Clear all</a></span>
+			</section>
+		</li>
+	</ul>
+	<form class="navbar-form navbar-left input-s-lg m-t m-l-n-xs hidden-xs" role="search">
+		<div class="form-group">
+			<div class="input-group"><span class="input-group-btn"> <button type="submit"
+			                                                                class="btn btn-sm bg-white b-white btn-icon">
+				<i class="fa fa-search"></i></button> </span> <input type="text"
+			                                                         class="form-control input-sm no-border"
+			                                                         placeholder="Search apps, projects..."></div>
+		</div>
+	</form>
+	<ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user user">
+		<li class="hidden-xs"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i class="i i-chat3"></i>
+			<span class="badge badge-sm up bg-danger count">2</span> </a>
+			<section class="dropdown-menu aside-xl animated flipInY">
+				<section class="panel bg-white">
+					<div class="panel-heading b-light bg-light"><strong>You have <span class="count">2</span>
+						notifications</strong></div>
+					<div class="list-group list-group-alt"><a href="#" class="media list-group-item"> <span
+							class="pull-left thumb-sm"> <img src="assets/images/a0.png" alt="..."
+					                                         class="img-circle"> </span> <span
+							class="media-body block m-b-none"> Use awesome animate.css<br> <small
+							class="text-muted">10 minutes ago
+					</small> </span> </a> <a href="#" class="media list-group-item"> <span
+							class="media-body block m-b-none"> 1.0 initial released<br> <small class="text-muted">1
+						hour ago
+					</small> </span> </a></div>
+					<div class="panel-footer text-sm"><a href="#" class="pull-right"><i class="fa fa-cog"></i></a>
+						<a href="#notes" data-toggle="class:show animated fadeInRight">See all the notifications</a>
 					</div>
-					<div class="dropdown-body slimscroll">
-						<!-- Message list -->
-						<div class="media-list">
-							<a href="javascript:void(0);" class="media border-dotted">
-					  <span class="media-object pull-left">
-							<i class="ico-instagram2 bgcolor-teal"></i>
-					  </span>
-					  <span class="media-body">
-							<span class="media-text">Lorem ipsum <span class="text-primary semibold">dolor sit</span> amet, consectetur adipisicing elit.</span>
-							<!-- meta icon -->
-							<span class="media-meta pull-right">2m</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="javascript:void(0);" class="media border-dotted">
-					  <span class="media-object pull-left">
-							<i class="ico-queen"></i>
-					  </span>
-					  <span class="media-body">
-							<span class="media-text">Ut <span class="text-primary semibold">enim</span> ad minim veniam, aliquip ex ea commodo.</span>
-							<!-- meta icon -->
-							<span class="media-meta pull-right">10m</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="javascript:void(0);" class="media read border-dotted">
-					  <span class="media-object pull-left">
-							<i class="ico-file-check bgcolor-success"></i>
-					  </span>
-					  <span class="media-body">
-							<span class="media-text">Excepteur sint <span class="text-primary semibold">occaecat cupidatat</span> non laborum.</span>
-							<!-- meta icon -->
-							<span class="media-meta pull-right">1d</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="javascript:void(0);" class="media read border-dotted">
-					  <span class="media-object pull-left">
-							<i class="ico-basket2 bgcolor-info"></i>
-					  </span>
-					  <span class="media-body">
-							<span class="media-text">Duis aute irure dolor in <span class="text-primary semibold">reprehenderit</span> in voluptate.</span>
-							<!-- meta icon -->
-							<span class="media-meta pull-right">2d</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="javascript:void(0);" class="media read border-dotted">
-					  <span class="media-object pull-left">
-							<i class="ico-call-incoming"></i>
-					  </span>
-					  <span class="media-body">
-							<span class="media-text">Aliquip ex ea commodo consequat.</span>
-							<!-- meta icon -->
-							<span class="media-meta pull-right">1w</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="javascript:void(0);" class="media read border-dotted">
-					  <span class="media-object pull-left">
-							<i class="ico-alarm2"></i>
-					  </span>
-					  <span class="media-body">
-							<span class="media-text">Excepteur sint <span
-									class="text-primary semibold">occaecat</span> cupidatat non.</span>
-							<!-- meta icon -->
-							<span class="media-meta pull-right">12w</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-
-							<a href="javascript:void(0);" class="media read border-dotted">
-					  <span class="media-object pull-left">
-							<i class="ico-checkmark3 bgcolor-success"></i>
-					  </span>
-					  <span class="media-body">
-							<span class="media-text">Lorem ipsum dolor sit amet, <span class="text-primary semibold">consectetur</span> adipisicing elit.</span>
-							<!-- meta icon -->
-							<span class="media-meta pull-right">14w</span>
-							<!--/ meta icon -->
-					  </span>
-							</a>
-						</div>
-						<!--/ Message list -->
-					</div>
-				</div>
-				<!--/ Dropdown menu -->
-			</li>
-			<!--/ Notification dropdown -->
-
-			<!-- Search form toggler  -->
-			<li>
-				<a href="javascript:void(0);" data-toggle="dropdown" data-target="#dropdown-form">
-												 <span class="meta">
-													  <span class="icon"><i class="ico-search"></i></span>
-												 </span>
-				</a>
-			</li>
-		<!--/ Search form toggler -->
-		</ul>
-		<!--/ END Left nav -->
-
-	<!-- START navbar form -->
-	<div class="navbar-form navbar-left dropdown" id="dropdown-form">
-		<form action="#" role="search">
-			<div class="has-icon">
-				<input type="text" class="form-control" placeholder="Search application...">
-				<i class="ico-search form-control-icon"></i>
-			</div>
-		</form>
-	</div>
-	<!-- START navbar form -->
-
-	<!-- START Right nav -->
-	<% if ( is_loggedin ) { %>
-		<% console.log(user) %>
-	<ul class="nav navbar-nav navbar-right">
-		<!-- Profile dropdown -->
-		<li class="dropdown profile navbar-main">
-			<a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">
-				 <span class="meta">
-					  <span class="avatar"><img src="http://graph.facebook.com/<%= user.fb_uid %>/picture" class="img-circle"/></span>
-					  <span class="text hidden-xs hidden-sm"><%= user.name %></span>
-					  <span class="arrow"></span>
-				 </span>
-			</a>
-			<ul class="dropdown-menu" role="menu">
-				<li class="pa15">
-					<h5 class="semibold hidden-md hidden-lg">
-						<%= user.name %><br/>
-						<small class="text-muted"><%= user.email %></small>
-					</h5>
-				</li>
+				</section>
+			</section>
+		</li>
+		<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <span
+				class="thumb-sm avatar pull-left"> <img src="assets/images/a0.png" alt="..."> </span> John.Smith <b
+				class="caret"></b> </a>
+			<ul class="dropdown-menu animated fadeInRight">
+				<li><span class="arrow top"></span> <a href="#">Settings</a></li>
+				<li><a href="profile.html">Profile</a></li>
+				<li><a href="#"> <span class="badge bg-danger pull-right">3</span> Notifications </a></li>
+				<li><a href="docs.html">Help</a></li>
 				<li class="divider"></li>
-				<li><a href="javascript:void(0);"><span class="icon"><i class="ico-user-plus2"></i></span> My Accounts</a></li>
-				<li><a href="javascript:void(0);"><span class="icon"><i class="ico-cog4"></i></span> Profile Setting</a></li>
-				<li><a href="javascript:void(0);"><span class="icon"><i class="ico-question"></i></span> Help</a></li>
-				<li class="divider"></li>
-				<li><a id="dln_logout" href="javascript:void(0);"><span class="icon"><i class="ico-exit"></i></span> Sign Out</a></li>
+				<li><a href="modal.lockme.html" data-toggle="ajaxModal">Logout</a></li>
 			</ul>
 		</li>
-		<!--/ Profile dropdown -->
 	</ul>
-	<% } %>
-	<!--/ END Right nav -->
-	</div>
-<!--/ END Toolbar / link -->
 </header>
 
-<aside class="sidebar sidebar-left sidebar-menu">
-	<!-- START Sidebar Content -->
-	<div class="viewport" style="position: relative; overflow: hidden; width: auto;">
-		<section class="content slimscroll" style="overflow: hidden; width: auto;">
-			<!-- START Template Navigation/Menu -->
-			<ul class="topmenu" id="nav">
-				<li class="menuheader">MAIN MENU</li>
-				<li class="active">
-					<a href="#/login">
-						<span class="figure"><i class="ico-home2"></i></span>
-						<span class="text">Login</span>
-						<span class="number"><span class="label label-danger">5</span></span>
-					</a>
-				</li>
-				<li class="open">
-					<a data-parent="#nav" data-target="#components" data-toggle="submenu" href="javascript:void(0);">
-						<span class="figure"><i class="ico-screwdriver"></i></span>
-						<span class="text">Components</span>
-						<span class="arrow"></span>
-					</a>
-					<!-- START 2nd Level Menu -->
-					<ul class="submenu collapse" id="components" style="height: 0px;">
-						<li>
-							<a href="component-animation.html">
-								<span class="text">Animation</span>
-							</a>
-						</li>
-						<li>
-							<a href="component-typography.html">
-								<span class="text">Typography</span>
-							</a>
-						</li>
-					</ul>
-					<!--/ END 2nd Level Menu -->
-				</li>
-				<li class="menuheader">OTHERS</li>
-			</ul>
-			<!--/ END Template Navigation/Menu -->
+<section id="main" class="hbox stretch">
+	<aside id="nav" class="bg-light lt b-r b-light aside-md hidden-print hidden-xs nav-xs">
+		<section class="vbox">
+			<section class="w-f scrollable">
+				<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 0px;">
+					<div data-railopacity="0.2" data-size="10px" data-distance="0" data-disable-fade-out="true"
+					     data-height="auto" class="slim-scroll" style="overflow: hidden; width: auto; height: 0px;">
+						<div class="clearfix wrapper dk nav-user hidden-xs">
+							<div class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
+									class="thumb avatar pull-left m-r"> <img alt="..." class="dker" src="images/a0.png"> <i
+									class="on md b-light"></i> </span> <span class="hidden-nav-xs clear"> <span
+									class="block m-t-xs"> <strong class="font-bold text-lt">John.Smith</strong> <b
+									class="caret"></b> </span> <span
+									class="text-muted text-xs block">Art Director</span> </span> </a>
+								<ul class="dropdown-menu animated fadeInRight m-t-xs">
+									<li><span class="arrow top hidden-nav-xs"></span> <a href="#">Settings</a></li>
+									<li><a href="profile.html">Profile</a></li>
+									<li><a href="#"> <span class="badge bg-danger pull-right">3</span> Notifications
+									</a></li>
+									<li><a href="docs.html">Help</a></li>
+									<li class="divider"></li>
+									<li><a data-toggle="ajaxModal" href="modal.lockme.html">Logout</a></li>
+								</ul>
+							</div>
+						</div>
+						<!-- nav -->
+						<nav class="nav-primary hidden-xs">
+							<div class="text-muted text-sm hidden-nav-xs padder m-t-sm m-b-sm">Start</div>
+							<ul data-ride="collapse" class="nav nav-main">
+								<li><a class="auto" href="index-2.html"> <i class="i i-statistics icon"> </i> <span
+										class="font-bold">Overview</span> </a></li>
+								<li class="active"><a class="auto" href="#"> <span class="pull-right text-muted"> <i
+										class="i i-circle-sm-o text"></i> <i
+										class="i i-circle-sm text-active"></i> </span> <b
+										class="badge bg-danger pull-right">4</b> <i class="i i-stack icon"> </i> <span
+										class="font-bold">Layouts</span> </a>
+									<ul class="nav dk">
+										<li class="active"><a class="auto" href="layout-color.html"> <i
+												class="i i-dot"></i> <span>Color option</span> </a></li>
+										<li><a class="auto" href="layout-hbox.html"> <i class="i i-dot"></i> <span>Hbox layout</span>
+										</a></li>
+										<li><a class="auto" href="layout-boxed.html"> <i class="i i-dot"></i> <span>Boxed layout</span>
+										</a></li>
+										<li><a class="auto" href="layout-fluid.html"> <i class="i i-dot"></i> <span>Fluid layout</span>
+										</a></li>
+									</ul>
+								</li>
+								<li><a class="auto" href="#"> <span class="pull-right text-muted"> <i
+										class="i i-circle-sm-o text"></i> <i
+										class="i i-circle-sm text-active"></i> </span> <i class="i i-lab icon"> </i>
+									<span class="font-bold">UI kit</span> </a>
+									<ul class="nav dk">
+										<li><a class="auto" href="buttons.html"> <i class="i i-dot"></i>
+											<span>Buttons</span> </a></li>
+										<li><a class="auto" href="icons.html"> <b
+												class="badge bg-info pull-right">369</b> <i class="i i-dot"></i> <span>Icons</span>
+										</a></li>
+										<li><a class="auto" href="grid.html"> <i class="i i-dot"></i> <span>Grid</span>
+										</a></li>
+										<li><a class="auto" href="widgets.html"> <b
+												class="badge bg-dark pull-right">8</b> <i class="i i-dot"></i> <span>Widgets</span>
+										</a></li>
+										<li><a class="auto" href="components.html"> <i class="i i-dot"></i> <span>Components</span>
+										</a></li>
+										<li><a class="auto" href="list.html"> <i class="i i-dot"></i>
+											<span>List group</span> </a></li>
+										<li><a class="auto" href="#table"> <span class="pull-right text-muted"> <i
+												class="i i-circle-sm-o text"></i> <i
+												class="i i-circle-sm text-active"></i> </span> <i class="i i-dot"></i>
+											<span>Table</span> </a>
+											<ul class="nav dker">
+												<li><a href="table-static.html"> <i class="i i-dot"></i> <span>Table static</span>
+												</a></li>
+												<li><a href="table-datatable.html"> <b class="label bg-dark pull-right">1.10</b>
+													<i class="i i-dot"></i> <span>Datatable</span> </a></li>
+											</ul>
+										</li>
+										<li><a class="auto" href="#form"> <span class="pull-right text-muted"> <i
+												class="i i-circle-sm-o text"></i> <i
+												class="i i-circle-sm text-active"></i> </span> <i class="i i-dot"></i>
+											<span>Form</span> </a>
+											<ul class="nav dker">
+												<li><a href="form-elements.html"> <i class="i i-dot"></i> <span>Form elements</span>
+												</a></li>
+												<li><a href="form-validation.html"> <i class="i i-dot"></i> <span>Form validation</span>
+												</a></li>
+												<li><a href="form-wizard.html"> <i class="i i-dot"></i> <span>Form wizard</span>
+												</a></li>
+											</ul>
+										</li>
+										<li><a class="auto" href="chart.html"> <i class="i i-dot"></i>
+											<span>Chart</span> </a></li>
+										<li><a class="auto" href="portlet.html"> <i class="i i-dot"></i>
+											<span>Portlet</span> </a></li>
+										<li><a class="auto" href="timeline.html"> <i class="i i-dot"></i>
+											<span>Timeline</span> </a></li>
+									</ul>
+								</li>
+								<li><a class="auto" href="#"> <span class="pull-right text-muted"> <i
+										class="i i-circle-sm-o text"></i> <i
+										class="i i-circle-sm text-active"></i> </span> <i class="i i-docs icon"> </i>
+									<span class="font-bold">Pages</span> </a>
+									<ul class="nav dk">
+										<li><a class="auto" href="profile.html"> <i class="i i-dot"></i>
+											<span>Profile</span> </a></li>
+										<li><a class="auto" href="profile-2.html"> <i class="i i-dot"></i> <span>Profile 2</span>
+										</a></li>
+										<li><a class="auto" href="search.html"> <i class="i i-dot"></i>
+											<span>Search</span> </a></li>
+										<li><a class="auto" href="invoice.html"> <i class="i i-dot"></i>
+											<span>Invoice</span> </a></li>
+										<li><a class="auto" href="intro.html"> <i class="i i-dot"></i>
+											<span>Intro</span> </a></li>
+										<li><a class="auto" href="master.html"> <i class="i i-dot"></i>
+											<span>Master</span> </a></li>
+										<li><a class="auto" href="gmap.html"> <i class="i i-dot"></i>
+											<span>Google Map</span> </a></li>
+										<li><a class="auto" href="jvectormap.html"> <i class="i i-dot"></i> <span>Vector Map</span>
+										</a></li>
+										<li><a class="auto" href="signin.html"> <i class="i i-dot"></i>
+											<span>Signin</span> </a></li>
+										<li><a class="auto" href="signup.html"> <i class="i i-dot"></i>
+											<span>Signup</span> </a></li>
+										<li><a class="auto" href="404.html"> <i class="i i-dot"></i> <span>404</span>
+										</a></li>
+									</ul>
+								</li>
+								<li><a class="auto" href="#"> <span class="pull-right text-muted"> <i
+										class="i i-circle-sm-o text"></i> <i
+										class="i i-circle-sm text-active"></i> </span> <i class="i i-grid2 icon"> </i>
+									<span class="font-bold">Apps</span> </a>
+									<ul class="nav dk">
+										<li><a class="auto" href="mail.html"> <b class="badge bg-success lt pull-right">2</b>
+											<i class="i i-dot"></i> <span>Mailbox</span> </a></li>
+										<li><a class="auto" href="fullcalendar.html"> <i class="i i-dot"></i> <span>Calendar</span>
+										</a></li>
+										<li><a class="auto" href="project.html"> <i class="i i-dot"></i>
+											<span>Project</span> </a></li>
+										<li><a class="auto" href="media.html"> <i class="i i-dot"></i>
+											<span>Media</span> </a></li>
+										<li><a class="auto" href="chat.html"> <i class="i i-dot"></i> <span>Chat</span>
+										</a></li>
+										<li><a class="auto" href="contacts.html"> <i class="i i-dot"></i>
+											<span>Contacts</span> </a></li>
+										<li><a class="auto" href="note.html"> <i class="i i-dot"></i> <span>Note</span>
+										</a></li>
+									</ul>
+								</li>
+							</ul>
+							<div class="line dk hidden-nav-xs"></div>
+							<div class="text-muted text-xs hidden-nav-xs padder m-t-sm m-b-sm">Lables</div>
+							<ul class="nav">
+								<li><a href="mail.html#work"> <i class="i i-circle-sm text-info-dk"></i> <span>Work space</span>
+								</a></li>
+								<li><a href="mail.html#social"> <i class="i i-circle-sm text-success-dk"></i> <span>Connection</span>
+								</a></li>
+								<li><a href="mail.html#projects"> <i class="i i-circle-sm text-danger-dk"></i> <span>Projects</span>
+								</a></li>
+							</ul>
+							<div class="text-muted text-xs hidden-nav-xs padder m-t-sm m-b-sm">Circles</div>
+							<ul class="nav">
+								<li><a href="#"> <i class="i i-circle-sm-o text-success-lt"></i> <span>College</span>
+								</a></li>
+								<li><a href="#"> <i class="i i-circle-sm-o text-warning"></i> <span>Social</span> </a>
+								</li>
+							</ul>
+						</nav>
+						<!-- / nav --> </div>
+					<div class="slimScrollBar"
+					     style="background: none repeat scroll 0% 0% rgb(0, 0, 0); width: 10px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 0px; height: 618px;"></div>
+					<div class="slimScrollRail"
+					     style="width: 10px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: none repeat scroll 0% 0% rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 0px;"></div>
+				</div>
+			</section>
+			<footer class="footer hidden-xs no-padder text-center-nav-xs"><a
+					class="btn btn-icon icon-muted btn-inactive pull-right m-l-xs m-r-xs hidden-nav-xs"
+					data-toggle="ajaxModal" href="modal.lockme.html"> <i class="i i-logout"></i> </a> <a
+					class="btn btn-icon icon-muted btn-inactive m-l-xs m-r-xs" data-toggle="class:nav-xs" href="#nav">
+				<i class="i i-circleleft text"></i> <i class="i i-circleright text-active"></i> </a></footer>
 		</section>
-		<div class="scrollbar"
-			  style="background: none repeat scroll 0% 0% rgb(0, 0, 0); width: 6px; position: absolute; top: 0px; opacity: 0.4; border-radius: 7px; z-index: 99; right: 0px; height: 855px; display: none;"></div>
-		<div class="scrollrail"
-			  style="width: 6px; height: 100%; position: absolute; top: 0px; display: block; border-radius: 7px; background: none repeat scroll 0% 0% rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 0px;"></div>
-	</div>
-	<!--/ END Sidebar Container -->
-</aside>
+	</aside>
 
-<section id="main" role="main">
-	<section class="container">
+	<section class="container content">
 	</section>
 </section>

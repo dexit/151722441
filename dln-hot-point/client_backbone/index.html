@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="dlnApp">
+<html class="app">
 <head lang="en">
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
@@ -15,43 +15,27 @@
 			href="asets/images/touch/apple-touch-icon-72x72-precomposed.png">
 	<link rel="apple-touch-icon-precomposed" href="assets/images/touch/apple-touch-icon-57x57-precomposed.png">
 	<link rel="shortcut icon" href="assets/images/touch/apple-touch-icon.png">
-	<link rel="stylesheet" href="assets/3rd-party/jquery-mobile/jquery.mobile-1.4.2.min.css">
-	<link rel="stylesheet" href="assets/3rd-party/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="assets/css/layout.min.css">
-	<link rel="stylesheet" href="assets/css/uielement.min.css">
-
+	<link rel="stylesheet" href="assets/3rd-party/jquery-mobile/jquery.mobile-1.4.2.min.css" />
+	<link rel="stylesheet" href="assets/css/app.v1.css" type="text/css"/>
 	<link rel="stylesheet" href="assets/css/dln-app.css">
-   <link rel="stylesheet" href="assets/3rd-party/dln-icon-point/css/dln-icon-point.css">
+    <link rel="stylesheet" href="assets/3rd-party/dln-icon-point/css/dln-icon-point.css">
+	<link rel="stylesheet" href="assets/fonts/dln-ico-font/style.css">
 
+	<!--[if lt IE 9]>
+	<script src="assets/js/ie/html5shiv.js"></script>
+	<script src="assets/js/ie/respond.min.js"></script>
+	<script src="assets/js/ie/excanvas.js"></script> <![endif]-->
 	<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 
 </head>
 <body data-page="page-login">
 
-<div id="dln_content">
+<section id="dln_content" class="vbox">
 
-</div>
-
-<!--<script type="text/javascript" src="assets/app/helpers/user-helper.js"></script>
-<script type="text/javascript" src="assets/app/controllers/main-controller.js"></script>
-<script type="text/javascript" src="assets/app/controllers/success-controller.js"></script>-->
-
-
-<!--
-<script type="text/javascript" src="assets/3rd-party/modernizr/js/modernizr.min.js"></script>
+</section>
 <script type="text/javascript" src="assets/3rd-party/jquery/js/jquery.min.js"></script>
-<script type="text/javascript" src="assets/3rd-party/jquery/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="assets/3rd-party/jquery/js/jquery-ui-touch.min.js"></script>
-<script type="text/javascript" src="assets/3rd-party/jquery/js/jquery-migrate.min.js"></script>
-<script type="text/javascript" src="assets/3rd-party/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/js/core.min.js"></script>
-<script type="text/javascript" src="assets/js/app.min.js"></script>
--->
-<script type="text/javascript" src="assets/3rd-party/modernizr/js/modernizr.min.js"></script>
-<script type="text/javascript" src="assets/3rd-party/jquery/js/jquery.min.js"></script>
-<script type="text/javascript" src="assets/3rd-party/jquery/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="assets/3rd-party/jquery/js/jquery-ui-touch.min.js"></script>
-<script type="text/javascript" src="assets/3rd-party/jquery/js/jquery-migrate.min.js"></script>
+<script src="assets/js/app.v1.js"></script>
+<script type="text/javascript" src="assets/3rd-party/jquery-mobile/jquery.mobile-1.4.2.min.js"></script>
 <script type="text/javascript">
 	$(document).bind("mobileinit", function(){
 		$.extend(  $.mobile , {
@@ -64,10 +48,6 @@
 		$.mobile.phonegapNavigationEnabled = true;
 	}, false);
 </script>
-<script type="text/javascript" src="assets/3rd-party/jquery-mobile/jquery.mobile-1.4.2.min.js"></script>
-<script type="text/javascript" src="assets/3rd-party/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/js/core.min.js"></script>
-<script type="text/javascript" src="assets/js/app.min.js"></script>
 
 <script type="text/javascript" src="assets/app/lib/underscore-min.js"></script>
 <script type="text/javascript" src="assets/app/lib/backbone-min.js"></script>

@@ -8,19 +8,6 @@ app.views.HomeView =  Backbone.View.extend({
 	},
 
 	loadEvents: function () {
-		console.log($('.dln_check_point'));
-		$('.dln_check_point').show();
-		// Bind resize window to fill dln_map
-		if ( $('#dln_map').length ) {
-			$(window).on('resize', function () {
-				var window_height = $(window).height();
-				if ( window_height > 100 ) {
-					$('#dln_map').height(window_height - 100);
-				} else {
-					$('#dln_map').height(500);
-				}
-			});
-		}
 	},
 
 	render: function (tpl) {
@@ -39,20 +26,37 @@ app.views.HomeView =  Backbone.View.extend({
 			that.loadEvents();
 		});
 
+
+
+		// Bind resize window to fill dln_map
+		if ( $('#dln_map').length ) {
+			$(window).on('resize', function () {
+				var window_height = $(window).height();
+				console.log(window_height);
+				if ( window_height > 100 ) {
+					$('#dln_map').height(window_height - 50);
+				} else {
+					$('#dln_map').height(500);
+				}
+			});
+			$(window).resize();
+		}
+
 		if ( $('.dln_check_point').length ) {
 			$(window).on('resize', function () {
 				var window_height = $(window).height();
 				var window_width  =  $(window).width();
 
-				if ( window_height > 50 ) {
+				/*if ( window_height > 50 ) {
 					$('.dln-collection-points').css({
 						top : window_height - 84,
 						left: window_width / 2 - 32
 					});
-				}
+				}*/
 			});
+			$(window).resize();
 
-			$('.dln_check_point').click(function () {
+			/*$('.dln_check_point').click(function () {
 				var current_map = app.globals.map.getMap();
 				current_map.locate({
 					watch: true,
@@ -63,9 +67,7 @@ app.views.HomeView =  Backbone.View.extend({
 				});
 
 				$(this).closest('.dln-collection-points').find('.dln-btn').toggleClass('open');
-			});
+			});*/
 		}
-
-		$(window).resize();
 	},
 });

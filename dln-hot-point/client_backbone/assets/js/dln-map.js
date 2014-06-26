@@ -16,7 +16,6 @@
 
 			_this._map = L.map(options.mapId, {
 				doubleClickZoom: false,
-				minZoom: 1,
 				maxZoom: 19,
 				fadeAnimation: true,
 				zoomAnimation: true,
@@ -84,7 +83,6 @@
 			this._tile = L.tileLayer(tileUrl, {
 				attribution: 'DinhLN Hot Points',
 				maxZoom: 19,
-				errorTileUrl: '/dln.png',
 			}).addTo(map);
 		},
 
