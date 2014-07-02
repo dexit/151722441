@@ -1,8 +1,8 @@
+var _ = require('underscore');
 var slugs = require('slugs');
-var Room = require('room.js');
+var Room = require('./room.js');
 var people = {};
 var rooms = {};
-var rooms_helper = require('rooms-helpers.js');
 var sockets = [];
 var chatHistory = {};
 
@@ -20,7 +20,9 @@ function checkExistsRoom( slug_name ) {
 function findRoom( slug_name ) {
 	var room = null;
 	_.find( rooms, function ( key, value ) {
-		console.log(key);
+		if ( key.id === slug_name ) {
+			return room = key;
+		}
 	} );
 	return room;
 }
@@ -29,7 +31,8 @@ module.exports = function (io, _) {
 	io.sockets.on( 'connection', function ( client ) {
 
 		client.on( 'join-server', function ( user_id, city_name ) {
-			var exist = false;
+			console.log( 'user id ' + user_id + ' has joined!' );
+			var exists = false;
 			var ownerRoomID = inRoomID = null;
 
 			// convert city name to slug name
@@ -42,7 +45,7 @@ module.exports = function (io, _) {
 				return;
 			}
 
-			exist = checkExistsRoom( slug_name );
+			exists = checkExistsRoom( slug_name );
 			if ( ! exists ) {
 				// Create new room
 				var room = new Room( city_name, slug_name, user_id );
@@ -52,6 +55,8 @@ module.exports = function (io, _) {
 
 			// Join user to room
 			var room = findRoom( slug_name );
+
+
 
 			//https://maps.googleapis.com/maps/api/geocode/json?latlng=21.0333,105.8500
 

@@ -40,7 +40,7 @@
 			});
 
 			// get current gps
-			_this._map.locate({
+			/*_this._map.locate({
 				watch: false,
 				locate: true,
 				setView: true,
@@ -61,7 +61,7 @@
 				$.mobile.loading( "hide" );
 
 				$('body').trigger('on_load_backbone');
-			});
+			});*/
 		},
 
 		setCenterView: function() {

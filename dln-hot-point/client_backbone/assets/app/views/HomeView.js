@@ -32,7 +32,6 @@ app.views.HomeView =  Backbone.View.extend({
 		if ( $('#dln_map').length ) {
 			$(window).on('resize', function () {
 				var window_height = $(window).height();
-				console.log(window_height);
 				if ( window_height > 100 ) {
 					$('#dln_map').height(window_height - 50);
 				} else {
@@ -43,6 +42,9 @@ app.views.HomeView =  Backbone.View.extend({
 		}
 
 		if ( $('.dln_check_point').length ) {
+			var socket = io.connect('http://localhost:3000');
+			socket.emit('join-server', '3', 'Hà Nội');
+			console.log('click');
 			$(window).on('resize', function () {
 				var window_height = $(window).height();
 				var window_width  =  $(window).width();
