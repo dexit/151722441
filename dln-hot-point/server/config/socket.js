@@ -1,3 +1,4 @@
+var slugs = require('slugs');
 var Room = require('room.js');
 var people = {};
 var rooms = {};
@@ -5,10 +6,10 @@ var rooms_helper = require('rooms-helpers.js');
 var sockets = [];
 var chatHistory = {};
 
-function checkExistsRoom( roomID ) {
+function checkExistsRoom( slug_name ) {
 	var exists = false;
-	_.find(rooms, function (key, value) {
-		if ( key.id.toLowerCase() == roomID.toLowerCase() ) {
+	_.find(rooms, function ( key, value ) {
+		if ( key.id.toLowerCase() == slug_name.toLowerCase() ) {
 			return exists = true;
 		}
 	});
@@ -16,26 +17,43 @@ function checkExistsRoom( roomID ) {
 	return exists;
 };
 
-function createRoom( roomID, room ) {
-	rooms[roomID] = room;
-
+function findRoom( slug_name ) {
+	var room = null;
+	_.find( rooms, function ( key, value ) {
+		console.log(key);
+	} );
+	return room;
 }
 
 module.exports = function (io, _) {
-	io.sockets.on('connection', function (client) {
+	io.sockets.on( 'connection', function ( client ) {
 
-		client.on('join-server', function (name, device, location_id) {
+		client.on( 'join-server', function ( user_id, city_name ) {
 			var exist = false;
 			var ownerRoomID = inRoomID = null;
 
-			checkExistsRoom(location_id);
+			// convert city name to slug name
+			var slug_name = '';
+			if ( city_name ) {
+				slug_name = slugs( city_name );
+			}
+			if ( ! slug_name ) {
+				client.emit('error', { message : 'Empty slug name!' });
+				return;
+			}
 
+			exist = checkExistsRoom( slug_name );
 			if ( ! exists ) {
 				// Create new room
-				createRoom( location_id );
-			} else {
-
+				var room = new Room( city_name, slug_name, user_id );
+				rooms[slug_name] = room;
+				console.log( 'user ' + user_id + ' just created room ' + slug_name );
 			}
+
+			// Join user to room
+			var room = findRoom( slug_name );
+
+			//https://maps.googleapis.com/maps/api/geocode/json?latlng=21.0333,105.8500
 
 			/*_.find(people, function (key, value) {
 				if ( key.name.toLowerCase() === name.toLowerCase() )
