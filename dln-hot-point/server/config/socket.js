@@ -1,8 +1,8 @@
-var _ = require('underscore');
-var slugs = require('slugs');
-var Room = require('./room.js');
-var people = {};
-var rooms = {};
+var _       = require('underscore');
+var slug    = require('slug');
+var Room    = require('./room.js');
+var people  = {};
+var rooms   = {};
 var sockets = [];
 var chatHistory = {};
 
@@ -21,7 +21,7 @@ function findRoom( slug_name ) {
 	var room = null;
 	_.find( rooms, function ( key, value ) {
 		if ( key.id === slug_name ) {
-			return room = key;
+		return room = key;
 		}
 	} );
 	return room;
@@ -29,7 +29,6 @@ function findRoom( slug_name ) {
 
 module.exports = function (io, _) {
 	io.sockets.on( 'connection', function ( client ) {
-
 		client.on( 'join-server', function ( user_id, city_name ) {
 			console.log( 'user id ' + user_id + ' has joined!' );
 			var exists = false;
@@ -38,7 +37,7 @@ module.exports = function (io, _) {
 			// convert city name to slug name
 			var slug_name = '';
 			if ( city_name ) {
-				slug_name = slugs( city_name );
+				slug_name = slug( city_name).toLowerCase();
 			}
 			if ( ! slug_name ) {
 				client.emit('error', { message : 'Empty slug name!' });
@@ -54,10 +53,17 @@ module.exports = function (io, _) {
 			}
 
 			// Join user to room
-			var room = findRoom( slug_name );
-
-
-
+			var room       = findRoom( slug_name );
+			var size_rooms = _.size( rooms );
+			if ( ! people[user_id].owns ) {
+				client.room    = slug_name;
+				client.join( client.room );
+				people[user_id].owns = slug_name;
+				people[user_id].inroom = slug_name;
+				room.addPerson( user_id );
+				client.emit( 'update-log', 'Welcome to ' + room.name + '.' );
+				client.emit( 'send-room-id', { id: slug_name } );
+			}
 			//https://maps.googleapis.com/maps/api/geocode/json?latlng=21.0333,105.8500
 
 			/*_.find(people, function (key, value) {
@@ -79,6 +85,15 @@ module.exports = function (io, _) {
 				sockets.push(socket);
 			}*/
 		});
+
+		client.on( 'get-list-room', function () {
+			var room_objs = JSON.stringify( rooms );
+			client.emit( 'list-room', room_objs );
+		} );
+
+		client.on( 'check-point', function (user_id, lat, long, data) {
+
+		} );
 
 		client.on('add-user', function(username) {
 			client.username = username;

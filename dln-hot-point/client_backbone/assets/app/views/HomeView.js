@@ -7,9 +7,6 @@ app.views.HomeView =  Backbone.View.extend({
 		});
 	},
 
-	loadEvents: function () {
-	},
-
 	render: function (tpl) {
 		var that = this;
 		//var template = _.template(tpl);
@@ -20,13 +17,6 @@ app.views.HomeView =  Backbone.View.extend({
 		if ( ! $('#main .container').hasClass('dln-full-width') ) {
 			$('#main .container').addClass('dln-full-width');
 		}
-
-		// Bind event load view
-		$('body').bind('on_load_backbone', function () {
-			that.loadEvents();
-		});
-
-
 
 		// Bind resize window to fill dln_map
 		if ( $('#dln_map').length ) {
@@ -42,34 +32,37 @@ app.views.HomeView =  Backbone.View.extend({
 		}
 
 		if ( $('.dln_check_point').length ) {
-			var socket = io.connect('http://localhost:3000');
-			socket.emit('join-server', '3', 'Hà Nội');
-			console.log('click');
 			$(window).on('resize', function () {
 				var window_height = $(window).height();
 				var window_width  =  $(window).width();
 
 				/*if ( window_height > 50 ) {
-					$('.dln-collection-points').css({
-						top : window_height - 84,
-						left: window_width / 2 - 32
-					});
-				}*/
+				 $('.dln-collection-points').css({
+				 top : window_height - 84,
+				 left: window_width / 2 - 32
+				 });
+				 }*/
 			});
 			$(window).resize();
 
 			/*$('.dln_check_point').click(function () {
-				var current_map = app.globals.map.getMap();
-				current_map.locate({
-					watch: true,
-					locate: true,
-					setView: false,
-					maxZoom: 16,
-					enableHighAccuracy: true
-				});
+			 var current_map = app.globals.map.getMap();
+			 current_map.locate({
+			 watch: true,
+			 locate: true,
+			 setView: false,
+			 maxZoom: 16,
+			 enableHighAccuracy: true
+			 });
 
-				$(this).closest('.dln-collection-points').find('.dln-btn').toggleClass('open');
-			});*/
+			 $(this).closest('.dln-collection-points').find('.dln-btn').toggleClass('open');
+			 });*/
 		}
+
+		var dln_socket = new window.DLN_Socket();
+		dln_socket.init();
+
+		// Bind event load view
+		$('body').trigger( 'on_after_render_home' );
 	},
 });

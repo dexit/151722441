@@ -20,6 +20,6 @@
 	    "passport-facebook": "latest",
 	    "mongoose": "latest",
 	    "connect-mongo": "latest",
-	    "slugs": "latest"
+	    "slug": "latest"
     }
 }
