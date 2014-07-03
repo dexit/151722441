@@ -9,9 +9,13 @@
 			//	console.log(rooms);
 			//} );
 
+			$('#modal_check_point').modal('show');
+
 			if ( $('.dln_check_point').length ) {
 				$('.dln_check_point').on( 'click', function (e) {
 					e.preventDefault();
+
+					$('#modal-form').modal('show');
 
 					if ( navigator.geolocation ) {
 						// timeout is 60000 miliseconds (60 seconds)
@@ -29,8 +33,12 @@
 								$.getJSON( 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude, function (data) {
 									if ( data.status == 'OK' ) {
 										for( var i = 0 ; i < data.results.length; i++ ) {
-											if ( data.results[i]['types'][0] == 'street_address' ) {
-												console.log(data.results[i]);
+											if ( data.results[i]['types'][0] == 'administrative_area_level_1' ) {
+												// Get province name
+												location = data.results[i]['address_components'][0].short_name;
+
+												console.log(location);
+												//socket.emit( 'join-server', user_id, location );
 											}
 										}
 									} else {
@@ -39,8 +47,6 @@
 									}
 								} );
 							}
-
-							//socket.emit( 'join-server', user_id  );
 						}, function ( err ) {
 							if ( err.code == 1 ) {
 								alert( 'Error: Access is denied!' );
@@ -49,12 +55,12 @@
 							} else {
 								alert( 'Error: undefined!' );
 							}
-						} );
+						}, options );
 					} else {
 						alert( 'Sorry, browser does not support geolocation!' );
 					}
 				} );
-				$('.dln_check_point').trigger( 'click' );
+				//$('.dln_check_point').trigger( 'click' );
 			}
 		}
 	};
