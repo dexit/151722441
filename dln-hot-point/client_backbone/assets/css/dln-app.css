@@ -1,3 +1,6 @@
+body {
+    font-family: "Tahoma"
+}
 .navbar-header.navbar-toolbar {
     background: transparent !important;
 }
@@ -30,6 +33,10 @@
 }
 .input-group-btn:first-child > .btn, .input-group-btn:first-child > .btn-group {
     height: 32px;
+}
+
+.dln-btn-congestion.active span i, .dln-btn-congestion.active small {
+    color: #FFFFFF;
 }
 /*.dln-btn-main .dln-icon-check-point{
     -webkit-transition: all 250ms ease-in-out;

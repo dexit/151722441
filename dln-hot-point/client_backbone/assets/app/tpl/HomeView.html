@@ -19,7 +19,7 @@
 	</div>
 </div>
 
-<div id="modal-form" class="modal fade" style="display: none;" aria-hidden="true">
+<div id="modal_form" class="modal fade" style="display: none;" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-body wrapper-lg">
@@ -57,6 +57,49 @@
 	<!-- /.modal-dialog -->
 </div>
 
+<div id="modal_report" class="modal fade" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<section class="panel-default">
+				<header class="panel-heading font-bold">Cảnh báo</header>
+				<div class="panel-body">
+					<p class="text-muted">Hãy cảnh báo cho mọi người về tình trạng khu vực này!</p>
+					<div class="form-group">
+						<label>Tình trạng tắc:</label>
+						<div class="row m-l-none m-r-none m-t m-b text-center">
+							<div class="col-xs-4">
+								<a id="dln_report_green" class="dln-btn-congestion padder-v thumbnail">
+									<span class="m-b-xs block"> <i class="i i-mail i-2x text-success-lt"></i> </span>
+									<small class="text-muted font-bold">Nhỏ</small>
+								</a>
+							</div>
+							<div class="col-xs-4">
+								<a id="dln_report_yellow" class="dln-btn-congestion padder-v thumbnail">
+									<span class="m-b-xs block"> <i class="i i-calendar i-2x text-warning-lt"></i> </span>
+									<small class="text-muted font-bold">Vừa</small>
+								</a>
+							</div>
+							<div class="col-xs-4">
+								<a id="dln_report_red" class="dln-btn-congestion padder-v thumbnail">
+									<span class="m-b-xs block"> <i class="i i-map i-2x text-danger-lt"></i> </span>
+									<small class="text-muted font-bold">Lớn</small>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Thông điệp</label>
+						<textarea placeholder="Viết thông điệp bạn muốn chia sẻ..." data-required="true" data-minwords="4" rows="4" class="form-control parsley-validated"></textarea>
+					</div>
+				</div>
+				<footer class="panel-footer text-right bg-light lter">
+					<button class="btn btn-success btn-s-xs" type="submit">Submit</button>
+				</footer>
+			</section>
+		</div>
+	</div>
+</div>
+
 <div id="modal_check_point" class="modal fade" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -73,34 +116,34 @@
 									</a></div>
 								</div>
 								<div class="col-xs-4">
-									<div class="padder-v thumbnail"><a href="#"> <span class="m-b-xs block"> <i
+									<a class="padder-v thumbnail"><span class="m-b-xs block"> <i
 											class="i i-calendar i-2x text-danger-lt"></i> </span>
 										<small class="text-muted">Calendar</small>
-									</a></div>
+									</a>
 								</div>
 								<div class="col-xs-4">
-									<div class="padder-v thumbnail"><a href="#"> <span class="m-b-xs block"> <i
-											class="i i-map i-2x text-success-lt"></i> </span>
-										<small class="text-muted">Map</small>
-									</a></div>
+									<a class="padder-v thumbnail"><span class="m-b-xs block"> <i
+											class="i i-calendar i-2x text-danger-lt"></i> </span>
+										<small class="text-muted">Calendar</small>
+									</a>
 								</div>
 								<div class="col-xs-4">
-									<div class="padder-v thumbnail"><a href="#"> <span class="m-b-xs block"> <i
-											class="i i-paperplane i-2x text-info-lt"></i> </span>
-										<small class="text-muted">Trainning</small>
-									</a></div>
+									<a class="padder-v thumbnail"><span class="m-b-xs block"> <i
+											class="i i-calendar i-2x text-danger-lt"></i> </span>
+										<small class="text-muted">Calendar</small>
+									</a>
 								</div>
 								<div class="col-xs-4">
-									<div class="padder-v thumbnail"><a href="#"> <span class="m-b-xs block"> <i
-											class="i i-images i-2x text-muted"></i> </span>
-										<small class="text-muted">Photos</small>
-									</a></div>
+									<a class="padder-v thumbnail"><span class="m-b-xs block"> <i
+											class="i i-calendar i-2x text-danger-lt"></i> </span>
+										<small class="text-muted">Calendar</small>
+									</a>
 								</div>
 								<div class="col-xs-4">
-									<div class="padder-v thumbnail"><a href="#"> <span class="m-b-xs block"> <i
-											class="i i-clock i-2x text-warning-lter"></i> </span>
-										<small class="text-muted">Timeline</small>
-									</a></div>
+									<a class="padder-v thumbnail"><span class="m-b-xs block"> <i
+											class="i i-calendar i-2x text-danger-lt"></i> </span>
+										<small class="text-muted">Calendar</small>
+									</a>
 								</div>
 							</div>
 						</section>

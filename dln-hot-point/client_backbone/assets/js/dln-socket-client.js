@@ -9,13 +9,16 @@
 			//	console.log(rooms);
 			//} );
 
-			$('#modal_check_point').modal('show');
+
+			$('#modal_report').modal('show');
 
 			if ( $('.dln_check_point').length ) {
 				$('.dln_check_point').on( 'click', function (e) {
 					e.preventDefault();
 
-					$('#modal-form').modal('show');
+					//$('#modal_form').modal('show');
+					$('#modal_report').modal('show');
+					$('#modal_check_point').modal('show');
 
 					if ( navigator.geolocation ) {
 						// timeout is 60000 miliseconds (60 seconds)

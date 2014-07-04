@@ -7,8 +7,8 @@
 		options: {
 			mapId: 'dln_map',
 			//tileUrl: 'http://{s}.tile.osm.org/{z}/{x}/{y}.png',
-			//tileUrl: 'http://mt1.google.com/vt/lyrs=m@110&hl=pl&x={x}&y={y}&z={z}'
-			tileUrl: 'http://worldtiles2.waze.com/tiles/{z}/{x}/{y}.png'
+			tileUrl: 'http://mt1.google.com/vt/lyrs=m@110&hl=pl&x={x}&y={y}&z={z}'
+			//tileUrl: 'http://worldtiles2.waze.com/tiles/{z}/{x}/{y}.png'
 		},
 
 		init: function(options){

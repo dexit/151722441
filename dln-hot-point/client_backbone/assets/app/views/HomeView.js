@@ -31,6 +31,18 @@ app.views.HomeView =  Backbone.View.extend({
 			$(window).resize();
 		}
 
+		if ( $( '.dln-btn-congestion').length ) {
+			$( '.dln-btn-congestion').each(function () {
+				$(this).on('click', function (e) {
+					e.preventDefault();
+					$('.dln-btn-congestion').removeClass('btn-primary');
+					$('.dln-btn-congestion').removeClass('active');
+					$(this).addClass('btn-primary');
+					$(this).addClass('active');
+				});
+			});
+		}
+
 		if ( $('.dln_check_point').length ) {
 			$(window).on('resize', function () {
 				var window_height = $(window).height();
