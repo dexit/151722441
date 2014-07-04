@@ -25,7 +25,14 @@ function findRoom( slug_name ) {
 		}
 	} );
 	return room;
-}
+};
+
+function getSlugName( city_name ) {
+	if ( ! city_name )
+		return '';
+
+	return slug( city_name).toLowerCase();
+};
 
 module.exports = function (io, _) {
 	io.sockets.on( 'connection', function ( client ) {
@@ -35,10 +42,8 @@ module.exports = function (io, _) {
 			var ownerRoomID = inRoomID = null;
 
 			// convert city name to slug name
-			var slug_name = '';
-			if ( city_name ) {
-				slug_name = slug( city_name).toLowerCase();
-			}
+			var slug_name = getSlugName( city_name );
+
 			if ( ! slug_name ) {
 				client.emit('error', { message : 'Empty slug name!' });
 				return;
@@ -64,7 +69,6 @@ module.exports = function (io, _) {
 				client.emit( 'update-log', 'Welcome to ' + room.name + '.' );
 				client.emit( 'send-room-id', { id: slug_name } );
 			}
-			//https://maps.googleapis.com/maps/api/geocode/json?latlng=21.0333,105.8500
 
 			/*_.find(people, function (key, value) {
 				if ( key.name.toLowerCase() === name.toLowerCase() )
@@ -89,6 +93,14 @@ module.exports = function (io, _) {
 		client.on( 'get-list-room', function () {
 			var room_objs = JSON.stringify( rooms );
 			client.emit( 'list-room', room_objs );
+		} );
+
+		client.on( 'get-list-user-in-room', function ( city_name ) {
+			var users     = null;
+			var slug_name = getSlugName( city_name );
+			var room      = findRoom( slug_name );
+
+			return JSON.stringify( room.people );
 		} );
 
 		client.on( 'check-point', function (user_id, lat, long, data) {

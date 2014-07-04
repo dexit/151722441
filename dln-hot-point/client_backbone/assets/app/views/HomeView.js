@@ -59,8 +59,7 @@ app.views.HomeView =  Backbone.View.extend({
 			 });*/
 		}
 
-		var dln_socket = new window.DLN_Socket();
-		dln_socket.init();
+
 
 		// Bind event load view
 		$('body').trigger( 'on_after_render_home' );

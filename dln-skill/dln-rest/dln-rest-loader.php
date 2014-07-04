@@ -16,11 +16,22 @@ class DLN_Rest_Loader {
 	}
 	
 	function __construct() {
+		include( 'includes/class-dln-json-checkpoint.php' );
 		include( 'includes/class-dln-json-fbusers.php' );
+		
 		add_action( 'wp_json_server_before_serve', array( $this, 'json_api_filters' ) );
+		add_action( 'init', array( $this, 'dln_flush_rewrites' ), 1000 );
+	}
+	
+	function dln_flush_rewrites() {
+		flush_rewrite_rules();
 	}
 	
 	public function json_api_filters( $server ) {
+		// Check Points
+		$dln_check_point = new DLN_JSON_CheckPoint( $server );
+		add_filter( 'json_endpoints', array( $dln_check_point, 'register_routes' ) );
+		
 		// FB Users
 		$dln_json_fbusers = new DLN_JSON_FBUsers( $server );
 		add_filter( 'json_endpoints', array( $dln_json_fbusers, 'register_routes' ) );

@@ -125,5 +125,8 @@
 	//$(window).on('ready', function () {
 	console.log('ready');
 	app.globals.map = DLN_MapUser.getInstance();
+
+    var dln_socket = new window.DLN_Socket();
+    dln_socket.init();
 	//});
 </script>

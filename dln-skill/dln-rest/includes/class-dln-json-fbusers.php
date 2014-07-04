@@ -11,9 +11,9 @@ class DLN_JSON_FBUsers {
 	
 	public function register_routes( $routes ) {
 		$user_routes = array(
-			//'/fbusers' => array(
-			//	array( array( $this, 'get_users' ), WP_JSON_Server::READABLE )
-			//),
+			'/fbusers' => array(
+				array( array( $this, 'get_users' ), WP_JSON_Server::READABLE )
+			),
 			'/fbusers/(?P<id>\d+)' => array(
 				array( array( $this, 'get_user' ), WP_JSON_Server::READABLE )
 			)
