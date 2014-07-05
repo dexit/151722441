@@ -24,9 +24,11 @@ class DLN_JSON_CheckPoint {
 		return array_merge( $routes, $user_routes );
 	}
 	
-	function new_check_point( $data ) {
+	function new_check_point( ) {
+		var_dump(json_decode($_POST['data']));
 		if ( ! $data ) return;
-		unset( $data['id'] );
+		if ( isset( $data['id'] ) )
+			unset( $data['id'] );
 		
 		$result = $this->insert_check_point( $data );
 		if ( $result instanceof WP_Error ) {
