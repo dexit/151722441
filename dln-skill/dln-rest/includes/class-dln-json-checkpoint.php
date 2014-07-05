@@ -24,8 +24,11 @@ class DLN_JSON_CheckPoint {
 		return array_merge( $routes, $user_routes );
 	}
 	
-	function new_check_point( ) {
-		var_dump(json_decode($_POST['data']));
+	function new_check_point() {
+		$data = null;
+		if ( isset( $_POST['data'] ) ) {
+			$data = json_decode( stripslashes( $_POST['data'] ), ARRAY_N );
+		}
 		if ( ! $data ) return;
 		if ( isset( $data['id'] ) )
 			unset( $data['id'] );
@@ -64,9 +67,9 @@ class DLN_JSON_CheckPoint {
 		// Post type
 		if ( ! empty( $data['type'] ) ) {
 			// Changing post type
-			$post_type = get_post_type_object( $data['type'] );
-			if ( ! $post_type )
-				return new WP_Error( 'json_invalid_post_type', __( 'Invalid post type' ), array( 'status' => 400 ) );
+			//$post_type = get_post_type_object( $data['type'] );
+			//if ( ! $post_type )
+			//	return new WP_Error( 'json_invalid_post_type', __( 'Invalid post type' ), array( 'status' => 400 ) );
 		
 			$post['post_type'] = $data['type'];
 		}
@@ -147,6 +150,11 @@ class DLN_JSON_CheckPoint {
 			$post['post_name'] = $data['name'];
 		}
 		
+		// Content
+		if ( ! empty( $data['content'] ) ) {
+			$post['post_content'] = $data['content'];
+		}
+		
 		// Author
 		if ( ! empty( $data['author'] ) ) {
 			// Allow passing an author object
@@ -175,40 +183,40 @@ class DLN_JSON_CheckPoint {
 		}
 		
 		// Post password
-		//if ( ! empty( $data['password'] ) ) {
-		//	$post['post_password'] = $data['password'];
+		if ( ! empty( $data['password'] ) ) {
+			$post['post_password'] = $data['password'];
 		//	if ( ! current_user_can( $post_type->cap->publish_posts ) )
 		//		return new WP_Error( 'json_cannot_create_passworded', __( 'Sorry, you are not allowed to create password protected posts in this post type' ), array( 'status' => 401 ) );
-		//}
+		}
 		
 		// Content and excerpt
-		//if ( ! empty( $data['content_raw'] ) ) {
-		//	$post['post_content'] = $data['content_raw'];
-		//}
-		//if ( ! empty( $data['excerpt_raw'] ) ) {
-		//	$post['post_excerpt'] = $data['excerpt_raw'];
-		//}
+		if ( ! empty( $data['content_raw'] ) ) {
+			$post['post_content'] = $data['content_raw'];
+		}
+		if ( ! empty( $data['excerpt_raw'] ) ) {
+			$post['post_excerpt'] = $data['excerpt_raw'];
+		}
 		
 		// Parent
-		//if ( ! empty( $data['parent'] ) ) {
-		//	$parent = get_post( $data['parent'] );
-		//	$post['post_parent'] = $data['post_parent'];
-		//}
+		if ( ! empty( $data['parent'] ) ) {
+			$parent = get_post( $data['parent'] );
+			$post['post_parent'] = $data['post_parent'];
+		}
 		
 		// Menu order
-		//if ( ! empty( $data['menu_order'] ) ) {
-		//	$post['menu_order'] = $data['menu_order'];
-		//}
+		if ( ! empty( $data['menu_order'] ) ) {
+			$post['menu_order'] = $data['menu_order'];
+		}
 		
 		// Comment status
-		//if ( ! empty( $data['comment_status'] ) ) {
-		//	$post['comment_status'] = $data['comment_status'];
-		//}
+		if ( ! empty( $data['comment_status'] ) ) {
+			$post['comment_status'] = $data['comment_status'];
+		}
 		
 		// Ping status
-		//if ( ! empty( $data['ping_status'] ) ) {
-		//	$post['ping_status'] = $data['ping_status'];
-		//}
+		if ( ! empty( $data['ping_status'] ) ) {
+			$post['ping_status'] = $data['ping_status'];
+		}
 		
 		// Post format
 		if ( ! empty( $data['post_format'] ) ) {
@@ -416,14 +424,16 @@ class DLN_JSON_CheckPoint {
 	
 		$response = new WP_JSON_Response();
 		$response->header( 'Last-Modified', mysql2date( 'D, d M Y H:i:s', $post['post_modified_gmt'] ) . 'GMT' );
-	
-		$post = $this->prepare_post( $post, $context );
+
 		if ( is_wp_error( $post ) )
 			return $post;
 	
-		foreach ( $post['meta']['links'] as $rel => $url ) {
-			$response->link_header( $rel, $url );
+		if ( isset( $post['meta'] ) ) {
+			foreach ( $post['meta']['links'] as $rel => $url ) {
+				$response->link_header( $rel, $url );
+			}
 		}
+		
 		$response->link_header( 'alternate',  get_permalink( $id ), array( 'type' => 'text/html' ) );
 	
 		$response->set_data( $post );
