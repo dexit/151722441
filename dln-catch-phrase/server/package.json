@@ -1,0 +1,26 @@
+{
+    "name": "dln-hot-point",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node ./bin/www"
+    },
+    "dependencies": {
+        "socket.io": "latest",
+        "express": "~4.2.0",
+        "static-favicon": "~1.0.0",
+        "morgan": "~1.0.0",
+        "cookie-parser": "~1.0.1",
+        "body-parser": "~1.0.0",
+        "debug": "~0.7.4",
+	    "underscore": "~1.5.2",
+        "hjs": "~0.0.6",
+	    "ejs": "latest",
+	    "passport": "latest",
+	    "passport-facebook": "latest",
+	    "mongoose": "latest",
+	    "connect-mongo": "latest",
+	    "slug": "latest",
+		"node-uuid": "latest"
+    }
+}
