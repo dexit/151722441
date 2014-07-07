@@ -1,8 +1,10 @@
 <?php
 
-class DLN_JSON_CheckPoint {
+class DLN_JSON_Phrase {
 	
 	protected $servers;
+	
+	private $arr_exclude_meta = array( 'dln_answer', 'dln_answer_utf8' );
 	
 	public function __construct( WP_JSON_ResponseHandler $server ) {
 		header("Access-Control-Allow-Origin: *");
@@ -11,21 +13,68 @@ class DLN_JSON_CheckPoint {
 	
 	public function register_routes( $routes ) {
 		$user_routes = array(
-			'/check-point' => array(
-				array( array( $this, 'get_check_points' ), WP_JSON_Server::READABLE ),
-				array( array( $this, 'new_check_point' ), WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
+			'/phrase' => array(
+				array( array( $this, 'get_phrases' ), WP_JSON_Server::READABLE ),
+				array( array( $this, 'new_phrase' ), WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
 			),
 			
-			'/check-point/(?P<id>\d+)' => array(
-				array( array( $this, 'get_check_point' ), WP_JSON_Server::READABLE )
-			)
+			'/phrase/(?P<id>\d+)' => array(
+				array( array( $this, 'get_phrase' ), WP_JSON_Server::READABLE )
+			),
+			
+			// Meta
+			'/phrase/(?P<id>\d+)/meta' => array(
+				array( array( $this, 'get_all_meta' ),   WP_JSON_Server::READABLE ),
+				array( array( $this, 'add_meta' ),       WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
+			),
+			'/phrase/(?P<id>\d+)/meta/(?P<mid>\d+)' => array(
+				array( array( $this, 'get_meta' ),       WP_JSON_Server::READABLE ),
+				array( array( $this, 'update_meta' ),    WP_JSON_Server::EDITABLE | WP_JSON_Server::ACCEPT_JSON ),
+				array( array( $this, 'delete_meta' ),    WP_JSON_Server::DELETABLE ),
+			),
+			
+			// User views
+			'/phrase/user/' => array(
+				array( array( $this, 'get_user_phrase' ), WP_JSON_Server::READABLE )
+			),
 		);
 		
 		return array_merge( $routes, $user_routes );
 	}
 	
-	function new_check_point() {
+	function get_user_phrase(  ) {
+		if ( ! isset( $_GET['ids'] ) ) {
+			return new WP_Error( 'json_user_invalid_id', __( 'Invalid user IDs' ), array( 'status' => 404 ) );
+		}
+		$ids = $_GET['ids'];
+		$user_ids = array ();
+		if ( empty( $ids ) ) {
+			return new WP_Error( 'json_user_invalid_id', __( 'Invalid user IDs' ), array( 'status' => 404 ) );
+		}
+		$user_ids = explode( ',', $ids );
+		
+		$arr_phrase_exclude = array ();
+		foreach ( $user_ids as $id ) {
+			$user_id = (int) $id;
+			$phrase_ids = get_user_meta( $user_id, 'dln_view_phrase_ids' );
+			if ( ! empty( $phrase_ids ) ) {
+				$arr_phrase_ids = explode( ',', $phrase_ids );
+				$arr_phrase_exclude = array_merge( $arr_phrase_ids, $phrase_ids );
+			}
+		}
+		
+		// Get pharse user unread
+		$args = array (
+			'post_per_page' => '10',
+			'exclude' => $arr_phrase_exclude
+		);
+		
+		$phrases = get_posts( $args );
+	}
+	
+	function new_phrase() {
 		$data = null;
+		
 		if ( isset( $_POST['data'] ) ) {
 			$data = json_decode( stripslashes( $_POST['data'] ), ARRAY_N );
 		}
@@ -33,26 +82,26 @@ class DLN_JSON_CheckPoint {
 		if ( isset( $data['id'] ) )
 			unset( $data['id'] );
 		
-		$result = $this->insert_check_point( $data );
+		$result = $this->insert_phrase( $data );
 		if ( $result instanceof WP_Error ) {
 			return $result;
 		}
 		
-		$response = json_ensure_response( $this->get_check_point( $result ) );
+		$response = json_ensure_response( $this->get_phrase( $result ) );
 		$response->set_status( 201 );
-		$response->header( 'Location', json_url( '/check-point/' . $result ) );
+		$response->header( 'Location', json_url( '/phrase/' . $result ) );
 		return $response;
 	}
 	
-	function insert_check_point( $data ) {
+	function insert_phrase( $data ) {
 		if ( ! $data ) return;
 		$post   = array();
 		$update = ! empty( $data['id'] );
 
 		if ( $update ) {
-			$current_check_point = get_post( absint( $data['id'] ) );
-			if ( ! $current_check_point ) {
-				return new WP_Error( 'json_check_point_invalid_id', __( 'Invalid check point ID' ), array( 'status' => 400 ) );
+			$current_phrase = get_post( absint( $data['id'] ) );
+			if ( ! $current_phrase ) {
+				return new WP_Error( 'json_phrase_invalid_id', __( 'Invalid phrase ID' ), array( 'status' => 400 ) );
 			}
 			$post['ID'] = absint( $data['id'] );	
 		} else {
@@ -267,7 +316,41 @@ class DLN_JSON_CheckPoint {
 		return $post_ID;
 	}
 	
-	function get_check_points( $filter = array(), $context = 'view', $type = 'post', $page = 1 ) {
+	public function get_phrase( $id, $context = 'view' ) {
+		$id = (int) $id;
+	
+		if ( empty( $id ) )
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+	
+		$post = get_post( $id, ARRAY_A );
+	
+		if ( empty( $post['ID'] ) )
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+	
+		//if ( ! $this->check_read_permission( $post ) )
+		//return new WP_Error( 'json_user_cannot_read', __( 'Sorry, you cannot read this post.' ), array( 'status' => 401 ) );
+	
+		// Link headers (see RFC 5988)
+	
+		$response = new WP_JSON_Response();
+		$response->header( 'Last-Modified', mysql2date( 'D, d M Y H:i:s', $post['post_modified_gmt'] ) . 'GMT' );
+	
+		if ( is_wp_error( $post ) )
+			return $post;
+	
+		if ( isset( $post['meta'] ) ) {
+			foreach ( $post['meta']['links'] as $rel => $url ) {
+				$response->link_header( $rel, $url );
+			}
+		}
+	
+		$response->link_header( 'alternate',  get_permalink( $id ), array( 'type' => 'text/html' ) );
+	
+		$response->set_data( $post );
+		return $response;
+	}
+	
+	function get_phrases( $filter = array(), $context = 'view', $type = 'post', $page = 1 ) {
 		$query = array();
 		
 		// Validate post types and permissions
@@ -366,9 +449,9 @@ class DLN_JSON_CheckPoint {
 			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
 		}
 	
-		if ( ! $this->check_edit_permission( $post ) ) {
-			return new WP_Error( 'json_cannot_edit', __( 'Sorry, you cannot edit this post' ), array( 'status' => 403 ) );
-		}
+		//if ( ! $this->check_edit_permission( $post ) ) {
+		//	return new WP_Error( 'json_cannot_edit', __( 'Sorry, you cannot edit this post' ), array( 'status' => 403 ) );
+		//}
 	
 		if ( ! array_key_exists( 'key', $data ) ) {
 			return new WP_Error( 'json_post_missing_key', __( 'Missing meta key.' ), array( 'status' => 400 ) );
@@ -403,40 +486,6 @@ class DLN_JSON_CheckPoint {
 		}
 		$response->set_status( 201 );
 		$response->header( 'Location', json_url( '/posts/' . $id . '/meta/' . $result ) );
-		return $response;
-	}
-	
-	public function get_check_point( $id, $context = 'view' ) {
-		$id = (int) $id;
-	
-		if ( empty( $id ) )
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
-	
-		$post = get_post( $id, ARRAY_A );
-	
-		if ( empty( $post['ID'] ) )
-			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
-	
-		//if ( ! $this->check_read_permission( $post ) )
-			//return new WP_Error( 'json_user_cannot_read', __( 'Sorry, you cannot read this post.' ), array( 'status' => 401 ) );
-	
-		// Link headers (see RFC 5988)
-	
-		$response = new WP_JSON_Response();
-		$response->header( 'Last-Modified', mysql2date( 'D, d M Y H:i:s', $post['post_modified_gmt'] ) . 'GMT' );
-
-		if ( is_wp_error( $post ) )
-			return $post;
-	
-		if ( isset( $post['meta'] ) ) {
-			foreach ( $post['meta']['links'] as $rel => $url ) {
-				$response->link_header( $rel, $url );
-			}
-		}
-		
-		$response->link_header( 'alternate',  get_permalink( $id ), array( 'type' => 'text/html' ) );
-	
-		$response->set_data( $post );
 		return $response;
 	}
 	
@@ -558,7 +607,7 @@ class DLN_JSON_CheckPoint {
 		return apply_filters( 'json_prepare_post', $_post, $post, $context );
 	}
 	
-	public function get_all_meta( $id ) {
+	public function get_meta( $id, $mid ) {
 		$id = (int) $id;
 	
 		if ( empty( $id ) ) {
@@ -575,26 +624,104 @@ class DLN_JSON_CheckPoint {
 		//	return new WP_Error( 'json_cannot_edit', __( 'Sorry, you cannot edit this post' ), array( 'status' => 403 ) );
 		//}
 	
+		$meta = get_metadata_by_mid( 'post', $mid );
+	
+		if ( empty( $meta ) ) {
+			return new WP_Error( 'json_meta_invalid_id', __( 'Invalid meta ID.' ), array( 'status' => 404 ) );
+		}
+	
+		if ( absint( $meta->post_id ) !== $id ) {
+			return new WP_Error( 'json_meta_post_mismatch', __( 'Meta does not belong to this post' ), array( 'status' => 400 ) );
+		}
+	
+		return $this->prepare_meta( $id, $meta );
+	}
+	
+	public function delete_meta( $id, $mid ) {
+		$id = (int) $id;
+	
+		if ( empty( $id ) ) {
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+		}
+	
+		$post = get_post( $id, ARRAY_A );
+	
+		if ( empty( $post['ID'] ) ) {
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+		}
+	
+		//if ( ! $this->check_edit_permission( $post ) ) {
+		//	return new WP_Error( 'json_cannot_edit', __( 'Sorry, you cannot edit this post' ), array( 'status' => 403 ) );
+		//}
+	
+		$current = get_metadata_by_mid( 'post', $mid );
+	
+		if ( empty( $current ) ) {
+			return new WP_Error( 'json_meta_invalid_id', __( 'Invalid meta ID.' ), array( 'status' => 404 ) );
+		}
+	
+		if ( absint( $current->post_id ) !== $id ) {
+			return new WP_Error( 'json_meta_post_mismatch', __( 'Meta does not belong to this post' ), array( 'status' => 400 ) );
+		}
+	
+		// for now let's not allow updating of arrays, objects or serialized values.
+		if ( ! $this->is_valid_meta_data( $current->meta_value ) ) {
+			return new WP_Error( 'json_post_invalid_action', __( 'Invalid existing meta data for action.' ), array( 'status' => 400 ) );
+		}
+	
+		if ( is_protected_meta( $current->meta_key ) ) {
+			return new WP_Error( 'json_meta_protected', sprintf( __( '%s is marked as a protected field.'), $current->meta_key ), array( 'status' => 403 ) );
+		}
+	
+		if ( ! delete_metadata_by_mid( 'post', $mid ) ) {
+			return new WP_Error( 'json_meta_could_not_add', __( 'Could not delete post meta.' ), array( 'status' => 500 ) );
+		}
+	
+		return array( 'message' => __( 'Deleted meta' ) );;
+	}
+	
+	public function get_all_meta( $id ) {
+		$id = (int) $id;
+
+		if ( empty( $id ) ) {
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+		}
+
+		$post = get_post( $id, ARRAY_A );
+
+		if ( empty( $post['ID'] ) ) {
+			return new WP_Error( 'json_post_invalid_id', __( 'Invalid post ID.' ), array( 'status' => 404 ) );
+		}
+
+		//if ( ! $this->check_edit_permission( $post ) ) {
+		//	return new WP_Error( 'json_cannot_edit', __( 'Sorry, you cannot edit this post' ), array( 'status' => 403 ) );
+		//}
+
 		global $wpdb;
 		$table = _get_meta_table( 'post' );
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT meta_id, meta_key, meta_value FROM $table WHERE post_id = %d", $id ) );
-	
+
 		$meta = array();
-	
+
 		foreach ( $results as $row ) {
 			$value = $this->prepare_meta( $id, $row, true );
-	
+				
 			if ( is_wp_error( $value ) ) {
 				continue;
 			}
-	
-			$meta[] = $value;
+			
+			if ( $value ) {
+				$meta[] = $value;
+			}
 		}
-	
+
 		return apply_filters( 'json_prepare_meta', $meta, $id );
 	}
 	
 	protected function prepare_meta( $post, $data, $is_raw = false ) {
+		if ( in_array( $data->meta_key, $arr_exclude_meta ) ) {
+			return null;
+		}
 		$ID    = $data->meta_id;
 		$key   = $data->meta_key;
 		$value = $data->meta_value;
@@ -635,5 +762,13 @@ class DLN_JSON_CheckPoint {
 		}
 	
 		return $excerpt;
+	}
+
+	protected function is_valid_meta_data( $data ) {
+		if ( is_array( $data ) || is_object( $data ) || is_serialized( $data ) ) {
+			return false;
+		}
+	
+		return true;
 	}
 }
