@@ -1,0 +1,37 @@
+<%
+if ( ! is_loggedin )
+{
+%>
+<div class="container aside-xl"><a class="navbar-brand block" href="index-2.html">Scale</a>
+	<section class="m-b-lg">
+		<header class="wrapper text-center"><strong>Đăng nhập</strong></header>
+		<form action="#login">
+			<div class="list-group">
+				<div class="list-group-item">
+					<input type="email" placeholder="Email" class="form-control no-border">
+				</div>
+				<div class="list-group-item">
+					<input type="password" placeholder="Mật khẩu" class="form-control no-border">
+				</div>
+			</div>
+			<button type="submit" class="btn btn-lg btn-info btn-block">Đăng nhập</button>
+			<div class="text-center m-t m-b"><a href="#">
+				<p id="social-buttons">
+					<a class="btn btn-rounded btn-sm btn-primary" href="#"><i class="fa fa-fw fa-facebook"></i> Đăng nhập bằng Facebook</a>
+				</p>
+			</a></div>
+			<div class="text-center m-t m-b"><a href="#">
+				<small>Bạn quên mật khẩu?</small>
+			</a></div>
+			<div class="line line-dashed"></div>
+			<p class="text-muted text-center">
+				<small>Bạn chưa có tài khoản?</small>
+			</p>
+			<a href="#signup" class="btn btn-lg btn-default btn-block">Tạo tài khoản</a></form>
+	</section>
+</div>
+<%
+}
+%>
+
+
