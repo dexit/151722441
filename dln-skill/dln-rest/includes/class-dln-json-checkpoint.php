@@ -29,7 +29,9 @@ class DLN_JSON_CheckPoint {
 		if ( isset( $_POST['data'] ) ) {
 			$data = json_decode( stripslashes( $_POST['data'] ), ARRAY_N );
 		}
-		if ( ! $data ) return;
+		if ( empty( $data ) ) {
+			return new WP_Error( 'json_money_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
+		}
 		if ( isset( $data['id'] ) )
 			unset( $data['id'] );
 		
@@ -45,7 +47,9 @@ class DLN_JSON_CheckPoint {
 	}
 	
 	function insert_check_point( $data ) {
-		if ( ! $data ) return;
+		if ( empty( $data ) ) {
+			return new WP_Error( 'json_money_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
+		}
 		$post   = array();
 		$update = ! empty( $data['id'] );
 

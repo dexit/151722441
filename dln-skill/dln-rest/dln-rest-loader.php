@@ -18,7 +18,8 @@ class DLN_Rest_Loader {
 	function __construct() {
 		//include( 'includes/class-dln-json-checkpoint.php' );
 		include( 'includes/class-dln-json-fbusers.php' );
-		include( 'includes/class-dln-json-phrase.php' );
+		include( 'includes/class-dln-json-post.php' );
+		include( 'includes/class-dln-json-user.php' );
 		
 		add_action( 'wp_json_server_before_serve', array( $this, 'json_api_filters' ) );
 		add_action( 'init', array( $this, 'dln_flush_rewrites' ), 1000 );
@@ -38,8 +39,12 @@ class DLN_Rest_Loader {
 		add_filter( 'json_endpoints', array( $dln_json_fbusers, 'register_routes' ) );
 		
 		// Phrases
-		$dln_json_phrase = new DLN_JSON_Phrase( $server );
-		add_filter( 'json_endpoints', array( $dln_json_phrase, 'register_routes' ) );
+		$dln_json_post = new DLN_JSON_Post( $server );
+		add_filter( 'json_endpoints', array( $dln_json_post, 'register_routes' ) );
+		
+		// User 
+		$dln_json_user = new DLN_JSON_User( $server );
+		add_filter( 'json_endpoints', array( $dln_json_user, 'register_routes' ) );
 	}
 	
 }

@@ -1,5 +1,5 @@
 app.helpers.userHelper = function () {
-	var dlnServer    = 'http://192.168.0.11',
+	var dlnServer    = 'http://localhost',
 		dlnWPServer  = dlnServer + '/wordpress',
 		dlnPort      = '3000',
 		dlnServerUrl = dlnServer + ':' + dlnPort;
@@ -18,7 +18,12 @@ app.helpers.userHelper = function () {
 		var user = {};
 		if( userData && typeof( userData ) === 'string' ) {
 			user = JSON.parse( userData );
-			this.avatar = 'https://graph.facebook.com/' + user.fb_uid + '/picture?width=64&height=64';
+			if ( user.fb_uid ) {
+				this.avatar = 'https://graph.facebook.com/' + user.fb_uid + '/picture?width=64&height=64';
+			} else if( user.avatar ) {
+				this.avatar = user.avatar;
+			}
+
 			// Set border for avatar
 			$('.navbar-main .avatar img').css('border', '2px solid #FFFFFF');
 			this.name  = user.name;
@@ -36,7 +41,7 @@ app.helpers.userHelper = function () {
 		return objUser;
 	};
 
-	this.login = function () {
+	this.loginFB = function () {
 		var is_mobile = true;
 		var width     = $(window).width(),
 			height    = $(window).height(),
@@ -51,13 +56,13 @@ app.helpers.userHelper = function () {
 					url: dlnWPServer + '/wp-json/fbusers/' + uuid,
 					dataType: 'json',
 					type: 'GET',
-					success: function (response) {
+					success: function ( response ) {
 						if ( response ) {
-							if (response.ID) {
-								window.localStorage.setItem('user_json', JSON.stringify(response));
+							if ( response.ID ) {
+								window.localStorage.setItem( 'user_json', JSON.stringify( response ) );
 							}
 						}
-						//$location.path('/success_login');
+
 						window.location = '#/success_login';
 					}
 				});
@@ -65,10 +70,26 @@ app.helpers.userHelper = function () {
 		}, 200);
 	};
 
+	this.login = function ( email, password ) {
+		if ( ! email || ! password )
+			return false;
+		password = window.btoa( password );
+		$.ajax({
+			url: dlnWPServer + '/wp-json/user/login',
+			dataType: 'json',
+			type: 'POST',
+			data: { data : '{ "email":"' + email + '",  "password": "' + password + '" }' },
+			success: function ( response ) {
+				if ( response ) {
+					console.log( response );
+				}
+			}
+		});
+	};
+
 	this.logout = function () {
 		this.resetUser();
 		window.localStorage.removeItem('user_json');
-		//$location.path('/login');
 		window.location = '#/login';
 	};
 

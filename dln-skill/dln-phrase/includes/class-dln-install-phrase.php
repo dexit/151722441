@@ -43,6 +43,27 @@ class DLN_Install_Phrase {
 		dbDelta( $sql );
 	}
 	
+	public static function create_match_user() {
+		global $wpdb;
+		
+		if ( ! empty( $wpdb->charset ) )
+			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$db_charset_collate .= " COLLATE $wpdb->collate";
+		
+		$sql = "CREATE TABLE {$wpdb->dln_match_user} (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			match_id int(11) NOT NULL,
+			user_id int(11) NOT NULL,
+			bet int(11) NOT NULL,
+			is_paid tinyint(1) DEFAULT 0,
+			time_create datetime NOT NULL,
+			PRIMARY KEY  (id)
+		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
+		
+		dbDelta( $sql );
+	}
+	
 }
 
 DLN_Install_Phrase::get_instance();

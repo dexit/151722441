@@ -18,8 +18,6 @@ app.views.HomeView =  Backbone.View.extend({
 			$('#main .container').addClass('dln-full-width');
 		}
 
-
-
 		// Bind event load view
 		$('body').trigger( 'on_after_render_home' );
 	}

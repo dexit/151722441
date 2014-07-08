@@ -1,6 +1,6 @@
 <?php
 
-class DLN_JSON_Phrase {
+class DLN_JSON_Post {
 	
 	protected $servers;
 	
@@ -13,28 +13,28 @@ class DLN_JSON_Phrase {
 	
 	public function register_routes( $routes ) {
 		$user_routes = array(
-			'/phrase' => array(
-				array( array( $this, 'get_phrases' ), WP_JSON_Server::READABLE ),
-				array( array( $this, 'new_phrase' ), WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
+			'/dln_post' => array(
+				array( array( $this, 'get_dln_posts' ), WP_JSON_Server::READABLE ),
+				array( array( $this, 'new_dln_post' ), WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
 			),
 			
-			'/phrase/(?P<id>\d+)' => array(
-				array( array( $this, 'get_phrase' ), WP_JSON_Server::READABLE )
+			'/dln_post/(?P<id>\d+)' => array(
+				array( array( $this, 'get_dln_post' ), WP_JSON_Server::READABLE )
 			),
 			
 			// Meta
-			'/phrase/(?P<id>\d+)/meta' => array(
+			'/dln_post/(?P<id>\d+)/meta' => array(
 				array( array( $this, 'get_all_meta' ),   WP_JSON_Server::READABLE ),
 				array( array( $this, 'add_meta' ),       WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
 			),
-			'/phrase/(?P<id>\d+)/meta/(?P<mid>\d+)' => array(
+			'/dln_post/(?P<id>\d+)/meta/(?P<mid>\d+)' => array(
 				array( array( $this, 'get_meta' ),       WP_JSON_Server::READABLE ),
 				array( array( $this, 'update_meta' ),    WP_JSON_Server::EDITABLE | WP_JSON_Server::ACCEPT_JSON ),
 				array( array( $this, 'delete_meta' ),    WP_JSON_Server::DELETABLE ),
 			),
 			
 			// User views
-			'/phrase/user/' => array(
+			'/dln_post/user/' => array(
 				array( array( $this, 'get_user_phrase' ), WP_JSON_Server::READABLE )
 			),
 		);
@@ -70,31 +70,37 @@ class DLN_JSON_Phrase {
 		);
 		
 		$phrases = get_posts( $args );
+		
+		return $phrases;
 	}
 	
-	function new_phrase() {
+	function new_dln_post() {
 		$data = null;
 		
 		if ( isset( $_POST['data'] ) ) {
 			$data = json_decode( stripslashes( $_POST['data'] ), ARRAY_N );
 		}
-		if ( ! $data ) return;
+		if ( empty( $data ) ) {
+			return new WP_Error( 'json_money_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
+		}
 		if ( isset( $data['id'] ) )
 			unset( $data['id'] );
 		
-		$result = $this->insert_phrase( $data );
+		$result = $this->insert_dln_post( $data );
 		if ( $result instanceof WP_Error ) {
 			return $result;
 		}
 		
-		$response = json_ensure_response( $this->get_phrase( $result ) );
+		$response = json_ensure_response( $this->get_dln_post( $result ) );
 		$response->set_status( 201 );
-		$response->header( 'Location', json_url( '/phrase/' . $result ) );
+		$response->header( 'Location', json_url( '/dln_post/' . $result ) );
 		return $response;
 	}
 	
-	function insert_phrase( $data ) {
-		if ( ! $data ) return;
+	function insert_dln_post( $data ) {
+		if ( empty( $data ) ) {
+			return new WP_Error( 'json_money_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
+		}
 		$post   = array();
 		$update = ! empty( $data['id'] );
 
@@ -316,7 +322,7 @@ class DLN_JSON_Phrase {
 		return $post_ID;
 	}
 	
-	public function get_phrase( $id, $context = 'view' ) {
+	public function get_dln_post( $id, $context = 'view' ) {
 		$id = (int) $id;
 	
 		if ( empty( $id ) )
@@ -350,7 +356,7 @@ class DLN_JSON_Phrase {
 		return $response;
 	}
 	
-	function get_phrases( $filter = array(), $context = 'view', $type = 'post', $page = 1 ) {
+	function get_dln_posts( $filter = array(), $context = 'view', $type = 'post', $page = 1 ) {
 		$query = array();
 		
 		// Validate post types and permissions

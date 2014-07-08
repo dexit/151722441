@@ -8,6 +8,7 @@ app.views.LoginView =  Backbone.View.extend({
 
 	render: function (tpl) {
 		var userHelper  = new app.helpers.userHelper();
+		userHelper.login();
 		var is_loggedin = userHelper.checkUserLoggedIn();
 		var params = {
 			is_loggedin : is_loggedin
@@ -17,7 +18,7 @@ app.views.LoginView =  Backbone.View.extend({
 
 		$('#dln_login_facebook').on('click', function (e) {
 			e.preventDefault();
-			userHelper.login();
+			userHelper.loginFB();
 		});
 	}
 });

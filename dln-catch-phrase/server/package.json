@@ -21,6 +21,7 @@
 	    "mongoose": "latest",
 	    "connect-mongo": "latest",
 	    "slug": "latest",
-		"node-uuid": "latest"
+		"node-uuid": "latest",
+	    "jquery" : "latest"
     }
 }

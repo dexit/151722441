@@ -2,9 +2,32 @@ var _            = require( 'underscore' );
 var slug         = require( 'slug' );
 var uuid         = require( 'node-uuid' );
 var Room         = require( './room.js' );
+var $            = require( 'jquery' );
 var people       = {};
 var rooms        = {};
 var chat_history = {};
+var dlnServer    = 'http://localhost';
+var dlnWPServer  = dlnServer + '/wordpress';
+
+var createMatch = function ( client, room_name ) {
+	if ( ! room_name )
+		return false;
+	// Create match
+	$.ajax({
+		url: dlnWPServer + '/wp-json/dln_post/',
+		dataType: 'json',
+		type: 'POST',
+		data : {
+			data : '{ "name" : "' + name + '", "title" : "' + name + '", "type" : "dln_match" }'
+		},
+		success: function ( response ) {
+			client.emit( 'send-match-id', response );
+		},
+		error: function ( error ) {
+			console.log( "error: " + error.toString() );
+		}
+	});
+};
 
 module.exports = function ( io, _ ) {
 	io.sockets.on( 'connection', function ( client ) {
@@ -67,9 +90,6 @@ module.exports = function ( io, _ ) {
 				rooms[id]  = room;
 				size_rooms = _.size( rooms );
 				io.sockets.emit( 'room-list', { rooms: rooms, count: size_rooms } );
-
-				// Add room to client and auto join the creator of the room.
-
 
 				client.room = id;
 				client.join( client.room );
@@ -135,6 +155,20 @@ module.exports = function ( io, _ ) {
 			var room = rooms[ room_id ];
 			if ( room )
 				purge( client, 'leave-room' );
+		} );
+
+		client.on( 'join-match', function ( user_id, match_id, money ) {
+			$.ajax({
+				url: dlnWPServer + '/wp-json/dln_post/',
+				dataType: 'json',
+				type: 'POST',
+				data: {
+					data: '{ "user_id" : "' + user_id + '", "match_id" : "' + match_id + '", "money" : "' + money + '" }'
+				},
+				success: function ( response ) {
+
+				}
+			});
 		} );
 	} );
 };

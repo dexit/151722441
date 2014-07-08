@@ -18,7 +18,8 @@ class DLN_Phrase_Loader {
 	function __construct() {
 		define( 'DLN_PHRASE', 'dln_phrase' );
 		global $wpdb;
-		$wpdb->dln_user_phrase = $wpdb->prefix . 'dln_user_phrase';
+		$wpdb->dln_user_phrase  = $wpdb->prefix . 'dln_user_phrase';
+		$wpdb->dln_match_phrase = $wpdb->prefix . 'dln_match_phrase';
 	}
 	
 	public static function activate() {
