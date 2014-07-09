@@ -1,11 +1,12 @@
-function Room( name, id, owner ){
-	this.name = name;
-	this.id = id;
-	this.owner = owner;
-	this.people = [];
+function Room( name, id, owner, time_create ){
+	this.name        = name;
+	this.id          = id;
+	this.owner       = owner;
+	this.people      = [];
 	this.peopleLimit = 1000;
-	this.status = 'available';
-	this.private = false;
+	this.status      = 'available';
+	this.private     = false;
+	this.time_create = time_create;
 };
 
 Room.prototype.addPerson = function (personID) {

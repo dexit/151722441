@@ -9,26 +9,6 @@ var chat_history = {};
 var dlnServer    = 'http://localhost';
 var dlnWPServer  = dlnServer + '/wordpress';
 
-var createMatch = function ( client, room_name ) {
-	if ( ! room_name )
-		return false;
-	// Create match
-	$.ajax({
-		url: dlnWPServer + '/wp-json/dln_post/',
-		dataType: 'json',
-		type: 'POST',
-		data : {
-			data : '{ "name" : "' + name + '", "title" : "' + name + '", "type" : "dln_match" }'
-		},
-		success: function ( response ) {
-			client.emit( 'send-match-id', response );
-		},
-		error: function ( error ) {
-			console.log( "error: " + error.toString() );
-		}
-	});
-};
-
 module.exports = function ( io, _ ) {
 	io.sockets.on( 'connection', function ( client ) {
 
@@ -86,7 +66,8 @@ module.exports = function ( io, _ ) {
 					} );
 				} while ( ! exists );
 
-				var room   = new Room( room_name, id, user_id );
+				var time_create = (new Date).getTime();
+				var room   = new Room( room_name, id, user_id, time_create );
 				rooms[id]  = room;
 				size_rooms = _.size( rooms );
 				io.sockets.emit( 'room-list', { rooms: rooms, count: size_rooms } );

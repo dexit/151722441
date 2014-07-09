@@ -9,7 +9,6 @@
 			//	console.log(rooms);
 			//} );
 
-
 			$('#modal_report').modal('show');
 
 			if ( $('.dln_check_point').length ) {

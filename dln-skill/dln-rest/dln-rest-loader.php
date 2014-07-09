@@ -17,6 +17,7 @@ class DLN_Rest_Loader {
 	
 	function __construct() {
 		//include( 'includes/class-dln-json-checkpoint.php' );
+		include( 'includes/slowaes/class-dln-helper-decrypt.php' );
 		include( 'includes/class-dln-json-fbusers.php' );
 		include( 'includes/class-dln-json-post.php' );
 		include( 'includes/class-dln-json-user.php' );

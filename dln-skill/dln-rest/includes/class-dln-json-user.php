@@ -24,8 +24,58 @@ class DLN_JSON_User {
 			'/user/login' => array(
 				array( array( $this, 'auth_user' ),        WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON )
 			),
+			'/user/match' => array (
+				array( array( $this, 'add_user_match' ),   WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON )
+			),
 		);
 		return array_merge( $routes, $user_routes );
+	}
+	
+	public function add_user_match() {
+		$data = null;
+		if ( isset( $_POST['data'] ) ) {
+			$data = json_decode( stripslashes( $_POST['data'] ), ARRAY_N );
+		}
+		if ( empty( $data ) ) {
+			return new WP_Error( 'json_user_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
+		}
+		if ( ! DLN_Helper_Decrypt::get_decrypt() ) {
+			return new WP_Error( 'json_user_invalid_code', __( 'Invalid data verify code.' ), array( 'status' => 404 ) );
+		}
+		
+		// Check params
+		$required = array( 'match_id', 'user_id', 'bet' );
+		foreach ( $required as $arg ) {
+			if ( empty( $data[ $arg ] ) ) {
+				if ( isset( $_GET['debug'] ) && $_GET['debug'] == 'true' ) {
+					return new WP_Error( 'json_missing_callback_param', sprintf( __( 'Missing parameter %s' ), $arg ), array( 'status' => 400 ) );
+				} else {
+					return new WP_Error( 'json_missing_callback_param', sprintf( __( 'Missing parameter!' ), $arg ), array( 'status' => 400 ) );
+				}
+			}
+		}
+		
+		extract( $data );
+		$limit = get_post_meta( $match_id, 'dln_limit_people' );
+		$limit = (int) $limit;
+
+		global $wpdb;
+		$sql    = $wpdb->prepare( "SELECT COUNT(user_id) as count FROM {$wpdb->dln_match_user} WHERE match_id = %s", $match_id );
+		$result = $wpdb->get_results( $sql, ARRAY_A );
+		if ( isset( $result['count'] ) && $result['count'] > $limit ) {
+			$current_time  = date( 'Y-m-d H:i:s', time() );
+			$data = array(
+				'match_id'    => (int) $match_id,
+				'user_id'     => (int) $user_id,
+				'bet'         => (int) $bet,
+				'time_create' => $current_time
+			);
+			$int = $wpdb->insert( $wpdb->dln_match_user, $data );
+			
+			return $int;
+		} else {
+			return new WP_Error( 'json_user_limit', sprintf( __( "Can't add more user to match" ), $arg ), array( 'status' => 400 ) );
+		}
 	}
 	
 	public function get_users( $filter = array(), $context = 'view', $page = 1 ) {
@@ -90,7 +140,11 @@ class DLN_JSON_User {
 		
 		foreach ( $required as $arg ) {
 			if ( empty( $data[ $arg ] ) ) {
-				return new WP_Error( 'json_missing_callback_param', sprintf( __( 'Missing parameter %s' ), $arg ), array( 'status' => 400 ) );
+				if ( isset( $_GET['debug'] ) && $_GET['debug'] == 'true' ) {
+					return new WP_Error( 'json_missing_callback_param', sprintf( __( 'Missing parameter %s' ), $arg ), array( 'status' => 400 ) );
+				} else {
+					return new WP_Error( 'json_missing_callback_param', sprintf( __( 'Missing parameter!' ), $arg ), array( 'status' => 400 ) );
+				}
 			}
 		}
 		
@@ -116,6 +170,9 @@ class DLN_JSON_User {
 		}
 		if ( empty( $data ) ) {
 			return new WP_Error( 'json_money_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
+		}
+		if ( ! DLN_Helper_Decrypt::get_decrypt() ) {
+			return new WP_Error( 'json_user_invalid_code', __( 'Invalid data verify code.' ), array( 'status' => 404 ) );
 		}
 		
 		//if ( ! current_user_can( 'create_users' ) ) {
@@ -244,7 +301,11 @@ class DLN_JSON_User {
 	
 			foreach ( $required as $arg ) {
 				if ( empty( $data[ $arg ] ) ) {
-					return new WP_Error( 'json_missing_callback_param', sprintf( __( 'Missing parameter %s' ), $arg ), array( 'status' => 400 ) );
+					if ( isset( $_GET['debug'] ) && $_GET['debug'] == 'true' ) {
+						return new WP_Error( 'json_missing_callback_param', sprintf( __( 'Missing parameter %s' ), $arg ), array( 'status' => 400 ) );
+					} else {
+						return new WP_Error( 'json_missing_callback_param', sprintf( __( 'Missing parameter!' ), $arg ), array( 'status' => 400 ) );
+					}
 				}
 			}
 	

@@ -81,8 +81,12 @@ class DLN_JSON_Post {
 			$data = json_decode( stripslashes( $_POST['data'] ), ARRAY_N );
 		}
 		if ( empty( $data ) ) {
-			return new WP_Error( 'json_money_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
 		}
+		if ( ! DLN_Helper_Decrypt::get_decrypt() ) {
+			return new WP_Error( 'json_post_invalid_code', __( 'Invalid data verify code.' ), array( 'status' => 404 ) );
+		}
+		
 		if ( isset( $data['id'] ) )
 			unset( $data['id'] );
 		
@@ -99,7 +103,7 @@ class DLN_JSON_Post {
 	
 	function insert_dln_post( $data ) {
 		if ( empty( $data ) ) {
-			return new WP_Error( 'json_money_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'json_post_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
 		}
 		$post   = array();
 		$update = ! empty( $data['id'] );
@@ -107,7 +111,7 @@ class DLN_JSON_Post {
 		if ( $update ) {
 			$current_phrase = get_post( absint( $data['id'] ) );
 			if ( ! $current_phrase ) {
-				return new WP_Error( 'json_phrase_invalid_id', __( 'Invalid phrase ID' ), array( 'status' => 400 ) );
+				return new WP_Error( 'json_post_invalid_id', __( 'Invalid phrase ID' ), array( 'status' => 400 ) );
 			}
 			$post['ID'] = absint( $data['id'] );	
 		} else {
