@@ -1,5 +1,5 @@
-body {
-    font-family: "Tahoma"
+* {
+    font-family: "Tahoma";
 }
 .navbar-header.navbar-toolbar {
     background: transparent !important;
@@ -70,10 +70,26 @@ body {
 }
 .dln-image-wrapper {
 }
+.dln-answer-group .btn-group {
+    margin-right: 5px;
+}
 .dln-answer-group .btn{
     padding-top: 10px;
-    margin: 0 5px 10px 5px;
+    margin: 0 0px 10px;
     min-width: 35px;
+}
+.dln-choice-group .btn{
+    margin: 0 5px 10px;
+    min-width: 35px;
+}
+.text-right {
+    text-align: right;
+}
+.text-right small {
+    margin-bottom: 5px;
+}
+.dln-list-room-item {
+    min-height: 90px;
 }
 /*.dln-btn-main .dln-icon-check-point{
     -webkit-transition: all 250ms ease-in-out;

@@ -4,6 +4,8 @@ app.routers.AppRouter = Backbone.Router.extend({
 		'home'          : 'home',
 		'login'         : 'login',
 		'signup'        : 'signup',
+		'room'          : 'room',
+		'match'         : 'match',
 		'success_login' : 'success_login',
 		// Default
 		'*actions': 'defaultAction'
@@ -12,12 +14,33 @@ app.routers.AppRouter = Backbone.Router.extend({
 	initialize: function () {
 	},
 
+	match: function () {
+		console.log('shell');
+		var shellView  = new app.views.ShellView({ el: $('#dln_content') });
+		shellView.delegateEvents();
+
+		console.log('match');
+		var matchView = new app.views.MatchView();
+		matchView.delegateEvents();
+	},
+
+	room: function () {
+		console.log('shell');
+		var shellView  = new app.views.ShellView({ el: $('#dln_content') });
+		shellView.delegateEvents();
+
+		console.log('room');
+		var roomView = new app.views.RoomView();
+		roomView.delegateEvents();
+	},
+
 	home: function () {
 		console.log('shell');
 		var shellView  = new app.views.ShellView({ el: $('#dln_content') });
 		shellView.delegateEvents();
+
 		console.log('home');
-		var homeView = new app.views.HomeView({ el: $('#main .container') });
+		var homeView = new app.views.HomeView();
 		homeView.delegateEvents();
 	},
 

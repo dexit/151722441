@@ -1,4 +1,4 @@
-app.views.HomeView =  Backbone.View.extend({
+app.views.HomeView = Backbone.View.extend({
 
 	initialize: function () {
 		var that = this;
@@ -10,12 +10,12 @@ app.views.HomeView =  Backbone.View.extend({
 	render: function (tpl) {
 		var that = this;
 		//var template = _.template(tpl);
-		$('#main .container').html(tpl);
+		$('#main .content').html(tpl);
 		//this.$el.html(template);
 
 		// Set full width for container
-		if ( ! $('#main .container').hasClass('dln-full-width') ) {
-			$('#main .container').addClass('dln-full-width');
+		if ( ! $('#main .content').hasClass('dln-full-width') ) {
+			$('#main .content').addClass('dln-full-width');
 		}
 
 		// Bind event load view
