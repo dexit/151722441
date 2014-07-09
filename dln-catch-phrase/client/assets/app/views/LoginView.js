@@ -10,6 +10,9 @@ app.views.LoginView =  Backbone.View.extend({
 		var userHelper  = new app.helpers.userHelper();
 		userHelper.login();
 		var is_loggedin = userHelper.checkUserLoggedIn();
+		if ( is_loggedin ) {
+			window.location = '#home';
+		}
 		var params = {
 			is_loggedin : is_loggedin
 		};

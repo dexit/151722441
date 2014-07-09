@@ -1,6 +1,7 @@
 app.routers.AppRouter = Backbone.Router.extend({
 	routes: {
 		''              : 'home',
+		'home'          : 'home',
 		'login'         : 'login',
 		'signup'        : 'signup',
 		'success_login' : 'success_login',

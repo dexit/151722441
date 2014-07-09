@@ -63,7 +63,7 @@ app.helpers.userHelper = function () {
 							}
 						}
 
-						window.location = '#/success_login';
+						window.location = '#home';
 					}
 				});
 			}
