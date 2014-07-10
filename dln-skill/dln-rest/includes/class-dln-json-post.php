@@ -57,13 +57,17 @@ class DLN_JSON_Post {
 		$arr_phrase_exclude = array ();
 		foreach ( $user_ids as $id ) {
 			$user_id    = (int) $id;
-			$phrase_ids = get_user_meta( $user_id, 'dln_view_phrase_ids' );
+			$phrase_ids = $this->get_phrase_user( $user_id );
+
 			if ( ! empty( $phrase_ids ) ) {
-				$arr_phrase_ids     = ( ! empty( $phrase_ids ) ) ? json_decode( $phrase_ids ) : null;
-				$arr_phrase_exclude = array_merge( $arr_phrase_ids, $phrase_ids );
+				foreach ( $phrase_ids as $i => $phrase_id ) {
+					if ( ! empty( $phrase_id->phrase_id ) && ! in_array( $phrase_id->phrase_id, $arr_phrase_exclude ) ) {
+						$arr_phrase_exclude[] = $phrase_id->phrase_id;
+					}
+				}
 			}
 		}
-		
+		$arr_phrase_exclude = implode( ',', $arr_phrase_exclude );
 		// Get pharse user unread
 		$args = array (
 			'post_per_page' => '10',
@@ -74,22 +78,47 @@ class DLN_JSON_Post {
 		// Update phrase user has view
 		if ( ! empty( $phrases ) ) {
 			foreach ( $user_ids as $id ) {
-				$user_id        = (int) $id;
-				$phrase_ids     = get_user_meta( $user_id, 'dln_view_phrase_ids' );
+				foreach ( $phrases as $phrase ) {
+					if ( ! empty( $phrase->ID ) ) {
+						$user_id        = (int) $id;
+						$phrase_id      = (int) $phrase->ID;
+						$this->add_phrase_user( $user_id, $phrase_id );
+					}
+				}
+				 
+				/*$phrase_ids     = get_user_meta( $user_id, 'dln_view_phrase_ids' );
 				$arr_phrase_ids = ( ! empty( $phrase_ids ) ) ? json_decode( $phrase_ids ) : null;
+				$arr_phrase_ids = explode( ',', $arr_phrase_ids );
 				foreach ( $phrases as $i => $phrase ) {
 					if ( ! empty( $phrase->ID ) ) {
 						$arr_phrase_ids[] = $phrase->ID;
 					}
 				}
-				$arr_phrase_ids      = implode( ',', $arr_phrase_ids );
-				$json_arr_phrase_ids = json_encode( $arr_phrase_ids );
-				var_dump($json_arr_phrase_ids);die();
-				update_user_meta( $user_id, 'dln_view_phrase_ids', $json_arr_phrase_ids );
+				$json_arr_phrase_ids = implode( ',', $arr_phrase_ids );
+				update_user_meta( $user_id, 'dln_view_phrase_ids', $json_arr_phrase_ids );*/
 			}
 		}
 		
 		return $phrases;
+	}
+	
+	private function get_phrase_user( $user_id ) {
+		if ( ! $user_id ) return false;
+		
+		global $wpdb;
+		$sql    = $wpdb->prepare( "SELECT phrase_id FROM {$wpdb->dln_user_phrase} WHERE user_id = %s LIMIT 0, 100", (int) $user_id );
+		$result = $wpdb->get_results( $sql );
+		return $result;
+	}
+	
+	private function add_phrase_user( $user_id, $phrase_id ) {
+		global $wpdb;
+		$data = array(
+			'user_id'     => $user_id,
+			'phrase_id'   => $phrase_id,
+			'time_create' => date( 'Y-m-d H:i:s', time() )
+		);
+		return $wpdb->insert( $wpdb->dln_user_phrase, $data );
 	}
 	
 	function new_dln_post() {

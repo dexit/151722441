@@ -27,24 +27,6 @@ class DLN_Install_Phrase {
 		}
 	}
 	
-	public static function create_user_phrase() {
-		global $wpdb;
-		
-		if ( ! empty( $wpdb->charset ) )
-			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-		if ( ! empty( $wpdb->collate ) )
-			$db_charset_collate .= " COLLATE $wpdb->collate";
-		
-		$sql = "CREATE TABLE {$wpdb->dln_user_phrase} (
-			id int(11) NOT NULL AUTO_INCREMENT,
-			user_id int(11) NOT NULL,
-			phrase_id int(11) NOT NULL,
-			PRIMARY KEY  (id)
-		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
-		
-		dbDelta( $sql );
-	}
-	
 	public static function create_match_user() {
 		global $wpdb;
 		
@@ -61,6 +43,25 @@ class DLN_Install_Phrase {
 			is_paid tinyint(1) DEFAULT 0,
 			time_create datetime NOT NULL,
 			time_update datetime NOT NULL,
+			PRIMARY KEY  (id)
+		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
+		
+		dbDelta( $sql );
+	}
+	
+	public static function create_user_phrase() {
+		global $wpdb;
+		
+		if ( ! empty( $wpdb->charset ) )
+			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$db_charset_collate .= " COLLATE $wpdb->collate";
+		
+		$sql = "CREATE TABLE {$wpdb->dln_user_phrase} (
+			id int(11) NOT NULL AUTO_INCREMENT,
+			user_id int(11) NOT NULL,
+			phrase_id int(11) NOT NULL,
+			time_create datetime NOT NULL,
 			PRIMARY KEY  (id)
 		) CHARSET=" . self::get_charset() . ", ENGINE=InnoDB $db_charset_collate;";
 		
