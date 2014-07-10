@@ -7,6 +7,7 @@ function Room( name, id, owner, time_create ){
 	this.status      = 'available';
 	this.private     = false;
 	this.time_create = time_create;
+	this.match_id    = '';
 };
 
 Room.prototype.addPerson = function (personID) {

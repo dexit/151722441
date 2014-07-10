@@ -17,7 +17,6 @@ class DLN_JSON_Post {
 				array( array( $this, 'get_dln_posts' ), WP_JSON_Server::READABLE ),
 				array( array( $this, 'new_dln_post' ), WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ),
 			),
-			
 			'/dln_post/(?P<id>\d+)' => array(
 				array( array( $this, 'get_dln_post' ), WP_JSON_Server::READABLE )
 			),
@@ -32,21 +31,23 @@ class DLN_JSON_Post {
 				array( array( $this, 'update_meta' ),    WP_JSON_Server::EDITABLE | WP_JSON_Server::ACCEPT_JSON ),
 				array( array( $this, 'delete_meta' ),    WP_JSON_Server::DELETABLE ),
 			),
-			
 			// User views
-			'/dln_post/user/' => array(
-				array( array( $this, 'get_user_phrase' ), WP_JSON_Server::READABLE )
+			'/dln_post/user' => array(
+				array( array( $this, 'get_user_phrase' ), WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON )
 			),
 		);
 		
 		return array_merge( $routes, $user_routes );
 	}
 	
-	function get_user_phrase(  ) {
-		if ( ! isset( $_GET['ids'] ) ) {
+	function get_user_phrase() {
+		if ( ! isset( $_POST['ids'] ) ) {
 			return new WP_Error( 'json_user_invalid_id', __( 'Invalid user IDs' ), array( 'status' => 404 ) );
 		}
-		$ids = $_GET['ids'];
+		//if ( ! DLN_Helper_Decrypt::get_decrypt() ) {
+		//	return new WP_Error( 'json_post_invalid_code', __( 'Invalid data verify code.' ), array( 'status' => 404 ) );
+		//}
+		$ids      = $_POST['ids'];
 		$user_ids = array ();
 		if ( empty( $ids ) ) {
 			return new WP_Error( 'json_user_invalid_id', __( 'Invalid user IDs' ), array( 'status' => 404 ) );
@@ -55,10 +56,10 @@ class DLN_JSON_Post {
 		
 		$arr_phrase_exclude = array ();
 		foreach ( $user_ids as $id ) {
-			$user_id = (int) $id;
+			$user_id    = (int) $id;
 			$phrase_ids = get_user_meta( $user_id, 'dln_view_phrase_ids' );
 			if ( ! empty( $phrase_ids ) ) {
-				$arr_phrase_ids = explode( ',', $phrase_ids );
+				$arr_phrase_ids     = ( ! empty( $phrase_ids ) ) ? json_decode( $phrase_ids ) : null;
 				$arr_phrase_exclude = array_merge( $arr_phrase_ids, $phrase_ids );
 			}
 		}
@@ -70,6 +71,23 @@ class DLN_JSON_Post {
 		);
 		
 		$phrases = get_posts( $args );
+		// Update phrase user has view
+		if ( ! empty( $phrases ) ) {
+			foreach ( $user_ids as $id ) {
+				$user_id        = (int) $id;
+				$phrase_ids     = get_user_meta( $user_id, 'dln_view_phrase_ids' );
+				$arr_phrase_ids = ( ! empty( $phrase_ids ) ) ? json_decode( $phrase_ids ) : null;
+				foreach ( $phrases as $i => $phrase ) {
+					if ( ! empty( $phrase->ID ) ) {
+						$arr_phrase_ids[] = $phrase->ID;
+					}
+				}
+				$arr_phrase_ids      = implode( ',', $arr_phrase_ids );
+				$json_arr_phrase_ids = json_encode( $arr_phrase_ids );
+				var_dump($json_arr_phrase_ids);die();
+				update_user_meta( $user_id, 'dln_view_phrase_ids', $json_arr_phrase_ids );
+			}
+		}
 		
 		return $phrases;
 	}

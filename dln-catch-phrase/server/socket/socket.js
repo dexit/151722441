@@ -9,6 +9,10 @@ var chat_history = {};
 var dlnServer    = 'http://localhost';
 var dlnWPServer  = dlnServer + '/wordpress';
 
+creatRoom = function ( name, money, code ) {
+
+}
+
 module.exports = function ( io, _ ) {
 	io.sockets.on( 'connection', function ( client ) {
 
@@ -51,7 +55,8 @@ module.exports = function ( io, _ ) {
 			}
 		} );
 
-		client.on( 'create-room', function ( user_id, room_name ) {
+		client.on( 'create-room', function ( user_id, room_name, money, code ) {
+			money = parseInt( money );
 			if ( people[user_id].inroom ) {
 				client.emit( 'update-log', 'Bạn chỉ có thể tham gia một phòng duy nhất, vui lòng thoát các phòng khác!' );
 			} else if ( ! people[user_id].owns ) {
@@ -68,19 +73,42 @@ module.exports = function ( io, _ ) {
 
 				var time_create = (new Date).getTime();
 				var room   = new Room( room_name, id, user_id, time_create );
-				rooms[id]  = room;
-				size_rooms = _.size( rooms );
-				io.sockets.emit( 'room-list', { rooms: rooms, count: size_rooms } );
 
-				client.room = id;
-				client.join( client.room );
-				people[user_id].owns    = id;
-				people[user_id].inrooms = id;
-				room.addPerson( user_id );
-				client.emit( 'update', 'Chào mừng bạn đến với phòng ' + room.name );
-				client.emit( 'send-room-id', { id: id } );
-				chat_history[client.room] = [];
-			} {
+				$.ajax({
+					url: dlnWPServer + '/wp-json/dln_post/',
+					dataType: 'json',
+					type: 'POST',
+					data: {
+						data: '{ "author":"' + user_id + '", "title":"' + room_name + '", "type":"dln_match", "post_meta": [{ "key":"dln_money", "value":"'+ money +'" }] }',
+						code: code
+					},
+					success: function ( response ) {
+						var obj = JSON.parse( response );
+						if ( obj.ID ) {
+							var match_id = obj.ID;
+						} else {
+							client.emit( 'error', { message: response.toString() } );
+						}
+
+						room.match_id = match_id;
+						rooms[id]     = room;
+						size_rooms    = _.size( rooms );
+						io.sockets.emit( 'room-list', { rooms: rooms, count: size_rooms } );
+
+						client.room = id;
+						client.join( client.room );
+						people[user_id].owns    = id;
+						people[user_id].inrooms = id;
+						room.addPerson( user_id );
+						client.emit( 'join-match', { room_id: id, match_id: match_id, money : money } );
+						client.emit( 'update-log', 'Bạn đã tạo phòng ' + room.name + ' thành công!' );
+						chat_history[client.room] = [];
+					},
+					error: function ( error ) {
+						client.emit( 'error', { message: error.toString() } );
+					}
+				});
+			} else {
 				socket.emit( 'update-log', 'Bạn đã tạo phòng rồi!' );
 			}
 		} );
@@ -104,7 +132,7 @@ module.exports = function ( io, _ ) {
 			}
 		} );
 
-		client.on( 'join-room', function ( user_id, room_id ) {
+		client.on( 'join-room', function ( user_id, room_id, match_id, money ) {
 			if ( typeof ( people[ user_id ] !== 'undefined' ) ) {
 				var room = rooms[ room_id ];
 				if ( user_id === room.owner ) {
@@ -120,7 +148,7 @@ module.exports = function ( io, _ ) {
 						user = people[ user_id ];
 						io.sockets.in( client.room).emit( 'update-log', user.name + ' đã tham gia phòng ' + room.name );
 						client.emit( 'update-log', 'Chào mừng bạn tham gia phòng ' + room.name + '.' );
-						client.emit( 'send-room-id', { id: id } );
+						client.emit( 'join-match', { room_id: id, match_id: match_id, money : money } );
 						var key = _.keys( chat_history );
 						if ( _.contains( keys, client.room ) ) {
 							client.emit( 'history', chat_history[ client.room ] );

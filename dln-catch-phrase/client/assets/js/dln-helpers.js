@@ -1,8 +1,8 @@
 /**
  * Created by DinhLN on 5/25/2014.
  */
-var dlnServer    = 'http://localhost';
-var dlnWPServer  = dlnServer + '/wordpress';
+var dlnServer    = dlnServer || 'http://localhost';
+var dlnWPServer  = dlnWPServer || dlnServer + '/wordpress';
 
 var DLN_Helpers = {
 	createMatch : function ( client, room_name ) {

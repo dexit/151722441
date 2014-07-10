@@ -57,7 +57,7 @@ class DLN_Install_Phrase {
 			id int(11) NOT NULL AUTO_INCREMENT,
 			match_id int(11) NOT NULL,
 			user_id int(11) NOT NULL,
-			bet int(11) NOT NULL,
+			money int(11) NOT NULL,
 			is_paid tinyint(1) DEFAULT 0,
 			time_create datetime NOT NULL,
 			time_update datetime NOT NULL,

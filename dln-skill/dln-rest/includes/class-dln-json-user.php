@@ -44,7 +44,7 @@ class DLN_JSON_User {
 		}
 		
 		// Check params
-		$required = array( 'match_id', 'user_id', 'bet' );
+		$required = array( 'match_id', 'user_id', 'money' );
 		foreach ( $required as $arg ) {
 			if ( empty( $data[ $arg ] ) ) {
 				if ( isset( $_GET['debug'] ) && $_GET['debug'] == 'true' ) {
@@ -67,7 +67,7 @@ class DLN_JSON_User {
 			$data = array(
 				'match_id'    => (int) $match_id,
 				'user_id'     => (int) $user_id,
-				'bet'         => (int) $bet,
+				'money'         => (int) $money,
 				'time_create' => $current_time
 			);
 			$int = $wpdb->insert( $wpdb->dln_match_user, $data );

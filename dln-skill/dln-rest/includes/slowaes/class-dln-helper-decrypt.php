@@ -135,4 +135,4 @@ class DLN_Helper_Decrypt {
 	
 }
 
-//var_dump( DLN_Helper_Decrypt::decrypt( '24 be563e26467accc1253a93c76da1c43f64431781c5af92bfce3b33ea08110f95 70f8cbb438a5859eae19737f7ddb8ae0f275688b743d88ec199aabf3f8cd6178', '1451989' ) );die();
+//var_dump( DLN_Helper_Decrypt::decrypt( '38-b404830ef456280d42438effdff4fd0e3763e7ddd535f1b5d827b76a9d116a8c-b81fb780d3c6ba71fa78a11271e2628f3e20ceb020a72043e68157d72431813a83e7579c08a9f66cad18e964346fa99c', '1451989' ) );die();
