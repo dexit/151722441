@@ -55,6 +55,7 @@ var dlnWPServer  = dlnWPServer || dlnServer + '/wordpress';
 					var user_id  = parseInt( data.user_id );
 					var match_id = parseInt( data.match_id );
 					var money    = parseInt( data.money );
+					var room_id  = data.room_id;
 					$.ajax({
 						url: dlnWPServer + '/wp-json/user/match',
 						dataType: 'json',
@@ -64,7 +65,11 @@ var dlnWPServer  = dlnWPServer || dlnServer + '/wordpress';
 							code: code
 						},
 						success: function ( response ) {
-							var obj = JSON.parse( response.toString() );
+							if ( response == '1' ) {
+								that.socket.emit( 'match-waiting',{ user_id: user_id, match_id: match_id } );
+							} else {
+								alert( response.toString() );
+							}
 						},
 						error: function ( error ) {
 							alert( error.toString() );

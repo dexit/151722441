@@ -32,7 +32,7 @@ app.utils.templates = {
 			callback(deferred);
 		} else {
 			var that = this;
-			$.get('assets/app/tpl/' + id + '.html', function ( deferred ) {
+			$.get('tpl/' + id + '.html', function ( deferred ) {
 				that.deferreds[id] = deferred;
 				callback(deferred);
 			}, 'html').fail(function () {

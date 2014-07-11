@@ -35,18 +35,22 @@ class DLN_JSON_Post {
 			'/dln_post/user' => array(
 				array( array( $this, 'get_user_phrase' ), WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON )
 			),
+			// Update user view phrases
+			'/dln_post/phrase' => array(
+				array( array( $this, 'update_user_phrase', WP_JSON_Server::CREATABLE | WP_JSON_Server::ACCEPT_JSON ) )
+			)
 		);
 		
 		return array_merge( $routes, $user_routes );
 	}
 	
-	function get_user_phrase() {
+	public function get_user_phrase() {
 		if ( ! isset( $_POST['ids'] ) ) {
 			return new WP_Error( 'json_user_invalid_id', __( 'Invalid user IDs' ), array( 'status' => 404 ) );
 		}
-		//if ( ! DLN_Helper_Decrypt::get_decrypt() ) {
-		//	return new WP_Error( 'json_post_invalid_code', __( 'Invalid data verify code.' ), array( 'status' => 404 ) );
-		//}
+		if ( ! DLN_Helper_Decrypt::get_decrypt() ) {
+			return new WP_Error( 'json_post_invalid_code', __( 'Invalid data verify code.' ), array( 'status' => 404 ) );
+		}
 		$ids      = $_POST['ids'];
 		$user_ids = array ();
 		if ( empty( $ids ) ) {
@@ -54,45 +58,58 @@ class DLN_JSON_Post {
 		}
 		$user_ids = explode( ',', $ids );
 		
-		$arr_phrase_exclude = array ();
+		$arr_phrase_exclude = $arr_cache = array ();
 		foreach ( $user_ids as $id ) {
-			$user_id    = (int) $id;
-			$phrase_ids = get_user_meta( $user_id, 'dln_view_phrase_ids' );
+			$user_id             = (int) $id;
+			$phrase_ids          = get_user_meta( $user_id, 'dln_view_phrase_ids' );
+			$phrase_ids          = isset( $phrase_ids[0] ) ? $phrase_ids[0] : ''; 
+			$arr_cache[$user_id] = $phrase_ids;
 			if ( ! empty( $phrase_ids ) ) {
-				$arr_phrase_ids     = ( ! empty( $phrase_ids ) ) ? json_decode( $phrase_ids ) : null;
-				$arr_phrase_exclude = array_merge( $arr_phrase_ids, $phrase_ids );
+				$arr_phrase_ids     = ( ! empty( $phrase_ids ) ) ? unserialize( $phrase_ids ) : null;
+				$arr_phrase_exclude = array_merge( $arr_phrase_exclude, $arr_phrase_ids );
 			}
 		}
-		
+		$arr_phrase_exclude = implode( ',', $arr_phrase_exclude );
 		// Get pharse user unread
 		$args = array (
-			'post_per_page' => '10',
-			'exclude' => $arr_phrase_exclude
+			'numberposts'  => '10',
+			'exclude'      => $arr_phrase_exclude,
+			'orderby'      => 'rand',
+			'post_type'    => 'dln_phrase'
 		);
 		
 		$phrases = get_posts( $args );
-		// Update phrase user has view
-		if ( ! empty( $phrases ) ) {
-			foreach ( $user_ids as $id ) {
-				$user_id        = (int) $id;
-				$phrase_ids     = get_user_meta( $user_id, 'dln_view_phrase_ids' );
-				$arr_phrase_ids = ( ! empty( $phrase_ids ) ) ? json_decode( $phrase_ids ) : null;
-				foreach ( $phrases as $i => $phrase ) {
-					if ( ! empty( $phrase->ID ) ) {
-						$arr_phrase_ids[] = $phrase->ID;
-					}
-				}
-				$arr_phrase_ids      = implode( ',', $arr_phrase_ids );
-				$json_arr_phrase_ids = json_encode( $arr_phrase_ids );
-				var_dump($json_arr_phrase_ids);die();
-				update_user_meta( $user_id, 'dln_view_phrase_ids', $json_arr_phrase_ids );
-			}
-		}
 		
 		return $phrases;
 	}
 	
-	function new_dln_post() {
+	public function update_user_phrase() {
+		$data = null;
+		if ( isset( $_POST['data'] ) ) {
+			$data = json_decode( stripslashes( $_POST['data'] ), ARRAY_N );
+		}
+		if ( empty( $data ) ) {
+			return new WP_Error( 'json_post_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
+		}
+		if ( ! DLN_Helper_Decrypt::get_decrypt() ) {
+			return new WP_Error( 'json_post_invalid_code', __( 'Invalid data verify code.' ), array( 'status' => 404 ) );
+		}
+		$user_id        = ( ! empty( $data['id'] ) ) ? (int) $data['id'] : '';
+		$phrase_ids     = ( ! empty( $data['phrase_ids'] ) ) ? $data['phrase_ids'] : '';
+		
+		// Update phrase user has view
+		$phrase_ids     = explode( ',', $phrase_ids );
+		$arr_phrase_ids = array();
+		foreach ( $phrase_ids as $id ) {
+			if ( ! empty( $id ) ) {
+				$arr_phrase_ids[] = $id;
+			}
+		}
+		$json_arr_phrase_ids = serialize( $arr_phrase_ids );
+		update_user_meta( $user_id, 'dln_view_phrase_ids', $json_arr_phrase_ids );
+	}
+	
+	public function new_dln_post() {
 		$data = null;
 		
 		if ( isset( $_POST['data'] ) ) {
@@ -119,7 +136,7 @@ class DLN_JSON_Post {
 		return $response;
 	}
 	
-	function insert_dln_post( $data ) {
+	public function insert_dln_post( $data ) {
 		if ( empty( $data ) ) {
 			return new WP_Error( 'json_post_invalid_data', __( 'Invalid data parameters.' ), array( 'status' => 404 ) );
 		}
@@ -341,7 +358,23 @@ class DLN_JSON_Post {
 		
 		do_action( 'json_insert_post', $post, $data, $update );
 		
+		$this->check_is_match( $data, $post_ID );
+		
 		return $post_ID;
+	}
+	
+	private function check_is_match( $data, $post_ID ) {
+		global $wpdb;
+		if ( isset( $data['type'] ) && $data['type'] == 'dln_match' ) {
+			$current_time  = date( 'Y-m-d H:i:s', time() );
+			$data = array(
+				'match_id'    => (int) $post_ID,
+				'user_id'     => (int) $data['author'],
+				'money'       => (int) get_post_meta( $post_ID, 'dln_money' ),
+				'time_create' => $current_time
+			);
+			$int = $wpdb->insert( $wpdb->dln_match_user, $data );
+		}
 	}
 	
 	public function get_dln_post( $id, $context = 'view' ) {
@@ -378,7 +411,7 @@ class DLN_JSON_Post {
 		return $response;
 	}
 	
-	function get_dln_posts( $filter = array(), $context = 'view', $type = 'post', $page = 1 ) {
+	public function get_dln_posts( $filter = array(), $context = 'view', $type = 'post', $page = 1 ) {
 		$query = array();
 		
 		// Validate post types and permissions

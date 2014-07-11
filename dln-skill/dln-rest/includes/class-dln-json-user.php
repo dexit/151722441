@@ -62,12 +62,12 @@ class DLN_JSON_User {
 		global $wpdb;
 		$sql    = $wpdb->prepare( "SELECT COUNT(user_id) as count FROM {$wpdb->dln_match_user} WHERE match_id = %s", $match_id );
 		$result = $wpdb->get_results( $sql, ARRAY_A );
-		if ( isset( $result['count'] ) && $result['count'] > $limit ) {
+		if ( isset( $result['count'] ) && $result['count'] <= $limit ) {
 			$current_time  = date( 'Y-m-d H:i:s', time() );
 			$data = array(
 				'match_id'    => (int) $match_id,
 				'user_id'     => (int) $user_id,
-				'money'         => (int) $money,
+				'money'       => (int) $money,
 				'time_create' => $current_time
 			);
 			$int = $wpdb->insert( $wpdb->dln_match_user, $data );
