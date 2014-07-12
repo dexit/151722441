@@ -1,0 +1,32 @@
+<div class="dln-list-room-item list-group-item">
+    <div class="pull-right text-right">
+        <small class="text-muted clear">5m ago</small>
+        <a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+    </div>
+    <a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+    <div class="clear">
+        <a href="#">
+            <strong>Thách đấu toàn server</strong>
+            <i class="i i-star"></i>
+        </a>
+        <small class="block">
+            <a class="" href="javascript(0)">Thắng</a>
+            <span class="label label-danger">+200 đ</span>
+            <span>/</span>
+            <a class="" href="javascript(0)">Thua</a>
+            <span class="label label-success">-100 đ</span>
+        </small>
+        <small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+    </div>
+</div>
+
+<% _.each(employees, function(employee) { %>
+<li class="topcoat-list__item">
+    <a href="#employees/<%= employee.id %>">
+        <img src='pics/<%= employee.firstName %>_<%= employee.lastName %>.jpg'/>
+        <p><%= employee.firstName %> <%= employee.lastName %></p>
+        <p><%= employee.title %></p>
+        <span class="chevron"></span><span class="count"><%= employee.reports %></span>
+    </a>
+</li>
+<% }); %>

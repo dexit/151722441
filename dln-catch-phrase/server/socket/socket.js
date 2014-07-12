@@ -6,6 +6,8 @@ var $            = require( 'jquery' );
 var people       = {};
 var rooms        = {};
 var chat_history = {};
+var matchs       = {};
+var sockets      = [];
 var dlnServer    = 'http://localhost';
 var dlnWPServer  = dlnServer + '/wordpress';
 
@@ -36,6 +38,7 @@ module.exports = function ( io, _ ) {
 				io.sockets.emit( 'update-people', { people: people, count: size_people } );
 				client.emit( 'room-list', { rooms: rooms, count: size_rooms } );
 				client.emit( 'joined' );
+				sockets.push( client );
 			}
 		} );
 
@@ -74,12 +77,13 @@ module.exports = function ( io, _ ) {
 				var time_create = (new Date).getTime();
 				var room   = new Room( room_name, id, user_id, time_create );
 
+				// Create match
 				$.ajax({
 					url: dlnWPServer + '/wp-json/dln_post/',
 					dataType: 'json',
 					type: 'POST',
 					data: {
-						data: '{ "author":"' + user_id + '", "title":"' + room_name + '", "type":"dln_match", "post_meta": [{ "key":"dln_money", "value":"'+ money +'" }] }',
+						data: '{ "author":"' + user_id + '", "title":"' + room_name + '", "type":"dln_match", "post_meta": [{ "key":"dln_money", "value":"'+ money +'" }, { "key":"dln_limit_people", "value":"2" }] }',
 						code: code
 					},
 					success: function ( response ) {
@@ -100,7 +104,6 @@ module.exports = function ( io, _ ) {
 						people[user_id].owns    = id;
 						people[user_id].inrooms = id;
 						room.addPerson( user_id );
-						client.emit( 'join-match', { room_id: id, match_id: match_id, money : money } );
 						client.emit( 'update-log', 'Bạn đã tạo phòng ' + room.name + ' thành công!' );
 						chat_history[client.room] = [];
 					},
@@ -166,18 +169,42 @@ module.exports = function ( io, _ ) {
 				purge( client, 'leave-room' );
 		} );
 
-		client.on( 'join-match', function ( user_id, match_id, money ) {
-			$.ajax({
-				url: dlnWPServer + '/wp-json/dln_post/',
-				dataType: 'json',
-				type: 'POST',
-				data: {
-					data: '{ "user_id" : "' + user_id + '", "match_id" : "' + match_id + '", "money" : "' + money + '" }'
-				},
-				success: function ( response ) {
-
-				}
-			});
+		client.on( 'match-waiting', function ( user_id, match_id ) {
+			matchs[match_id] = user_id;
 		} );
 	} );
 };
+
+function purge( s, action ) {
+	if ( people[s.id].inroom ) { // user is in a room.
+		var room = rooms[people[s.id].inroom]; // check which room user is in.
+		if (s.id === room.owner ) { //user in room and owns room
+			if ( action === 'disconnect' ) {
+				io.sockets.in(s.room).emit("update", "The owner (" +people[s.id].name + ") has left the server. The room is removed and you have been disconnected from it as well.");
+				var socketids = [];
+				for ( var i=0; i< sockets.length; i++ ) {
+					socketids.push( sockets[i].id );
+					if( _.contains( ( socketids ) ), room.people ) {
+						sockets[i].leave( room.name );
+					}
+				}
+
+				if(_.contains( ( room.people ) ), s.id) {
+					for ( var i=0; i<room.people.length; i++ ) {
+						people[room.people[i]].inroom = null;
+					}
+				}
+				room.people = _.without( room.people, s.id ); //remove people from the room:people{}collection
+				delete rooms[people[s.id].owns]; //delete the room
+				delete people[s.id]; //delete user from people collection
+				delete chatHistory[room.name]; //delete the chat history
+				sizePeople = _.size(people);
+				sizeRooms  = _.size(rooms);
+				io.sockets.emit("update-people", {people: people, count: sizePeople});
+				io.sockets.emit("roomList", {rooms: rooms, count: sizeRooms});
+				var o   = _.findWhere(sockets, {'id': s.id});
+				sockets = _.without(sockets, o);
+			}
+		}
+	}
+}

@@ -5,6 +5,9 @@ app.views.RoomView = Backbone.View.extend({
 		app.utils.templates.get( 'RoomView', function ( tpl ) {
 			that.render( tpl );
 		} );
+
+		var room_item = new app.views.RoomItemView();
+		room_item.render();
 	},
 
 	getCurrentUserID: function () {
