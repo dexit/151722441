@@ -1,13 +1,5 @@
 <header class="dln-nav-header dker header clearfix">
-	<div class="btn-group pull-right">
-		<div class="input-group ">
-			<input type="text" placeholder="Tim kiếm" class="input-sm form-control input-s-sm">
-			<div class="input-group-btn">
-				<button class="btn btn-sm btn-default"><i class="fa fa-search"></i></button>
-			</div>
-		</div>
-	</div>
-	<div class="btn-toolbar">
+	<span class="pull-right m-t">
 		<div class="btn-group select">
 			<button data-toggle="dropdown" class="btn btn-default btn-sm btn-bg dropdown-toggle"><span
 					style="width: 65px;" class="dropdown-label">Filter</span> <span class="caret"></span></button>
@@ -18,141 +10,313 @@
 				<li><a href="#">Unstarred</a></li>
 			</ul>
 		</div>
-		<div class="btn-group">
-			<button data-title="Refresh" data-placement="bottom" data-toggle="tooltip"
-			        class="btn btn-sm btn-bg btn-default" data-original-title="" title=""><i class="fa fa-refresh"></i>
-			</button>
-		</div>
+		<button title="" data-placement="right" data-toggle="tooltip" id="new-note" class="btn btn-success btn-sm btn-icon" data-original-title="New">
+			<i class="fa fa-plus"></i>
+		</button>
+	</span>
+
+	<p class="h3">Phòng</p>
+
+	<div class="input-group m-t m-b">
+		<span class="input-group-addon input-sm">
+			<i class="fa fa-search"></i>
+		</span>
+		<input type="text" placeholder="Tìm kiếm" id="search-note" class="form-control input-sm">
 	</div>
 </header>
 
-<section class="scrollable hover w-f">
-	<div class="list-group auto no-radius m-b-none m-t-n-xxs list-group-lg">
-		<div class="dln-list-room-item list-group-item">
-			<div class="pull-right text-right">
-				<small class="text-muted clear">5m ago</small>
-				<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
-			</div>
-			<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
-			<div class="clear">
-				<a href="#">
-					<strong>Thách đấu toàn server</strong>
-					<i class="i i-star"></i>
+<header class="dln-nav-header dker header clearfix navbar-fixed-bottom box-shadow">
+	<div class="btn-group pull-left dln-group-nav">
+		<button type="button" class="btn btn-sm btn-bg btn-default"><i class="fa fa-chevron-left"></i></button>
+		<button type="button" class="btn btn-sm btn-bg btn-default disabled"><i class="fa fa-chevron-right"></i></button>
+	</div>
+	<div class="btn-toolbar pull-right">
+		<button data-title="Refresh" data-placement="bottom" data-toggle="tooltip"
+	        class="btn btn-sm btn-bg btn-default" data-original-title="" title=""><i class="fa fa-refresh"></i>
+		</button>
+	</div>
+</header>
+
+<section class="panel panel-default">
+	<header class="panel-heading text-right bg-light">
+		<ul class="nav nav-tabs">
+			<li class="active">
+				<a data-toggle="tab" href="#public-room">
+					<i class="fa fa-user text-muted"></i> Profile
 				</a>
-				<small class="block">
-					<a class="" href="javascript(0)">Thắng</a>
-					<span class="label label-danger">+200 đ</span>
-					<span>/</span>
-					<a class="" href="javascript(0)">Thua</a>
-					<span class="label label-success">-100 đ</span>
-				</small>
-				<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
-			</div>
+			</li>
+			<li>
+				<a data-toggle="tab" href="#private-room">
+					<i class="fa fa-cog text-muted"></i> Private
+				</a>
+			</li>
+		</ul>
+	</header>
+	<div class="tab-content">
+		<div id="public-room" class="tab-pane fade active in">
+			<section class="scrollable hover w-f">
+				<div class="list-group auto no-radius m-b-none m-t-n-xxs list-group-lg">
+					<div class="dln-list-room-item list-group-item">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-success">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-danger">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item clearfix panel-footer">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item list-group-item">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item clearfix panel-footer">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item list-group-item">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item clearfix panel-footer">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+				</div>
+			</section>
 		</div>
-		<div class="dln-list-room-item clearfix panel-footer">
-			<div class="pull-right text-right">
-				<small class="text-muted clear">5m ago</small>
-				<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
-			</div>
-			<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
-			<div class="clear">
-				<a href="#">
-					<strong>Thách đấu toàn server</strong>
-					<i class="i i-star"></i>
-				</a>
-				<small class="block">
-					<a class="" href="javascript(0)">Thắng</a>
-					<span class="label label-danger">+200 đ</span>
-					<span>/</span>
-					<a class="" href="javascript(0)">Thua</a>
-					<span class="label label-success">-100 đ</span>
-				</small>
-				<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
-			</div>
-		</div>
-		<div class="dln-list-room-item list-group-item">
-			<div class="pull-right text-right">
-				<small class="text-muted clear">5m ago</small>
-				<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
-			</div>
-			<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
-			<div class="clear">
-				<a href="#">
-					<strong>Thách đấu toàn server</strong>
-					<i class="i i-star"></i>
-				</a>
-				<small class="block">
-					<a class="" href="javascript(0)">Thắng</a>
-					<span class="label label-danger">+200 đ</span>
-					<span>/</span>
-					<a class="" href="javascript(0)">Thua</a>
-					<span class="label label-success">-100 đ</span>
-				</small>
-				<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
-			</div>
-		</div>
-		<div class="dln-list-room-item clearfix panel-footer">
-			<div class="pull-right text-right">
-				<small class="text-muted clear">5m ago</small>
-				<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
-			</div>
-			<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
-			<div class="clear">
-				<a href="#">
-					<strong>Thách đấu toàn server</strong>
-					<i class="i i-star"></i>
-				</a>
-				<small class="block">
-					<a class="" href="javascript(0)">Thắng</a>
-					<span class="label label-danger">+200 đ</span>
-					<span>/</span>
-					<a class="" href="javascript(0)">Thua</a>
-					<span class="label label-success">-100 đ</span>
-				</small>
-				<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
-			</div>
-		</div>
-		<div class="dln-list-room-item list-group-item">
-			<div class="pull-right text-right">
-				<small class="text-muted clear">5m ago</small>
-				<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
-			</div>
-			<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
-			<div class="clear">
-				<a href="#">
-					<strong>Thách đấu toàn server</strong>
-					<i class="i i-star"></i>
-				</a>
-				<small class="block">
-					<a class="" href="javascript(0)">Thắng</a>
-					<span class="label label-danger">+200 đ</span>
-					<span>/</span>
-					<a class="" href="javascript(0)">Thua</a>
-					<span class="label label-success">-100 đ</span>
-				</small>
-				<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
-			</div>
-		</div>
-		<div class="dln-list-room-item clearfix panel-footer">
-			<div class="pull-right text-right">
-				<small class="text-muted clear">5m ago</small>
-				<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
-			</div>
-			<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
-			<div class="clear">
-				<a href="#">
-					<strong>Thách đấu toàn server</strong>
-					<i class="i i-star"></i>
-				</a>
-				<small class="block">
-					<a class="" href="javascript(0)">Thắng</a>
-					<span class="label label-danger">+200 đ</span>
-					<span>/</span>
-					<a class="" href="javascript(0)">Thua</a>
-					<span class="label label-success">-100 đ</span>
-				</small>
-				<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
-			</div>
+		<div id="private-room" class="tab-pane fade">
+			<section class="scrollable hover w-f">
+				<div class="list-group auto no-radius m-b-none m-t-n-xxs list-group-lg">
+					<div class="dln-list-room-item list-group-item">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5mss ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item clearfix panel-footer">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item list-group-item">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item clearfix panel-footer">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item list-group-item">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+					<div class="dln-list-room-item clearfix panel-footer">
+						<div class="pull-right text-right">
+							<small class="text-muted clear">5m ago</small>
+							<a class="btn btn-sm btn-default" href="#"><i class="i i-arrow-right4"></i></a>
+						</div>
+						<a class="pull-left thumb-sm avatar m-r" href="#"> <img alt="..." src="https://graph.facebook.com/728554500524307/picture"> <i class="on b-white bottom"></i> </a>
+						<div class="clear">
+							<a href="#">
+								<strong>Thách đấu toàn server</strong>
+								<i class="i i-star"></i>
+							</a>
+							<small class="block">
+								<a class="" href="javascript(0)">Thắng</a>
+								<span class="label label-danger">+200 đ</span>
+								<span>/</span>
+								<a class="" href="javascript(0)">Thua</a>
+								<span class="label label-success">-100 đ</span>
+							</small>
+							<small class="block text-muted">MS: 403 / Thể loại 1:1</small>
+						</div>
+					</div>
+				</div>
+			</section>
 		</div>
 	</div>
 </section>
+

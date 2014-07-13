@@ -6,8 +6,8 @@ app.views.RoomView = Backbone.View.extend({
 			that.render( tpl );
 		} );
 
-		var room_item = new app.views.RoomItemView();
-		room_item.render();
+		//var room_item = new app.views.RoomItemView();
+		//room_item.render();
 	},
 
 	getCurrentUserID: function () {

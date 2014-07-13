@@ -70,17 +70,20 @@
 }
 .dln-image-wrapper {
 }
+.dln-answer-group {
+    height: auto;
+    margin-bottom: -10px;
+}
 .dln-answer-group .btn-group {
     margin-right: 5px;
 }
 .dln-answer-group .btn{
-    padding-top: 10px;
     margin: 0 0px 10px;
-    min-width: 35px;
+    min-width: 30px;
 }
 .dln-choice-group .btn{
     margin: 0 5px 10px;
-    min-width: 35px;
+    min-width: 30px;
 }
 .text-right {
     text-align: right;
@@ -90,6 +93,9 @@
 }
 .dln-list-room-item {
     min-height: 90px;
+}
+.dln-no-b-t {
+    margin-bottom: 0px;
 }
 /*.dln-btn-main .dln-icon-check-point{
     -webkit-transition: all 250ms ease-in-out;

@@ -5,6 +5,7 @@ app.routers.AppRouter = Backbone.Router.extend({
 		'login'         : 'login',
 		'signup'        : 'signup',
 		'room'          : 'room',
+		'room_wait'     : 'room_wait',
 		'match'         : 'match',
 		'success_login' : 'success_login',
 		// Default
@@ -32,6 +33,16 @@ app.routers.AppRouter = Backbone.Router.extend({
 		console.log('room');
 		var roomView = new app.views.RoomView();
 		roomView.delegateEvents();
+	},
+
+	room_wait: function () {
+		console.log( 'shell' );
+		var shellView  = new app.views.ShellView({ el: $('#dln_content') });
+		shellView.delegateEvents();
+
+		console.log( 'room-wait' );
+		var roomWaitView = new app.views.RoomWaitView({ el: $('#dln_content') });
+		roomWaitView.delegateEvents();
 	},
 
 	home: function () {
