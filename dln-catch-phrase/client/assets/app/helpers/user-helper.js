@@ -89,8 +89,9 @@ app.helpers.userHelper = function () {
 
 	this.logout = function () {
 		this.resetUser();
+		console.log('ok');
 		window.localStorage.removeItem('user_json');
-		window.location = '#/login';
+		window.location = '#login';
 	};
 
 	this.checkUserLoggedIn = function () {

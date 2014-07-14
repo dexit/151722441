@@ -13,10 +13,6 @@ var sockets      = [];
 var dlnServer    = 'http://localhost';
 var dlnWPServer  = dlnServer + '/wordpress';
 
-creatRoom = function ( name, money, code ) {
-
-}
-
 module.exports = function ( io, _ ) {
 	io.sockets.on( 'connection', function ( client ) {
 
@@ -25,14 +21,14 @@ module.exports = function ( io, _ ) {
 			var ownerRoomID = inRoomID = null;
 
 			_.find( people, function ( key, value ) {
-				if ( key.id === user_id )
+				if ( key.id === client.id )
 					return exists = true;
 			} );
 
 			if ( exists ) {
 				client.emit( 'error', { message : 'Bạn đã có trong hệ thống, xin vui lòng thử lại!' } );
 			} else {
-				people[client.id] = { id: user_id, 'name': name, 'owns': ownerRoomID, 'inroom': inRoomID, 'device': device };
+				people[client.id] = { id: client.id, user_id: user_id, 'name': name, 'owns': ownerRoomID, 'inroom': inRoomID, 'device': device };
 				client.emit( 'update-log', 'Kết nối thành công!' );
 				io.sockets.emit( 'update-log', people[user_id].name + ' đã tham gia!' );
 				size_people = _.size( people );

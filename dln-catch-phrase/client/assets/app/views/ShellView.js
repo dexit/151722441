@@ -16,6 +16,11 @@ app.views.ShellView = Backbone.View.extend({
 			user: user
 		};
 
+		// Check user login?
+		if ( ! is_loggedin ) {
+			window.location = '#login';
+		}
+
 		var template = _.template( tpl, params );
 		this.$el.html(template);
 

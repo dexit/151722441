@@ -18,6 +18,15 @@ app.views.HomeView = Backbone.View.extend({
 			$('#main .content').addClass('dln-full-width');
 		}
 
+		$.mobile.loading( 'show', {
+			text: 'Đang tải...',
+			textonly: false,
+			textVisible: true
+		} );
+		setTimeout(function() {
+			$.mobile.loading('hide');
+		}, 500);
+
 		// Bind event load view
 		$('body').trigger( 'on_after_render_home' );
 	}

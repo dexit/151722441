@@ -3,6 +3,7 @@ app.routers.AppRouter = Backbone.Router.extend({
 		''              : 'home',
 		'home'          : 'home',
 		'login'         : 'login',
+		'logout'        : 'logout',
 		'signup'        : 'signup',
 		'room'          : 'room',
 		'room_wait'     : 'room_wait',
@@ -56,9 +57,16 @@ app.routers.AppRouter = Backbone.Router.extend({
 	},
 
 	login: function() {
-		console.log('login');
-		var loginView = new app.views.LoginView({ el: $('#dln_content') });
+		console.log( 'login' );
+		var loginView = new app.views.LoginView({ el: $( '#dln_content') });
 		loginView.delegateEvents();
+	},
+
+	logout: function () {
+		console.log( 'logout' );
+		$.mobile.loading( 'hide' );
+		var userHelper  = new app.helpers.userHelper();
+		userHelper.logout();
 	},
 
 	signup: function () {
