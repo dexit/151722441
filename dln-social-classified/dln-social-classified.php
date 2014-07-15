@@ -15,7 +15,7 @@ class DLN_SocialClassified {
 	
 	public function __construct() {
 		// Define constants
-		define( 'DLN_CLF', '1.0.0' );
+		define( 'DLN_CLF_VERSION', '1.0.0' );
 		define( 'DLN_CLF', 'dln-classified' );
 		define( 'DLN_CLF_PLUGIN_DIR', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 		define( 'DLN_CLF_PLUGIN_URL', untrailingslashit( plugins_url( basename( plugin_dir_path( __FILE__ ) ), basename( __FILE__ ) ) ) );
@@ -44,4 +44,4 @@ class DLN_SocialClassified {
 	
 }
 
-$GLOBALS['dln_hand'] = new DLN_SocialClassified();
+$GLOBALS['dln_classified'] = new DLN_SocialClassified();

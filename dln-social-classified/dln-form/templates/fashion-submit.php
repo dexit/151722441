@@ -16,20 +16,20 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 					<h4 class="text-primary mt0"><?php echo $page_title ?></h4>
 					<p class="pb10"><?php echo $page_description ?></p>
 					<?php if ( apply_filters( 'submit_profile_form_show', true ) ) : ?>
-						<?php if ( dln_form_user_can_post_profile() ) : ?>
+						<?php if ( DLN_Form_Functions::form_user_can_post_profile() ) : ?>
 							
-							<?php dln_form_profile_fields( $profile_fields ) // Load common profile fields?>
+							<?php DLN_Form_Functions::form_profile_fields( $fashion_fields ) // Load common profile fields?>
 							
 							<div class="panel-footer">
 								<div class="form-group no-border">
 									<label class="col-sm-3 control-label"></label>
 									<div class="col-sm-9">
 										<?php wp_nonce_field( 'submit_form_posted' ); ?>
-										<input type="hidden" id="company_id" name="company_id" value="<?php echo esc_attr( $company_id ) ?>" />
+										<input type="hidden" id="fashion_id" name="fashion_id" value="<?php echo esc_attr( $fashion_id ) ?>" />
 										<input type="hidden" id="dln_form" name="dln_form" value="<?php echo esc_attr( $form ) ?>" />
 										<input type="hidden" id="step" name="step" value="<?php echo esc_attr( $step ) ?>" />
-										<input type="hidden" id="submit_profile" name="submit_profile" value="<?php echo esc_attr( $form ) ?>" />
-										<button type="submit" class="btn btn-primary"><?php esc_attr_e( $submit_button_text ) ?></button>
+										<input type="hidden" id="submit_fashion" name="submit_fashion" value="<?php echo esc_attr( $form ) ?>" />
+										<button type="submit" class="btn btn-primary"><?php esc_attr_e( $submit_button ) ?></button>
 									</div>
 								</div>
 							</div>

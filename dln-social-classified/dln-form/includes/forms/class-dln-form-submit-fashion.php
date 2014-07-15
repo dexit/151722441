@@ -9,6 +9,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 	protected static $step           = 0;
 	protected static $fashion_id     = 0;
 	protected static $fashion_fields = null;
+	protected static $cache_fields   = null;
 	
 	public static function init() {
 		add_action( 'wp', array( __CLASS__, 'process' ) );
@@ -120,7 +121,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			return;
 	
 		self::$fields = apply_filters( 'submit_fashion_form_fields', array(
-			'common' => array(
+			'fashion' => array(
 				'title' => array(
 					'label'       => __( 'Title', DLN_CLF ),
 					'type'        => 'text',
@@ -140,25 +141,28 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 					'type'        => 'text-search',
 					'required'    => false,
 					'placeholder' => __( 'Typing to search...', DLN_CLF ),
-					'priority'    => 5
+					'priority'    => 4
 				),
 				'description' => array(
 					'label'       => __( 'Describe your item', DLN_CLF ),
-					'type'        => 'text-area',
-					'require'     => true,
+					'type'        => 'textarea',
+					'required'     => true,
 					'placeholder' => __( 'e.g. a #greatblouse for your own style #vintage #hollister', DLN_CLF ),
+					'priority'    => 5
 				),
 				'marterial' => array(
 					'label'       => __( 'Material', DLN_CLF ),
-					'type'        => 'text-area',
-					'require'     => false,
+					'type'        => 'textarea',
+					'required'     => false,
 					'placeholder' => __( 'e.g. 60% cotton, 40% polyester', DLN_CLF ),
+					'priority'    => 6
 				),
 				'reason' => array(
 					'label'       => __( 'Reason', DLN_CLF ),
-					'type'        => 'text-area',
-					'require'     => false,
+					'type'        => 'textarea',
+					'required'     => false,
 					'placeholder' => __( 'Everything has a story, even clothes! Tell us the story of your item. Material, measurements – what makes it special!', DLN_CLF ),
+					'priority'    => 7
 				),
 			),
 			'company' => array(
@@ -169,29 +173,6 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 					'placeholder' => __( 'Website is required', DLN_CLF ),
 					'priority'    => 1
 				),
-				'company_type' => array(
-					'label'       => __( 'Company Type', DLN_CLF ),
-					'type'        => 'select',
-					'required'    => true,
-					'options'     => self::company_types(),
-					'placeholder' => __( 'Company Type is required', DLN_CLF ),
-					'priority'    => 2
-				),
-				'employ_number' => array(
-					'label'       => __( 'Number of Employees', DLN_CLF ),
-					'type'        => 'select',
-					'required'    => true,
-					'options'     => self::employ_number(),
-					'placeholder' => __( 'Number of Employees is required', DLN_CLF ),
-					'priority'    => 3
-				),
-				'company_address' => array(
-					'label'       => __( 'Company Address', DLN_CLF ),
-					'type'        => 'text-search',
-					'required'    => true,
-					'placeholder' => __( 'Company Address is required', DLN_CLF ),
-					'priority'    => 4
-				)
 			)
 		) );
 	}
@@ -277,5 +258,9 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			'very-good'    => __( 'Very Good', DLN_CLF ),
 			'average'      => __( 'Average', DLN_CLF )
 		);
+	}
+
+	protected static function sort_by_priority( $a, $b ) {
+		return $a['priority'] - $b['priority'];
 	}
 }

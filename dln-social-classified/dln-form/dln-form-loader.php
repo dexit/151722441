@@ -15,14 +15,13 @@ class DLN_Form_Loader {
 		return self::$instance;
 	}
 	
-	function __construct() {
-		define( 'DLN_COMPANY_SLUG', 'dln_company' );
-		define( 'DLN_COMPANY_TYPE_SLUG', 'dln_company_type' );
-		define( 'DLN_EMPLOYEE_NUMBER_SLUG', 'dln_employ_number' );
-		define( 'DLN_POINT_SLUG', 'dln_point' );
-		
+	function __construct() {		
 		include( 'includes/class-dln-form-shortcodes.php' );
+		include( 'includes/class-dln-form-functions.php' );
 		include( 'includes/class-dln-form-forms.php' );
+		
+		if ( is_admin() )
+			include( 'admin/class-dln-form-admin.php' );
 		
 		// Init classes
 		$this->forms      = new DLN_Forms();
@@ -31,9 +30,8 @@ class DLN_Form_Loader {
 	}
 	
 	public function register_assets() {
-		wp_register_script( 'dln-form-field-text-search', DLN_CLF_PLUGIN_URL . '/dln-form/assets/js/fields/text-search.js', array( 'jquery' ), DLN_SKILL_VERSION, true );
+		wp_register_script( 'dln-form-field-text-search', DLN_CLF_PLUGIN_URL . '/dln-form/assets/js/fields/text-search.js', array( 'jquery' ), DLN_CLF_VERSION, true );
 		wp_register_script( 'dln-bootstrap-js', DLN_CLF_PLUGIN_URL . '/assets/3rd-party/bootstrap3/js/bootstrap.min.js', array( 'jquery' ), '3.1.1', true );
-		
 		wp_register_style( 'dln-bootstrap-css', DLN_CLF_PLUGIN_URL . '/assets/3rd-party/bootstrap3/css/bootstrap.min.css', null, '3.1.1' );
 	}
 	

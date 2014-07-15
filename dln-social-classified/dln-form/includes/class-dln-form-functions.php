@@ -15,7 +15,7 @@ class DLN_Form_Functions {
 		return self::$instance;
 	}
 	
-	public static function form_get_template() {
+	public static function form_get_template( $template_name, $args = array(), $template_path = '', $default_path = '' ) {
 		if ( $args && is_array( $args ) )
 			extract( $args );
 		
@@ -47,6 +47,35 @@ class DLN_Form_Functions {
 		wp_enqueue_script( 'dln-bootstrap-js' );
 		wp_enqueue_style( 'dln-bootstrap-css' );
 		wp_enqueue_style( 'dln-ui-element-css' );
+	}
+	
+	public static function form_user_can_post_profile() {
+		$can_post = true;
+		
+		if ( ! is_user_logged_in() ) {
+			//if ( dln_form_user_requires_account() && ! dln_form_enable_registration() ) {
+				$can_post = false;
+			//}
+		}
+		
+		return apply_filters( 'dln_form_user_can_post_profile', $can_post );
+	}
+	
+	public static function form_profile_fields( $fashion_fields ) {
+		do_action( 'submit_profile_form_profile_fields_start' );
+		
+		foreach( $fashion_fields as $key => $field ) { ?>
+			<div class="form-group fieldset-<?php esc_attr_e( $key ); ?>">
+				<?php if ( $field['label'] ) : ?>
+				<label class="col-sm-3 control-label" for="<?php esc_attr_e( $key ); ?>"><?php echo $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', 'dln-skill' ) . '</small>' ); ?></label>
+				<?php endif ?>
+				<div class="col-sm-9">
+					<?php self::form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ) ?>
+				</div>
+			</div>
+		<?php }
+		
+		do_action( 'submit_profile_form_profile_fields_end' );
 	}
 	
 }
