@@ -18,60 +18,60 @@ app.routers.AppRouter = Backbone.Router.extend({
 
 	match: function () {
 		console.log('shell');
-		var shellView  = new app.views.ShellView({ el: $('#dln_content') });
-		shellView.delegateEvents();
+		var shell_view  = new app.views.ShellView({ el: $('#dln_content') });
+		shell_view.delegateEvents();
 
 		console.log('match');
-		var matchView = new app.views.MatchView();
-		matchView.delegateEvents();
+		var match_view = new app.views.MatchView();
+		match_view.delegateEvents();
 	},
 
 	room: function () {
 		console.log('shell');
-		var shellView  = new app.views.ShellView({ el: $('#dln_content') });
-		shellView.delegateEvents();
+		var shell_view  = new app.views.ShellView({ el: $('#dln_content') });
+		shell_view.delegateEvents();
 
 		console.log('room');
-		var roomView = new app.views.RoomView();
-		roomView.delegateEvents();
+		var room_view = new app.views.RoomView();
+		room_view.delegateEvents();
 	},
 
 	room_wait: function () {
 		console.log( 'shell' );
-		var shellView  = new app.views.ShellView({ el: $('#dln_content') });
-		shellView.delegateEvents();
+		var shell_view  = new app.views.ShellView({ el: $('#dln_content') });
+		shell_view.delegateEvents();
 
 		console.log( 'room-wait' );
-		var roomWaitView = new app.views.RoomWaitView({ el: $('#dln_content') });
-		roomWaitView.delegateEvents();
+		var room_wait_view = new app.views.RoomWaitView({ el: $('#dln_content') });
+		room_wait_view.delegateEvents();
 	},
 
 	home: function () {
 		console.log('shell');
-		var shellView  = new app.views.ShellView({ el: $('#dln_content') });
-		shellView.delegateEvents();
+		var shell_view  = new app.views.ShellView({ el: $('#dln_content') });
+		shell_view.delegateEvents();
 
 		console.log('home');
-		var homeView = new app.views.HomeView();
-		homeView.delegateEvents();
+		var home_view = new app.views.HomeView();
+		home_view.delegateEvents();
 	},
 
 	login: function() {
 		console.log( 'login' );
-		var loginView = new app.views.LoginView({ el: $( '#dln_content') });
-		loginView.delegateEvents();
+		var login_view = new app.views.LoginView({ el: $( '#dln_content') });
+		login_view.delegateEvents();
 	},
 
 	logout: function () {
 		console.log( 'logout' );
 		$.mobile.loading( 'hide' );
-		var userHelper  = new app.helpers.userHelper();
-		userHelper.logout();
+		var user_helper  = app.helpers.userHelper.getInstance();
+		user_helper.logout();
 	},
 
 	signup: function () {
 		console.log('signup');
-		var signupView = new app.views.SignupView({ el: $('#dln_content') });
-		signupView.delegateEvents();
+		var signup_view = new app.views.SignupView({ el: $('#dln_content') });
+		signup_view.delegateEvents();
 	}
 });

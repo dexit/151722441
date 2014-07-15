@@ -8,9 +8,9 @@ app.views.ShellView = Backbone.View.extend({
 	},
 
 	render: function (tpl) {
-		var userHelper  = new app.helpers.userHelper();
-		var is_loggedin = userHelper.checkUserLoggedIn();
-		var user        = userHelper.getCurrentUser();
+		var user_helper  = app.helpers.userHelper.getInstance();
+		var is_loggedin  = user_helper.checkUserLoggedIn();
+		var user         = user_helper.getCurrentUser();
 		var params = {
 			is_loggedin : is_loggedin,
 			user: user
@@ -27,7 +27,7 @@ app.views.ShellView = Backbone.View.extend({
 		// Set logout action
 		$('#dln_logout').on('click', function (e) {
 			e.preventDefault();
-			userHelper.logout();
+			user_helper.logout();
 		});
 
 		return this;

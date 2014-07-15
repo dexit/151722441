@@ -1,54 +1,68 @@
-app.helpers.userHelper = function () {
-	var dlnServer    = 'http://localhost',
-		dlnWPServer  = dlnServer + '/wordpress',
-		dlnPort      = '3000',
-		dlnServerUrl = dlnServer + ':' + dlnPort;
+app.helpers.userHelper = function () {};
 
-	var __construct = function () {
+app.helpers.userHelper.getInstance = function () {
+	if ( this.instance == null ) {
+		this.instance = new app.helpers.userHelper();
+		this.instance.init();
+	}
 
-	};
+	return this.instance;
+};
 
-	this.resetUser = function () {
-		this.avatar = null;
-		this.name   = null;
-		this.email  = null;
-	};
+app.helpers.userHelper.prototype = {
+	init: function () {
+		var that         = this;
+		that.dlnServer    = 'http://localhost',
+		that.dlnWPServer  = dlnServer + '/wordpress',
+		that.dlnPort      = '3000',
+		that.dlnServerUrl = dlnServer + ':' + dlnPort;
+	},
 
-	this.initUser = function ( userData ) {
+	resetUser : function () {
+		var that    = this;
+		that.avatar = null;
+		that.name   = null;
+		that.email  = null;
+	},
+
+	initUser: function ( user_data ) {
+		var that = this;
 		var user = {};
-		if( userData && typeof( userData ) === 'string' ) {
-			user = JSON.parse( userData );
+		if( user_data && typeof( user_data ) === 'string' ) {
+			user = JSON.parse( user_data );
 			if ( user.fb_uid ) {
-				this.avatar = 'https://graph.facebook.com/' + user.fb_uid + '/picture?width=64&height=64';
+				that.avatar = 'https://graph.facebook.com/' + user.fb_uid + '/picture?width=64&height=64';
 			} else if( user.avatar ) {
-				this.avatar = user.avatar;
+				that.avatar = user.avatar;
 			}
 
 			// Set border for avatar
 			$('.navbar-main .avatar img').css('border', '2px solid #FFFFFF');
-			this.name  = user.name;
-			this.email = user.email;
+			that.name  = user.name;
+			that.email = user.email;
 		}
 		return user;
-	};
+	},
 
-	this.getCurrentUser = function () {
+	getCurrentUser: function () {
+		var that    = this;
 		var objUser = {};
-		var user = window.localStorage.getItem( 'user_json' );
+		var user    = window.localStorage.getItem( 'user_json' );
 		if ( user && typeof( user ) === 'string' ) {
-			objUser = this.initUser( user );
+			objUser = that.initUser( user );
 		}
 		return objUser;
-	};
+	},
 
-	this.loginFB = function () {
+	loginFB: function () {
+		var that      = this;
 		var is_mobile = true;
 		var width     = $(window).width(),
 			height    = $(window).height(),
 			path_url  = location.pathname,
 			uuid      = $.now();
 		var url_login = encodeURI( dlnWPServer + '/oauth/facebook?uuid=' + uuid );
-		var popup = window.open(url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
+		var popup = window.open( url_login, '_blank', 'width=' + width + ',height=' + height + ',scrollbars=0,toolbar=no,top=0,left=0');
 		var popupTimer = window.setInterval(function () {
 			if ( popup.closed !== false ) {
 				window.clearInterval( popupTimer );
@@ -68,9 +82,10 @@ app.helpers.userHelper = function () {
 				});
 			}
 		}, 200);
-	};
+	},
 
-	this.login = function ( email, password ) {
+	login: function () {
+		var that = this;
 		if ( ! email || ! password )
 			return false;
 		password = window.btoa( password );
@@ -85,21 +100,22 @@ app.helpers.userHelper = function () {
 				}
 			}
 		});
-	};
+	},
 
-	this.logout = function () {
+	logout: function () {
 		this.resetUser();
 		console.log('ok');
 		window.localStorage.removeItem('user_json');
 		window.location = '#login';
-	};
+	},
 
-	this.checkUserLoggedIn = function () {
+	checkUserLoggedIn: function () {
+		var that       = this;
 		var isLoggedIn = false;
-		var user = window.localStorage.getItem('user_json');
+		var user       = window.localStorage.getItem('user_json');
 		if ( user && typeof(user) === 'string' ) {
 			var objUser = {};
-			objUser = this.initUser( user );
+			objUser     = this.initUser( user );
 			if ( objUser ) {
 				isLoggedIn = true;
 			}
