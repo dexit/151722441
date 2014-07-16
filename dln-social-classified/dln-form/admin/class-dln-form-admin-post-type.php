@@ -16,8 +16,15 @@ class DLN_Form_Admin_PostType {
 	}
 	
 	function __construct() {
-		add_action( 'init', array( $this, 'register_post_types_fashion' ), 5 );
+		//add_action( 'init', array( $this, 'register_post_types_fashion' ), 5 );
 		add_action( 'init', array( $this, 'dln_company_status_filters' ) );
+		
+		add_filter( 'product_type_selector', array( $this, 'register_product_type_fashion' ) );
+	}
+	
+	public function register_product_type_fashion( $types ) {
+		$types['fashion'] = __( 'Fashion', DLN_CLF );
+		return $types; 
 	}
 	
 	public static function register_post_types_fashion() {

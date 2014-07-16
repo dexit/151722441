@@ -20,13 +20,21 @@ class DLN_Form_Loader {
 		include( 'includes/class-dln-form-functions.php' );
 		include( 'includes/class-dln-form-forms.php' );
 		
-		if ( is_admin() )
+		if ( is_admin() ) {
+			
 			include( 'admin/class-dln-form-admin.php' );
+		}
+			
 		
 		// Init classes
 		$this->forms      = new DLN_Forms();
 		
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
+		add_action( 'init', array( $this, 'init' ) );
+	}
+	
+	public function init() {
+		include( 'includes/woocommerce/class-dln-wc-product-fashion.php' );
 	}
 	
 	public function register_assets() {
