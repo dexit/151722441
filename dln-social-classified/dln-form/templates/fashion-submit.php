@@ -20,10 +20,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 							
 							<?php DLN_Form_Functions::form_profile_fields( $fashion_fields ) // Load common profile fields?>
 							
+							
+							
+
 							<div class="panel-footer">
 								<div class="form-group no-border">
 									<label class="col-sm-3 control-label"></label>
 									<div class="col-sm-9">
+									
+									
 										<?php wp_nonce_field( 'submit_form_posted' ); ?>
 										<input type="hidden" id="fashion_id" name="fashion_id" value="<?php echo esc_attr( $fashion_id ) ?>" />
 										<input type="hidden" id="dln_form" name="dln_form" value="<?php echo esc_attr( $form ) ?>" />
@@ -45,3 +50,5 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</div>	
 	</div>
 </div>
+<form action="http://www.torrentplease.com/dropzone.php" class="dropzone dz-clickable" id="demo-upload">
+<div class="dz-default dz-message"><span>Drop files here to upload</span></div></form>
