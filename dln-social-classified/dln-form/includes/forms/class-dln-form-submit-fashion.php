@@ -176,6 +176,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 				'item_type' => array(
 					'label'       => __( 'Condition', DLN_CLF ),
 					'type'        => 'select',
+					'class'       => 'dln-selectize',
 					'required'    => true,
 					'options'     => self::item_types(),
 					'priority'    => 2

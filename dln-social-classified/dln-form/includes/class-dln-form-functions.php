@@ -45,8 +45,15 @@ class DLN_Form_Functions {
 	
 	public static function load_frontend_assets() {
 		wp_enqueue_script( 'dln-bootstrap-js' );
-		wp_enqueue_style( 'dln-bootstrap-css' );
+		wp_enqueue_script( 'dln-selectize-js' );
+		wp_enqueue_script( 'dln-dropzone-js' );
+		wp_enqueue_script( 'dln-form-submit-fashion-js' );
+		
+		//wp_enqueue_style( 'dln-bootstrap-css' );
 		wp_enqueue_style( 'dln-ui-element-css' );
+		wp_enqueue_style( 'dln-ui-layout-css' );
+		wp_enqueue_style( 'dln-selectize-css' );
+		wp_enqueue_style( 'dln-dropzone-css' );
 	}
 	
 	public static function form_user_can_post_profile() {
