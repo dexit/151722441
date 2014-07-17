@@ -83,6 +83,10 @@ class DLN_Upload_Loader {
 				self::enqueue( true );
 			}
 			
+			wp_enqueue_style( 'dln-bootstrap-css' );
+			wp_enqueue_style( 'dln-ui-element-css' );
+			wp_enqueue_style( 'dln-ui-layout-css' );
+			
 			include_once ( DLN_CLF_PLUGIN_DIR . '/dln-upload/html.php' );
 		}
 	}
@@ -158,11 +162,16 @@ class DLN_Upload_Loader {
 		$path      = $dir['baseurl'] . '/' . $path;
 		
 		$html  = '';
-		$html .= '<li class="dln-uploaded-files">';
-		$html .= sprintf( '<img src="%s" name="' . $post->post_title . '" />', $path . '/' . $image );
-		$html .= sprintf( '<br /><a href="#" class="action-delete" data-upload_id="%d">%s</a></span>', $attach_id, __( 'Delete' ) );
-		$html .= sprintf( '<input type="hidden" name="dln_image_id[]" value="%d" />', $attach_id );
-		$html .= '</li>';
+		$html = '<div class="item thumbnail dln-uploaded-files">
+                 	<div class="media">
+						<span class="meta bottom darken">
+							<h5 class="nm semibold">background1.jpg</h5>
+						</span>
+						<img class="lazyOwl" alt="' . $post->post_title . '" width="100%" src="' . $path . '/' . $image . '" style="display: inline;">
+						<a href="#" class="btn btn-primary btn-sm action-delete" data-upload_id="' . $attach_id . '"><i class="ico-close2"></i></a></span>
+						<input type="hidden" name="dln_image_id[]" value="' . $attach_id . '" />
+					</div>
+				</div>';
 		
 		return $html;
 	}
@@ -197,8 +206,6 @@ class DLN_Upload_Loader {
 		wp_delete_attachment( $attach_id, true );
 		exit();
 	}
-	
-	
 	
 	public static function register() {
 		register_setting( 'dln_plugin_upload_option', 'dln_upload_options', array( 'DLN_Upload_Loader', 'validate_options' ) );

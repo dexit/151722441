@@ -49,7 +49,7 @@ class DLN_Form_Functions {
 		wp_enqueue_script( 'dln-dropzone-js' );
 		wp_enqueue_script( 'dln-form-submit-fashion-js' );
 		
-		//wp_enqueue_style( 'dln-bootstrap-css' );
+		wp_enqueue_style( 'dln-bootstrap-css' );
 		wp_enqueue_style( 'dln-ui-element-css' );
 		wp_enqueue_style( 'dln-ui-layout-css' );
 		wp_enqueue_style( 'dln-selectize-css' );

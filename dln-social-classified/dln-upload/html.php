@@ -1,14 +1,11 @@
 <script type="text/javascript">window.dln_upload_count = 0;</script>
-<style>
-    #dln-ul-list,
-    #dln-ul-list li {
-        margin: 2px;
-        padding: 2px;
-    }
-
-    #dln-ul-list li {
-        display: inline-block;
-        background: #FFFFFF;
+<style type="text/css">
+.site {
+	max-width: 950px
+}
+    .dln-upload-list {
+    	display: table;
+    	width: 100%;
     }
 
     .action-delete {
@@ -18,9 +15,18 @@
         color: #333333;
         font-size: 12px;
         font-weight: bold;
-        margin: 0 0 0 40px;
         padding: 3px 8px;
         text-decoration: none;
+        position: absolute;
+    	right: 0px;
+    	top: 0px;
+    	padding: 4px !important;
+    	width: 20px;
+    	height: 20px;
+    	font-size: 10px !important;
+    	line-height: 10px !important;
+    	color: #FFFFFF;
+    	z-index: 10;
     }
 
     .dln_upload_button {
@@ -32,13 +38,36 @@
         padding: 3px 8px;
         text-decoration: none;
     }
+    
+    .dln-upload-container {
+    	background-color: #f9fafc;
+	    border: 2px dashed #eaedf1;
+	    padding: 1em;
+	    position: relative;
+	    text-align: center;
+    }
+    
+    .dln-uploaded-files {
+    	width: 19%;
+    	float: left;
+    	padding-left: 10px;
+    	padding-right: 10px;
+    	margin: 5px;
+    }
+    
+    .dln-progress-text{
+    	margin-top: 10px;
+    }
 
 </style>
-<div id="dln-upload-container">
-    <a id="dln-uploader" class="dln_upload_button" href="#">Upload</a>
+<div id="dln-upload-container" class="dln-upload-container">
+    <a id="dln-uploader" class="btn btn-primary btn-lg dln_upload_button" href="#"><i class="ico-cloud-upload"></i> Upload</a>
 
     <div id="dln-upload-imagelist">
-        <ul id="dln-ul-list" class="dln-upload-list"></ul>
+    	<div class="dln-progress-text progress progress-xs progress-striped active" style="display:none">
+    		<div class="progress-bar progress-bar-success" style="width: 0%"><span class="sr-only"></span></div>
+    	</div>
+        <div id="dln-ul-list" class="dln-upload-list"></div>
     </div>
 
 </div>

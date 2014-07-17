@@ -23,6 +23,7 @@ jQuery(document).ready(function ($) {
             var uploader = new plupload.Uploader( dln_upload.plupload );
             
             $( '#dln-uploader' ).click( function (e) {
+            	$(".dln-progress-text .progress-bar").css( {'width': "0%"} );
                 uploader.start();
                 // To prevent default behavior of a tag
                 e.preventDefault();
@@ -35,7 +36,7 @@ jQuery(document).ready(function ($) {
                 $.each(files, function (i, file) {
                     $('#dln-upload-imagelist').append(
                         '<div id="' + file.id + '">' +
-                            file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
+                            file.name + ' (' + plupload.formatSize(file.size) + ')' +
                             '</div>');
                 } );
 
@@ -44,7 +45,8 @@ jQuery(document).ready(function ($) {
             } );
 
             uploader.bind( 'UploadProgress', function ( up, file ) {
-                $('#' + file.id + " b").html( file.percent + "%" );
+            	$(".dln-progress-text").show();
+                $(".dln-progress-text .progress-bar").css( {'width': file.percent  + "%"} );
             } );
 
             // On erro occur
@@ -63,7 +65,8 @@ jQuery(document).ready(function ($) {
                 $('#' + file.id).remove();
                 if ( result.success ) {
                     window.dln_upload_count += 1;
-                    $('#dln-upload-imagelist ul').append( result.html );
+                    $(".dln-progress-text").hide();
+                    $('#dln-upload-imagelist .dln-upload-list').append( result.html );
 
                     DLN_Upload.hideUploader();
                 }
@@ -89,7 +92,7 @@ jQuery(document).ready(function ($) {
                     };
 
                 $.post( dln_upload.ajaxurl, data, function () {
-                    el.parent().remove();
+                    el.closest('.dln-uploaded-files').remove();
 
                     window.dln_upload_count -= 1;
                     if ( DLN_Upload.maxFiles !== 0 && window.dln_upload_count < DLN_Upload.max_files ) {
