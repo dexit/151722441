@@ -29,7 +29,7 @@ class DLN_SocialClassified {
 	
 	public function requires() {
 		//$this->required_components = apply_filters( 'dln_required_components', array( 'connections', 'cron' ) );
-		$this->required_components = apply_filters( 'dln_required_components', array( 'form' ) );
+		$this->required_components = apply_filters( 'dln_required_components', array( 'form', 'upload' ) );
 		
 		// Loop through required components
 		foreach( $this->required_components as $component ) {
@@ -40,6 +40,7 @@ class DLN_SocialClassified {
 	
 	public static function install() {
 		//DLN_Cron_Loader::activate();
+		DLN_Upload_Loader::activate();
 	}
 	
 }
