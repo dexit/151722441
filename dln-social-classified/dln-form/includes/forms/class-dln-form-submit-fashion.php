@@ -166,12 +166,19 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 	
 		self::$fields = apply_filters( 'submit_fashion_form_fields', array(
 			'fashion' => array(
+				'image_upload' => array(
+					'label'        => '',
+					'type'         => 'shortcode',
+					'value'        => '[dln_upload theme="true"]',
+					'priority'     => 1,
+					'parent_value_class' => 'col-xs-12',
+				),
 				'title' => array(
 					'label'       => __( 'Title', DLN_CLF ),
 					'type'        => 'text',
 					'required'    => true,
 					'placeholder' => __( 'e.g: Red Zara Dress', DLN_CLF ),
-					'priority'    => 1
+					'priority'    => 2
 				),
 				'item_type' => array(
 					'label'       => __( 'Condition', DLN_CLF ),
@@ -179,7 +186,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 					'class'       => 'dln-selectize',
 					'required'    => true,
 					'options'     => self::item_types(),
-					'priority'    => 2
+					'priority'    => 3
 				),
 				'brand_name' => array(
 					'label'       => __( 'Brand Name', DLN_CLF ),

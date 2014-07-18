@@ -58,6 +58,10 @@
     .dln-progress-text{
     	margin-top: 10px;
     }
+    
+    .dln-upload-container .thumbnail .media .meta {
+    	padding: 5px !important;
+    }
 
 </style>
 <div id="dln-upload-container" class="dln-upload-container">

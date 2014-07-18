@@ -17,6 +17,7 @@ class DLN_Form_Admin {
 	
 	function __construct() {
 		include_once( 'class-dln-form-admin-post-type.php' );
+		include_once( 'class-dln-form-admin-taxonomies.php' );
 	}
 	
 }

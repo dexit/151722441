@@ -222,7 +222,7 @@ add_action( 'admin_menu', 'register_dln_upload_menu_page' );
 
 function register_dln_upload_menu_page() {
 	$menu_slug = 'dln_ajax_upload.php';
-	add_menu_page( 'DLN Upload', 'DLN Upload Settings', 'manage_options', $menu_slug, 'dln_upload_settings' );
+	//add_menu_page( 'DLN Upload', 'DLN Upload Settings', 'manage_options', $menu_slug, 'dln_upload_settings' );
 }
 
 function dln_upload_settings() {
