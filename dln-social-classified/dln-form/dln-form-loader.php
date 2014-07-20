@@ -58,6 +58,8 @@ class DLN_Form_Loader {
 		wp_register_style( 'dln-ui-layout-css',         DLN_CLF_PLUGIN_URL . '/assets/theme-skill/css/layout.css', null, '1.0.0' );
 		wp_register_style( 'dln-selectize-css',         DLN_CLF_PLUGIN_URL . '/assets/3rd-party/selectize/css/selectize.min.css', null, '1.0.0' );
 		wp_register_style( 'dln-dropzone-css',          DLN_CLF_PLUGIN_URL . '/assets/3rd-party/dropzone/css/dropzone.css', null, '1.0.0' );
+		wp_register_style( 'dln-ico-font-css',          DLN_CLF_PLUGIN_URL . '/assets/3rd-party/dln-ico-font/dln-ico-font.css', null, '1.0.0' );
+		wp_register_style( 'dln-form-site-css',         DLN_CLF_PLUGIN_URL . '/assets/theme-skill/css/dln-form-site.css', null, '1.0.0' );
 	}
 	
 }

@@ -54,6 +54,8 @@ class DLN_Form_Functions {
 		wp_enqueue_style( 'dln-ui-layout-css' );
 		wp_enqueue_style( 'dln-selectize-css' );
 		wp_enqueue_style( 'dln-dropzone-css' );
+		wp_enqueue_style( 'dln-ico-font-css' );
+		wp_enqueue_style( 'dln-form-site-css' );
 	}
 	
 	public static function form_user_can_post_profile() {

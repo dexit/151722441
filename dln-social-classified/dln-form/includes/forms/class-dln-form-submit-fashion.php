@@ -212,10 +212,18 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 				'reason' => array(
 					'label'       => __( 'Reason', DLN_CLF ),
 					'type'        => 'textarea',
-					'required'     => false,
+					'required'    => false,
 					'placeholder' => __( 'Everything has a story, even clothes! Tell us the story of your item. Material, measurements – what makes it special!', DLN_CLF ),
 					'priority'    => 7
 				),
+				'category' => array(
+					'label'       => __( 'Select category for your item', DLN_CLF ),
+					'type'        => 'fs-category',
+					'required'    => false,
+					'priority'    => 8,
+					'parent_value_class' => 'col-xs-12',
+					'parent_key_class'   => 'col-xs-12 dln-text-left'
+				)
 			),
 			'company' => array(
 				'company_website' => array(
