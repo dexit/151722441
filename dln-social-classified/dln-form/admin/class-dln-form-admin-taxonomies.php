@@ -51,12 +51,17 @@ class DLN_Form_Admin_Taxonomies {
 		$options = self::get_size_tags();
 		?>
 		<div class="form-field">
-			<label for="icon_class"><?php _e( 'Icon Class', DLN_CLF ) ?></label>
+			<label for="dln_icon_class"><?php _e( 'Icon Class', DLN_CLF ) ?></label>
 			<input id="dln_icon_class" name="dln_icon_class" type="text" value="" size="40" />
 			<div class="clear"></div>
 		</div>
 		<div class="form-field">
-			<label for="icon_class"><?php _e( 'Size Tags', DLN_CLF ) ?></label>
+			<label for="dln_toggle_color"><?php _e( 'Toggle Color', DLN_CLF ) ?></label>
+			<input id="dln_toggle_color" name="dln_toggle_color" type="text" value="" size="40" />
+			<div class="clear"></div>
+		</div>
+		<div class="form-field">
+			<label for="dln_size_tags"><?php _e( 'Size Tags', DLN_CLF ) ?></label>
 			<select id="dln_size_tags" name="dln_size_tags[]" class="dln-select2 postform" style="width: 250px;" multiple>
 				<?php echo $options ?>
 			</select>
@@ -66,19 +71,26 @@ class DLN_Form_Admin_Taxonomies {
 	}
 	
 	public static function edit_category_fields( $term, $taxonomy ) {
-		$dln_icon_class = get_woocommerce_term_meta( $term->term_id, 'dln_icon_class', true );
-		$dln_size_tags  = get_woocommerce_term_meta( $term->term_id, 'dln_size_tags', true );
-		$dln_size_tags  = unserialize( $dln_size_tags );
-		$options        = self::get_size_tags( $dln_size_tags );
+		$dln_icon_class   = get_woocommerce_term_meta( $term->term_id, 'dln_icon_class', true );
+		$dln_toggle_color = get_woocommerce_term_meta( $term->term_id, 'dln_toggle_color', true );
+		$dln_size_tags    = get_woocommerce_term_meta( $term->term_id, 'dln_size_tags', true );
+		$dln_size_tags    = unserialize( $dln_size_tags );
+		$options          = self::get_size_tags( $dln_size_tags );
 		?>
 		<tr class="form-field">
-			<th scope="row" valign="top"><label><?php _e( 'Icon Class', DLN_CLF ) ?></label></th>
+			<th scope="row" valign="top"><labell for="dln_icon_class"><?php _e( 'Icon Class', DLN_CLF ) ?></label></th>
 			<td>
 				<input id="dln_icon_class" name="dln_icon_class" type="text" value="<?php echo $dln_icon_class ?>" size="40" />	
 			</td>
 		</tr>
 		<tr class="form-field">
-			<th scope="row" valign="top"><label><?php _e( 'Size Tags', DLN_CLF ) ?></label></th>
+			<th scope="row" valign="top"><label for="dln_toggle_color"><?php _e( 'Toggle Color', DLN_CLF ) ?></label></th>
+			<td>
+				<input id="dln_toggle_color" name="dln_toggle_color" type="text" value="<?php echo $dln_toggle_color?>" size="40" />
+			</td>
+		</tr>
+		<tr class="form-field">
+			<th scope="row" valign="top"><labell for="dln_size_tags"><?php _e( 'Size Tags', DLN_CLF ) ?></label></th>
 			<td>
 				<select id="dln_size_tags" name="dln_size_tags[]" class="dln-select2 postform" style="width: 95%;" multiple>
 					<?php echo $options ?>
@@ -91,6 +103,9 @@ class DLN_Form_Admin_Taxonomies {
 	public static function save_category_fields( $term_id, $tt_id, $taxonomy ) {
 		if ( isset( $_POST['dln_icon_class'] ) ) {
 			update_woocommerce_term_meta( $term_id, 'dln_icon_class', $_POST['dln_icon_class'] );
+		}
+		if ( isset( $_POST['dln_toggle_color'] ) ) {
+			update_woocommerce_term_meta( $term_id, 'dln_toggle_color', $_POST['dln_toggle_color'] );
 		}
 		if ( isset( $_POST['dln_size_tags'] ) ) {
 			$dln_size_tags = $_POST['dln_size_tags'];

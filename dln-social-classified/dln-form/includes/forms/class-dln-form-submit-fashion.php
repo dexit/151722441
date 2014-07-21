@@ -190,7 +190,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 				),
 				'brand_name' => array(
 					'label'       => __( 'Brand Name', DLN_CLF ),
-					'type'        => 'text-search',
+					'type'        => 'brand',
 					'required'    => false,
 					'placeholder' => __( 'Typing to search...', DLN_CLF ),
 					'priority'    => 4
@@ -263,7 +263,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 		foreach( $values as $group_key => $fields ) {
 			foreach ( $fields as $key => $field ) {
 				if ( ! in_array( $key, $exclude_fields ) && isset( $field['required'] ) && empty( $values[ $group_key ][ $key ] ) ) {
-					return new WP_Error( 'validation-error', sprintf( __( '%s is a required field', 'dln-skill' ), $field['label'] ) );
+					return new WP_Error( 'validation-error', sprintf( __( '%s is a required field', DLN_CLF ), $field['label'] ) );
 				}
 			}
 		}
@@ -301,7 +301,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			foreach ( self::$fields as $group_key => $_fields ) {
 				foreach ( $_fields as $key => $field ) {
 					if ( isset( $_POST[$key] ) ) {
-						$fields[ $group_key ][ $key ]['value'] = $_POST[$key];
+						$fields[ $group_key ][ $key ]['value'] = $_POST[ $key ];
 					}
 				}
 			}

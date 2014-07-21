@@ -16,6 +16,26 @@
 		})
 	}
 	
+	var capitalizeFirstLetter( string ) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+	
+	var addSelectMultiple = function () {
+		$('.dln-select-multi').each(function () {
+			$(this).selectize({
+				delimiter: ',',
+				persist: false,
+				maxItems: 1,
+				create: function( input ) {
+					return {
+						value: input,
+						text: capitalizeFirstLetter( input )
+					}
+				}
+			});
+		});
+	}
+	
 	$(document).ready(function () {
 		if ( typeof ($.fn.selectize ) == 'function' ) {
 			$('.dln-selectize').selectize();
@@ -29,5 +49,8 @@
 			$(this).addClass('selected');
 			changeColorCategory();
 		} );
+		
+		// Add selectize multiple
+		addSelectMultiple();
 	});
 }(jQuery));

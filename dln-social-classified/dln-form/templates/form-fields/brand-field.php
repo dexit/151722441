@@ -8,7 +8,7 @@
 		}
 	}
 ?>
-<select id="<?php echo esc_attr( $key ); ?>" class="form-control" name="<?php echo esc_attr( isset( $field['name'] ) ? $field['name'] : $key ); ?>">
+<select id="<?php echo esc_attr( $key ); ?>" class="form-control dln-select-multi" name="<?php echo esc_attr( isset( $field['name'] ) ? $field['name'] : $key ); ?>">
 	<?php echo implode( '\n', $options ) ?>
 </select>
 <?php if ( ! empty( $field['description'] ) ) : ?>
