@@ -1,10 +1,13 @@
 <?php 
-	$categories = get_terms( 'product_cat', array( 'hide_empty' => 'true', 'order_by' => 'name' ) );
+	$categories = get_terms( 'product_cat', array( 'hide_empty' => false, 'order_by' => 'term_id' ) );
 	if ( empty( $categories ) ) {
 		new WP_Error( '500', __( 'Product Categories Not Found!', DLN_CLF ) );
 		return;
 	}
 	$term_ids = array();
+	
+	$arr_colors = array( '#0099c2', '#ed5466', '#ffd25b', '#56cfe7', '#8ac448', '#6bccb4', '#55acee' );
+	$count      = count( $arr_colors );
 ?>
 <div class="dln-selection-box-wrapper">
 	<div class="dln-category-selection dln-selection-box">
@@ -13,28 +16,46 @@
 			$term_ids[] = $category->term_id;
 			$selected   = ( $i == 0 ) ? 'selected' : '';
 			$icon_class = get_woocommerce_term_meta( $category->term_id, 'dln_icon_class', true );
+			$icon_color = get_woocommerce_term_meta( $category->term_id, 'dln_toggle_color', true );
 			$icon_html  = ( $icon_class ) ? "<i class='{$icon_class}'></i>" : '';
+			$icon_color = $arr_colors[( $i + 1 ) % $count];
 		?>
-			<div data-id="<?php echo $category->term_id ?>" class="dln-selection-box-item <?php echo $selected ?>">
+			<a href="#" data-id="<?php echo $category->term_id ?>" class="dln-selection-box-item <?php echo $selected ?>" data-toggle-color="<?php echo $icon_color ?>">
 				<div class="selection-box-item-content">
 					<?php echo $icon_html ?>
 			    	<div class="selection-box-item-icon"><?php echo $category->name?></div>
 			  	</div>
-			</div>
+			</a>
 		<?php
 		}?>
 		</div>
 	</div>
 </div>
-
 <div class="dln-selection-box-wrapper">
 	<div class="dln-category-selection dln-selection-box">
 		<div class="dln-selection-box-top">
 <?php 
 	foreach ( $term_ids as $i => $id ) {
-		?>
-		
-		<?php
+		$tag_ids = unserialize( get_woocommerce_term_meta( $id, 'dln_size_tags', true ) );
+		if ( is_array( $tag_ids ) ) {
+			$ids = array();
+			foreach ( $tag_ids as $j => $tag ) {
+				$ids[] = (int) $tag;
+			}
+			
+			$terms = get_terms( 'fashion_size_tag', array( 'include' => $ids, 'hide_empty' => false ) );
+			foreach ( $terms as $i => $term ) {
+				$selected   = ( $i == 0 ) ? 'selected' : '';
+				?>
+				<a href="#" data-parent-id="<?php echo $id ?>" data-id="<?php echo $term->term_id ?>" class="dln-selection-box-item <?php echo $selected ?>">
+					<div class="selection-box-item-content">
+				    	<div class="selection-box-item-icon"><?php echo $term->name ?></div>
+				    	<p clas="help-block"><?php echo $term->description ?></p>
+				  	</div>
+				</a>
+				<?php
+			}
+		}
 	}
 ?>
 		</div>

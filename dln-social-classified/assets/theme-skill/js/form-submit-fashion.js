@@ -3,22 +3,24 @@
 	
 	var changeColorCategory= function () {
 		$('.dln-selection-box-item').each(function () {
-			var color = $(this).data( 'color-toggle' );
+			var color = $(this).data( 'toggle-color' );
 			if ( $(this).hasClass( 'selected' ) ) {
 				$(this).css({
-					'background-color' : color
+					'background-color' : color,
+					'color'            : 'none'
 				});
 			} else {
 				$(this).css({
+					'background-color' : 'none',
 					'color' : color
 				});
 			}
 		})
-	}
+	};
 	
-	var capitalizeFirstLetter( string ) {
+	var capitalizeFirstLetter = function( string ) {
 		return string.charAt(0).toUpperCase() + string.slice(1);
-	}
+	};
 	
 	var addSelectMultiple = function () {
 		$('.dln-select-multi').each(function () {
@@ -34,7 +36,7 @@
 				}
 			});
 		});
-	}
+	};
 	
 	$(document).ready(function () {
 		if ( typeof ($.fn.selectize ) == 'function' ) {

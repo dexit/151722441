@@ -122,7 +122,8 @@ class DLN_Form_Admin_Taxonomies {
 			$select_ids = explode( ',', $select_ids );
 		}
 		$terms = get_terms( 'fashion_size_tag', array( 'hide_empty' => false, 'orderby' => 'id', 'order' => 'ASC' ) );
-		if ( $terms ) {
+		
+		if ( ! is_wp_error( $terms ) ) {
 			foreach ( $terms as $i => $term ) {
 				if ( is_array( $select_ids ) && in_array( $term->term_id, $select_ids ) ) {
 					$html .= "<option value='{$term->term_id}' selected >{$term->name} ({$term->description})</option>";
@@ -130,6 +131,8 @@ class DLN_Form_Admin_Taxonomies {
 					$html .= "<option value='{$term->term_id}'>{$term->name} ({$term->description})</option>";
 				}
 			}
+		} else {
+			var_dump( $terms->get_error_message() );
 		}
 		
 		return $html;

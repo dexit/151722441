@@ -51,4 +51,8 @@
     padding-left: 10px;
     padding-right: 10px;
     border-bottom: 1px solid #e3e3e3;
+    color: #FFFFFF;
+}
+.dln-selection-box-item:focus, .dln-selection-box-item:hover {
+	color: #FFFFFF;
 }
