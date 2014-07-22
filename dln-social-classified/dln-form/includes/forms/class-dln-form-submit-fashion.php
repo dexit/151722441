@@ -72,10 +72,21 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			
 			self::init_fields();
 			
+			// Validate POST
+			$exclude_fields = array( 
+				'dln_fs_category'  => __( 'Category', DLN_CLF ), 
+				'dln_fs_tag_sizes' => __( 'Tag Sizes', DLNCLF ), 
+				'brand_name'       => __( 'Brand Name', DLN_CLF )
+			);
+			foreach ( $exclude_fields as $i => $exclude ) {
+				if ( empty( $_POST[$i] ) ) {
+					$return = new WP_Error( 'validation-error', sprintf( __( '%s is a required field', DLN_CLF ), $exclude ) );
+				}
+			}
+			
 			if ( ! empty( $_POST['fashion_id'] ) ) {
-				$exclude_fields = array( 'company_website', 'company_type', 'employ_number', 'company_address' );
-				$values = self::get_posted_fields( $exclude_fields );
-				$return = self::validate_fields( $values, $exclude_fields );
+				$values = self::get_posted_fields();
+				$return = self::validate_fields( $values);
 			} else {
 				$values = self::get_posted_fields();
 				$return = self::validate_fields( $values );
@@ -102,16 +113,16 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 	}
 	
 	protected static function update_fashion_data( $values ) {
-		$user_id = get_current_user_id();
+		$user_id     = get_current_user_id();
+		$product_cat = ( ! empty( $_POST['dln_fs_category'] ) ) ? $_POST['dln_fs_category'] : 'UnFashionCat';
 		
 		$post = array(
 			'post_author'  => $user_id,
-			'post_content' => '',
+			'post_content' => $values['fashion']['description'],
 			'post_status'  => 'pending',
-			'post_title'   => $product->part_num,
+			'post_title'   => $values['fashion']['title'],
 			'post_parent'  => '',
 			'post_type'    => 'product',
-		
 		);
 		//Create post
 		$post_id = wp_insert_post( $post, $wp_error );
@@ -119,45 +130,62 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			$attach_id = get_post_meta( $product->parent_id, '_thumbnail_id', true );
 			add_post_meta( $post_id, '_thumbnail_id', $attach_id );
 		}
-		wp_set_object_terms( $post_id, 'Races', 'product_cat' );
-		wp_set_object_terms( $post_id, 'simple', 'product_type' );
+		wp_set_object_terms( $post_id, $product_cat, 'product_cat' );
+		wp_set_object_terms( $post_id, 'fashion', 'product_type' );
 		
+		// Process tag ids
+		$tag_ids     = ( ! empty( $_POST['dln_fs_tag_sizes'] ) ) ? $_POST['dln_fs_tag_sizes'] : '';
+		if ( $tag_ids ) {
+			$arr_ids = array();
+			$tag_ids = explode( ',', $tag_ids );
+			foreach ( $tag_ids as $i => $id ) {
+				$arr_ids[] = (int) $id;
+			}
+			wp_set_object_terms( $post_id, $arr_ids, 'fashion_size_tag' );
+		}
 		
+		// Process brands
+		if ( ! empty( $values['fashion']['brand_name'] ) ) {
+			$brand = $values['fashion']['brand_name'];
+			//if ( ! term_exists( $brand, 'dln_fs_brand' ) ) {
+			//	$brand_id = wp_insert_term( $brand, 'dln_fs_brand' );
+			//}
+			wp_set_object_terms( $post_id, $brand, 'dln_fs_brand' );
+		}
 		
 		update_post_meta( $post_id, '_visibility', 'visible' );
-		update_post_meta( $post_id, '_stock_status', 'instock' );
-		update_post_meta( $post_id, 'total_sales', '0' );
-		update_post_meta( $post_id, '_downloadable', 'yes' );
-		update_post_meta( $post_id, '_virtual', 'yes' );
+		//update_post_meta( $post_id, '_stock_status', 'instock' );
+		//update_post_meta( $post_id, 'total_sales', '0' );
+		//update_post_meta( $post_id, '_downloadable', 'yes' );
+		//update_post_meta( $post_id, '_virtual', 'yes' );
 		update_post_meta( $post_id, '_regular_price', '1' );
 		update_post_meta( $post_id, '_sale_price', '1' );
 		update_post_meta( $post_id, '_purchase_note', '' );
-		update_post_meta( $post_id, '_featured', 'no' );
-		update_post_meta( $post_id, '_weight', '' );
-		update_post_meta( $post_id, '_length', '' );
-		update_post_meta( $post_id, '_width', '' );
-		update_post_meta( $post_id, '_height', '' );
-		update_post_meta( $post_id, '_sku', '' );
-		update_post_meta( $post_id, '_product_attributes', array() );
-		update_post_meta( $post_id, '_sale_price_dates_from', '' );
-		update_post_meta( $post_id, '_sale_price_dates_to', '' );
+		//update_post_meta( $post_id, '_featured', 'no' );
+		//update_post_meta( $post_id, '_weight', '' );
+		//update_post_meta( $post_id, '_length', '' );
+		//update_post_meta( $post_id, '_width', '' );
+		//update_post_meta( $post_id, '_height', '' );
+		//update_post_meta( $post_id, '_sku', '' );
+		//update_post_meta( $post_id, '_product_attributes', array() );
+		//update_post_meta( $post_id, '_sale_price_dates_from', '' );
+		//update_post_meta( $post_id, '_sale_price_dates_to', '' );
 		update_post_meta( $post_id, '_price', '1' );
-		update_post_meta( $post_id, '_sold_individually', '' );
-		update_post_meta( $post_id, '_manage_stock', 'no' );
-		update_post_meta( $post_id, '_backorders', 'no' );
-		update_post_meta( $post_id, '_stock', '' );
-		
+		//update_post_meta( $post_id, '_sold_individually', '' );
+		//update_post_meta( $post_id, '_manage_stock', 'no' );
+		//update_post_meta( $post_id, '_backorders', 'no' );
+		//update_post_meta( $post_id, '_stock', '' );
 		
 		if ( $user_id ) {
-			update_user_meta( $user_id, '_item_type',  $values['fashion']['item_type'] );
-			update_user_meta( $user_id, '_brand_name', $values['fashion']['brand_name'] );
-			update_user_meta( $user_id, '_marterial',  $values['fashion']['marterial'] );
-			update_user_meta( $user_id, '_reason',     $values['fashion']['reason'] );
-			update_user_meta( $user_id, '_fashion_id', self::$fashion_id );
+			update_post_meta( $post_id, '_item_type',  $values['fashion']['item_type'] );
+			update_post_meta( $post_id, '_brand_name', $values['fashion']['brand_name'] );
+			update_post_meta( $post_id, '_marterial',  $values['fashion']['marterial'] );
+			update_post_meta( $post_id, '_reason',     $values['fashion']['reason'] );
+			update_post_meta( $post_id, '_fashion_id', self::$fashion_id );
 		}
 		self::$step = 2;
 	
-		do_action( 'dln_form_update_profile_data', self::$company_id, $values );
+		do_action( 'dln_form_update_profile_data', self::$fashion_id, $values );
 	}
 	
 	public static function init_fields() {

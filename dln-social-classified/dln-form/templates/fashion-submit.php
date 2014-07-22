@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 				<h3 class="panel-title"><?php echo $page_title ?></h3>
 			</div>
 			<div class="panel-body">
-				<form action="<?php echo $action ?>" method="post" id="submit-profile-form" class="profile-manager-form form-horizontal form-bordered" enctype="multipart/form-data">
+				<form action="<?php echo $action ?>" method="post" id="submit_fashion_form" class="profile-manager-form form-horizontal form-bordered" enctype="multipart/form-data">
 					<h4 class="text-primary mt0"><?php echo $page_title ?></h4>
 					<p class="pb10"><?php echo $page_description ?></p>
 					<?php if ( apply_filters( 'submit_profile_form_show', true ) ) : ?>
@@ -20,6 +20,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 							
 							<?php DLN_Form_Functions::form_profile_fields( $fashion_fields ) // Load common profile fields?>
 							
+							<div class="form-group fieldset-<?php esc_attr_e( $key ); ?>">
+								<div class="col-sm-12">
+									
+									<input type="hidden" id="dln_pay_type" name="dln_pay_type" value="" />
+									
+								</div>
+							</div>
 
 							<div class="panel-footer">
 								<div class="form-group no-border">
@@ -30,15 +37,14 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 										<input type="hidden" id="dln_form" name="dln_form" value="<?php echo esc_attr( $form ) ?>" />
 										<input type="hidden" id="step" name="step" value="<?php echo esc_attr( $step ) ?>" />
 										<input type="hidden" id="submit_fashion" name="submit_fashion" value="<?php echo esc_attr( $form ) ?>" />
-										<button type="submit" class="btn btn-primary"><?php esc_attr_e( $submit_button ) ?></button>
+										
+										<button type="button" id="dln_submit_fashion" class="btn btn-primary"><?php esc_attr_e( $submit_button ) ?></button>
 									</div>
 								</div>
 							</div>
 							
 						<?php else : ?>
-						
 							<?php do_action( 'submit_profile_form_disabled' ); ?>
-						
 						<?php endif ?>
 					<?php endif ?>
 				</form>
