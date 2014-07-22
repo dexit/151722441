@@ -38,6 +38,12 @@
 		</div>
 	</div>
 </div>
+</div>
+<label class="col-xs-12 dln-text-left control-label" for="category">
+	Select category for your item
+	<small>(optional)</small>
+</label>
+<div class="col-xs-12">
 <div class="dln-selection-box-wrapper dln-selection-child">
 	<div class="dln-category-selection dln-selection-box">
 		<div class="dln-selection-box-top">
@@ -53,7 +59,7 @@
 			$terms = get_terms( 'fashion_size_tag', array( 'include' => $ids, 'hide_empty' => false ) );
 			foreach ( $terms as $i => $term ) {
 				?>
-				<a href="#" data-parent-id="<?php echo $id ?>" data-id="<?php echo $term->term_id ?>" class="dln-selection-box-item dln-selection-sub-item">
+				<a href="#" data-parent-id="<?php echo $id ?>" data-id="<?php echo $term->term_id ?>" class="dln-selection-sub-item">
 					<div class="selection-box-item-content">
 				    	<div class="selection-box-item-icon"><?php echo $term->name ?></div>
 				    	<p class="help-block"><?php echo $term->description ?></p>

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 							
 							<?php DLN_Form_Functions::form_profile_fields( $fashion_fields ) // Load common profile fields?>
 							
-							<div class="form-group fieldset-<?php esc_attr_e( $key ); ?>">
+							<div class="form-group ">
 								<div class="col-sm-12">
 									
 									<input type="hidden" id="dln_pay_type" name="dln_pay_type" value="" />
