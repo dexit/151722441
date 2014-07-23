@@ -1,3 +1,4 @@
+/* fs-category field */
 .dln-selection-box-wrapper {
 	padding: 10px;
 	background-color: none repeat scroll 0 0 rgba(0, 0, 0, 0.06);
@@ -88,7 +89,16 @@
 }
 
 
-#dln_map_canvas img, .map_canvas img {
+/* geocomplete field */
+.dln_map_canvas img {
 	max-width: none !important;
     box-shadow: none !important;
+}
+.pac-container {
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+	margin-top: -33px;
+}
+#dln_find_current, #dln_find_address {
+	height: 34px;
+	width: 40px;
 }

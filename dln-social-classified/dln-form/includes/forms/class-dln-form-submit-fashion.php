@@ -248,7 +248,9 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 					'label'       => __( 'Address', DLN_CLF ),
 					'type'        => 'geocomplete',
 					'required'    => false,
-					'priority'    => 8
+					'priority'    => 8,
+					'parent_value_class' => 'col-xs-12',
+					'parent_key_class'   => 'col-xs-12 dln-text-left'
 				),
 				'category' => array(
 					'label'       => __( 'Select category for your item', DLN_CLF ),

@@ -1,62 +1,17 @@
 <?php
+wp_enqueue_script( 'dln-google-map-lib-js', 'http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&language=vi' );
 wp_enqueue_script( 'dln-jquery-geocomplete-js', DLN_CLF_PLUGIN_URL . '/assets/3rd-party/jquery-geocomplete/jquery.geocomplete.js', array( 'jquery' ), '1.0.0', true );
+wp_enqueue_script( 'dln-geocomplete-js', DLN_CLF_PLUGIN_URL . '/dln-form/assets/js/fields/geocomplete.js', array( 'jquery' ), '1.0.0', true );
 ?>
-<script src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
-<script>
-(function ($) {
-	$(document).ready(function () {
-		var dln_geo = $("#geocomplete").geocomplete({
-			map: ".map_canvas",
-			details: "form ",
-			markerOptions: {
-				draggable: true
-	       	}
-		});
-	        
-		$("#geocomplete").bind("geocode:dragged", function(event, latLng){
-			var geocoder      = new google.maps.Geocoder();
-			var request       = {};
-			request['latLng'] = latLng;
-			geocoder.geocode( request, function(results, status) {
-				if (status == google.maps.GeocoderStatus.OK) {
-					var result = results[0];
-			        $('#geocomplete').val(result.formatted_address);
-				}	 
-			} );
-			$("input[name=lat]").val(latLng.lat());
-			$("input[name=lng]").val(latLng.lng());
-			$("#reset").show();
-		});
-	        
-		$("#reset").click(function(){
-			$("#geocomplete").geocomplete("resetMarker");
-			$("#reset").hide();
-			return false;
-		});
-	        
-		$("#find").click(function(){
-			$("#geocomplete").trigger("geocode");
-		}).click();
-	});
-})(jQuery);
-</script>
- 
 <form>
-	<input id="geocomplete" type="text" placeholder="Type in an address" value="111 Broadway, New York, NY" />
-	<input id="find" type="button" value="find" />
-
-	<div class="map_canvas" style="height: 200px;"></div>
-
-	<fieldset>
-		<label>Latitude</label>
-		<input name="lat" type="text" value="">
-
-		<label>Longitude</label>
-		<input name="lng" type="text" value="">
-
-		<label>Formatted Address</label>
-		<input name="formatted_address" type="text" value="">
-	</fieldset>
-
-	<a id="reset" href="#" style="display:none;">Reset Marker</a>
+<div class="input-group">
+	<input id="dln_geocomplete" name="dln_geocomplete" class="form-control" type="text" placeholder="<?php _e( 'Type in an address', DLN_CLF ) ?>" value="Hà Noi, Hanoi, Vietnam" />
+	<span class="input-group-btn">
+		<button id="dln_find_current" class="btn btn-default" type="button" title="<?php _e( 'Current Position', DLN_CLF ) ?>"><i class="ico-location"></i></button>
+		<button id="dln_find_address" class="btn btn-default" type="button" title="<?php _e( 'Find Address', DLN_CLF ) ?>"><i class="ico-search3"></i></button>
+	</span>
+</div>
+<div class="dln_map_canvas" style="height: 200px;"></div>
+<input type="hidden" id="dln_fs_lat" name="dln_fs_lat" value="" />
+<input type="hidden" id="dln_fs_lng" name="dln_fs_lng" value="" />
 </form>
