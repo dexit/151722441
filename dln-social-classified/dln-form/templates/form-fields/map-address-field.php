@@ -1,13 +1,15 @@
 <?php 
 wp_enqueue_script( 'dln-jquery-map-js', DLN_CLF_PLUGIN_URL . '/assets/3rd-party/jquery-ui-map/jquery.ui.map.js', array( 'jquery' ), '1.0.0', true );
+wp_enqueue_script( 'dln-jquery-map-ser-js', DLN_CLF_PLUGIN_URL . '/assets/3rd-party/jquery-ui-map/jquery.ui.map.services.js', array( 'jquery' ), '1.0.0', true );
 wp_enqueue_script( 'dln-jquery-map-ext-js', DLN_CLF_PLUGIN_URL . '/assets/3rd-party/jquery-ui-map/jquery.ui.map.extensions.js', array( 'jquery' ), '1.0.0', true );
 ?>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> 
 <script type="text/javascript">
 (function ($) {
 	$(document).ready(function () {
-		$('#map_canvas').gmap().bind('init', function(event, map) { 
+		$('#dln_map_canvas').gmap().bind('init', function(event, map) {
 			$(map).click( function(event) {
-				$('#map_canvas').gmap('addMarker', {
+				$('#dln_map_canvas').gmap('addMarker', {
 					'position': event.latLng, 
 					'draggable': true, 
 					'bounds': false
@@ -23,8 +25,9 @@ wp_enqueue_script( 'dln-jquery-map-ext-js', DLN_CLF_PLUGIN_URL . '/assets/3rd-pa
 		});
 
 		function findLocation(location, marker) {
-			$('#map_canvas').gmap('search', {'location': location}, function(results, status) {
+			$('#dln_map_canvas').gmap('search', {'location': location}, function(results, status) {
 				if ( status === 'OK' ) {
+					console.log(results, status);
 					$.each(results[0].address_components, function(i,v) {
 						if ( v.types[0] == "administrative_area_level_1" || 
 							 v.types[0] == "administrative_area_level_2" ) {
@@ -56,4 +59,4 @@ wp_enqueue_script( 'dln-jquery-map-ext-js', DLN_CLF_PLUGIN_URL . '/assets/3rd-pa
 
 </script>
 
-<div id="map_canvas" style="height: 200px;"></div>
+<div id="dln_map_canvas" style="height: 200px;"></div>

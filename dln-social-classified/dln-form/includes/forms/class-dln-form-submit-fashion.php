@@ -246,7 +246,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 				),
 				'map' => array(
 					'label'       => __( 'Address', DLN_CLF ),
-					'type'        => 'map-address',
+					'type'        => 'geocomplete',
 					'required'    => false,
 					'priority'    => 8
 				),
