@@ -255,14 +255,14 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 					'placeholder' => __( 'Everything has a story, even clothes! Tell us the story of your item. Material, measurements – what makes it special!', DLN_CLF ),
 					'priority'    => 7
 				),
-				'map' => array(
+				/*'map' => array(
 					'label'       => __( 'Address', DLN_CLF ),
 					'type'        => 'geocomplete',
 					'required'    => false,
 					'priority'    => 8,
 					'parent_value_class' => 'col-xs-12',
 					'parent_key_class'   => 'col-xs-12 dln-text-left'
-				),
+				),*/
 				'category' => array(
 					'label'       => __( 'Select category for your item', DLN_CLF ),
 					'type'        => 'fs-category',
@@ -271,7 +271,14 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 					'parent_value_class' => 'col-xs-12',
 					'parent_key_class'   => 'col-xs-12 dln-text-left'
 				),
-				
+				'payment' => array(
+					'label'       => __( 'Payment method', DLN_CLF ),
+					'type'        => 'paymethod',
+					'required'    => false,
+					'priority'    => 10,
+					'parent_value_class' => 'col-xs-12',
+					'parent_key_class'   => 'col-xs-12 dln-text-left'
+				)
 			),
 			'company' => array(
 				'company_website' => array(
