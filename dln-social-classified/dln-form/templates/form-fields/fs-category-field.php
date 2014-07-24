@@ -40,8 +40,8 @@
 </div>
 </div>
 <label class="col-xs-12 dln-text-left control-label" for="category">
-	Select category for your item
-	<small>(optional)</small>
+	<?php _e( 'Select category for your item', DLN_CLF ) ?>
+	<small><?php _e( '(optional)', DLN_CLF )?></small>
 </label>
 <div class="col-xs-12">
 <div class="dln-selection-box-wrapper dln-selection-child">

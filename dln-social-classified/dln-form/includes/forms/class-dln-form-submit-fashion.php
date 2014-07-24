@@ -76,7 +76,8 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			$exclude_fields = array( 
 				'dln_fs_category'  => __( 'Category', DLN_CLF ), 
 				'dln_fs_tag_sizes' => __( 'Tag Sizes', DLNCLF ), 
-				'brand_name'       => __( 'Brand Name', DLN_CLF )
+				'brand_name'       => __( 'Brand Name', DLN_CLF ),
+				'dln_fs_address'   => __( 'Address', DLN_CLF )
 			);
 			foreach ( $exclude_fields as $i => $exclude ) {
 				if ( empty( $_POST[$i] ) ) {
@@ -85,8 +86,9 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			}
 			
 			if ( ! empty( $_POST['fashion_id'] ) ) {
+				$excludes = array( 'map' );
 				$values = self::get_posted_fields();
-				$return = self::validate_fields( $values);
+				$return = self::validate_fields( $values );
 			} else {
 				$values = self::get_posted_fields();
 				$return = self::validate_fields( $values );
@@ -104,7 +106,6 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 				// Update user profile
 				self::update_fashion_data( $values );
 			}
-			
 		} catch ( Exception $e ) {
 			self::add_error( $e->getMessage() );
 			self::reset();
@@ -182,6 +183,16 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			update_post_meta( $post_id, '_marterial',  $values['fashion']['marterial'] );
 			update_post_meta( $post_id, '_reason',     $values['fashion']['reason'] );
 			update_post_meta( $post_id, '_fashion_id', self::$fashion_id );
+			
+			if ( ! empty( $_POST['dln_fs_address'] ) ) {
+				update_post_meta( $post_id, '_dln_fs_address', $_POST['dln_fs_address'] );
+			}
+			if ( ! empty( $_POST['dln_fs_lat'] ) ) {
+				update_post_meta( $post_id, '_dln_fs_lat', $_POST['dln_fs_lat'] );
+			}
+			if ( ! empty( $_POST['dln_fs_lng'] ) ) {
+				update_post_meta( $post_id, '_dln_fs_lng', $_POST['dln_fs_lng'] );
+			}
 		}
 		self::$step = 2;
 	
