@@ -40,9 +40,11 @@ class DLN_Form_Loader {
 	public function admin_init() {
 		wp_enqueue_script( 'dln-select2-js',             DLN_CLF_PLUGIN_URL . '/assets/3rd-party/select2/select2.min.js', array( 'jquery' ), '3.4.8', true );
 		wp_enqueue_script( 'dln-select2-locale-js',      DLN_CLF_PLUGIN_URL . '/assets/3rd-party/select2/select2_locale_vi.js', array( 'jquery', 'dln-select2-js' ), '3.4.8', true );
+		wp_enqueue_script( 'dln-colorpicker-js',         DLN_CLF_PLUGIN_URL . '/assets/3rd-party/jquery-colorpicker/js/colorpicker.js', array( 'jquery' ), '1.0.0', true );
 		wp_enqueue_script( 'dln-admin-fashion-js',       DLN_CLF_PLUGIN_URL . '/dln-form/assets/js/admin/admin-form.js', array( 'jquery' ), '1.0.0', true );
-		wp_enqueue_style( 'dln-select2-css',           DLN_CLF_PLUGIN_URL . '/assets/3rd-party/select2/select2.css', null, '3.4.8' );
-		wp_enqueue_style( 'dln-select2-bootstrap-css', DLN_CLF_PLUGIN_URL . '/assets/3rd-party/select2/select2-bootstrap.css', null, '3.4.8' );
+		wp_enqueue_style( 'dln-select2-css',             DLN_CLF_PLUGIN_URL . '/assets/3rd-party/select2/select2.css', null, '3.4.8' );
+		wp_enqueue_style( 'dln-select2-bootstrap-css',   DLN_CLF_PLUGIN_URL . '/assets/3rd-party/select2/select2-bootstrap.css', null, '3.4.8' );
+		wp_enqueue_style( 'dln-colorpicker-css',         DLN_CLF_PLUGIN_URL . '/assets/3rd-party/jquery-colorpicker/css/colorpicker.css', null, '3.4.8' );
 	}
 	
 	public function register_assets() {

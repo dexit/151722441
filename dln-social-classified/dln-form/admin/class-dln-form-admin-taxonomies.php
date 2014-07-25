@@ -21,8 +21,32 @@ class DLN_Form_Admin_Taxonomies {
 		add_action( 'product_cat_edit_form_fields', array( $this, 'edit_category_fields' ), 10, 2 );
 		add_action( 'fashion_size_tag_add_form_fields', array( $this, 'add_fashion_size_tag_fields' ) );
 		add_action( 'fashion_size_tag_edit_form_fields', array( $this, 'edit_fashion_size_tag_fields' ), 10, 2 );
+		add_action( 'dln_fs_color_add_form_fields', array( $this, 'add_dln_fs_color_fields' ) );
+		add_action( 'dln_fs_color_edit_form_fields', array( $this, 'edit_dln_fs_color_fields' ) );
 		add_action( 'created_term', array( $this, 'save_category_fields' ), 10, 3 );
 		add_action( 'edit_term', array( $this, 'save_category_fields' ), 10, 3 );
+	}
+	
+	public static function add_dln_fs_color_fields() {
+		?>
+		<div class="form-field">
+			<label for="icon_class"><?php _e( 'Color', DLN_CLF ) ?></label>
+			<input id="dln_fs_color_value" name="dln_fs_color_value" class="dln-color-picker" type="text" value=""/>
+			<div class="clear"></div>
+		</div>
+		<?php
+	}
+	
+	public static function edit_dln_fs_color_fields() {
+		$dln_fs_color_value = get_woocommerce_term_meta( $term->term_id, 'dln_fs_color_value', true );
+		?>
+		<tr class="form-field">
+			<th scope="row" valign="top"><label><?php _e( 'Color', DLN_CLF ) ?></label></th>
+			<td>
+				<input id="dln_fs_color_value" name="dln_fs_color_value" class="dln-color-picker" type="text" value="<?php echo $dln_fs_color_value ?>" size="40" />	
+			</td>
+		</tr>
+		<?php
 	}
 	
 	public static function add_fashion_size_tag_fields() {
@@ -57,7 +81,7 @@ class DLN_Form_Admin_Taxonomies {
 		</div>
 		<div class="form-field">
 			<label for="dln_toggle_color"><?php _e( 'Toggle Color', DLN_CLF ) ?></label>
-			<input id="dln_toggle_color" name="dln_toggle_color" type="text" value="" size="40" />
+			<input id="dln_toggle_color" class="dln-color-picker" name="dln_toggle_color" type="text" value="" size="40" />
 			<div class="clear"></div>
 		</div>
 		<div class="form-field">
@@ -86,7 +110,7 @@ class DLN_Form_Admin_Taxonomies {
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="dln_toggle_color"><?php _e( 'Toggle Color', DLN_CLF ) ?></label></th>
 			<td>
-				<input id="dln_toggle_color" name="dln_toggle_color" type="text" value="<?php echo $dln_toggle_color?>" size="40" />
+				<input id="dln_toggle_color" class="dln-color-picker" name="dln_toggle_color" type="text" value="<?php echo $dln_toggle_color?>" size="40" />
 			</td>
 		</tr>
 		<tr class="form-field">
@@ -101,6 +125,9 @@ class DLN_Form_Admin_Taxonomies {
 	}
 	
 	public static function save_category_fields( $term_id, $tt_id, $taxonomy ) {
+		if ( isset( $_POST['dln_fs_color_value'] ) ) {
+			update_woocommerce_term_meta( $term_id, 'dln_fs_color_value', $_POST['dln_fs_color_value'] );
+		}
 		if ( isset( $_POST['dln_icon_class'] ) ) {
 			update_woocommerce_term_meta( $term_id, 'dln_icon_class', $_POST['dln_icon_class'] );
 		}

@@ -20,14 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 							
 							<?php DLN_Form_Functions::form_profile_fields( $fashion_fields ) // Load common profile fields?>
 							
-							<div class="form-group ">
-								<div class="col-sm-12">
-									
-									<input type="hidden" id="dln_pay_type" name="dln_pay_type" value="" />
-									
-								</div>
-							</div>
-
 							<div class="panel-footer">
 								<div class="form-group no-border">
 									<label class="col-sm-3 control-label"></label>
@@ -52,5 +44,3 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 		</div>	
 	</div>
 </div>
-<form action="http://www.torrentplease.com/dropzone.php" class="dropzone dz-clickable" id="demo-upload">
-<div class="dz-default dz-message"><span>Drop files here to upload</span></div></form>
