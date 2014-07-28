@@ -1,4 +1,7 @@
 /* fs-category field */
+.btn {
+    color: #FFFFFF;
+}
 .dln-selection-box-wrapper {
 	padding: 10px;
 	background-color: none repeat scroll 0 0 rgba(0, 0, 0, 0.06);
@@ -39,11 +42,11 @@
 	font-weight: 700;
 	line-height: 20px;
 }
-.dln-selection-box-item, .dln-selection-sub-item {
+.dln-selection-box-item, .dln-selection-sub-item, .dln-fs-color-item {
     height: 110px;
     text-align: center;
     width: 20%;
-    min-width: 90px;
+    min-width: 100px;
     float: left;
     padding-left: 10px;
     padding-right: 10px;
@@ -59,6 +62,9 @@
 }
 .dln-selection-box-item.selected .selection-box-item-icon, .dln-selection-sub-item.selected .selection-box-item-icon, .dln-selection-sub-item.selected .help-block{
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+	color: #FFFFFF;
+}
+.dln-selection-box-item.selected i {
 	color: #FFFFFF;
 }
 .dln-selection-box-item:focus, .dln-selection-box-item:hover {
@@ -94,4 +100,33 @@
 #dln_find_current, #dln_find_address {
 	height: 34px;
 	width: 40px;
+}
+
+
+/* color-selector-field */
+.dln-fs-color-ico {
+	border: 2px solid #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0), 0 0 2px rgba(0, 0, 0, 0.14) inset;
+    color: #ffffff;
+    display: block;
+    font-size: 11px;
+    height: 20px;
+    line-height: 15px;
+    position: relative;
+    top: 10px;
+    width: 20px;
+}
+.dln-fs-color-ico-name {
+	font-size: 11px;
+	line-height: 0px;
+	font-weight: 700;
+	float: left;
+	text-indent: 30px;
+}
+.dln-fs-color-item {
+	height: 40px;
+}
+.dln-fs-color-item.selected {
+	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }

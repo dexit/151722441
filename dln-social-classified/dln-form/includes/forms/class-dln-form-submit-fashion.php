@@ -271,11 +271,19 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 					'parent_value_class' => 'col-xs-12',
 					'parent_key_class'   => 'col-xs-12 dln-text-left'
 				),
+				'color' => array(
+					'label'       => __( 'Please choose up to 2 colors', DLN_CLF ),
+					'type'        => 'color-selector',
+					'required'    => false,
+					'priority'    => 10,
+					'parent_value_class' => 'col-xs-12',
+					'parent_key_class'   => 'col-xs-12 dln-text-left'
+				),
 				'payment' => array(
 					'label'       => __( 'Payment method', DLN_CLF ),
 					'type'        => 'paymethod',
 					'required'    => false,
-					'priority'    => 10,
+					'priority'    => 11,
 					'parent_value_class' => 'col-xs-12',
 					'parent_key_class'   => 'col-xs-12 dln-text-left'
 				)
