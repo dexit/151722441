@@ -193,6 +193,15 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			if ( ! empty( $_POST['dln_fs_lng'] ) ) {
 				update_post_meta( $post_id, '_dln_fs_lng', $_POST['dln_fs_lng'] );
 			}
+			if ( ! empty( $_POST['dln_fs_color_selected'] ) ) {
+				$color_ids = $_POST['dln_fs_color_selected'];
+				$arr_ids   = array();
+				$color_ids = explode( ',', $color_ids );
+				foreach ( $color_ids as $i => $id ) {
+					$arr_ids[] = (int) $id;
+				}
+				wp_set_object_terms( $post_id, $arr_ids, 'dln_fs_color' );
+			}
 		}
 		self::$step = 2;
 	

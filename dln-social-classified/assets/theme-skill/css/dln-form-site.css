@@ -130,3 +130,21 @@
 .dln-fs-color-item.selected {
 	text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
+
+/* dln-payment-field */
+.list-group-item {
+	height: 85px;
+}
+.list-group-item.active .help-block{
+	color: #ffffff;
+	
+}
+.list-group-item.active input {
+	color: #333333;
+}
+.dln-payment-icon {
+	width: 50px;
+	line-height: 80px;
+	float: left;
+	font-size: 40px;
+}

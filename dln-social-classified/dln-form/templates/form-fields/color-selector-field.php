@@ -15,7 +15,7 @@
 		$color_value = get_woocommerce_term_meta( $color->term_id, 'dln_fs_color_value', true );
 		if ( $color_value ) {
 		?>
-		<a href="#" data-toggle-color="<?php echo $color_value ?>"  data-parent-id="<?php echo $color->term_id ?>" data-id="<?php echo $color->term_id ?>" class="dln-fs-color-item">
+		<a href="#" data-toggle-color="<?php echo $color_value ?>" data-id="<?php echo $color->term_id ?>" class="dln-fs-color-item">
 			<i class="dln-fs-color-ico" style="background-color: <?php echo $color_value ?>"></i>
 	    	<span class="dln-fs-color-ico-name"><?php echo $color->name ?></span>
 		</a>
