@@ -87,7 +87,7 @@ class DLN_Form_Admin_Taxonomies {
 		<div class="form-field">
 			<label for="dln_size_tags"><?php _e( 'Size Tags', DLN_CLF ) ?></label>
 			<select id="dln_size_tags" name="dln_size_tags[]" class="dln-select2 postform" style="width: 250px;" multiple>
-				<?php echo esc_html( $options ) ?>
+				<?php echo balanceTags( $options ) ?>
 			</select>
 			<div class="clear"></div>
 		</div>
@@ -117,7 +117,7 @@ class DLN_Form_Admin_Taxonomies {
 			<th scope="row" valign="top"><labell for="dln_size_tags"><?php _e( 'Size Tags', DLN_CLF ) ?></label></th>
 			<td>
 				<select id="dln_size_tags" name="dln_size_tags[]" class="dln-select2 postform" style="width: 95%;" multiple>
-					<?php echo esc_html( $options ) ?>
+					<?php echo balanceTags( $options ) ?>
 				</select>
 			</td>
 		</tr>

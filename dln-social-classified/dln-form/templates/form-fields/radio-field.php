@@ -5,7 +5,7 @@
 <?php $checked = ( isset( $_POST[ $key ] ) && $_POST[ $key ] == $option ) ? 'checked="checked"' : $checked; ?>
 <span class="radio custom-radio custom-radio-primary">
 	<input
-	<?php echo esc_html( $checked ) ?>
+	<?php echo balanceTags( $checked ) ?>
 	type="radio"
 	name="<?php echo esc_attr( isset( $field['name'] ) ) ? $field['name'] : $key ?>"
 	id="<?php echo esc_attr( $key . '_' . $option ) ?>" 

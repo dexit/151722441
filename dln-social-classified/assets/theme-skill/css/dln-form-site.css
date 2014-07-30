@@ -135,9 +135,13 @@
 .list-group-item {
 	height: 85px;
 }
+
 .list-group-item.active .help-block{
 	color: #ffffff;
 	
+}
+.list-group-item input{
+	text-align: right;
 }
 .list-group-item.active input {
 	color: #333333;
@@ -147,4 +151,18 @@
 	line-height: 80px;
 	float: left;
 	font-size: 40px;
+}
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+	background-color: #428bca;
+    border-color: #428bca;
+    color: #fff;
+    z-index: 2;
+}
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus {
+    background-color: #00b1e1;
+    border-color: #00a5d2;
+}
+.list-group-item:hover, .list-group-item:focus {
+    background-color: #f7f7f7;
+    color: #777777;
 }

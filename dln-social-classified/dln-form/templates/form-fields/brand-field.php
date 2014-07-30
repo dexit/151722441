@@ -9,7 +9,7 @@ if ( is_array( $brands ) ) {
 }
 ?>
 <select id="<?php echo esc_attr( $key ); ?>" class="form-control dln-select-multi" name="<?php echo esc_attr( isset( $field['name'] ) ? $field['name'] : $key ); ?>">
-	<?php echo esc_html( implode( '\n', $options ) ) ?>
+	<?php echo balanceTags( implode( '\n', $options ) ) ?>
 </select>
 <?php if ( ! empty( $field['description'] ) ) : ?>
 <span class="help-block"><?php echo esc_html( $field['description'] ) ?></span>

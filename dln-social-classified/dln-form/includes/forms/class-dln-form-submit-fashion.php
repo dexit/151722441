@@ -208,6 +208,38 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 				}
 				wp_set_object_terms( $post_id, $arr_ids, 'dln_fs_color' );
 			}
+			if ( ! empty( $_POST['dln_fs_payment_type'] ) ) {
+				$types = $_POST['dln_fs_payment_type'];
+				$types = explode( ',', $types );
+				if ( is_array( $types ) && ! empty( $types ) ) {
+					$arr_validate = array();
+					foreach ( $types as $i => $type ) {
+						switch ( $type ) {
+							case 'gift':
+								$arr_validate[] = 'gift';
+								break;
+							case 'sale':
+								$arr_validate[] = 'sale';
+								break;
+							case 'swap':
+								$arr_validate = array( 'swap' );
+								break;
+						}
+					}
+					
+					update_post_meta( $post_id, '_dln_payment_type', serialize( $arr_validate ) );
+				}
+			}
+			if ( ! empty( $_POST['dln_fs_payment_price'] ) ) {
+				$price = esc_attr( $_POST['dln_fs_payment_price'] );
+				$price = str_replace( ',', '', $price );
+				$price = str_replace( '.', '', $price );
+				$price = intval( $price );
+				if ( ! empty( $price ) && is_numeric( $price ) ) {
+					$price += '000';
+					update_post_meta( $post_id, '_dln_payment_price', serialize( $price ) );
+				}
+			}
 		}
 		self::$step = 2;
 	

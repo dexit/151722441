@@ -29,7 +29,7 @@ if ( empty( $categories ) ) {
 		?>
 			<a href="#" data-id="<?php echo esc_attr( $category->term_id ) ?>" class="dln-selection-box-item <?php echo esc_attr( $selected ) ?>" data-toggle-color="<?php echo esc_attr( $icon_color ) ?>">
 				<div class="selection-box-item-content">
-					<?php echo esc_html( $icon_html ) ?>
+					<?php echo balanceTags( $icon_html ) ?>
 			    	<div class="selection-box-item-icon"><?php echo esc_html( $category->name ) ?></div>
 			  	</div>
 			</a>
