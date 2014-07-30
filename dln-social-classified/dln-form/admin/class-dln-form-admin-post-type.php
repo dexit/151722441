@@ -34,8 +34,10 @@ class DLN_Form_Admin_PostType {
 		$permalinks        = get_option( 'woocommerce_permalinks' );
 		$fashion_permalink = empty( $permalinks['fashion_base'] ) ? _x( 'fashion', 'slug', DLN_CLF ) : $permalinks['fashion_base'];
 		
-		register_post_type( 'dln_fashion', 
-			apply_filters( 'dln_classified_register_post_type_fashion',
+		register_post_type(
+			'dln_fashion', 
+			apply_filters(
+				'dln_classified_register_post_type_fashion',
 				array(
 					'labels' => array(
 						'name'                  => __( 'Fashions', DLN_CLF ),
@@ -65,7 +67,7 @@ class DLN_Form_Admin_PostType {
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
 					'has_archive' 			=> ( $shop_page_id = wc_get_page_id( 'shop' ) ) && get_page( $shop_page_id ) ? get_page_uri( $shop_page_id ) : 'shop',
-					'show_in_nav_menus' 	=> true
+					'show_in_nav_menus' 	=> true,
 				)
 			)
 		);
@@ -74,21 +76,27 @@ class DLN_Form_Admin_PostType {
 	public function dln_company_status_filters() {
 		$types = self::get_company_status();
 		foreach ( $types as $name => $type ) {
-			register_post_status( $name, array(
-				'label'       => $type,
-				'private'     => true,
-				'_builtin'    => true, /* internal use only. */
-				'label_count' => _n_noop( $type . ' <span class="count">(%s)</span>', $type . ' <span class="count">(%s)</span>' ),
-			) );
+			register_post_status(
+				$name,
+				array(
+					'label'       => $type,
+					'private'     => true,
+					'_builtin'    => true, /* internal use only. */
+					'label_count' => _n_noop( $type . ' <span class="count">(%s)</span>', $type . ' <span class="count">(%s)</span>' ),
+				)
+			);
 		}
 	}
 	
 	public static function get_company_status() {
-		return (array) apply_filters( 'dln_form_company_status', array(
-			'company_pending'      => __( 'Company Pending', 'dln-skill' ),
-			'company_publish'      => __( 'Company Published', 'dln-skill' ),
-			'company_ban'          => __( 'Company Banned', 'dln-skill' ),
-		) );
+		return (array) apply_filters(
+			'dln_form_company_status',
+			array(
+				'company_pending'      => __( 'Company Pending', 'dln-skill' ),
+				'company_publish'      => __( 'Company Published', 'dln-skill' ),
+				'company_ban'          => __( 'Company Banned', 'dln-skill' ),
+			) 
+		);
 	}
 	
 }

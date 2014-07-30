@@ -44,7 +44,7 @@ class DLN_Forms {
 			include $form_file;
 		
 		// Init the form
-		call_user_func( array( $form_class, "init" ) );
+		call_user_func( array( $form_class, 'init' ) );
 		
 		return $form_class;
 	}

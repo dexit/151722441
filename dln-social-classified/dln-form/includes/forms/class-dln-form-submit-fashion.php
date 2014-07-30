@@ -14,19 +14,22 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 	public static function init() {
 		add_action( 'wp', array( __CLASS__, 'process' ) );
 		
-		self::$steps = (array) apply_filters( 'submit_profile_steps', array(
-			'submit' => array(
-				'name'     => __( 'Submit Classified', DLN_CLF ),
-				'view'     => array( __CLASS__, 'submit' ),
-				'handler'  => array( __CLASS__, 'submit_handler' ),
-				'priority' => 10
-			),
-			'submit_thankyou' => array(
-				'name'     => __( 'Thank you', DLN_CLF ),
-				'view'     => array( __CLASS__, 'submit_thankyou' ),
-				'priority' => 20
-			),
-		) );
+		self::$steps = (array) apply_filters(
+			'submit_profile_steps',
+			array(
+				'submit' => array(
+					'name'     => __( 'Submit Classified', DLN_CLF ),
+					'view'     => array( __CLASS__, 'submit' ),
+					'handler'  => array( __CLASS__, 'submit_handler' ),
+					'priority' => 10,
+				),
+				'submit_thankyou' => array(
+					'name'     => __( 'Thank you', DLN_CLF ),
+					'view'     => array( __CLASS__, 'submit_thankyou' ),
+					'priority' => 20,
+				),
+			)
+		);
 		
 		uasort( self::$steps, array( __CLASS__, 'sort_by_priority' ) );
 		
@@ -53,16 +56,19 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 		$page_title   = isset( self::$steps[ self::$step ]['name'] )        ? self::$steps[ self::$step ]['name'] : '';
 		$page_desc    = isset( self::$steps[ self::$step ]['description'] ) ? self::$steps[ self::$step ]['description'] : '';
 		
-		DLN_Form_Functions::form_get_template( 'fashion-submit.php', array(
-			'page_title'         => $page_title,
-			'page_description'   => $page_desc,
-			'form'               => self::$form_name,
-			'action'             => self::get_action(),
-			'fashion_fields'     => self::get_fields( 'fashion' ),
-			'fashion_id'         => self::$fashion_id,
-			'step'               => self::$step,
-			'submit_button'      => __( 'Sell now', DLN_CLF )
-		) );
+		DLN_Form_Functions::form_get_template(
+			'fashion-submit.php',
+			array(
+				'page_title'         => $page_title,
+				'page_description'   => $page_desc,
+				'form'               => self::$form_name,
+				'action'             => self::get_action(),
+				'fashion_fields'     => self::get_fields( 'fashion' ),
+				'fashion_id'         => self::$fashion_id,
+				'step'               => self::$step,
+				'submit_button'      => __( 'Sell now', DLN_CLF )
+			)
+		);
 	}
 	
 	public static function submit_handler() {
@@ -127,7 +133,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 		);
 		//Create post
 		$post_id = wp_insert_post( $post, $wp_error );
-		if( $post_id ){
+		if ( $post_id ) {
 			$attach_id = get_post_meta( $product->parent_id, '_thumbnail_id', true );
 			add_post_meta( $post_id, '_thumbnail_id', $attach_id );
 		}
@@ -212,101 +218,104 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 		if ( self::$fields )
 			return;
 	
-		self::$fields = apply_filters( 'submit_fashion_form_fields', array(
-			'fashion' => array(
-				'image_upload' => array(
-					'label'        => '',
-					'type'         => 'shortcode',
-					'value'        => '[dln_upload theme="true"]',
-					'priority'     => 1,
-					'parent_value_class' => 'col-xs-12',
+		self::$fields = apply_filters(
+			'submit_fashion_form_fields',
+			array(
+				'fashion' => array(
+					'image_upload' => array(
+						'label'        => '',
+						'type'         => 'shortcode',
+						'value'        => '[dln_upload theme="true"]',
+						'priority'     => 1,
+						'parent_value_class' => 'col-xs-12',
+					),
+					'title' => array(
+						'label'       => __( 'Title', DLN_CLF ),
+						'type'        => 'text',
+						'required'    => true,
+						'placeholder' => __( 'e.g: Red Zara Dress', DLN_CLF ),
+						'priority'    => 2,
+					),
+					'item_type' => array(
+						'label'       => __( 'Condition', DLN_CLF ),
+						'type'        => 'select',
+						'class'       => 'dln-selectize',
+						'required'    => true,
+						'options'     => self::item_types(),
+						'priority'    => 3,
+					),
+					'brand_name' => array(
+						'label'       => __( 'Brand Name', DLN_CLF ),
+						'type'        => 'brand',
+						'required'    => false,
+						'placeholder' => __( 'Typing to search...', DLN_CLF ),
+						'priority'    => 4,
+					),
+					'description' => array(
+						'label'       => __( 'Describe your item', DLN_CLF ),
+						'type'        => 'textarea',
+						'required'     => true,
+						'placeholder' => __( 'e.g. a #greatblouse for your own style #vintage #hollister', DLN_CLF ),
+						'priority'    => 5,
+					),
+					'marterial' => array(
+						'label'       => __( 'Material', DLN_CLF ),
+						'type'        => 'textarea',
+						'required'     => false,
+						'placeholder' => __( 'e.g. 60% cotton, 40% polyester', DLN_CLF ),
+						'priority'    => 6,
+					),
+					'reason' => array(
+						'label'       => __( 'Reason', DLN_CLF ),
+						'type'        => 'textarea',
+						'required'    => false,
+						'placeholder' => __( 'Everything has a story, even clothes! Tell us the story of your item. Material, measurements – what makes it special!', DLN_CLF ),
+						'priority'    => 7,
+					),
+					/*'map' => array(
+						'label'       => __( 'Address', DLN_CLF ),
+						'type'        => 'geocomplete',
+						'required'    => false,
+						'priority'    => 8,
+						'parent_value_class' => 'col-xs-12',
+						'parent_key_class'   => 'col-xs-12 dln-text-left'
+					),*/
+					'category' => array(
+						'label'       => __( 'Select category for your item', DLN_CLF ),
+						'type'        => 'fs-category',
+						'required'    => false,
+						'priority'    => 9,
+						'parent_value_class' => 'col-xs-12',
+						'parent_key_class'   => 'col-xs-12 dln-text-left',
+					),
+					'color' => array(
+						'label'       => __( 'Please choose up to 2 colors', DLN_CLF ),
+						'type'        => 'color-selector',
+						'required'    => false,
+						'priority'    => 10,
+						'parent_value_class' => 'col-xs-12',
+						'parent_key_class'   => 'col-xs-12 dln-text-left',
+					),
+					'payment' => array(
+						'label'       => __( 'Payment method', DLN_CLF ),
+						'type'        => 'paymethod',
+						'required'    => false,
+						'priority'    => 11,
+						'parent_value_class' => 'col-xs-12',
+						'parent_key_class'   => 'col-xs-12 dln-text-left',
+					)
 				),
-				'title' => array(
-					'label'       => __( 'Title', DLN_CLF ),
-					'type'        => 'text',
-					'required'    => true,
-					'placeholder' => __( 'e.g: Red Zara Dress', DLN_CLF ),
-					'priority'    => 2
-				),
-				'item_type' => array(
-					'label'       => __( 'Condition', DLN_CLF ),
-					'type'        => 'select',
-					'class'       => 'dln-selectize',
-					'required'    => true,
-					'options'     => self::item_types(),
-					'priority'    => 3
-				),
-				'brand_name' => array(
-					'label'       => __( 'Brand Name', DLN_CLF ),
-					'type'        => 'brand',
-					'required'    => false,
-					'placeholder' => __( 'Typing to search...', DLN_CLF ),
-					'priority'    => 4
-				),
-				'description' => array(
-					'label'       => __( 'Describe your item', DLN_CLF ),
-					'type'        => 'textarea',
-					'required'     => true,
-					'placeholder' => __( 'e.g. a #greatblouse for your own style #vintage #hollister', DLN_CLF ),
-					'priority'    => 5
-				),
-				'marterial' => array(
-					'label'       => __( 'Material', DLN_CLF ),
-					'type'        => 'textarea',
-					'required'     => false,
-					'placeholder' => __( 'e.g. 60% cotton, 40% polyester', DLN_CLF ),
-					'priority'    => 6
-				),
-				'reason' => array(
-					'label'       => __( 'Reason', DLN_CLF ),
-					'type'        => 'textarea',
-					'required'    => false,
-					'placeholder' => __( 'Everything has a story, even clothes! Tell us the story of your item. Material, measurements – what makes it special!', DLN_CLF ),
-					'priority'    => 7
-				),
-				/*'map' => array(
-					'label'       => __( 'Address', DLN_CLF ),
-					'type'        => 'geocomplete',
-					'required'    => false,
-					'priority'    => 8,
-					'parent_value_class' => 'col-xs-12',
-					'parent_key_class'   => 'col-xs-12 dln-text-left'
-				),*/
-				'category' => array(
-					'label'       => __( 'Select category for your item', DLN_CLF ),
-					'type'        => 'fs-category',
-					'required'    => false,
-					'priority'    => 9,
-					'parent_value_class' => 'col-xs-12',
-					'parent_key_class'   => 'col-xs-12 dln-text-left'
-				),
-				'color' => array(
-					'label'       => __( 'Please choose up to 2 colors', DLN_CLF ),
-					'type'        => 'color-selector',
-					'required'    => false,
-					'priority'    => 10,
-					'parent_value_class' => 'col-xs-12',
-					'parent_key_class'   => 'col-xs-12 dln-text-left'
-				),
-				'payment' => array(
-					'label'       => __( 'Payment method', DLN_CLF ),
-					'type'        => 'paymethod',
-					'required'    => false,
-					'priority'    => 11,
-					'parent_value_class' => 'col-xs-12',
-					'parent_key_class'   => 'col-xs-12 dln-text-left'
+				'company' => array(
+					'company_website' => array(
+						'label'       => __( 'Website', DLN_CLF ),
+						'type'        => 'text',
+						'required'    => true,
+						'placeholder' => __( 'Website is required', DLN_CLF ),
+						'priority'    => 1,
+					),
 				)
-			),
-			'company' => array(
-				'company_website' => array(
-					'label'       => __( 'Website', DLN_CLF ),
-					'type'        => 'text',
-					'required'    => true,
-					'placeholder' => __( 'Website is required', DLN_CLF ),
-					'priority'    => 1
-				),
 			)
-		) );
+		);
 	}
 	
 	public static function process() {
@@ -332,7 +341,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 	}
 	
 	protected static function validate_fields( $values, $exclude_fields = array() ) {
-		foreach( $values as $group_key => $fields ) {
+		foreach ( $values as $group_key => $fields ) {
 			foreach ( $fields as $key => $field ) {
 				if ( ! in_array( $key, $exclude_fields ) && isset( $field['required'] ) && empty( $values[ $group_key ][ $key ] ) ) {
 					return new WP_Error( 'validation-error', sprintf( __( '%s is a required field', DLN_CLF ), $field['label'] ) );
@@ -383,7 +392,7 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 	}
 	
 	private static function item_types() {
-		return array (
+		return array(
 			'new'          => __( 'New', DLN_CLF ),
 			'mint'         => __( 'Mint', DLN_CLF ),
 			'satisfactory' => __( 'Satisfactory', DLN_CLF ),

@@ -9,12 +9,12 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 	<div class="col-md-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title"><?php echo $page_title ?></h3>
+				<h3 class="panel-title"><?php echo esc_html( $page_title ) ?></h3>
 			</div>
 			<div class="panel-body">
-				<form action="<?php echo $action ?>" method="post" id="submit_fashion_form" class="profile-manager-form form-horizontal form-bordered" enctype="multipart/form-data">
-					<h4 class="text-primary mt0"><?php echo $page_title ?></h4>
-					<p class="pb10"><?php echo $page_description ?></p>
+				<form action="<?php echo esc_attr( $action ) ?>" method="post" id="submit_fashion_form" class="profile-manager-form form-horizontal form-bordered" enctype="multipart/form-data">
+					<h4 class="text-primary mt0"><?php echo esc_html( $page_title ) ?></h4>
+					<p class="pb10"><?php echo esc_html( $page_description ) ?></p>
 					<?php if ( apply_filters( 'submit_profile_form_show', true ) ) : ?>
 						<?php if ( DLN_Form_Functions::form_user_can_post_profile() ) : ?>
 							

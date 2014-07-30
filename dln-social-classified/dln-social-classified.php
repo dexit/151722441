@@ -32,7 +32,7 @@ class DLN_SocialClassified {
 		$this->required_components = apply_filters( 'dln_required_components', array( 'form', 'upload' ) );
 		
 		// Loop through required components
-		foreach( $this->required_components as $component ) {
+		foreach ( $this->required_components as $component ) {
 			if ( file_exists( DLN_CLF_PLUGIN_DIR . '/dln-' . $component . '/dln-' . $component . '-loader.php' ) )
 				include( DLN_CLF_PLUGIN_DIR . '/dln-' . $component . '/dln-' . $component . '-loader.php' );
 		}

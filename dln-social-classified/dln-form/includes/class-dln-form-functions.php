@@ -31,7 +31,7 @@ class DLN_Form_Functions {
 		$template = locate_template(
 			array(
 				trailingslashit( $template_path ) . $template_name,
-				$template_name
+				$template_name,
 			)
 		);
 		
@@ -73,15 +73,15 @@ class DLN_Form_Functions {
 	public static function form_profile_fields( $fashion_fields ) {
 		do_action( 'submit_profile_form_profile_fields_start' );
 		
-		foreach( $fashion_fields as $key => $field ) { 
+		foreach ( $fashion_fields as $key => $field ) {
 			$parent_key_class   = ( ! empty( $field['parent_key_class'] ) ) ? $field['parent_key_class'] : 'col-sm-3';
 			$parent_value_class = ( ! empty( $field['parent_value_class'] ) ) ? $field['parent_value_class'] : 'col-sm-9';
 			?>
 			<div class="form-group fieldset-<?php esc_attr_e( $key ); ?>">
 				<?php if ( $field['label'] ) : ?>
-				<label class="<?php echo $parent_key_class ?> control-label" for="<?php esc_attr_e( $key ); ?>"><?php echo $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', 'dln-skill' ) . '</small>' ); ?></label>
+				<label class="<?php echo esc_attr( $parent_key_class ) ?> control-label" for="<?php esc_attr_e( $key ); ?>"><?php echo esc_html( $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', 'dln-skill' ) . '</small>' ) ); ?></label>
 				<?php endif ?>
-				<div class="<?php echo $parent_value_class ?>">
+				<div class="<?php echo esc_attr( $parent_value_class ) ?>">
 					<?php self::form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ) ?>
 				</div>
 			</div>

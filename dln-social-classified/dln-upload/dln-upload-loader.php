@@ -21,7 +21,7 @@ class DLN_Upload_Loader {
 		$default_options = array(
 			'max_upload_size' => '100',
 			'max_upload_no'   => '2',
-			'allow_ext'       => 'jpg,gif,png'
+			'allow_ext'       => 'jpg,gif,png',
 		);
 		update_option( 'dln_upload_options', $default_options );
 	}
@@ -39,8 +39,8 @@ class DLN_Upload_Loader {
 	
 	public static function enqueue( $theme ) {
 		if ( $theme ) {
-            self::add_scripts();
-        } else if ( self::has_shortcode( 'dln_upload' ) ) {
+			self::add_scripts();
+		} else if ( self::has_shortcode( 'dln_upload' ) ) {
 			self::add_scripts();
 		}
 	}
@@ -55,26 +55,30 @@ class DLN_Upload_Loader {
 		wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'plupload-handlers' );
 		wp_enqueue_script( 'dln-upload-js', DLN_CLF_PLUGIN_URL . '/dln-upload/js/dln_upload.js', array( 'jquery' ) );
-		wp_localize_script( 'dln-upload-js', 'dln_upload', array(
-			'ajaxurl'          => admin_url( 'admin-ajax.php' ),
-			'nonce'            => wp_create_nonce('dln_upload'),
-			'remove'           => wp_create_nonce('dln_upload_remove'),
-			'number'           => $max_upload_no,
-			'upload_enabled'   => true,
-			'confirm_msg'      => __( 'Are you sure you want to delete this?', DLN_CLF ),
-			'plupload'         => array(
-				'runtimes'         => 'html5,flash,html4',
-				'browse_button'    => 'dln-uploader',
-				'container'        => 'dln-upload-container',
-				'file_data_name'   => 'dln_upload_file',
-				'max_file_size'    => $max_file_size . 'b',
-				'url'              => admin_url( 'admin-ajax.php' ) . '?action=dln_upload&nonce=' . wp_create_nonce( 'dln_upload_allow' ),
-				'flash_swf_url'    => includes_url( 'js/plupload/plupload.flash.swf' ),
-				'filters'          => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => $allow_ext ) ),
-				'multipart'        => true,
-				'urlstream_upload' => true,
+		wp_localize_script(
+			'dln-upload-js', 
+			'dln_upload', 
+			array(
+				'ajaxurl'          => admin_url( 'admin-ajax.php' ),
+				'nonce'            => wp_create_nonce( 'dln_upload' ),
+				'remove'           => wp_create_nonce( 'dln_upload_remove' ),
+				'number'           => $max_upload_no,
+				'upload_enabled'   => true,
+				'confirm_msg'      => __( 'Are you sure you want to delete this?', DLN_CLF ),
+				'plupload'         => array(
+					'runtimes'         => 'html5,flash,html4',
+					'browse_button'    => 'dln-uploader',
+					'container'        => 'dln-upload-container',
+					'file_data_name'   => 'dln_upload_file',
+					'max_file_size'    => $max_file_size . 'b',
+					'url'              => admin_url( 'admin-ajax.php' ) . '?action=dln_upload&nonce=' . wp_create_nonce( 'dln_upload_allow' ),
+					'flash_swf_url'    => includes_url( 'js/plupload/plupload.flash.swf' ),
+					'filters'          => array( array( 'title' => __( 'Allowed Files' ), 'extensions' => $allow_ext ) ),
+					'multipart'        => true,
+					'urlstream_upload' => true,
+				)
 			)
-		) );
+		);
 	}
 	
 	public static function display( $atts = null ) {
@@ -99,7 +103,7 @@ class DLN_Upload_Loader {
 			'type'     => $_FILES['dln_upload_file']['type'],
 			'tmp_name' => $_FILES['dln_upload_file']['tmp_name'],
 			'error'    => $_FILES['dln_upload_file']['error'],
-			'size'     => $_FILES['dln_upload_file']['size']
+			'size'     => $_FILES['dln_upload_file']['size'],
 		);
 		$file = self::file_upload_process( $file );
 	}
@@ -108,11 +112,11 @@ class DLN_Upload_Loader {
 		$attachment = self::handle_file( $file );
 		
 		if ( is_array( $attachment ) ) {
-			$html     = self::get_html( $attachment );
+			$html = self::get_html( $attachment );
 			
 			$response = array(
 				'success' => true,
-				'html'    => $html
+				'html'    => $html,
 			);
 			
 			echo json_encode( $response );
@@ -137,7 +141,7 @@ class DLN_Upload_Loader {
 				'post_mime_type' => $file_type['type'],
 				'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
 				'post_content'   => '',
-				'post_status'    => 'inherit'
+				'post_status'    => 'inherit',
 			);
 			
 			$attach_id   = wp_insert_attachment( $attachment, $file_loc );
@@ -161,7 +165,6 @@ class DLN_Upload_Loader {
 		$dir       = wp_upload_dir();
 		$path      = $dir['baseurl'] . '/' . $path;
 		
-		$html  = '';
 		$html = '<div class="item thumbnail dln-uploaded-files">
                  	<div class="media">
 						<span class="meta bottom darken">
@@ -227,57 +230,57 @@ function register_dln_upload_menu_page() {
 
 function dln_upload_settings() {
 	?>
-<div class="wrap">
-    <h2>DLN Upload Settings</h2>
-
-    <form method="post" name="dln-upload-form" action="<?php echo 'options.php'; ?>">
-        <?php settings_fields( 'dln_plugin_upload_option' ); ?>
-        <?php $options = get_option( 'dln_upload_options' );?>
-        <?php 
-	        if ( empty ( $options ) ) {
-		        $options = array(
-					'max_upload_size' => '100',
-					'max_upload_no'   => '2',
-					'allow_ext'       => 'jpg,gif,png'
-				);	
-	        }
-        ?>
-        <table class="form-table">
-            <tbody>
-            <tr valign="top">
-                <th scope="row"><label for="max_upload_size">Max Upload Size</label></th>
-                <td><input type="text" value="<?php echo $options['max_upload_size'];?>"
-                           name="dln_upload_options[max_upload_size]" size="10">
-
-                    <p class="description">Size in MB.</p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row"><label for="max_upload_no">Max Number of Image</label></th>
-                <td><input type="text" value="<?php echo $options['max_upload_no'];?>"
-                           name="dln_upload_options[max_upload_no]" size="10">
-
-                    <p class="description">Maximun number of Images user can upload.</p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <th scope="row"><label for="allow_ext">Allowed Extension</label></th>
-                <td><input type="text" value="<?php echo $options['allow_ext'];?>"
-                           name="dln_upload_options[allow_ext]" size="20">
-
-                    <p class="description">Eg: jpge,gif,png</p>
-                </td>
-            </tr>
-
-            <tr valign="top">
-                <td colspan="2"><?php submit_button(); ?></td>
-            </tr>
-
-            </tbody>
-        </table>
-    </form>
-</div>
-		<?php
+	<div class="wrap">
+	    <h2>DLN Upload Settings</h2>
+	
+	    <form method="post" name="dln-upload-form" action="<?php echo 'options.php'; ?>">
+	        <?php settings_fields( 'dln_plugin_upload_option' ); ?>
+	        <?php $options = get_option( 'dln_upload_options' );?>
+	        <?php 
+	if ( empty ( $options ) ) {
+		$options = array(
+			'max_upload_size' => '100',
+			'max_upload_no'   => '2',
+			'allow_ext'       => 'jpg,gif,png',
+		);	
+	}
+	?>
+	        <table class="form-table">
+	            <tbody>
+	            <tr valign="top">
+	                <th scope="row"><label for="max_upload_size">Max Upload Size</label></th>
+	                <td><input type="text" value="<?php echo esc_attr( $options['max_upload_size'] ) ?>"
+	                           name="dln_upload_options[max_upload_size]" size="10">
+	
+	                    <p class="description">Size in MB.</p>
+	                </td>
+	            </tr>
+	            <tr valign="top">
+	                <th scope="row"><label for="max_upload_no">Max Number of Image</label></th>
+	                <td><input type="text" value="<?php echo esc_attr( $options['max_upload_no'] ) ?>"
+	                           name="dln_upload_options[max_upload_no]" size="10">
+	
+	                    <p class="description">Maximun number of Images user can upload.</p>
+	                </td>
+	            </tr>
+	            <tr valign="top">
+	                <th scope="row"><label for="allow_ext">Allowed Extension</label></th>
+	                <td><input type="text" value="<?php echo esc_attr( $options['allow_ext'] ) ?>"
+	                           name="dln_upload_options[allow_ext]" size="20">
+	
+	                    <p class="description">Eg: jpge,gif,png</p>
+	                </td>
+	            </tr>
+	
+	            <tr valign="top">
+	                <td colspan="2"><?php submit_button(); ?></td>
+	            </tr>
+	
+	            </tbody>
+	        </table>
+	    </form>
+	</div>
+	<?php
 	}
 
 $GLOBALS['dln_upload'] = DLN_Upload_Loader::get_instance();

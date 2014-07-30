@@ -43,7 +43,7 @@ class DLN_Form_Admin_Taxonomies {
 		<tr class="form-field">
 			<th scope="row" valign="top"><label><?php _e( 'Color', DLN_CLF ) ?></label></th>
 			<td>
-				<input id="dln_fs_color_value" name="dln_fs_color_value" class="dln-color-picker" type="text" value="<?php echo $dln_fs_color_value ?>" size="40" />	
+				<input id="dln_fs_color_value" name="dln_fs_color_value" class="dln-color-picker" type="text" value="<?php echo esc_attr( $dln_fs_color_value ) ?>" size="40" />	
 			</td>
 		</tr>
 		<?php
@@ -65,7 +65,7 @@ class DLN_Form_Admin_Taxonomies {
 		<tr class="form-field">
 			<th scope="row" valign="top"><label><?php _e( 'Icon Class', DLN_CLF ) ?></label></th>
 			<td>
-				<input id="dln_icon_class" name="dln_icon_class" type="text" value="<?php echo $dln_icon_class ?>" size="40" />	
+				<input id="dln_icon_class" name="dln_icon_class" type="text" value="<?php echo esc_attr( $dln_icon_class ) ?>" size="40" />
 			</td>
 		</tr>
 		<?php
@@ -87,7 +87,7 @@ class DLN_Form_Admin_Taxonomies {
 		<div class="form-field">
 			<label for="dln_size_tags"><?php _e( 'Size Tags', DLN_CLF ) ?></label>
 			<select id="dln_size_tags" name="dln_size_tags[]" class="dln-select2 postform" style="width: 250px;" multiple>
-				<?php echo $options ?>
+				<?php echo esc_html( $options ) ?>
 			</select>
 			<div class="clear"></div>
 		</div>
@@ -104,20 +104,20 @@ class DLN_Form_Admin_Taxonomies {
 		<tr class="form-field">
 			<th scope="row" valign="top"><labell for="dln_icon_class"><?php _e( 'Icon Class', DLN_CLF ) ?></label></th>
 			<td>
-				<input id="dln_icon_class" name="dln_icon_class" type="text" value="<?php echo $dln_icon_class ?>" size="40" />	
+				<input id="dln_icon_class" name="dln_icon_class" type="text" value="<?php echo esc_attr( $dln_icon_class ) ?>" size="40" />	
 			</td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><label for="dln_toggle_color"><?php _e( 'Toggle Color', DLN_CLF ) ?></label></th>
 			<td>
-				<input id="dln_toggle_color" class="dln-color-picker" name="dln_toggle_color" type="text" value="<?php echo $dln_toggle_color?>" size="40" />
+				<input id="dln_toggle_color" class="dln-color-picker" name="dln_toggle_color" type="text" value="<?php echo esc_attr( $dln_toggle_color ) ?>" size="40" />
 			</td>
 		</tr>
 		<tr class="form-field">
 			<th scope="row" valign="top"><labell for="dln_size_tags"><?php _e( 'Size Tags', DLN_CLF ) ?></label></th>
 			<td>
 				<select id="dln_size_tags" name="dln_size_tags[]" class="dln-select2 postform" style="width: 95%;" multiple>
-					<?php echo $options ?>
+					<?php echo esc_html( $options ) ?>
 				</select>
 			</td>
 		</tr>
