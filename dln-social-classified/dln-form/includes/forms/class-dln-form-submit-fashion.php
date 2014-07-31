@@ -51,7 +51,6 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 		global $post;
 		
 		self::init_fields();
-		
 		self::$fields = self::validate_post_fields( self::$fields );
 		$page_title   = isset( self::$steps[ self::$step ]['name'] )        ? self::$steps[ self::$step ]['name'] : '';
 		$page_desc    = isset( self::$steps[ self::$step ]['description'] ) ? self::$steps[ self::$step ]['description'] : '';
@@ -81,38 +80,47 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			// Validate POST
 			$exclude_fields = array( 
 				'dln_fs_category'  => __( 'Category', DLN_CLF ), 
-				'dln_fs_tag_sizes' => __( 'Tag Sizes', DLNCLF ), 
+				'dln_fs_tag_sizes' => __( 'Tag Sizes', DLN_CLF ), 
 				'brand_name'       => __( 'Brand Name', DLN_CLF ),
-				'dln_fs_address'   => __( 'Address', DLN_CLF )
+				'dln_payment_type' => __( 'Payment', DLN_CLF ),
 			);
+			$errors = array();
 			foreach ( $exclude_fields as $i => $exclude ) {
 				if ( empty( $_POST[$i] ) ) {
-					$return = new WP_Error( 'validation-error', sprintf( __( '%s is a required field', DLN_CLF ), $exclude ) );
+					$error = new WP_Error( 'validation-error', sprintf( __( '%s is a required field', DLN_CLF ), $exclude ) );
+					self::add_error( $error );
 				}
 			}
 			
 			if ( ! empty( $_POST['fashion_id'] ) ) {
 				$excludes = array( 'map' );
 				$values = self::get_posted_fields();
-				$return = self::validate_fields( $values );
+				$errors[] = self::validate_fields( $values );
 			} else {
 				$values = self::get_posted_fields();
-				$return = self::validate_fields( $values );
+				$errors[] = self::validate_fields( $values );
 			}
 			
-			if ( is_wp_error( ( $return ) ) )
-				throw new Exception( $return->get_error_message() );
+			if ( ! empty( $errors ) ) {
+				foreach( $errors as $i => $error ) {
+					if ( $error instanceof WP_Error )
+						echo "<p class='help-block'>" . esc_html( $error->get_error_message() ) . "</p>";
+				}
+			}
 			
 			if ( ! is_user_logged_in() )
 				throw new Exception( __( 'You must be signed in to post a new item.', DLN_CLF ) );
-			if ( empty( $_POST['fashion_id'] ) ) {
+			
+			if ( ! empty( $errors ) ) {
 				self::$cache_fields = $values;
-				self::$step         = 1;
+				self::$step         = 0;
 			} else {
 				// Update user profile
 				self::update_fashion_data( $values );
+				self::$step         = 1;
 			}
 		} catch ( Exception $e ) {
+			$error = new WP_Error( 'validation-error', __( '%s is a required field', DLN_CLF ) );
 			self::add_error( $e->getMessage() );
 			self::reset();
 			return;
@@ -351,6 +359,10 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 	}
 	
 	public static function process() {
+		if ( ! empty( self::$errors ) ) {
+			self::output();
+			return false;
+		}
 		$keys = array_keys( self::$steps );
 		if ( isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['handler'] ) ) {
 			call_user_func( self::$steps[ $keys[ self::$step ] ]['handler'] );
@@ -362,8 +374,8 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 		
 		$keys = array_keys( self::$steps );
 		
-		self::show_errors();
-		if ( isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['view'] ) ) {
+		if ( ! empty( self::$errors ) || isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['view'] ) ) {
+			self::show_errors();
 			call_user_func( self::$steps[ $keys[ self::$step ] ]['view'] );
 		}
 	}
@@ -376,7 +388,8 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 		foreach ( $values as $group_key => $fields ) {
 			foreach ( $fields as $key => $field ) {
 				if ( ! in_array( $key, $exclude_fields ) && isset( $field['required'] ) && empty( $values[ $group_key ][ $key ] ) ) {
-					return new WP_Error( 'validation-error', sprintf( __( '%s is a required field', DLN_CLF ), $field['label'] ) );
+					$error = new WP_Error( 'validation-error', sprintf( __( '%s is a required field', DLN_CLF ), $field['label'] ) );
+					self::add_error( $error );
 				}
 			}
 		}

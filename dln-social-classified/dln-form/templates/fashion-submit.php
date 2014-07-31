@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 					<p class="pb10"><?php echo esc_html( $page_description ) ?></p>
 					<?php if ( apply_filters( 'submit_profile_form_show', true ) ) : ?>
 						<?php if ( DLN_Form_Functions::form_user_can_post_profile() ) : ?>
-							
+						
 							<?php DLN_Form_Functions::form_profile_fields( $fashion_fields ) // Load common profile fields?>
 							
 							<div class="panel-footer">
