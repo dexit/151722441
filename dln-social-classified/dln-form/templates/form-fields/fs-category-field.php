@@ -1,5 +1,5 @@
 <?php
-	wp_enqueue_script( 'dln-form-field-fs-category', DLN_CLF_PLUGIN_URL . '/dln-form/assets/js/fields/fs-category.js', array( 'jquery' ), '1.0.0', true );
+	wp_enqueue_script( 'dln-form-field-fs-category', DLN_CLF_PLUGIN_URL . '/assets/js/fields/fs-category.js', array( 'jquery' ), '1.0.0', true );
 	
 	$categories = get_terms( 'product_cat', array( 'hide_empty' => false, 'order_by' => 'term_id' ) );
 if ( empty( $categories ) ) {

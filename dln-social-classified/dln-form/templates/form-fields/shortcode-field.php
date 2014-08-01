@@ -1,5 +1,5 @@
 <?php 
-	if ( ! empty ( $field['value'] ) ) {
-		echo do_shortcode( $field['value'] );
-	}
+if ( ! empty ( $field['value'] ) ) {
+	echo balanceTags( do_shortcode( $field['value'] ) );
+}
 ?>

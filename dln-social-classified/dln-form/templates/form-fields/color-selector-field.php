@@ -1,5 +1,5 @@
 <?php 
-	wp_enqueue_script( 'dln-form-field-color-selector', DLN_CLF_PLUGIN_URL . '/dln-form/assets/js/fields/color-selector.js', array( 'jquery' ), '1.0.0', true );
+	wp_enqueue_script( 'dln-form-field-color-selector', DLN_CLF_PLUGIN_URL . '/assets/js/fields/color-selector.js', array( 'jquery' ), '1.0.0', true );
 	
 	$fs_colors = get_terms( 'dln_fs_color', array( 'hide_empty' => false, 'order_by' => 'name' ) );
 if ( empty( $fs_colors ) ) {

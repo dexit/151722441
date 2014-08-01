@@ -102,9 +102,9 @@ class DLN_Form_Submit_Fashion extends DLN_Form {
 			}
 			
 			if ( ! empty( $errors ) ) {
-				foreach( $errors as $i => $error ) {
+				foreach ( $errors as $i => $error ) {
 					if ( $error instanceof WP_Error )
-						echo "<p class='help-block'>" . esc_html( $error->get_error_message() ) . "</p>";
+						echo "<p class='help-block'>" . esc_html( $error->get_error_message() ) . '</p>';
 				}
 			}
 			

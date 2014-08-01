@@ -1,7 +1,7 @@
 <?php
 wp_enqueue_script( 'dln-google-map-lib-js', 'http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&language=vi' );
 wp_enqueue_script( 'dln-jquery-geocomplete-js', DLN_CLF_PLUGIN_URL . '/assets/3rd-party/jquery-geocomplete/jquery.geocomplete.js', array( 'jquery' ), '1.0.0', true );
-wp_enqueue_script( 'dln-geocomplete-js', DLN_CLF_PLUGIN_URL . '/dln-form/assets/js/fields/geocomplete.js', array( 'jquery' ), '1.0.0', true );
+wp_enqueue_script( 'dln-geocomplete-js', DLN_CLF_PLUGIN_URL . '/assets/js/fields/geocomplete.js', array( 'jquery' ), '1.0.0', true );
 
 $default_geo = 'Hà Noi, Hanoi, Vietnam';
 ?>

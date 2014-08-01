@@ -1,5 +1,5 @@
 <?php 
-	wp_enqueue_script( 'dln-form-field-paymethod-js', DLN_CLF_PLUGIN_URL . '/dln-form/assets/js/fields/paymethod.js', array( 'jquery' ), '1.0.0', true );
+	wp_enqueue_script( 'dln-form-field-paymethod-js', DLN_CLF_PLUGIN_URL . '/assets/js/fields/paymethod.js', array( 'jquery' ), '1.0.0', true );
 ?>
 <div class="list-group">
 	<div id="dln_payment_sale" class="list-group-item" href="javascript:void(0);" for="dln_payment_price">
