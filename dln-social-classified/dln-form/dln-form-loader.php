@@ -52,6 +52,8 @@ class DLN_Form_Loader {
 		wp_register_script( 'dln-bootstrap-js',           DLN_CLF_PLUGIN_URL . '/assets/3rd-party/bootstrap3/js/bootstrap.min.js', array( 'jquery' ), '3.1.1', true );
 		wp_register_script( 'dln-selectize-js',           DLN_CLF_PLUGIN_URL . '/assets/3rd-party/selectize/js/selectize.min.js', array( 'jquery' ), '1.0.0', true );
 		wp_register_script( 'dln-dropzone-js',            DLN_CLF_PLUGIN_URL . '/assets/3rd-party/dropzone/dropzone.min.js', array( 'jquery' ), '1.0.0', true );
+		wp_register_script( 'dln-parsley-js',             DLN_CLF_PLUGIN_URL . '/assets/3rd-party/parsley/js/parsley.min.js', array( 'jquery' ), '1.0.0', true );
+		wp_register_script( 'dln-steps-js',               DLN_CLF_PLUGIN_URL . '/assets/3rd-party/steps/js/jquery.steps.min.js', array( 'jquery' ), '1.0.0', true );
 		
 		wp_register_script( 'dln-form-submit-fashion-js', DLN_CLF_PLUGIN_URL . '/assets/dln-clf/js/dln-form-submit-fashion.js', array( 'jquery' ), '1.0.0', true );
 		
@@ -61,6 +63,7 @@ class DLN_Form_Loader {
 		wp_register_style( 'dln-selectize-css',         DLN_CLF_PLUGIN_URL . '/assets/3rd-party/selectize/css/selectize.min.css', null, '1.0.0' );
 		wp_register_style( 'dln-dropzone-css',          DLN_CLF_PLUGIN_URL . '/assets/3rd-party/dropzone/css/dropzone.css', null, '1.0.0' );
 		wp_register_style( 'dln-ico-font-css',          DLN_CLF_PLUGIN_URL . '/assets/3rd-party/dln-ico-font/dln-ico-font.css', null, '1.0.0' );
+		wp_register_style( 'dln-steps-css',             DLN_CLF_PLUGIN_URL . '/assets/3rd-party/steps/css/jquery-steps.min.css', null, '1.0.0' );
 		wp_register_style( 'dln-form-site-css',         DLN_CLF_PLUGIN_URL . '/assets/dln-clf/css/dln-form-site.css', null, '1.0.0' );
 	}
 	

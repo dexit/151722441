@@ -20,6 +20,7 @@ class DLN_Form_Shortcodes {
 		
 		//add_shortcode( 'submit_profile_form', array( $this, 'submit_profile_form' ) );
 		add_shortcode( 'submit_fashion', array( $this, 'submit_fashion' ) );
+		add_shortcode( 'submit_item', array( $this, 'submit_item' ) );
 	}
 	
 	public function shortcode_action_handler() {
@@ -34,8 +35,12 @@ class DLN_Form_Shortcodes {
 		
 	}
 	
+	public function submit_item() {
+		return $GLOBALS['dln_form']->forms->get_form( 'submit-item' );
+	}
+	
 	public function submit_fashion() {
-		return $GLOBALS['dln_form']->forms->get_form( 'submit-fashion' );
+		return $GLOBALS['dln_form']->forms->get_form( 'submit-item' );
 	}
 	
 }

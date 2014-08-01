@@ -5,9 +5,10 @@ if ( ! defined( 'WPINC' ) ) { die; }
 class DLN_Form_Submit_Item extends DLN_Form {
 	
 	public static $fields;
+	public static $fashion_id = 0;
 	
 	public static function init() {
-		
+		add_action( 'wp', array( __CLASS__, 'process' ) );
 	}
 	
 	public static function init_fields() {
@@ -78,4 +79,37 @@ class DLN_Form_Submit_Item extends DLN_Form {
 		);
 	}
 	
+	public static function process() {
+		if ( ! empty( self::$errors ) ) {
+			self::output();
+			return false;
+		}
+		$keys = array_keys( self::$steps );
+		if ( isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['handler'] ) ) {
+			call_user_func( self::$steps[ $keys[ self::$step ] ]['handler'] );
+		}
+	}
+	
+	public static function render_page() {
+		self::init_fields();
+		
+		DLN_Form_Functions::load_frontend_assets();
+		DLN_Form_Functions::form_get_template(
+			'submit-item.php',
+			array(
+				'fields'     => self::$fields,
+				'fashion_id' => self::$fashion_id
+			)
+		);
+	}
+	
+	private static function item_types() {
+		return array(
+				'new'          => __( 'New', DLN_CLF ),
+				'mint'         => __( 'Mint', DLN_CLF ),
+				'satisfactory' => __( 'Satisfactory', DLN_CLF ),
+				'very-good'    => __( 'Very Good', DLN_CLF ),
+				'average'      => __( 'Average', DLN_CLF )
+		);
+	}
 }
