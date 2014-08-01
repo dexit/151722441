@@ -18,7 +18,7 @@ class DLN_Form_Loader {
 	function __construct() {		
 		include( 'includes/class-dln-form-shortcodes.php' );
 		include( 'includes/class-dln-form-functions.php' );
-		include( 'includes/class-dln-form-forms.php' );
+		include( 'includes/class-dln-forms.php' );
 		
 		if ( is_admin() ) {
 			include( 'admin/class-dln-form-admin.php' );

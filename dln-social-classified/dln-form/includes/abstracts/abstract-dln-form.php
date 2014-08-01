@@ -42,36 +42,32 @@ abstract class DLN_Form {
 		return self::$action;
 	}
 
-	/**
-	 * get_fields function.
-	 *
-	 * @access public
-	 * @param mixed $key
-	 * @return array
-	 */
-	public static function get_fields( $key ) {
-		if ( empty( self::$fields[ $key ] ) )
-			return array();
-
-		$fields = self::$fields[ $key ];
-
-		uasort( $fields, __CLASS__ . '::priority_cmp' );
-
-		return $fields;
+	public static function get_fields( $key = '', $raw = false ) {
+		if ( empty( self::$fields ) ) {
+			self::init_fields();
+		}
+		if ( ! $key )
+			return '';
+		
+		$html = '';
+		if ( is_array( self::$fields ) ) {
+			foreach ( self::$fields as $i => $field ) {
+				if ( $field['id'] == $key ) {
+					if ( $raw == false ) {
+						$html .= '<div class="form-group fieldset-' . esc_attr_e( $key ) . '">';
+						if ( $field['label'] ) {
+							$html .= '<label class="' . esc_attr( $field['parent_key_class'] ) . ' control-label" for="' . esc_attr_e( $key ) . '">' . balanceTags( $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', DLN_CLF ) . '</small>' ) ) . '</label>';
+						}
+						$html .= '<div class="' . esc_attr( $field['parent_value_class'] ) . '">';
+						$html .= DLN_Form_Functions::form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) );
+						$html .= '</div>';
+						$html .= '</div>';
+					} else {
+						$html = DLN_Form_Functions::form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) );
+					}
+				}
+			}
+		}
+		return $html;
 	}
-
-	/**
-	 * priority_cmp function.
-	 *
-	 * @access private
-	 * @param mixed $a
-	 * @param mixed $b
-	 * @return void
-	 */
-	public static function priority_cmp( $a, $b ) {
-	    if ( $a['priority'] == $b['priority'] )
-	        return 0;
-	    return ( $a['priority'] < $b['priority'] ) ? -1 : 1;
-	}
-	
 }

@@ -70,24 +70,4 @@ class DLN_Form_Functions {
 		return apply_filters( 'dln_form_user_can_post_profile', $can_post );
 	}
 	
-	public static function form_profile_fields( $fashion_fields ) {
-		do_action( 'submit_profile_form_profile_fields_start' );
-		
-		foreach ( $fashion_fields as $key => $field ) {
-			$parent_key_class   = ( ! empty( $field['parent_key_class'] ) ) ? $field['parent_key_class'] : 'col-sm-3';
-			$parent_value_class = ( ! empty( $field['parent_value_class'] ) ) ? $field['parent_value_class'] : 'col-sm-9';
-			?>
-			<div class="form-group fieldset-<?php esc_attr_e( $key ); ?>">
-				<?php if ( $field['label'] ) : ?>
-				<label class="<?php echo esc_attr( $parent_key_class ) ?> control-label" for="<?php esc_attr_e( $key ); ?>"><?php echo balanceTags( $field['label'] . ( $field['required'] ? '' : ' <small>' . __( '(optional)', 'dln-skill' ) . '</small>' ) ); ?></label>
-				<?php endif ?>
-				<div class="<?php echo esc_attr( $parent_value_class ) ?>">
-					<?php self::form_get_template( 'form-fields/' . $field['type'] . '-field.php', array( 'key' => $key, 'field' => $field ) ) ?>
-				</div>
-			</div>
-		<?php }
-		
-		do_action( 'submit_profile_form_profile_fields_end' );
-	}
-	
 }

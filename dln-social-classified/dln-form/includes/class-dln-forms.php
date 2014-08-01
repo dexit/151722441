@@ -31,8 +31,8 @@ class DLN_Forms {
 			include( 'abstracts/abstract-dln-form.php' );
 		
 		// Now try to load the form_name
-		$form_class  = 'DLN_Form_' . str_replace( '-', '_', $form_name );
-		$form_file   = DLN_CLF_PLUGIN_DIR . '/dln-form/includes/forms/class-dln-form-' . $form_name . '.php';
+		$form_class = 'DLN_Form_' . str_replace( '-', '_', $form_name );
+		$form_file  = DLN_CLF_PLUGIN_DIR . '/dln-form/includes/forms/class-dln-form-' . $form_name . '.php';
 
 		if ( class_exists( $form_class ) )
 			return $form_class;
