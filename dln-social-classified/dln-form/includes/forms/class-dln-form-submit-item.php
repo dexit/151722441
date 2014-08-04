@@ -8,7 +8,7 @@ class DLN_Form_Submit_Item extends DLN_Form {
 	public static $fashion_id = 0;
 	
 	public static function init() {
-		add_action( 'wp', array( __CLASS__, 'process' ) );
+		
 	}
 	
 	public static function init_fields() {
@@ -17,7 +17,20 @@ class DLN_Form_Submit_Item extends DLN_Form {
 		
 		self::$fields = apply_filters(
 			'dln_submit_item_fields',
+			
 			array(
+				'basic' => array(
+					array(
+						'id'    => 'item_title',
+						'value' => __( 'Sample Title', DLN_CLF )
+					),
+					array(
+						'id'    => 'item_desc',
+						'value' => ''
+					)
+				)
+			)
+			/*array(
 				'image_upload' => array(
 					'label'        => '',
 					'type'         => 'shortcode',
@@ -75,19 +88,32 @@ class DLN_Form_Submit_Item extends DLN_Form {
 					'type'        => 'paymethod',
 					'required'    => false,
 				)
-			)
+			)*/
 		);
 	}
 	
-	public static function process() {
-		if ( ! empty( self::$errors ) ) {
-			self::output();
-			return false;
+	public static function validate_fields( $group_field = '', $fields = array() ) {
+		if ( empty( self::$fields ) ) {
+			self::get_fields();
 		}
-		$keys = array_keys( self::$steps );
-		if ( isset( $keys[ self::$step ] ) && is_callable( self::$steps[ $keys[ self::$step ] ]['handler'] ) ) {
-			call_user_func( self::$steps[ $keys[ self::$step ] ]['handler'] );
+		
+		if ( empty( self::$fields[ $group_field ] ) ) {
+			return null;
 		}
+		
+		$arr_results  = array();
+		$group_fields = self::$fields[ $group_field ];		
+		if ( is_array( $fields ) ) {
+			foreach( $fields as $i => $field ) {
+				foreach ( $group_fields as $j => $default_field ) {
+					if ( $field['id'] == $default_field['id'] ) {
+						$arr_results[] = $field;
+					}
+				}
+			}
+		}
+		
+		return apply_filter( 'dln_form_submit_item_validate_fields', $arr_results, $group_field, $fields );
 	}
 	
 	public static function render_page() {
