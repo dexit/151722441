@@ -143,7 +143,8 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-12">
-						<div style="margin-bottom: 0px;" class="progress progress-xs progress-striped active">
+						<div style="margin-bottom: 0px;"
+							class="progress progress-xs progress-striped active">
 							<div class="progress-bar progress-bar-infor" style="width: 60%">
 								<span class="sr-only">60% Complete (warning)</span>
 							</div>
@@ -159,10 +160,7 @@
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
-							<label class="control-label">Title <span class="text-danger">*</span></label>
-							<input type="text" required="" data-parsley-type="email"
-								class="form-control" name="email" data-parsley-id="3808">
-							<ul class="parsley-errors-list" id="parsley-id-3808"></ul>
+							<?php echo balanceTags( DLN_Block_Product_Item::get_field( 'basic', 'product_title' ) ) ?>
 						</div>
 					</div>
 				</div>
@@ -170,63 +168,33 @@
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-6">
-							<label class="control-label">Category <span class="text-danger">*</span></label>
-							<select name="type" class="form-control" required>
-								<option value="">Select</option>
-								<option value="1">Ninja shirt</option>
-								<option value="2">Pirate shirt</option>
-								<option value="3">Bobo shirt</option>
-							</select>
+							<?php echo balanceTags( DLN_Block_Product_Item::get_field( 'basic', 'product_category' ) ) ?>
 						</div>
 						<div class="col-sm-6">
-							<label class="control-label">Brand <span class="text-danger">*</span></label>
-							<select name="type" class="form-control" required>
-								<option value="">Select</option>
-								<option value="1">Ninja shirt</option>
-								<option value="2">Pirate shirt</option>
-								<option value="3">Bobo shirt</option>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="row">
-						<div class="col-sm-6">
-							<label class="control-label">Size <span class="text-danger">*</span></label>
-							<select name="size" class="form-control" required>
-								<option value="">Select</option>
-								<option value="1">S</option>
-								<option value="2">M</option>
-								<option value="3">L</option>
-								<option value="3">XL</option>
-							</select>
-						</div>
-						<div class="col-sm-6">
-							<label class="control-label">Color <span class="text-danger">*</span></label>
-							<select name="color" class="form-control" required>
-								<option value="">Select</option>
-								<option value="1">Red</option>
-								<option value="2">Green</option>
-								<option value="3">Yellow</option>
-								<option value="3">Purple</option>
-							</select>
+							<?php echo balanceTags( DLN_Block_Product_Item::get_field( 'basic', 'product_price' ) ) ?>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
-							<label class="control-label">Description <span
-								class="text-danger">*</span></label>
-							<textarea rows="3" class="form-control" placeholder="#123"></textarea>
+							<?php echo balanceTags( DLN_Block_Product_Item::get_field( 'basic', 'product_desc' ) ) ?>
 						</div>
 					</div>
 				</div>
+
 				<div class="form-group">
-					<div class="checkbox custom-checkbox">
-						<input type="checkbox" name="gift" id="giftcheckbox" value="1"
-							data-parsley-mincheck="1" required> <label for="giftcheckbox">&nbsp;&nbsp;Send
-							as a gift</label>
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="checkbox custom-checkbox">
+								<?php echo balanceTags( DLN_Block_Product_Item::get_field( 'basic', 'product_swap' ) ) ?>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="checkbox custom-checkbox">
+								<?php echo balanceTags( DLN_Block_Product_Item::get_field( 'basic', 'product_gift' ) ) ?>
+							</div>
+						</div>
 					</div>
 				</div>
 
