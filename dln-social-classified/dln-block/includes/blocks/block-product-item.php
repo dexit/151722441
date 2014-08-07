@@ -38,14 +38,24 @@ class DLN_Block_Product_Item extends DLN_Block {
 						'options'     => self::get_category_options(),
 						'required'    => true,
 					),
-					/*array(
-						'id'          => 'product_brand',
-						'label'       => __( 'Brand', DLN_CLF ),
+					array(
+						'id'          => 'product_size',
+						'label'       => __( 'Size', DLN_CLF ),
 						'type'        => 'select',
-						'class'       => 'dln-selectize',
+						'class'       => 'dln-selectize-multi',
 						'value'       => '',
-						'options'     => self::get_brand_options(),
-					),*/
+						'options'     => self::get_size_options(),
+						'multiple'    => true,
+					),
+					array(
+						'id'          => 'product_color',
+						'label'       => __( 'Color', DLN_CLF ),
+						'type'        => 'select',
+						'class'       => 'dln-selectize-multi',
+						'value'       => '',
+						'options'     => self::get_color_options(),
+						'multiple'    => true,
+					),
 					array(
 						'id'          => 'product_price',
 						'label'       => __( 'Price', DLN_CLF ),
@@ -55,19 +65,10 @@ class DLN_Block_Product_Item extends DLN_Block {
 						'required'    => true,
 						'append'      => __( '.000 vnđ', DLN_CLF )
 					),
-					/*array(
-						'id'          => 'product_color',
-						'label'       => __( 'Color', DLN_CLF ),
-						'type'        => 'select',
-						'class'       => 'dln-selectize',
-						'value'       => '',
-						'options'     => self::get_color_options(),
-						'multiple'    => true,
-					),*/
 					array(
 						'id'          => 'product_desc',
 						'label'       => __( 'Description', DLN_CLF ),
-						'type'        => 'textarea',
+						'type'        => 'textntag',
 						'class'       => 'dln-textntag',
 						'value'       => '',
 						'rows'        => '6',
@@ -201,6 +202,23 @@ class DLN_Block_Product_Item extends DLN_Block {
 			}
 		}
 		
+		return $options;
+	}
+	
+	private static function get_size_options() {
+		$sizes = get_terms( 'dln_product_size', array( 'hide_empty' => false, 'order_by' => 'name' ) );
+		if ( empty( $sizes ) || ! empty( $sizes->errors ) ) {
+			$result = new WP_Error( '500', __( 'Product Sizes Not Found!', DLN_CLF ) );
+			print( $result->get_error_message() );
+			return null;
+		}
+		$options = array();
+		if ( ! empty( $sizes ) ) {
+			foreach ( $sizes as $i => $size ) {
+				$options[ $size->term_id ] = $size->name;
+			}
+		}
+	
 		return $options;
 	}
 	

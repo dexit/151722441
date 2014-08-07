@@ -106,6 +106,7 @@ class DLN_Blocks {
 		//wp_enqueue_style( 'dln-ico-font-css' );
 		//wp_enqueue_style( 'dln-form-site-css' );
 		//wp_enqueue_style( 'dln-steps-css' );
+		wp_enqueue_style( 'dln-block-item-css', DLN_CLF_PLUGIN_URL . '/assets/dln-clf/css/dln-block-item.css', null, '1.0.0' );
 		
 		//wp_enqueue_style( 'dln-summernote-css' );
 		//wp_enqueue_style( 'dln-font-awesome-css' );

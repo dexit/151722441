@@ -1,7 +1,9 @@
 <?php 
+wp_enqueue_script( 'dln-block-field-select-js', DLN_CLF_PLUGIN_URL . '/assets/dln-clf/js/fields/block-field-select.js', array( 'jquery' ), '1.0.0', true );
+
 $required    = ( isset( $field['required'] ) && $field['required'] == true ) ? '<span class="text-danger">*</span>' : '';
 $r_attr      = ( ! empty( $required ) ) ? 'required' : '';
-$multiple    = ( isset( $field['muliple'] ) && $field['muliple'] == true ) ? 'multiple' : '';
+$multiple    = ( isset( $field['multiple'] ) && $field['multiple'] == true ) ? 'multiple' : '';
 ?>
 <?php if ( ! empty( $field['label'] ) ) :?>
 <label class="control-label"><?php echo esc_html( $field['label'] ) ?> <?php echo $required ?></label>

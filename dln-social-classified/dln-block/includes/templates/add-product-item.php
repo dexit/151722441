@@ -174,6 +174,14 @@
 							<?php echo balanceTags( DLN_Block_Product_Item::get_field( 'basic', 'product_price' ) ) ?>
 						</div>
 					</div>
+					<div class="row">
+						<div class="col-sm-6">
+							<?php echo balanceTags( DLN_Block_Product_Item::get_field( 'basic', 'product_size' ) ) ?>
+						</div>
+						<div class="col-sm-6">
+							<?php echo balanceTags( DLN_Block_Product_Item::get_field( 'basic', 'product_color' ) ) ?>
+						</div>
+					</div>
 				</div>
 				<div class="form-group">
 					<div class="row">
