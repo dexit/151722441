@@ -68,8 +68,8 @@ class DLN_Block_Product_Item extends DLN_Block {
 					array(
 						'id'          => 'product_desc',
 						'label'       => __( 'Description', DLN_CLF ),
-						'type'        => 'textntag',
-						'class'       => 'dln-textntag',
+						'type'        => 'textcomplete',
+						'class'       => 'dln-textcomplete',
 						'value'       => '',
 						'rows'        => '6',
 						'required'    => true,
