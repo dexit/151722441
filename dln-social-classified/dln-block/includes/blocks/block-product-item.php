@@ -38,7 +38,7 @@ class DLN_Block_Product_Item extends DLN_Block {
 						'options'     => self::get_category_options(),
 						'required'    => true,
 					),
-					array(
+					/*array(
 						'id'          => 'product_size',
 						'label'       => __( 'Size', DLN_CLF ),
 						'type'        => 'select',
@@ -55,7 +55,7 @@ class DLN_Block_Product_Item extends DLN_Block {
 						'value'       => '',
 						'options'     => self::get_color_options(),
 						'multiple'    => true,
-					),
+					),*/
 					array(
 						'id'          => 'product_price',
 						'label'       => __( 'Price', DLN_CLF ),
@@ -63,7 +63,8 @@ class DLN_Block_Product_Item extends DLN_Block {
 						'value'       => '',
 						'placeholder' => __( '', DLN_CLF ),
 						'required'    => true,
-						'append'      => __( '.000 vnđ', DLN_CLF )
+						'append'      => __( '.000 vnđ', DLN_CLF ),
+						'input_type'  => 'number',
 					),
 					array(
 						'id'          => 'product_desc',
@@ -74,6 +75,15 @@ class DLN_Block_Product_Item extends DLN_Block {
 						'rows'        => '6',
 						'required'    => true,
 					),
+					/*array(
+						'id'          => 'product_meta',
+						'label'       => __( 'Fields', DLN_CLF ),
+						'type'        => 'select',
+						'class'       => '',
+						'value'       => '',
+						'options'     => array(),//self::get_meta_options(),
+						'multiple'    => true,
+					),*/
 					array(
 						'id'          => 'product_gift',
 						'label'       => __( 'Send a gift', DLN_CLF ),
@@ -152,7 +162,15 @@ class DLN_Block_Product_Item extends DLN_Block {
 	
 	private static function load_frontend_assets() {
 		wp_enqueue_script( 'dln-parsley-js' );
-		
+		wp_enqueue_script( 'dln-block-product-item-js', DLN_CLF_PLUGIN_URL . '/assets/dln-clf/js/block-product-item.js', array( 'jquery' ), '1.0.0', true );
+		wp_localize_script(
+			'dln-block-product-item-js',
+			'dln_clf_params',
+			array(
+				'ig_ajax_url' => admin_url( 'admin-ajax.php' ),
+				'ig_nonce'    => wp_create_nonce( DLN_CLF_NONCE )
+			)
+		);
 	}
 	
 	private static function get_category_options() {

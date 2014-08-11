@@ -24,6 +24,7 @@ class DLN_Block_Loader {
 		
 		// Init classes
 		$this->blocks      = DLN_Blocks::get_instance();
+		$this->ajax        = DLN_Ajax::get_instance();
 		
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 		add_action( 'init', array( $this, 'init' ) );

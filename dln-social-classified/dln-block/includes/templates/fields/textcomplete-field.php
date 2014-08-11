@@ -9,7 +9,7 @@ wp_localize_script(
 	'dln_clf_params',
 	array(
 		'ig_ajax_url' => admin_url( 'admin-ajax.php' ),
-		'ig_nonce'    => wp_create_nonce( DLN_CLF ),
+		'ig_nonce'    => wp_create_nonce( DLN_CLF_NONCE ),
 		'url'         => DLN_CLF_PLUGIN_URL,
 	)
 );

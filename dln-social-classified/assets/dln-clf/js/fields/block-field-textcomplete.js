@@ -40,7 +40,7 @@
 	var addTextComplete = function () {
 		if ( typeof( $.fn.textcomplete ) == 'function' ) {
 			$('.dln-textcomplete').each(function () {
-				$(this).textcomplete(
+				/*$(this).textcomplete(
 					[{ // emoji strategy
 						match: /\B:([\-+\w]*)$/,
 						search: function (term, callback) {
@@ -79,7 +79,7 @@
 					            'background-color': '#d8dfea'
 					        }
 					    }
-					]);
+					]);*/
 				
 				$(this).textcomplete(
 						[{ // html

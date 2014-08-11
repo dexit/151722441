@@ -6,3 +6,8 @@
 .textcomplete-item.active a {
 	background-color: rgb(110, 183, 219) !important;
 }
+
+.dln-field-meta .row > div {
+	padding-left: 15px;
+	padding-right: 0px;
+}

@@ -5,12 +5,13 @@ $placeholder = ( ! empty( $field['placeholder'] ) ) ? "placeholder='{$field['pla
 $class       = ( ! empty( $field['class'] ) ) ? $field['class'] : '';
 $prepend     = ( ! empty( $field['prepend'] ) ) ? '<span class="input-group-addon">' . $field['prepend'] . '</span>' : '';
 $append      = ( ! empty( $field['append'] ) ) ? '<span class="input-group-addon">' . $field['append'] . '</span>' : '';
+$input_type  = ( ! empty( $field['input_type'] ) ) ? $field['input_type'] : 'text';
 ?>
 <?php if ( ! empty( $field['label'] ) ) :?>
 <label class="control-label"><?php echo esc_html( $field['label'] ) ?> <?php echo $required ?></label>
 <?php endif ?>
 <div class="input-group">
 	<?php echo balanceTags( $prepend ) ?>
-	<input type="text" class="form-control <?php echo $class ?>" <?php echo $placeholder ?> <?php echo $r_attr ?> id="dln_<?php echo $field['id']?>" name="dln_<?php echo $field['id']?>" value="<?php echo esc_attr( $field['value'] ) ?>" />
+	<input type="<?php echo $input_type ?>" class="form-control <?php echo $class ?>" <?php echo $placeholder ?> <?php echo $r_attr ?> id="dln_<?php echo $field['id']?>" name="dln_<?php echo $field['id']?>" value="<?php echo esc_attr( $field['value'] ) ?>" />
 	<?php echo balanceTags( $append ) ?>
 </div>
