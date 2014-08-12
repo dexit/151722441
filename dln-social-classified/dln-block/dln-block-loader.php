@@ -15,7 +15,8 @@ class DLN_Block_Loader {
 		return self::$instance;
 	}
 	
-	function __construct() {		
+	function __construct() {
+		include( 'includes/ajax.php' );
 		include( 'includes/blocks.php' );
 		
 		if ( is_admin() ) {

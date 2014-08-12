@@ -8,8 +8,8 @@ wp_localize_script(
 	'dln-block-field-textcomplete-js',
 	'dln_clf_params',
 	array(
-		'ig_ajax_url' => admin_url( 'admin-ajax.php' ),
-		'ig_nonce'    => wp_create_nonce( DLN_CLF_NONCE ),
+		'dln_ajax_url' => admin_url( 'admin-ajax.php' ),
+		'dln_nonce'    => wp_create_nonce( DLN_CLF_NONCE ),
 		'url'         => DLN_CLF_PLUGIN_URL,
 	)
 );

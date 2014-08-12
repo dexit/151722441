@@ -172,7 +172,7 @@ class DLN_Upload_Loader {
 						</span>
 						<img alt="' . $post->post_title . '" width="100%" src="' . $path . '/' . $image . '" style="display: inline;">
 						<a href="#" class="btn btn-primary btn-sm action-delete" data-upload_id="' . $attach_id . '"><i class="ico-close2"></i></a></span>
-						<input type="hidden" name="dln_image_id[]" value="' . $attach_id . '" />
+						<input type="hidden" class="dln-image-id" name="dln_image_id[]" value="' . $attach_id . '" />
 					</div>
 				</div>';
 		

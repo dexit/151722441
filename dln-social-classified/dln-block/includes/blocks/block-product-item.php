@@ -167,8 +167,8 @@ class DLN_Block_Product_Item extends DLN_Block {
 			'dln-block-product-item-js',
 			'dln_clf_params',
 			array(
-				'ig_ajax_url' => admin_url( 'admin-ajax.php' ),
-				'ig_nonce'    => wp_create_nonce( DLN_CLF_NONCE )
+				'dln_ajax_url' => admin_url( 'admin-ajax.php' ),
+				'dln_nonce'    => wp_create_nonce( DLN_CLF_NONCE )
 			)
 		);
 	}

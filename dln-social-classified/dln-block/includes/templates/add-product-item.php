@@ -77,6 +77,6 @@
 				data-parsley-mincheck="1" required> <label for="giftcheckbox">&nbsp;&nbsp;Send
 				as a gift</label>
 		</div>
-		<button class="btn btn-primary pull-right" type="submit">Proceed</button>
+		<button class="btn btn-primary pull-right" id="dln_submit_product" type="button"><?php _e( 'Create Product', DLN_CLF ) ?></button>
 	</div>
 </div>
