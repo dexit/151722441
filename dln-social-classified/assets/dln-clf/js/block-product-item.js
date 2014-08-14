@@ -55,9 +55,9 @@
 				},
 				success: function ( data ) {
 					if ( data == '1' ) {
-						window.location.reload();
+						//window.location.reload();
 					} else {
-						console.log( data );
+						alert( 'Cant post multiple ajax request!' );
 					}
 				},
 				error: function ( error ) {

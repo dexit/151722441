@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
             
             var uploader = new plupload.Uploader( dln_upload.plupload );
             
-            $( '#dln-uploader' ).click( function (e) {
+            $( '#dln_uploader' ).click( function (e) {
             	$(".dln-progress-text .progress-bar").css( {'width': "0%"} );
                 uploader.start();
                 // To prevent default behavior of a tag
@@ -75,7 +75,7 @@ jQuery(document).ready(function ($) {
 
         hideUploader:function () {
             if ( DLN_Upload.max_files !== 0 && window.dln_upload_count >= DLN_Upload.max_files ) {
-                $( '#dln-uploader' ).hide();
+                $( '#dln_uploader' ).hide();
             }
         },
 
@@ -96,7 +96,7 @@ jQuery(document).ready(function ($) {
 
                     window.dln_upload_count -= 1;
                     if ( DLN_Upload.maxFiles !== 0 && window.dln_upload_count < DLN_Upload.max_files ) {
-                        $('#dln-uploader').show();
+                        $('#dln_uploader').show();
                     }
                 } );
             }

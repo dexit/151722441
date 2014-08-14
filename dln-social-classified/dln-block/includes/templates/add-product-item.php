@@ -53,11 +53,11 @@
 					<div id="dln_field_meta_block">
 						<div class="row">
 							<div class="col-xs-4">
-								<select class="form-control dln-field-meta-key dln-selectize-create" placeholder="<?php _e( 'Select Attribute' ) ?>">
+								<select class="form-control dln-field-meta-key dln-selectize-create" placeholder="<?php _e( 'Select Attribute', DLN_CLF ) ?>">
 								</select>
 							</div>
 							<div class="col-xs-6">
-								<input type="text" value="" class="form-control dln-field-meta-value" placeholder="<?php _e( 'Attribute Value' ) ?>" />
+								<input type="text" value="" class="form-control dln-field-meta-value" placeholder="<?php _e( 'Attribute Value', DLN_CLF ) ?>" />
 							</div>
 							<div class="col-xs-2">
 								<a class="dln-field-close btn btn-default">X</a>

@@ -67,7 +67,7 @@ class DLN_Upload_Loader {
 				'confirm_msg'      => __( 'Are you sure you want to delete this?', DLN_CLF ),
 				'plupload'         => array(
 					'runtimes'         => 'html5,flash,html4',
-					'browse_button'    => 'dln-uploader',
+					'browse_button'    => 'dln_uploader',
 					'container'        => 'dln-upload-container',
 					'file_data_name'   => 'dln_upload_file',
 					'max_file_size'    => $max_file_size . 'b',

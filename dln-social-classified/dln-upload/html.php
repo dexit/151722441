@@ -28,16 +28,6 @@
     	color: #FFFFFF;
     	z-index: 10;
     }
-
-    .dln_upload_button {
-        border: 1px solid #CCCCCC;
-        border-radius: 5px 5px 5px 5px;
-        color: #333333;
-        font-weight: bold;
-        margin: 5px 0 15px;
-        padding: 3px 8px;
-        text-decoration: none;
-    }
     
     .dln-upload-container {
     	background-color: #f9fafc;
@@ -65,13 +55,21 @@
 
 </style>
 <div id="dln-upload-container" class="dln-upload-container">
-    <a id="dln-uploader" class="btn btn-primary btn-lg dln_upload_button" href="#"><i class="ico-cloud-upload"></i> Upload</a>
-
-    <div id="dln-upload-imagelist">
-    	<div class="dln-progress-text progress progress-xs progress-striped active" style="display:none">
-    		<div class="progress-bar progress-bar-success" style="width: 0%"><span class="sr-only"></span></div>
-    	</div>
-        <div id="dln-ul-list" class="dln-upload-list"></div>
-    </div>
-
+	<div class="row">
+		<div class="col-md-12">
+			<div class="col-md-6"><a id="dln_uploader" class="btn btn-primary dln-btn" href="#"><i class="ico-cloud-upload"></i> <?php _e( 'Upload from PC', DLN_CLF ) ?></a></div>
+			<div class="col-md-6"><a id="dln_fetch_url" class="btn btn-success dln-btn" href="#"><i class="ico-globe"></i> <?php _e( 'Fetch from URL', DLN_CLF ) ?></a></div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div id="dln-upload-imagelist">
+		    	<div class="dln-progress-text progress progress-xs progress-striped active" style="display:none">
+		    		<div class="progress-bar progress-bar-success" style="width: 0%"><span class="sr-only"></span></div>
+		    	</div>
+		        <div id="dln-ul-list" class="dln-upload-list"></div>
+		    </div>
+		</div>
+	</div>
 </div>

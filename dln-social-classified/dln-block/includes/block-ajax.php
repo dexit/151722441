@@ -2,7 +2,7 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-class DLN_Ajax {
+class DLN_Block_Ajax {
 	
 	public static $instance;
 	
@@ -16,13 +16,22 @@ class DLN_Ajax {
 	}
 	
 	function __construct() {
-		add_action( 'wp_ajax_dln_save_product_data', array( $this, 'dln_save_product_data' ) );
-		add_action( 'wp_ajax_nopriv_dln_save_product_data', array( $this, 'dln_save_product_data' ) );
+		include( 'helpers/helper-fetch.php' );
+		
+		add_action( 'wp_ajax_dln_save_product_data',            array( $this, 'dln_save_product_data' ) );
+		add_action( 'wp_ajax_nopriv_dln_save_product_data',     array( $this, 'dln_save_product_data' ) );
+		add_action( 'wp_ajax_dln_fetch_images_from_url',        array( $this, 'dln_fetch_images_from_url' ) );
+		add_action( 'wp_ajax_nopriv_dln_fetch_images_from_url', array( $this, 'dln_fetch_images_from_url' ) );
 	}
 	
 	public function dln_save_product_data() {
 		if ( ! isset( $_POST[DLN_CLF_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_CLF_NONCE], DLN_CLF_NONCE ) ) {
 			$data             = isset( $_POST['data'] ) ? $_POST['data'] : '';
+			
+			if ( ! DLN_Block_Cache::add_cache( $data ) ) {
+				exit(0);
+				return null;
+			}
 			
 			$image_ids        = isset( $data['dln_image_id'] ) ? $data['dln_image_id'] : '';
 			$product_title    = isset( $data['dln_product_title'] ) ? $data['dln_product_title'] : '';
@@ -36,8 +45,10 @@ class DLN_Ajax {
 				 ! empty( $product_price ) ) {
 				
 			 	$user_id     = get_current_user_id();
-			 	if ( ! $user_id )
+			 	if ( ! $user_id ) {
+			 		exit(0);
 			 		return null;
+			 	}
 			 	
 			 	$post = array(
 		 			'post_author'  => $user_id,
@@ -69,8 +80,22 @@ class DLN_Ajax {
 			 		}
 			 	}
 			 	echo $post_id;
-			 	exit();
+			 	exit(1);
 			}
+		}
+		exit(1);
+	}
+	
+	public function dln_fetch_images_from_url() {
+		if ( ! isset( $_POST[DLN_CLF_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_CLF_NONCE], DLN_CLF_NONCE ) ) {
+			$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
+			
+			if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false ) {
+				$fetch_helper = DLN_Helper_Fetch::get_instance();
+				$image_urls   = $fetch_helper->fetch_images_from_url( $url );
+			}
+			$image_urls = ( ! empty( $image_urls ) ) ? json_encode( $image_urls ) : '';
+			echo $image_urls;
 		}
 		exit();
 	}
@@ -92,3 +117,5 @@ class DLN_Ajax {
 	}
 	
 }
+
+DLN_Block_Ajax::get_instance();
