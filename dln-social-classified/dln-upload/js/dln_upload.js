@@ -66,7 +66,8 @@ jQuery(document).ready(function ($) {
                 if ( result.success ) {
                     window.dln_upload_count += 1;
                     $(".dln-progress-text").hide();
-                    $('#dln-upload-imagelist .dln-upload-list').append( result.html );
+                    
+                    $.DLN_Block_Item.appendToImageWrapper( 'from-pc', result.html );
 
                     DLN_Upload.hideUploader();
                 }

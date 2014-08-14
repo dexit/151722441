@@ -14,3 +14,9 @@
 .dln-btn {
 	color: #FFFFFF !important;
 }
+.dln-text-left {
+	text-align: left;
+}
+.dln-upload-list .thumbnail {
+	padding: 4px !important;
+}

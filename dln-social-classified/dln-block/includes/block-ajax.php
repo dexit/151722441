@@ -29,7 +29,7 @@ class DLN_Block_Ajax {
 			$data             = isset( $_POST['data'] ) ? $_POST['data'] : '';
 			
 			if ( ! DLN_Block_Cache::add_cache( $data ) ) {
-				exit(0);
+				exit( '0' );
 				return null;
 			}
 			
@@ -46,7 +46,7 @@ class DLN_Block_Ajax {
 				
 			 	$user_id     = get_current_user_id();
 			 	if ( ! $user_id ) {
-			 		exit(0);
+			 		exit( '0' );
 			 		return null;
 			 	}
 			 	
@@ -80,10 +80,10 @@ class DLN_Block_Ajax {
 			 		}
 			 	}
 			 	echo $post_id;
-			 	exit(1);
+			 	exit( '1' );
 			}
 		}
-		exit(1);
+		exit( '1' );
 	}
 	
 	public function dln_fetch_images_from_url() {
@@ -95,7 +95,7 @@ class DLN_Block_Ajax {
 				$image_urls   = $fetch_helper->fetch_images_from_url( $url );
 			}
 			$image_urls = ( ! empty( $image_urls ) ) ? json_encode( $image_urls ) : '';
-			echo $image_urls;
+			exit( $image_urls );
 		}
 		exit();
 	}

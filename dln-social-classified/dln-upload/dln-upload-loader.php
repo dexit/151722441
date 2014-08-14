@@ -165,16 +165,12 @@ class DLN_Upload_Loader {
 		$dir       = wp_upload_dir();
 		$path      = $dir['baseurl'] . '/' . $path;
 		
-		$html = '<div class="item thumbnail dln-uploaded-files">
-                 	<div class="media">
-						<span class="meta bottom darken">
-							<h5 class="nm semibold">' . $post->post_title . '</h5>
-						</span>
-						<img alt="' . $post->post_title . '" width="100%" src="' . $path . '/' . $image . '" style="display: inline;">
-						<a href="#" class="btn btn-primary btn-sm action-delete" data-upload_id="' . $attach_id . '"><i class="ico-close2"></i></a></span>
-						<input type="hidden" class="dln-image-id" name="dln_image_id[]" value="' . $attach_id . '" />
-					</div>
-				</div>';
+		$data            = new stdClass;
+		$data->title     = $post->post_title;
+		$data->src       = $path . '/' . $image;
+		$data->attach_id = $attach_id;
+		
+		return json_encode( $data );
 		
 		return $html;
 	}

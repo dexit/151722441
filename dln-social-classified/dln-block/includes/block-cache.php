@@ -20,7 +20,7 @@ class DLN_Block_Cache {
 	function __construct() { }
 	
 	public static function clear_cache() {
-		self::$cache_products = null;
+		set_transient( 'dln_cache_products' , null );
 	}
 	
 	public static function add_cache( $value ) {
@@ -34,10 +34,15 @@ class DLN_Block_Cache {
 			return false;
 		} else {
 			// Add cache
-			if ( count( self::$cache_products >= self::$cache_length ) ) {
-				array_shift( self::$cache_products );
+			$cache_products = get_transient( 'dln_cache_products' );
+			$cache_products = ( ! empty( $cache_products ) ) ? unserialize( $cache_products ) : null;
+			if ( count( $cache_products ) >= self::$cache_length ) {
+				array_shift( $cache_products );
 			}
-			self::$cache_products[] = $value_md5;
+			$cache_products[] = $value_md5;
+			if ( ! empty( $cache_products ) ) {
+				set_transient( 'dln_cache_products' , serialize( $cache_products ) );
+			}
 			return true;
 		}
 	}
@@ -46,9 +51,11 @@ class DLN_Block_Cache {
 		if ( empty( $value ) )
 			return false;
 		
-		$result = false;
-		if ( ! empty( self::$cache_products ) ) {
-			foreach ( self::$cache_products as $i => $cache ) {
+		$result         = false;
+		$cache_products = get_transient( 'dln_cache_products' );
+		$cache_products = ( ! empty( $cache_products ) ) ? unserialize( $cache_products ) : null;
+		if ( ! empty( $cache_products ) ) {
+			foreach ( $cache_products as $i => $cache ) {
 				if ( $cache == $value ) {
 					$result = true;
 					break;
