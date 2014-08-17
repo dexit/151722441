@@ -1,0 +1,22 @@
+.textcomplete-item img {
+	height: 16px;
+	width: 16px;
+	margin-right: 5px;
+}
+.textcomplete-item.active a {
+	background-color: rgb(110, 183, 219) !important;
+}
+
+.dln-field-meta .row > div {
+	padding-left: 15px;
+	padding-right: 0px;
+}
+.dln-btn {
+	color: #FFFFFF !important;
+}
+.dln-text-left {
+	text-align: left;
+}
+.dln-upload-list .thumbnail {
+	padding: 4px !important;
+}
