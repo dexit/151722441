@@ -16,8 +16,8 @@
 		tmpl += '	<a href="#" class="btn btn-primary btn-sm action-delete" data-upload_id="' + data.attach_id + '"><i class="ico-close2"></i></a></span>';
 		tmpl += '	<input type="hidden" class="dln-image-id" name="dln_image_id[]" value="' + data.attach_id + '" />';
 		tmpl += '	<div class="col-md-12 meta bottom darken">';
-		tmpl += '		<a href="#" class="btn btn-default btn-sm">#1</a>';
-		tmpl += '		<a href="#" class="btn btn-default btn-sm"><i class="ico-close2"></i></a>';
+		tmpl += '		<a href="#" class="dln-btn-cover btn btn-default btn-sm">#1</a>';
+		tmpl += '		<a href="#" class="dln-btn-pick btn btn-default btn-sm"><i class="ico-close2"></i></a>';
 		tmpl += '	</div>';
 		tmpl += '	</div>';
 		tmpl += '</div>';
@@ -45,6 +45,12 @@
 				break;
 		}
 		$('#dln-upload-imagelist .dln-upload-list').append( html );
+	};
+	
+	$.DLN_Block_Item.addEventButtonsImage = function () {
+		$('.dln-btn-cover').on('click', function (e) {
+			e.preventDefault();
+		});
 	};
 	
 	$(document).ready(function () {
