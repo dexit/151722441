@@ -113,6 +113,7 @@ class DLN_Blocks {
 		//wp_enqueue_script( 'dln-summernote-js' );
 		//wp_enqueue_script( 'dln-form-wysiwyg-js' );
 	
+		wp_enqueue_script( 'dln-jquery-unveil-js', DLN_ABE_PLUGIN_URL . '/assets/3rd-party/jquery-unveil/jquery.unveil.js', array( 'jquery', '1.0.0', true ) );
 		wp_enqueue_script( 'dln-helper-social-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/helpers/social-helper.js', array( 'jquery' ), '1.0.0', true );
 		wp_localize_script(
 			'dln-helper-social-js',
