@@ -1,24 +1,34 @@
 (function($) {
 	"use strict";
 	
-	var loadIframeURL = function ( selector, url ) {
-		console.log(( ! selector || ! url ));
-		if ( ! selector || ! url )
-			return false;
-		
-		// Create iframe
-		$(selector).attr('src', url);
-	};
-	
 	$(document).ready(function () {
 		// Add select image action
 		$('#dln_select_image').on('click', function (e) {
 			e.preventDefault();
 
-			var url = dln_clf_params.dln_site_url + '?dln_form=modal_select_photo';
-			loadIframeURL( '#dln_iframe_select_photo iframe', url );
+			var block = 'modal-select-photo';
+			$.ajax({
+				url: dln_abe_params.dln_ajax_url,
+				type: 'POST',
+				data: {
+					action           : 'dln_load_block_modal',
+					block            : block,
+					'ig_nonce_check' : dln_abe_params.dln_nonce
+				},
+				success: function ( data ) {
+					data = ( data ) ? JSON.parse( data ) : data;
+					if ( data.code == 'success' ) {
+						$('#dln_modal_select_photo .modal-body').html( data.content );
+					} else {
+						console.log( data );
+					}
+				},
+				error: function ( error ) {
+					console.log( error );
+				}
+			});
 			
-			$('#dln_iframe_select_photo').modal('show');
+			$('#dln_modal_select_photo').modal('show');
 		});
 	});
 }(jQuery));

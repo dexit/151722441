@@ -118,14 +118,5 @@ class DLN_Block_Submit_Photo extends DLN_Block {
 	private static function load_frontend_assets() {
 		wp_enqueue_style( 'dln-block-submit-photo-css', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/block-submit-photo.css', null, '1.0.0' );
 		wp_enqueue_script( 'dln-block-submit-photo-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-submit-photo.js', array( 'jquery' ), '1.0.0', true );
-		wp_localize_script(
-			'dln-block-submit-photo-js',
-			'dln_clf_params',
-			array(
-				'dln_ajax_url' => admin_url( 'admin-ajax.php' ),
-				'dln_nonce'    => wp_create_nonce( DLN_ABE_NONCE ),
-				'dln_site_url' => site_url(),
-			)
-		);
 	}
 }

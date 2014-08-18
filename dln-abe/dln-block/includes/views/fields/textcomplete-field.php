@@ -6,11 +6,9 @@ wp_enqueue_style( 'dln-textcomplete-css', DLN_ABE_PLUGIN_URL . '/assets/3rd-part
 wp_enqueue_script( 'dln-block-field-textcomplete-js', DLN_ABE_PLUGIN_URL . '/assets/dln-clf/js/fields/block-field-textcomplete.js', array( 'jquery' ), '1.0.0', true );
 wp_localize_script(
 	'dln-block-field-textcomplete-js',
-	'dln_clf_params',
+	'dln_textcomplete_params',
 	array(
-		'dln_ajax_url' => admin_url( 'admin-ajax.php' ),
-		'dln_nonce'    => wp_create_nonce( DLN_ABE_NONCE ),
-		'url'         => DLN_ABE_PLUGIN_URL,
+		'url' => DLN_ABE_PLUGIN_URL,
 	)
 );
 

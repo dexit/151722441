@@ -113,6 +113,20 @@ class DLN_Blocks {
 		//wp_enqueue_script( 'dln-summernote-js' );
 		//wp_enqueue_script( 'dln-form-wysiwyg-js' );
 	
+		wp_enqueue_script( 'dln-helper-social-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/helpers/social-helper.js', array( 'jquery' ), '1.0.0', true );
+		wp_localize_script(
+			'dln-helper-social-js',
+			'dln_abe_params',
+			array(
+				'site_url'     => site_url(),
+				'fb_app_id'    => FB_APP_ID,
+				'fb_url'       => FB_REDIRECT_URI,
+				'insta_app_id' => INSTA_APP_ID,
+				'insta_url'    => INSTA_REDIRECT_URI,
+				'dln_ajax_url' => admin_url( 'admin-ajax.php' ),
+				'dln_nonce'    => wp_create_nonce( DLN_ABE_NONCE ),
+			)
+		);
 	}
 	
 	public static function block_user_can_post_profile() {

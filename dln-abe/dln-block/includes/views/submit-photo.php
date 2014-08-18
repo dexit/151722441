@@ -39,14 +39,14 @@
 	</div>
 </div>
 
-<div id="dln_iframe_select_photo" class="modal fade">
+<div id="dln_modal_select_photo" class="modal fade">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header text-center">
 				<h3 class="semibold modal-title text-primary">Rocket Launch</h3>
 			</div>
 			<div class="modal-body">
-				<iframe src="" style="zoom:0.60" width="99.6%" height="250" frameborder="0"></iframe>
+				<!-- Modal content here! -->
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

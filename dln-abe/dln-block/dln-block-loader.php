@@ -67,7 +67,6 @@ class DLN_Block_Loader {
 		wp_register_style( 'dln-ui-element-css',        DLN_ABE_PLUGIN_URL . '/assets/dln-clf/css/uielement.css', null, '1.0.0' );
 		wp_register_style( 'dln-ui-layout-css',         DLN_ABE_PLUGIN_URL . '/assets/dln-clf/css/layout.css', null, '1.0.0' );
 		
-		
 		wp_register_script( 'dln-summernote-js',             DLN_ABE_PLUGIN_URL . '/assets/3rd-party/summernote/js/summernote.min.js', array( 'jquery' ), '1.0.0', true );
 		wp_register_script( 'dln-form-wysiwyg-js',           DLN_ABE_PLUGIN_URL . '/assets/dln-clf/js/forms/wysiwyg.js', array( 'jquery' ), '1.0.0', true );
 	}
