@@ -3,28 +3,60 @@
 	
 	var addUnveilForImages = function () {
 		// Add unveil lib
-		$("[data-toggle~=unveil]").unveil(0, function() {
+		/*$("[data-toggle~=unveil]").unveil(0, function() {
             $(this).load(function() {
                 $(this).addClass("unveiled");
             })
-        })
+        })*/
+        $("[data-toggle~=unveil]").each(function () {
+        	$(this).addClass("unveiled");
+        });
 	};
 	
-	var renderPhotoItems = function ( type, images, after, before ) {
+	var addSelectButtonEvent = function () {
+		$('.dln-select-photo').on('click', function (e) {
+			e.preventDefault();
+			
+			if ( $('.dln-photo-items.active .dln-select-photo').first().length ) {
+				var button = $('.dln-photo-items.active .dln-select-photo').first();
+				button.removeClass('btn-success');
+				button.addClass('btn-default');
+				button.html('<i class="ico-close2"></i>');
+			}
+			$('.dln-photo-items').removeClass('active');
+			
+			var parent = $(this).closest('.dln-photo-items');
+			parent.addClass('active');
+			var button = $(parent).find('.dln-select-photo');
+			button.removeClass('btn-default');
+			button.addClass('btn-success');
+			button.html('<i class="ico-checkmark"></i>');
+		});
+		
+		$('.dln-photo-items').on('click', function (e) {
+			e.preventDefault();
+			
+			$(this).find('.dln-select-photo').trigger('click');
+		});
+	};
+	
+	var renderPhotoItems = function( type, images, after, before ) {
 		if ( ! type ) {
 			type = 'upload';
 		}
 		
 		if ( ! before ) {
-			$('#dln_paging_group [data-action-type="before"]').addClass('disabled');
+			$('#dln_paging_group [data-action-type="before"]').hide();
 		} else {
+			$('#dln_paging_group [data-action-type="before"]').show();
 			$('#dln_paging_group [data-action-type="before"]').data('code', before);
 			$('#dln_paging_group [data-action-type="before"]').data('type', type);
 		}
 		
 		if ( ! after ) {
-			$('#dln_paging_group [data-action-type="after"]').addClass('disabled');
+			$('#dln_paging_group [data-action-type="after"]').hide();
 		} else {
+			$('#dln_paging_group [data-action-type="after"]').show();
 			$('#dln_paging_group [data-action-type="after"]').data('code', after);
 			$('#dln_paging_group [data-action-type="after"]').data('type', type);
 		}
@@ -39,7 +71,9 @@
 		});
 		
 		$('#dln_photo_wrapper .row').html(html);
+		
 		addUnveilForImages();
+		addSelectButtonEvent();
 	};
 	
 	var getFacebookPhotos = function ( action_type, page_code ) {
@@ -79,7 +113,7 @@
 			success: function ( data ) {
 				data = ( data ) ? JSON.parse( data ) : data;
 				if ( data.status == 'success' ) {
-					renderPhotoItems('instagram', data.images, data.max_id, page_code);
+					renderPhotoItems('instagram', data.images, data.max_id, data.max_id);
 				} else {
 					console.log( data );
 				}

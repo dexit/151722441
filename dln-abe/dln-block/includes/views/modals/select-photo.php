@@ -69,7 +69,7 @@ if ( ! empty( $user_id ) ) {
 <button class="btn btn-default dln-connect-insta"href="#"><?php _e( 'Connect to Instagram', DLN_ABE ) ?></button>
 
 <?php ob_start() ?>
-<div class="col-md-3 col-xs-6">
+<div class="col-md-3 col-xs-6 dln-photo-items">
 	<!-- thumbnail -->
 	<div class="thumbnail nm">
 		<!-- media -->
@@ -82,8 +82,7 @@ if ( ! empty( $user_id ) ) {
 			<!-- toolbar overlay -->
 			<div class="overlay">
 				<div class="toolbar">
-					<a href="#" class="btn btn-default" title="view picture"><i class="ico-search"></i></a>
-					<a href="#" class="btn btn-default"><i class="ico-close2"></i></a>
+					<a href="#" class="btn btn-default dln-select-photo"><i class="ico-close2"></i></a>
 				</div>
 			</div>
 			<!--/ toolbar overlay -->

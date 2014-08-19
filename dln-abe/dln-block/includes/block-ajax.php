@@ -115,28 +115,28 @@ class DLN_Block_Ajax {
 			
 			$user_id = get_current_user_id();
 			if ( $user_id ) {
-				$insta_access_token = get_user_meta( $user_id, 'dln_instagram_accesss_token', true );
+				$insta_access_token = get_user_meta( $user_id, 'dln_instagram_access_token', true );
 				$insta_uid          = get_user_meta( $user_id, 'dln_instagram_user_id', true );
-			
+				
 				if ( $insta_uid && $insta_access_token ) {
 					switch( $action_type ) {
-						case 'next':
-							$url = 'https://api.instagram.com/v1/users/' . $insta_uid . '/feed?count=20&max_id=' . $max_id . 'access_token=' . $insta_access_token;
-							break;
-						case 'previous':
-							$url = 'https://api.instagram.com/v1/users/' . $insta_uid . '/feed?count=20&max_id=' . $max_id . '&access_token=' . $insta_access_token;
-							break;
+						case 'after':
+							$url = 'https://api.instagram.com/v1/users/' . 3 . '/media/recent/?count=20&max_id=' . $max_id . '&access_token=' . $insta_access_token;
+						break;
+						case 'before':
+							$url = 'https://api.instagram.com/v1/users/' . 3 . '/media/recent/?count=20&min_id=' . $max_id . '&access_token=' . $insta_access_token;
+						break;
 						default:
-							$url = 'https://api.instagram.com/v1/users/' . $insta_uid . '/feed?count=20&access_token=' . $insta_access_token;
-							break;
+							$url = 'https://api.instagram.com/v1/users/' . 3 . '/media/recent/?count=20&access_token=' . $insta_access_token;
+						break;
 					}
 					$obj    = @file_get_contents( $url );
 					$obj    = ( ! empty( $obj ) ) ? json_decode( $obj ) : '';
 					$images = array();
 					if ( ! empty( $obj->data ) && is_array( $obj->data ) ) {
 						foreach ( $obj->data as $i => $image ) {
-							if ( ! empty( $image->id ) && ! empty( $image->images->standard_resolution ) ) {
-								$images[] = array( 'id' => $image->id, 'picture' => $image->images->standard_resolution );
+							if ( ! empty( $image->id ) && ! empty( $image->images->standard_resolution->url ) ) {
+								$images[] = array( 'id' => $image->id, 'picture' => $image->images->standard_resolution->url );
 							}
 						}
 					}
@@ -166,12 +166,12 @@ class DLN_Block_Ajax {
 				$fb_access_token = get_user_meta( $user_id, 'dln_facebook_access_token', true );
 				$fb_user_id      = get_user_meta( $user_id, 'dln_facebook_user_id', true );
 				if ( $fb_user_id && $fb_access_token ) {
-					switch( $action ) {
-						case 'next':
+					switch( $action_type ) {
+						case 'after':
 							$url = 'https://graph.facebook.com/v2.0/' . $fb_user_id . '/photos/uploaded?limit=20&after=' . $page_code . '&access_token=' . $fb_access_token;
 						break;
 						
-						case 'previous':
+						case 'before':
 							$url = 'https://graph.facebook.com/v2.0/' . $fb_user_id . '/photos/uploaded?limit=20&before=' . $page_code . '&access_token=' . $fb_access_token;
 						break;
 						

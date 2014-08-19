@@ -10,3 +10,12 @@
 	padding-left: 10px;
 	padding-right: 10px;
 }
+.dln-photo-items {
+	margin-bottom: 10px;
+}
+.dln-photo-items.active .overlay{
+	opacity: 1;
+}
+.dln-photo-items.active .overlay .btn {
+	transform: scale(1) !important;
+}
