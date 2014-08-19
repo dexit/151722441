@@ -113,7 +113,6 @@ class DLN_Blocks {
 		//wp_enqueue_script( 'dln-summernote-js' );
 		//wp_enqueue_script( 'dln-form-wysiwyg-js' );
 	
-		wp_enqueue_script( 'dln-jquery-unveil-js', DLN_ABE_PLUGIN_URL . '/assets/3rd-party/jquery-unveil/jquery.unveil.js', array( 'jquery', '1.0.0', true ) );
 		wp_enqueue_script( 'dln-helper-social-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/helpers/social-helper.js', array( 'jquery' ), '1.0.0', true );
 		wp_localize_script(
 			'dln-helper-social-js',
@@ -126,6 +125,7 @@ class DLN_Blocks {
 				'insta_url'    => INSTA_REDIRECT_URI,
 				'dln_ajax_url' => admin_url( 'admin-ajax.php' ),
 				'dln_nonce'    => wp_create_nonce( DLN_ABE_NONCE ),
+				'indicator'    => '<div class="indicator show"><span class="spinner spinner3"></span></div>'
 			)
 		);
 	}

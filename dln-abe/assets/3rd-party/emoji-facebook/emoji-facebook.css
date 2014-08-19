@@ -1,0 +1,356 @@
+#emoticons_for_comments {
+	border: 1px solid rgb(128, 128, 128);
+	border-bottom: 2px solid rgb(41, 62, 106);
+	background: #fff;
+	padding: 2px 0 2px 2px;
+	overflow: hidden;
+	height: 242px;
+}
+
+
+#emoticons_for_comments .emo {
+	float: left;
+	display: block;
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+	border: 2px solid #fff;
+	margin: 1px;
+	text-indent: -9999px;
+	background-image: url('emoticons-sprite.png?v=4');
+	background-repeat:no-repeat;
+}
+
+
+#emoticons_for_comments .emo:hover {
+	/*background-color: #7CE;*/
+	outline: 2px solid #7CE;
+}
+
+#copy_emoticon {
+	font-family: "Apple Color Emoji","Segoe UI Emoji","NotoColorEmoji","Segoe UI Symbol","Android Emoji","EmojiSymbols",Arial,"Helvetica Neue",Helvetica,sans-serif;
+	position: absolute;
+	border: 2px solid #7CE;
+	margin: -1px;
+	outline: none;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	padding: 0;
+	display: none;
+	background: #E5F8FF;
+}
+
+i.mogicon {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	position: relative;
+	margin-bottom: -3px;
+	background-image: url('../images/emoticons-sprite.png?v=4');
+}
+
+.mogicon.toggler {
+	background-image: url('../images/toggler.png');
+	background-position: -16px 0;
+}
+
+._2b__vn{background-position:0 -1653px}
+._2c0_vn{background-position:0 -1364px}
+._2c1_vn{background-position:0 -2724px}
+._2c2_vn{background-position:0 -2741px}
+._2c3_vn{background-position:0 -2758px}
+._2c4_vn{background-position:0 -2775px}
+._2c5_vn{background-position:0 -2792px}
+._2c6_vn{background-position:0 -2809px}
+._2c7_vn{background-position:0 -2826px}
+._2c8_vn{background-position:0 -2843px}
+._2c9_vn{background-position:0 -2860px}
+._2ca_vn{background-position:0 -2877px}
+._2cb_vn{background-position:0 -2894px}
+._2cc_vn{background-position:0 -2911px}
+._2cd_vn{background-position:0 -2928px}
+._2ce_vn{background-position:0 -2945px}
+._2cf_vn{background-position:0 -2962px}
+._2cg_vn{background-position:0 -3251px}
+._2ch_vn{background-position:0 -2996px}
+._2ci_vn{background-position:0 -3013px}
+._2cj_vn{background-position:0 -3030px}
+._2ck_vn{background-position:0 -3047px}
+._2cl_vn{background-position:0 -3064px}
+._2cm_vn{background-position:0 -3081px}
+._2cn_vn{background-position:0 -3098px}
+._2co_vn{background-position:0 -3115px}
+._2cp_vn{background-position:0 -3132px}
+._2cq_vn{background-position:0 -3149px}
+._2cr_vn{background-position:0 -3166px}
+._2cs_vn{background-position:0 -3183px}
+._2ct_vn{background-position:0 -3200px}
+._2cu_vn{background-position:0 -3217px}
+._2cv_vn{background-position:0 -3234px}
+._2cw_vn{background-position:0 -2979px}
+._2cx_vn{background-position:0 -2197px}
+._2cy_vn{background-position:0 -2214px}
+._2cz_vn{background-position:0 -2231px}
+._2c-_vn{background-position:0 -2248px}
+._2c__vn{background-position:0 -2265px}
+._2d0_vn{background-position:0 -2282px}
+._2d1_vn{background-position:0 -2299px}
+._2d2_vn{background-position:0 -2316px}
+._2d3_vn{background-position:0 -2333px}
+._2d4_vn{background-position:0 -2350px}
+._2d5_vn{background-position:0 -2367px}
+._2d6_vn{background-position:0 -2384px}
+._2d7_vn{background-position:0 -2401px}
+._2d8_vn{background-position:0 -2418px}
+._2d9_vn{background-position:0 -2707px}
+._2da_vn{background-position:0 -2452px}
+._2db_vn{background-position:0 -2469px}
+._2dc_vn{background-position:0 -2486px}
+._2dd_vn{background-position:0 -2503px}
+._2de_vn{background-position:0 -2520px}
+._2df_vn{background-position:0 -2537px}
+._2dg_vn{background-position:0 -2554px}
+._2dh_vn{background-position:0 -2571px}
+._2di_vn{background-position:0 -2588px}
+._2dj_vn{background-position:0 -2605px}
+._2dk_vn{background-position:0 -2622px}
+._2dl_vn{background-position:0 -3319px}
+._2dm_vn{background-position:0 -2656px}
+._2dn_vn{background-position:0 -2673px}
+._2do_vn{background-position:0 -2690px}
+._2dp_vn{background-position:0 -2435px}
+._2dq_vn{background-position:0 -4067px}
+._491_vn{background-position:0 -4050px}
+._2dr_vn{background-position:0 -4033px}
+._2ds_vn{background-position:0 -4016px}
+._2dt_vn{background-position:0 -3999px}
+._2du_vn{background-position:0 -3982px}
+._2dv_vn{background-position:0 -3965px}
+._2dw_vn{background-position:0 -3948px}
+._2dx_vn{background-position:0 -4084px}
+._2dy_vn{background-position:0 -3914px}
+._2dz_vn{background-position:0 -3897px}
+._2d-_vn{background-position:0 -3880px}
+._2d__vn{background-position:0 -4152px}
+._2e0_vn{background-position:0 -3846px}
+._2e1_vn{background-position:0 -3829px}
+._2e2_vn{background-position:0 -3812px}
+._2e3_vn{background-position:0 -3931px}
+._2e4_vn{background-position:0 -4322px}
+._2e5_vn{background-position:0 -4305px}
+._2e6_vn{background-position:0 -4288px}
+._2e7_vn{background-position:0 -4271px}
+._2e8_vn{background-position:0 -4254px}
+._2e9_vn{background-position:0 -4237px}
+._2ea_vn{background-position:0 -4220px}
+._2eb_vn{background-position:0 -4203px}
+._2ec_vn{background-position:0 -4186px}
+._2ed_vn{background-position:0 -4169px}
+._2ee_vn{background-position:0 -4339px}
+._2ef_vn{background-position:0 -4135px}
+._2eg_vn{background-position:0 -4118px}
+._2eh_vn{background-position:0 -4101px}
+._2ei_vn{background-position:0 -3523px}
+._2ej_vn{background-position:0 -3268px}
+._2ek_vn{background-position:0 -3285px}
+._2el_vn{background-position:0 -3302px}
+._2em_vn{background-position:0 -3863px}
+._2en_vn{background-position:0 -3336px}
+._2eo_vn{background-position:0 -3353px}
+._2ep_vn{background-position:0 -3370px}
+._2eq_vn{background-position:0 -3387px}
+._2er_vn{background-position:0 -3404px}
+._2es_vn{background-position:0 -3421px}
+._2et_vn{background-position:0 -3438px}
+._2eu_vn{background-position:0 -3455px}
+._2ev_vn{background-position:0 -3472px}
+._2ew_vn{background-position:0 -3489px}
+._2ex_vn{background-position:0 -3506px}
+._2ey_vn{background-position:0 -3795px}
+._2ez_vn{background-position:0 -3540px}
+._2e-_vn{background-position:0 -3557px}
+._2e__vn{background-position:0 -3574px}
+._2f0_vn{background-position:0 -3591px}
+._2f1_vn{background-position:0 -3608px}
+._2f2_vn{background-position:0 -3625px}
+._2f3_vn{background-position:0 -3642px}
+._2f4_vn{background-position:0 -3659px}
+._2f5_vn{background-position:0 -3676px}
+._2f6_vn{background-position:0 -3693px}
+._2f7_vn{background-position:0 -3710px}
+._2f8_vn{background-position:0 -3727px}
+._2f9_vn{background-position:0 -3744px}
+._2fa_vn{background-position:0 -3761px}
+._2fb_vn{background-position:0 -3778px}
+._2fc_vn{background-position:0 -1687px}
+._2fd_vn{background-position:0 -616px}
+._2fe_vn{background-position:0 -633px}
+._2ff_vn{background-position:0 -650px}
+._2fg_vn{background-position:0 -2639px}
+._2fh_vn{background-position:0 -667px}
+._2fi_vn{background-position:0 -684px}
+._2fj_vn{background-position:0 -701px}
+._2fk_vn{background-position:0 -718px}
+._2fl_vn{background-position:0 -735px}
+._2fm_vn{background-position:0 -752px}
+._2fn_vn{background-position:0 -769px}
+._2fo_vn{background-position:0 -786px}
+._2fp_vn{background-position:0 -803px}
+._2fq_vn{background-position:0 -820px}
+._2fr_vn{background-position:0 -837px}
+._492_vn{background-position:0 -1126px}
+._2fs_vn{background-position:0 -871px}
+._2ft_vn{background-position:0 -888px}
+._2fu_vn{background-position:0 -905px}
+._2fv_vn{background-position:0 -922px}
+._2fw_vn{background-position:0 -939px}
+._2fx_vn{background-position:0 -956px}
+._2fy_vn{background-position:0 -973px}
+._2fz_vn{background-position:0 -990px}
+._2f-_vn{background-position:0 -1007px}
+._2f__vn{background-position:0 -1024px}
+._2g0_vn{background-position:0 -1041px}
+._2g1_vn{background-position:0 -1058px}
+._2g2_vn{background-position:0 -1075px}
+._2g3_vn{background-position:0 -854px}
+._2g4_vn{background-position:0 -1109px}
+._2g5_vn{background-position:0 -123px}
+._2g6_vn{background-position:0 -140px}
+._2g7_vn{background-position:0 -157px}
+._2g8_vn{background-position:0 -174px}
+._2g9_vn{background-position:0 -191px}
+._2ga_vn{background-position:0 -208px}
+._2gb_vn{background-position:0 -225px}
+._2gc_vn{background-position:0 -242px}
+._2gd_vn{background-position:0 -259px}
+._2ge_vn{background-position:0 -276px}
+._2gf_vn{background-position:0 -293px}
+._2gg_vn{background-position:0 -310px}
+._2gh_vn{background-position:0 -327px}
+._2gi_vn{background-position:0 -344px}
+._2gj_vn{background-position:0 -599px}
+._2gk_vn{background-position:0 -378px}
+._2gl_vn{background-position:0 -395px}
+._2gm_vn{background-position:0 -412px}
+._2gn_vn{background-position:0 -429px}
+._2go_vn{background-position:0 -446px}
+._2gp_vn{background-position:0 -463px}
+._2gq_vn{background-position:0 -480px}
+._2gr_vn{background-position:0 -497px}
+._2gs_vn{background-position:0 -514px}
+._2gt_vn{background-position:0 -531px}
+._2gu_vn{background-position:0 -548px}
+._2gv_vn{background-position:0 -565px}
+._2gw_vn{background-position:0 -582px}
+._2gx_vn{background-position:0 -361px}
+._2gy_vn{background-position:0 -1092px}
+._2gz_vn{background-position:0 -1670px}
+._2g-_vn{background-position:0 -1381px}
+._2g__vn{background-position:0 -1704px}
+._2h0_vn{background-position:0 -1789px}
+._2h1_vn{background-position:0 -1806px}
+._2h2_vn{background-position:0 -1823px}
+._2h3_vn{background-position:0 -1840px}
+._2h4_vn{background-position:0 -1857px}
+._2h5_vn{background-position:0 -1874px}
+._2h6_vn{background-position:0 -1891px}
+._2h7_vn{background-position:0 -1721px}
+._2h8_vn{background-position:0 -1738px}
+._2h9_vn{background-position:0 -1755px}
+._2ha_vn{background-position:0 -1772px}
+._2hb_vn{background-position:0 -2180px}
+._2hc_vn{background-position:0 -1925px}
+._1a-_vn{background-position:0 -1127px}
+._1c-_vn{background-position:0 -4100px}
+
+.emoticon_smile_vn{background-position:0 -1211px}
+.emoticon_frown_vn{background-position:0 -2044px}
+.emoticon_tongue_vn{background-position:0 -1262px}
+.emoticon_grin_vn{background-position:0 -2095px}
+.emoticon_gasp_vn{background-position:0 -2061px}
+.emoticon_wink_vn{background-position:0 -1313px}
+.emoticon_glasses_vn{background-position:0 -2078px}
+.emoticon_sunglasses_vn{background-position:0 -1245px}
+.emoticon_grumpy_vn{background-position:0 -2112px}
+.emoticon_unsure_vn{background-position:0 -1279px}
+.emoticon_cry_vn{background-position:0 -2010px}
+.emoticon_devil_vn{background-position:0 -2027px}
+.emoticon_angel_vn{background-position:0 -1942px}
+.emoticon_kiss_vn{background-position:0 -2163px}
+.emoticon_heart_vn{background-position:0 -2129px}
+.emoticon_kiki_vn{background-position:0 -2146px}
+.emoticon_squint_vn{background-position:0 -1228px}
+.emoticon_confused_vn{background-position:0 -1976px}
+.emoticon_confused_rev_vn{background-position:0 -1993px}
+.emoticon_upset_vn{background-position:0 -1296px}
+.emoticon_pacman_vn{background-position:0 -1908px}
+.emoticon_robot_vn{background-position:0 -4373px}
+.emoticon_colonthree_vn{background-position:0 -1959px}
+.emoticon_penguin_vn{background-position:0 -1143px}
+.emoticon_putnam_vn{background-position:0 -1177px}
+.emoticon_shark_vn{background-position:0 -1194px}
+.emoticon_like_vn{background-position:0 -93px}
+.emoticon_poop_vn{background-position:0 -1160px}
+
+.emoticon_white_star{background-position:0 -4416px}
+.emoticon_heart_suit{background-position:0 -4432px}
+.emoticon_spade_suit{background-position:0 -4448px}
+.emoticon_diamond_suit{background-position:0 -4464px}
+.emoticon_club_suit{background-position:0 -4480px}
+.emoticon_spinning_hearts{background-position:0 -4496px}
+.emoticon_white_heart{background-position:0 -4512px}
+.emoticon_snowflake{background-position:0 -4528px}
+
+.emoticon_watermelon{background-position:0 -4544px}
+.emoticon_tomato{background-position:0 -4560px}
+.emoticon_eggplant{background-position:0 -4576px}
+
+.emoticon_icecream{background-position:0 -4592px}
+.emoticon_sushi{background-position:0 -4608px}
+.emoticon_spaghetti{background-position:0 -4624px}
+.emoticon_lunch{background-position:0 -4640px}
+.emoticon_warning{background-position:0 -4656px}
+.emoticon_stop{background-position:0 -4672px}
+.emoticon_cross_mark{background-position:0 -4688px}
+.emoticon_exclamation_mark{background-position:0 -4704px}
+.emoticon_question_mark{background-position:0 -4720px}
+.emoticon_trophy{background-position:0 -4736px}
+.emoticon_love_letter{background-position:0 -4752px}
+
+.emoticon_soccer{background-position:0 -4768px}
+.emoticon_baseball{background-position:0 -4784px}
+.emoticon_football{background-position:0 -4800px}
+.emoticon_basketball{background-position:0 -4816px}
+.emoticon_tennis{background-position:0 -4832px}
+.emoticon_8_ball{background-position:0 -4848px}
+.emoticon_golf{background-position:0 -4864px}
+.emoticon_bullseye{background-position:0 -4880px}
+.emoticon_formula_1{background-position:0 -4896px}
+.emoticon_money_bag{background-position:0 -4912px}
+.emoticon_dollar{background-position:0 -4928px}
+.emoticon_bikini{background-position:0 -4944px}
+.emoticon_teatre{background-position:0 -4960px}
+.emoticon_no_smoking{background-position:0 -4976px}
+.emoticon_18_plus{background-position:0 -4992px}
+.emoticon_mute{background-position:0 -5008px}
+.emoticon_bike{background-position:0 -5024px}
+.emoticon_car{background-position:0 -5040px}
+.emoticon_sailboat{background-position:0 -5056px}
+.emoticon_airplane{background-position:0 -5072px}
+.emoticon_tram{background-position:0 -5088px}
+
+.emoticon_diamond{background-position:0 -5104px}
+.emoticon_idea{background-position:0 -5120px}
+.emoticon_dollar_sign{background-position:0 -5136px}
+.emoticon_smoking{background-position:0 -5152px}
+.emoticon_bomb{background-position:0 -5168px}
+.emoticon_music{background-position:0 -5184px}
+.emoticon_camera{background-position:0 -5200px}
+.emoticon_cool{background-position:0 -5216px}
+.emoticon_wc{background-position:0 -5232px}
+.emoticon_statue_of_liberty{background-position:0 -5248px}
+.emoticon_vs{background-position:0 -5264px}
+.emoticon_microphone{background-position:0 -5280px}
+.emoticon_paint{background-position:0 -5296px}
+.emoticon_top_hat{background-position:0 -5312px}

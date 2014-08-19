@@ -43,53 +43,23 @@ if ( ! empty( $user_id ) ) {
 		<!-- Toolbar -->
 		<div class="toolbar">
 			<span class="toolbar-label semibold mr5"><?php _e( 'Photo : ', DLN_ABE ) ?></span>
-			<div class="btn-group" id="dln_photo_source">
-				<button class="btn btn-default" data-group="upload"><?php _e( 'Upload', DLN_ABE ) ?></button>
-				<button class="btn btn-default" data-group="facebook"><?php _e( 'Facebook', DLN_ABE ) ?></button>
-				<button class="btn btn-default" data-group="instagram"><?php _e( 'Instagram', DLN_ABE ) ?></button>
+			<div class="btn-group" id="dln_btn_photos">
+				<button class="btn btn-default" data-value="upload"><?php _e( 'Upload', DLN_ABE ) ?></button>
+				<button class="btn btn-default" data-value="facebook"><?php _e( 'Facebook', DLN_ABE ) ?></button>
+				<button class="btn btn-default" data-value="instagram"><?php _e( 'Instagram', DLN_ABE ) ?></button>
 			</div>
 		</div>
 		<!--/ Toolbar -->
 	</div>
 </div>
-
 <div id="dln_photo_wrapper" class="dln-wrapper">
-<div class="row">
-	<div class="col-md-3 col-xs-6">
-		<!-- thumbnail -->
-		<div class="thumbnail nm">
-			<!-- media -->
-			<div class="media">
-				<!-- indicator -->
-				<div class="indicator">
-					<span class="spinner"></span>
-				</div>
-				<!--/ indicator -->
-				<!-- toolbar overlay -->
-				<div class="overlay">
-					<div class="toolbar">
-						<a href="#" class="btn btn-default magnific" title="view picture"><i class="ico-search"></i></a>
-						<a href="#" class="btn btn-default magnific"><i class="ico-close2"></i></a>
-					</div>
-				</div>
-				<!--/ toolbar overlay -->
-				<img data-toggle="unveil"
-					src="https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xfa1/t1.0-9/s720x720/10378970_740123969367360_649301298345723939_n.jpg"
-					data-src="https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xfa1/t1.0-9/s720x720/10378970_740123969367360_649301298345723939_n.jpg" alt="Photo"
-					width="100%" />
-			</div>
-			<!--/ media -->
-		</div>
-		<!--/ thumbnail -->
+	<div class="row">
+		<!-- listing photos -->
 	</div>
-	
 </div>
-</div>
-
-
-<ul class="pager mt0">
-	<li><a href="javascript:void(0);"><?php _e( 'Previous', DLN_ABE ) ?></a></li>
-	<li><a href="javascript:void(0);"><?php _e( 'Next', DLN_ABE ) ?></a></li>
+<ul class="pager mt0" id="dln_paging_group">
+	<li><a data-action-type="before" href="javascript:void(0);"><?php _e( 'Previous', DLN_ABE ) ?></a></li>
+	<li><a data-action-type="after" href="javascript:void(0);"><?php _e( 'Next', DLN_ABE ) ?></a></li>
 </ul>
 
 <?php if ( ! $valid_fb ) : ?>
@@ -97,3 +67,39 @@ if ( ! empty( $user_id ) ) {
 <?php endif ?>
 
 <button class="btn btn-default dln-connect-insta"href="#"><?php _e( 'Connect to Instagram', DLN_ABE ) ?></button>
+
+<?php ob_start() ?>
+<div class="col-md-3 col-xs-6">
+	<!-- thumbnail -->
+	<div class="thumbnail nm">
+		<!-- media -->
+		<div class="media" data-id="[photo_id]" data-type="[photo_type]">
+			<!-- indicator -->
+			<div class="indicator">
+				<span class="spinner"></span>
+			</div>
+			<!--/ indicator -->
+			<!-- toolbar overlay -->
+			<div class="overlay">
+				<div class="toolbar">
+					<a href="#" class="btn btn-default" title="view picture"><i class="ico-search"></i></a>
+					<a href="#" class="btn btn-default"><i class="ico-close2"></i></a>
+				</div>
+			</div>
+			<!--/ toolbar overlay -->
+			<img data-toggle="unveil" src="[photo_src]" data-src="[photo_src]" width="100%" />
+		</div>
+		<!--/ media -->
+	</div>
+	<!--/ thumbnail -->
+</div>
+<?php 
+	$block_photo_html = ob_get_clean();
+	$block_photo_html = addslashes( preg_replace( "/[\r\n]+/",' ',( preg_replace( '/\s\s+/', ' ', $block_photo_html ) ) ) );
+?>
+
+<script type="text/javascript">
+(function ($) {
+	$.DLN_TemplatePhoto = '<?php echo $block_photo_html ?>';
+})(jQuery);
+</script>

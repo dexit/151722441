@@ -4,7 +4,6 @@
 	var settingModal = function () {
 		$(window).on('resize', function (e) {
 			var height = $( window ).height();
-			console.log( height * 0.7 );
 			
 			$('.dln-modal-resize').each(function () {
 				var height_header = $(this).find('.modal-header').outerHeight();
@@ -25,8 +24,7 @@
 		$('#dln_select_image').on('click', function (e) {
 			e.preventDefault();
 
-			var indicator = '<div class="indicator show"><span class="spinner spinner3"></span></div>';
-			$('#dln_modal_select_photo .modal-body').html(indicator);
+			$('#dln_modal_select_photo .modal-body').html(dln_abe_params.indicator);
 			
 			var block = 'modal-select-photo';
 			$.ajax({
@@ -39,7 +37,7 @@
 				},
 				success: function ( data ) {
 					data = ( data ) ? JSON.parse( data ) : data;
-					if ( data.code == 'success' ) {
+					if ( data.status == 'success' ) {
 						$('#dln_modal_select_photo .modal-body').html( data.content );
 					} else {
 						console.log( data );

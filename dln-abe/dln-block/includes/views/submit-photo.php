@@ -13,7 +13,6 @@
 				</div>
 			</div>
 			<!--/ toolbar overlay -->
-			<img data-toggle="unveil" src="../image/background/400x250/background1.jpg" data-src="../image/background/400x250/background1.jpg" alt="Cover" width="100%">
 		</div>
 		<!--/ media -->
 		<!-- caption -->

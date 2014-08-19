@@ -23,10 +23,12 @@ class DLN_Block_Ajax {
 		add_action( 'wp_ajax_dln_fetch_images_from_url',        array( $this, 'dln_fetch_images_from_url' ) );
 		add_action( 'wp_ajax_nopriv_dln_fetch_images_from_url', array( $this, 'dln_fetch_images_from_url' ) );
 		
-		add_action( 'wp_ajax_dln_load_block_modal',              array( $this, 'dln_load_block_modal' ) );
-		add_action( 'wp_ajax_nopriv_dln_load_block_modal',       array( $this, 'dln_load_block_modal' ) );
-		add_action( 'wp_ajax_dln_listing_image_facebook',        array( $this, 'dln_listing_image_facebook' ) );
-		add_action( 'wp_ajax_nopriv_dln_listing_image_facebook', array( $this, 'dln_listing_image_facebook' ) );
+		add_action( 'wp_ajax_dln_load_block_modal',               array( $this, 'dln_load_block_modal' ) );
+		add_action( 'wp_ajax_nopriv_dln_load_block_modal',        array( $this, 'dln_load_block_modal' ) );
+		add_action( 'wp_ajax_dln_listing_image_facebook',         array( $this, 'dln_listing_image_facebook' ) );
+		add_action( 'wp_ajax_nopriv_dln_listing_image_facebook',  array( $this, 'dln_listing_image_facebook' ) );
+		add_action( 'wp_ajax_dln_listing_image_instagram',        array( $this, 'dln_listing_image_instagram' ) );
+		add_action( 'wp_ajax_nopriv_dln_listing_image_instagram', array( $this, 'dln_listing_image_instagram' ) );
 	}
 	
 	public function dln_load_block_modal() {
@@ -37,7 +39,7 @@ class DLN_Block_Ajax {
 			
 			$modal_content = DLN_Blocks::get_block( sanitize_title( $block ) );
 			
-			$arr_result = array( 'code' => 'success', 'content' => $modal_content );
+			$arr_result = array( 'status' => 'success', 'content' => $modal_content );
 			echo json_encode( $arr_result );
 			die();
 		}
@@ -108,8 +110,8 @@ class DLN_Block_Ajax {
 	
 	public function dln_listing_image_instagram() {
 		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
-			$action = isset( $_POST['action'] ) ? $_POST['action'] : '';
-			$max_id = isset( $_POST['max_id'] ) ? $_POST['max_id'] : '';
+			$action_type = isset( $_POST['action_type'] ) ? $_POST['action_type'] : '';
+			$max_id      = isset( $_POST['max_id'] ) ? $_POST['max_id'] : '';
 			
 			$user_id = get_current_user_id();
 			if ( $user_id ) {
@@ -117,7 +119,7 @@ class DLN_Block_Ajax {
 				$insta_uid          = get_user_meta( $user_id, 'dln_instagram_user_id', true );
 			
 				if ( $insta_uid && $insta_access_token ) {
-					switch( $action ) {
+					switch( $action_type ) {
 						case 'next':
 							$url = 'https://api.instagram.com/v1/users/' . $insta_uid . '/feed?count=20&max_id=' . $max_id . 'access_token=' . $insta_access_token;
 							break;
@@ -133,8 +135,8 @@ class DLN_Block_Ajax {
 					$images = array();
 					if ( ! empty( $obj->data ) && is_array( $obj->data ) ) {
 						foreach ( $obj->data as $i => $image ) {
-							if ( ! empty( $image->id ) && ! empty( $image->images->thumbnail ) ) {
-								$images[] = array( 'id' => $image->id, 'picture' => $image->images->thumbnail );
+							if ( ! empty( $image->id ) && ! empty( $image->images->standard_resolution ) ) {
+								$images[] = array( 'id' => $image->id, 'picture' => $image->images->standard_resolution );
 							}
 						}
 					}
@@ -144,41 +146,47 @@ class DLN_Block_Ajax {
 						$max_id = $obj->pagination->next_max_id;
 					}
 					
-					$arr_result = array( 'status' => 'success', 'images' => json_encode( $images ), 'max_id' => $max_id );
+					$arr_result = array( 'status' => 'success', 'images' => $images, 'max_id' => $max_id );
+					
+					echo json_encode( $arr_result );
+					exit();
 				}
 			}
 		}
+		exit('0');
 	}
 	
 	public function dln_listing_image_facebook() {
 		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
-			$action    = isset( $_POST['action'] ) ? $_POST['action'] : '';
-			$page_code = isset( $_POST['page_code'] ) ? $_POST['page_code'] : '';
+			$action_type = isset( $_POST['action_type'] ) ? $_POST['action_type'] : '';
+			$page_code   = isset( $_POST['page_code'] ) ? $_POST['page_code'] : '';
 			
 			$user_id = get_current_user_id();
 			if ( $user_id ) {
-				$fb_access_token = get_user_meta( $user_id, 'dln_facebook_accesss_token', true );
-				$fb_uid          = get_user_meta( $user_id, 'dln_facebook_user_id', true );
-				
-				if ( $fb_uid && $fb_access_token ) {
+				$fb_access_token = get_user_meta( $user_id, 'dln_facebook_access_token', true );
+				$fb_user_id      = get_user_meta( $user_id, 'dln_facebook_user_id', true );
+				if ( $fb_user_id && $fb_access_token ) {
 					switch( $action ) {
 						case 'next':
 							$url = 'https://graph.facebook.com/v2.0/' . $fb_user_id . '/photos/uploaded?limit=20&after=' . $page_code . '&access_token=' . $fb_access_token;
-							break;
+						break;
+						
 						case 'previous':
 							$url = 'https://graph.facebook.com/v2.0/' . $fb_user_id . '/photos/uploaded?limit=20&before=' . $page_code . '&access_token=' . $fb_access_token;
-							break;
+						break;
+						
 						default:
 							$url = 'https://graph.facebook.com/v2.0/' . $fb_user_id . '/photos/uploaded?limit=20&access_token=' . $fb_access_token;
-							break;
+						break;
 					}
 					$obj    = @file_get_contents( $url );
 					$obj    = ( ! empty( $obj ) ) ? json_decode( $obj ) : '';
 					$images = array();
+					
 					if ( ! empty( $obj->data ) && is_array( $obj->data ) ) {
 						foreach ( $obj->data as $i => $image ) {
-							if ( ! empty( $image->id ) && ! empty( $image->picture ) ) {
-								$images[] = array( 'id' => $image->id, 'picture' => $image->picture );
+							if ( ! empty( $image->id ) && ! empty( $image->source ) ) {
+								$images[] = array( 'id' => $image->id, 'picture' => $image->source );
 							}
 						}
 					}
@@ -195,7 +203,10 @@ class DLN_Block_Ajax {
 						$before = $obj->paging->cursors->before;
 					}
 					
-					$arr_result = array( 'status' => 'success', 'images' => json_encode( $images ), 'after' => $after, 'before' => $before );
+					$arr_result = array( 'status' => 'success', 'images' => $images, 'after' => $after, 'before' => $before );
+					
+					echo json_encode( $arr_result );
+					exit();
 				}
 			}
 		}
@@ -206,12 +217,42 @@ class DLN_Block_Ajax {
 		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
 			$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
 			
-			if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false ) {
+			if ( ! empty( $url ) && filter_var( $url, FILTER_VALIDATE_URL ) !== false ) {
 				$fetch_helper = DLN_Helper_Fetch::get_instance();
 				$image_urls   = $fetch_helper->fetch_images_from_url( $url );
 			}
 			$image_urls = ( ! empty( $image_urls ) ) ? json_encode( $image_urls ) : '';
 			exit( $image_urls );
+		}
+		exit();
+	}
+	
+	public function dln_save_items() {
+		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
+			$pic_url = isset( $_POST['pic_url'] ) ? $_POST['pic_url'] : '';
+			$message = isset( $_POST['message'] ) ? $_POST['message'] : '';
+			$perm    = isset( $_POST['perm'] ) ? $_POST['perm'] : 'public';
+			$pic_url = ( ! empty( $pic_url ) && filter_var( $pic_url, FILTER_VALIDATE_URL ) !== false ) ? $pic_url : '';
+			$user_id = get_current_user_id();
+			
+			
+			if ( ! empty( $message ) && ! empty( $user_id ) ) {
+				
+				$data = array_merge( $pic_url, $message, $perm, $user_id );
+				if ( ! DLN_Block_Cache::add_cache( $data ) ) {
+					exit( '0' );
+					return null;
+				}
+				
+				$args = array(
+					'post_status'  => 'publish',
+					'post_type'    => 'dln_status',
+					'post_author'  => $user_id,
+					'post_content' => esc_html( $message )
+				);
+				$post_id = wp_insert_post( $args );
+				
+			}
 		}
 		exit();
 	}
