@@ -18,6 +18,7 @@ class DLN_Blocks {
 	function __construct() {
 		add_action( 'init', array( $this, 'load_posted_form' ) );
 		add_shortcode( 'dln_submit_photo', array( $this, 'shortcode_dln_submit_photo' ) );
+		add_shortcode( 'dln_listing_photo', array( $this, 'shortcode_dln_listing_photo' ) );
 	}
 	
 	public function load_posted_form() {
@@ -28,7 +29,13 @@ class DLN_Blocks {
 	}
 	
 	public function shortcode_dln_submit_photo() {
+		include( 'helpers/helper-photo.php' );
 		return self::get_block( 'submit-photo' );
+	}
+	
+	public function shortcode_dln_listing_photo() {
+		include( 'helpers/helper-photo.php' );
+		return self::get_block( 'listing-photo' );
 	}
 	
 	public static function get_block( $form_name ) {
@@ -112,7 +119,9 @@ class DLN_Blocks {
 		//wp_enqueue_style( 'dln-font-awesome-css' );
 		//wp_enqueue_script( 'dln-summernote-js' );
 		//wp_enqueue_script( 'dln-form-wysiwyg-js' );
-	
+		
+		wp_enqueue_style( 'dln-block-photo-css' );
+		wp_enqueue_script( 'dln-jquery-unveil-js' );
 		wp_enqueue_script( 'dln-helper-social-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/helpers/social-helper.js', array( 'jquery' ), '1.0.0', true );
 		wp_localize_script(
 			'dln-helper-social-js',

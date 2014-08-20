@@ -1,4 +1,5 @@
 <?php
+
 wp_enqueue_script( 'dln-modal-select-photo-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/modals/select-photo.js', null, '1.0.0', true );
 wp_enqueue_style( 'dln-modal-select-photo-css', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/modals/select-photo.css', null, '1.0.0' );
 
@@ -31,8 +32,6 @@ if ( ! empty( $user_id ) ) {
 	if ( $insta_access_token ) {
 		
 	}
-	
-	//var_dump( json_decode( @file_get_contents( 'https://api.instagram.com/v1/users/3/media/recent/?client_id=d3457498fa2e4097aa3610ec81e95ab8&max_id=564566764063559682_3' ) ) );die();
 }
 ?>
 <div class="page-header page-header-block">
@@ -68,37 +67,12 @@ if ( ! empty( $user_id ) ) {
 
 <button class="btn btn-default dln-connect-insta"href="#"><?php _e( 'Connect to Instagram', DLN_ABE ) ?></button>
 
-<?php ob_start() ?>
-<div class="col-md-3 col-xs-6 dln-photo-items">
-	<!-- thumbnail -->
-	<div class="thumbnail nm">
-		<!-- media -->
-		<div class="media" data-id="[photo_id]" data-type="[photo_type]">
-			<!-- indicator -->
-			<div class="indicator">
-				<span class="spinner"></span>
-			</div>
-			<!--/ indicator -->
-			<!-- toolbar overlay -->
-			<div class="overlay">
-				<div class="toolbar">
-					<a href="#" class="btn btn-default dln-select-photo"><i class="ico-close2"></i></a>
-				</div>
-			</div>
-			<!--/ toolbar overlay -->
-			<img data-toggle="unveil" src="[photo_src]" data-src="[photo_src]" width="100%" />
-		</div>
-		<!--/ media -->
-	</div>
-	<!--/ thumbnail -->
-</div>
-<?php 
-	$block_photo_html = ob_get_clean();
-	$block_photo_html = addslashes( preg_replace( "/[\r\n]+/",' ',( preg_replace( '/\s\s+/', ' ', $block_photo_html ) ) ) );
+<?php
+	$block_photo_html = DLN_Helper_Photo::renderPhotoSource();
 ?>
 
 <script type="text/javascript">
 (function ($) {
-	$.DLN_TemplatePhoto = '<?php echo $block_photo_html ?>';
+	$.DLN_TemplatePhotoSource = '<?php echo $block_photo_html ?>';
 })(jQuery);
 </script>

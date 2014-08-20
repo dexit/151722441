@@ -18,6 +18,15 @@
 		$(window).trigger('resize');
 	};
 	
+	var addUnveilLib = function () {
+		// Add unveil lib
+		$("[data-toggle~=unveil]").unveil(0, function() {
+            $(this).load(function() {
+                $(this).addClass("unveiled");
+            })
+        })
+	};
+	
 	$(document).ready(function () {
 		settingModal();
 		// Add select image action
@@ -49,6 +58,34 @@
 			});
 			
 			$('#dln_modal_select_photo').modal('show');
+		});
+		
+		// Add select photo button action
+		$('#dln_modal_select_photo .dln-select').on('click', function(e) {
+			e.preventDefault();
+			
+			if ( $('.dln-photo-items.active').length ) {
+				var active_elm = $('.dln-photo-items.active').first();
+				var img_url    = $(active_elm).find('img').data('src');
+				
+				if ( img_url ) {
+					var elm_container = $('#dln_add_status .media');
+					$(elm_container).find('img').remove();
+					
+					// Create new img tag
+					var img_tag = $('<img />', {
+						'src'         : img_url,
+						'data-src'    : img_url,
+						'data-toggle' : 'unveil'
+					});
+					
+					$(elm_container).append( img_tag );
+					$(elm_container).find('.overlay').removeClass('show');
+					addUnveilLib();
+					// Show modal last active
+					$('.modal.in').last().modal('hide');
+				}
+			}
 		});
 	});
 }(jQuery));

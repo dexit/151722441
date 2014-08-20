@@ -29,6 +29,10 @@ class DLN_Block_Ajax {
 		add_action( 'wp_ajax_nopriv_dln_listing_image_facebook',  array( $this, 'dln_listing_image_facebook' ) );
 		add_action( 'wp_ajax_dln_listing_image_instagram',        array( $this, 'dln_listing_image_instagram' ) );
 		add_action( 'wp_ajax_nopriv_dln_listing_image_instagram', array( $this, 'dln_listing_image_instagram' ) );
+		add_action( 'wp_ajax_dln_dln_save_items',                 array( $this, 'dln_save_items' ) );
+		add_action( 'wp_ajax_nopriv_dln_save_items',              array( $this, 'dln_save_items' ) );
+		add_action( 'wp_ajax_dln_dln_save_topic',                 array( $this, 'dln_save_topic' ) );
+		add_action( 'wp_ajax_nopriv_dln_save_topic',              array( $this, 'dln_save_topic' ) );
 	}
 	
 	public function dln_load_block_modal() {
@@ -44,68 +48,6 @@ class DLN_Block_Ajax {
 			die();
 		}
 		exit('0');
-	}
-	
-	public function dln_save_product_data() {
-		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
-			$data             = isset( $_POST['data'] ) ? $_POST['data'] : '';
-			
-			if ( ! DLN_Block_Cache::add_cache( $data ) ) {
-				exit( '0' );
-				return null;
-			}
-			
-			$image_ids        = isset( $data['dln_image_id'] ) ? $data['dln_image_id'] : '';
-			$product_title    = isset( $data['dln_product_title'] ) ? $data['dln_product_title'] : '';
-			$product_category = isset( $data['dln_product_category'] ) ? $data['dln_product_category'] : '';
-			$product_price    = isset( $data['dln_product_price'] ) ? $data['dln_product_price'] : '';
-			$product_desc     = isset( $data['dln_product_desc'] ) ? $data['dln_product_desc'] : '';
-			$product_fields   = isset( $data['dln_product_fields'] ) ? $data['dln_product_fields'] : '';
-			$product_fields   = self::validate_product_fields( $product_fields );
-			
-			if ( ! empty( $image_ids ) && ! empty( $product_title ) && ! empty( $product_category ) &&
-				 ! empty( $product_price ) ) {
-				
-			 	$user_id     = get_current_user_id();
-			 	if ( ! $user_id ) {
-			 		exit( '0' );
-			 		return null;
-			 	}
-			 	
-			 	$post = array(
-		 			'post_author'  => $user_id,
-		 			'post_content' => $product_desc,
-		 			'post_status'  => 'pending',
-		 			'post_title'   => $product_title,
-		 			'post_parent'  => '',
-		 			'post_type'    => 'product',
-			 	);
-			 	//Create post
-			 	$post_id = wp_insert_post( $post );
-			 	if ( $post_id ) {
-			 		$attach_id = get_post_meta( $product->parent_id, '_thumbnail_id', true );
-			 		add_post_meta( $post_id, '_thumbnail_id', $attach_id );
-			 		wp_set_object_terms( $post_id, $product_category, 'product_cat' );
-			 		$product_price = ( ! empty( $product_price ) ) ? (int) $product_price : 0;
-			 		$product_price .= '000';
-			 		update_post_meta( $post_id, '_price', $product_price );
-			 			
-			 		if ( ! empty( $product_fields ) && is_array( $product_fields ) ) {
-			 			foreach ( $product_fields as $i => $field ) {
-			 				if ( ! empty( $field['key'] ) && ! empty( $field['value'] ) ) {
-								$key = sanitize_key( $field['key'] );
-								$key = str_replace( '-', '_', $key );
-								update_post_meta( $post_id, 'dln_post_meta_' . $key . '_key', $field['key'] );
-								update_post_meta( $post_id, 'dln_post_meta_' . $key . '_value', $field['value'] );
-			 				}
-			 			}
-			 		}
-			 	}
-			 	echo $post_id;
-			 	exit( '1' );
-			}
-		}
-		exit( '1' );
 	}
 	
 	public function dln_listing_image_instagram() {
@@ -168,15 +110,15 @@ class DLN_Block_Ajax {
 				if ( $fb_user_id && $fb_access_token ) {
 					switch( $action_type ) {
 						case 'after':
-							$url = 'https://graph.facebook.com/v2.0/' . $fb_user_id . '/photos/uploaded?limit=20&after=' . $page_code . '&access_token=' . $fb_access_token;
+							$url = 'https://graph.facebook.com/v2.1/' . $fb_user_id . '/photos/uploaded?limit=20&after=' . $page_code . '&access_token=' . $fb_access_token;
 						break;
 						
 						case 'before':
-							$url = 'https://graph.facebook.com/v2.0/' . $fb_user_id . '/photos/uploaded?limit=20&before=' . $page_code . '&access_token=' . $fb_access_token;
+							$url = 'https://graph.facebook.com/v2.1/' . $fb_user_id . '/photos/uploaded?limit=20&before=' . $page_code . '&access_token=' . $fb_access_token;
 						break;
 						
 						default:
-							$url = 'https://graph.facebook.com/v2.0/' . $fb_user_id . '/photos/uploaded?limit=20&access_token=' . $fb_access_token;
+							$url = 'https://graph.facebook.com/v2.1/' . $fb_user_id . '/photos/uploaded?limit=20&access_token=' . $fb_access_token;
 						break;
 					}
 					$obj    = @file_get_contents( $url );
@@ -232,16 +174,53 @@ class DLN_Block_Ajax {
 			$pic_url = isset( $_POST['pic_url'] ) ? $_POST['pic_url'] : '';
 			$message = isset( $_POST['message'] ) ? $_POST['message'] : '';
 			$perm    = isset( $_POST['perm'] ) ? $_POST['perm'] : 'public';
-			$pic_url = ( ! empty( $pic_url ) && filter_var( $pic_url, FILTER_VALIDATE_URL ) !== false ) ? $pic_url : '';
+			$post_fb = isset( $_POST['post_fb'] ) ? $_POST['post_fb'] : '';
 			$user_id = get_current_user_id();
 			
+			// Validate picture
+			$pic_url = self::validate_url_image( $pic_url );
+			
+			// Validate permission
+			$perm = self::validate_perm( $perm );
 			
 			if ( ! empty( $message ) && ! empty( $user_id ) ) {
+				$data = array(
+					'pic_url' => $pic_url,
+					'message' => esc_html( $message ),
+					'perm'    => $perm,
+					'user_id' => $user_id,
+				);
 				
-				$data = array_merge( $pic_url, $message, $perm, $user_id );
 				if ( ! DLN_Block_Cache::add_cache( $data ) ) {
-					exit( '0' );
+					exit('0');
 					return null;
+				}
+				
+				// Post to facebook wall
+				$fb_link = '';
+				if ( $post_fb ) {
+					$fb_access_token = get_user_meta( $user_id, 'dln_facebook_access_token', true );
+					$fb_user_id      = get_user_meta( $user_id, 'dln_facebook_user_id', true );
+					
+					if ( $fb_access_token && $fb_user_id ) {
+						$data = array(
+							'url'     => $pic_url,
+							'message' => $content,
+						);	
+						$url = 'https://graph.facebook.com/v2.1/' . $fb_user_id . '/photos?access_token=' . $fb_access_token;
+						$options = array(
+							'http' => array(
+								'header'  => "Content-type: application/x-www-form-urlencoded\r\n",
+								'method'  => 'POST',
+								'content' => http_build_query( $data ),
+							)
+						);
+						$context = stream_context_create( $options );
+						$fb_obj  = @file_get_contents( $url, false, $context );
+						if ( $fb_obj && ! empty( $fb_obj->link ) ) {
+							$fb_link = $fb_obj->link;
+						}
+					}
 				}
 				
 				$args = array(
@@ -252,25 +231,101 @@ class DLN_Block_Ajax {
 				);
 				$post_id = wp_insert_post( $args );
 				
+				if ( $post_id ) {
+					update_post_meta( $post_id, 'dln_pic_url', $pic_url );
+					update_post_meta( $post_id, 'dln_perm', $perm );
+					
+					if ( $fb_uid ) {
+						update_post_meta( $post_id, 'dln_fb_link', $fb_link );
+					}
+				}
+				
+				$args = array_merge( array( 'post_id' => $post_id ), $data );
+				exit( json_encode( $args ) );
 			}
 		}
-		exit();
+		exit('0');
 	}
 	
-	private function validate_product_fields( $product_fields ) {
-		if ( empty( $product_fields ) )
+	public function dln_save_topic() {
+		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
+			$pic_url  = isset( $_POST['pic_url'] ) ? $_POST['pic_url'] : '';
+			$message  = isset( $_POST['message'] ) ? $_POST['message'] : '';
+			$forum_id = isset( $_POST['forum_id'] ) ? (int) $_POST['forum_id'] : 0;
+			$user_id  = get_current_user_id();
+			
+			// Validate picture
+			$pic_url = self::validate_url_image( $pic_url );
+			
+			if ( ! empty( $message ) && ! empty( $user_id ) ) {
+				$message = esc_html( $message );
+				$data    = array(
+					'pic_url'  => $pic_url,
+					'message'  => $message,
+					'user_id'  => $user_id,
+					'forum_id' => $forum_id, 
+				);
+				
+				if ( ! DLN_Block_Cache::add_cache( $data ) ) {
+					exit('0');
+					return null;
+				}
+				
+				$title      = wp_trim_words( $message, 20, '...' );
+				$topic_data = array(
+					'post_title'   => $title,
+					'post_content' => $message,
+					'post_author'  => $user_id,
+					'post_status'  => 'pending',
+				);
+				$topic_meta = array(
+					'forum_id' => $forum_id,
+				);
+				$topic_id = bbp_insert_topic( $topic_data, $topic_meta );
+				
+				$args = array_merge( array( 'topic_id' => $topic_id ), $data );
+				exit( json_encode( $args ) );
+			}
+		}
+		exit('0');
+	}
+	
+	private static function validate_perm( $perm = 'publish' ) {
+		if ( ! $perm )
 			return null;
 		
-		$arr_fields = array();
-		if ( is_array( $product_fields ) ) {
-			foreach ( $product_fields as $i => $field ) {
-				if ( isset( $field['key'] ) && isset( $field['value'] ) ) {
-					$arr_fields[] = array( 'key' => $field['key'], 'value' => $field['value'] );
+		if ( ! in_array( $perm, array( 'public', 'private' ) ) ) {
+			$perm = 'public';
+		}
+		
+		return $perm;
+	}
+	
+	private static function validate_url_image( $url = '' ) {
+		if ( ! $url )
+			return null;
+		
+		$url = ( ! empty( $url ) && filter_var( $url, FILTER_VALIDATE_URL ) !== false ) ? $url : '';
+			
+		if ( ! empty( $url ) ) {
+			$url_headers = get_headers( $url, 1 );
+		
+			if( isset( $url_headers['Content-Type'] ) ){
+				$type = strtolower( $url_headers['Content-Type'] );
+		
+				$valid_image_type = array();
+				$valid_image_type['image/png']  = '';
+				$valid_image_type['image/jpg']  = '';
+				$valid_image_type['image/jpeg'] = '';
+				$valid_image_type['image/gif']  = '';
+		
+				if( ! isset( $valid_image_type[ $type ] ) ){
+					$url = null;
 				}
 			}
 		}
 		
-		return $arr_fields;
+		return $url;
 	}
 	
 }

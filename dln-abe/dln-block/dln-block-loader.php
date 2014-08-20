@@ -54,8 +54,6 @@ class DLN_Block_Loader {
 		wp_register_script( 'dln-parsley-js',             DLN_ABE_PLUGIN_URL . '/assets/3rd-party/parsley/js/parsley.min.js', array( 'jquery' ), '1.0.0', true );
 		wp_register_script( 'dln-steps-js',               DLN_ABE_PLUGIN_URL . '/assets/3rd-party/steps/js/jquery.steps.min.js', array( 'jquery' ), '1.0.0', true );
 		
-		wp_register_script( 'dln-form-submit-fashion-js', DLN_ABE_PLUGIN_URL . '/assets/dln-clf/js/dln-form-submit-fashion.js', array( 'jquery' ), '1.0.0', true );
-		
 		wp_register_style( 'dln-bootstrap-css',         DLN_ABE_PLUGIN_URL . '/assets/3rd-party/bootstrap3/css/bootstrap.min.css', null, '3.1.1' );
 		wp_register_style( 'dln-selectize-css',         DLN_ABE_PLUGIN_URL . '/assets/3rd-party/selectize/css/selectize.min.css', null, '1.0.0' );
 		wp_register_style( 'dln-dropzone-css',          DLN_ABE_PLUGIN_URL . '/assets/3rd-party/dropzone/css/dropzone.css', null, '1.0.0' );
@@ -63,12 +61,15 @@ class DLN_Block_Loader {
 		wp_register_style( 'dln-steps-css',             DLN_ABE_PLUGIN_URL . '/assets/3rd-party/steps/css/jquery-steps.min.css', null, '1.0.0' );
 		wp_register_style( 'dln-summernote-css',        DLN_ABE_PLUGIN_URL . '/assets/3rd-party/summernote/css/summernote.min.css', null, '1.0.0' );
 		wp_register_style( 'dln-font-awesome-css',      DLN_ABE_PLUGIN_URL . '/assets/3rd-party/font-awesome/css/font-awesome.min.css', null, '4.1.0' );
-		wp_register_style( 'dln-form-site-css',         DLN_ABE_PLUGIN_URL . '/assets/dln-clf/css/dln-form-site.css', null, '1.0.0' );
-		wp_register_style( 'dln-ui-element-css',        DLN_ABE_PLUGIN_URL . '/assets/dln-clf/css/uielement.css', null, '1.0.0' );
-		wp_register_style( 'dln-ui-layout-css',         DLN_ABE_PLUGIN_URL . '/assets/dln-clf/css/layout.css', null, '1.0.0' );
+		wp_register_style( 'dln-form-site-css',         DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/dln-form-site.css', null, '1.0.0' );
+		wp_register_style( 'dln-ui-element-css',        DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/uielement.min.css', null, '1.0.0' );
+		wp_register_style( 'dln-ui-layout-css',         DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/layout.css', null, '1.0.0' );
 		
 		wp_register_script( 'dln-summernote-js',             DLN_ABE_PLUGIN_URL . '/assets/3rd-party/summernote/js/summernote.min.js', array( 'jquery' ), '1.0.0', true );
-		wp_register_script( 'dln-form-wysiwyg-js',           DLN_ABE_PLUGIN_URL . '/assets/dln-clf/js/forms/wysiwyg.js', array( 'jquery' ), '1.0.0', true );
+		wp_register_script( 'dln-form-wysiwyg-js',           DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/forms/wysiwyg.js', array( 'jquery' ), '1.0.0', true );
+		
+		wp_register_script( 'dln-jquery-unveil-js', DLN_ABE_PLUGIN_URL . '/assets/3rd-party/jquery-unveil/jquery.unveil.js', array( 'jquery' ), '1.0.0', true );
+		wp_register_style( 'dln-block-photo-css',   DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/block-photo.css', null, '1.0.0' );
 	}
 	
 }

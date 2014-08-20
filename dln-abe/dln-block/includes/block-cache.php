@@ -6,7 +6,7 @@ class DLN_Block_Cache {
 	
 	public static $instance;
 	public static $cache_products;
-	public static $cache_length = 2000;
+	public static $cache_length = 1000;
 	
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
