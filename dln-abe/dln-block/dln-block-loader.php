@@ -16,6 +16,7 @@ class DLN_Block_Loader {
 	}
 	
 	function __construct() {
+		include( 'includes/helpers/helper-photo.php' );
 		include( 'includes/block-cache.php' );
 		include( 'includes/block-ajax.php' );
 		include( 'includes/blocks.php' );

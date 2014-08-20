@@ -63,13 +63,13 @@ class DLN_Block_Ajax {
 				if ( $insta_uid && $insta_access_token ) {
 					switch( $action_type ) {
 						case 'after':
-							$url = 'https://api.instagram.com/v1/users/' . 3 . '/media/recent/?count=20&max_id=' . $max_id . '&access_token=' . $insta_access_token;
+							$url = 'https://api.instagram.com/v1/users/' . $insta_uid . '/media/recent/?count=20&max_id=' . $max_id . '&access_token=' . $insta_access_token;
 						break;
 						case 'before':
-							$url = 'https://api.instagram.com/v1/users/' . 3 . '/media/recent/?count=20&min_id=' . $max_id . '&access_token=' . $insta_access_token;
+							$url = 'https://api.instagram.com/v1/users/' . $insta_uid . '/media/recent/?count=20&min_id=' . $max_id . '&access_token=' . $insta_access_token;
 						break;
 						default:
-							$url = 'https://api.instagram.com/v1/users/' . 3 . '/media/recent/?count=20&access_token=' . $insta_access_token;
+							$url = 'https://api.instagram.com/v1/users/' . $insta_uid . '/media/recent/?count=20&access_token=' . $insta_access_token;
 						break;
 					}
 					$obj    = @file_get_contents( $url );

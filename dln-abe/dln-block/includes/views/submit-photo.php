@@ -2,13 +2,8 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-$photo_submit_tmpl = DLN_Helper_Photo::renderPhotoSubmit();
+$photo_submit_tmpl = DLN_Helper_Photo::render_photo_submit();
 ?>
-<div class="row">
-	<div class="col-md-6">
-		<?php echo balanceTag( $photo_submit_tmpl )?>
-	</div>
-</div>
 
 <div id="dln_modal_select_photo" class="modal fade dln-modal-resize">
 	<div class="modal-dialog modal-lg">
@@ -29,8 +24,81 @@ $photo_submit_tmpl = DLN_Helper_Photo::renderPhotoSubmit();
 	<!-- /.modal-dialog -->
 </div>
 
-<script type="text/javascript">
-(function ($) {
-	$.DLN_TemplateSubmitPhoto = '<?php echo $photo_submit_tmpl?>';
-})(jQuery);
-</script>
+<div class="panel panel-default overflow-hidden">
+	<div class="panel-heading">
+		<h5 class="panel-title">Basic example</h5>
+	</div>
+
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-6">
+				<legend><?php _e( 'Item Settings', DLN_ABE ) ?></legend>
+				
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-12">
+							<div id="dln_add_status"
+								class="thumbnail thumbnail-album dln-items">
+								<!-- media -->
+								<div class="media">
+									<!--/ indicator -->
+									<!-- toolbar overlay -->
+									<div class="overlay show">
+										<div class="toolbar dln-toolbar">
+											<a id="dln_select_image" href="javascript:void(0);"
+												class="btn btn-default" title="upload to collection"><i
+												class="ico-picture"></i> </a>
+										</div>
+									</div>
+									<!--/ toolbar overlay -->
+								</div>
+								<!--/ media -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<legend>Item Settings</legend>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-12">
+							<?php echo balanceTags( DLN_Block_Submit_Photo::get_field( 'basic', 'photobabe_desc' ) ) ?>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="btn-group" id="dln_post_perm">
+								<button type="button" class="btn btn-default"
+									data-group="publish">
+									<?php _e( 'Publish', DLN_ABE ) ?>
+								</button>
+								<button type="button" class="btn btn-default"
+									data-group="private">
+									<?php _e( 'Private', DLN_ABE ) ?>
+								</button>
+							</div>
+							<div class="btn-group">
+								<button type="button" class="btn btn-default">
+									<i class="ico-smile"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="panel-footer">
+		<div class="checkbox custom-checkbox pull-left">
+			<input type="checkbox" name="gift" id="giftcheckbox" value="1"
+				data-parsley-mincheck="1" required> <label for="giftcheckbox">&nbsp;&nbsp;Send
+				as a gift</label>
+		</div>
+		<button class="btn btn-primary pull-right" id="dln_submit_product" type="button"><?php _e( 'Create Product', DLN_ABE ) ?></button>
+	</div>
+</div>

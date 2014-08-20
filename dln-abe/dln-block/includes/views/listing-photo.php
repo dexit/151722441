@@ -1,5 +1,7 @@
 <?php
-	
+
+if ( ! defined( 'WPINC' ) ) { die; }
+
 ?>
 <div id="dln_add_status" class="thumbnail thumbnail-album animation animating delay fadeInLeft dln-items">
 	<!-- media -->

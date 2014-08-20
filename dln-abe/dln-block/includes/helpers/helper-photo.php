@@ -17,7 +17,7 @@ class DLN_Helper_Photo {
 	
 	function __construct() {  }
 	
-	public static function renderPhotoSource() {
+	public static function render_photo_source() {
 		ob_start();
 		?>
 <div class="col-md-3 col-xs-6 dln-photo-items">
@@ -45,12 +45,11 @@ class DLN_Helper_Photo {
 </div>
 		<?php
 		$block_photo_html = ob_get_clean();
-		$block_photo_html = addslashes( preg_replace( "/[\r\n]+/",' ',( preg_replace( '/\s\s+/', ' ', $block_photo_html ) ) ) );
 		
 		return $block_photo_html;
 	}
 	
-	public static function renderPhotoItem( $is_string = false ) {
+	public static function render_photo_item( $is_string = false ) {
 		ob_start();
 		?>
 <div class="thumbnail thumbnail-album animation animating delay fadeInLeft dln-items">
@@ -92,14 +91,10 @@ class DLN_Helper_Photo {
 		<?php
 		$block_html = ob_get_clean();
 		
-		if ( $is_string ) {
-			$block_html = addslashes( preg_replace( "/[\r\n]+/",' ',( preg_replace( '/\s\s+/', ' ', $block_html ) ) ) );
-		}
-		
 		return $block_html;
 	}
 	
-	public static function renderPhotoSubmit( $is_string = false ) {
+	public static function render_photo_submit() {
 		ob_start();
 		?>
 <div id="dln_add_status" class="thumbnail thumbnail-album animation animating delay fadeInLeft dln-items">
@@ -122,7 +117,7 @@ class DLN_Helper_Photo {
 	<!--/ caption -->
 	<div class="panel-footer">
 		<div class="btn-group" id="dln_post_perm">
-			<button type="button" class="btn btn-default" selected="selected" data-group="publish"><?php _e( 'Publish', DLN_ABE ) ?></button>
+			<button type="button" class="btn btn-default" data-group="publish"><?php _e( 'Publish', DLN_ABE ) ?></button>
 			<button type="button" class="btn btn-default" data-group="private"><?php _e( 'Private', DLN_ABE ) ?></button>
 		</div>
 		<div class="btn-group">
@@ -138,11 +133,11 @@ class DLN_Helper_Photo {
 		<?php
 		$block_html = ob_get_clean();
 		
-		if ( $is_string ) {
-			$block_html = addslashes( preg_replace( "/[\r\n]+/",' ',( preg_replace( '/\s\s+/', ' ', $block_html ) ) ) );
-		}
-		
 		return $block_html;
+	}
+	
+	public static function convert_literal_string( $block_html ) {
+		return addslashes( preg_replace( "/[\r\n]+/",' ',( preg_replace( '/\s\s+/', ' ', $block_html ) ) ) );
 	}
 	
 }
