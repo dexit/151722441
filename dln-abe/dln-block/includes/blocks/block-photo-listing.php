@@ -2,23 +2,23 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-class DLN_Block_Submit_Photo extends DLN_Block {
+include_once( DLN_ABE_PLUGIN_DIR . '/dln-block/includes/helpers/helper-photo.php' );
+
+class DLN_Block_Photo_Listing extends DLN_Block {
 	
 	public static $fields;
 	public static $action;
 	
-	public static function init() {
-		
-	}
+	public static function init() { }
 	
 	public static function render_html() {
 		self::init_fields();
 		
 		DLN_Blocks::block_load_frontend_assets();
-		DLN_Block_Submit_Photo::load_frontend_assets();
+		self::load_frontend_assets();
 		
 		DLN_Blocks::block_get_template(
-			'listing-photo.php',
+			'photo-listing.php',
 			array(
 				'fields'     => ''//self::$fields
 			)

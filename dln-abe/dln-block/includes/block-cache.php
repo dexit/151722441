@@ -2,6 +2,8 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
+if ( ! class_exists( 'DLN_Block_Cache' ) ) :
+
 class DLN_Block_Cache {
 	
 	public static $instance;
@@ -68,3 +70,5 @@ class DLN_Block_Cache {
 }
 
 DLN_Block_Cache::get_instance();
+
+endif;

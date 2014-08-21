@@ -2,7 +2,7 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-$photo_submit_tmpl = DLN_Helper_Photo::render_photo_submit();
+$photo_submit_tmpl = DLN_Helper_Photo_Tmpl::render_photo_submit();
 ?>
 
 <div id="dln_modal_select_photo" class="modal fade dln-modal-resize">
@@ -63,7 +63,7 @@ $photo_submit_tmpl = DLN_Helper_Photo::render_photo_submit();
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
-							<?php echo balanceTags( DLN_Block_Submit_Photo::get_field( 'basic', 'photobabe_desc' ) ) ?>
+							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'photobabe_desc' ) ) ?>
 						</div>
 					</div>
 				</div>
@@ -73,11 +73,11 @@ $photo_submit_tmpl = DLN_Helper_Photo::render_photo_submit();
 						<div class="col-sm-12">
 							<div class="btn-group" id="dln_post_perm">
 								<button type="button" class="btn btn-default"
-									data-group="publish">
+									data-value="publish">
 									<?php _e( 'Publish', DLN_ABE ) ?>
 								</button>
 								<button type="button" class="btn btn-default"
-									data-group="private">
+									data-value="private">
 									<?php _e( 'Private', DLN_ABE ) ?>
 								</button>
 							</div>
@@ -94,11 +94,6 @@ $photo_submit_tmpl = DLN_Helper_Photo::render_photo_submit();
 	</div>
 
 	<div class="panel-footer">
-		<div class="checkbox custom-checkbox pull-left">
-			<input type="checkbox" name="gift" id="giftcheckbox" value="1"
-				data-parsley-mincheck="1" required> <label for="giftcheckbox">&nbsp;&nbsp;Send
-				as a gift</label>
-		</div>
-		<button class="btn btn-primary pull-right" id="dln_submit_product" type="button"><?php _e( 'Create Product', DLN_ABE ) ?></button>
+		<button class="btn btn-primary pull-right" id="dln_submit_photo" type="button"><?php _e( 'Post', DLN_ABE ) ?></button>
 	</div>
 </div>

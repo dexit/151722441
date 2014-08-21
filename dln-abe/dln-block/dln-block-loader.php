@@ -16,10 +16,9 @@ class DLN_Block_Loader {
 	}
 	
 	function __construct() {
-		include( 'includes/helpers/helper-photo.php' );
-		include( 'includes/block-cache.php' );
-		include( 'includes/block-ajax.php' );
-		include( 'includes/blocks.php' );
+		include( DLN_ABE_PLUGIN_DIR . '/dln-block/includes/block-cache.php' );
+		include( DLN_ABE_PLUGIN_DIR . '/dln-block/includes/block-ajax.php' );
+		include( DLN_ABE_PLUGIN_DIR . '/dln-block/includes/blocks.php' );
 		
 		if ( is_admin() ) {
 			//include( 'admin/class-dln-form-admin.php' );

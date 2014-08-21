@@ -2,7 +2,9 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-class DLN_Block_Submit_Photo extends DLN_Block {
+include_once( DLN_ABE_PLUGIN_DIR . '/dln-block/includes/helpers/helper-photo-tmpl.php' );
+
+class DLN_Block_Photo_Submit extends DLN_Block {
 	
 	public static $fields;
 	public static $action;
@@ -106,10 +108,10 @@ class DLN_Block_Submit_Photo extends DLN_Block {
 		self::init_fields();
 		
 		DLN_Blocks::block_load_frontend_assets();
-		DLN_Block_Submit_Photo::load_frontend_assets();
+		DLN_Block_Photo_Submit::load_frontend_assets();
 		
 		DLN_Blocks::block_get_template(
-			'submit-photo.php',
+			'photo-submit.php',
 			array(
 				'fields'     => self::$fields
 			)
@@ -117,6 +119,6 @@ class DLN_Block_Submit_Photo extends DLN_Block {
 	}
 	
 	private static function load_frontend_assets() {
-		wp_enqueue_script( 'dln-block-submit-photo-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-submit-photo.js', array( 'jquery' ), '1.0.0', true );
+		wp_enqueue_script( 'dln-block-photo-submit-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-photo-submit.js', array( 'jquery' ), '1.0.0', true );
 	}
 }

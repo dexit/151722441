@@ -23,8 +23,8 @@ if ( ! defined( 'WPINC' ) ) { die; }
 	<!--/ caption -->
 	<div class="panel-footer">
 		<div class="btn-group" id="dln_post_perm">
-			<button type="button" class="btn btn-default" selected="selected" data-group="publish"><?php _e( 'Publish', DLN_ABE ) ?></button>
-			<button type="button" class="btn btn-default" data-group="private"><?php _e( 'Private', DLN_ABE ) ?></button>
+			<button type="button" class="btn btn-default" selected="selected" data-value="publish"><?php _e( 'Publish', DLN_ABE ) ?></button>
+			<button type="button" class="btn btn-default" data-value="private"><?php _e( 'Private', DLN_ABE ) ?></button>
 		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-default">

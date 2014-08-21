@@ -17,9 +17,9 @@ class DLN_Blocks {
 	
 	function __construct() {
 		add_action( 'init', array( $this, 'load_posted_form' ) );
-		add_shortcode( 'dln_submit_photo', array( $this, 'shortcode_dln_submit_photo' ) );
-		add_shortcode( 'dln_listing_photo', array( $this, 'shortcode_dln_listing_photo' ) );
-		add_shortcode( 'dln_edit_profile', array( $this, 'shortcode_dln_edit_profile' ) );
+		add_shortcode( 'dln_photo_submit', array( $this, 'shortcode_dln_photo_submit' ) );
+		add_shortcode( 'dln_photo_listing', array( $this, 'shortcode_dln_photo_listing' ) );
+		add_shortcode( 'dln_profile_edit', array( $this, 'shortcode_dln_profile_edit' ) );
 	}
 	
 	public function load_posted_form() {
@@ -29,16 +29,16 @@ class DLN_Blocks {
 		}
 	}
 	
-	public function shortcode_dln_submit_photo() {
-		return self::get_block( 'submit-photo' );
+	public function shortcode_dln_photo_submit() {
+		return self::get_block( 'photo-submit' );
 	}
 	
-	public function shortcode_dln_listing_photo() {
-		return self::get_block( 'listing-photo' );
+	public function shortcode_dln_photo_listing() {
+		return self::get_block( 'photo-listing' );
 	}
 	
-	public function shortcode_dln_edit_profile() {
-		return self::get_block( 'edit-profile' );
+	public function shortcode_dln_profile_edit() {
+		return self::get_block( 'profile-edit' );
 	}
 	
 	public static function get_block( $form_name ) {
@@ -51,7 +51,7 @@ class DLN_Blocks {
 	
 	public static function load_block_class( $form_name ) {
 		// Load the form abtract
-		if ( ! class_exists( 'DLN_Form' ) )
+		if ( ! class_exists( 'DLN_Block' ) )
 			include( 'abstracts/block.php' );
 		
 		// Now try to load the form_name
@@ -137,7 +137,10 @@ class DLN_Blocks {
 				'insta_url'    => INSTA_REDIRECT_URI,
 				'dln_ajax_url' => admin_url( 'admin-ajax.php' ),
 				'dln_nonce'    => wp_create_nonce( DLN_ABE_NONCE ),
-				'indicator'    => '<div class="indicator show"><span class="spinner spinner3"></span></div>'
+				'indicator'    => '<div class="indicator show"><span class="spinner spinner3"></span></div>',
+				'language'     => array(
+					'error_empty_message' => __( 'Please enter your message!', DLN_ABE )
+				),
 			)
 		);
 	}

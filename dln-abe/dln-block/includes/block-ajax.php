@@ -2,6 +2,8 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
+if ( ! class_exists( 'DLN_Block_Ajax' ) ) :
+
 class DLN_Block_Ajax {
 	
 	public static $instance;
@@ -29,8 +31,8 @@ class DLN_Block_Ajax {
 		add_action( 'wp_ajax_nopriv_dln_listing_image_facebook',  array( $this, 'dln_listing_image_facebook' ) );
 		add_action( 'wp_ajax_dln_listing_image_instagram',        array( $this, 'dln_listing_image_instagram' ) );
 		add_action( 'wp_ajax_nopriv_dln_listing_image_instagram', array( $this, 'dln_listing_image_instagram' ) );
-		add_action( 'wp_ajax_dln_dln_save_items',                 array( $this, 'dln_save_items' ) );
-		add_action( 'wp_ajax_nopriv_dln_save_items',              array( $this, 'dln_save_items' ) );
+		add_action( 'wp_ajax_dln_dln_save_photo',                 array( $this, 'dln_save_photo' ) );
+		add_action( 'wp_ajax_nopriv_dln_save_photo',              array( $this, 'dln_save_photo' ) );
 		add_action( 'wp_ajax_dln_dln_save_topic',                 array( $this, 'dln_save_topic' ) );
 		add_action( 'wp_ajax_nopriv_dln_save_topic',              array( $this, 'dln_save_topic' ) );
 	}
@@ -169,7 +171,7 @@ class DLN_Block_Ajax {
 		exit();
 	}
 	
-	public function dln_save_items() {
+	public function dln_save_photo() {
 		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
 			$pic_url = isset( $_POST['pic_url'] ) ? $_POST['pic_url'] : '';
 			$message = isset( $_POST['message'] ) ? $_POST['message'] : '';
@@ -225,7 +227,7 @@ class DLN_Block_Ajax {
 				
 				$args = array(
 					'post_status'  => 'publish',
-					'post_type'    => 'dln_status',
+					'post_type'    => 'dln_photo',
 					'post_author'  => $user_id,
 					'post_content' => esc_html( $message )
 				);
@@ -331,3 +333,5 @@ class DLN_Block_Ajax {
 }
 
 DLN_Block_Ajax::get_instance();
+
+endif;

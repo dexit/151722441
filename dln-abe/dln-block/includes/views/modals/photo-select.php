@@ -68,7 +68,7 @@ if ( ! empty( $user_id ) ) {
 <button class="btn btn-default dln-connect-insta"href="#"><?php _e( 'Connect to Instagram', DLN_ABE ) ?></button>
 
 <?php
-	$block_photo_html = DLN_Helper_Photo::convert_literal_string( DLN_Helper_Photo::render_photo_source() );
+	$block_photo_html = DLN_Helper_Photo_Tmpl::convert_literal_string( DLN_Helper_Photo::render_photo_source() );
 ?>
 
 <script type="text/javascript">

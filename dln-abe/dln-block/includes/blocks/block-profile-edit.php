@@ -2,7 +2,7 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-class DLN_Block_Edit_Profile extends DLN_Block {
+class DLN_Block_Profile_Edit extends DLN_Block {
 	
 	public static $fields;
 	public static $action;
@@ -16,7 +16,7 @@ class DLN_Block_Edit_Profile extends DLN_Block {
 		self::load_frontend_assets();
 		
 		DLN_Blocks::block_get_template(
-			'edit-profile.php',
+			'profile-edit.php',
 			array(
 				'fields'     => ''//self::$fields
 			)
@@ -24,6 +24,6 @@ class DLN_Block_Edit_Profile extends DLN_Block {
 	}
 	
 	private static function load_frontend_assets() {
-		//wp_enqueue_script( 'dln-block-listing-photo-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-listing-photo.js', array( 'jquery' ), '1.0.0', true );
+		//wp_enqueue_script( 'dln-block-photo-listing-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-photo-listing.js', array( 'jquery' ), '1.0.0', true );
 	}
 }
