@@ -31,9 +31,9 @@ class DLN_Block_Ajax {
 		add_action( 'wp_ajax_nopriv_dln_listing_image_facebook',  array( $this, 'dln_listing_image_facebook' ) );
 		add_action( 'wp_ajax_dln_listing_image_instagram',        array( $this, 'dln_listing_image_instagram' ) );
 		add_action( 'wp_ajax_nopriv_dln_listing_image_instagram', array( $this, 'dln_listing_image_instagram' ) );
-		add_action( 'wp_ajax_dln_dln_save_photo',                 array( $this, 'dln_save_photo' ) );
+		add_action( 'wp_ajax_dln_save_photo',                     array( $this, 'dln_save_photo' ) );
 		add_action( 'wp_ajax_nopriv_dln_save_photo',              array( $this, 'dln_save_photo' ) );
-		add_action( 'wp_ajax_dln_dln_save_topic',                 array( $this, 'dln_save_topic' ) );
+		add_action( 'wp_ajax_dln_save_topic',                     array( $this, 'dln_save_topic' ) );
 		add_action( 'wp_ajax_nopriv_dln_save_topic',              array( $this, 'dln_save_topic' ) );
 	}
 	
@@ -177,7 +177,10 @@ class DLN_Block_Ajax {
 			$message = isset( $_POST['message'] ) ? $_POST['message'] : '';
 			$perm    = isset( $_POST['perm'] ) ? $_POST['perm'] : 'public';
 			$post_fb = isset( $_POST['post_fb'] ) ? $_POST['post_fb'] : '';
+			
 			$user_id = get_current_user_id();
+			$message = esc_html( $message );
+			$title   = wp_trim_words( $message );
 			
 			// Validate picture
 			$pic_url = self::validate_url_image( $pic_url );
@@ -226,10 +229,11 @@ class DLN_Block_Ajax {
 				}
 				
 				$args = array(
+					'post_title'   => $title,
 					'post_status'  => 'publish',
 					'post_type'    => 'dln_photo',
 					'post_author'  => $user_id,
-					'post_content' => esc_html( $message )
+					'post_content' => $message
 				);
 				$post_id = wp_insert_post( $args );
 				
@@ -237,7 +241,7 @@ class DLN_Block_Ajax {
 					update_post_meta( $post_id, 'dln_pic_url', $pic_url );
 					update_post_meta( $post_id, 'dln_perm', $perm );
 					
-					if ( $fb_uid ) {
+					if ( ! empty( $fb_user_id ) ) {
 						update_post_meta( $post_id, 'dln_fb_link', $fb_link );
 					}
 				}

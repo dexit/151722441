@@ -79,6 +79,7 @@
 	$(document).ready(function () {
 		settingModal();
 		addTermPhoto();
+		addSubmitPhoto();
 		
 		// Add select image action
 		$('#dln_select_image').on('click', function (e) {

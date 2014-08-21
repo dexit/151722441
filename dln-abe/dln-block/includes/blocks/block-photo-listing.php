@@ -12,8 +12,6 @@ class DLN_Block_Photo_Listing extends DLN_Block {
 	public static function init() { }
 	
 	public static function render_html() {
-		self::init_fields();
-		
 		DLN_Blocks::block_load_frontend_assets();
 		self::load_frontend_assets();
 		

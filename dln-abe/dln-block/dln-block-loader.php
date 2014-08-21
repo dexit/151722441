@@ -21,7 +21,7 @@ class DLN_Block_Loader {
 		include( DLN_ABE_PLUGIN_DIR . '/dln-block/includes/blocks.php' );
 		
 		if ( is_admin() ) {
-			//include( 'admin/class-dln-form-admin.php' );
+			include( DLN_ABE_PLUGIN_DIR . '/dln-block/includes/admin/photo-post-type.php' );
 		}
 		
 		// Init classes
@@ -29,22 +29,16 @@ class DLN_Block_Loader {
 		
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ) );
 		add_action( 'init', array( $this, 'init' ) );
-		//add_action( 'admin_init', array( $this, 'admin_init' ) );
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
 	}
 	
 	public function init() {
 		
 	}
 	
-	/*public function admin_init() {
-		wp_enqueue_script( 'dln-select2-js',             DLN_ABE_PLUGIN_URL . '/assets/3rd-party/select2/select2.min.js', array( 'jquery' ), '3.4.8', true );
-		wp_enqueue_script( 'dln-select2-locale-js',      DLN_ABE_PLUGIN_URL . '/assets/3rd-party/select2/select2_locale_vi.js', array( 'jquery', 'dln-select2-js' ), '3.4.8', true );
-		wp_enqueue_script( 'dln-colorpicker-js',         DLN_ABE_PLUGIN_URL . '/assets/3rd-party/jquery-colorpicker/js/colorpicker.js', array( 'jquery' ), '1.0.0', true );
-		wp_enqueue_script( 'dln-admin-fashion-js',       DLN_ABE_PLUGIN_URL . '/dln-form/assets/js/admin/admin-form.js', array( 'jquery' ), '1.0.0', true );
-		wp_enqueue_style( 'dln-select2-css',             DLN_ABE_PLUGIN_URL . '/assets/3rd-party/select2/select2.css', null, '3.4.8' );
-		wp_enqueue_style( 'dln-select2-bootstrap-css',   DLN_ABE_PLUGIN_URL . '/assets/3rd-party/select2/select2-bootstrap.css', null, '3.4.8' );
-		wp_enqueue_style( 'dln-colorpicker-css',         DLN_ABE_PLUGIN_URL . '/assets/3rd-party/jquery-colorpicker/css/colorpicker.css', null, '3.4.8' );
-	}*/
+	public function admin_init() {
+		wp_enqueue_style( 'dln-block-admin-css', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/photo-admin.css', null, '1.0.0' );
+	}
 	
 	public function register_assets() {
 		wp_register_script( 'dln-form-field-text-search', DLN_ABE_PLUGIN_URL . '/assets/js/fields/text-search.js', array( 'jquery' ), DLN_ABE_VERSION, true );
