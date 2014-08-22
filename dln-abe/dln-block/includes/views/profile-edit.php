@@ -2,6 +2,8 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
+$user_id     = get_current_user_id();
+$user_avatar = bp_activity_avatar( array( 'user_id' => $user_id ) );
 ?>
 <!-- START row -->
 <div
@@ -23,7 +25,7 @@ if ( ! defined( 'WPINC' ) ) { die; }
 		<!-- figure with progress -->
 		<ul class="list-table">
 			<li style="width: 70px;"><img class="img-circle img-bordered"
-				src="../image/avatar/avatar7.jpg" alt="" width="65px">
+				src="<?php echo $user_avatar ?>" alt="" width="65px">
 			</li>
 			<li class="text-left">
 				<h5 class="semibold ellipsis mt0">Erich Reyes</h5>

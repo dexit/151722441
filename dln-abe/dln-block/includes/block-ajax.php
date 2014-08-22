@@ -35,6 +35,8 @@ class DLN_Block_Ajax {
 		add_action( 'wp_ajax_nopriv_dln_save_photo',              array( $this, 'dln_save_photo' ) );
 		add_action( 'wp_ajax_dln_save_topic',                     array( $this, 'dln_save_topic' ) );
 		add_action( 'wp_ajax_nopriv_dln_save_topic',              array( $this, 'dln_save_topic' ) );
+		add_action( 'wp_ajax_dln_comment_photo',                  array( $this, 'dln_comment_photo' ) );
+		add_action( 'wp_ajax_nopriv_dln_comment_photo',           array( $this, 'dln_comment_photo' ) );
 	}
 	
 	public function dln_load_block_modal() {
@@ -99,7 +101,7 @@ class DLN_Block_Ajax {
 		}
 		exit('0');
 	}
-	
+	 
 	public function dln_listing_image_facebook() {
 		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
 			$action_type = isset( $_POST['action_type'] ) ? $_POST['action_type'] : '';
@@ -291,6 +293,38 @@ class DLN_Block_Ajax {
 				
 				$args = array_merge( array( 'topic_id' => $topic_id ), $data );
 				exit( json_encode( $args ) );
+			}
+		}
+		exit('0');
+	}
+	
+	public function dln_comment_photo() {
+		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
+			$post_id    = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : '';
+			$message    = isset( $_POST['message'] ) ? $_POST['message'] : '';
+			$cmt_parent = isset( $_POST['cmt_parent'] ) ? (int) $_POST['cmt_parent'] : '';
+			
+			$user_id = get_current_user_id();
+			$message = esc_html( $message );
+			
+			if ( ! empty( $message ) && ! empty( $user_id ) && ! empty( $post_id ) ) {
+				$user  = wp_get_current_user();
+				$data = array(
+					'comment_post_ID'      => $post_id,
+					'comment_author'       => $user->user_login,
+					'comment_author_email' => $user->user_email,
+					'comment_content'      => $message,
+					'comment_parent'       => $cmt_parent,
+				);
+				
+				if ( ! DLN_Block_Cache::add_cache( $data ) ) {
+					exit('0');
+					return null;
+				}
+				
+				$cmt_id     = wp_new_comment( $data );
+				$arr_result = json_encode( array( 'comment_id' => $cmt_id, 'data' => $data ) );
+				exit( $arr_result );
 			}
 		}
 		exit('0');

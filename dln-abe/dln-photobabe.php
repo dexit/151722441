@@ -86,7 +86,7 @@ class DLN_PhotoBabe {
 								}
 							}
 							?>
-							<script language="javascript" type="text/javascript">
+							<script type="text/javascript">
 								document.location = "<?php echo esc_attr( $state ) ?>";
 							</script>
 							<?php

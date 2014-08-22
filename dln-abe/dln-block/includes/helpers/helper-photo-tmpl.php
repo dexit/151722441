@@ -136,6 +136,71 @@ class DLN_Helper_Photo_Tmpl {
 		return $block_html;
 	}
 	
+	public static function render_photo_post( $user_thumb = '[data_user_thumb]', $username = '[data_user_name]', $time_post = '[data_time]', 
+		$img_thumb = '[data_thumb_img]', $full_img = '[data_full_img]', $img_alt = '[data_thumb_alt]' ) {
+		ob_start();
+		?>
+<div class="panel dln-post" id="dln_post_[data_post_id]">
+	<ul class="list-table pa15">
+		<li class="text-left" style="width: 60px;">
+			<img class="img-circle" src="<?php echo $user_thumb ?>" alt="" width="50px" height="50px">
+		</li>
+		<li class="text-left">
+			<p class="ellipsis nm">
+				<span class="semibold"><?php echo $username ?></span>
+			</p>
+			<p class="text-muted nm"><?php echo $time_post ?></p>
+		</li>
+		<li class="text-right" style="width: 60px;">
+			<div class="btn-group">
+				<button type="button" class="btn btn-link dropdown-toggle text-default" data-toggle="dropdown">
+					<i class="ico-menu2"></i>
+				</button>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li>
+						<a href="javascript:void(0);" class="dln-report-btn"><?php _e( 'Report', DLN_ABE ) ?></a></li>
+					<li class="divider"></li>
+					<li>
+						<a href="javascript:void(0);" class="dln-delete-post-btn text-danger"><?php _e( 'Delete post', DLN_ABE ) ?></a>
+					</li>
+				</ul>
+			</div>
+		</li>
+	</ul>
+	<div class="thumbnail thumbnail-album">
+		<!-- media -->
+		<div class="media">
+			<!-- indicator -->
+			<div class="indicator">
+				<span class="spinner"></span>
+			</div>
+			<!--/ indicator -->
+			<img data-toggle="unveil" src="<?php echo $img_thumb ?>" data-src="<?php echo $full_img ?>" alt="<?php echo $img_alt ?>" width="100%">
+		</div>
+		<!--/ media -->
+	</div>
+	<div class="panel-toolbar-wrapper">
+		<div class="panel-toolbar">
+			<a href="javascript:void(0);" class="semibold text-default"><?php _e( 'Like', DLN_ABE )?></a>
+			<span class="text-muted mr5 ml5">&#8226;</span> <a
+				href="javascript:void(0);" class="semibold text-default"><?php _e( 'Follow', DLN_ABE )?></a>
+			<span class="text-muted mr5 ml5">&#8226;</span> <a
+				href="javascript:void(0);" class="semibold text-default"><?php _e( 'Share', DLN_ABE )?></a>
+		</div>
+	</div>
+	<div class="panel-footer dln-comment-block">
+		<div class="pull-right">
+			<textarea placeholder="<?php _e( 'Write your comment!', DLN_ABE ) ?>" rows="2" class="form-control"></textarea>
+		</div>
+		<button type="submit" class="btn btn-primary dln-submit-photo-btn"><?php _e( 'Post', DLN_ABE ) ?></button>
+	</div>
+</div>
+		<?php
+		$block_html = ob_get_clean();
+		
+		return $block_html;
+	}
+	
 	public static function convert_literal_string( $block_html ) {
 		return addslashes( preg_replace( "/[\r\n]+/",' ',( preg_replace( '/\s\s+/', ' ', $block_html ) ) ) );
 	}

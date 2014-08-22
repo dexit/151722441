@@ -24,6 +24,6 @@ class DLN_Block_Profile_Edit extends DLN_Block {
 	}
 	
 	private static function load_frontend_assets() {
-		//wp_enqueue_script( 'dln-block-photo-listing-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-photo-listing.js', array( 'jquery' ), '1.0.0', true );
+		wp_enqueue_script( 'dln-block-photo-listing-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-photo-listing.js', array( 'jquery' ), '1.0.0', true );
 	}
 }

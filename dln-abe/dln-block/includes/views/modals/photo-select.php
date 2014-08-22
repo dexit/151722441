@@ -1,10 +1,10 @@
 <?php
 
-wp_enqueue_script( 'dln-modal-select-photo-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/modals/select-photo.js', null, '1.0.0', true );
-wp_enqueue_style( 'dln-modal-select-photo-css', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/modals/select-photo.css', null, '1.0.0' );
+wp_enqueue_script( 'dln-modal-photo-select-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/modals/photo-select.js', null, '1.0.0', true );
+wp_enqueue_style( 'dln-modal-photo-select-css', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/modals/photo-select.css', null, '1.0.0' );
 
-wp_print_scripts( 'dln-modal-select-photo-js' );
-wp_print_styles( 'dln-modal-select-photo-css' );
+wp_print_scripts( 'dln-modal-photo-select-js' );
+wp_print_styles( 'dln-modal-photo-select-css' );
 
 $user_id  = get_current_user_id();
 $valid_fb = false;

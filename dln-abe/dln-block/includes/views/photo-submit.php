@@ -1,8 +1,6 @@
 <?php
 
 if ( ! defined( 'WPINC' ) ) { die; }
-
-$photo_submit_tmpl = DLN_Helper_Photo_Tmpl::render_photo_submit();
 ?>
 
 <div id="dln_modal_select_photo" class="modal fade dln-modal-resize">
@@ -33,7 +31,6 @@ $photo_submit_tmpl = DLN_Helper_Photo_Tmpl::render_photo_submit();
 		<div class="row">
 			<div class="col-md-6">
 				<legend><?php _e( 'Item Settings', DLN_ABE ) ?></legend>
-				
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
@@ -43,11 +40,11 @@ $photo_submit_tmpl = DLN_Helper_Photo_Tmpl::render_photo_submit();
 								<div class="media">
 									<!--/ indicator -->
 									<!-- toolbar overlay -->
-									<div class="overlay show">
+									<div id="dln_select_image" class="overlay show">
 										<div class="toolbar dln-toolbar">
-											<a id="dln_select_image" href="javascript:void(0);"
-												class="btn btn-default" title="upload to collection"><i
-												class="ico-picture"></i> </a>
+											<a href="javascript:void(0);" class="btn btn-default" title="upload to collection">
+												<i class="ico-picture"></i>
+											</a>
 										</div>
 									</div>
 									<!--/ toolbar overlay -->
@@ -59,7 +56,7 @@ $photo_submit_tmpl = DLN_Helper_Photo_Tmpl::render_photo_submit();
 				</div>
 			</div>
 			<div class="col-md-6">
-				<legend>Item Settings</legend>
+				<legend><?php _e( 'Item Settings', DLN_ABE ) ?></legend>
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
@@ -67,7 +64,6 @@ $photo_submit_tmpl = DLN_Helper_Photo_Tmpl::render_photo_submit();
 						</div>
 					</div>
 				</div>
-
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
