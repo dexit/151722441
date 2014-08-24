@@ -136,14 +136,14 @@ class DLN_Helper_Photo_Tmpl {
 		return $block_html;
 	}
 	
-	public static function render_photo_post( $user_thumb = '[data_user_thumb]', $username = '[data_user_name]', $time_post = '[data_time]', 
-		$img_thumb = '[data_thumb_img]', $full_img = '[data_full_img]', $img_alt = '[data_thumb_alt]' ) {
+	public static function render_photo_post( $user_thumb = '[data_user_thumb]', $username = '[data_user_name]', $post_id = '[data_post_id]', $time_post = '[data_time]', 
+		$img_thumb = '[data_thumb_img]', $full_img = '[data_full_img]', $img_alt = '[data_thumb_alt]', $message = '[data_message]' ) {
 		ob_start();
 		?>
-<div class="panel dln-post" id="dln_post_[data_post_id]">
-	<ul class="list-table pa15">
+<div class="panel dln-post" id="dln_post_<?php echo $post_id ?>">
+	<ul class="list-table">
 		<li class="text-left" style="width: 60px;">
-			<img class="img-circle" src="<?php echo $user_thumb ?>" alt="" width="50px" height="50px">
+			<img class="img-circle" src="<?php echo $user_thumb ?>" alt="" width="40px" height="40px">
 		</li>
 		<li class="text-left">
 			<p class="ellipsis nm">
@@ -167,6 +167,9 @@ class DLN_Helper_Photo_Tmpl {
 			</div>
 		</li>
 	</ul>
+	<div class="panel-body">
+		<?php echo esc_html( $message ) ?>
+	</div>
 	<div class="thumbnail thumbnail-album">
 		<!-- media -->
 		<div class="media">
@@ -181,19 +184,19 @@ class DLN_Helper_Photo_Tmpl {
 	</div>
 	<div class="panel-toolbar-wrapper">
 		<div class="panel-toolbar">
-			<a href="javascript:void(0);" class="semibold text-default"><?php _e( 'Like', DLN_ABE )?></a>
+			<a href="javascript:void(0);" class="semibold text-default"><?php _e( 'Follow', DLN_ABE )?></a>
 			<span class="text-muted mr5 ml5">&#8226;</span> <a
-				href="javascript:void(0);" class="semibold text-default"><?php _e( 'Follow', DLN_ABE )?></a>
+				href="javascript:void(0);" class="semibold text-default"><?php _e( 'Comment', DLN_ABE )?></a>
 			<span class="text-muted mr5 ml5">&#8226;</span> <a
 				href="javascript:void(0);" class="semibold text-default"><?php _e( 'Share', DLN_ABE )?></a>
 		</div>
 	</div>
-	<div class="panel-footer dln-comment-block">
+	<!-- <div class="panel-footer dln-comment-block">
 		<div class="pull-right">
 			<textarea placeholder="<?php _e( 'Write your comment!', DLN_ABE ) ?>" rows="2" class="form-control"></textarea>
 		</div>
 		<button type="submit" class="btn btn-primary dln-submit-photo-btn"><?php _e( 'Post', DLN_ABE ) ?></button>
-	</div>
+	</div> -->
 </div>
 		<?php
 		$block_html = ob_get_clean();

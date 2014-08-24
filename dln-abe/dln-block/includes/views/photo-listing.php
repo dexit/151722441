@@ -7,73 +7,68 @@ $photo_posts = $list_posts['posts'];
 $photo_users = $list_posts['users'];
 
 ?>
-<div id="dln_add_status" class="thumbnail thumbnail-album animation animating delay fadeInLeft dln-items">
-	<!-- media -->
-	<div class="media">
-		<!--/ indicator -->
-		<!-- toolbar overlay -->
-		<div class="overlay show">
-			<div class="toolbar dln-toolbar">
-				<a id="dln_select_image" href="javascript:void(0);" class="btn btn-default" title="upload to collection"><i class="ico-picture"></i> </a>
-			</div>
-		</div>
-		<!--/ toolbar overlay -->
-	</div>
-	<!--/ media -->
-	<!-- caption -->
-	<div class="caption">
-		<textarea placeholder="What on your mind?" rows="3" class="form-control form-control-minimal dln-block-desc"></textarea>
-	</div>
-	<!--/ caption -->
-	<div class="panel-footer">
-		<div class="btn-group" id="dln_post_perm">
-			<button type="button" class="btn btn-default" selected="selected" data-value="publish"><?php _e( 'Publish', DLN_ABE ) ?></button>
-			<button type="button" class="btn btn-default" data-value="private"><?php _e( 'Private', DLN_ABE ) ?></button>
-		</div>
-		<div class="btn-group">
-			<button type="button" class="btn btn-default">
-				<i class="ico-smile"></i>
-			</button>
-		</div>
-		<div class="pull-right">
-			<button type="submit" class="btn btn-primary"><?php _e( 'Post', DLN_ABE ) ?></button>
-		</div>
-	</div>
-</div>
 
 <div class="row">
-<?php if ( ! empty( $photo_posts ) ):?>
-<?php 
-	foreach ( $photo_posts as $i => $post ) {
-		// Get user
-		$user_avatar = $user_name = '';
-		if ( $post->post_author ) {
-			$user_avatar = bp_core_fetch_avatar( 
-				array(
-					'item_id' => $post->post_author,
-					'type'    => 'thumb',
-					'width'   => 32,
-					'height'  => 32,
-					'class'   => 'friend-avatar',
-					'html'    => false
-				)
-			);
-			
-			if ( ! empty( $users ) ) {
-				foreach ( $users as $i => $user ) {
-					if ( $user->ID == $post->post_author ) {
-						$user_name = $user->name;
+	<div class="col-md-12">
+		<div class="col-md-2">
+			<div
+				class="widget panel">
+				<!-- panel body -->
+				<div class="panel-body">
+					<h5 class="mb0">
+						Latest Tweet <i class="ico-twitter text-info pull-right"></i>
+					</h5>
+					<hr>
+					<button type="button" class="btn btn-primary btn-sm btn-outline mb5">Primary</button>
+					<button type="button" class="btn btn-primary btn-sm btn-outline mb5">Primary</button>
+					<button type="button" class="btn btn-primary btn-sm btn-outline mb5">Primary</button>
+					<button type="button" class="btn btn-primary btn-sm btn-outline mb5">Primary</button>
+					<button type="button" class="btn btn-primary btn-sm btn-outline mb5">Primary</button>
+					<button type="button" class="btn btn-primary btn-sm btn-outline mb5">Primary</button>
+					<button type="button" class="btn btn-primary btn-sm btn-outline mb5">Primary</button>
+					<button type="button" class="btn btn-primary btn-sm btn-outline mb5">Primary</button>
+					<button type="button" class="btn btn-primary btn-sm btn-outline mb5">Primary</button>
+				</div>
+				<!--/ panel body -->
+			</div>
+		</div>
+	<?php if ( ! empty( $photo_posts ) ):?>
+	<?php 
+		foreach ( $photo_posts as $i => $post ) {
+			// Get user
+			$user_avatar = $user_name = '';
+			if ( $post->post_author ) {
+				$user_avatar = bp_core_fetch_avatar( 
+					array(
+						'item_id' => $post->post_author,
+						'type'    => 'thumb',
+						'width'   => 32,
+						'height'  => 32,
+						'class'   => 'friend-avatar',
+						'html'    => false
+					)
+				);
+				
+				if ( ! empty( $photo_users ) ) {
+					foreach ( $photo_users as $i => $user ) {
+						if ( $user->ID == $post->post_author ) {
+
+							$user_name = $user->name;
+						}
 					}
 				}
+				
+				$thumb_url = get_post_meta( $post->ID, 'dln_pic_url', true );
+				$time_ago  = human_time_diff( get_post_time( 'U', false, $post->ID ), current_time( 'timestamp' ), 'cách đây' );
+				$block_photo_html = DLN_Helper_Photo_Tmpl::render_photo_post( $user_avatar, $user_name, $post->ID, $time_ago, $thumb_url, $thumb_url, $post->post_title, $post->post_content );
+				echo '<div class="col-md-2">';
+				echo $block_photo_html;
+				echo '</div>';
 			}
-			
-			$thumb_url = get_post_meta( $post->ID, 'dln_pic_url', true );
-			$block_photo_html = DLN_Helper_Photo_Tmpl::render_photo_post( $user_avatar, $user_name, $post->post_date, $thumb_url, $thumb_url, $post->post_title );
-			echo $block_photo_html;
 		}
-	}
-?>
-<?php endif ?>
+	?>
+	<?php endif ?>
+	</div>
 </div>
 
 <?php
