@@ -1,7 +1,53 @@
 <?php
 
 if ( ! defined( 'WPINC' ) ) { die; }
+
+// Array of defined attribute taxonomies
+$attribute_taxonomies = wc_get_attribute_taxonomies();
+
+if ( $attribute_taxonomies ) {
+	foreach ( $attribute_taxonomies as $tax ) {
+		// Get name of taxonomy we're now outputting (pa_xxx)
+		$attribute_taxonomy_name = wc_attribute_taxonomy_name( $tax->attribute_name );
+		
+		// Ensure it exists
+		if ( ! taxonomy_exists( $attribute_taxonomy_name ) )
+			continue;
+		
+		if ( $tax->attribute_type == "select" ) {
+
+			$all_terms = get_terms( $attribute_taxonomy_name, 'orderby=name&hide_empty=0' );
+			if ( $all_terms ) {
+				foreach ( $all_terms as $term ) {
+					$has_term = has_term( (int) $term->term_id, $attribute_taxonomy_name, $thepostid ) ? 1 : 0;
+					echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( $has_term, 1, false ) . '>' . $term->name . '</option>';
+				}
+			} elseif ( $tax->attribute_type == "text" ) {
+				// Text attributes should list terms pipe separated
+				if ( $post_terms ) {
+					$values = array();
+					foreach ( $post_terms as $term )
+						$values[] = $term->name;
+					echo esc_attr( implode( ' ' . WC_DELIMITER . ' ', $values ) );
+				}
+			}
+			
+		}
+	}
+}
 ?>
+
+<input type="text" name="attribute_values[<?php echo $i; ?>]" value="<?php
+
+	// Text attributes should list terms pipe separated
+	if ( $post_terms ) {
+		$values = array();
+		foreach ( $post_terms as $term )
+			$values[] = $term->name;
+		echo esc_attr( implode( ' ' . WC_DELIMITER . ' ', $values ) );
+	}
+
+?>" placeholder="<?php _e( 'Pipe (|) separate terms', 'woocommerce' ); ?>" />
 
 <div id="dln_modal_select_photo" class="modal fade dln-modal-resize">
 	<div class="modal-dialog modal-lg">
@@ -26,7 +72,6 @@ if ( ! defined( 'WPINC' ) ) { die; }
 	<div class="panel-heading">
 		<h5 class="panel-title">Basic example</h5>
 	</div>
-
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-md-6">
@@ -64,6 +109,27 @@ if ( ! defined( 'WPINC' ) ) { die; }
 						</div>
 					</div>
 				</div>
+				
+				<div class="form-group dln-field-meta">
+					<div class="row">
+						<div class="col-sm-12"><label class="control-label"><?php _e( 'Fields', DLN_CLF ) ?> </label></div>
+					</div>
+					<div id="dln_field_meta_block">
+						<div class="row">
+							<div class="col-xs-4">
+								<select class="form-control dln-field-meta-key dln-selectize-create" placeholder="<?php _e( 'Select Attribute', DLN_CLF ) ?>">
+								</select>
+							</div>
+							<div class="col-xs-6">
+								<input type="text" value="" class="form-control dln-field-meta-value" placeholder="<?php _e( 'Attribute Value', DLN_CLF ) ?>" />
+							</div>
+							<div class="col-xs-2">
+								<a class="dln-field-close btn btn-default">X</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">

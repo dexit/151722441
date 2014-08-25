@@ -20,6 +20,13 @@ class DLN_Photo_Post_Type {
 	function __construct() {
 		add_filter( 'manage_edit-dln_photo_columns',        array( $this, 'custom_edit_dln_photo_columns' ) );
 		add_action( 'manage_dln_photo_posts_custom_column', array( $this, 'custom_dln_photo_column' ), 10, 2 );
+		
+		add_filter( 'product_type_selector', array( $this, 'register_product_type_fashion' ) );
+	}
+	
+	public static function register_product_type_fashion( $types ) {
+		$types['dln_fashion'] = __( 'Fashion', DLN_ABE );
+		return $types;
 	}
 	
 	public static function custom_edit_dln_photo_columns( $columns ) {

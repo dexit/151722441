@@ -20,11 +20,12 @@ class DLN_Block_Ajax {
 	function __construct() {
 		include( 'helpers/helper-fetch.php' );
 		
-		add_action( 'wp_ajax_dln_save_product_data',            array( $this, 'dln_save_product_data' ) );
-		add_action( 'wp_ajax_nopriv_dln_save_product_data',     array( $this, 'dln_save_product_data' ) );
-		add_action( 'wp_ajax_dln_fetch_images_from_url',        array( $this, 'dln_fetch_images_from_url' ) );
-		add_action( 'wp_ajax_nopriv_dln_fetch_images_from_url', array( $this, 'dln_fetch_images_from_url' ) );
-		
+		add_action( 'wp_ajax_dln_save_product_data',              array( $this, 'dln_save_product_data' ) );
+		add_action( 'wp_ajax_nopriv_dln_save_product_data',       array( $this, 'dln_save_product_data' ) );
+		add_action( 'wp_ajax_dln_fetch_images_from_url',          array( $this, 'dln_fetch_images_from_url' ) );
+		add_action( 'wp_ajax_nopriv_dln_fetch_images_from_url',   array( $this, 'dln_fetch_images_from_url' ) );
+		add_action( 'wp_ajax_dln_download_image_from_url',        array( $this, 'dln_download_image_from_url' ) );
+		add_action( 'wp_ajax_nopriv_dln_download_image_from_url', array( $this, 'dln_download_image_from_url' ) );
 		add_action( 'wp_ajax_dln_load_block_modal',               array( $this, 'dln_load_block_modal' ) );
 		add_action( 'wp_ajax_nopriv_dln_load_block_modal',        array( $this, 'dln_load_block_modal' ) );
 		add_action( 'wp_ajax_dln_listing_image_facebook',         array( $this, 'dln_listing_image_facebook' ) );
@@ -157,20 +158,6 @@ class DLN_Block_Ajax {
 			}
 		}
 		exit('0');
-	}
-	
-	public function dln_fetch_images_from_url() {
-		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
-			$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
-			
-			if ( ! empty( $url ) && filter_var( $url, FILTER_VALIDATE_URL ) !== false ) {
-				$fetch_helper = DLN_Helper_Fetch::get_instance();
-				$image_urls   = $fetch_helper->fetch_images_from_url( $url );
-			}
-			$image_urls = ( ! empty( $image_urls ) ) ? json_encode( $image_urls ) : '';
-			exit( $image_urls );
-		}
-		exit();
 	}
 	
 	public function dln_save_photo() {
@@ -328,6 +315,161 @@ class DLN_Block_Ajax {
 			}
 		}
 		exit('0');
+	}
+	
+	public function dln_fetch_images_from_url() {
+		if ( ! isset( $_POST[DLN_CLF_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_CLF_NONCE], DLN_CLF_NONCE ) ) {
+			$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
+				
+			if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false ) {
+				$fetch_helper = DLN_Helper_Fetch::get_instance();
+				$image_urls   = $fetch_helper->fetch_images_from_url( $url );
+			}
+			$image_urls = ( ! empty( $image_urls ) ) ? json_encode( $image_urls ) : '';
+			exit( $image_urls );
+		}
+		exit('0');
+	}
+	
+	public function dln_download_image_from_url() {
+		if ( ! isset( $_POST[DLN_CLF_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_CLF_NONCE], DLN_CLF_NONCE ) ) {
+			$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
+			
+			if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false ) {
+				$tmp        = download_url( $url );
+				$file_array = array(
+					'name'     =>  basename( $url ),
+					'tmp_name' => $tmp,
+				);
+				
+				// Check for download errors
+				if ( is_wp_error( $tmp ) ) {
+					@unlink( $file_array['tmp_name'] );
+					return $tmp;
+				}
+				
+				$id = media_handle_sideupload( $file_array, 0 );
+				// Check for handle sideload errors.
+				if ( is_error( $id ) ) {
+					@unlink( $file_array['tmp_name'] );
+					return $id;
+				}
+				
+				$attachment_url = wp_get_attachment_url( $id );
+				$result = array( 'status' => 'success', 'img_url' => $attachment_url, 'img_id' => $id );
+				echo json_encode( $result );
+			}
+		}
+		exit('0');
+	}
+	
+	public function dln_save_product_data() {
+		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
+			$data = isset( $_POST['data'] ) ? $_POST['data'] : '';
+	
+			if ( ! DLN_Block_Cache::add_cache( $data ) ) {
+				exit( '0' );
+				return null;
+			}
+	
+			$image_data       = isset( $data['dln_image_data'] ) ? $data['dln_image_data'] : '';
+			$product_title    = isset( $data['dln_product_title'] ) ? $data['dln_product_title'] : '';
+			$product_category = isset( $data['dln_product_category'] ) ? $data['dln_product_category'] : '';
+			$product_price    = isset( $data['dln_product_price'] ) ? $data['dln_product_price'] : '';
+			$product_desc     = isset( $data['dln_product_desc'] ) ? $data['dln_product_desc'] : '';
+			$product_fields   = isset( $data['dln_product_fields'] ) ? $data['dln_product_fields'] : '';
+			
+			$product_fields = self::validate_product_fields( $product_fields );
+	
+			if ( ! empty( $image_ids ) && ! empty( $product_title ) && ! empty( $product_category ) &&
+			! empty( $product_price ) ) {
+					
+				$user_id     = get_current_user_id();
+				if ( ! $user_id ) {
+					exit( '0' );
+					return null;
+				}
+					
+				$post = array(
+					'post_author'  => $user_id,
+					'post_content' => $product_desc,
+					'post_status'  => 'pending',
+					'post_title'   => $product_title,
+					'post_parent'  => '',
+					'post_type'    => 'product',
+				);
+				//Create post
+				$post_id = wp_insert_post( $post );
+				if ( $post_id ) {
+					$attach_id = get_post_meta( $product->parent_id, '_thumbnail_id', true );
+					add_post_meta( $post_id, '_thumbnail_id', $attach_id );
+					
+					// Insert the attachment
+					if ( ! empty( $image_data ) ) {
+						// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
+						require_once( ABSPATH . 'wp-admin/includes/image.php' );
+						
+						foreach ( $image_data as $i => $img ) {
+							$file_name = $img->url;
+							/*$file_type = wp_check_filetype( basename( $file_name ), null );
+							
+							$wp_upload_dir = wp_upload_dir();
+							
+							$attachment = array(
+								'guid'           => $wp_upload_dir['url'] . '/' . basename( $file_name ),
+								'post_mime_type' => $file_type['type'],
+								'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
+								'post_content'   => '',
+								'post_status'    => 'inherit',
+							);*/
+							$attachment = get_attached_media( 'image', $img->id );
+							
+							// Insert the attachment.
+							$attach_id = wp_insert_attachment( $attachment, $file_name, $post_id );
+							
+							// Generate the metadata for the attachment, and update the database record.
+							$attach_data = wp_generate_attachment_metadata( $attach_id, $file_name );
+							wp_update_attachment_metadata( $attach_id, $attach_data );
+						}
+					}
+					
+					wp_set_object_terms( $post_id, $product_category, 'product_cat' );
+					wp_set_object_terms( $post_id, 'dln_fashion', 'dln_fashion' );
+					$product_price = ( ! empty( $product_price ) ) ? (int) $product_price : 0;
+					$product_price .= '000';
+					update_post_meta( $post_id, '_price', $product_price );
+	
+					if ( ! empty( $product_fields ) && is_array( $product_fields ) ) {
+						foreach ( $product_fields as $i => $field ) {
+							if ( ! empty( $field['key'] ) && ! empty( $field['value'] ) ) {
+								$key = sanitize_key( $field['key'] );
+								$key = str_replace( '-', '_', $key );
+								update_post_meta( $post_id, 'dln_post_meta_' . $key . '_key', $field['key'] );
+								update_post_meta( $post_id, 'dln_post_meta_' . $key . '_value', $field['value'] );
+							}
+						}
+					}
+				}
+				echo $post_id;
+				exit( '1' );
+			}
+		}
+	}
+	
+	private function validate_product_fields( $product_fields ) {
+		if ( empty( $product_fields ) )
+			return null;
+	
+		$arr_fields = array();
+		if ( is_array( $product_fields ) ) {
+			foreach ( $product_fields as $i => $field ) {
+				if ( isset( $field['key'] ) && isset( $field['value'] ) ) {
+					$arr_fields[] = array( 'key' => $field['key'], 'value' => $field['value'] );
+				}
+			}
+		}
+	
+		return $arr_fields;
 	}
 	
 	private static function validate_perm( $perm = 'publish' ) {

@@ -118,7 +118,7 @@ class DLN_Report_Post_Type {
 					$ip = get_post_meta( $report_id, 'dln_report_user_ip', true );
 					
 					if ( ! is_wp_error( $ip ) ) {
-						$link = get_permalink( $post_id );
+						$link = get_permalink( $report_id );
 						echo $ip;
 					} else {
 						echo '';

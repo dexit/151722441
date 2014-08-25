@@ -33,7 +33,7 @@ class DLN_Block_Loader {
 	}
 	
 	public function init() {
-		
+		include( DLN_ABE_PLUGIN_DIR . '/dln-block/includes/woocommerce/wc-dln-product.php' );
 	}
 	
 	public function admin_init() {
