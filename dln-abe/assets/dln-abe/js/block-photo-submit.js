@@ -76,6 +76,20 @@
 		});
 	};
 	
+	
+	var addAttrButtonProduct = function() {
+		$('.dln-add-attr').on('click', function (e) {
+			e.preventDefault();
+			
+			var select_val = $('#dln_product_attribute').val();
+			if ( $('.dln-hidden-data[data-relate-id="' + select_val + '"]').length ) {
+				var field = $('.dln-hidden-data[data-relate-id="' + select_val + '"]');
+				field.show();
+				field.addClass('dln-active');
+			}
+		});
+	};
+	
 	$(document).ready(function () {
 		settingModal();
 		addTermPhoto();
@@ -140,5 +154,7 @@
 				}
 			}
 		});
+		
+		addAttrButtonProduct();
 	});
 }(jQuery));
