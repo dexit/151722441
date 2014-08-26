@@ -23,12 +23,39 @@ class DLN_Block_Photo_Submit extends DLN_Block {
 			array(
 				'basic' => array(
 					array(
-						'id'    => 'photobabe_img',
+						'id'    => 'product_img',
 						'label' => __( 'Photo', DLN_ABE ),
 						'type'  => 'select-photo',
 					),
 					array(
-						'id'    => 'photobabe_desc',
+						'id'          => 'product_title',
+						'label'       => __( 'Title', DLN_ABE ),
+						'type'        => 'text',
+						'value'       => '',
+						'placeholder' => __( 'Product Title', DLN_ABE ),
+						'required'    => true,
+					),
+					array(
+						'id'          => 'product_category',
+						'label'       => __( 'Category', DLN_ABE ),
+						'type'        => 'select',
+						'class'       => 'dln-selectize',
+						'value'       => '',
+						'options'     => self::get_category_options(),
+						'required'    => true,
+					),
+					array(
+						'id'          => 'product_price',
+						'label'       => __( 'Price', DLN_ABE ),
+						'type'        => 'text-append',
+						'value'       => '',
+						'placeholder' => __( '', DLN_ABE ),
+						'required'    => true,
+						'append'      => __( '.000 vnđ', DLN_ABE ),
+						'input_type'  => 'number',
+					),
+					array(
+						'id'    => 'product_desc',
 						'label' => __( 'Description', DLN_ABE ),
 						'type'  => 'textcomplete',
 						'class' => 'dln-textcomplete',
@@ -118,7 +145,23 @@ class DLN_Block_Photo_Submit extends DLN_Block {
 		);
 	}
 	
+	private static function get_category_options() {
+		$categories = get_terms( 'product_cat', array( 'hide_empty' => false, 'order_by' => 'term_id' ) );
+		if ( empty( $categories ) || ! empty( $categories->errors ) ) {
+			$result = new WP_Error( '500', __( 'Product Categories Not Found!', DLN_ABE ) );
+			return $result;
+		}
+		$options = array();
+		if ( ! empty( $categories ) ) {
+			foreach ( $categories as $i => $category ) {
+				$options[ $category->term_id ] = $category->name;
+			}
+		}
+	
+		return $options;
+	}
+	
 	private static function load_frontend_assets() {
-		wp_enqueue_script( 'dln-block-photo-submit-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-photo-submit.js', array( 'jquery' ), '1.0.0', true );
+		wp_enqueue_script( 'dln-block-product-submit-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-product-submit.js', array( 'jquery' ), '1.0.0', true );
 	}
 }

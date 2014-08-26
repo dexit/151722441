@@ -27,42 +27,52 @@
         })
 	};
 	
-	var addTermPhoto = function () {
-		$('#dln_post_perm button').on('click', function (e) {
-			e.preventDefault();
-			
-			$('#dln_post_perm button').removeClass('active');
-			$(this).addClass('active');
-		});
-		
-		if ( $('#dln_post_perm button.active').length <= 0 ) {
-			$('#dln_post_perm button').first().addClass('active');
-		}
-	};
-	
 	var addSubmitPhoto = function () {
-		$('#dln_submit_photo').on('click', function (e) {
+		$('#dln_submit_product').on('click', function (e) {
 			e.preventDefault();
 			
-			var pic_url = $('#dln_add_status .media img').data('src');
-			var message = $('#dln_photobabe_desc').val();
-			message     = message.trim();
-			var perm    = $('#dln_post_perm .active').data('value');
+			var image_data = $('#dln_add_status .media img').data('src');
+			var title      = $('#dln_product_title').val();
+			var desc       = $('#dln_product_desc').val();
+			var category   = $('#dln_product_category').val();
+			var price      = $('#dln_product_price').val();
+			desc           = desc.trim();
 			
-			if ( message == '' ) {
+			// Process product attributes
+			var product_atts = [];
+			if ( $('.dln-hidden-data.dln-active').length ) {
+				$('.dln-hidden-data.dln-active').each(function () {
+					var key = $(this).data('relate-id');
+					var value = $(this).find('.dln-meta-value').val();
+					if ( key && value ) {
+						var obj   = {};
+						obj.name  = key;
+						obj.value = value;
+						product_atts.push( obj );
+					}
+				});
+			}
+			
+			if ( desc == '' ) {
 				alert( dln_abe_params.language.error_empty_message );
 				return false;
 			}
+			
+			var data           = {};
+			data.image_data    = image_data;
+			data.product_title = title;
+			data.product_desc  = desc;
+			data.product_cat   = category;
+			data.product_price = price;
+			data.product_attrs = product_atts;
 			
 			$.ajax({
 				url: dln_abe_params.dln_ajax_url,
 				type: 'POST',
 				data: {
-					action           : 'dln_save_photo',
-					pic_url          : pic_url,
-					message          : message,
-					perm             : perm,
-					'ig_nonce_check' : dln_abe_params.dln_nonce
+					action     : 'dln_save_product',
+					data       : data,
+					'security' : dln_abe_params.dln_nonce_save_product
 				},
 				success: function ( data ) {
 					data = ( data ) ? JSON.parse( data ) : data;
@@ -76,8 +86,7 @@
 		});
 	};
 	
-	
-	var addAttrButtonProduct = function() {
+	var addButtonAttrProduct = function() {
 		$('.dln-add-attr').on('click', function (e) {
 			e.preventDefault();
 			
@@ -90,10 +99,23 @@
 		});
 	};
 	
+	var addCloseAttrProduct = function () {
+		$('.dln-field-close').on('click', function (e) {
+			e.preventDefault();
+			
+			var parent_wrapper = $(this).closest('.dln-hidden-data');
+			parent_wrapper.hide();
+			parent_wrapper.removeClass('dln-active');
+		});
+	};
+	
 	$(document).ready(function () {
+		$.DLN_Product_Helper.addSelectize();
+		$.DLN_Product_Helper.addSelectMultiple();
 		settingModal();
-		addTermPhoto();
 		addSubmitPhoto();
+		addButtonAttrProduct();
+		addCloseAttrProduct();
 		
 		// Add select image action
 		$('#dln_select_image').on('click', function (e) {
@@ -154,7 +176,5 @@
 				}
 			}
 		});
-		
-		addAttrButtonProduct();
 	});
 }(jQuery));

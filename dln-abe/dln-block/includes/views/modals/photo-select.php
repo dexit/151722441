@@ -36,7 +36,7 @@ if ( ! empty( $user_id ) ) {
 ?>
 <div class="page-header page-header-block">
 	<div class="page-header-section">
-		<h4 class="title semibold">Media gallery</h4>
+		<h4 class="title semibold"><?php _e( 'Image list', DLN_ABE ) ?></h4>
 	</div>
 	<div class="page-header-section">
 		<!-- Toolbar -->
@@ -54,6 +54,9 @@ if ( ! empty( $user_id ) ) {
 <div id="dln_photo_wrapper" class="dln-wrapper">
 	<div class="row">
 		<!-- listing photos -->
+	</div>
+	<div class="row dln-upload-wrapper">
+		<?php echo balanceTags( do_shortcode( '[dln_upload theme="true"]' ) ) ?>
 	</div>
 </div>
 <ul class="pager mt0" id="dln_paging_group">

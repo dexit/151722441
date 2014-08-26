@@ -60,10 +60,22 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 			</div>
 			<div class="col-md-6">
 				<legend><?php _e( 'Item Settings', DLN_ABE ) ?></legend>
+				
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-6">
+							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'product_category' ) ) ?>
+						</div>
+						<div class="col-sm-6">
+							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'product_price' ) ) ?>
+						</div>
+					</div>
+				</div>
+				
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
-							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'photobabe_desc' ) ) ?>
+							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'product_desc' ) ) ?>
 						</div>
 					</div>
 				</div>
@@ -73,12 +85,12 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 
 					// Get name of taxonomy we're now outputting (pa_xxx)
 					$attribute_taxonomy_name = wc_attribute_taxonomy_name( $tax->attribute_name );
-					
-					echo '<div data-relate-id="' . esc_attr( $attribute_taxonomy_name ) . '" class="form-group row dln-hidden-data">';
 
 					// Ensure it exists
 					if ( ! taxonomy_exists( $attribute_taxonomy_name ) )
 						continue;
+					
+					echo '<div data-relate-id="' . esc_attr( $attribute_taxonomy_name ) . '" class="form-group row dln-hidden-data">';
 					
 					$label = $tax->attribute_label ? $tax->attribute_label : $tax->attribute_name;
 					echo '<label class="col-sm-4 control-label">' . $label . '</label>';
@@ -88,18 +100,20 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 						$all_terms = get_terms( $attribute_taxonomy_name, 'orderby=name&hide_empty=0' );
 						if ( $all_terms ) {
 							echo '<div class="col-sm-6">';
-							echo '<select class="form-control">'; 
+
+							echo '<select multiple class="form-control dln-meta-value dln-selectize-multi">'; 
 							foreach ( $all_terms as $term ) {
 								$has_term =  0;
 								echo '<option value="' . esc_attr( $term->slug ) . '" ' . selected( $has_term, 1, false ) . '>' . $term->name . '</option>';
 							}
 							echo '</select>';
+
 							echo '</div>';
 						}
-					}
-					elseif ( $tax->attribute_type == "text" ) {
+						
+					} elseif ( $tax->attribute_type == "text" ) {
 						echo '<div class="col-sm-6">';
-						echo '<input class="form-control" data-id="' . esc_attr( $attribute_taxonomy_name ) . '" type="text" value="" placeholder="' . __( 'Pipe (|) separate terms', 'woocommerce' ) . '" />';
+						echo '<input class="form-control dln-meta-value" type="text" value="" placeholder="' . __( 'Pipe (|) separate terms', DLN_ABE ) . '" />';
 						echo '</div>';
 					}
 					
@@ -156,6 +170,6 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 	</div>
 
 	<div class="panel-footer">
-		<button class="btn btn-primary pull-right" id="dln_submit_photo" type="button"><?php _e( 'Post', DLN_ABE ) ?></button>
+		<button class="btn btn-primary pull-right" id="dln_submit_product" type="button"><?php _e( 'Post', DLN_ABE ) ?></button>
 	</div>
 </div>

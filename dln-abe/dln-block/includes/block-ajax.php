@@ -22,6 +22,8 @@ class DLN_Block_Ajax {
 		
 		add_action( 'wp_ajax_dln_save_product_data',              array( $this, 'dln_save_product_data' ) );
 		add_action( 'wp_ajax_nopriv_dln_save_product_data',       array( $this, 'dln_save_product_data' ) );
+		add_action( 'wp_ajax_dln_save_product',                   array( $this, 'dln_save_product' ) );
+		add_action( 'wp_ajax_nopriv_dln_save_product',            array( $this, 'dln_save_product' ) );
 		add_action( 'wp_ajax_dln_fetch_images_from_url',          array( $this, 'dln_fetch_images_from_url' ) );
 		add_action( 'wp_ajax_nopriv_dln_fetch_images_from_url',   array( $this, 'dln_fetch_images_from_url' ) );
 		add_action( 'wp_ajax_dln_download_image_from_url',        array( $this, 'dln_download_image_from_url' ) );
@@ -64,7 +66,6 @@ class DLN_Block_Ajax {
 			if ( $user_id ) {
 				$insta_access_token = get_user_meta( $user_id, 'dln_instagram_access_token', true );
 				$insta_uid          = get_user_meta( $user_id, 'dln_instagram_user_id', true );
-				
 				if ( $insta_uid && $insta_access_token ) {
 					switch( $action_type ) {
 						case 'after':
@@ -79,11 +80,16 @@ class DLN_Block_Ajax {
 					}
 					$obj    = @file_get_contents( $url );
 					$obj    = ( ! empty( $obj ) ) ? json_decode( $obj ) : '';
+					
 					$images = array();
 					if ( ! empty( $obj->data ) && is_array( $obj->data ) ) {
 						foreach ( $obj->data as $i => $image ) {
 							if ( ! empty( $image->id ) && ! empty( $image->images->standard_resolution->url ) ) {
-								$images[] = array( 'id' => $image->id, 'picture' => $image->images->standard_resolution->url );
+								$images[] = array(
+									'id'         => $image->id,
+									'picture'    => $image->images->low_resolution->url,
+									'image_data' => array( 'type' => 'instagram', 'external_id' => $image->id )
+								);
 							}
 						}
 					}
@@ -93,7 +99,7 @@ class DLN_Block_Ajax {
 						$max_id = $obj->pagination->next_max_id;
 					}
 					
-					$arr_result = array( 'status' => 'success', 'images' => $images, 'max_id' => $max_id );
+					$arr_result = array( 'status' => 'success', 'images' => $images, 'max_id' => $max_id  );
 					
 					echo json_encode( $arr_result );
 					exit();
@@ -129,11 +135,14 @@ class DLN_Block_Ajax {
 					$obj    = @file_get_contents( $url );
 					$obj    = ( ! empty( $obj ) ) ? json_decode( $obj ) : '';
 					$images = array();
-					
 					if ( ! empty( $obj->data ) && is_array( $obj->data ) ) {
 						foreach ( $obj->data as $i => $image ) {
 							if ( ! empty( $image->id ) && ! empty( $image->source ) ) {
-								$images[] = array( 'id' => $image->id, 'picture' => $image->source );
+								$images[] = array(
+									'id'         => $image->id,
+									'picture'    => $image->source,
+									'image_data' => array( 'type' => 'facebook', 'external_id' => $image->id )
+								);
 							}
 						}
 					}
@@ -318,7 +327,7 @@ class DLN_Block_Ajax {
 	}
 	
 	public function dln_fetch_images_from_url() {
-		if ( ! isset( $_POST[DLN_CLF_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_CLF_NONCE], DLN_CLF_NONCE ) ) {
+		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
 			$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
 				
 			if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false ) {
@@ -332,7 +341,7 @@ class DLN_Block_Ajax {
 	}
 	
 	public function dln_download_image_from_url() {
-		if ( ! isset( $_POST[DLN_CLF_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_CLF_NONCE], DLN_CLF_NONCE ) ) {
+		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
 			$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
 			
 			if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false ) {
@@ -363,100 +372,144 @@ class DLN_Block_Ajax {
 		exit('0');
 	}
 	
-	public function dln_save_product_data() {
-		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
-			$data = isset( $_POST['data'] ) ? $_POST['data'] : '';
-	
-			if ( ! DLN_Block_Cache::add_cache( $data ) ) {
+	public function dln_save_product() {
+		check_ajax_referer( DLN_ABE_NONCE . '_save_product', 'security' );
+		
+		$data = isset( $_POST['data'] ) ? $_POST['data'] : '';
+		
+		if ( ! DLN_Block_Cache::add_cache( $data ) ) {
+			exit( '0' );
+			return null;
+		}
+		
+		$image_data       = isset( $data['image_data'] ) ? $data['image_data'] : '';
+		$product_title    = isset( $data['product_title'] ) ? $data['product_title'] : '';
+		$product_category = isset( $data['product_cat'] ) ? (int) $data['product_cat'] : '';
+		$product_price    = isset( $data['product_price'] ) ? $data['product_price'] : '';
+		$product_desc     = isset( $data['product_desc'] ) ? $data['product_desc'] : '';
+		$product_attrs    = isset( $data['product_attrs'] ) ? $data['product_attrs'] : '';
+		
+		if ( ! empty( $image_ids ) && ! empty( $product_title ) && ! empty( $product_category ) && ! empty( $product_price ) ) {
+				
+			$user_id     = get_current_user_id();
+			if ( ! $user_id ) {
 				exit( '0' );
 				return null;
 			}
-	
-			$image_data       = isset( $data['dln_image_data'] ) ? $data['dln_image_data'] : '';
-			$product_title    = isset( $data['dln_product_title'] ) ? $data['dln_product_title'] : '';
-			$product_category = isset( $data['dln_product_category'] ) ? $data['dln_product_category'] : '';
-			$product_price    = isset( $data['dln_product_price'] ) ? $data['dln_product_price'] : '';
-			$product_desc     = isset( $data['dln_product_desc'] ) ? $data['dln_product_desc'] : '';
-			$product_fields   = isset( $data['dln_product_fields'] ) ? $data['dln_product_fields'] : '';
+				
+			$post = array(
+				'post_author'  => $user_id,
+				'post_content' => $product_desc,
+				'post_status'  => 'pending',
+				'post_title'   => $product_title,
+				'post_parent'  => '',
+				'post_type'    => 'product',
+			);
 			
-			$product_fields = self::validate_product_fields( $product_fields );
-	
-			if ( ! empty( $image_ids ) && ! empty( $product_title ) && ! empty( $product_category ) &&
-			! empty( $product_price ) ) {
+			//Create post
+			$post_id = wp_insert_post( $post );
+			
+			if ( $post_id ) {
+				// Insert the attachment
+				if ( ! empty( $image_data ) ) {
+					$product_images = array();
+					$image_data     = json_decode( $image_data );
 					
-				$user_id     = get_current_user_id();
-				if ( ! $user_id ) {
-					exit( '0' );
-					return null;
-				}
-					
-				$post = array(
-					'post_author'  => $user_id,
-					'post_content' => $product_desc,
-					'post_status'  => 'pending',
-					'post_title'   => $product_title,
-					'post_parent'  => '',
-					'post_type'    => 'product',
-				);
-				//Create post
-				$post_id = wp_insert_post( $post );
-				if ( $post_id ) {
-					$attach_id = get_post_meta( $product->parent_id, '_thumbnail_id', true );
-					add_post_meta( $post_id, '_thumbnail_id', $attach_id );
-					
-					// Insert the attachment
-					if ( ! empty( $image_data ) ) {
-						// Make sure that this file is included, as wp_generate_attachment_metadata() depends on it.
-						require_once( ABSPATH . 'wp-admin/includes/image.php' );
-						
-						foreach ( $image_data as $i => $img ) {
-							$file_name = $img->url;
-							/*$file_type = wp_check_filetype( basename( $file_name ), null );
+					if ( ! empty( $image_data ) && is_array( $image_data ) ) {
+						foreach ( $image_data as $i => $data ) {
+							$type        = isset( $image_data['type'] ) ? $image_data['type'] : '';
+							$external_id = isset( $image_data['external_id'] ) ? $image_data['external_id'] : '';
 							
-							$wp_upload_dir = wp_upload_dir();
+							if ( $type && $external_id ) {
+								switch ( $type ) {
+									case 'facebook':
+										// Get facebook photo information
+										$fb_access_token = get_user_meta( $user_id, 'dln_facebook_access_token', true );
 							
-							$attachment = array(
-								'guid'           => $wp_upload_dir['url'] . '/' . basename( $file_name ),
-								'post_mime_type' => $file_type['type'],
-								'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $file_name ) ),
-								'post_content'   => '',
-								'post_status'    => 'inherit',
-							);*/
-							$attachment = get_attached_media( 'image', $img->id );
+										$url = 'https://graph.facebook.com/v2.1/' . $external_id . '?access_token=' . $fb_access_token;
+										$obj = @file_get_contents( $url );
+										$obj = ( ! empty( $obj ) ) ? json_decode( $obj ) : '';
 							
-							// Insert the attachment.
-							$attach_id = wp_insert_attachment( $attachment, $file_name, $post_id );
-							
-							// Generate the metadata for the attachment, and update the database record.
-							$attach_data = wp_generate_attachment_metadata( $attach_id, $file_name );
-							wp_update_attachment_metadata( $attach_id, $attach_data );
-						}
-					}
-					
-					wp_set_object_terms( $post_id, $product_category, 'product_cat' );
-					wp_set_object_terms( $post_id, 'dln_fashion', 'dln_fashion' );
-					$product_price = ( ! empty( $product_price ) ) ? (int) $product_price : 0;
-					$product_price .= '000';
-					update_post_meta( $post_id, '_price', $product_price );
-	
-					if ( ! empty( $product_fields ) && is_array( $product_fields ) ) {
-						foreach ( $product_fields as $i => $field ) {
-							if ( ! empty( $field['key'] ) && ! empty( $field['value'] ) ) {
-								$key = sanitize_key( $field['key'] );
-								$key = str_replace( '-', '_', $key );
-								update_post_meta( $post_id, 'dln_post_meta_' . $key . '_key', $field['key'] );
-								update_post_meta( $post_id, 'dln_post_meta_' . $key . '_value', $field['value'] );
+										if ( ! empty( $obj->images ) ) {
+											$product_images[] = array(
+												'external_id'  => $obj->id,
+												'thumb_url'    => $obj->images[count( $obj->images ) - 1]->source,
+												'standard_url' => $obj->source,
+												'full_url'     => $obj->images[0]->source,
+												'full_height'  => $obj->images[0]->height,
+												'full_width'   => $obj->images[0]->width,
+											);
+										}
+									break;
+									
+									case 'instagram':
+										// Get instagram photo information
+										$insta_access_token = get_user_meta( $user_id, 'dln_instagram_access_token', true );
+										
+										$url = 'https://api.instagram.com/v1/media/' . $external_id . '?access_token=' . $insta_access_token;
+										$obj = @file_get_contents( $url );
+										$obj = ( ! empty( $obj ) ) ? json_decode( $obj ) : '';
+										
+										if ( ! empty( $obj->images ) ) {
+											$product_images[] = array(
+												'external_id'  => $obj->id,
+												'thumb_url'    => $obj->images->thumbnail->url,
+												'standard_url' => $obj->images->low_resolution->url,
+												'full_url'     => $obj->images->standard_resolution->url,
+												'full_height'  => $obj->images->standard_resolution->height,
+												'full_width'   => $obj->images->standard_resolution->width,
+											);
+										}
+									break;
+								}
 							}
 						}
+						
+						update_post_meta( $post_id, '_dln_product_images', json_encode( $product_images ) );
 					}
 				}
-				echo $post_id;
-				exit( '1' );
+					
+				wp_set_object_terms( $post_id, $product_category, 'product_cat' );
+				wp_set_object_terms( $post_id, 'dln_fashion', 'dln_fashion' );
+				$product_price = ( ! empty( $product_price ) ) ? (int) $product_price : 0;
+				$product_price .= '000';
+				update_post_meta( $post_id, '_price', $product_price );
+				
+				self::process_product_attributes( $post_id, $product_atts );
 			}
+			echo $post_id;
+			exit( '1' );
 		}
 	}
 	
-	private function validate_product_fields( $product_fields ) {
+	private static function process_product_attributes( $post_id, $product_atts ) {
+		if ( empty( $product_atts ) || ! is_array( $product_atts ) ) 
+			return false;
+		
+		foreach ( $product_atts as $i => $attr ) {
+			$name  = ( ! empty( $attr['name'] ) ) ? $attr['name'] : '';
+			$value = ( ! empty( $attr['value'] ) ) ? $attr['value'] : '';
+			if ( ! $name || ! $value )
+				return;
+			
+			// Update post terms
+			if ( taxonomy_exists( $name ) ) {
+				wp_set_object_terms( $post_id, $value, $name );
+			}
+			
+			$attributes[ $name ] = array(
+				'name' 			=> wc_clean( $name ),
+				'value' 		=> $value,
+				'position' 		=> $i,
+				'is_visible' 	=> 1,
+				'is_variation' 	=> 0,
+				'is_taxonomy' 	=> 1
+			);
+		}
+		update_post_meta( $post_id, '_product_attributes', $attributes );
+	}
+	
+	/*private function validate_product_fields( $product_fields ) {
 		if ( empty( $product_fields ) )
 			return null;
 	
@@ -470,9 +523,9 @@ class DLN_Block_Ajax {
 		}
 	
 		return $arr_fields;
-	}
+	}*/
 	
-	private static function validate_perm( $perm = 'publish' ) {
+	/*private static function validate_perm( $perm = 'publish' ) {
 		if ( ! $perm )
 			return null;
 		
@@ -481,7 +534,7 @@ class DLN_Block_Ajax {
 		}
 		
 		return $perm;
-	}
+	}*/
 	
 	private static function validate_url_image( $url = '' ) {
 		if ( ! $url )

@@ -40,6 +40,8 @@ class DLN_Helper_Photo_Tmpl {
 			<img data-toggle="unveil" src="[photo_src]" data-src="[photo_src]" />
 		</div>
 		<!--/ media -->
+		
+		<input type="hidden" class="dln-json-meta-data" value="[photo_image_data]" />
 	</div>
 	<!--/ thumbnail -->
 </div>

@@ -62,10 +62,11 @@
 			var image_html = photo_tmpl.replace('[photo_id]', image.id);
 			image_html     = image_html.replace('[photo_type]', type);
 			image_html     = image_html.replace(/\[photo_src\]/g, image.picture);
-			html          += image_html;
+			image_html     = image_html.replace('[photo_image_data]', JSON.stringify(image.image_data) );
+			
+			html += image_html;
 		});
-		
-		$('#dln_photo_wrapper .row').html(html);
+		$('#dln_photo_wrapper .row').first().html(html);
 		
 		addUnveilForImages();
 		addSelectButtonAction();
@@ -128,6 +129,10 @@
 			case 'instagram':
 				getInstagramPhotos( action_type, code );
 			break;
+			
+			case 'upload':
+				
+				break;
 		}
 	}
 	

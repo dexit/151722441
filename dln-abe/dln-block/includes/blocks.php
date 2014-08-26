@@ -125,6 +125,7 @@ class DLN_Blocks {
 		
 		wp_enqueue_style( 'dln-block-photo-css' );
 		wp_enqueue_script( 'dln-jquery-unveil-js' );
+		wp_enqueue_script( 'dln-helper-product-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/helpers/product-helper.js', array( 'jquery' ), '1.0.0', true );
 		wp_enqueue_script( 'dln-helper-social-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/helpers/social-helper.js', array( 'jquery' ), '1.0.0', true );
 		wp_localize_script(
 			'dln-helper-social-js',
@@ -136,11 +137,12 @@ class DLN_Blocks {
 				'insta_app_id' => INSTA_APP_ID,
 				'insta_url'    => INSTA_REDIRECT_URI,
 				'dln_ajax_url' => admin_url( 'admin-ajax.php' ),
-				'dln_nonce'    => wp_create_nonce( DLN_ABE_NONCE ),
 				'indicator'    => '<div class="indicator show"><span class="spinner spinner3"></span></div>',
 				'language'     => array(
 					'error_empty_message' => __( 'Please enter your message!', DLN_ABE )
 				),
+				'dln_nonce'              => wp_create_nonce( DLN_ABE_NONCE ),
+				'dln_nonce_save_product' => wp_create_nonce( DLN_ABE_NONCE . '_save_product' ),
 			)
 		);
 	}
