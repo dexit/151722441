@@ -76,6 +76,6 @@ $block_photo_html = DLN_Helper_Photo_Tmpl::convert_literal_string( DLN_Helper_Ph
 ?>
 <script type="text/javascript">
 (function ($) {
-	$.DLN_TemplatePhotoPost = '<?php echo $block_photo_html ?>';
+	window.DLN_TemplatePhotoPost = '<?php echo $block_photo_html ?>';
 })(jQuery);
 </script>

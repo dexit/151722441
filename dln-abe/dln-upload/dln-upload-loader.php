@@ -52,9 +52,9 @@ class DLN_Upload_Loader {
 		$max_upload_no = intval( self::$options['max_upload_no'] );
 		$allow_ext     = self::$options['allow_ext'];
 		
-		wp_enqueue_script( 'jquery' );
+		//wp_enqueue_script( 'jquery' );
 		wp_enqueue_script( 'plupload-handlers' );
-		wp_enqueue_script( 'dln-upload-js', DLN_ABE_PLUGIN_URL . '/dln-upload/js/dln_upload.js', array( 'jquery' ) );
+		wp_enqueue_script( 'dln-upload-js', DLN_ABE_PLUGIN_URL . '/dln-upload/js/dln_upload.js' );
 		wp_localize_script(
 			'dln-upload-js', 
 			'dln_upload', 

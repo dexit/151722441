@@ -6,6 +6,10 @@ wp_enqueue_style( 'dln-modal-photo-select-css', DLN_ABE_PLUGIN_URL . '/assets/dl
 wp_print_scripts( 'dln-modal-photo-select-js' );
 wp_print_styles( 'dln-modal-photo-select-css' );
 
+DLN_Upload_Loader::add_scripts();
+
+wp_print_scripts( 'dln-upload-js' );
+
 $user_id  = get_current_user_id();
 $valid_fb = false;
 
@@ -16,7 +20,7 @@ if ( ! empty( $user_id ) ) {
 	if ( $fb_access_token ) {
 		// Validate facebook access token
 		$fb_app_id = FB_APP_ID;
-		$url       = 'https://graph.facebook.com/v2.0/oauth/access_token_info?client_id=' . $fb_app_id . '&access_token=' . $fb_access_token;
+		$url       = 'https://graph.facebook.com/v2.1/oauth/access_token_info?client_id=' . $fb_app_id . '&access_token=' . $fb_access_token;
 		$obj       = @file_get_contents( $url );
 		$obj       = ( ! empty( $obj ) ) ? json_decode( $obj ) : '';
 		if ( ! empty( $obj->error ) ) {
@@ -76,6 +80,6 @@ if ( ! empty( $user_id ) ) {
 
 <script type="text/javascript">
 (function ($) {
-	$.DLN_TemplatePhotoSource = '<?php echo $block_photo_html ?>';
+	window.DLN_TemplatePhotoSource = '<?php echo $block_photo_html ?>';
 })(jQuery);
 </script>

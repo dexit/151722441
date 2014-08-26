@@ -163,5 +163,7 @@ class DLN_Block_Photo_Submit extends DLN_Block {
 	
 	private static function load_frontend_assets() {
 		wp_enqueue_script( 'dln-block-product-submit-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/block-product-submit.js', array( 'jquery' ), '1.0.0', true );
+
+		wp_enqueue_script( 'plupload-handlers' );
 	}
 }

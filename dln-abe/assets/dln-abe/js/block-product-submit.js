@@ -110,8 +110,8 @@
 	};
 	
 	$(document).ready(function () {
-		$.DLN_Product_Helper.addSelectize();
-		$.DLN_Product_Helper.addSelectMultiple();
+		window.DLN_Product_Helper.addSelectize();
+		window.DLN_Product_Helper.addSelectMultiple();
 		settingModal();
 		addSubmitPhoto();
 		addButtonAttrProduct();

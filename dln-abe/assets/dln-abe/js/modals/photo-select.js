@@ -56,7 +56,7 @@
 			$('#dln_paging_group [data-action-type="after"]').data('type', type);
 		}
 		
-		var photo_tmpl = $.DLN_TemplatePhotoSource;
+		var photo_tmpl = window.DLN_TemplatePhotoSource;
 		var html       = '';
 		$.each(images, function (key, image) {
 			var image_html = photo_tmpl.replace('[photo_id]', image.id);
@@ -138,12 +138,12 @@
 	
 	var showLoading = function () {
 		// Show loading indicator
-		$('#dln_photo_wrapper .row').html( dln_abe_params.indicator );
+		$('#dln_photo_wrapper .row').first().html( dln_abe_params.indicator );
 	}
 	
 	$(document).ready(function () {
-		$.DLN_Social_Helper.addLoginFBButton();
-		$.DLN_Social_Helper.addLoginInstaButton();
+		window.DLN_Social_Helper.addLoginFBButton();
+		window.DLN_Social_Helper.addLoginInstaButton();
 		
 		addUnveilForImages();
 		

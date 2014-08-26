@@ -1,9 +1,9 @@
 (function($) {
 	"use strict";
 	
-	$.DLN_Social_Helper = $.DLN_Social_Helper || {};
+	window.DLN_Social_Helper = window.DLN_Social_Helper || {};
 	
-	$.DLN_Social_Helper.addLoginInstaButton = function () {
+	window.DLN_Social_Helper.addLoginInstaButton = function () {
 		$('.dln-connect-insta').each(function () {
 			$(this).on('click', function (e) {
 				e.preventDefault();
@@ -18,7 +18,7 @@
 		});
 	};
 	
-	$.DLN_Social_Helper.addLoginFBButton = function () {
+	window.DLN_Social_Helper.addLoginFBButton = function () {
 		$('.dln-connect-fb').each(function () {
 			$(this).on('click', function (e) {
 				e.preventDefault();
