@@ -6,9 +6,9 @@ wp_enqueue_style( 'dln-modal-photo-select-css', DLN_ABE_PLUGIN_URL . '/assets/dl
 wp_print_scripts( 'dln-modal-photo-select-js' );
 wp_print_styles( 'dln-modal-photo-select-css' );
 
-DLN_Upload_Loader::add_scripts();
+//DLN_Upload_Loader::add_scripts();
 
-wp_print_scripts( 'dln-upload-js' );
+//wp_print_scripts( 'dln-upload-js' );
 
 $user_id  = get_current_user_id();
 $valid_fb = $valid_insta = false;

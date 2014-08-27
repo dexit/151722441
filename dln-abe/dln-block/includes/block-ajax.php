@@ -88,7 +88,7 @@ class DLN_Block_Ajax {
 								$images[] = array(
 									'id'         => $image->id,
 									'picture'    => $image->images->low_resolution->url,
-									'image_data' => serialize( array( 'type' => 'instagram', 'external_id' => $image->id ) )
+									'image_data' => esc_attr( serialize( array( 'type' => 'instagram', 'external_id' => $image->id ) ) )
 								);
 							}
 						}
@@ -374,13 +374,12 @@ class DLN_Block_Ajax {
 	
 	public function dln_add_product() {
 		check_ajax_referer( DLN_ABE_NONCE . '_save_product', 'security' );
-		
 		$data = isset( $_POST['data'] ) ? $_POST['data'] : '';
 		
-		if ( ! DLN_Block_Cache::add_cache( $data ) ) {
+		/*if ( ! DLN_Block_Cache::add_cache( $data ) ) {
 			exit( '0' );
 			return null;
-		}
+		}*/
 		
 		$image_data       = isset( $data['image_data'] ) ? $data['image_data'] : '';
 		$product_title    = isset( $data['product_title'] ) ? $data['product_title'] : '';
@@ -390,8 +389,7 @@ class DLN_Block_Ajax {
 		$product_desc     = isset( $data['product_desc'] ) ? $data['product_desc'] : '';
 		$product_attrs    = isset( $data['product_attrs'] ) ? $data['product_attrs'] : '';
 		
-		if ( ! empty( $image_ids ) && ! empty( $product_title ) && ! empty( $product_category ) && ! empty( $product_price ) ) {
-				
+		if ( ! empty( $product_title ) && ! empty( $product_category ) && ! empty( $product_price ) && ! empty( $product_desc ) ) {
 			$user_id     = get_current_user_id();
 			if ( ! $user_id ) {
 				exit( '0' );
@@ -414,14 +412,15 @@ class DLN_Block_Ajax {
 				// Insert the attachment
 				if ( ! empty( $image_data ) ) {
 					$product_images = array();
-					$image_data     = json_decode( $image_data );
+					$thumb_url      = '';
+					$full_url       = '';
 					
 					if ( ! empty( $image_data ) && is_array( $image_data ) ) {
 						foreach ( $image_data as $i => $data ) {
+							$data        = stripslashes( $data );
 							$data        = unserialize( $data );
-							var_dump( $data );
-							$type        = isset( $image_data['type'] ) ? $image_data['type'] : '';
-							$external_id = isset( $image_data['external_id'] ) ? $image_data['external_id'] : '';
+							$type        = isset( $data['type'] ) ? $data['type'] : '';
+							$external_id = isset( $data['external_id'] ) ? $data['external_id'] : '';
 							
 							if ( $type && $external_id ) {
 								switch ( $type ) {
@@ -453,27 +452,35 @@ class DLN_Block_Ajax {
 										$obj = @file_get_contents( $url );
 										$obj = ( ! empty( $obj ) ) ? json_decode( $obj ) : '';
 										
-										if ( ! empty( $obj->images ) ) {
+										if ( ! empty( $obj->data->images ) ) {
+											
 											$product_images[] = array(
-												'external_id'  => $obj->id,
-												'thumb_url'    => $obj->images->thumbnail->url,
-												'standard_url' => $obj->images->low_resolution->url,
-												'full_url'     => $obj->images->standard_resolution->url,
-												'full_height'  => $obj->images->standard_resolution->height,
-												'full_width'   => $obj->images->standard_resolution->width,
+												'external_id'  => $obj->data->id,
+												'thumb_url'    => $obj->data->images->thumbnail->url,
+												'standard_url' => $obj->data->images->low_resolution->url,
+												'full_url'     => $obj->data->images->standard_resolution->url,
+												'full_height'  => $obj->data->images->standard_resolution->height,
+												'full_width'   => $obj->data->images->standard_resolution->width,
 											);
 										}
 									break;
 								}
+								
+								// Update thumbnail main image
+								if ( ! $thumb_url && count( $product_images ) ) {
+									$thumb_url = $product_images[count( $product_images ) - 1]['thumb_url'];
+								}
+								if ( ! $full_url && count( $product_images ) ) {
+									$full_url = $product_images[count( $product_images ) - 1]['full_url'];
+								}
 							}
 						}
 						
+						update_post_meta( $post_id, '_dln_product_thumb', $thumb_url );
+						update_post_meta( $post_id, '_dln_product_full', $full_url );
 						update_post_meta( $post_id, '_dln_product_images', json_encode( $product_images ) );
 					}
 				}
-				
-				// Process product tag
-				$product_tag = ( ! empty( $product_tag ) ) ? explode( '|', $product_tag ) : '';
 				
 				wp_set_object_terms( $post_id, $product_category, 'product_cat' );
 				wp_set_object_terms( $post_id, 'dln_fashion', 'dln_fashion' );
@@ -482,13 +489,14 @@ class DLN_Block_Ajax {
 				$product_price .= '000';
 				update_post_meta( $post_id, '_price', $product_price );
 				
-				self::process_product_attributes( $post_id, $product_atts );
+				self::process_product_attributes( $post_id, $product_attrs );
 				
-				do_action( 'dln_add_product', $post_id, $user_id );
+				do_action( 'dln_add_product', $post_id, $product_title, $user_id );
 			}
 			echo $post_id;
-			exit( '1' );
+			exit();
 		}
+		exit( '0' );
 	}
 	
 	private static function process_product_attributes( $post_id, $product_atts ) {

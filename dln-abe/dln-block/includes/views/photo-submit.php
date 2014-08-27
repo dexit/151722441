@@ -60,6 +60,14 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 				
 				<div class="form-group">
 					<div class="row">
+						<div class="col-sm-12">
+							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'product_title' ) ) ?>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="row">
 						<div class="col-sm-6">
 							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'product_category' ) ) ?>
 						</div>

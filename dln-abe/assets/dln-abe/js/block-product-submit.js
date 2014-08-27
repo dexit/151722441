@@ -33,8 +33,9 @@
 			
 			// Process image data
 			var image_data = [];
+			var data_image = '';
 			$('.dln-image-items img').each(function () {
-				if ( var data_image = $(this).data('image') ) {
+				if ( data_image = $(this).data('image') ) {
 					image_data.push( data_image );
 				}
 			});
@@ -120,8 +121,8 @@
 	
 	$(document).ready(function () {
 		window.DLN_Product_Helper.addSelectize();
-		window.DLN_Product_Helper.addSelectMultiple();
 		window.DLN_Product_Helper.addSelecizeCreate();
+		window.DLN_Product_Helper.addSelectMultiple();
 		settingModal();
 		addSubmitPhoto();
 		addButtonAttrProduct();

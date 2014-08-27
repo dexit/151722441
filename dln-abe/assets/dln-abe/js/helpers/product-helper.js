@@ -14,10 +14,10 @@
 		}
 	};
 	
-	window.DLN_Product_Helper.addSelecizeCreate = functionm () {
+	window.DLN_Product_Helper.addSelecizeCreate = function () {
 		if ( typeof( $.fn.selectize ) == 'function' ) {
 			$('.dln-selectize-create').each(function() {
-				if ( ! $(this).addClass('dln-added') ) {
+				if ( ! $(this).hasClass('dln-added') ) {
 					$(this).selectize({
 						delimiter: '|',
 						persist: false,

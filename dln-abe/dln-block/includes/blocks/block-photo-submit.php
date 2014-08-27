@@ -64,7 +64,7 @@ class DLN_Block_Photo_Submit extends DLN_Block {
 					),
 					array(
 						'id'          => 'product_tag',
-						'label'       => __( 'Category', DLN_ABE ),
+						'label'       => __( 'Tag', DLN_ABE ),
 						'type'        => 'select',
 						'class'       => 'dln-selectize-create',
 						'value'       => '',
@@ -154,14 +154,11 @@ class DLN_Block_Photo_Submit extends DLN_Block {
 	
 	private static function get_tag_options() {
 		$terms = get_terms( 'product_tag', array( 'hide_empty' => false, 'order_by' => 'term_id' ) );
-		if ( empty( $terms ) || ! empty( $terms->errors ) ) {
-			$result = new WP_Error( '500', __( 'Product Tags Not Found!', DLN_ABE ) );
-			return $result;
-		}
+		
 		$options = array();
 		if ( ! empty( $terms ) ) {
 			foreach ( $terms as $i => $term ) {
-				$options[ $term->term_id ] = $term->name;
+				$options[ $term->name ] = $term->name;
 			}
 		}
 		

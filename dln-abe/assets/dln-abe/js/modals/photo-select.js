@@ -151,13 +151,13 @@
 			var allow      = $(this).data('allow');
 			
 			if ( allow == 'true' ) {
-				var url   = dln_abe_params.site_url . '?dln_form=profile_edit';
+				var url   = dln_abe_params.site_url + '?dln_form=profile_edit';
 				switch ( select_val ) {
 					case 'facebook':
-						var label = dln_abe_params.language.label_fb_setting,
+						var label = dln_abe_params.language.label_fb_setting;
 					break;
 					case 'instagram':
-						var label = dln_abe_params.language.label_insta_setting,
+						var label = dln_abe_params.language.label_insta_setting;
 					break;
 				}
 				

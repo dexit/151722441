@@ -17,7 +17,7 @@ class DLN_BuddyPress_Loader {
 	
 	function __construct() {
 		//add_action( 'init', array( $this, 'init' ) );
-		add_action( 'dln_add_product', array( $this, 'create_product' ) );
+		add_action( 'dln_add_product', array( $this, 'create_product' ), 10, 3 );
 	}
 	
 	public function create_product( $product_id = 0, $product_title = '', $author_id = 0 ) {
@@ -26,14 +26,14 @@ class DLN_BuddyPress_Loader {
 		$product_id = (int) $product_id;
 		
 		// User link for product author
-		$user_link = bbp_get_user_profile_link( $user_id );
+		$user_link = bp_core_get_userlink( $user_id );
 		
 		// Product
 		$product_permalink = get_permalink( $product_id );
 		$product_link      = '<a href="' . $product_permalink . '">' . $product_title . '</a>';
 		
 		// Activity action & text
-		$activity_text   = sprintf( esc_html( '%1$s created the a new product %2$s', DLN_ABE ), $user_link, $product_permalink );
+		$activity_text   = sprintf( esc_html( '%1$s created the a new product %2$s', DLN_ABE ), $user_link, $product_link );
 		
 		// Compile and record the activity stream results
 		$activity_id = self::record_activity( array(
@@ -44,7 +44,7 @@ class DLN_BuddyPress_Loader {
 			'primary_link'  => $product_permalink,
 			'type'          => 'dln_create_product',
 			'item_id'       => $product_id,
-			'recorded_time' => get_post_time( 'Y-m-d H:i:s', true, $product_id ),
+			'recorded_time' => get_the_time('Y-m-d H:i:s', $product_id),
 			'hide_sitewide' => false
 		) );
 		
@@ -57,19 +57,19 @@ class DLN_BuddyPress_Loader {
 	private static function record_activity( $args = array() ) {
 		
 		// Default activity args
-		$activity = bbp_parse_args( $args, array(
+		$activity = array_merge( array(
 			'id'                => null,
-			'user_id'           => bbp_get_current_user_id(),
+			'user_id'           => get_current_user_id(),
 			'type'              => '',
 			'action'            => '',
 			'item_id'           => '',
 			'secondary_item_id' => '',
 			'content'           => '',
 			'primary_link'      => '',
-			'component'         => $this->component,
+			'component'         => 'dln-product-component',
 			'recorded_time'     => bp_core_current_time(),
 			'hide_sitewide'     => false
-		), 'record_activity' );
+		), $args );
 		
 		// Add the activity
 		return bp_activity_add( $activity );
