@@ -37,23 +37,20 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
-							<div id="dln_add_status"
-								class="thumbnail thumbnail-album dln-items">
-								<!-- media -->
-								<div class="media">
-									<!--/ indicator -->
-									<!-- toolbar overlay -->
-									<div id="dln_select_image" class="overlay show">
-										<div class="toolbar dln-toolbar">
-											<a href="javascript:void(0);" class="btn btn-default" title="upload to collection">
-												<i class="ico-picture"></i>
-											</a>
-										</div>
-									</div>
-									<!--/ toolbar overlay -->
-								</div>
-								<!--/ media -->
-							</div>
+							<?php echo balanceTags( DLN_Helper_Photo_Tmpl::render_product_images( '1' ) ) ?>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-4">
+							<?php echo balanceTags( DLN_Helper_Photo_Tmpl::render_product_images( '2' ) ) ?>
+						</div>
+						<div class="col-sm-4">
+							<?php echo balanceTags( DLN_Helper_Photo_Tmpl::render_product_images( '3' ) ) ?>
+						</div>
+						<div class="col-sm-4">
+							<?php echo balanceTags( DLN_Helper_Photo_Tmpl::render_product_images( '4' ) ) ?>
 						</div>
 					</div>
 				</div>
@@ -147,21 +144,7 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 				<div class="form-group">
 					<div class="row">
 						<div class="col-sm-12">
-							<div class="btn-group" id="dln_post_perm">
-								<button type="button" class="btn btn-default"
-									data-value="publish">
-									<?php _e( 'Publish', DLN_ABE ) ?>
-								</button>
-								<button type="button" class="btn btn-default"
-									data-value="private">
-									<?php _e( 'Private', DLN_ABE ) ?>
-								</button>
-							</div>
-							<div class="btn-group">
-								<button type="button" class="btn btn-default">
-									<i class="ico-smile"></i>
-								</button>
-							</div>
+							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'product_tag' ) ) ?>
 						</div>
 					</div>
 				</div>

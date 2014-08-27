@@ -62,7 +62,7 @@
 			var image_html = photo_tmpl.replace('[photo_id]', image.id);
 			image_html     = image_html.replace('[photo_type]', type);
 			image_html     = image_html.replace(/\[photo_src\]/g, image.picture);
-			image_html     = image_html.replace('[photo_image_data]', JSON.stringify(image.image_data) );
+			image_html     = image_html.replace('[photo_image_data]', image.image_data );
 			
 			html += image_html;
 		});
@@ -129,10 +129,6 @@
 			case 'instagram':
 				getInstagramPhotos( action_type, code );
 			break;
-			
-			case 'upload':
-				
-				break;
 		}
 	}
 	
@@ -152,9 +148,25 @@
 			e.preventDefault();
 			
 			var select_val = $(this).data('value');
+			var allow      = $(this).data('allow');
 			
-			showLoading();
-			loadingPhotos( select_val, '', '' );
+			if ( allow == 'true' ) {
+				var url   = dln_abe_params.site_url . '?dln_form=profile_edit';
+				switch ( select_val ) {
+					case 'facebook':
+						var label = dln_abe_params.language.label_fb_setting,
+					break;
+					case 'instagram':
+						var label = dln_abe_params.language.label_insta_setting,
+					break;
+				}
+				
+				$('#dln_photo_wrapper .row').first().html('<a href="' + url + '" target="_blank" class="btn btn-default">' + label + '</a>');
+			} else {
+				showLoading();
+				loadingPhotos( select_val, '', '' );
+			}
+			
 		});
 		
 		$('#dln_paging_group a').on('click', function (e) {

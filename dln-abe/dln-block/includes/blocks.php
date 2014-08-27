@@ -139,7 +139,9 @@ class DLN_Blocks {
 				'dln_ajax_url' => admin_url( 'admin-ajax.php' ),
 				'indicator'    => '<div class="indicator show"><span class="spinner spinner3"></span></div>',
 				'language'     => array(
-					'error_empty_message' => __( 'Please enter your message!', DLN_ABE )
+					'error_empty_message'     => __( 'Please enter your message!', DLN_ABE ),
+					'label_fb_setting'    => __( 'Setup facebook account', DLN_ABE ),
+					'label_insta_setting' => __( 'Setup instagram account', DLN_ABE ),
 				),
 				'dln_nonce'              => wp_create_nonce( DLN_ABE_NONCE ),
 				'dln_nonce_save_product' => wp_create_nonce( DLN_ABE_NONCE . '_save_product' ),

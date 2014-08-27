@@ -14,6 +14,26 @@
 		}
 	};
 	
+	window.DLN_Product_Helper.addSelecizeCreate = functionm () {
+		if ( typeof( $.fn.selectize ) == 'function' ) {
+			$('.dln-selectize-create').each(function() {
+				if ( ! $(this).addClass('dln-added') ) {
+					$(this).selectize({
+						delimiter: '|',
+						persist: false,
+						create: function( input ) {
+							return {
+								value: input,
+								text: capitalizeFirstLetter( input )
+							}
+						}
+					});
+					$(this).addClass('dln-added');
+				}
+			});
+		}
+	};
+	
 	window.DLN_Product_Helper.addSelectMultiple = function () {
 		if ( typeof( $.fn.selectize ) == 'function' ) {
 			$('.dln-selectize-multi').each(function () {
@@ -26,6 +46,10 @@
 				}
 			});
 		}
+	};
+	
+	var capitalizeFirstLetter = function( string ) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 	
 	$(document).ready(function () {

@@ -11,7 +11,7 @@ DLN_Upload_Loader::add_scripts();
 wp_print_scripts( 'dln-upload-js' );
 
 $user_id  = get_current_user_id();
-$valid_fb = false;
+$valid_fb = $valid_insta = false;
 
 if ( ! empty( $user_id ) ) {
 	// If user has logged in
@@ -34,7 +34,9 @@ if ( ! empty( $user_id ) ) {
 	$insta_access_token = get_user_meta( $user_id, 'dln_instagram_access_token', true );
 	
 	if ( $insta_access_token ) {
-		
+		$valid_insta = true;
+	} else {
+		$valid_insta = false;
 	}
 }
 ?>
@@ -47,9 +49,8 @@ if ( ! empty( $user_id ) ) {
 		<div class="toolbar">
 			<span class="toolbar-label semibold mr5"><?php _e( 'Photo : ', DLN_ABE ) ?></span>
 			<div class="btn-group" id="dln_btn_photos">
-				<button class="btn btn-default" data-value="upload"><?php _e( 'Upload', DLN_ABE ) ?></button>
-				<button class="btn btn-default" data-value="facebook"><?php _e( 'Facebook', DLN_ABE ) ?></button>
-				<button class="btn btn-default" data-value="instagram"><?php _e( 'Instagram', DLN_ABE ) ?></button>
+				<button class="btn btn-default" data-value="facebook" data-allow="<?php echo $valid_fb ?>"><?php _e( 'Facebook', DLN_ABE ) ?></button>
+				<button class="btn btn-default" data-value="instagram" data-allow="<?php echo $valid_insta ?>"><?php _e( 'Instagram', DLN_ABE ) ?></button>
 			</div>
 		</div>
 		<!--/ Toolbar -->
@@ -59,25 +60,17 @@ if ( ! empty( $user_id ) ) {
 	<div class="row">
 		<!-- listing photos -->
 	</div>
-	<div class="row dln-upload-wrapper">
-		<?php echo balanceTags( do_shortcode( '[dln_upload theme="true"]' ) ) ?>
-	</div>
 </div>
 <ul class="pager mt0" id="dln_paging_group">
 	<li><a data-action-type="before" href="javascript:void(0);"><?php _e( 'Previous', DLN_ABE ) ?></a></li>
 	<li><a data-action-type="after" href="javascript:void(0);"><?php _e( 'Next', DLN_ABE ) ?></a></li>
 </ul>
 
-<?php if ( ! $valid_fb ) : ?>
-<button class="btn btn-default dln-connect-fb" href="#"><?php _e( 'Connect to Facebook', DLN_ABE ) ?></button>
-<?php endif ?>
-
-<button class="btn btn-default dln-connect-insta"href="#"><?php _e( 'Connect to Instagram', DLN_ABE ) ?></button>
+<input type="hidden" id="dln_index_pos" value="0" />
 
 <?php
 	$block_photo_html = DLN_Helper_Photo_Tmpl::convert_literal_string( DLN_Helper_Photo_Tmpl::render_photo_source() );
 ?>
-
 <script type="text/javascript">
 (function ($) {
 	window.DLN_TemplatePhotoSource = '<?php echo $block_photo_html ?>';

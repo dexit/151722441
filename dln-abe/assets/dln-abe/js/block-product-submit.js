@@ -31,10 +31,18 @@
 		$('#dln_submit_product').on('click', function (e) {
 			e.preventDefault();
 			
-			var image_data = $('#dln_add_status .media img').data('src');
+			// Process image data
+			var image_data = [];
+			$('.dln-image-items img').each(function () {
+				if ( var data_image = $(this).data('image') ) {
+					image_data.push( data_image );
+				}
+			});
+			
 			var title      = $('#dln_product_title').val();
 			var desc       = $('#dln_product_desc').val();
 			var category   = $('#dln_product_category').val();
+			var tag        = $('#dln_product_tag').val();
 			var price      = $('#dln_product_price').val();
 			desc           = desc.trim();
 			
@@ -63,6 +71,7 @@
 			data.product_title = title;
 			data.product_desc  = desc;
 			data.product_cat   = category;
+			data.product_tag   = tag;
 			data.product_price = price;
 			data.product_attrs = product_atts;
 			
@@ -70,7 +79,7 @@
 				url: dln_abe_params.dln_ajax_url,
 				type: 'POST',
 				data: {
-					action     : 'dln_save_product',
+					action     : 'dln_add_product',
 					data       : data,
 					'security' : dln_abe_params.dln_nonce_save_product
 				},
@@ -112,15 +121,18 @@
 	$(document).ready(function () {
 		window.DLN_Product_Helper.addSelectize();
 		window.DLN_Product_Helper.addSelectMultiple();
+		window.DLN_Product_Helper.addSelecizeCreate();
 		settingModal();
 		addSubmitPhoto();
 		addButtonAttrProduct();
 		addCloseAttrProduct();
 		
 		// Add select image action
-		$('#dln_select_image').on('click', function (e) {
+		$('.dln-select-image').on('click', function (e) {
 			e.preventDefault();
 
+			var position = $(this).closest('.dln-image-items').data('position');
+			
 			$('#dln_modal_select_photo .modal-body').html(dln_abe_params.indicator);
 			
 			var block = 'modal-photo-select';
@@ -136,6 +148,7 @@
 					data = ( data ) ? JSON.parse( data ) : data;
 					if ( data.status == 'success' ) {
 						$('#dln_modal_select_photo .modal-body').html( data.content );
+						$('#dln_modal_select_photo #dln_index_pos').val( position );
 					} else {
 						console.log( data );
 					}
@@ -153,17 +166,20 @@
 			e.preventDefault();
 			
 			if ( $('.dln-photo-items.active').length ) {
-				var active_elm = $('.dln-photo-items.active').first();
+				var active_elm = $('.dln-photo-items.active:first');
 				var img_url    = $(active_elm).find('img').data('src');
+				var img_data   = $(active_elm).find('.dln-json-meta-data').val();
+				var pos        = $('#dln_index_pos').val();
 				
-				if ( img_url ) {
-					var elm_container = $('#dln_add_status .media');
+				if ( img_url && pos ) {
+					var elm_container = $('.dln-image-items[data-position="' + pos + '"] .media');
 					$(elm_container).find('img').remove();
 					
 					// Create new img tag
 					var img_tag = $('<img />', {
 						'src'         : img_url,
 						'data-src'    : img_url,
+						'data-image'  : img_data,
 						'data-toggle' : 'unveil'
 					});
 					

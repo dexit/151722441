@@ -51,7 +51,7 @@ class DLN_Helper_Photo_Tmpl {
 		return $block_photo_html;
 	}
 	
-	public static function render_photo_item( $is_string = false ) {
+	/*public static function render_photo_item( $is_string = false ) {
 		ob_start();
 		?>
 <div class="thumbnail thumbnail-album animation animating delay fadeInLeft dln-items">
@@ -94,9 +94,9 @@ class DLN_Helper_Photo_Tmpl {
 		$block_html = ob_get_clean();
 		
 		return $block_html;
-	}
+	}*/
 	
-	public static function render_photo_submit() {
+	/*public static function render_photo_submit() {
 		ob_start();
 		?>
 <div id="dln_add_status" class="thumbnail thumbnail-album animation animating delay fadeInLeft dln-items">
@@ -136,6 +136,27 @@ class DLN_Helper_Photo_Tmpl {
 		$block_html = ob_get_clean();
 		
 		return $block_html;
+	}*/
+
+	public static function render_product_images( $position = '[data_position]' ) {
+	?>
+	<div class="thumbnail thumbnail-album dln-items dln-image-items" data-position="<?php echo esc_attr( $position )?>" >
+		<!-- media -->
+		<div class="media">
+			<!--/ indicator -->
+			<!-- toolbar overlay -->
+			<div class="overlay show dln-select-image">
+				<div class="toolbar dln-toolbar">
+					<a href="javascript:void(0);" class="btn btn-default" title="upload to collection">
+						<i class="ico-picture"></i>
+					</a>
+				</div>
+			</div>
+			<!--/ toolbar overlay -->
+		</div>
+		<!--/ media -->
+	</div>
+	<?php
 	}
 	
 	public static function render_photo_post( $user_thumb = '[data_user_thumb]', $username = '[data_user_name]', $post_id = '[data_post_id]', $time_post = '[data_time]', 

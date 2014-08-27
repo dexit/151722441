@@ -22,8 +22,8 @@ class DLN_Block_Ajax {
 		
 		add_action( 'wp_ajax_dln_save_product_data',              array( $this, 'dln_save_product_data' ) );
 		add_action( 'wp_ajax_nopriv_dln_save_product_data',       array( $this, 'dln_save_product_data' ) );
-		add_action( 'wp_ajax_dln_save_product',                   array( $this, 'dln_save_product' ) );
-		add_action( 'wp_ajax_nopriv_dln_save_product',            array( $this, 'dln_save_product' ) );
+		add_action( 'wp_ajax_dln_add_product',                    array( $this, 'dln_add_product' ) );
+		add_action( 'wp_ajax_nopriv_dln_add_product',             array( $this, 'dln_add_product' ) );
 		add_action( 'wp_ajax_dln_fetch_images_from_url',          array( $this, 'dln_fetch_images_from_url' ) );
 		add_action( 'wp_ajax_nopriv_dln_fetch_images_from_url',   array( $this, 'dln_fetch_images_from_url' ) );
 		add_action( 'wp_ajax_dln_download_image_from_url',        array( $this, 'dln_download_image_from_url' ) );
@@ -88,7 +88,7 @@ class DLN_Block_Ajax {
 								$images[] = array(
 									'id'         => $image->id,
 									'picture'    => $image->images->low_resolution->url,
-									'image_data' => array( 'type' => 'instagram', 'external_id' => $image->id )
+									'image_data' => serialize( array( 'type' => 'instagram', 'external_id' => $image->id ) )
 								);
 							}
 						}
@@ -141,7 +141,7 @@ class DLN_Block_Ajax {
 								$images[] = array(
 									'id'         => $image->id,
 									'picture'    => $image->source,
-									'image_data' => array( 'type' => 'facebook', 'external_id' => $image->id )
+									'image_data' => esc_attr( serialize( array( 'type' => 'facebook', 'external_id' => $image->id ) ) )
 								);
 							}
 						}
@@ -372,7 +372,7 @@ class DLN_Block_Ajax {
 		exit('0');
 	}
 	
-	public function dln_save_product() {
+	public function dln_add_product() {
 		check_ajax_referer( DLN_ABE_NONCE . '_save_product', 'security' );
 		
 		$data = isset( $_POST['data'] ) ? $_POST['data'] : '';
@@ -385,6 +385,7 @@ class DLN_Block_Ajax {
 		$image_data       = isset( $data['image_data'] ) ? $data['image_data'] : '';
 		$product_title    = isset( $data['product_title'] ) ? $data['product_title'] : '';
 		$product_category = isset( $data['product_cat'] ) ? (int) $data['product_cat'] : '';
+		$product_tag      = isset( $data['product_tag'] ) ? $data['product_tag'] : '';
 		$product_price    = isset( $data['product_price'] ) ? $data['product_price'] : '';
 		$product_desc     = isset( $data['product_desc'] ) ? $data['product_desc'] : '';
 		$product_attrs    = isset( $data['product_attrs'] ) ? $data['product_attrs'] : '';
@@ -417,6 +418,8 @@ class DLN_Block_Ajax {
 					
 					if ( ! empty( $image_data ) && is_array( $image_data ) ) {
 						foreach ( $image_data as $i => $data ) {
+							$data        = unserialize( $data );
+							var_dump( $data );
 							$type        = isset( $image_data['type'] ) ? $image_data['type'] : '';
 							$external_id = isset( $image_data['external_id'] ) ? $image_data['external_id'] : '';
 							
@@ -468,14 +471,20 @@ class DLN_Block_Ajax {
 						update_post_meta( $post_id, '_dln_product_images', json_encode( $product_images ) );
 					}
 				}
-					
+				
+				// Process product tag
+				$product_tag = ( ! empty( $product_tag ) ) ? explode( '|', $product_tag ) : '';
+				
 				wp_set_object_terms( $post_id, $product_category, 'product_cat' );
 				wp_set_object_terms( $post_id, 'dln_fashion', 'dln_fashion' );
+				wp_set_object_terms( $post_id, $product_tag, 'product_tag' );
 				$product_price = ( ! empty( $product_price ) ) ? (int) $product_price : 0;
 				$product_price .= '000';
 				update_post_meta( $post_id, '_price', $product_price );
 				
 				self::process_product_attributes( $post_id, $product_atts );
+				
+				do_action( 'dln_add_product', $post_id, $user_id );
 			}
 			echo $post_id;
 			exit( '1' );

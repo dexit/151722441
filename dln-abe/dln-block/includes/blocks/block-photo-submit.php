@@ -63,23 +63,14 @@ class DLN_Block_Photo_Submit extends DLN_Block {
 						'rows'  => '4',
 					),
 					array(
-						'id'          => 'photobabe_mood',
-						'label'       => __( 'Mood', DLN_ABE ),
+						'id'          => 'product_tag',
+						'label'       => __( 'Category', DLN_ABE ),
 						'type'        => 'select',
-						'class'       => 'dln-selectize',
+						'class'       => 'dln-selectize-create',
 						'value'       => '',
-						'options'     => array(),//self::get_photobabe_mood_options(),
-					),
-					array(
-						'id'          => 'photobabe_perm',
-						'label'       => __( 'Permission', DLN_ABE ),
-						'type'        => 'select',
-						'class'       => 'dln-selectize',
-						'value'       => '',
-						'options'     => array(
-							'public'  => __( 'Public', DLN_ABE ),
-							'private' => __( 'Private', DLN_ABE ),
-						),
+						'options'     => self::get_tag_options(),
+						'required'    => false,
+						'multiple'    => true
 					),
 				)
 			)
@@ -158,6 +149,22 @@ class DLN_Block_Photo_Submit extends DLN_Block {
 			}
 		}
 	
+		return $options;
+	}
+	
+	private static function get_tag_options() {
+		$terms = get_terms( 'product_tag', array( 'hide_empty' => false, 'order_by' => 'term_id' ) );
+		if ( empty( $terms ) || ! empty( $terms->errors ) ) {
+			$result = new WP_Error( '500', __( 'Product Tags Not Found!', DLN_ABE ) );
+			return $result;
+		}
+		$options = array();
+		if ( ! empty( $terms ) ) {
+			foreach ( $terms as $i => $term ) {
+				$options[ $term->term_id ] = $term->name;
+			}
+		}
+		
 		return $options;
 	}
 	
