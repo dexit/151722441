@@ -18,7 +18,9 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><?php _e( 'Close', DLN_ABE ) ?></button>
-				<button type="button" class="btn btn-primary dln-select"><?php _e( 'Select photo', DLN_ABE ) ?></button>
+				<button class="btn btn-primary ladda-button ladda-progress mb5 dln-select" data-style="expand-right">
+					<span class="ladda-label"><?php _e( 'Select photo', DLN_ABE ) ?> </span>
+				</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->

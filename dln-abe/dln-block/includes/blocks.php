@@ -143,8 +143,9 @@ class DLN_Blocks {
 					'label_fb_setting'    => __( 'Setup facebook account', DLN_ABE ),
 					'label_insta_setting' => __( 'Setup instagram account', DLN_ABE ),
 				),
-				'dln_nonce'              => wp_create_nonce( DLN_ABE_NONCE ),
-				'dln_nonce_save_product' => wp_create_nonce( DLN_ABE_NONCE . '_save_product' ),
+				'dln_nonce'                => wp_create_nonce( DLN_ABE_NONCE ),
+				'dln_nonce_save_product'   => wp_create_nonce( DLN_ABE_NONCE . '_save_product' ),
+				'dln_nonce_download_image' => wp_create_nonce( DLN_ABE_NONCE . '_download_image_from_url' )
 			)
 		);
 	}

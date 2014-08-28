@@ -80,9 +80,9 @@
 				url: dln_abe_params.dln_ajax_url,
 				type: 'POST',
 				data: {
-					action     : 'dln_add_product',
-					data       : data,
-					'security' : dln_abe_params.dln_nonce_save_product
+					action   : 'dln_add_product',
+					data     : data,
+					security : dln_abe_params.dln_nonce_save_product
 				},
 				success: function ( data ) {
 					data = ( data ) ? JSON.parse( data ) : data;
@@ -95,6 +95,50 @@
 			});
 		});
 	};
+	
+	var storeImagetoServer = function ( image_url, image_data, pos ) {
+		if ( ! image_url || ! image_data )
+			return false;
+		
+		
+		var data = {};
+		data.url         = image_url;
+		data.image_data  = image_data;
+		
+		$.ajax({
+			url : dln_abe_params.dln_ajax_url,
+			type : 'POST',
+			data: {
+				action   : 'dln_download_image_from_url',
+				data     : data,
+				security : dln_abe_params.dln_nonce_download_image
+			},
+			success: function(data) {
+				data = ( data ) ? JSON.parse( data ) : data;
+				
+				if ( ! data )
+					return false;
+				
+				var elm_container = $('.dln-image-items[data-position="' + pos + '"] .media');
+				$(elm_container).find('img').remove();
+				
+				// Create new img tag
+				var img_tag = $('<img />', {
+					'src'         : data.img_url,
+					'data-src'    : data.img_url,
+					'data-image'  : data.img_data,
+					'data-toggle' : 'unveil'
+				});
+				
+				$(elm_container).append( img_tag );
+				$(elm_container).find('.overlay').removeClass('show');
+				addUnveilLib();
+				
+				// Show modal last active
+				$('.modal.in').last().modal('hide');
+			}
+		});
+	}
 	
 	var addButtonAttrProduct = function() {
 		$('.dln-add-attr').on('click', function (e) {
@@ -172,24 +216,9 @@
 				var img_data   = $(active_elm).find('.dln-json-meta-data').val();
 				var pos        = $('#dln_index_pos').val();
 				
+				// Send ajax request to store image in the system.
 				if ( img_url && pos ) {
-					var elm_container = $('.dln-image-items[data-position="' + pos + '"] .media');
-					$(elm_container).find('img').remove();
-					
-					// Create new img tag
-					var img_tag = $('<img />', {
-						'src'         : img_url,
-						'data-src'    : img_url,
-						'data-image'  : img_data,
-						'data-toggle' : 'unveil'
-					});
-					
-					$(elm_container).append( img_tag );
-					$(elm_container).find('.overlay').removeClass('show');
-					addUnveilLib();
-					
-					// Show modal last active
-					$('.modal.in').last().modal('hide');
+					storeImagetoServer( img_url, img_data, pos );
 				}
 			}
 		});

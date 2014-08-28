@@ -341,33 +341,75 @@ class DLN_Block_Ajax {
 	}
 	
 	public function dln_download_image_from_url() {
-		if ( ! isset( $_POST[DLN_ABE_NONCE] ) || ! wp_verify_nonce( $_POST[DLN_ABE_NONCE], DLN_ABE_NONCE ) ) {
-			$url = isset( $_POST['url'] ) ? $_POST['url'] : '';
+		check_ajax_referer( DLN_ABE_NONCE . '_download_image_from_url', 'security' );
+		$data = isset( $_POST['data'] ) ? $_POST['data'] : '';
+		
+		$url         = isset( $data['url'] ) ? $data['url'] : '';
+		$image_data  = isset( $data['image_data'] ) ? $data['image_data'] : '';
+		
+		// Get external id
+		$external_id = '';
+		if ( $image_data ) {
+			$image_data  = stripslashes( $image_data );
+			$image_data  = unserialize( $image_data );
+			$external_id = isset( $image_data['external_id'] ) ? $image_data['external_id'] : '';
+		}
+		
+		if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false && ! empty( $external_id ) ) {
+			// Check external image exists in system
+			global $wpdb;
 			
-			if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false ) {
-				$tmp        = download_url( $url );
+			$wpdb->postmeta;
+			$sql    = $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s", array( esc_sql( '_dln_external_id' ), esc_sql( $external_id ) ) );
+			$result = $wpdb->get_row($sql);
+			
+			if ( ! empty( $result->post_id ) ) {
+				$id = $result->post_id;
+			} else {
+				$name     = basename( $url );
+				$tmp_name = WP_CONTENT_DIR . '/uploads/dln_product_cache/' . $name;
+					
+				$implementation = _wp_image_editor_choose();
+				$editor         = new $implementation( $url );
+				$loaded         = $editor->load();
+					
+				if ( is_wp_error( $loaded ) )
+					return $loaded;
+					
+				$editor->set_quality( 100 );
+				$editor->resize( DLN_MAX_IMAGE_SIZE, DLN_MAX_IMAGE_SIZE, false );
+				$editor->save( $tmp_name );
+					
 				$file_array = array(
-					'name'     =>  basename( $url ),
-					'tmp_name' => $tmp,
+						'name'     =>  basename( $url ),
+						'tmp_name' => $tmp_name,
 				);
-				
+					
 				// Check for download errors
-				if ( is_wp_error( $tmp ) ) {
+				if ( is_wp_error( $tmp_name ) ) {
 					@unlink( $file_array['tmp_name'] );
-					return $tmp;
+					return $tmp_name;
 				}
-				
-				$id = media_handle_sideupload( $file_array, 0 );
+					
+				$id = media_handle_sideload( $file_array, 0 );
 				// Check for handle sideload errors.
-				if ( is_error( $id ) ) {
+				if ( is_wp_error( $id ) ) {
 					@unlink( $file_array['tmp_name'] );
 					return $id;
 				}
-				
-				$attachment_url = wp_get_attachment_url( $id );
-				$result = array( 'status' => 'success', 'img_url' => $attachment_url, 'img_id' => $id );
-				echo json_encode( $result );
+					
+				update_post_meta( $id, '_dln_external_id', $external_id );
 			}
+			
+			$attachment_url = wp_get_attachment_image_src( $id, array( DLN_MAIN_IMAGE_SIZE, DLN_MAIN_IMAGE_SIZE ) );
+			$attachment_url = ( count( $attachment_url ) ) ? $attachment_url[0] : DLN_DEFAULT_IMAGE;
+			
+			// Build img data
+			$img_data = esc_attr( serialize( array( 'type' => 'local', 'external_id' => $id ) ) );
+			
+			$result = array( 'status' => 'success', 'img_url' => $attachment_url, 'img_data' => $img_data );
+			echo json_encode( $result );
+			exit();
 		}
 		exit('0');
 	}
@@ -412,8 +454,7 @@ class DLN_Block_Ajax {
 				// Insert the attachment
 				if ( ! empty( $image_data ) ) {
 					$product_images = array();
-					$thumb_url      = '';
-					$full_url       = '';
+					$is_local       = false;
 					
 					if ( ! empty( $image_data ) && is_array( $image_data ) ) {
 						foreach ( $image_data as $i => $data ) {
@@ -424,6 +465,11 @@ class DLN_Block_Ajax {
 							
 							if ( $type && $external_id ) {
 								switch ( $type ) {
+									case 'local':
+										$product_images[] = $external_id;
+										$is_local         = true;
+									break;
+									
 									case 'facebook':
 										// Get facebook photo information
 										$fb_access_token = get_user_meta( $user_id, 'dln_facebook_access_token', true );
@@ -465,20 +511,30 @@ class DLN_Block_Ajax {
 										}
 									break;
 								}
-								
-								// Update thumbnail main image
-								if ( ! $thumb_url && count( $product_images ) ) {
-									$thumb_url = $product_images[count( $product_images ) - 1]['thumb_url'];
-								}
-								if ( ! $full_url && count( $product_images ) ) {
-									$full_url = $product_images[count( $product_images ) - 1]['full_url'];
-								}
 							}
 						}
 						
-						update_post_meta( $post_id, '_dln_product_thumb', $thumb_url );
-						update_post_meta( $post_id, '_dln_product_full', $full_url );
-						update_post_meta( $post_id, '_dln_product_images', json_encode( $product_images ) );
+						if ( $is_local ) {
+							// Update product image local
+							
+							if ( count( $product_images ) >= 1 ) {
+								// Check has product image
+								
+								if ( ! empty( $product_images[0] ) ) {
+									// Update thumbnail
+									update_post_meta( $post_id, '_thumbnail_id', (int) $product_images[0] );
+									unset( $product_images[0] );
+								}
+								
+								if ( count( $product_images ) ) {
+									// Update image gallery
+									$gallery_ids = implode( ',', $product_images );
+									update_post_meta( $post_id, '_product_image_gallery', $gallery_ids );
+								}
+							}
+						} else {
+							update_post_meta( $post_id, '_dln_product_images', json_encode( $product_images ) );
+						}
 					}
 				}
 				

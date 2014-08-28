@@ -156,7 +156,7 @@ class DLN_Block_Photo_Submit extends DLN_Block {
 		$terms = get_terms( 'product_tag', array( 'hide_empty' => false, 'order_by' => 'term_id' ) );
 		
 		$options = array();
-		if ( ! empty( $terms ) ) {
+		if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
 			foreach ( $terms as $i => $term ) {
 				$options[ $term->name ] = $term->name;
 			}

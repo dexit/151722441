@@ -33,6 +33,10 @@ class DLN_PhotoBabe {
 		define( 'INSTA_SECRET', '5fd6cdc8106743cb82d95a7130063c92' );
 		define( 'INSTA_REDIRECT_URI', site_url() . '?dln_endpoint_insta=true' );
 		
+		define( 'DLN_MAX_IMAGE_SIZE', 1024 );
+		define( 'DLN_MAIN_IMAGE_SIZE', 500 );
+		define( 'DLN_DEFAULT_IMAGE', '' );
+		
 		add_action( 'init', array( __CLASS__, 'dln_endpoint_listener' ) );
 		
 		$this->requires();
@@ -42,7 +46,7 @@ class DLN_PhotoBabe {
 	
 	public function requires() {
 		//$this->required_components = apply_filters( 'dln_required_components', array( 'connections', 'cron' ) );
-		$this->required_components = apply_filters( 'dln_required_components', array( 'block', 'report', 'buddypress' ) );
+		$this->required_components = apply_filters( 'dln_required_components', array( 'block', 'report', 'buddypress', 'member' ) );
 		
 		// Loop through required components
 		foreach ( $this->required_components as $component ) {
