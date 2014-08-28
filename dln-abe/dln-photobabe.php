@@ -46,7 +46,7 @@ class DLN_PhotoBabe {
 	
 	public function requires() {
 		//$this->required_components = apply_filters( 'dln_required_components', array( 'connections', 'cron' ) );
-		$this->required_components = apply_filters( 'dln_required_components', array( 'block', 'report', 'buddypress', 'member' ) );
+		$this->required_components = apply_filters( 'dln_required_components', array( 'block', 'upload', 'report', 'buddypress', 'member' ) );
 		
 		// Loop through required components
 		foreach ( $this->required_components as $component ) {

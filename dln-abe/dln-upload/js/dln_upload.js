@@ -68,10 +68,11 @@
 	            var uploader = new plupload.Uploader( dln_upload.plupload );
 	            
 	            $( '#dln_uploader' ).click( function (e) {
+	            	// To prevent default behavior of a tag
+	                e.preventDefault();
+	                
 	            	$(".dln-progress-text .progress-bar").css( {'width': "0%"} );
 	                uploader.start();
-	                // To prevent default behavior of a tag
-	                e.preventDefault();
 	            } );
 
 	            //initilize  wp plupload
@@ -153,53 +154,6 @@
 	$(document).ready(function () {
 		
 		DLN_Upload.init();
-		
-		$('#dln_fetch_url').on('click', function (e) {
-			e.preventDefault();
-			
-			$('#dln_modal_fetch_url').modal('show');
-		});
-		
-		// Add enter button
-		$('#dln_url_fetch').on('keypress', function(e) {
-		    if (e.which == 13) {
-		        e.preventDefault();
-		        $('#dln_submit_url_fetch').trigger('click');
-		    }
-		});
-		
-		$('#dln_submit_url_fetch').on('click', function (e) {
-			e.preventDefault();
-			
-			var url = $('#dln_url_fetch').val();
-			if ( ! url || url == 'http://' || url == 'https://' || url == 'http://www' || url == 'https://www' ) {
-				alert( 'Please enter url for fetch images!' );
-				return false;
-			}
-			
-			$('#dln_modal_fetch_url').modal('hide');
-			$(".dln-progress-text").show();
-            $(".dln-progress-text .progress-bar").css( {'width': '50%'} );
-			
-			$.ajax({
-				url: dln_abe_params.dln_ajax_url,
-				type: 'POST',
-				data: {
-					action           : 'dln_fetch_images_from_url',
-					url              : url,
-					'ig_nonce_check' : dln_abe_params.dln_nonce
-				},
-				success: function ( data ) {
-					if ( data ) {
-						$(".dln-progress-text").hide();
-						window.DLN_Block_Item.appendToImageWrapper( 'from-fetch', data );
-					}
-				},
-				error: function ( error ) {
-					console.log( error );
-				}
-			});
-		});
 		
 	});
 }(jQuery));

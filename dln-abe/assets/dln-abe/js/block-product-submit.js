@@ -100,10 +100,11 @@
 		if ( ! image_url || ! image_data )
 			return false;
 		
-		
 		var data = {};
 		data.url         = image_url;
 		data.image_data  = image_data;
+		
+		$('#dln_modal_select_photo .modal-body').html(dln_abe_params.indicator);
 		
 		$.ajax({
 			url : dln_abe_params.dln_ajax_url,
@@ -178,7 +179,7 @@
 
 			var position = $(this).closest('.dln-image-items').data('position');
 			
-			$('#dln_modal_select_photo .modal-body').html(dln_abe_params.indicator);
+			$('#dln_modal_select_photo .modal-body').html(dln_abe_params.indicator);			
 			
 			var block = 'modal-photo-select';
 			$.ajax({

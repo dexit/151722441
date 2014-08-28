@@ -95,28 +95,5 @@
 </div>
 <!-- START modal -->
 <div id="dln_modal_fetch_url" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header text-center">
-				<h3 class="semibold modal-title text-danger"><?php _e( 'Fetch images from URL', DLN_ABE ) ?></h3>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-					<div class="row">
-						<div class="col-sm-12">
-							<label class="control-label"><?php _e( 'URL', DLN_ABE ) ?> <span class="text-danger">*</span></label>
-							<input type="text" value="http://" id="dln_url_fetch" required="" placeholder="<?php _e( 'http://', DLN_ABE ) ?>" class="form-control">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal"><?php _e( 'Close', DLN_ABE )?></button>
-				<button type="button" id="dln_submit_url_fetch" class="btn btn-primary"><?php _e( 'Fetch', DLN_ABE ) ?></button>
-			</div>
-		</div>
-		<!-- /.modal-content -->
-	</div>
-	<!-- /.modal-dialog -->
 </div>
 <!--/ END modal -->

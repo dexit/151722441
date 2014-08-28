@@ -132,12 +132,58 @@
 		}
 	}
 	
-	var showLoading = function () {
-		// Show loading indicator
-		$('#dln_photo_wrapper .row').first().html( dln_abe_params.indicator );
-	}
+	var addFetchFunction = function () {
+		$('#dln_fetch_url').on('click', function (e) {
+			e.preventDefault();
+			
+			$('#dln_modal_fetch_url').modal('show');
+		});
+		
+		// Add enter button
+		$('#dln_url_fetch').on('keypress', function(e) {
+		    if (e.which == 13) {
+		        e.preventDefault();
+		        $('#dln_submit_url_fetch').trigger('click');
+		    }
+		});
+		
+		$('#dln_submit_url_fetch').on('click', function (e) {
+			e.preventDefault();
+			
+			var url = $('#dln_url_fetch').val();
+			if ( ! url || url == 'http://' || url == 'https://' || url == 'http://www' || url == 'https://www' ) {
+				alert( 'Please enter url for fetch images!' );
+				return false;
+			}
+			
+			$('#dln_modal_fetch_url').modal('hide');
+			$(".dln-progress-text").show();
+            $(".dln-progress-text .progress-bar").css( {'width': '50%'} );
+			
+			$.ajax({
+				url: dln_abe_params.dln_ajax_url,
+				type: 'POST',
+				data: {
+					action           : 'dln_fetch_images_from_url',
+					url              : url,
+					'ig_nonce_check' : dln_abe_params.dln_nonce
+				},
+				success: function ( data ) {
+					if ( data ) {
+						$(".dln-progress-text").hide();
+						window.DLN_Block_Item.appendToImageWrapper( 'from-fetch', data );
+					}
+				},
+				error: function ( error ) {
+					console.log( error );
+				}
+			});
+		});
+	};
 	
 	$(document).ready(function () {
+		addFetchFunction();
+		
 		window.DLN_Social_Helper.addLoginFBButton();
 		window.DLN_Social_Helper.addLoginInstaButton();
 		
@@ -146,7 +192,7 @@
 		// Add action for filter source photos
 		$('#dln_btn_photos button').on('click', function (e) {
 			e.preventDefault();
-			
+						
 			var select_val = $(this).data('value');
 			var allow      = $(this).data('allow');
 			
@@ -154,16 +200,31 @@
 				var url   = dln_abe_params.site_url + '?dln_form=profile_edit';
 				switch ( select_val ) {
 					case 'facebook':
+						// Show navigator
+						$('#dln_paging_group').show();
+						
 						var label = dln_abe_params.language.label_fb_setting;
 					break;
+					
 					case 'instagram':
+						// Show navigator
+						$('#dln_paging_group').show();
+						
 						var label = dln_abe_params.language.label_insta_setting;
+					break;
+					
+					case 'upload':
+						// Show navigator
+						$('#dln_paging_group').hide();
+						
+						
 					break;
 				}
 				
 				$('#dln_photo_wrapper .row').first().html('<a href="' + url + '" target="_blank" class="btn btn-default">' + label + '</a>');
 			} else {
-				showLoading();
+				// Show loading indicator
+				$('#dln_photo_wrapper .row').first().html( dln_abe_params.indicator );
 				loadingPhotos( select_val, '', '' );
 			}
 			
@@ -177,7 +238,9 @@
 			var action_type = $(this).data('action-type');
 			
 			if ( type && code ) {
-				showLoading();
+				// Show loading indicator
+				$('#dln_photo_wrapper .row').first().html( dln_abe_params.indicator );
+				
 				loadingPhotos( type, action_type, code );
 			}
 		});

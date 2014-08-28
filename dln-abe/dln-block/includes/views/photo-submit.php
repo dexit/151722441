@@ -18,9 +18,7 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal"><?php _e( 'Close', DLN_ABE ) ?></button>
-				<button class="btn btn-primary ladda-button ladda-progress mb5 dln-select" data-style="expand-right">
-					<span class="ladda-label"><?php _e( 'Select photo', DLN_ABE ) ?> </span>
-				</button>
+				<button class="btn btn-primary dln-select"><?php _e( 'Select photo', DLN_ABE ) ?></button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -87,6 +85,14 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 					</div>
 				</div>
 				
+				<div class="form-group">
+					<div class="row">
+						<div class="col-sm-12">
+							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'product_tag' ) ) ?>
+						</div>
+					</div>
+				</div>
+				
 				<?php 
 				foreach ( $attribute_taxonomies as $tax ) {
 
@@ -147,14 +153,6 @@ $attribute_taxonomies = wc_get_attribute_taxonomies();
 						</div>
 						<div class="col-xs-8">
 							<a class="btn btn-default dln-add-attr" href="#"><?php _e( 'Add Attribute', DLN_ABE ) ?></a>
-						</div>
-					</div>
-				</div>
-				
-				<div class="form-group">
-					<div class="row">
-						<div class="col-sm-12">
-							<?php echo balanceTags( DLN_Block_Photo_Submit::get_field( 'basic', 'product_tag' ) ) ?>
 						</div>
 					</div>
 				</div>

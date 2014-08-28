@@ -6,9 +6,8 @@ wp_enqueue_style( 'dln-modal-photo-select-css', DLN_ABE_PLUGIN_URL . '/assets/dl
 wp_print_scripts( 'dln-modal-photo-select-js' );
 wp_print_styles( 'dln-modal-photo-select-css' );
 
-//DLN_Upload_Loader::add_scripts();
-
-//wp_print_scripts( 'dln-upload-js' );
+DLN_Upload_Loader::add_scripts();
+wp_print_scripts( 'dln-upload-js' );
 
 $user_id  = get_current_user_id();
 $valid_fb = $valid_insta = false;
@@ -57,8 +56,30 @@ if ( ! empty( $user_id ) ) {
 	</div>
 </div>
 <div id="dln_photo_wrapper" class="dln-wrapper">
-	<div class="row">
-		<!-- listing photos -->
+	<div class="row dln-modal-content">
+		<div class="dln-social">
+			<!-- listing photos -->
+		</div>
+	</div>
+	<div class="row dln-modal-content">
+		<div class="dln-upload">
+			<!-- upload content -->
+			<?php echo balanceTags( do_shortcode( '[dln_upload theme="true"]' ) )?>
+		</div>
+	</div>
+	<div class="row dln-modal-content">
+		<div class="form-group">
+			<div class="row">
+				<div class="col-sm-12">
+					<label class="control-label"><?php _e( 'URL', DLN_ABE ) ?> <span class="text-danger">*</span></label>
+					<input type="text" value="http://" id="dln_url_fetch" required="" placeholder="<?php _e( 'http://', DLN_ABE ) ?>" class="form-control">
+					<button type="button" id="dln_submit_url_fetch" class="btn btn-primary"><?php _e( 'Fetch', DLN_ABE ) ?></button>
+				</div>
+			</div>
+		</div>
+		<div class="dln-fetch">
+			<!-- fetch content -->
+		</div>
 	</div>
 </div>
 <ul class="pager mt0" id="dln_paging_group">

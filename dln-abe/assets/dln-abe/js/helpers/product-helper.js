@@ -52,8 +52,6 @@
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 	
-	$(document).ready(function () {
-		
-	});
+	$(document).ready(function () {});
 	
 }(jQuery));
