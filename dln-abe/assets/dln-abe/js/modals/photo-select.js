@@ -26,6 +26,8 @@
 			button.removeClass('btn-default');
 			button.addClass('btn-success');
 			button.html('<i class="ico-checkmark"></i>');
+			
+			
 		});
 		
 		$('.dln-photo-items').on('click', function (e) {
@@ -62,7 +64,6 @@
 			var image_html = photo_tmpl.replace('[photo_id]', image.id);
 			image_html     = image_html.replace('[photo_type]', type);
 			image_html     = image_html.replace(/\[photo_src\]/g, image.picture);
-			image_html     = image_html.replace('[photo_image_data]', image.image_data );
 			
 			html += image_html;
 		});
@@ -198,33 +199,43 @@
 			
 			if ( allow == 'true' ) {
 				var url   = dln_abe_params.site_url + '?dln_form=profile_edit';
+				
+				// Hide all wrapper
+				$('.dln-modal-content').hide();
+				$('.dln-' + select_val).show();
+				
 				switch ( select_val ) {
 					case 'facebook':
-						// Show navigator
+						// Show social navigator
 						$('#dln_paging_group').show();
 						
 						var label = dln_abe_params.language.label_fb_setting;
 					break;
 					
 					case 'instagram':
-						// Show navigator
+						// Show social navigator
 						$('#dln_paging_group').show();
 						
 						var label = dln_abe_params.language.label_insta_setting;
 					break;
 					
 					case 'upload':
-						// Show navigator
+						// Hide social navigator
 						$('#dln_paging_group').hide();
 						
+					break;
+					
+					case 'fetch':
+						// Hide social navigator
+						$('#dln_paging_group').hide();
 						
 					break;
 				}
 				
-				$('#dln_photo_wrapper .row').first().html('<a href="' + url + '" target="_blank" class="btn btn-default">' + label + '</a>');
+				$('#dln_photo_wrapper dln-' + select_val + ' .dln-item-wrapper').html('<a href="' + url + '" target="_blank" class="btn btn-default">' + label + '</a>');
 			} else {
 				// Show loading indicator
-				$('#dln_photo_wrapper .row').first().html( dln_abe_params.indicator );
+				$('#dln_photo_wrapper dln-' + select_val + ' .dln-item-wrapper').html( dln_abe_params.indicator );
 				loadingPhotos( select_val, '', '' );
 			}
 			

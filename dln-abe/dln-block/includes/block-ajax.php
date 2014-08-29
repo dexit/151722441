@@ -88,7 +88,6 @@ class DLN_Block_Ajax {
 								$images[] = array(
 									'id'         => $image->id,
 									'picture'    => $image->images->low_resolution->url,
-									'image_data' => esc_attr( serialize( array( 'type' => 'instagram', 'external_id' => $image->id ) ) )
 								);
 							}
 						}
@@ -139,9 +138,8 @@ class DLN_Block_Ajax {
 						foreach ( $obj->data as $i => $image ) {
 							if ( ! empty( $image->id ) && ! empty( $image->source ) ) {
 								$images[] = array(
-									'id'         => $image->id,
-									'picture'    => $image->source,
-									'image_data' => esc_attr( serialize( array( 'type' => 'facebook', 'external_id' => $image->id ) ) )
+									'id'          => $image->id,
+									'picture'     => $image->source,
 								);
 							}
 						}
@@ -345,13 +343,12 @@ class DLN_Block_Ajax {
 		$data = isset( $_POST['data'] ) ? $_POST['data'] : '';
 		
 		$url         = isset( $data['url'] ) ? $data['url'] : '';
-		$image_data  = isset( $data['image_data'] ) ? $data['image_data'] : '';
+		$image_data  = isset( $data['external_id'] ) ? $data['external_id'] : '';
 		
 		// Get external id
 		$external_id = '';
 		if ( $image_data ) {
-			$image_data  = stripslashes( $image_data );
-			$image_data  = unserialize( $image_data );
+			$image_data  = json_decode( $image_data );
 			$external_id = isset( $image_data['external_id'] ) ? $image_data['external_id'] : '';
 		}
 		
@@ -381,8 +378,8 @@ class DLN_Block_Ajax {
 				$editor->save( $tmp_name );
 					
 				$file_array = array(
-						'name'     =>  basename( $url ),
-						'tmp_name' => $tmp_name,
+					'name'     =>  basename( $url ),
+					'tmp_name' => $tmp_name,
 				);
 					
 				// Check for download errors
@@ -399,6 +396,16 @@ class DLN_Block_Ajax {
 				}
 					
 				update_post_meta( $id, '_dln_external_id', $external_id );
+				$user_ids     = get_post_meta( $id, '_dln_user_used', true );
+				$arr_user_ids = array();
+				if ( $user_ids ) {
+					$arr_user_ids = json_decode( $user_ids );
+				}
+				$user_id  = get_current_user_id();
+				if ( $user_id && is_array( $arr_user_ids ) ) {
+					$arr_user_ids[] = $user_id;
+					update_post_meta( $id, '_dln_user_used', json_encode( $arr_user_ids ) );
+				}
 			}
 			
 			$attachment_url = wp_get_attachment_image_src( $id, array( DLN_MAIN_IMAGE_SIZE, DLN_MAIN_IMAGE_SIZE ) );
@@ -453,13 +460,12 @@ class DLN_Block_Ajax {
 			if ( $post_id ) {
 				// Insert the attachment
 				if ( ! empty( $image_data ) ) {
+					$image_data     = json_decode( $image_data );
 					$product_images = array();
 					$is_local       = false;
 					
 					if ( ! empty( $image_data ) && is_array( $image_data ) ) {
 						foreach ( $image_data as $i => $data ) {
-							$data        = stripslashes( $data );
-							$data        = unserialize( $data );
 							$type        = isset( $data['type'] ) ? $data['type'] : '';
 							$external_id = isset( $data['external_id'] ) ? $data['external_id'] : '';
 							

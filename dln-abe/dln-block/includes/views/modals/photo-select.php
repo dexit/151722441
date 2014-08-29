@@ -1,5 +1,4 @@
 <?php
-
 wp_enqueue_script( 'dln-modal-photo-select-js', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/js/modals/photo-select.js', null, '1.0.0', true );
 wp_enqueue_style( 'dln-modal-photo-select-css', DLN_ABE_PLUGIN_URL . '/assets/dln-abe/css/modals/photo-select.css', null, '1.0.0' );
 
@@ -46,28 +45,37 @@ if ( ! empty( $user_id ) ) {
 	<div class="page-header-section">
 		<!-- Toolbar -->
 		<div class="toolbar">
-			<span class="toolbar-label semibold mr5"><?php _e( 'Photo : ', DLN_ABE ) ?></span>
+			<span class="toolbar-label semibold mr5"><?php _e( 'Source : ', DLN_ABE ) ?></span>
 			<div class="btn-group" id="dln_btn_photos">
+				<button class="btn btn-default" data-value="upload"><?php _e( 'Upload', DLN_ABE ) ?></button>
 				<button class="btn btn-default" data-value="facebook" data-allow="<?php echo $valid_fb ?>"><?php _e( 'Facebook', DLN_ABE ) ?></button>
 				<button class="btn btn-default" data-value="instagram" data-allow="<?php echo $valid_insta ?>"><?php _e( 'Instagram', DLN_ABE ) ?></button>
+				<button class="btn btn-default" data-value="fetch"><?php _e( 'Fetch', DLN_ABE ) ?></button>
 			</div>
 		</div>
 		<!--/ Toolbar -->
 	</div>
 </div>
 <div id="dln_photo_wrapper" class="dln-wrapper">
-	<div class="row dln-modal-content">
-		<div class="dln-social">
-			<!-- listing photos -->
-		</div>
-	</div>
-	<div class="row dln-modal-content">
-		<div class="dln-upload">
-			<!-- upload content -->
+	<div class="row dln-modal-content dln-upload">
+		<div class="dln-item-wrapper">
 			<?php echo balanceTags( do_shortcode( '[dln_upload theme="true"]' ) )?>
 		</div>
 	</div>
-	<div class="row dln-modal-content">
+	
+	<div class="row dln-modal-content dln-facebook">
+		<div class="dln-item-wrapper">
+			<!-- listing facebook photos -->
+		</div>
+	</div>
+	
+	<div class="row dln-modal-content dln-instagram">
+		<div class="dln-item-wrapper">
+			<!-- listing instagram photos -->
+		</div>
+	</div>
+	
+	<div class="row dln-modal-content dln-fetch">
 		<div class="form-group">
 			<div class="row">
 				<div class="col-sm-12">
@@ -77,7 +85,7 @@ if ( ! empty( $user_id ) ) {
 				</div>
 			</div>
 		</div>
-		<div class="dln-fetch">
+		<div class="dln-item-wrapper">
 			<!-- fetch content -->
 		</div>
 	</div>
@@ -88,6 +96,7 @@ if ( ! empty( $user_id ) ) {
 </ul>
 
 <input type="hidden" id="dln_index_pos" value="0" />
+<input type="hidden" id="dln_image_data" value="" />
 
 <?php
 	$block_photo_html = DLN_Helper_Photo_Tmpl::convert_literal_string( DLN_Helper_Photo_Tmpl::render_photo_source() );

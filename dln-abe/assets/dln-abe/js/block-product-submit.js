@@ -96,13 +96,13 @@
 		});
 	};
 	
-	var storeImagetoServer = function ( image_url, image_data, pos ) {
+	var storeImagetoServer = function ( image_url, external_id, pos ) {
 		if ( ! image_url || ! image_data )
 			return false;
 		
-		var data = {};
+		var data         = {};
 		data.url         = image_url;
-		data.image_data  = image_data;
+		data.external_id = external_id;
 		
 		$('#dln_modal_select_photo .modal-body').html(dln_abe_params.indicator);
 		
@@ -164,6 +164,10 @@
 		});
 	};
 	
+	var buildData = function() {
+		
+	};
+	
 	$(document).ready(function () {
 		window.DLN_Product_Helper.addSelectize();
 		window.DLN_Product_Helper.addSelecizeCreate();
@@ -212,14 +216,14 @@
 			e.preventDefault();
 			
 			if ( $('.dln-photo-items.active').length ) {
-				var active_elm = $('.dln-photo-items.active:first');
-				var img_url    = $(active_elm).find('img').data('src');
-				var img_data   = $(active_elm).find('.dln-json-meta-data').val();
-				var pos        = $('#dln_index_pos').val();
+				var active_elm  = $('.dln-photo-items.active:first');
+				var img_url     = $(active_elm).find('img').data('src');
+				var external_id = $(active_elm).find('.media').attr('id');
+				var pos         = $('#dln_index_pos').val();
 				
 				// Send ajax request to store image in the system.
 				if ( img_url && pos ) {
-					storeImagetoServer( img_url, img_data, pos );
+					storeImagetoServer( img_url, external_id, pos );
 				}
 			}
 		});
