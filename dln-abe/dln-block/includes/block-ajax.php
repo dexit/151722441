@@ -88,6 +88,7 @@ class DLN_Block_Ajax {
 								$images[] = array(
 									'id'         => $image->id,
 									'picture'    => $image->images->low_resolution->url,
+									'full_url'   => $image->data->images->standard_resolution->url,
 								);
 							}
 						}
@@ -140,6 +141,7 @@ class DLN_Block_Ajax {
 								$images[] = array(
 									'id'          => $image->id,
 									'picture'     => $image->source,
+									'full_url'    => $image->images[0]->source,
 								);
 							}
 						}
@@ -342,83 +344,90 @@ class DLN_Block_Ajax {
 		check_ajax_referer( DLN_ABE_NONCE . '_download_image_from_url', 'security' );
 		$data = isset( $_POST['data'] ) ? $_POST['data'] : '';
 		
-		$url         = isset( $data['url'] ) ? $data['url'] : '';
-		$image_data  = isset( $data['external_id'] ) ? $data['external_id'] : '';
+		$image_data  = isset( $data['image_data'] ) ? $data['image_data'] : '';
 		
-		// Get external id
-		$external_id = '';
 		if ( $image_data ) {
-			$image_data  = json_decode( $image_data );
-			$external_id = isset( $image_data['external_id'] ) ? $image_data['external_id'] : '';
+			$image_data = json_decode( stripcslashes( $image_data ) );
 		}
 		
-		if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false && ! empty( $external_id ) ) {
-			// Check external image exists in system
-			global $wpdb;
-			
-			$wpdb->postmeta;
-			$sql    = $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s", array( esc_sql( '_dln_external_id' ), esc_sql( $external_id ) ) );
-			$result = $wpdb->get_row($sql);
-			
-			if ( ! empty( $result->post_id ) ) {
-				$id = $result->post_id;
-			} else {
-				$name     = basename( $url );
-				$tmp_name = WP_CONTENT_DIR . '/uploads/dln_product_cache/' . $name;
-					
-				$implementation = _wp_image_editor_choose();
-				$editor         = new $implementation( $url );
-				$loaded         = $editor->load();
-					
-				if ( is_wp_error( $loaded ) )
-					return $loaded;
-					
-				$editor->set_quality( 100 );
-				$editor->resize( DLN_MAX_IMAGE_SIZE, DLN_MAX_IMAGE_SIZE, false );
-				$editor->save( $tmp_name );
-					
-				$file_array = array(
-					'name'     =>  basename( $url ),
-					'tmp_name' => $tmp_name,
-				);
-					
-				// Check for download errors
-				if ( is_wp_error( $tmp_name ) ) {
-					@unlink( $file_array['tmp_name'] );
-					return $tmp_name;
-				}
-					
-				$id = media_handle_sideload( $file_array, 0 );
-				// Check for handle sideload errors.
-				if ( is_wp_error( $id ) ) {
-					@unlink( $file_array['tmp_name'] );
-					return $id;
-				}
-					
-				update_post_meta( $id, '_dln_external_id', $external_id );
-				$user_ids     = get_post_meta( $id, '_dln_user_used', true );
-				$arr_user_ids = array();
-				if ( $user_ids ) {
-					$arr_user_ids = json_decode( $user_ids );
-				}
-				$user_id  = get_current_user_id();
-				if ( $user_id && is_array( $arr_user_ids ) ) {
-					$arr_user_ids[] = $user_id;
-					update_post_meta( $id, '_dln_user_used', json_encode( $arr_user_ids ) );
-				}
+		foreach ( $image_data as $i => $image ) {
+			// Get external id
+			$external_id = '';
+			if ( $image ) {
+				$external_id = isset( $image->id ) ? $image->id : '';
 			}
+			$url = isset( $image->url ) ? $image->url : '';
 			
-			$attachment_url = wp_get_attachment_image_src( $id, array( DLN_MAIN_IMAGE_SIZE, DLN_MAIN_IMAGE_SIZE ) );
-			$attachment_url = ( count( $attachment_url ) ) ? $attachment_url[0] : DLN_DEFAULT_IMAGE;
-			
-			// Build img data
-			$img_data = esc_attr( serialize( array( 'type' => 'local', 'external_id' => $id ) ) );
-			
-			$result = array( 'status' => 'success', 'img_url' => $attachment_url, 'img_data' => $img_data );
-			echo json_encode( $result );
-			exit();
+			if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false && ! empty( $external_id ) ) {
+				// Check external image exists in system
+				global $wpdb;
+					
+				$wpdb->postmeta;
+				$sql    = $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s", array( esc_sql( '_dln_external_id' ), esc_sql( $external_id ) ) );
+				$result = $wpdb->get_row($sql);
+					
+				if ( ! empty( $result->post_id ) ) {
+					$id = $result->post_id;
+				} else {
+					$name     = basename( $url );
+					$tmp_name = WP_CONTENT_DIR . '/uploads/dln_product_cache/' . $name;
+						
+					$implementation = _wp_image_editor_choose();
+					$editor         = new $implementation( $url );
+					$loaded         = $editor->load();
+						
+					if ( is_wp_error( $loaded ) )
+						return $loaded;
+						
+					$editor->set_quality( 100 );
+					$editor->resize( DLN_MAX_IMAGE_SIZE, DLN_MAX_IMAGE_SIZE, false );
+					$editor->save( $tmp_name );
+						
+					$file_array = array(
+						'name'     =>  basename( $url ),
+						'tmp_name' => $tmp_name,
+					);
+						
+					// Check for download errors
+					if ( is_wp_error( $tmp_name ) ) {
+						@unlink( $file_array['tmp_name'] );
+						return $tmp_name;
+					}
+						
+					$id = media_handle_sideload( $file_array, 0 );
+					// Check for handle sideload errors.
+					if ( is_wp_error( $id ) ) {
+						@unlink( $file_array['tmp_name'] );
+						return $id;
+					}
+						
+					update_post_meta( $id, '_dln_external_id', $external_id );
+					$user_ids     = get_post_meta( $id, '_dln_user_used', true );
+					$arr_user_ids = array();
+					if ( $user_ids ) {
+						$arr_user_ids = json_decode( $user_ids );
+					}
+					$user_id  = get_current_user_id();
+					if ( $user_id && is_array( $arr_user_ids ) ) {
+						$arr_user_ids[] = $user_id;
+						update_post_meta( $id, '_dln_user_used', json_encode( $arr_user_ids ) );
+					}
+				}
+					
+				$attachment_url = wp_get_attachment_image_src( $id, array( DLN_MAIN_IMAGE_SIZE, DLN_MAIN_IMAGE_SIZE ) );
+				$attachment_url = ( count( $attachment_url ) ) ? $attachment_url[0] : DLN_DEFAULT_IMAGE;
+					
+				// Build img data
+				$img_data = esc_attr( serialize( array( 'type' => 'local', 'external_id' => $id ) ) );
+					
+				
+				
+			}
 		}
-		exit('0');
+		
+		$result = array( 'status' => 'success', 'img_url' => $attachment_url, 'img_data' => $img_data );
+		echo json_encode( $result );
+		exit();
 	}
 	
 	public function dln_add_product() {

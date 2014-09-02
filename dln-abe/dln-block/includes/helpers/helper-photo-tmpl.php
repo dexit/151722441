@@ -24,7 +24,7 @@ class DLN_Helper_Photo_Tmpl {
 	<!-- thumbnail -->
 	<div class="thumbnail nm dln-items">
 		<!-- media -->
-		<div class="media" data-id="[photo_id]" data-type="[photo_type]">
+		<div class="media" data-id="[photo_id]" data-type="[photo_type]" data-full="[photo_full]">
 			<!-- indicator -->
 			<div class="indicator">
 				<span class="spinner"></span>

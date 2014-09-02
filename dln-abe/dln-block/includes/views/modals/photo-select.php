@@ -9,7 +9,7 @@ DLN_Upload_Loader::add_scripts();
 wp_print_scripts( 'dln-upload-js' );
 
 $user_id  = get_current_user_id();
-$valid_fb = $valid_insta = false;
+$valid_fb = $valid_insta = true;
 
 if ( ! empty( $user_id ) ) {
 	// If user has logged in
@@ -22,9 +22,9 @@ if ( ! empty( $user_id ) ) {
 		$obj       = @file_get_contents( $url );
 		$obj       = ( ! empty( $obj ) ) ? json_decode( $obj ) : '';
 		if ( ! empty( $obj->error ) ) {
-			$valid_fb = false;
-		} else {
 			$valid_fb = true;
+		} else {
+			$valid_fb = false;
 		}
 	}
 	
@@ -32,9 +32,9 @@ if ( ! empty( $user_id ) ) {
 	$insta_access_token = get_user_meta( $user_id, 'dln_instagram_access_token', true );
 	
 	if ( $insta_access_token ) {
-		$valid_insta = true;
-	} else {
 		$valid_insta = false;
+	} else {
+		$valid_insta = true;
 	}
 }
 ?>

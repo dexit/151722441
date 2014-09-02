@@ -27,7 +27,7 @@
 			button.addClass('btn-success');
 			button.html('<i class="ico-checkmark"></i>');
 			
-			
+			getImageData();
 		});
 		
 		$('.dln-photo-items').on('click', function (e) {
@@ -58,11 +58,14 @@
 			$('#dln_paging_group [data-action-type="after"]').data('type', type);
 		}
 		
+		removeModalIndicator();
+		
 		var photo_tmpl = window.DLN_TemplatePhotoSource;
 		var html       = '';
 		$.each(images, function (key, image) {
 			var image_html = photo_tmpl.replace('[photo_id]', image.id);
 			image_html     = image_html.replace('[photo_type]', type);
+			image_html     = image_html.replace('[photo_full]', image.full_url);
 			image_html     = image_html.replace(/\[photo_src\]/g, image.picture);
 			
 			html += image_html;
@@ -72,6 +75,10 @@
 		addUnveilForImages();
 		addSelectButtonAction();
 	};
+	
+	var removeModalIndicator = function () {
+		$('.dln-item-wrapper .indicator').remove();
+	}
 	
 	var getFacebookPhotos = function ( action_type, page_code ) {
 		$.ajax({
@@ -182,6 +189,19 @@
 		});
 	};
 	
+	var getImageData = function () {
+		var arr_data = [];
+		$('.dln-photo-items.active').each(function () {
+			var obj  = {};
+			obj.id   = String($(this).find('.media').data('id'));
+			obj.url  = $(this).find('.media').data('full');
+			
+			arr_data.push(obj);
+		});
+		var str_data = JSON.stringify(arr_data);
+		$('#dln_image_data').val(str_data);
+	};
+	
 	$(document).ready(function () {
 		addFetchFunction();
 		
@@ -197,7 +217,7 @@
 			var select_val = $(this).data('value');
 			var allow      = $(this).data('allow');
 			
-			if ( allow == 'true' ) {
+			if ( allow == 'false' ) {
 				var url   = dln_abe_params.site_url + '?dln_form=profile_edit';
 				
 				// Hide all wrapper
@@ -232,10 +252,11 @@
 					break;
 				}
 				
-				$('#dln_photo_wrapper dln-' + select_val + ' .dln-item-wrapper').html('<a href="' + url + '" target="_blank" class="btn btn-default">' + label + '</a>');
+				$('#dln_photo_wrapper .dln-' + select_val + ' .dln-item-wrapper').html('<a href="' + url + '" target="_blank" class="btn btn-default">' + label + '</a>');
 			} else {
 				// Show loading indicator
-				$('#dln_photo_wrapper dln-' + select_val + ' .dln-item-wrapper').html( dln_abe_params.indicator );
+				console.log( $('#dln_photo_wrapper .dln-' + select_val + ' .dln-item-wrapper'), dln_abe_params.indicator );
+				$('#dln_photo_wrapper .dln-' + select_val + ' .dln-item-wrapper').html( dln_abe_params.indicator );
 				loadingPhotos( select_val, '', '' );
 			}
 			
