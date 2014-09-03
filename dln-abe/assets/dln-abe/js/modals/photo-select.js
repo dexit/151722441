@@ -70,7 +70,7 @@
 			
 			html += image_html;
 		});
-		$('#dln_photo_wrapper .row').first().html(html);
+		$('.dln-' + type + ' .dln-item-wrapper').html(html);
 		
 		addUnveilForImages();
 		addSelectButtonAction();
@@ -129,14 +129,25 @@
 	};
 	
 	var loadingPhotos = function ( select_val, action_type, code ) {
+		console.log(select_val, action_type, code );
 		switch(select_val) {
 			case 'facebook':
+				// Show loading indicator
+				$('#dln_photo_wrapper .dln-' + select_val + ' .dln-item-wrapper').html( dln_abe_params.indicator );
+				
 				getFacebookPhotos( action_type, code );
 			break;
 			
 			case 'instagram':
+				// Show loading indicator
+				$('#dln_photo_wrapper .dln-' + select_val + ' .dln-item-wrapper').html( dln_abe_params.indicator );
+				
 				getInstagramPhotos( action_type, code );
 			break;
+			
+			case 'upload':
+				
+				break;
 		}
 	}
 	
@@ -217,6 +228,32 @@
 			var select_val = $(this).data('value');
 			var allow      = $(this).data('allow');
 			
+			$('#dln_btn_photos button').removeClass('active');
+			$(this).addClass('active');
+			$('.dln-modal-content').hide();
+			$('.dln-modal-content.dln-' + select_val).show();
+			
+			switch ( select_val ) {
+				case 'facebook':
+					// Show social navigator
+					$('#dln_paging_group').show();
+					
+					var label = dln_abe_params.language.label_fb_setting;
+				break;
+				
+				case 'instagram':
+					// Show social navigator
+					$('#dln_paging_group').show();
+					
+					var label = dln_abe_params.language.label_insta_setting;
+				break;
+				
+				case 'upload':
+					// Hide social navigator
+					$('#dln_paging_group').hide();
+				break;
+			}
+			
 			if ( allow == 'false' ) {
 				var url   = dln_abe_params.site_url + '?dln_form=profile_edit';
 				
@@ -224,39 +261,8 @@
 				$('.dln-modal-content').hide();
 				$('.dln-' + select_val).show();
 				
-				switch ( select_val ) {
-					case 'facebook':
-						// Show social navigator
-						$('#dln_paging_group').show();
-						
-						var label = dln_abe_params.language.label_fb_setting;
-					break;
-					
-					case 'instagram':
-						// Show social navigator
-						$('#dln_paging_group').show();
-						
-						var label = dln_abe_params.language.label_insta_setting;
-					break;
-					
-					case 'upload':
-						// Hide social navigator
-						$('#dln_paging_group').hide();
-						
-					break;
-					
-					case 'fetch':
-						// Hide social navigator
-						$('#dln_paging_group').hide();
-						
-					break;
-				}
-				
 				$('#dln_photo_wrapper .dln-' + select_val + ' .dln-item-wrapper').html('<a href="' + url + '" target="_blank" class="btn btn-default">' + label + '</a>');
 			} else {
-				// Show loading indicator
-				console.log( $('#dln_photo_wrapper .dln-' + select_val + ' .dln-item-wrapper'), dln_abe_params.indicator );
-				$('#dln_photo_wrapper .dln-' + select_val + ' .dln-item-wrapper').html( dln_abe_params.indicator );
 				loadingPhotos( select_val, '', '' );
 			}
 			
@@ -265,15 +271,15 @@
 		$('#dln_paging_group a').on('click', function (e) {
 			e.preventDefault();
 			
-			var type        = $(this).data('type');
 			var code        = $(this).data('code');
 			var action_type = $(this).data('action-type');
+			var select_val = $('#dln_btn_photos button.active').data('value');
 			
-			if ( type && code ) {
+			if ( select_val && code ) {
 				// Show loading indicator
-				$('#dln_photo_wrapper .row').first().html( dln_abe_params.indicator );
+				$('#dln_photo_wrapper .dln-' + select_val + ' .dln-item-wrapper').html( dln_abe_params.indicator );
 				
-				loadingPhotos( type, action_type, code );
+				loadingPhotos( select_val, action_type, code );
 			}
 		});
 	});

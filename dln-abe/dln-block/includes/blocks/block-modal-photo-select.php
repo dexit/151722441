@@ -12,6 +12,7 @@ class DLN_Block_Modal_Photo_Select extends DLN_Block {
 	
 	public static function render_html() {
 		self::load_frontend_assets();
+		wp_print_styles( 'dln-block-modal-photo-select-css' );
 		DLN_Blocks::block_get_template(
 			'modals/photo-select.php',
 			array(

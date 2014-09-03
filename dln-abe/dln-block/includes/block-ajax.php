@@ -88,7 +88,7 @@ class DLN_Block_Ajax {
 								$images[] = array(
 									'id'         => $image->id,
 									'picture'    => $image->images->low_resolution->url,
-									'full_url'   => $image->data->images->standard_resolution->url,
+									'full_url'   => $image->images->standard_resolution->url,
 								);
 							}
 						}
@@ -358,6 +358,7 @@ class DLN_Block_Ajax {
 				$external_id = isset( $image->id ) ? $image->id : '';
 			}
 			$url = isset( $image->url ) ? $image->url : '';
+			$url = urldecode($url);
 			
 			if ( ! empty( $url ) && filter_var($url, FILTER_VALIDATE_URL) !== false && ! empty( $external_id ) ) {
 				// Check external image exists in system
@@ -371,6 +372,7 @@ class DLN_Block_Ajax {
 					$id = $result->post_id;
 				} else {
 					$name     = basename( $url );
+					$name     = substr( $name, 0, strpos( $name, '?' ) );
 					$tmp_name = WP_CONTENT_DIR . '/uploads/dln_product_cache/' . $name;
 						
 					$implementation = _wp_image_editor_choose();
@@ -385,7 +387,7 @@ class DLN_Block_Ajax {
 					$editor->save( $tmp_name );
 						
 					$file_array = array(
-						'name'     =>  basename( $url ),
+						'name'     =>  $name,
 						'tmp_name' => $tmp_name,
 					);
 						
@@ -394,7 +396,7 @@ class DLN_Block_Ajax {
 						@unlink( $file_array['tmp_name'] );
 						return $tmp_name;
 					}
-						
+					
 					$id = media_handle_sideload( $file_array, 0 );
 					// Check for handle sideload errors.
 					if ( is_wp_error( $id ) ) {

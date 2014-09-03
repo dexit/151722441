@@ -67,14 +67,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="col-md-6">
-				<a id="dln_uploader" class="btn btn-primary dln-btn" href="#"><i
-					class="ico-cloud-upload"></i> <?php _e( 'Upload from PC', DLN_ABE ) ?></a>
-			</div>
-			<div class="col-md-6">
-				<a id="dln_fetch_url" class="btn btn-success dln-btn" href="#"><i
-					class="ico-globe"></i> <?php _e( 'Fetch from URL', DLN_ABE ) ?></a>
-			</div>
+			<a id="dln_uploader" class="btn btn-primary dln-btn" href="#"><i class="ico-cloud-upload"></i> <?php _e( 'Upload from PC', DLN_ABE ) ?></a>
 		</div>
 	</div>
 

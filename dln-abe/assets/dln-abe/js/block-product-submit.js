@@ -122,8 +122,8 @@
 				if ( ! data )
 					return false;
 				
-				if ( data.status == 'success' )
-					continue;
+				if ( data.status != 'success' )
+					return false;
 				
 				var elm_container = $('.dln-image-items[data-position="' + pos + '"] .media');
 				$(elm_container).find('img').remove();
@@ -133,19 +133,19 @@
 				var image      = image_data[0];
 				if ( image ) {
 					var img_tag = $('<img />', {
-						'src'         : data.url,
-						'data-src'    : data.url,
-						'data-id'     : data.id,
+						'src'         : image.url,
+						'data-src'    : image.url,
+						'data-id'     : image.id,
 						'data-toggle' : 'unveil'
 					});
+					
+					$(elm_container).append( img_tag );
+					$(elm_container).find('.overlay').removeClass('show');
+					addUnveilLib();
+					
+					// Show modal last active
+					$('.modal.in').last().modal('hide');
 				}
-				
-				$(elm_container).append( img_tag );
-				$(elm_container).find('.overlay').removeClass('show');
-				addUnveilLib();
-				
-				// Show modal last active
-				$('.modal.in').last().modal('hide');
 			}
 		});
 	}
@@ -171,10 +171,6 @@
 			parent_wrapper.hide();
 			parent_wrapper.removeClass('dln-active');
 		});
-	};
-	
-	var buildData = function() {
-		
 	};
 	
 	$(document).ready(function () {

@@ -1,6 +1,9 @@
 html body {
 	font-size: 11px;
 }
+.dln-hidden {
+	overflow: hidden !important;
+}
 .dln-toolbar a {
 	transform: scale(1) !important;
 }

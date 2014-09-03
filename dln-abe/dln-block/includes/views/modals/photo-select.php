@@ -50,7 +50,6 @@ if ( ! empty( $user_id ) ) {
 				<button class="btn btn-default" data-value="upload"><?php _e( 'Upload', DLN_ABE ) ?></button>
 				<button class="btn btn-default" data-value="facebook" data-allow="<?php echo $valid_fb ?>"><?php _e( 'Facebook', DLN_ABE ) ?></button>
 				<button class="btn btn-default" data-value="instagram" data-allow="<?php echo $valid_insta ?>"><?php _e( 'Instagram', DLN_ABE ) ?></button>
-				<button class="btn btn-default" data-value="fetch"><?php _e( 'Fetch', DLN_ABE ) ?></button>
 			</div>
 		</div>
 		<!--/ Toolbar -->
@@ -72,21 +71,6 @@ if ( ! empty( $user_id ) ) {
 	<div class="row dln-modal-content dln-instagram">
 		<div class="dln-item-wrapper">
 			<!-- listing instagram photos -->
-		</div>
-	</div>
-	
-	<div class="row dln-modal-content dln-fetch">
-		<div class="form-group">
-			<div class="row">
-				<div class="col-sm-12">
-					<label class="control-label"><?php _e( 'URL', DLN_ABE ) ?> <span class="text-danger">*</span></label>
-					<input type="text" value="http://" id="dln_url_fetch" required="" placeholder="<?php _e( 'http://', DLN_ABE ) ?>" class="form-control">
-					<button type="button" id="dln_submit_url_fetch" class="btn btn-primary"><?php _e( 'Fetch', DLN_ABE ) ?></button>
-				</div>
-			</div>
-		</div>
-		<div class="dln-item-wrapper">
-			<!-- fetch content -->
 		</div>
 	</div>
 </div>
