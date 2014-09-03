@@ -33,10 +33,13 @@
 			
 			// Process image data
 			var image_data = [];
-			var data_image = '';
+			var data_id    = '';
 			$('.dln-image-items img').each(function () {
-				if ( data_image = $(this).data('image') ) {
-					image_data.push( data_image );
+				if ( data_id = $(this).data('id') ) {
+					var obj = {};
+					obj.type        = 'local';
+					obj.external_id = data_id;
+					image_data.push( obj );
 				}
 			});
 			
@@ -119,16 +122,23 @@
 				if ( ! data )
 					return false;
 				
+				if ( data.status == 'success' )
+					continue;
+				
 				var elm_container = $('.dln-image-items[data-position="' + pos + '"] .media');
 				$(elm_container).find('img').remove();
 				
-				// Create new img tag
-				var img_tag = $('<img />', {
-					'src'         : data.img_url,
-					'data-src'    : data.img_url,
-					'data-image'  : data.img_data,
-					'data-toggle' : 'unveil'
-				});
+				// Get first image for main image
+				var image_data = data.image_json;
+				var image      = image_data[0];
+				if ( image ) {
+					var img_tag = $('<img />', {
+						'src'         : data.url,
+						'data-src'    : data.url,
+						'data-id'     : data.id,
+						'data-toggle' : 'unveil'
+					});
+				}
 				
 				$(elm_container).append( img_tag );
 				$(elm_container).find('.overlay').removeClass('show');
@@ -228,7 +238,26 @@
 			
 			var pos  = $('#dln_index_pos').val();
 			var data = $('#dln_image_data').val();
-			storeImagetoServer( data, pos );
+			if ( data && pos ) {
+				storeImagetoServer( data, pos );
+			}
+		});
+		
+		$('body').bind('dln_complete_upload', function(e, data) {
+			if ( ! data )
+				return false;
+			
+			var arr_data = [];
+			var obj  = {};
+			obj.id   = data.attach_id;
+			obj.url  = data.src;
+			arr_data.push(obj);
+			var str_data = JSON.stringify(arr_data);
+			
+			var pos  = $('#dln_index_pos').val();
+			if ( pos ) {
+				storeImagetoServer( str_data, pos );
+			}
 		});
 	});
 }(jQuery));

@@ -56,7 +56,7 @@ class DLN_PhotoBabe {
 	}
 	
 	public static function install() {
-		//DLN_Cron_Loader::activate();
+		DLN_Member_Loader::activate();
 	}
 	
 	public static function dln_endpoint_listener() {

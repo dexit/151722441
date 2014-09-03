@@ -27,7 +27,8 @@
 		switch ( action ) {
 			case 'from-pc':
 				data = JSON.parse( data );
-				html = window.DLN_Block_Item.imageTemplate( data );
+				//html = window.DLN_Block_Item.imageTemplate( data );
+				$('body').trigger('dln_complete_upload', [data]);
 				break;
 			case 'from-fetch':
 				data = JSON.parse( data );

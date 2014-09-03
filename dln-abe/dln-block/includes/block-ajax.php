@@ -350,6 +350,7 @@ class DLN_Block_Ajax {
 			$image_data = json_decode( stripcslashes( $image_data ) );
 		}
 		
+		$result_data = array();
 		foreach ( $image_data as $i => $image ) {
 			// Get external id
 			$external_id = '';
@@ -364,7 +365,7 @@ class DLN_Block_Ajax {
 					
 				$wpdb->postmeta;
 				$sql    = $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s AND meta_value = %s", array( esc_sql( '_dln_external_id' ), esc_sql( $external_id ) ) );
-				$result = $wpdb->get_row($sql);
+				$result = $wpdb->get_row( $sql );
 					
 				if ( ! empty( $result->post_id ) ) {
 					$id = $result->post_id;
@@ -420,12 +421,11 @@ class DLN_Block_Ajax {
 				// Build img data
 				$img_data = esc_attr( serialize( array( 'type' => 'local', 'external_id' => $id ) ) );
 					
-				
-				
+				$result_data[] = array( 'id' => $id, 'url' => $attachment_url );
 			}
 		}
 		
-		$result = array( 'status' => 'success', 'img_url' => $attachment_url, 'img_data' => $img_data );
+		$result = array( 'status' => 'success', 'image_json' => $result_data );
 		echo json_encode( $result );
 		exit();
 	}
