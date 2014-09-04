@@ -103,14 +103,14 @@
 			
 			// Get product images
 			var image_ids = [];
-			$('.dln-image-id').each(function() {
-				var id = $(this).attr('value');
+			$('.dln-image-items img').each(function() {
+				var id = $(this).data('id');
 				if ( id ) {
 					id = parseInt(id);
 					image_ids.push(id);
 				}
 			});
-			product_data.dln_image_id         = image_ids;
+			product_data.dln_image_id = image_ids;
 			
 			// Get product title
 			product_data.dln_product_title    = $('#dln_product_title').val();

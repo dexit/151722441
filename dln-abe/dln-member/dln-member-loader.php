@@ -17,7 +17,9 @@ class DLN_Member_Loader {
 	
 	function __construct() {
 		global $wpdb;
-		$wpdb->dln_hire_day = $wpdb->prefix . 'dln_hire_day';
+		$wpdb->dln_hire = $wpdb->prefix . 'dln_hire';
+		
+		include( DLN_ABE_PLUGIN_DIR . '/dln-member/includes/helpers/helper-hire.php' );
 		
 		if ( is_admin() ) {
 			include( DLN_ABE_PLUGIN_DIR . '/dln-member/includes/admin/mycred-admin.php' );
@@ -25,10 +27,10 @@ class DLN_Member_Loader {
 	}
 	
 	public static function activate() {
-		DLN_Member_Loader::create_table_hire_day();
+		DLN_Member_Loader::create_table_hire();
 	}
 	
-	public static function create_table_hire_day() {
+	public static function create_table_hire() {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
 		global $wpdb;
 	
@@ -37,8 +39,9 @@ class DLN_Member_Loader {
 		if ( ! empty( $wpdb->collate ) )
 			$db_charset_collate .= " COLLATE $wpdb->collate";
 	
-		$sql = "CREATE TABLE {$wpdb->dln_hire_day} (
+		$sql = "CREATE TABLE {$wpdb->dln_hire} (
 		id int(11) NOT NULL AUTO_INCREMENT,
+		type nvarchar(50) NOT NULL,
 		user_id int(11) NOT NULL,
 		start_time datetime NOT NULL,
 		end_time datetime NOT NULL,

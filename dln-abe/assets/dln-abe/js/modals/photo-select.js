@@ -129,7 +129,6 @@
 	};
 	
 	var loadingPhotos = function ( select_val, action_type, code ) {
-		console.log(select_val, action_type, code );
 		switch(select_val) {
 			case 'facebook':
 				// Show loading indicator
