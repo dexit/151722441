@@ -342,18 +342,33 @@
 						</div>
 						
 						<div class="row m-t">
-							<div class="col-md-9">
-								<div class="row">
+							<div class="col-md-2">
+							
+							</div>
+							<div class="col-md-8">
+								<div class="row dln-poker-wrapper">
 									<div class="col-xs-4">
+										<a href="#">
+											<img class="thumb dln-pokers" src="<?php echo DLN_NEW_PLUGIN_URL ?>/assets/images/pokers/back-side.png" />
+										</a>
 									</div>
 									<div class="col-xs-4">
+										<a href="#">
+											<img class="thumb dln-pokers" src="<?php echo DLN_NEW_PLUGIN_URL ?>/assets/images/pokers/back-side.png" />
+										</a>
 									</div>
 									<div class="col-xs-4">
+										<a href="#">
+											<img class="thumb dln-pokers" src="<?php echo DLN_NEW_PLUGIN_URL ?>/assets/images/pokers/back-side.png" />
+										</a>
 									</div>
 								</div>
+								<div class="row m-t">
+									<a href="#" class="btn btn-sm btn-danger">Xem bình giải</a>
+								</div>
 							</div>
-							<div class="col-md-3">
-								<section class="panel panel-default">
+							<div class="col-md-2">
+								<!-- <section class="panel panel-default">
 									<header class="panel-heading font-bold">Basic form</header>
 									<div class="panel-body">
 										<form role="form">
@@ -373,6 +388,6 @@
 											<button type="submit" class="btn btn-sm btn-default">Submit</button>
 										</form>
 									</div>
-								</section>
+								</section> -->
 							</div>
 						</div>
