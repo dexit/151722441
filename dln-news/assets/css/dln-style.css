@@ -1,0 +1,73 @@
+.item-preview-image {
+	background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    float: left;
+    height: 190px;
+    opacity: 0;
+    overflow: hidden;
+    position: relative;
+    width: 236px;
+    margin-right: 10px;
+}
+.wrapper-lg {
+	padding: 15px;
+}
+.content-stream-topics-container {
+    border-left: 1px solid #e1e3ef;
+    padding-left: 25px;
+    margin-top: 40px;
+}
+
+.dln-item-switch {
+	margin-bottom: 5px;
+}
+.dln-item-switch .control-label{
+	position: relative;
+    top: -10px;
+    left: 5px;
+}
+.content-item-primary-content {
+	position: relative;
+}
+.content-item-primary-content .item-actions {
+	border-bottom: 1px solid #ebf0f7;
+    bottom: 0;
+    float: right;
+    left: 0;
+    padding-bottom: 5px;
+    position: absolute;
+    width: 100%;
+}
+
+.content-item-primary-content, .item-content {
+	height: 190px;
+	position: relative;
+	overflow: hidden;
+}
+.content-item-secondary-content {
+	clear:both;
+	display:table;
+}
+.item-actions {
+	float: left;
+    margin-right: 10px;
+    margin-top: 6px;
+}
+.item-actions .action {
+	display: inline-block;
+}
+.item-actions .fa {
+	display: inline-block;
+	font-size: 20px;
+	line-height: 30px;
+	height: 30px;
+	width: 30px;
+}
+.item-content, .item-content .post-sum, .item-content .post-title {
+	display: table;
+}
+.btn.btn-noborder {
+	border: 1px solid #aeaebd;
+}

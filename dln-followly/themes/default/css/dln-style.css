@@ -1,0 +1,26 @@
+@media (max-width : 768px) {
+	#generalspace #column1 {
+		width: 100%;
+		background-color: #fff;
+	    border: 1px solid #d3d6db;
+	    border-radius: 3px;
+	}
+	#menuprofile {
+		background-color: none;
+	    border: none;
+	}
+	#column1 #miniinfouser {
+		display: none;
+	}
+	#column1 #dashboard1 .menuglobal {
+		width: 30px;
+		float: left;
+	}
+	#generalspace #column1 .menuoption{
+		width: 18px;
+		padding: 5px 10px;
+	}
+	#generalspace #column2 {
+		width: 100%;
+	}
+}
