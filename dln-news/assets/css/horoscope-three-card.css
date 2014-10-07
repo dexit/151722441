@@ -1,0 +1,49 @@
+.aside-md {
+	max-width: 200px;
+}
+
+.dln-pokers {
+	width: 100%;
+	max-width: 150px;
+}
+.dln-poker-wrapper .col-xs-4 {
+	text-align:center;
+}
+.dln-poker-wrapper img {
+	opacity: 1;
+	-webkit-transition: opacity ;
+         -moz-transition: -moz-transform 3s;
+           -o-transition: -o-transform 3s;
+              transition: transform 3s;
+      -webkit-transform: translate(100px) rotate(20deg) scale(2);
+         -moz-transform: translate(100px) rotate(20deg) scale(2);
+           -o-transform: translate(100px) rotate(20deg) scale(2);
+              transform: translate(100px) rotate(20deg) scale(2);
+}
+.dln-cards-wrapper {
+	clear: both;
+	position: relative;
+	left: 50%;
+	margin-left: -115px;
+}
+.dln-cards-wrapper ul{
+	height: 250px;
+}
+ul.dln-cards li {
+	border-radius: 10px;
+	padding: 1px;
+	box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	max-width: 150px;
+	list-style: none;
+	position: absolute;
+}
+ul.dln-cards li img {
+	display: block;
+	margin: 0 auto;
+	width: 100%;
+}
