@@ -65,12 +65,12 @@ class DLN_Helper_HoroScope {
 							foreach ( $tags as $i => $tag ) {
 								if ( $i == 3 ) {
 									$text  = trim( preg_replace("/\s+/", ' ', strip_tags( html_entity_decode( $tag->outertext ) ) ) );
-									$title = str_replace( 'Lời Giải Đoán', '', $text );
+									$title = str_replace( 'Lá»�i Giáº£i Ä�oÃ¡n', '', $text );
 								} else if ( $i == 5 ) {
 									$content = trim( preg_replace("/\s+/", ' ', strip_tags( html_entity_decode( $tag->outertext ) ) ) );
-									$content = str_replace( 'Bổn Mạng:', '<strong>Bổn Mạng:</strong>', $content );
-									$content = str_replace( 'Tài Lộc:', '<br /><br /><strong>Tài Lộc:</strong>', $content );
-									$content = str_replace( 'Gia Đạo:', '<br /><br /><strong>Gia Đạo:</strong>', $content );
+									$content = str_replace( 'Bá»•n Máº¡ng:', '<strong>Bá»•n Máº¡ng:</strong>', $content );
+									$content = str_replace( 'TÃ i Lá»™c:', '<br /><br /><strong>TÃ i Lá»™c:</strong>', $content );
+									$content = str_replace( 'Gia Ä�áº¡o:', '<br /><br /><strong>Gia Ä�áº¡o:</strong>', $content );
 									$content = str_replace( '    ', '', $content );
 								}
 								
@@ -181,6 +181,24 @@ class DLN_Helper_HoroScope {
 		return self::$cards;
 	}
 	
+	public static function crawl_horoscope_daily() {
+		$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
+		$context = stream_context_create($opts);
+		$content = file_get_contents( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao.html', false, $context );
+		$dom     = new DOMDocument( '1.0', 'utf-8' );
+		libxml_use_internal_errors(true);
+		$dom->loadHTML( $content );
+		
+		$xpath = new DOMXPath( $dom );
+		
+		$elements = $xpath->query( "//img[@class='imageCrazy1k']" );
+		
+		if ( ! is_null( $elements ) ) {
+			foreach ( $elements as $i => $element ) {
+				echo $element->parentNode->getAttribute('href') . '<br />';
+			}
+		}
+	}
 	
 }
 

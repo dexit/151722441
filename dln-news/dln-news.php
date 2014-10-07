@@ -234,6 +234,10 @@ class DLN_News {
 			DLN_Helper_HoroScope::insert_cards_db(); die();
 		}
 		
+		if ( isset( $_GET['dln_crawl'] ) && $_GET['dln_crawl'] == '4' ) {
+			DLN_Helper_HoroScope::crawl_horoscope_daily(); die();
+		}
+		
 		if ( isset( $_GET['dln_crawl'] ) && $_GET['dln_crawl'] == '1' ) {
 			include_once DLN_NEW_PLUGIN_DIR . '/libs/simple_html_dom.php';
 			//$sources = DLN_Helper_Source::select_lastest( 3 );
