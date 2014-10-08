@@ -11,7 +11,7 @@
 }
 .dln-poker-wrapper img {
 	opacity: 1;
-	-webkit-transition: opacity ;
+	-webkit-transition: -webkit-transform 3s;
          -moz-transition: -moz-transform 3s;
            -o-transition: -o-transform 3s;
               transition: transform 3s;
