@@ -45,6 +45,7 @@ class DLN_News {
 	}
 	
 	public function requires() {
+		include DLN_NEW_PLUGIN_DIR . '/helpers/helper-ajax.php';
 		include DLN_NEW_PLUGIN_DIR . '/helpers/helper-horoscope.php';
 		include DLN_NEW_PLUGIN_DIR . '/helpers/helper-shortcode.php';
 		include DLN_NEW_PLUGIN_DIR . '/helpers/helper-template.php';
