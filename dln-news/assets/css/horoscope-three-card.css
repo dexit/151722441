@@ -20,12 +20,20 @@
 	text-align:center;
 }
 .dln-poker-wrapper img {
+<<<<<<< HEAD
 	border-radius: 10px;
 	padding: 1px;
 	box-shadow: inset 0 0 0 1px rgba(0,0,0,0.08);
 }
 /* .dln-poker-wrapper img {
 	opacity: 0;
+=======
+	opacity: 1;
+	-webkit-transition: -webkit-transform 3s;
+         -moz-transition: -moz-transform 3s;
+           -o-transition: -o-transform 3s;
+              transition: transform 3s;
+>>>>>>> origin/master
       -webkit-transform: translate(100px) rotate(20deg) scale(2);
          -moz-transform: translate(100px) rotate(20deg) scale(2);
            -o-transform: translate(100px) rotate(20deg) scale(2);

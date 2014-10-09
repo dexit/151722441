@@ -8,6 +8,7 @@ class DLN_Helper_HoroScope {
 	public static $cards;
 	public static $file_path = '';
 	public static $host_url  = 'http://www.xemtuong.net/boi/boi_bai/index.php';
+	public static $day_url   = 'http://lichvansu.wap.vn/tu-vi-hang-tuan-12-cung-hoang-dao-kim-nguu.html';
 	
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
@@ -58,6 +59,7 @@ class DLN_Helper_HoroScope {
 						
 						$context  = stream_context_create($opts);
 						$result   = @file_get_contents( $url, false, $context );
+						
 						if ( $result ) {
 							$html = str_get_html( $result );
 							$tags = $html->find( 'font' );
@@ -65,12 +67,12 @@ class DLN_Helper_HoroScope {
 							foreach ( $tags as $i => $tag ) {
 								if ( $i == 3 ) {
 									$text  = trim( preg_replace("/\s+/", ' ', strip_tags( html_entity_decode( $tag->outertext ) ) ) );
-									$title = str_replace( 'Lá»�i Giáº£i Ä�oÃ¡n', '', $text );
+									$title = str_replace( 'Lời Giải Đoán', '', $text );
 								} else if ( $i == 5 ) {
 									$content = trim( preg_replace("/\s+/", ' ', strip_tags( html_entity_decode( $tag->outertext ) ) ) );
-									$content = str_replace( 'Bá»•n Máº¡ng:', '<strong>Bá»•n Máº¡ng:</strong>', $content );
-									$content = str_replace( 'TÃ i Lá»™c:', '<br /><br /><strong>TÃ i Lá»™c:</strong>', $content );
-									$content = str_replace( 'Gia Ä�áº¡o:', '<br /><br /><strong>Gia Ä�áº¡o:</strong>', $content );
+									$content = str_replace( 'Bổn Mạng:', '<strong>Bổn Mạng:</strong>', $content );
+									$content = str_replace( 'Tài Lộc:', '<br /><br /><strong>Tài Lộc:</strong>', $content );
+									$content = str_replace( 'Gia Đạo:', '<br /><br /><strong>Gia Đạo:</strong>', $content );
 									$content = str_replace( '    ', '', $content );
 								}
 								
@@ -104,6 +106,7 @@ class DLN_Helper_HoroScope {
 						$post_id = wp_insert_post( array(
 							'post_title'   => $title,
 							'post_content' => $content,
+							'post_type'    => 'dln_card'
 						) );
 						if ( $post_id ) {
 							$wpdb->update( $wpdb->dln_horo_card, array( 'start_time' => current_time( 'mysql' ), 'post_id' => $post_id, 'crawl' => '1' ), array( 'id' => $item->id ) );
@@ -184,18 +187,18 @@ class DLN_Helper_HoroScope {
 	public static function crawl_horoscope_daily() {
 		$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
 		$context = stream_context_create($opts);
-		$content = file_get_contents( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao.html', false, $context );
+		$content = file_get_contents( self::$day_url, false, $context );
 		$dom     = new DOMDocument( '1.0', 'utf-8' );
 		libxml_use_internal_errors(true);
 		$dom->loadHTML( $content );
 		
 		$xpath = new DOMXPath( $dom );
 		
-		$elements = $xpath->query( "//img[@class='imageCrazy1k']" );
+		$elements = $xpath->query( "//div[@class='inputThongtin']/p" );
 		
-		if ( ! is_null( $elements ) ) {
+		if ( ! empty( $elements ) ) {
 			foreach ( $elements as $i => $element ) {
-				echo $element->parentNode->getAttribute('href') . '<br />';
+				echo $element->textContent . '<br />';
 			}
 		}
 	}
