@@ -29,7 +29,7 @@ class DLN_Helper_HoroScope {
 		global $wpdb;
 		
 		// Get 3 card
-		$sql  = $wpdb->prepare( "SELECT id, card_key FROM {$wpdb->dln_horo_card} WHERE crawl = %s LIMIT 0, 10", '0' );
+		$sql  = $wpdb->prepare( "SELECT id, card_key FROM {$wpdb->dln_horo_card} WHERE crawl = %s LIMIT 0, 3", '0' );
 		$data = $wpdb->get_results( $sql );
 		if ( ! empty( $data ) && ( ! is_wp_error( $data ) ) && is_array( $data ) ) {
 			foreach ( $data as $i => $item ) {
@@ -52,7 +52,7 @@ class DLN_Helper_HoroScope {
 						$opts = array('http' =>
 							array(
 								'method'  => 'POST',
-								'header'  => 'Content-type: application/x-www-form-urlencoded',
+								'header'  => 'Content-type: text/plain; charset=utf-8',
 								'content' => $postdata
 							)
 						);
@@ -78,6 +78,7 @@ class DLN_Helper_HoroScope {
 								
 							}
 						}
+						die();
 					} else {
 						// For one card type
 						$url  = self::$host_url . '?lan=7&xem=' .$item->card_key;
@@ -185,22 +186,90 @@ class DLN_Helper_HoroScope {
 	}
 	
 	public static function crawl_horoscope_daily() {
-		$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
-		$context = stream_context_create($opts);
-		$content = file_get_contents( self::$day_url, false, $context );
-		$dom     = new DOMDocument( '1.0', 'utf-8' );
-		libxml_use_internal_errors(true);
-		$dom->loadHTML( $content );
+		include_once DLN_NEW_PLUGIN_DIR . '/libs/simple_html_dom.php';
 		
-		$xpath = new DOMXPath( $dom );
+		$opts    = array( 'http'=>array( 'header' => "User-Agent:MyAgent/1.0\r\n" ) );
+		$context = stream_context_create( $opts );
 		
-		$elements = $xpath->query( "//div[@class='inputThongtin']/p" );
+		$html = @file_get_html( 'http://lichvansu.wap.vn/tu-vi-hang-thang-12-cung-hoang-dao-song-ngu.html', false, $context );
+		$tags = $html->find( '.inputThongtin p' );
+		foreach ( $tags as $i => $tag ) {
+			$html_entities = strip_tags( html_entity_decode( $tag->outertext ) );
+			$html_entities = htmlentities( $html_entities );
+			$html_encode   = mb_convert_encoding( $html_entities, 'HTML-ENTITIES', "UTF-8" );
+			$html_encode   = trim( $html_encode );
+		}
 		
-		if ( ! empty( $elements ) ) {
-			foreach ( $elements as $i => $element ) {
-				echo $element->textContent . '<br />';
+		// Get link horo daily from db
+		/*$items = self::get_horo_twelve_links();
+		foreach ( $items as $i => $item ) {
+			if ( ! empty( $item->link ) ) {
+				$content = file_get_contents( $item->link, false, $context );
+				
+				
+				
+				$dom     = new DOMDocument( '1.0', 'utf-8' );
+				libxml_use_internal_errors( true );
+				$dom->loadHTML( $content );
+				
+				$xpath = new DOMXPath( $dom );
+				
+				$elements = $xpath->query( "//div[@class='inputThongtin']" );
+				
+				if ( ! empty( $elements ) ) {
+					foreach ( $elements as $i => $element ) {
+						$html_entities = htmlentities( $element->textContent );
+						$html_encode   = mb_convert_encoding( $html_entities, 'HTML-ENTITIES', "UTF-8" );
+						$html_encode   = trim( $html_encode );
+						var_dump($html_encode);
+						echo self::separate_sentences( $html_encode );
+					}
+				}
+			}
+		}*/
+	}
+	
+	private static function separate_sentences( $source, $limit = 3, $pattern = '<p>__REPLACE__</p>' ) {
+		if ( ! $source ) {
+			return null;
+		}
+		
+		$arr_sentences = explode( '.', $source );
+		$result        = '';
+		$str_block_sen = '';
+		if ( ! empty( $arr_sentences ) ) {
+			foreach ( $arr_sentences as $i => $sentence ) {
+				$count = $i + 1;
+				if ( $count % $limit == 0 ) {
+					$result .= str_replace( '__REPLACE__', $str_block_sen, $pattern );
+					$str_block_sen = '';
+				} else {
+					$str_block_sen .= $sentence . '.';
+				}
 			}
 		}
+		
+		return $result;
+	}
+	
+	private static function get_horo_twelve_links() {
+		global $wpdb;
+		
+		try {
+			$sql    = $wpdb->prepare( "SELECT link FROM {$wpdb->dln_horo_twelve} WHERE 1 = 1 ORDER BY update_time ASC LIMIT 0 , %d", 3 );
+			$result = $wpdb->get_results( $sql );
+			
+			if ( $result ) {
+				return $result;
+			} else {
+				return null;
+			}
+		} catch( Exception $e ) {
+			if ( true === WP_DEBUG ) {
+				error_log( $e->getMessage() );
+			}
+		}
+		
 	}
 	
 }

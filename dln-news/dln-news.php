@@ -162,18 +162,18 @@ class DLN_News {
 		PRIMARY KEY  (id)
 		) CHARSET=utf8, ENGINE=InnoDB $db_charset_collate;
 		
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-bach-duong.html', 'day', 'bach-duong' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-kim-nguu.html', 'day', 'kim-nguu' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-song-tu.html', 'day', 'song-tu' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-cu-giai.html', 'day', 'cu-giai' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-su-tu.html', 'day', 'su-tu' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-xu-nu.html', 'day', 'xu-nu' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-thien-binh.html', 'day', 'thien-binh' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-ho-cap.html', 'day', 'ho-cap' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-nhan-ma.html', 'day', 'nhan-ma' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-ma-ket.html', 'day', 'ma-ket' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-bao-binh.html', 'day', 'bao-binh' );
-		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-song-ngu.html', 'day', 'song-ngu' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-bach-duong.html', 'ngay', 'bach-duong' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-kim-nguu.html', 'ngay', 'kim-nguu' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-song-tu.html', 'ngay', 'song-tu' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-cu-giai.html', 'ngay', 'cu-giai' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-su-tu.html', 'ngay', 'su-tu' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-xu-nu.html', 'ngay', 'xu-nu' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-thien-binh.html', 'ngay', 'thien-binh' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-ho-cap.html', 'ngay', 'ho-cap' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-nhan-ma.html', 'ngay', 'nhan-ma' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-ma-ket.html', 'ngay', 'ma-ket' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-bao-binh.html', 'ngay', 'bao-binh' );
+		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-ngay-12-cung-hoang-dao-song-ngu.html', 'ngay', 'song-ngu' );
 		
 		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-tuan-12-cung-hoang-dao-bach-duong.html', 'tuan', 'bach-duong' );
 		INSERT INTO {$wpdb->dln_horo_twelve} ( `link`, `type_time`, `type_group` ) VALUES ( 'http://lichvansu.wap.vn/tu-vi-hang-tuan-12-cung-hoang-dao-kim-nguu.html', 'tuan', 'kim-nguu' );
@@ -294,11 +294,11 @@ class DLN_News {
 		global $wpdb;
 		
 		if ( isset( $_GET['dln_crawl'] ) && $_GET['dln_crawl'] == '2' ) {
-			DLN_Helper_HoroScope::crawl_data_db(); die();
+			DLN_Helper_HoroScope::insert_cards_db(); die();
 		}
 		
 		if ( isset( $_GET['dln_crawl'] ) && $_GET['dln_crawl'] == '3' ) {
-			DLN_Helper_HoroScope::insert_cards_db(); die();
+			DLN_Helper_HoroScope::crawl_data_db(); die();
 		}
 		
 		if ( isset( $_GET['dln_crawl'] ) && $_GET['dln_crawl'] == '4' ) {
