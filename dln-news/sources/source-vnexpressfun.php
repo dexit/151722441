@@ -2,19 +2,16 @@
 
 if ( ! defined( 'WPINC' ) ) { die; }
 
-class DLN_Source_aFamily extends DLN_Source_Abstract {
+class DLN_Source_VNExpressFun extends DLN_Source_Abstract {
 	
 	public static $instance;
 	
 	protected $sel_listing = array(
-		'.wp .catalogies a'
+		'div.title_news a.txt_link',
 	);
-	
 	protected $arr_prevent = array(
 		'#',
 		'javascript:void(0)',
-		'javascript:;',
-		'javascript:void(0);'
 	);
 	
 	public static function get_instance() {
@@ -26,7 +23,8 @@ class DLN_Source_aFamily extends DLN_Source_Abstract {
 		return self::$instance;
 	}
 	
-	function __construct() { }
+	function __construct() {}
+	
 }
 
-DLN_Source_aFamily::get_instance();
+DLN_Source_VNExpressFun::get_instance();

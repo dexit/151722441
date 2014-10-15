@@ -87,6 +87,7 @@ class DLN_News {
 		term_id int(11) NOT NULL,
 		link nvarchar(500) NOT NULL,
 		type nvarchar(50) NOT NULL,
+		source_type nvarchar(50) NOT NULL,
 		state tinyint(1) DEFAULT 0,
 		PRIMARY KEY  (id)
 		) CHARSET=utf8, ENGINE=MyIsam $db_charset_collate;";
@@ -305,25 +306,29 @@ class DLN_News {
 			DLN_Helper_HoroScope::crawl_horoscope_daily(); die();
 		}
 		
+		if ( isset( $_GET['dln_crawl'] ) && $_GET['dln_crawl'] == 'add_source' ) {
+			DLN_Helper_Source::add_source_default();
+		}
+		
 		if ( isset( $_GET['dln_crawl'] ) && $_GET['dln_crawl'] == '1' ) {
 			include_once DLN_NEW_PLUGIN_DIR . '/libs/simple_html_dom.php';
-			//$sources = DLN_Helper_Source::select_lastest( 3 );
+			$sources = DLN_Helper_Source::select_lastest( 3 );
 			
 			$sukien = new stdClass();
 			$thethao = new stdClass();
 			$xeco = new stdClass();
 			
-			$sukien->type = 'haivl';
-			$thethao->type = 'haivl';
-			$xeco->type = 'haivl';
+			$sukien->type = 'vnexpressfun';
+			//$thethao->type = 'haivl';
+			//$xeco->type = 'haivl';
 			
-			$sukien->link = 'http://haivl.tv';
-			$thethao->link = 'http://haivl.tv/new/2';
-			$xeco->link = 'http://haivl.tv/new/3';
+			$sukien->link = 'http://vnexpress.net/tin-tuc/cuoi';
+			//$thethao->link = 'http://haivl.tv/new/2';
+			//$xeco->link = 'http://haivl.tv/new/3';
 			
 			$sources[] = $sukien;
-			$sources[] = $thethao;
-			$sources[] = $xeco;
+			//$sources[] = $thethao;
+			//$sources[] = $xeco;
 			
 			if ( $sources ) {
 				$arr_links = array();
@@ -332,10 +337,11 @@ class DLN_News {
 				foreach ( $sources as $i => $source ) {
 					
 					if ( $source->type ) {
-						$source_class = DLN_Helper_Source::load_source_class( $source->type );
+						$source_class    = DLN_Helper_Source::load_source_class( $source->type );
+						$source_instance = $source_class::get_instance();
 						
-						if ( $source_class && ! empty( $source->link ) ) {
-							$links = $source_class::get_links( $source->link );
+						if ( $source_instance && ! empty( $source->link ) ) {
+							$links = $source_instance->get_links( $source->link );
 							if ( $links ) {
 								$arr_links = array_merge( $arr_links, $links );
 							}

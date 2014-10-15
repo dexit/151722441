@@ -6,6 +6,82 @@ class DLN_Helper_Source {
 	
 	public static $instance;
 	
+	private static $source_list = array(
+		array(
+			'name'        => 'HàiVL',
+			'type'        => 'haivl',
+			'source_type' => 'article',
+			'link'        => array(
+				'http://www.haivl.com/',
+				'http://www.haivl.com/new/2',
+				'http://www.haivl.com/new/3',
+			)
+		),
+		array(
+			'name'        => 'HàiVL',
+			'type'        => 'haivl',
+			'source_type' => 'video',
+			'link'        => array(
+				'http://www.haivl.tv/',
+				'http://www.haivl.tv/new/2',
+				'http://www.haivl.tv/new/3',
+			)
+		),
+		array(
+			'name'        => '9GAG',
+			'type'        => '9gag',
+			'source_type' => 'article',
+			'link'        => array(
+				'http://9gag.com/'
+			)
+		),
+		array(
+			'name'        => '9GAG',
+			'type'        => '9gag',
+			'source_type' => 'video',
+			'link'        => array(
+				'http://9gag.tv/'
+			)
+		),
+		array(
+			'name'        => 'BáCháyBọChét',
+			'type'        => 'bachaybochet',
+			'source_type' => 'article',
+			'link'        => array(
+				'http://bachaybochet.com/',
+				'http://bachaybochet.com/index/2',
+				'http://bachaybochet.com/index/3'
+			)
+		),
+		array(
+			'name'        => 'ÔVui',
+			'type'        => 'ovui',
+			'source_type' => 'article',
+			'link'        => array(
+				'http://ovui.com.vn/new',
+				'http://ovui.com.vn/new/2?ajax=1',
+				'http://ovui.com.vn/new/3?ajax=1'
+			)
+		),
+		array(
+			'name'        => 'VnExpress',
+			'type'        => 'vnexpressfun',
+			'source_type' => 'article',
+			'link'        => array(
+				'http://vnexpress.net/tin-tuc/cuoi',
+			)
+		),
+		array(
+			'name'        => 'XemHài',
+			'type'        => 'xemhai',
+			'source_type' => 'article',
+			'link'        => array(
+				'http://xemhai.vn/',
+				'http://xemhai.vn/?&start=16'
+			)
+		),
+	);
+	
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
 		if ( null == self::$instance ) {
@@ -17,6 +93,46 @@ class DLN_Helper_Source {
 	
 	function __construct() {
 		
+	}
+	
+	public static function add_source_default() {
+		global $wpdb;
+		
+		if ( empty( self::$source_list ) )
+			return false;
+		
+		foreach ( self::$source_list as $source ) {
+			if ( isset( $source['name'] ) ) {
+				$term_id = get_term_by( 'name', $source['name'], 'dln_source_cat' );
+				
+				if ( empty( $term_id ) ) {
+					$term_id = wp_insert_term(
+						esc_sql( $source['name'] ),
+						'dln_source_cat'
+					);
+					
+					if ( isset( $source['link'] ) ) {
+						$links = $source['link'];
+						
+						if ( is_array( $links ) ) {
+							foreach ( $links as $i => $link ) {
+								$result = $wpdb->insert( $wpdb->dln_news_source, array(
+									'term_id'     => esc_sql( $term_id ),
+									'link'        => esc_sql( $link ), 
+									'source_type' => esc_sql( $source['source_type'] ),
+									'type'        => esc_sql( $source['type'] )
+								) );
+								
+								if ( is_wp_error( $result ) ) {
+									var_dump( $result );
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		exit();
 	}
 	
 	public static function add_source( $term_id = '0', $link = '', $type = '' ) {
@@ -133,6 +249,9 @@ class DLN_Helper_Source {
 		if ( ! $source_name )
 			return false;
 	
+		if ( ! class_exists( 'DLN_Source_Abstract' ) )
+			include DLN_NEW_PLUGIN_DIR . '/sources/abstract-source.php';
+		
 		// Now try to load the form_name
 		$source_class = 'DLN_Source_' . str_replace( '-', '_', $source_name );
 		$source_file  = DLN_NEW_PLUGIN_DIR . '/sources/source-' . $source_name . '.php';
