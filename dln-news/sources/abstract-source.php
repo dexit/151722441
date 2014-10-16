@@ -10,6 +10,8 @@ class DLN_Source_Abstract {
 	
 	protected $arr_prevent = null;
 	
+	protected $html = null;
+	
 	public static function get_instance() {
 		// If the single instance hasn't been set, set it now.
 		if ( null == self::$instance ) {
@@ -35,13 +37,16 @@ class DLN_Source_Abstract {
 			$arr_urls = array();
 			$links    = array();
 			
-			$html  = file_get_html( $url );
+			$opts    = array( 'http'=>array( 'header' => "User-Agent:MyAgent/1.0\r\n" ) );
+			$context = stream_context_create( $opts );
+			
+			$this->html = file_get_html( $url, false, $context );
 			if ( is_array( $this->sel_listing ) ) {
 				foreach ( $this->sel_listing as $i => $selector ) {
-					$links = array_merge( $links, $html->find( $selector ) );
+					$links = array_merge( $links, $this->html->find( $selector ) );
 				}
 			} else {
-				$links = $html->find( $this->sel_listing );
+				$links = $this->html->find( $this->sel_listing );
 			}
 			
 			if ( is_array( $links ) ) {

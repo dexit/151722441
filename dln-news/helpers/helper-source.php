@@ -11,6 +11,7 @@ class DLN_Helper_Source {
 			'name'        => 'HàiVL',
 			'type'        => 'haivl',
 			'source_type' => 'article',
+			'tags'        => 'image',
 			'link'        => array(
 				'http://www.haivl.com/',
 				'http://www.haivl.com/new/2',
@@ -20,7 +21,8 @@ class DLN_Helper_Source {
 		array(
 			'name'        => 'HàiVL',
 			'type'        => 'haivl',
-			'source_type' => 'video',
+			'source_type' => 'video,funny',
+			'tags'        => 'image',
 			'link'        => array(
 				'http://www.haivl.tv/',
 				'http://www.haivl.tv/new/2',
@@ -30,7 +32,8 @@ class DLN_Helper_Source {
 		array(
 			'name'        => '9GAG',
 			'type'        => '9gag',
-			'source_type' => 'article',
+			'tags'        => 'image',
+			'source_type' => 'article,funny',
 			'link'        => array(
 				'http://9gag.com/'
 			)
@@ -38,6 +41,7 @@ class DLN_Helper_Source {
 		array(
 			'name'        => '9GAG',
 			'type'        => '9gag',
+			'tags'        => 'image',
 			'source_type' => 'video',
 			'link'        => array(
 				'http://9gag.tv/'
@@ -46,26 +50,27 @@ class DLN_Helper_Source {
 		array(
 			'name'        => 'BáCháyBọChét',
 			'type'        => 'bachaybochet',
+			'tags'        => 'image',
 			'source_type' => 'article',
 			'link'        => array(
 				'http://bachaybochet.com/',
 				'http://bachaybochet.com/index/2',
-				'http://bachaybochet.com/index/3'
 			)
 		),
 		array(
 			'name'        => 'ÔVui',
 			'type'        => 'ovui',
+			'tags'        => 'image',
 			'source_type' => 'article',
 			'link'        => array(
 				'http://ovui.com.vn/new',
 				'http://ovui.com.vn/new/2?ajax=1',
-				'http://ovui.com.vn/new/3?ajax=1'
 			)
 		),
 		array(
 			'name'        => 'VnExpress',
 			'type'        => 'vnexpressfun',
+			'tags'        => 'story',
 			'source_type' => 'article',
 			'link'        => array(
 				'http://vnexpress.net/tin-tuc/cuoi',
@@ -74,10 +79,30 @@ class DLN_Helper_Source {
 		array(
 			'name'        => 'XemHài',
 			'type'        => 'xemhai',
+			'tags'        => 'image',
 			'source_type' => 'article',
 			'link'        => array(
 				'http://xemhai.vn/',
 				'http://xemhai.vn/?&start=16'
+			)
+		),
+		array(
+			'name'        => 'TrollBóngĐá',
+			'type'        => 'trollbongda',
+			'source_type' => 'facebook',
+			'tags'        => 'image, facebook, football',
+			'link'        => array(
+				'https://www.facebook.com/trollbongda'
+			)
+		),
+		array(
+			'name'        => 'HàiHướcVL',
+			'type'        => 'haihuocvl',
+			'tags'        => 'video, football',
+			'source_type' => 'video',
+			'link'        => array(
+				'http://haihuocvl.com/video-bong-da-hai-huoc/',
+				'http://haihuocvl.com/video-bong-da-hai-huoc/page2/'
 			)
 		),
 	);
@@ -103,33 +128,40 @@ class DLN_Helper_Source {
 		
 		foreach ( self::$source_list as $source ) {
 			if ( isset( $source['name'] ) ) {
-				$term_id = get_term_by( 'name', $source['name'], 'dln_source_cat' );
+				$term = get_term_by( 'name', $source['name'], 'dln_source_cat' );
 				
-				if ( empty( $term_id ) ) {
-					$term_id = wp_insert_term(
+				if ( empty( $term ) ) {
+					$term = wp_insert_term(
 						esc_sql( $source['name'] ),
 						'dln_source_cat'
 					);
-					
-					if ( isset( $source['link'] ) ) {
-						$links = $source['link'];
-						
-						if ( is_array( $links ) ) {
-							foreach ( $links as $i => $link ) {
+				}
+				
+				if ( ! empty( $term->term_id ) && isset( $source['link'] ) ) {
+					$links = $source['link'];
+				
+					if ( is_array( $links ) ) {
+						foreach ( $links as $i => $link ) {
+							$sql    = $wpdb->prepare( "SELECT id from {$wpdb->dln_news_source} WHERE link = %s", esc_sql( $link ) );
+							$exists = $wpdb->get_row( $sql );
+							
+							if ( empty( $exists ) ) {
 								$result = $wpdb->insert( $wpdb->dln_news_source, array(
-									'term_id'     => esc_sql( $term_id ),
-									'link'        => esc_sql( $link ), 
+									'term_id'     => esc_sql( $term->term_id ),
+									'link'        => esc_sql( $link ),
 									'source_type' => esc_sql( $source['source_type'] ),
+									'tags'        => esc_sql( $source['tags'] ),
 									'type'        => esc_sql( $source['type'] )
 								) );
-								
-								if ( is_wp_error( $result ) ) {
-									var_dump( $result );
-								}
+							}
+				
+							if ( is_wp_error( $result ) ) {
+								var_dump( $result );
 							}
 						}
 					}
 				}
+				
 			}
 		}
 		exit();

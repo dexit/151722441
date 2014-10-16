@@ -88,6 +88,7 @@ class DLN_News {
 		link nvarchar(500) NOT NULL,
 		type nvarchar(50) NOT NULL,
 		source_type nvarchar(50) NOT NULL,
+		tags nvarchar(255) NOT NULL,
 		state tinyint(1) DEFAULT 0,
 		PRIMARY KEY  (id)
 		) CHARSET=utf8, ENGINE=MyIsam $db_charset_collate;";
@@ -108,6 +109,8 @@ class DLN_News {
 		post_id int(11) NOT NULL,
 		md5 nvarchar(255) NOT NULL,
 		url nvarchar(500) NOT NULL,
+		title nvarchar(255) NOT NULL,
+		image nvarchar(500) NOT NULL,
 		start_time datetime NOT NULL,
 		update_time datetime NOT NULL,
 		likes int(11) NOT NULL,
@@ -312,17 +315,17 @@ class DLN_News {
 		
 		if ( isset( $_GET['dln_crawl'] ) && $_GET['dln_crawl'] == '1' ) {
 			include_once DLN_NEW_PLUGIN_DIR . '/libs/simple_html_dom.php';
-			$sources = DLN_Helper_Source::select_lastest( 3 );
+			//$sources = DLN_Helper_Source::select_lastest( 3 );
 			
 			$sukien = new stdClass();
 			$thethao = new stdClass();
 			$xeco = new stdClass();
 			
-			$sukien->type = 'vnexpressfun';
+			$sukien->type = 'haivl';
 			//$thethao->type = 'haivl';
 			//$xeco->type = 'haivl';
 			
-			$sukien->link = 'http://vnexpress.net/tin-tuc/cuoi';
+			$sukien->link = 'http://haivl.com/';
 			//$thethao->link = 'http://haivl.tv/new/2';
 			//$xeco->link = 'http://haivl.tv/new/3';
 			
@@ -331,17 +334,18 @@ class DLN_News {
 			//$sources[] = $xeco;
 			
 			if ( $sources ) {
-				$arr_links = array();
+				$arr_links  = array();
+				$arr_images = array();
 				
 				// Get links from source
 				foreach ( $sources as $i => $source ) {
-					
 					if ( $source->type ) {
 						$source_class    = DLN_Helper_Source::load_source_class( $source->type );
 						$source_instance = $source_class::get_instance();
 						
 						if ( $source_instance && ! empty( $source->link ) ) {
 							$links = $source_instance->get_links( $source->link );
+							
 							if ( $links ) {
 								$arr_links = array_merge( $arr_links, $links );
 							}
@@ -418,6 +422,8 @@ class DLN_News {
 												'post_id'    => $post_id,
 												'md5'        => $link->md5,
 												'url'        => $link->url,
+												'title'      => $link->title,
+												'image'      => $link->thumbs,
 												'start_time' => current_time( 'mysql' ),
 												'likes'      => $link->likes,
 												'share'      => $link->share,
@@ -445,15 +451,20 @@ class DLN_News {
 
 		// Get facebook id for links
 		if ( is_array( $arr_links ) ) {
-			foreach ( $arr_links as $i => $link ) {
+			foreach ( $arr_links as $i => $obj ) {
+				if ( ! empty( $obj->link ) )
+					$link = $obj->link;
+				else 
+					$link = $obj;
+				
 				$count++;
 				if ( $link ) {
 					$batch_fbids[] = '{"method":"GET","relative_url":"?ids=' . $link . '"}';
 					
 					if ( $count == 50 ) {
 						$batch_request[]  = '[' . implode( ',', $batch_fbids ) . ']';
-						$count          = 0;
-						$batch_fbids    = null;
+						$count            = 0;
+						$batch_fbids      = null;
 					}
 				}
 			}
@@ -482,7 +493,12 @@ class DLN_News {
 					if ( $obj->body ) {
 						$body = json_decode( $obj->body );
 							
-						foreach ( $arr_links as $i => $link ) {
+						foreach ( $arr_links as $i => $obj ) {
+							if ( ! empty( $obj->link ) )
+								$link = $obj->link;
+							else
+								$link = $obj;
+							
 							if ( ! empty( $body->$link ) ) {
 								$obj_link = new stdClass;
 								$obj_link->md5   = md5( $link );
@@ -492,6 +508,8 @@ class DLN_News {
 								$obj_link->desc  = isset( $body->$link->og_object->description ) ? $body->$link->og_object->description : '';
 								$obj_link->share = isset( $body->$link->share->share_count ) ? $body->$link->share->share_count : 0;
 								$obj_link->likes = 0;
+								
+								$obj_link->thumbs = ( ! empty( $obj->image ) ) ? $obj->image : ''; 
 				
 								$arr_fbids[]      = isset( $body->$link->og_object->id ) ? $body->$link->og_object->id : '';
 								$arr_link_infor[] = $obj_link;
@@ -501,17 +519,20 @@ class DLN_News {
 				}
 			}
 		}
-		$fb_likes  = self::get_fb_likes( $arr_fbids, $access_token );
+		//$fb_likes  = self::get_fb_likes( $arr_fbids, $access_token );
 		$fb_thumbs = self::get_fb_thumbs( $arr_fbids, $access_token );
 		
 		foreach ( $arr_link_infor as $i => $link_infor ) {
 			if ( ! empty( $fb_thumbs['thumbs'][ $i ] ) ) {
 				//$arr_link_infor[ $i ]->likes  = ( ! empty( $fb_likes[ $i ] ) ) ? $fb_likes[ $i ] : 0;
-				$arr_link_infor[ $i ]->thumbs       = ( ! empty( $fb_thumbs['thumbs'][ $i ] ) ) ? $fb_thumbs['thumbs'][ $i ] : '';
+				if ( empty( $arr_link_infor[ $i ]->thumbs ) ) {
+					$arr_link_infor[ $i ]->thumbs       = ( ! empty( $fb_thumbs['thumbs'][ $i ] ) ) ? $fb_thumbs['thumbs'][ $i ] : '';
+				}
 				$arr_link_infor[ $i ]->created_time = $fb_thumbs['created'][ $i ];
 			}
 		}
 	
+		// Unset share count is zero
 		if ( count( $arr_link_infor ) ) {
 			foreach ( $arr_link_infor as $i => $link_infor ) {
 				if ( $link_infor->likes == 0 && $link_infor->share == 0 ) {
@@ -608,7 +629,7 @@ class DLN_News {
 		$arr_fb_created = array();
 		foreach ( $request_urls as $i => $url ) {
 			$objs = json_decode( @file_get_contents( $url ) );
-				
+			
 			if ( ! empty( $objs ) ) {
 				foreach ( $objs as $i => $obj ) {
 						
