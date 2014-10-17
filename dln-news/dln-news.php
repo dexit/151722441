@@ -35,6 +35,8 @@ class DLN_News {
 		global $wpdb;
 		$wpdb->dln_news_source = $wpdb->prefix . 'dln_news_source';
 		$wpdb->dln_news_link   = $wpdb->prefix . 'dln_news_link';
+		$wpdb->dln_news_top_comments = $wpdb->prefix . 'dln_news_top_comments';
+		 
 		$wpdb->dln_horo_card   = $wpdb->prefix . 'dln_horo_card';
 		$wpdb->dln_horo_twelve = $wpdb->prefix . 'dln_horo_twelve';
 		
@@ -70,6 +72,8 @@ class DLN_News {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php');
 		self::create_table_source();
 		self::create_table_link();
+		self::create_table_top_comments();
+		
 		self::create_table_horoscope();
 		self::create_table_horo_twelve();
 	}
@@ -115,11 +119,39 @@ class DLN_News {
 		update_time datetime NOT NULL,
 		likes int(11) NOT NULL,
 		share int(11) NOT NULL,
+		comment_count int(11) NOT NULL,
+		bound_rate float(11) NOT NULL,
+		comments int(11) NOT NULL,
 		state tinyint(1) DEFAULT 0,
 		PRIMARY KEY  (id)
 		) CHARSET=utf8, ENGINE=InnoDB $db_charset_collate;
 		
 		ALTER TABLE {$wpdb->dln_news_link} ADD INDEX ( md5 );";
+		
+		dbDelta( $sql );
+	}
+	
+	private static function create_table_top_comments() {
+		global $wpdb;
+		
+		if ( ! empty( $wpdb->charset ) )
+			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+		if ( ! empty( $wpdb->collate ) )
+			$db_charset_collate .= " COLLATE $wpdb->collate";
+		
+		$sql = "CREAT TABLE {$wpdb->dln_news_top_comments} (
+			id int(11) NOT NULL AUTO_INCREMENT;
+			post_id int(11) NOT NULL,
+			comment_id nvarchar(25) NOT NULL,
+			user_id nvarchar(25) NOT NULL,
+			user_name nvarchar(255) NOT NULL,
+			message TEXT,
+			likes int(11) NOT NULL,
+			create_time datetime NOT NULL,
+			PRIMARY KEY  (id)
+		) CHARSET=utf8, ENGINE=InnoDB {$db_charset_collate};
+		
+		ALTER TABLE {$wpdb->dln_news_top_comments} ADD INDEX ( comment_id );";
 		
 		dbDelta( $sql );
 	}
@@ -320,18 +352,31 @@ class DLN_News {
 			$sukien = new stdClass();
 			$thethao = new stdClass();
 			$xeco = new stdClass();
+			$xeco1 = new stdClass();
+			//$xeco2 = new stdClass();
+			//$xeco3 = new stdClass();
 			
 			$sukien->type = 'haivl';
-			//$thethao->type = 'haivl';
-			//$xeco->type = 'haivl';
+			$thethao->type = 'haivl';
+			$xeco->type = 'haivl';
+			$xeco1->type = 'haivl';
+			//$xeco2->type = 'haivl';
+			//$xeco3->type = 'haivl';
 			
 			$sukien->link = 'http://haivl.com/';
-			//$thethao->link = 'http://haivl.tv/new/2';
-			//$xeco->link = 'http://haivl.tv/new/3';
+			$thethao->link = 'http://haivl.com/new/2';
+			$xeco->link = 'http://haivl.com/new/3';
+			$xeco1->link = 'http://haivl.com/new/4';
+			//$xeco2->link = 'http://haivl.com/new/5';
+			//$xeco3->link = 'http://haivl.com/new/6';
 			
 			$sources[] = $sukien;
-			//$sources[] = $thethao;
-			//$sources[] = $xeco;
+			$sources[] = $thethao;
+			$sources[] = $xeco;
+			$sources[] = $xeco1;
+			//$sources[] = $xeco2;
+			//$sources[] = $xeco3;
+			
 			
 			if ( $sources ) {
 				$arr_links  = array();
@@ -427,8 +472,19 @@ class DLN_News {
 												'start_time' => current_time( 'mysql' ),
 												'likes'      => $link->likes,
 												'share'      => $link->share,
+												'bound_rate' => $link->bound_rate,
+												'comments'   => $link->comment_count
 											)
 										);
+										
+										// Get comments exists in database
+										/*$cm_ids = array();
+										if ( $link->comments ) {
+											foreach ( $link->comments as $i => $comment ) {
+												$cm_ids[] = $comment->comment_id;
+											}
+										}*/
+										
 									}
 								}
 							}
@@ -520,7 +576,7 @@ class DLN_News {
 			}
 		}
 		//$fb_likes  = self::get_fb_likes( $arr_fbids, $access_token );
-		$fb_thumbs = self::get_fb_thumbs( $arr_fbids, $access_token );
+		$fb_thumbs   = self::get_fb_thumbs( $arr_fbids, $access_token );
 		
 		foreach ( $arr_link_infor as $i => $link_infor ) {
 			if ( ! empty( $fb_thumbs['thumbs'][ $i ] ) ) {
@@ -529,6 +585,7 @@ class DLN_News {
 					$arr_link_infor[ $i ]->thumbs       = ( ! empty( $fb_thumbs['thumbs'][ $i ] ) ) ? $fb_thumbs['thumbs'][ $i ] : '';
 				}
 				$arr_link_infor[ $i ]->created_time = $fb_thumbs['created'][ $i ];
+				$arr_link_infor[ $i ]->bound_rate   = $arr_link_infor[ $i ]->share / ( current_time( 'timestamp' ) - $fb_thumbs['created'][ $i ] );
 			}
 		}
 	
@@ -537,6 +594,86 @@ class DLN_News {
 			foreach ( $arr_link_infor as $i => $link_infor ) {
 				if ( $link_infor->likes == 0 && $link_infor->share == 0 ) {
 					unset( $arr_link_infor[$i] );
+				}
+			}
+		}
+		
+		$arr_link_infor = self::get_fb_top_comments( $arr_link_infor, $access_token );
+		
+		var_dump($arr_link_infor);die();
+		return $arr_link_infor;
+	}
+	
+	public static function get_fb_top_comments( $arr_link_infor = array(), $access_token = '' ) {
+		if ( empty( $arr_link_infor ) || ! $access_token )
+			return false;
+		
+		$batch_fbids = array();
+		$count       = 0;
+		
+		foreach ( $arr_link_infor as $i => $item ) {
+			$count++;
+			
+			$fbid = $item->fbid;
+			if ( $fbid ) {
+				$batch_fbids[] = '{"method":"GET","relative_url":"' . $fbid . '/comments?summary=true"}';
+					
+				if ( $count == 50 ) {
+					$batch_request[]  = '[' . implode( ',', $batch_fbids ) . ']';
+					$count          = 0;
+					$batch_fbids    = null;
+				}
+			}
+		}
+		
+		if ( ! empty( $batch_fbids ) ) {
+			$batch_request[]  = '[' . implode( ',', $batch_fbids ) . ']';
+			$batch_fbids      = null;
+		}
+			
+		if ( ! empty( $batch_request ) ) {
+			foreach ( $batch_request as $i => $request ) {
+				$request_urls[] = 'https://graph.facebook.com/v2.1/?batch=' . $request . '&access_token=' . $access_token . '&method=post';
+			}
+		}
+		
+		foreach ( $request_urls as $i => $url ) {
+			$objs = json_decode( @file_get_contents( $url ) );
+				
+			if ( ! empty( $objs ) ) {
+				foreach ( $objs as $i => $obj ) {
+						
+					if ( $obj->body ) {
+						$arr_comments = array();
+						$search_id    = null;
+						
+						$body = json_decode( $obj->body );
+						$data = $body->data;
+						
+						if ( $data ) {
+							foreach ( $data as $i => $item ) {
+								$user_comment = new stdClass;
+								$user_comment->comment_id = $item->id;
+								$user_comment->user_id    = $item->from->id;
+								$user_comment->user_name  = $item->from->name;
+								$user_comment->message    = $item->message;
+								$user_comment->likes      = $item->like_count;
+								$arr_comments[] = $user_comment;
+								$search_id      = $item->id;
+							}
+						}
+						
+						usort( $arr_comments, array( 'DLN_News', 'cmp' ) );
+						
+						if ( $arr_comments ) {
+							foreach ( $arr_link_infor as $i => $link_infor ) {
+								if ( strpos( $search_id, $link_infor->fbid ) !== false ) {
+									$arr_link_infor[ $i ]->comment_count = $body->summary->total_count;
+									$arr_link_infor[ $i ]->comments = array_slice( $arr_comments, 0, 5, true );
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -653,6 +790,10 @@ class DLN_News {
 		return array( 'thumbs' => $arr_fb_thumbs, 'created' => $arr_fb_created );
 	}
 
+	public static function cmp( $a, $b ) {
+		return strnatcmp( $b->likes, $a->likes );
+	}
+	
 }
 
 $GLOBALS['dln_news'] = new DLN_News();
