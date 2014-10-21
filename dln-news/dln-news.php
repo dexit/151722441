@@ -33,8 +33,8 @@ class DLN_News {
 		define( 'DLN_DEFAULT_IMAGE', '' );
 		
 		global $wpdb;
-		$wpdb->dln_news_source = $wpdb->prefix . 'dln_news_source';
-		$wpdb->dln_news_link   = $wpdb->prefix . 'dln_news_link';
+		$wpdb->dln_news_source       = $wpdb->prefix . 'dln_news_source';
+		$wpdb->dln_news_link         = $wpdb->prefix . 'dln_news_link';
 		$wpdb->dln_news_top_comments = $wpdb->prefix . 'dln_news_top_comments';
 		 
 		$wpdb->dln_horo_card   = $wpdb->prefix . 'dln_horo_card';
@@ -119,7 +119,6 @@ class DLN_News {
 		update_time datetime NOT NULL,
 		likes int(11) NOT NULL,
 		share int(11) NOT NULL,
-		comment_count int(11) NOT NULL,
 		bound_rate float(11) NOT NULL,
 		comments int(11) NOT NULL,
 		state tinyint(1) DEFAULT 0,
@@ -132,15 +131,15 @@ class DLN_News {
 	}
 	
 	private static function create_table_top_comments() {
-		global $wpdb;
-		
-		if ( ! empty( $wpdb->charset ) )
-			$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-		if ( ! empty( $wpdb->collate ) )
-			$db_charset_collate .= " COLLATE $wpdb->collate";
-		
-		$sql = "CREAT TABLE {$wpdb->dln_news_top_comments} (
-			id int(11) NOT NULL AUTO_INCREMENT;
+		try {
+			global $wpdb;
+			
+			if ( ! empty( $wpdb->charset ) )
+				$db_charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+			if ( ! empty( $wpdb->collate ) )
+				$db_charset_collate .= " COLLATE $wpdb->collate";
+			
+			$sql = "CREATE TABLE {$wpdb->dln_news_top_comments} (
 			post_id int(11) NOT NULL,
 			comment_id nvarchar(25) NOT NULL,
 			user_id nvarchar(25) NOT NULL,
@@ -149,11 +148,19 @@ class DLN_News {
 			likes int(11) NOT NULL,
 			create_time datetime NOT NULL,
 			PRIMARY KEY  (id)
-		) CHARSET=utf8, ENGINE=InnoDB {$db_charset_collate};
-		
-		ALTER TABLE {$wpdb->dln_news_top_comments} ADD INDEX ( comment_id );";
-		
-		dbDelta( $sql );
+			) CHARSET=utf8, ENGINE=InnoDB {$db_charset_collate};
+			
+			ALTER TABLE {$wpdb->dln_news_top_comments} ADD INDEX ( comment_id );
+			ALTER TABLE {$wpdb->dln_news_top_comments} ADD UNIQUE (`comment_id`);";
+			
+			$e = dbDelta( $sql );
+			
+			if ( is_wp_error( $e ) ) {
+				var_dump( $e );die();
+			}
+		} catch( Exception $e ) {
+			var_dump( $e->getMessage() );
+		}
 	}
 	
 	private static function create_table_horoscope() {
@@ -353,29 +360,29 @@ class DLN_News {
 			$thethao = new stdClass();
 			$xeco = new stdClass();
 			$xeco1 = new stdClass();
-			//$xeco2 = new stdClass();
-			//$xeco3 = new stdClass();
+			$xeco2 = new stdClass();
+			$xeco3 = new stdClass();
 			
 			$sukien->type = 'haivl';
 			$thethao->type = 'haivl';
 			$xeco->type = 'haivl';
 			$xeco1->type = 'haivl';
-			//$xeco2->type = 'haivl';
-			//$xeco3->type = 'haivl';
+			$xeco2->type = 'haivl';
+			$xeco3->type = 'haivl';
 			
 			$sukien->link = 'http://haivl.com/';
 			$thethao->link = 'http://haivl.com/new/2';
 			$xeco->link = 'http://haivl.com/new/3';
 			$xeco1->link = 'http://haivl.com/new/4';
-			//$xeco2->link = 'http://haivl.com/new/5';
-			//$xeco3->link = 'http://haivl.com/new/6';
+			$xeco2->link = 'http://haivl.com/new/5';
+			$xeco3->link = 'http://haivl.com/new/6';
 			
 			$sources[] = $sukien;
 			$sources[] = $thethao;
 			$sources[] = $xeco;
 			$sources[] = $xeco1;
-			//$sources[] = $xeco2;
-			//$sources[] = $xeco3;
+			$sources[] = $xeco2;
+			$sources[] = $xeco3;
 			
 			
 			if ( $sources ) {
@@ -400,7 +407,6 @@ class DLN_News {
 				
 				if ( $arr_links ) {
 					$arr_fb_links = self::get_fb_link_info( $arr_links );
-					var_dump($arr_fb_links);die();
 					if ( ! empty( $arr_fb_links ) ) {
 						$arr_md5 = array();
 						foreach ( $arr_fb_links as $i => $link ) {
@@ -415,23 +421,35 @@ class DLN_News {
 							$sql       = "SELECT md5, post_id FROM {$wpdb->dln_news_link} WHERE md5 IN ( '{$where}' )";
 							$arr_links = $wpdb->get_results( $sql );
 							
+							if ( is_wp_error( $arr_links ) ) {
+								var_dump( $arr_links );die();
+							}
+							
 							if ( ! empty( $arr_links ) && ! is_wp_error( $arr_links ) ) {
 								foreach ( $arr_links as $i => $data ) {
 									
 									if ( ! empty( $data->md5 ) ) {
 										foreach ( $arr_fb_links as $i => $link ) {
 									
-											if ( $link->md5 == $data->md5 ) {													
-												$wpdb->update(
+											if ( $link->md5 == $data->md5 ) {											
+												$ex = $wpdb->update(
 													$wpdb->dln_news_link,
 													array(
 														'url'         => $link->url,
 														'update_time' => current_time( 'mysql' ),
 														'likes'       => $link->likes,
-														'share'       => $link->share
+														'share'       => $link->share,
+														'bound_rate'  => $link->bound_rate,
+														'comments'    => $link->comment_count
 													),
 													array( 'md5' => $data->md5 )
 												);
+												
+												if ( is_wp_error( $ex ) ) {
+													var_dump( $ex );die();
+												}
+												
+												self::insert_fb_comments( $data->post_id, $link->comments );
 												
 												unset( $arr_fb_links[ $i ] );
 											}
@@ -456,12 +474,15 @@ class DLN_News {
 											'post_author'  => 1
 										)
 									);
+									if ( is_wp_error( $post_id ) ) {
+										var_dump( $post_id );die();
+									}
 									
 									if ( $post_id ) {
 										if ( $link->thumbs ) {
 											update_post_meta( $post_id, '_dln_thumbs', $link->thumbs );
 										}
-										$wpdb->insert(
+										$ex = $wpdb->insert(
 											$wpdb->dln_news_link,
 											array(
 												'post_id'    => $post_id,
@@ -476,22 +497,52 @@ class DLN_News {
 												'comments'   => $link->comment_count
 											)
 										);
+										if ( is_wp_error( $ex ) ) {
+											var_dump( $ex );die();
+										}
 										
-										// Get comments exists in database
-										/*$cm_ids = array();
-										if ( $link->comments ) {
-											foreach ( $link->comments as $i => $comment ) {
-												$cm_ids[] = $comment->comment_id;
-											}
-										}*/
-										
+										self::insert_fb_comments( $post_id, $link->comments );
 									}
 								}
 							}
 						}
-						
-						
 					}
+				}
+			}
+			
+			exit();
+		}
+	}
+	
+	public static function insert_fb_comments( $post_id, $comments ) {
+		global $wpdb;
+		
+		// Delete comments relate post_id
+		$ex = $wpdb->delete( $wpdb->dln_news_top_comments, array( 'post_id' => $post_id ) );
+		if ( is_wp_error( $ex ) ) {
+			var_dump( $ex );die();
+		}
+		
+		// Insert comments into database
+		$cm_ids = array();
+		if ( ! empty( $comments ) ) {
+			foreach ( $comments as $i => $comment ) {
+				$ex = $wpdb->insert(
+						$wpdb->dln_news_top_comments,
+						array(
+								'post_id'     => esc_sql( $post_id ),
+								'comment_id'  => esc_sql( $comment->comment_id ),
+								'user_id'     => esc_sql( $comment->user_id ),
+								'user_name'   => esc_sql( $comment->user_name ),
+								'message'     => esc_sql( $comment->message ),
+								'likes'       => esc_sql( $comment->likes ),
+								'create_time' => current_time( 'mysql' )
+						),
+						array( '%d', '%s', '%s', '%s', '%s', '%d', '%s' )
+				);
+		
+				if ( is_wp_error( $ex ) ) {
+					var_dump( $ex );die();
 				}
 			}
 		}
@@ -564,6 +615,7 @@ class DLN_News {
 								$obj_link->desc  = isset( $body->$link->og_object->description ) ? $body->$link->og_object->description : '';
 								$obj_link->share = isset( $body->$link->share->share_count ) ? $body->$link->share->share_count : 0;
 								$obj_link->likes = 0;
+								$obj_link->comment_count = 0;
 								
 								$obj_link->thumbs = ( ! empty( $obj->image ) ) ? $obj->image : ''; 
 				
@@ -600,7 +652,6 @@ class DLN_News {
 		
 		$arr_link_infor = self::get_fb_top_comments( $arr_link_infor, $access_token );
 		
-		var_dump($arr_link_infor);die();
 		return $arr_link_infor;
 	}
 	
@@ -653,11 +704,12 @@ class DLN_News {
 						if ( $data ) {
 							foreach ( $data as $i => $item ) {
 								$user_comment = new stdClass;
-								$user_comment->comment_id = $item->id;
-								$user_comment->user_id    = $item->from->id;
-								$user_comment->user_name  = $item->from->name;
-								$user_comment->message    = $item->message;
-								$user_comment->likes      = $item->like_count;
+								$user_comment->comment_id    = $item->id;
+								$user_comment->user_id       = $item->from->id;
+								$user_comment->user_name     = ( ! empty( $item->from->name ) ) ? $item->from->name : '';
+								$user_comment->message       = $item->message;
+								$user_comment->likes         = $item->like_count;
+								$user_comment->comment_count = 0;
 								$arr_comments[] = $user_comment;
 								$search_id      = $item->id;
 							}
