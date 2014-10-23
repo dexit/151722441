@@ -119,3 +119,5 @@ dln-social-classified/.externalToolBuilders/New_Builder.launch
 dln-theme/.externalToolBuilders/New_Builder (5).launch
 dln-theme/.settings/org.eclipse.wst.common.project.facet.core.xml
 dln-abe/.externalToolBuilders/New_Builder (3).launch
+*.launch
+*.xml
