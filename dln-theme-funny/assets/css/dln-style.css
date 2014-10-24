@@ -7,6 +7,9 @@ html {
 .navbar-top {
 	position: relative !important;
 }
+#dln_nav_bar .menu-item {
+	display: block;
+}
 .dln-wrapper .dln-clearboth {
 	clear: both;
 	text-align: center;
@@ -218,12 +221,22 @@ html {
 .dln-wrapper .post-share .btn {
 	min-width: 83px;
 }
+#dln_nav_bar {
+	margin-left: -15px;
+}
 @media (max-width: 768px) {
+	#dln_nav_bar {
+		margin-left: 0px;
+	}
+	#dln_nav_bar .menu-item {
+		display: none;
+	}
+	.container, .nav-wrapper {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
 	.dln-wrapper .post-share .btn {
 		min-width: 56px;
-	}
-	.navbar-right {
-		display: none;
 	}
 	.dln-wrapper .post-date, .dln-wrapper .post-feedback {
 	    padding-right: 0px;
@@ -275,5 +288,26 @@ html {
 		float: left;
 		margin-left: 5px;
 		margin-right: 5px;
+	}
+}
+@media (max-width: 480px) {
+	.navbar-right {
+		display: none;
+	}
+	#dln_nav_bar {
+		width: 100%;
+	}
+	#dln_nav_bar .dln-nav-lines {
+		float: right;
+	}
+	.container, .nav-wrapper {
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+	.dln-wrapper .post-container .post-meta {
+		display: none;
+	}
+	.dln-wrapper .post-loop {
+		padding: 15px 0px;
 	}
 }

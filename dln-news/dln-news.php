@@ -140,6 +140,7 @@ class DLN_News {
 				$db_charset_collate .= " COLLATE $wpdb->collate";
 			
 			$sql = "CREATE TABLE {$wpdb->dln_news_top_comments} (
+			id int(11) NOT NULL AUTO_INCREMENT,
 			post_id int(11) NOT NULL,
 			comment_id nvarchar(25) NOT NULL,
 			user_id nvarchar(25) NOT NULL,
@@ -150,8 +151,7 @@ class DLN_News {
 			PRIMARY KEY  (id)
 			) CHARSET=utf8, ENGINE=InnoDB {$db_charset_collate};
 			
-			ALTER TABLE {$wpdb->dln_news_top_comments} ADD INDEX ( comment_id );
-			ALTER TABLE {$wpdb->dln_news_top_comments} ADD UNIQUE (`comment_id`);";
+			ALTER TABLE {$wpdb->dln_news_top_comments} ADD INDEX ( comment_id );";
 			
 			$e = dbDelta( $sql );
 			
