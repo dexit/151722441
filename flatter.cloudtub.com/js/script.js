@@ -6,7 +6,7 @@ $(document).ready(function() {
 
 		});
 
-		$('.sidebar').mCustomScrollbar({
+		/*$('.sidebar').mCustomScrollbar({
 		    theme:"light-thin",
 		    scrollInertia:150,
 		    autoHideScrollbar:true ,
@@ -14,7 +14,7 @@ $(document).ready(function() {
 		     updateOnContentResize: true,
 		     updateOnBrowserResize: true
 			 }
-		});
+		});*/
 
 		//Settings dropdown
 		$('#fixed-sidebar-link').click(function(){
