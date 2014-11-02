@@ -22,7 +22,7 @@ class DLN_Helper_Google {
 		$region   = ( isset( $arr_item['s_region'] ) ) ? $arr_item['s_region'] : '';
 		$country  = ( isset( $arr_item['s_country'] ) ) ? $arr_item['s_country'] : '';
 		
-		
+		osc_locale_field($field);
 		
 	}
 	

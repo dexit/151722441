@@ -67,6 +67,15 @@ class DLN_Classified {
 		return $h_name::get_instance();
 	}
 	
+	public static function get_view( $v_name = '' ) {
+		if ( ! $v_name ) return false;
+		
+		$v_name_lower = self::slug_class( $v_name );
+		
+		if ( file_exists( DLN_CLF_PLUGIN_DIR . "views/{$v_name_lower}.php" ) )
+			require( DLN_CLF_PLUGIN_DIR . "views/{$v_name_lower}.php" );
+	}
+	
 	private static function slug_class( $name = '' ) {
 		if ( ! $name ) return false;
 		
