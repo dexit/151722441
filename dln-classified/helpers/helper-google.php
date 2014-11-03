@@ -5,7 +5,7 @@ class DLN_Helper_Google {
 	
 	private static $instance;
 	
-	public function new_instance() {
+	public function get_instance() {
 		if( !self::$instance instanceof self ) {
 			self::$instance = new self;
 		}
@@ -15,15 +15,23 @@ class DLN_Helper_Google {
 	public function __construct() { }
 	
 	public function insert_google_map( $item ) {
-		$item_id  = $item['pk_i_id'];
-		$arr_item = Item::newInstance()->findByPrimaryKey( $item_id );
-		$address  = ( isset( $arr_item['s_address'] ) ) ? $arr_item['s_address'] : '';
-		$city     = ( isset( $arr_item['s_city'] ) ) ? $arr_item['s_city'] : '';
-		$region   = ( isset( $arr_item['s_region'] ) ) ? $arr_item['s_region'] : '';
-		$country  = ( isset( $arr_item['s_country'] ) ) ? $arr_item['s_country'] : '';
+		$itemId = $item['pk_i_id'];
+		$aItem  = Item::newInstance()->findByPrimaryKey($itemId);
 		
-		osc_locale_field($field);
+		$address = osc_sanitize_name( strip_tags( trim( Params::getParam('dln_address') ) ) );
+		$lat     = strip_tags( trim( Params::getParam('dln_lat') ) );
+		$long    = strip_tags( trim( Params::getParam('dln_long') ) );
 		
+		ItemLocation::newInstance()->update(
+			array(
+				's_address'    => $address,
+				'd_coord_lat'  => $lat,
+				'd_coord_long' => $long
+		), array( 'fk_i_item_id' => $itemId ) );
+	}
+	
+	public function load_google_map() {
+		DLN_Classified::get_view( 'field-google' );
 	}
 	
 }
