@@ -21,6 +21,8 @@ class DLN_Helper_Google {
 		$address = osc_sanitize_name( strip_tags( trim( Params::getParam('dln_address') ) ) );
 		$lat     = strip_tags( trim( Params::getParam('dln_lat') ) );
 		$long    = strip_tags( trim( Params::getParam('dln_long') ) );
+		$city    = strip_tags( trim( Params::getParams('dln_city') ) );
+		$country = strip_tags( trim( Params::getParams('dln_country') ) );
 		
 		ItemLocation::newInstance()->update(
 			array(
