@@ -1,12 +1,30 @@
 body{
 	font-family: "Tahoma" !important;
+	font-size: 12px;
 }
 ul {
     list-style: none outside none;
     padding-left: 0px;
 }
+.mt15 {
+	margin-top: 15px;
+}
+.mb15 {
+	margin-bottom: 15px;
+}
+a {
+    color: #666666;
+}
+.dropdown-menu {
+	font-size: 12px;
+}
+#sidebar-toggle {
+    font-size: 19px;
+    line-height: 22px;
+}
 .pl-none {
-	padding-left: 0px;
+	margin-top: 20px;
+	padding: 0px;
 }
 .relative {
 	position: relative;
@@ -16,6 +34,64 @@ ul {
 }
 .small {
     font-size: 85%;
+}
+.main-header.navbar li.dropdown.icons-dropdown .list-group .heading {
+	font-size: 12px;
+    font-weight: 600;
+}
+.main-header.navbar li.dropdown.icons-dropdown a.list-group-item {
+	padding: 8px 15px;
+}
+.main-header.navbar li.dropdown.icons-dropdown a.list-group-item i {
+	font-size: 15px;
+}
+.main-header .navbar-brand img{
+	height: 40px;
+}
+.main-header.navbar, .main-header .navbar-brand, .main-header.navbar .navbar-nav > li > a {
+	height: 48px !important;
+}
+.main-header.navbar .navbar-nav > li > a {
+	font-size: 11px;
+    font-weight: 600;
+    padding-top: 12px;
+}
+.main-header.navbar .navbar-nav > li > a span {
+	margin-left: 5px;
+}
+.main-header.navbar .navbar-nav > li > a img {
+	height: 30px;
+}
+.main-header.navbar .dropdown-menu > li > a {
+    font-size: 12px;
+    line-height: 24px;
+}
+.main-header.navbar .navbar-nav > li.dropdown.icons-dropdown > a > i {
+    font-size: 15px;
+}
+.form-control {
+	height: 30px;
+	font-size: 12px;
+}
+#dln_content_container {
+	background-color: #f5f5f5;
+}
+.dln-profile .dropdown-menu:before, .dln-profile .dropdown-menu:after {
+	left: 69%;
+}
+.dln-panel {
+	border-radius: 0px;
+}
+.dln-panel .panel-heading {
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+.dln-panel .panel-title {
+	font-size: 12px;
+}
+.dln-list li {
+	float: left;
+	margin: 2px;
 }
 .dln-home .container {
 	max-width: 970px;
@@ -28,9 +104,10 @@ ul {
 }
 .main-header .navbar-brand {
 	background-color: #fff;
-	color: #3ba0ff;
-	width: 120px;
-	height: 56px;
+    color: #3ba0ff;
+    height: 56px;
+    padding: 5px;
+    width: 95px;
 }
 .main-header .navbar-brand:hover {
 	color: #3ba0ff;
@@ -38,6 +115,12 @@ ul {
 #sidebar-toggle {
 	margin-top: 0px;
 	color: #3ba0ff;
+}
+.navbar .dropdown-menu:before {
+	top: -8px;
+}
+.navbar .dropdown-menu:after {
+	top: -7px;
 }
 .dropdown-category-thumb {
 	width: 625px;
@@ -136,24 +219,6 @@ ul {
     margin-right: 10px;
     margin-top: 2px;
 }
-.line-through {
-    border-top: 1px solid #dddddd;
-    margin: 20px 0;
-    position: relative;
-    text-align: center;
-}
-.line-through p {
-    position: absolute;
-    text-align: center;
-    top: -13px;
-    width: 100%;
-}
-.line-through span {
-    background: none repeat scroll 0 0 #fff;
-    padding: 0 10px;
-    font-weight: 700;
-    font-size: 16px;
-}
 .grid-shop-product {
 	width: 100%;
 }
@@ -161,8 +226,8 @@ ul {
     border-radius: 0 0 4px 4px;
     display: table;
     margin-bottom: 20px;
-    padding-left: 3px;
-    padding-right: 3px;
+    padding-left: 5px;
+    padding-right: 10px;
     float: left;
 }
 .grid-shop-product .product a {
@@ -183,9 +248,7 @@ ul {
 }
 .grid-shop-product .product-image {
 	background: none repeat scroll 0 0 #faf8f8;
-	border: 1px solid #ddd;
 	text-align: center;
-	max-height: 220px;
 	vertical-align: middle;
 	line-height: 15px;
     overflow: hidden;
@@ -201,23 +264,17 @@ ul {
     -moz-border-right-colors: none;
     -moz-border-top-colors: none;
     background: none repeat scroll 0 0 #fff;
-    border-color: -moz-use-text-color #ddd;
-    border-image: none;
-    border-left: 1px solid #ddd;
-    border-right: 1px solid #ddd;
-    border-style: none solid;
-    border-width: 0 1px;
     padding: 5px 5px 0;
 }
 .grid-shop-product .meta-product .name {
     font-size: 12px;
-    font-weight: 600;
     height: 40px;
     line-height: 18px;
     overflow: hidden;
 }
 .grid-shop-product .meta-product .price {
 	color: #d14f4f;
+	font-weight: 700;
 }
 .grid-shop-product .meta {
 	-moz-border-bottom-colors: none;
@@ -230,20 +287,43 @@ ul {
     border-left: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-style: dashed solid none;
-    border-width: 1px 1px 0;
+    border-width: 1px 0 0;
     line-height: 20px;
     word-wrap: break-word;
 }
 .grid-shop-product .meta-misc {
-	border-bottom: 1px solid #ddd;
-    background: none repeat scroll 0 0 #f7f7f7;
+	background: none repeat scroll 0 0 #f7f7f7;
+    border-bottom: 1px dashed #ddd;
     height: 32px;
-    padding: 3px 5px;
     line-height: 24px;
+    padding: 2px 5px;
 }
 .grid-shop-product .meta-misc img {
 	border-radius: 2px;
 	margin-right: 4px;
+}
+
+.dln-panel-register {
+	border: 1px dashed rgb(228, 228, 228);
+	background: none repeat scroll 0% 0% rgb(247, 247, 247);
+	text-align: center;
+	color: #606060 !important;
+}
+.dln-panel-register h3 {
+	margin-top: 0px;
+	margin-bottom: 20px;
+	font-size: 25px;
+}
+.dln-right-wrapper {
+	margin-top: 20px;
+}
+.site-footer {
+	background-color: #fff;
+	box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.1);
+    color: #666666;
+    min-height: 180px;
+    padding-bottom: 40px;
+    position: relative;
 }
 @media (max-width:992px) {
 	.dln-container {
@@ -251,22 +331,41 @@ ul {
 		padding-left: 0px;
 		padding-right: 0px;
 	}
+	.grid-shop-product .product {
+		width: 33.33%;
+	}
 	.main-header.navbar {
-		height: 57px;
 		border-radius: 0;
 		-moz-border-bottom-colors: none;
 	    -moz-border-left-colors: none;
 	    -moz-border-right-colors: none;
 	    -moz-border-top-colors: none;
 	    background: none repeat scroll 0 0 #fff;
-	    border-image: none;
-	    border-style: none solid;
-    	border-width: 0 1px;
+		border: 1px solid #d9d9d9;
+	}
+	.pl-none {
+		padding-right: 0px;
+	}
+	.dln-right-wrapper {
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	.dln-panel-register, .dln-panel-tags {
+		width: 50%;
+		float: left;
+	}
+	.dln-panel-register {
+		position: relative;
+		left: -5px;
+	}
+	.dln-panel-tags {
+		position: relative;
+		right: -5px;
 	}
 }
 @media (max-width: 768px) {
-	.grid-shop-product .product {
-		width: 33.33%;
+	.main-header.navbar .navbar-nav > li > a {
+		padding: 5px 10px;
 	}
 	.navbar .navbar-nav.navbar-left.sidebar-toggle-ul {
 		display: block;
@@ -274,7 +373,20 @@ ul {
 	}
 }
 @media(max-width:374px){
+	.dln-panel-register, .dln-panel-tags {
+		width: 100%;
+		position: relative;
+		left: 0px;
+		right: 0px;
+	}
+	.main-header.navbar .navbar-nav > li > a {
+		padding: 5px;
+	}
 	.grid-shop-product .product {
 		width: 50%;
+	}
+	.container {
+		padding-right: 5px;
+		padding-left: 5px;
 	}
 }
