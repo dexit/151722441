@@ -40,9 +40,9 @@ class DLN_Classified {
 	public function actions() {
 		// Add google map drag n drop
 		$helper_google = $this->get_helper( 'DLN_Helper_Google' );
-		osc_add_hook( 'dln_field_google', array( $helper_google, 'load_google_map' ) );
-		osc_add_hook( 'edited_item',      array( $helper_google, 'insert_google_map' ) );
-		osc_add_hook( 'posted_item',      array( $helper_google, 'insert_google_map' ) );
+		osc_add_hook( 'user_form', array( $helper_google, 'load_google_map' ) );
+		osc_add_hook( 'user_edit_completed',      array( $helper_google, 'insert_google_map' ) );
+		//osc_add_hook( 'posted_item',      array( $helper_google, 'insert_google_map' ) );
 	}
 	
 	public static function get_controller( $c_name = '' ) {

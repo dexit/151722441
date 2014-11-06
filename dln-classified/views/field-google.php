@@ -1,12 +1,10 @@
 <?php
 if (! defined ( 'ABS_PATH' )) exit ( 'ABS_PATH is not loaded. Direct access is not allowed.' );
 
-$item    = osc_item();
+$item    = osc_user();
 $address = ( isset( $item['s_address'] ) ) ? $item['s_address'] : '';
 $lat     = ( isset( $item['d_coord_lat'] ) ) ? $item['d_coord_lat'] : '';
 $long    = ( isset( $item['d_coord_long'] ) ) ? $item['d_coord_long'] : '';
-$city    = ( isset( $item['s_city'] ) ) ? $item['s_city'] : '';
-$country = ( isset( $item['s_country'] ) ) ? $item['s_country'] : '';
 ?>
 
 <div class="form-group control-group">
@@ -19,8 +17,6 @@ $country = ( isset( $item['s_country'] ) ) ? $item['s_country'] : '';
 <div id="dln_field_google" style="height: 300px; width: 100%"></div>
 <input type="hidden" id="dln_lat" name="dln_lat" value="<?php echo $lat ?>" />
 <input type="hidden" id="dln_long" name="dln_long" value="<?php echo $long ?>" />
-<input type="hidden" id="dln_city" name="dln_city" value="<?php echo $city ?>" />
-<input type="hidden" id="dln_country" name="dln_country" value="<?php echo $country ?>" />
 
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&language=vi_VN"></script>
 
@@ -38,7 +34,7 @@ if ( lat && lng ) {
 var geocoder      = new google.maps.Geocoder();
 var infowindow    = new google.maps.InfoWindow();
 var autocomplete  = null;
-var componentForm = {
+/*var componentForm = {
 	street_number: 'short_name',
 	route: 'long_name',
 	locality: 'long_name',
@@ -46,7 +42,7 @@ var componentForm = {
 	administrative_area_level_2: 'short_name',
 	country: 'long_name',
 	postal_code: 'short_name'
-};
+};*/
 
 function initialize(){
 	var mapOptions = {
@@ -128,7 +124,7 @@ function setAddressField( address, marker, map, place ) {
 
 	// Get each component of the address from the place details
 	// and fill the corresponding field on the form.
-	for (var i = 0; i < place.address_components.length; i++) {
+	/*for (var i = 0; i < place.address_components.length; i++) {
 		var addressType = place.address_components[i].types[0];
 		if (componentForm[addressType]) {
 			var val = place.address_components[i][componentForm[addressType]];
@@ -139,7 +135,7 @@ function setAddressField( address, marker, map, place ) {
 				$('#dln_country').val( val );
 			}
 		}
-	}
+	}*/
 }
 
 function geolocate() {
