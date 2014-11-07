@@ -5,7 +5,7 @@ class DLN_Helper_Google {
 	
 	private static $instance;
 	
-	public function get_instance() {
+	public static function get_instance() {
 		if( !self::$instance instanceof self ) {
 			self::$instance = new self;
 		}
@@ -70,7 +70,6 @@ class DLN_Helper_Google {
 						} else {
 							$region_id = isset( $exists['pk_i_id'] ) ? $exists['pk_i_id'] : '';
 						}
-						
 						
 						if ( $city ) {
 							// Insert new city if not exists

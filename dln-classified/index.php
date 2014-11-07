@@ -15,7 +15,7 @@ class DLN_Classified {
 	
 	private static $instance;
 	
-	public function get_instance() {
+	public static function get_instance() {
 		if( !self::$instance instanceof self ) {
 			self::$instance = new self;
 		}
@@ -37,12 +37,27 @@ class DLN_Classified {
 		//define( 'FB_SECRET', get_option( 'dln_fb_secret' ) ? get_option( 'dln_fb_secret' ) : '31f3e2be38cd9a9e6e0a399c40ef18cd' );
 	}
 
+	public static function install() {
+		$user_premium = self::get_models( 'DLN_Model_User_Premium' );
+		$user_premium->import( 'dln-classified/sql/dln_user_premium.sql' );
+	}
+
 	public function actions() {
+		osc_register_plugin(osc_plugin_path(__FILE__), array( 'DLN_Classified', 'install' ) );
+		// Add admin menu
+		//$helper_premium = $this->get_helper( 'DLN_Helper_Premium' );
+		//osc_add_hook('admin_menu_init', array( $helper_premium, 'init_admin_menu' ) );
+		
 		// Add google map drag n drop
 		$helper_google = $this->get_helper( 'DLN_Helper_Google' );
-		osc_add_hook( 'user_form', array( $helper_google, 'load_google_map' ) );
-		osc_add_hook( 'user_edit_completed',      array( $helper_google, 'insert_google_map' ) );
-		//osc_add_hook( 'posted_item',      array( $helper_google, 'insert_google_map' ) );
+		osc_add_hook( 'user_form',           array( $helper_google, 'load_google_map' ) );
+		osc_add_hook( 'user_edit_completed', array( $helper_google, 'insert_google_map' ) );
+		
+		// For users premium
+		$helper_premium = $this->get_helper( 'DLN_Helper_Premium' );
+		osc_add_hook( 'admin_users_table', array( $helper_premium, 'admin_users_table' ) );
+		osc_add_filter( 'users_processing_row', array( $helper_premium, 'users_processing_row' ) );
+		osc_add_hook( 'after_admin_html', array( $helper_premium, 'users_html_modal' ) );
 	}
 	
 	public static function get_controller( $c_name = '' ) {
@@ -76,6 +91,17 @@ class DLN_Classified {
 			require( DLN_CLF_PLUGIN_DIR . "views/{$v_name_lower}.php" );
 	}
 	
+	public static function get_models( $m_name = '' ) {
+		if ( ! $m_name ) return false;
+		
+		$m_name_lower = self::slug_class( $m_name );
+		
+		if ( file_exists( DLN_CLF_PLUGIN_DIR . "models/{$m_name_lower}.php" ) )
+			require( DLN_CLF_PLUGIN_DIR . "models/{$m_name_lower}.php" );
+		
+		return $m_name::get_instance();
+	}
+	
 	private static function slug_class( $name = '' ) {
 		if ( ! $name ) return false;
 		
@@ -94,11 +120,6 @@ class DLN_Classified {
 			if ( file_exists( DLN_CLF_PLUGIN_DIR . '/' . $component . '/' . $component . '-loader.php' ) )
 				include( DLN_CLF_PLUGIN_DIR . '/' . $component . '/' . $component . '-loader.php' );
 		}
-	}
-
-	public static function install() {
-		//DLN_Cron_Loader::activate();
-		//DLN_Upload_Loader::activate();
 	}
 
 }
