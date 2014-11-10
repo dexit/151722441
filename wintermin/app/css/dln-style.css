@@ -1,0 +1,72 @@
+.navbar-top .navbar-header {
+	background-color: #f8f8f8;
+}
+.dln-wrapper {
+}
+.dln-input-search {
+	margin-top: 15px;
+	margin-right: 15px;
+}
+.dln-input-search .form-control{
+	line-height: 12px;
+	box-shadow: 0 0 0 #fff !important;
+	border: 2px solid #e3e7ef;
+	height: 32px;
+	padding: 7px 10px;
+	max-width: 225px;
+	font-size: 11px;
+	min-width: 300px;
+	color: #c8c8c8;
+	border-right: 1px solid #e3e7ef;
+}
+.dln-input-search .input-group-btn .btn-danger {
+	font-size: 11px;
+    color: #fff;
+	border: none;
+}
+.nav-wrapper {
+	background: none repeat scroll 0 0 #f8f8f8;
+	border-bottom: 1px solid #e1e4e5;
+}
+.dln-nav .separator {
+    margin-left: 0.625em;
+    padding-left: 0.875em;
+    position: relative !important;
+}
+.dln-nav .separator:after {
+    background: none repeat scroll 0 0 #e6e6e6;
+    content: "";
+    display: block;
+    height: 20px;
+    left: 0;
+    margin-top: -10px;
+    position: absolute;
+    top: 50%;
+    width: 1px;
+}
+.dln-search {
+	background-color: #eb330e;
+}
+.dln-left-listing {
+	width: 300px;
+	float: left;
+	margin-top: 60px;
+	box-shadow: 2px 0 3px -2px rgba(0, 0, 0, 0.3);
+}
+.dln-listing-header {
+	left: 0;
+    position: relative;
+    right: 0;
+    top: 0;
+    z-index: 20;
+    display: block;
+}
+.dln-listing-header a {
+	font-size: 20px;
+}
+.dln-listing-header div {
+	font-size: 14px;
+	line-height: 32px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
