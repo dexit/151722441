@@ -1,0 +1,19 @@
+{
+    "name": "dlnlab/classified",
+    "description": "DLN Classified",
+    "homepage": "http://octobercms.com",
+    "keywords": ["october", "cms", "rainlab", "google", "analytics"],
+    "authors": [
+        {
+            "name": "Alexey Bobkov",
+            "email": "aleksey.bobkov@gmail.com"
+        },
+        {
+            "name": "Samuel Georges",
+            "email": "daftspunky@gmail.com"
+        }
+    ],
+    "require": {
+        "devfactory/taxonomy": "2.0.*"
+    }
+}

@@ -1,0 +1,94 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: dlnlab.classified::lang.ads.name
+        tab: dlnlab.classified::lang.ads.details
+        span: left
+    
+    slug:
+        label: dlnlab.classified::lang.ads.slug
+        tab: dlnlab.classified::lang.ads.details
+        span: right
+        attributes:
+            data-input-preset: 'input[name="Ad[name]"]'
+            data-input-preset-type: slug
+            data-input-preset-closest-parent: form
+
+tabs:
+    fields:
+        description:
+            label: dlnlab.classified::lang.ads.desc
+            tab: dlnlab.classified::lang.ads.details
+            type: textarea
+            size: large
+            span: left
+            
+        price:
+            label: dlnlab.classified::lang.ads.price
+            tab: dlnlab.classified::lang.ads.details
+            span: right
+            
+        expiration:
+            label: dlnlab.classified::lang.ads.expire
+            tab: dlnlab.classified::lang.ads.details
+            type: datepicker
+            mode: datetime
+            span: right
+
+        status:
+            label: dlnlab.classified::lang.ads.status
+            tab: dlnlab.classified::lang.ads.details
+            type: dropdown
+            span: right
+            placeholder: -- select status --
+            
+        user_id: 
+            label: dlnlab.classified::lang.ads.user_id
+            tab: dlnlab.classified::lang.ads.details
+            disabled: true
+            span: left
+            
+        category:
+            label: dlnlab.classified::lang.ads.category
+            tab: dlnlab.classified::lang.ads.details
+            type: dropdown
+            span: right
+            placeholder: -- select category --
+            
+        address:
+            label: dlnlab.classified::lang.ads.address
+            tab: dlnlab.classified::lang.ads.details
+            span: full
+            
+        country:
+            label: dlnlab.classified::lang.ads.country
+            tab: dlnlab.classified::lang.ads.details
+            type: dropdown
+            span: left
+            placeholder: -- select country --
+            
+        state:
+            label: dlnlab.classified::lang.ads.state
+            tab: dlnlab.classified::lang.ads.details
+            type: dropdown
+            span: right
+            depends: country
+            placeholder: -- select state --
+            
+        latitude:
+            label: dlnlab.classified::lang.ads.latitude
+            disabled: true
+            
+        longtitude:
+            label: dlnlab.classified::lang.ads.longtitude
+            disabled: true
+            
+        ad_images:
+            label: dlnlab.classified::lang.ads.ad_images
+            type: fileupload
+            mode: image
+            imageWidth: 200
+            imageHeight: 200

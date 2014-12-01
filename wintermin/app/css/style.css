@@ -1,0 +1,23 @@
+.wrapper > section {
+    margin: 0px;
+}
+.navbar .header-site {
+    -moz-user-select: none;
+    background: none repeat scroll 0 0 #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    height: 60px;
+    position: relative;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.navbar .logo {
+    cursor: pointer;
+    display: block;
+    float: left;
+    height: 60px;
+    position: relative;
+    width: 68px;
+}
