@@ -42,22 +42,6 @@
 <!-- FastClick for mobiles-->
 <script src="vendor/fastclick/fastclick.js"
     type="application/javascript"></script>
-    
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-<script>
-var map;
-function initialize() {
-  var mapOptions = {
-    zoom: 8,
-    center: new google.maps.LatLng(-34.397, 150.644)
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
-</script>
 </head>
 
 <body>
@@ -356,79 +340,142 @@ google.maps.event.addDomListener(window, 'load', initialize);
         <!-- END Top Navbar-->
         <!-- START Main section-->
         <section class="body-site">
-            <div class="search-header-container">
-                <div class="side-content-container">
-                    <div class="sc-header">
-                        <span>Hiển thị 88 tin</span>
-                        <i class="fa fa-angle-up pull-right"></i>
+            <div class="fl-scrollable-container">
+                <div class="fl-navigation-container sub-header-container">
+                    <div class="pull-left">
+                        <a class="text-p4 btn-back" href="javascript:void(0)"><i class="fa fa-angle-left"></i> Back to Your Search</a>
                     </div>
-                    <div class="side-content-body">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="control-label">Location</label>
-                                <div class="group-location">
-                                    <input class="form-control" type="text" placeholder="Type to search" />
-                                    <a class="btn-filter-location" href="javascript:void(0)"><i class="fa fa-location-arrow"></i></a>
+                    <div class="pull-right">
+                        <a class="text-p4" href="javascript:void(0)"><i class="fa fa-share"></i> <span class="hidden-xs">Share</span></a>
+                        <a class="text-p4" href="javascript:void(0)"><i class="fa fa-flag-o"></i> <span class="hidden-xs">Report</span></a>
+                    </div>
+                </div>
+                <div class="property-container grid-container">
+                    <div class="page-wrapper">
+                        <div class="pull-left">
+                            <div class="tabbable tabs-below dln-tab-infor">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="one_">
+                                        <div class="dln-photo-indicator">1 of 2</div>
+                                    Lorem ipsum
+                                        dolor sit amet, charetra varius
+                                        quam sit amet vulputate. Quisque
+                                        mauris augue, molestie tincidunt
+                                        condimentum vitae, gravida a
+                                        libero.</div>
+                                    <div class="tab-pane" id="two_">Secondo
+                                        sed ac orci quis tortor
+                                        imperdiet venenatis. Duis
+                                        elementum auctor accumsan.
+                                        Aliquam in felis sit amet augue.</div>
+                                    <div class="tab-pane" id="twee_">Thirdamuno,
+                                        ipsum dolor sit amet,
+                                        consectetur adipiscing elit.
+                                        Duis pharetra varius quam sit
+                                        amet vulputate. Quisque mauris
+                                        augue, molestie tincidunt
+                                        condimentum vitae.</div>
                                 </div>
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#one_"
+                                        data-toggle="tab"><i class="fa fa-camera"></i> Photo</a></li>
+                                    <li class="center"><a href="#two_"
+                                        data-toggle="tab"><i class="fa fa-map-marker"></i> Map</a></li>
+                                    <li><a href="#twee_"
+                                        data-toggle="tab">Twee</a></li>
+                                </ul>
                             </div>
-                            <div class="form-group">
-                                <label class="coltrol-label">Type</label>
-                                <div class="group-type">
-                                    <div class="btn-group">
-                                       <button class="btn btn-default" type="button">House</button>
-                                       <button class="btn btn-default" type="button">Condo</button>
-                                       <button class="btn btn-default" type="button">Townhouse</button>
-                                       <button class="btn btn-default" type="button">Revenue</button>
+                        </div>
+                        <div class="pull-right">
+                            <div class="panel dln-info-box">
+                                <div class="action-info-container">
+                                    <div class="dln-property-price">
+                                        <span>1,320,000₫</span>
+                                    </div>
+                                    <div class="dln-property-location">
+                                        <h1 class="dln-property-location-title">1422 Southwest 147th Terrace</h1>
+                                        <div class="listing-location-locality">
+                                            <span>Pembroke Pines</span>
+                                            <span>FL,</span>
+                                            <span>33027</span>
+                                        </div>
+                                        <div class="dln-property-updated">Posted 12 days ago</div>
+                                        <div class="vital-info-container">
+                                            <span class="bedroom-info">
+                                                <i class="fa fa-arrows-h"></i> 2 Phòng
+                                            </span>
+                                            <span class="bathroom-info">
+                                                <i class="fa fa-arrows-h"></i> 2 Phòng
+                                            </span>
+                                            <span class="sqft-info">
+                                                <i class="fa fa-arrows-h"></i> D.tích 120 m<sup>2</sup>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Price</label>
-                                <div class="group-price">
-                                    <span id="min_price" class="pull-left">0k</span>
-                                    <span id="max_price" class="pull-right">10M+</span>
-                                    <input id="price" type="text" value="" data-slider-min="0" data-slider-tooltip="hide" data-slider-max="10000" data-slider-step="100" data-slider-value="[0, 10000]" class="slider form-control">
+                                <div class="dln-contact-fields">
+                                    <input type="tel" readonly class="form-control" placeholder="Phone number" value="(877) 960-0484 x6384" id="input_phone_number">
+                                    <div class="contact-phone-inner"><i class="fa fa-phone"></i></div>
+                                    <a href="javascript:void(0)" class="btn-contact-hidden"><i class="fa fa-times"></i></a>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="coltrol-label">Bedrooms</label>
-                                <div class="group-bedroom">
+                                <div class="primary-action-container">
                                     <div class="btn-group">
-                                       <button class="btn btn-default" type="button">1</button>
-                                       <button class="btn btn-default" type="button">2</button>
-                                       <button class="btn btn-default" type="button">3</button>
-                                       <button class="btn btn-default" type="button">4+</button>
+                                       <button class="btn btn-danger btn-show-number" type="button"><i class="fa fa-phone"></i> Show Number</button>
+                                       <button class="btn btn-danger" type="button"><i class="fa fa-envelope-o"></i> Email</button>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label">Area</label>
-                                <div class="group-area">
-                                    <span id="min_area" class="pull-left">0m<sup>2</sup></span>
-                                    <span id="max_area" class="pull-right">500m<sup>2</sup>+</span>
-                                    <input id="area" type="text" value="" data-slider-min="0" data-slider-tooltip="hide" data-slider-max="500" data-slider-step="10" data-slider-value="[0, 10000]" class="slider form-control">
+                                <div class="secondary-action-container">
+                                    <button class="btn btn-default btn-gray"><i class="fa fa-star-o"></i> Save to Favorites</button>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="control-label">Keyword</label>
-                                <input class="form-control" type="text" placeholder="Garage, parking etc" />
+                        </div>
+                    
+                        <div class="pull-left property-content">
+                            <div class="dln-info-box-mobile">
+                                <div class="dln-contact-fields">
+                                    <input type="tel" readonly class="form-control" placeholder="Phone number" value="(877) 960-0484 x6384" id="input_phone_number">
+                                    <div class="contact-phone-inner"><i class="fa fa-phone"></i></div>
+                                    <a href="javascript:void(0)" class="btn-contact-hidden"><i class="fa fa-times"></i></a>
+                                </div>
+                                <div class="primary-action-container">
+                                    <div class="btn-group">
+                                       <button class="btn btn-danger btn-show-number" type="button"><i class="fa fa-phone"></i> Call</button>
+                                       <button class="btn btn-danger" type="button"><i class="fa fa-envelope-o"></i> Email</button>
+                                    </div>
+                                </div>
+                                <div class="secondary-action-container">
+                                    <button class="btn btn-default btn-gray"><i class="fa fa-star-o"></i> Save to Favorites</button>
+                                </div>
+                            </div>
+                            <div class="grid-60">
+                                <div class="property-amenities">
+                                    <div class="main-section-heading">Amenities</div>
+                                    <span class="col-xs-6">
+                                        <span class="dot dot-green"></span>
+                                        Deck/Patio
+                                    </span>
+                                    <span class="col-xs-6">
+                                        <span class="dot dot-green"></span>
+                                        Deck/Patio
+                                    </span>
+                                    <span class="col-xs-6">
+                                        <span class="dot dot-green"></span>
+                                        Deck/Patio
+                                    </span>
+                                    <span class="col-xs-6">
+                                        <span class="dot dot-green"></span>
+                                        Deck/Patio
+                                    </span>
+                                </div>
+                                <div class="property-desc pull-left">
+                                    <div class="main-section-heading">Description</div>
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-danger btn-create-alert">
-                    <i class="fa fa-bell"></i> Create Alert
-                </button>
-                <div class="btn-group pull-right btn-switch-list">
-                   <button class="btn btn-default" type="button"><i class="fa fa-map-marker"></i> Map</button>
-                   <button class="btn btn-default" type="button"><i class="fa fa-th-large"></i> Grid</button>
-                </div>
             </div>
-            <!-- START Page content-->
-            <div class="main-content map-wrapper">
-                <div id="map-canvas"></div>
-            </div>
-            <!-- END Page content-->
         </section>
         <!-- END Main section-->
     </div>

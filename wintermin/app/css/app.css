@@ -167,7 +167,7 @@ hr {
   border-color: #dbd9d9;
 }
 .form-control {
-  box-shadow: 0 0 0 #000 !important;
+  box-shadow: 0 0 0 #fff;
 }
 .input-group-addon {
   background-color: #f8f9fb;
@@ -354,7 +354,6 @@ body {
 }
 .main-content {
   padding: 20px 15px;
-  padding-bottom: 80px !important;
   overflow: auto;
 }
 .main-content > h3 {
@@ -4134,7 +4133,7 @@ ul.ColVis_collection > li > label input[type=radio]:checked + span {
 .slider-track,
 .slider-selection {
   background-image: none;
-  box-shadow: 0 0 0 #000;
+  box-shadow: 0 0 0 #fff;
 }
 .slider-handle {
   background-color: #fff;

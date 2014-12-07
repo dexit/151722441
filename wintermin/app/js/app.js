@@ -2150,7 +2150,7 @@
   // Keeps a consistent size in all portlet lists
   function saveListSize() {
     var $this = $(this);
-    $this.css('min-height', $this.height());
+    $this.css('height', $this.height());
   }
 
   /*function resetListSize() {
@@ -3040,7 +3040,7 @@
   // keeps the wrapper covering always the entire body
   // necessary when main content doesn't fill the viewport
   function adjustLayout() {
-    $('.wrapper > section').css('min-height', $(window).height());
+    $('.wrapper > section').css('height', $(window).height());
   }
 
 }(jQuery, window, document));
