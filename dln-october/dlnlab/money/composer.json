@@ -1,8 +1,8 @@
 {
-    "name": "dlnlab/classified",
-    "description": "DLN Classified",
+    "name": "dlnlab/moneu",
+    "description": "DLN Money",
     "homepage": "http://octobercms.com",
-    "keywords": ["classified"],
+    "keywords": ["money"],
     "authors": [
         {
             "name": "Alexey Bobkov",

@@ -1,6 +1,6 @@
 <?php
 
-namespace DLNLab\Classified;
+namespace DLNLab\Money;
 
 use Backend;
 use Controller;
@@ -19,7 +19,7 @@ class Plugin extends PluginBase {
 	 */
 	public function pluginDetails() {
 		return [
-			'name' => 'Classified',
+			'name' => 'Money',
 			'description' => 'No description provided yet...',
 			'author' => 'DLNLab',
 			'icon' => 'icon-leaf'
@@ -28,24 +28,18 @@ class Plugin extends PluginBase {
 
 	public function registerNavigation() {
 		return [
-			'classified' => [
-				'label' => 'dlnlab.classified::lang.ads.menu_label',
-				'url' => Backend::url('dlnlab/classified/ads'),
+			'marketing' => [
+				'label' => 'Marketing',
+				'url' => Backend::url('dlnlab/money/referer'),
 				'icon' => 'icon-photo',
-				'permissions' => ['dlnlab.classified.*'],
+				'permissions' => ['dlnlab.money.*'],
 				'order' => 500,
 				'sideMenu' => [
-					'ads' => [
-						'label' => 'dlnlab.classified::lang.ads.menu_label',
-						'icon' => 'icon-copy',
-						'url' => Backend::url('dlnlab/classified/ads'),
-						'permissions' => ['dlnlab.classified.access_ads'],
-					],
-					'ads_categories' => [
-						'label' => 'dlnlab.classified::lang.ads.categories',
+					'referer' => [
+						'label' => 'Referer',
 						'icon' => 'icon-list-ul',
-						'url' => Backend::url('dlnlab/classified/adscategories'),
-						'permissions' => ['rainlab.blog.access_ads_categories'],
+						'url' => Backend::url('dlnlab/money/referer'),
+						'permissions' => ['dlnlab.money.referer'],
 					]
 				]
 			]
