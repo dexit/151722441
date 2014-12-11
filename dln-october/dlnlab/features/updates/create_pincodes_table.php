@@ -1,29 +1,28 @@
-<?php namespace DLNLab\Money\Updates;
+<?php namespace DLNLab\Features\Updates;
 
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class CreateRefererTable extends Migration
+class CreatePincodesTable extends Migration
 {
 
     public function up()
     {
-        Schema::create('dlnlab_money_referer', function($table)
+        Schema::create('dlnlab_features_pincodes', function($table)
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->integer('code')->unsigned()->nullable()->index();
-			$table->string('type')->nullable()->default('friend');
-			$table->float('credit')->nullable()->default(0);
-			$table->tinyInteger('status')->default(0);
+			$table->string('phone_number')->nullabled();
+			$table->tinyInteger('status')->default(1);
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('dlnlab_money_referer');
+        Schema::dropIfExists('dlnlab_features_pincodes');
     }
 
 }

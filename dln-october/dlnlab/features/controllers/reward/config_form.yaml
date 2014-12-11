@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Reward
+
+# Model Form Field configuration
+form: $/dlnlab/features/models/reward/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\Features\Models\Reward
+
+# Default redirect location
+defaultRedirect: dlnlab/features/reward
+
+# Create page
+create:
+    title: Create Reward
+    redirect: dlnlab/features/reward/update/:id
+    redirectClose: dlnlab/features/reward
+
+# Update page
+update:
+    title: Edit Reward
+    redirect: dlnlab/features/reward
+    redirectClose: dlnlab/features/reward
+
+# Preview page
+preview:
+    title: Preview Reward

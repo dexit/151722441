@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Money
+
+# Model Form Field configuration
+form: $/dlnlab/features/models/money/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\Features\Models\Money
+
+# Default redirect location
+defaultRedirect: dlnlab/features/money
+
+# Create page
+create:
+    title: Create Money
+    redirect: dlnlab/features/money/update/:id
+    redirectClose: dlnlab/features/money
+
+# Update page
+update:
+    title: Edit Money
+    redirect: dlnlab/features/money
+    redirectClose: dlnlab/features/money
+
+# Preview page
+preview:
+    title: Preview Money

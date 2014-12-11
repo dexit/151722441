@@ -1,0 +1,5 @@
+1.0.1: First version of Features
+1.0.2:
+    - Initialize plugin
+    - create_rewards_table.php
+    - create_money_table.php
