@@ -1,5 +1,5 @@
 <?php
 
 App::before(function ($request) {
-	Route::resource('/', 'DLNLab\Features\Classes\RestPincode@test');
+	Route::post('/api/v1/get_pincode', 'DLNLab\Features\Classes\RestPincode@getPincode');
 });
