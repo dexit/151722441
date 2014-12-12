@@ -13,9 +13,9 @@ class CreatePincodesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
 			$table->integer('user_id')->unsigned()->nullable()->index();
-			$table->integer('code')->unsigned()->nullable()->index();
-			$table->string('phone_number')->nullabled();
-			$table->tinyInteger('status')->default(1);
+			$table->string('code', 10)->nullable();
+			$table->string('phone_number', 18)->nullabled();
+			$table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
