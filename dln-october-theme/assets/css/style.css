@@ -1,6 +1,8 @@
 html, body {
     font-family: "Open Sans",Helvetica,Arial,sans-serif;
     overflow: hidden;
+    height: 100%;
+    width: 100%;
 }
 a, a:hover {
     cursor: pointer;
@@ -55,6 +57,9 @@ a, a:hover {
     top: 0;
     width: 100%;
     z-index: 200;
+}
+.navbar .header-site .navbar-nav {
+    margin-right: 0px;
 }
 .navbar .header-site, .search-header-container {
     padding-left: 10px;
@@ -169,7 +174,7 @@ a, a:hover {
 #min_price, #min_area {
     margin-left: -10px;
 }
-.group-bedroom .btn-group, .group-type .btn-group {
+/* .group-bedroom .btn-group, .group-type .btn-group {
     width: 100%;
 }
 .group-bedroom button, .group-type button {
@@ -177,7 +182,7 @@ a, a:hover {
     color: #bdbdbd;
     font-size: 14px;
     font-weight: 600;
-}
+} */
 .group-type button {
     font-size: 11px;
     padding-left: 10px;
@@ -280,8 +285,13 @@ a, a:hover {
     font-size: 14px;
     font-weight: 600;
 }
+.btn-switch-list i {
+    position: relative;
+    right: 2px;
+    top: 1px;
+}
 .map-wrapper {
-    height: 600px;
+    height: 100%;
     width: 100%;
     position: relative;
     padding: 0px;
@@ -716,6 +726,9 @@ a, a:hover {
     }
 }
 @media (max-width: 720px) {
+    .btn-switch-list {
+        margin-right: 10px;
+    }
     .dln-info-box-mobile {
         transform: none!important;
         -webkit-transform: none!important;
