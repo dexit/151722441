@@ -36,8 +36,6 @@ class ActionRegisterReward extends ComponentBase
 			return;
 		// For reward referer friend case
 		caseRefererFriend();
-		
-		
 	}
 	
 	private function caseRefererFriend() {
