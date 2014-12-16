@@ -3722,7 +3722,7 @@ textarea.bootstrap-tagsinput {
 /* ========================================================================
    Component: form-wizard.less
  ========================================================================== */
-.form-wizard > ol {
+/*.form-wizard > ol {
   list-style-type: none;
   padding: 0 15px;
 }
@@ -3812,7 +3812,7 @@ textarea.bootstrap-tagsinput {
 }
 .form-wizard.wizard-vertical .well {
   padding: 0;
-}
+}*/
 /* ========================================================================
    Component: form-dragdrop.less
  ========================================================================== */
