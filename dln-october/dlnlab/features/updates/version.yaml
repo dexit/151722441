@@ -4,3 +4,4 @@
     - create_rewards_table.php
     - create_money_table.php
     - create_pincodes_table.php
+    - create_reports_table.php

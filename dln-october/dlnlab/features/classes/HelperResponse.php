@@ -102,16 +102,10 @@ function response_message($error_code, $text = null, $res = null) {
 			$error_text = 'Unknown Error';
 			break;
 	}
-	//header('Content-Type: application/json; charset=utf-8');
-	header('HTTP/1.0 403 Forbidden');
 	$arrvalue['code'] = $error_code;
-	$arrvalue['text'] = $error_text;
+	$arrvalue['data'] = $error_text;
 	if ( $text ) {
-		$arrvalue['text'] = $text;
+		$arrvalue['data'] = $text;
 	}
-	if ($res === null) {
-		echo json_encode($arrvalue);
-	} else {
-		return $arrvalue;
-	}
+	return $arrvalue;
 }

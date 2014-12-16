@@ -63,7 +63,8 @@ class Plugin extends PluginBase
 	public function registerComponents() {
 		return [
 			'DLNLab\Features\Components\ActionRegisterReward' => 'ActionRegisterReward',
-			'DLNLab\Features\Components\ActionValidReward' => 'ActionValidReward'
+			'DLNLab\Features\Components\ActionValidReward' => 'ActionValidReward',
+			'DLNLab\Features\Components\ReportForm' => 'ReportForm'
 		];
 	}
 
