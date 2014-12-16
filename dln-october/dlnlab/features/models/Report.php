@@ -36,4 +36,10 @@ class Report extends Model
     public $attachOne = [];
     public $attachMany = [];
 
+	public function getStatusOptions() {
+        return array(
+			'0' => 'UnPublished',
+			'1' => 'Published'
+		);
+    }
 }

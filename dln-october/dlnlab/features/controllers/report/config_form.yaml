@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Report
+
+# Model Form Field configuration
+form: $/dlnlab/features/models/report/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\Features\Models\Report
+
+# Default redirect location
+defaultRedirect: dlnlab/features/report
+
+# Create page
+create:
+    title: Create Report
+    redirect: dlnlab/features/report/update/:id
+    redirectClose: dlnlab/features/report
+
+# Update page
+update:
+    title: Edit Report
+    redirect: dlnlab/features/report
+    redirectClose: dlnlab/features/report
+
+# Preview page
+preview:
+    title: Preview Report

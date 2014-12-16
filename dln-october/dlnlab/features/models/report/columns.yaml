@@ -6,3 +6,16 @@ columns:
     id:
         label: ID
         searchable: true
+    
+    user_id:
+        label: User ID
+        searchable: true
+    
+    target_id:
+        label: Report Item
+        
+    type:
+        label: Type
+    
+    status:
+        label: Status

@@ -54,6 +54,12 @@ class Plugin extends PluginBase
 						'icon' => 'icon-list-ul',
 						'url' => Backend::url('dlnlab/features/money'),
 						'permissions' => ['dlnlab.features.money'],
+					],
+					'report' => [
+						'label' => 'Report',
+						'icon' => 'icon-list-ul',
+						'url' => Backend::url('dlnlab/features/report'),
+						'permissions' => ['dlnlab.features.report'],
 					]
 				]
 			]
