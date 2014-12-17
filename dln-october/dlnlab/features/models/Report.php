@@ -28,7 +28,9 @@ class Report extends Model
      */
     public $hasOne = [];
     public $hasMany = [];
-    public $belongsTo = [];
+    public $belongsTo = [
+		'user' => ['RainLab\User\Models\User', 'foreignKey' => 'user_id']
+	];
     public $belongsToMany = [];
     public $morphTo = [];
     public $morphOne = [];
@@ -42,4 +44,6 @@ class Report extends Model
 			'1' => 'Published'
 		);
     }
+	
+	
 }
