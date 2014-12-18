@@ -1,18 +1,17 @@
 <?php namespace DLNLab\Features\Models;
 
 use Model;
-use RainLab\User\Models\User;
 
 /**
- * Report Model
+ * Notification Model
  */
-class Report extends Model
+class Notification extends Model
 {
 
     /**
      * @var string The database table used by the model.
      */
-    public $table = 'dlnlab_features_reports';
+    public $table = 'dlnlab_features_notifications';
 
     /**
      * @var array Guarded fields
@@ -38,14 +37,14 @@ class Report extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
-
-	public function getStatusOptions() {
-		return array('Pending', 'Approved', 'Good');
-    }
 	
-	public function getStatusAttribute() {
+	public function getReadOptions() {
+		return array('Pending', 'Viewed');
+	}
+	
+	public function getReadAttribute() {
 		$options = $this->getStatusOptions();
-		return $options[$this->attributes['status']];
+		return $options[$this->attributes['read']];
 	}
 	
 	public function getUserOptions() {
@@ -53,5 +52,16 @@ class Report extends Model
 		return array(
 			$user->id => $user->name
 		);
+	}
+	
+	public function add($receiver, $type, $content) {
+		$record = new static;
+        $record->user_id = $receiver->id;
+		$record->type    = $type;
+		$record->content = $content;
+		$record->read    = 0;
+        $record->save();
+
+        return $record;
 	}
 }

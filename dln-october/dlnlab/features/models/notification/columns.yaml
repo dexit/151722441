@@ -6,26 +6,20 @@ columns:
     id:
         label: ID
         searchable: true
-    
+        
     user:
-        label: User
+        label: Receiver
         searchable: true
         relation: user
         select: name
         
     content:
         label: Content
-    
-    target_id:
-        label: Report Item
         
-    type:
-        label: Type
-    
-    status:
-        label: Status
+    read:
+        label: Read
         searchable: true
-        
+    
     updated_at:
         label: Update
         type: timesince

@@ -6,7 +6,7 @@ fields:
     id:
         label: ID
         disabled: true
-        
+
 tabs:
     fields:
         user:
@@ -14,14 +14,14 @@ tabs:
             tab: Details
             span: left
             type: dropdown
-        
-        status:
-            label: Status
+            
+        read:
+            label: Read
             tab: Details
             type: dropdown
             span: right
             placeholder: -- select status --
-        
+            
         content:
             label: Content
             tab: Details

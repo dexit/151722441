@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Notification
+
+# Model Form Field configuration
+form: $/dlnlab/features/models/notification/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\Features\Models\Notification
+
+# Default redirect location
+defaultRedirect: dlnlab/features/notification
+
+# Create page
+create:
+    title: Create Notification
+    redirect: dlnlab/features/notification/update/:id
+    redirectClose: dlnlab/features/notification
+
+# Update page
+update:
+    title: Edit Notification
+    redirect: dlnlab/features/notification
+    redirectClose: dlnlab/features/notification
+
+# Preview page
+preview:
+    title: Preview Notification
