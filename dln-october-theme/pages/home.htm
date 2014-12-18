@@ -5,18 +5,18 @@ hidden = "0"
 ==
 <script src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
 <script>
-var map;
-function initialize() {
-  var mapOptions = {
-    zoom: 8,
-    center: new google.maps.LatLng(-34.397, 150.644)
-  };
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-
+    var map;
+    function initialize() {
+      var mapOptions = {
+        zoom: 8,
+        center: new google.maps.LatLng(-34.397, 150.644)
+      };
+      map = new google.maps.Map(document.getElementById('map-canvas'),
+          mapOptions);
+    }
+    
+    google.maps.event.addDomListener(window, 'load', initialize);
+    
 </script>
 <div class="wrapper">
     <!-- START Top Navbar-->
@@ -25,29 +25,33 @@ google.maps.event.addDomListener(window, 'load', initialize);
         <div class="header-site">
             <a class="logo" href="">test</a>
             <button class="btn-header-nav visible-xs">
-                <i class="fa fa-bars"></i>Menu
+            <i class="fa fa-bars"></i>Menu
             </button>
             <button class="btn-header-action hidden-lg hidden-md">
-                <i class="fa fa-crosshairs"></i> Filter
+            <i class="fa fa-crosshairs"></i> Filter
             </button>
             <ul class="header-menu-dropdown hidden">
                 <li><a href="javascript:void(0)">Home</a></li>
                 <li><a href="javascript:void(0)">Search</a></li>
                 <li><a href="javascript:void(0)">Get the App</a></li>
                 <li><a href="javascript:void(0)">Help &
-                        Feedback</a></li>
+                    Feedback</a>
+                </li>
                 <li><a href="javascript:void(0)">Log Out</a></li>
             </ul>
             <div class="hidden-xs pull-right">
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="javascript:void(0)">Search</a></li>
-                    <li class="dropdown dropdown-list"><a
-                        href="javascript:void(0)">My Alert
+                    <li class="dropdown dropdown-list">
+                        <a
+                            href="javascript:void(0)">
+                            My Alert
                             <div class="label label-danger">21</div>
-                    </a>
+                        </a>
                         <ul class="dropdown-menu" style="">
                             <li class="dropdown-menu-header">You
-                                have 5 new messages</li>
+                                have 5 new messages
+                            </li>
                             <li>
                                 <div class="scroll-viewport">
                                     <!-- START list group-->
@@ -73,9 +77,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
                                                             class="pull-right">2h</small>
                                                         <strong
                                                             class="media-heading text-primary">
-                                                            <span
+                                                        <span
                                                             class="point point-success point-md"></span>Rina
-                                                            Carter
+                                                        Carter
                                                         </strong>
                                                         <p class="mb-sm">
                                                             <small>sdfsdfsd</small>
@@ -101,9 +105,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
                                                             class="pull-right">3h</small>
                                                         <strong
                                                             class="media-heading text-primary">
-                                                            <span
+                                                        <span
                                                             class="point point-success point-md"></span>Michael
-                                                            Reynolds
+                                                        Reynolds
                                                         </strong>
                                                         <p class="mb-sm">
                                                             <small>sdfsdfd</small>
@@ -129,9 +133,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
                                                             class="pull-right">4h</small>
                                                         <strong
                                                             class="media-heading text-primary">
-                                                            <span
+                                                        <span
                                                             class="point point-danger point-md"></span>Britanny
-                                                            Pierce
+                                                        Pierce
                                                         </strong>
                                                         <p class="mb-sm">
                                                             <small>sdfsdf</small>
@@ -157,9 +161,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
                                                             class="pull-right">4h</small>
                                                         <strong
                                                             class="media-heading text-primary">
-                                                            <span
+                                                        <span
                                                             class="point point-danger point-md"></span>Laura
-                                                            Cole
+                                                        Cole
                                                         </strong>
                                                         <p class="mb-sm">
                                                             <small>sdfsdfsd</small>
@@ -185,9 +189,9 @@ google.maps.event.addDomListener(window, 'load', initialize);
                                                             class="pull-right">4h</small>
                                                         <strong
                                                             class="media-heading text-primary">
-                                                            <span
+                                                        <span
                                                             class="point point-danger point-md"></span>Carolyn
-                                                            Pretty
+                                                        Pretty
                                                         </strong>
                                                         <p class="mb-sm">
                                                             <small>sdfsdfsdf</small>
@@ -208,19 +212,22 @@ google.maps.event.addDomListener(window, 'load', initialize);
                             <!-- START dropdown footer-->
                             <li class="p"><a class="text-center"
                                 href="javascript:void(0);"> <small
-                                    class="text-primary">READ ALL</small>
-                            </a></li>
+                                class="text-primary">READ ALL</small>
+                                </a>
+                            </li>
                             <!-- END dropdown footer-->
-                        </ul></li>
+                        </ul>
+                    </li>
                     <li><a href="javascript:void(0)">Inbox</a></li>
-                    <li class="dropdown header-profile-img"><a
-                        class="dropdown-toggle" data-play="fadeIn"
-                        data-toggle="dropdown"
-                        href="javascript:void(0);"> <img
+                    <li class="dropdown header-profile-img">
+                        <a
+                            class="dropdown-toggle" data-play="fadeIn"
+                            data-toggle="dropdown"
+                            href="javascript:void(0);"> <img
                             alt="profile"
                             src="https://d2vzw4mx84c4xs.cloudfront.net/spot/3/a77f9fc0e8b12480ef07aa9f2d869a7b.jpg" />
-                            Dinh
-                    </a> <!-- START Dropdown menu-->
+                        Dinh
+                        </a> <!-- START Dropdown menu-->
                         <ul class="dropdown-menu" style="">
                             <li>
                                 <div class="p">
@@ -234,7 +241,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
                                             aria-valuenow="70"
                                             role="progressbar">
                                             <span class="sr-only">70%
-                                                Complete</span>
+                                            Complete</span>
                                         </div>
                                     </div>
                                 </div>
@@ -244,17 +251,25 @@ google.maps.event.addDomListener(window, 'load', initialize);
                             </li>
                             <li><a href="javascript:void(0);">Settings</a>
                             </li>
-                            <li><a href="javascript:void(0);">Notifications
+                            <li>
+                                <a href="javascript:void(0);">
+                                    Notifications
                                     <div
                                         class="label label-info pull-right">5</div>
-                            </a></li>
-                            <li><a href="javascript:void(0);">Messages
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);">
+                                    Messages
                                     <div
                                         class="label label-danger pull-right">10</div>
-                            </a></li>
+                                </a>
+                            </li>
                             <li><a href="javascript:void(0);">Logout</a>
                             </li>
-                        </ul> <!-- END Dropdown menu--></li>
+                        </ul>
+                        <!-- END Dropdown menu-->
+                    </li>
                 </ul>
             </div>
         </div>
@@ -347,14 +362,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 </div>
             </div>
             <button class="btn btn-danger btn-create-alert">
-                <i class="icon-bell"></i> Tạo Thông Báo
+            <i class="icon-bell"></i> Tạo Thông Báo
             </button>
             <div class="btn-group pull-right btn-switch-list">
                 <button class="btn btn-default" type="button">
-                    <i class="icon-map"></i> Map
+                <i class="icon-map"></i> Map
                 </button>
                 <button class="btn btn-default" type="button">
-                    <i class="icon-grid"></i> Grid
+                <i class="icon-grid"></i> Grid
                 </button>
             </div>
         </div>

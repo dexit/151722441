@@ -9,8 +9,8 @@ a, a:hover {
     text-decoration: none;
     color: #333;
 }
-.form-group {
-  margin-bottom: 0px;
+.container {
+    max-width: 970px;
 }
 .panel {
     box-shadow: 0 0 0 #fff;
@@ -21,6 +21,9 @@ a, a:hover {
     overflow: hidden;
     position: relative;
     width: 100%;
+}
+.slider-area .slider.slider-horizontal {
+    width: 100% !important;
 }
 .btn-gray {
     background-color: #eee;
@@ -142,7 +145,7 @@ a, a:hover {
     color: #777777;
     font-size: 12px;
     font-weight: 600;
-    margin: 8px 0;
+    margin: 4px 0;
     padding-top: 0px;
 }
 .btn-filter-location {
@@ -599,6 +602,9 @@ a, a:hover {
     margin-top: 50px;
     background-color: #f8f8f8;
 }
+.dln-wizard .bwizard-activated label {
+    min-width: 110px;
+}
 .dln-wizard ul.bwizard-steps {
     list-style: none;
     padding: 0px;
@@ -673,6 +679,12 @@ a, a:hover {
 #dln_price_range .col-sm-6 {
     padding-top: 2px;
     padding-bottom: 2px;
+}
+#dln_price_normal {
+    max-width: 270px;
+}
+.form-group {
+    margin-bottom: 10px;
 }
 
 
@@ -950,8 +962,5 @@ a, a:hover {
     .form-control {
         font-size: 11px;
         height: 30px;
-    }
-    .form-group {
-        margin-bottom: 10px;
     }
 }

@@ -357,6 +357,62 @@ hidden = "0"
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
+                                                        <label>Phương thức</label>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button class="mb-sm btn btn-default" type="button"><i class="icon-home"></i> Bán</button>
+                                                                <button class="mb-sm btn btn-default" type="button"><i class="icon-home"></i> Cho thuê</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Loại nhà</label>
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <button class="mb-sm btn btn-default" type="button"><i class="icon-home"></i> Nhà trọ</button>
+                                                                <button class="mb-sm btn btn-default" type="button"><i class="icon-home"></i> Nhà riêng</button>
+                                                                <button class="mb-sm btn btn-default" type="button"><i class="icon-home"></i> Nhà mặt phố</button>
+                                                                <button class="mb-sm btn btn-default" type="button"><i class="icon-home"></i> Chung cư</button>
+                                                                <button class="mb-sm btn btn-default" type="button"><i class="icon-home"></i> Cửa hàng - Ki ốt</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <label>Diện tích</label>
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control" placeholder="0" name="price_normal">
+                                                                    <span class="input-group-addon">m<sup>2</sup></span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <label>Bếp</label>
+                                                                <select class="form-control m-b" name="account">
+                                                                    <option>1</option>
+                                                                    <option>2</option>
+                                                                    <option>3</option>
+                                                                    <option>4+</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4">
+                                                            <div class="form-group">
+                                                                <label>Nhà tắm</label>
+                                                                <select class="form-control m-b" name="account">
+                                                                    <option>1</option>
+                                                                    <option>2</option>
+                                                                    <option>3</option>
+                                                                    <option>4+</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
                                                         <label>Loại giá</label>
                                                         <div class="dln-price-type">
                                                             <div class="radio radio-inline">
@@ -376,30 +432,24 @@ hidden = "0"
                                                     <div class="form-group dln-prices">
                                                         <label>Giá</label>
                                                         <div id="dln_price_normal" class="input-group">
-                                                            <input type="text" name="price_normal" placeholder="16,300,000" class="form-control">
+                                                            <input type="text" name="price_normal" placeholder="0" class="form-control" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'">
                                                             <span class="input-group-addon">VNĐ</span>
                                                         </div>
                                                         <div class="row" id="dln_price_range">
                                                             <div class="col-sm-6 m-b">
                                                                 <div class="input-group">
-                                                                    <input type="text" class="form-control" placeholder="Giá bắt đầu">
+                                                                    <input type="text" class="form-control" placeholder="Giá bắt đầu" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'">
                                                                     <span class="input-group-addon">VNĐ</span>
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
                                                                 <div class="input-group">
-                                                                    <input type="text" class="form-control" placeholder="Giá cuối">
+                                                                    <input type="text" class="form-control" placeholder="Giá cuối" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'">
                                                                     <span class="input-group-addon">VNĐ</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <small class="text-muted">(Mẹo) Bạn có thể dùng ký tự viết tắt như k, m ví dụ: 16m3 <=> 16,300,000 VNĐ</small>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <label>Last Name</label>
-                                                        <input type="text" name="last-name" placeholder="Snow" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -415,14 +465,76 @@ hidden = "0"
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label>Email</label>
-                                                        <input type="text" name="email" placeholder="john@snow.com" class="form-control">
+                                                        <label>Lựa chọn</label>
+                                                        <div class="row">
+                                                            <div class="col-xs-6">
+                                                                <label>
+                                                                    <div class="checkbox c-checkbox">
+                                                                <label>
+                                                                <input type="checkbox" value="" checked="">
+                                                                <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                                <div class="checkbox c-checkbox">
+                                                                    <label>
+                                                                    <input type="checkbox" value="" checked="">
+                                                                    <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                                <div class="checkbox c-checkbox">
+                                                                    <label>
+                                                                    <input type="checkbox" value="" checked="">
+                                                                    <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                                <div class="checkbox c-checkbox">
+                                                                    <label>
+                                                                    <input type="checkbox" value="" checked="">
+                                                                    <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                                <div class="checkbox c-checkbox">
+                                                                    <label>
+                                                                    <input type="checkbox" value="" checked="">
+                                                                    <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                                <div class="checkbox c-checkbox">
+                                                                    <label>
+                                                                    <input type="checkbox" value="" checked="">
+                                                                    <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-6">
+                                                                <label>
+                                                                    <div class="checkbox c-checkbox">
+                                                                <label>
+                                                                <input type="checkbox" value="" checked="">
+                                                                <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                                <div class="checkbox c-checkbox">
+                                                                    <label>
+                                                                    <input type="checkbox" value="" checked="">
+                                                                    <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                                <div class="checkbox c-checkbox">
+                                                                    <label>
+                                                                    <input type="checkbox" value="" checked="">
+                                                                    <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                                <div class="checkbox c-checkbox">
+                                                                    <label>
+                                                                    <input type="checkbox" value="" checked="">
+                                                                    <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                                <div class="checkbox c-checkbox">
+                                                                    <label>
+                                                                    <input type="checkbox" value="" checked="">
+                                                                    <span class="fa fa-check"></span>Option two checked</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
-                                                        <label>Phone</label>
-                                                        <input type="text" name="phone" placeholder="11-2345-6789" class="form-control">
+                                                        <label>Description</label>
+                                                        <textarea name="phone" placeholder="11-2345-6789" rows="6" class="form-control"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -440,7 +552,6 @@ hidden = "0"
                                             </p>
                                         </div>
                                     </div>
-                                    <!-- END Wizard Step inputs -->
                                 </div>
                             </form>
                         </div>

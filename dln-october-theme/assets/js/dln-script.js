@@ -37,6 +37,16 @@
 			}
 		});
 		
+		// For area in form wizard
+		$('#slider_area').slider().on('slide', function (e) {
+			var val = '';
+			var text_val = '';
+			if (val = $(this).val()) {
+				text_val = val + 'm<sup>2</sup>';
+				$('#val_area').html(text_val);
+			}
+		});
+		
 		// Show/Hide call button in info box
 		$('.btn-show-number').on('click', function () {
 			$('.dln-contact-fields').show();
@@ -89,6 +99,9 @@
 			}
 		});
 		$('.dln-price-type input[type="radio"]').first().trigger('click');
+		
+		// Masked inputs initialization
+	    $.fn.inputmask && $('[data-toggle="masked"]').inputmask();
 	});
 	
 	function currency_formater(num) {
