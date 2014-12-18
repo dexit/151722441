@@ -15,7 +15,7 @@ class CreateNotificationsTable extends Migration
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->string('type', 20)->nullable()->index();
 			$table->string('content', 255)->nullable();
-			$table->tinyInteger('read', 1)->default(0);
+			$table->boolean('read')->default(false);
             $table->timestamps();
         });
     }

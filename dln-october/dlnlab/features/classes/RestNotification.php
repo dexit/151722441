@@ -11,21 +11,22 @@ use DLNLab\Features\Models\Notification;
 
 require('HelperResponse.php');
 
-class RestReport extends BaseController {
+class RestNotification extends BaseController {
 	
 	public function postRead() {
 		if (!Auth::check())
             return Response::json(response_message(403, $error), 403);
 		
 		$data = post();
+		$valid['ids'] = (isset($data['ids'])) ? str_replace(',', '', $data['ids']) : '';
 		$rules = [
-			'ids' => 'required|array'
+			'ids' => 'required|numeric'
 		];
-		$validation = Validator::make($data, $rules);
+		$validation = Validator::make($valid, $rules);
 		if ($validation->fails()) {
 			return Response::json(response_message(400, $validation->messages()->first()), 400);
 		}
-		$user = Auth::getUser()->id;
+		$user = Auth::getUser();
 		$ntfs = Notification::has_read($user, $data['ids']);
 		
 		return Response::json(response_message(200, $ntfs));

@@ -64,4 +64,12 @@ class Notification extends Model
 
         return $record;
 	}
+	
+	public static function has_read($user, $ids) {
+		$ids     = str_replace('.', '', $ids);
+		$ids     = ltrim($ids, ',');
+		$ids     = rtrim($ids, ',');
+		$records = self::whereRaw("user_id = ? AND id IN ({$ids})", array($user->id))->update(array('read' => 1));
+		return $records;
+	}
 }
