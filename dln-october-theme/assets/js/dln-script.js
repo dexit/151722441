@@ -66,6 +66,29 @@
 		$('.btn-header-nav').on('click', function () {
 			$('.header-menu-dropdown').toggleClass('hidden');
 		});
+		
+		// For price type
+		$('.dln-price-type input[type="radio"]').on('click', function () {
+			var selected = $(this).val();
+			switch(selected) {
+				case 'normal':
+					$('.dln-prices').show();
+					$('#dln_price_normal').show();
+					$('#dln_price_range').hide();
+					break;
+				case 'range':
+					$('.dln-prices').show();
+					$('#dln_price_normal').hide();
+					$('#dln_price_range').show();
+					break;
+				default:
+					$('.dln-prices').hide();
+					$('#dln_price_normal').hide();
+					$('#dln_price_range').hide();
+					break;
+			}
+		});
+		$('.dln-price-type input[type="radio"]').first().trigger('click');
 	});
 	
 	function currency_formater(num) {

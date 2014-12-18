@@ -9,12 +9,11 @@ a, a:hover {
     text-decoration: none;
     color: #333;
 }
+.form-group {
+  margin-bottom: 0px;
+}
 .panel {
     box-shadow: 0 0 0 #fff;
-}
-.form-group {
-    margin-bottom: 0px;
-    margin-right: 0px;
 }
 .body-site {
     background: none repeat scroll 0 0 #ffffff;
@@ -141,9 +140,9 @@ a, a:hover {
 }
 .side-content-body .form-group label {
     color: #777777;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
-    margin: 16px 0 8px;
+    margin: 8px 0;
     padding-top: 0px;
 }
 .btn-filter-location {
@@ -171,11 +170,15 @@ a, a:hover {
 .group-price, .group-area {
     padding-left: 10px;
     padding-right: 10px;
-    color: #7e98ab;
+    color: #ccc;
     font-weight: 600;
+    font-size: 11px;
 }
 #min_price, #min_area {
     margin-left: -10px;
+}
+#max_price, #max_area {
+    margin-right: -10px;
 }
 /* .group-bedroom .btn-group, .group-type .btn-group {
     width: 100%;
@@ -573,7 +576,7 @@ a, a:hover {
     float: left;
 }
 .dln-second-menu li a{
-    padding: 15px 15px 16px 15px;
+    padding: 15px;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition: all .3s ease-in-out;
     -ms-transition: all .3s ease-in-out;
@@ -588,6 +591,9 @@ a, a:hover {
 .dln-second-menu li a.selected{
     background-color: #f35839;
     color: #fff;
+}
+.dln-second-menu li a i {
+    font-size: 20px;
 }
 .dln-form-wrapper {
     margin-top: 50px;
@@ -615,6 +621,7 @@ a, a:hover {
     position: relative;
     width: 40px;
     z-index: 11;
+    cursor: pointer;
 }
 .dln-wizard ul.bwizard-steps > li.active .label {
     background-color: #fb6b5b;
@@ -654,6 +661,18 @@ a, a:hover {
     width: 100%;
     display: block;
     border: 1px solid #ddd;
+}
+.dln-price-type .radio-inline {
+    margin-left: 0px;
+    padding-left: 0px;
+    padding-right: 10px;
+}
+.dln-price-type .radio {
+    margin-top: 0px;
+}
+#dln_price_range .col-sm-6 {
+    padding-top: 2px;
+    padding-bottom: 2px;
 }
 
 
@@ -791,6 +810,11 @@ a, a:hover {
         width: 60%;
     }
 }
+@media (max-width: 1005px) {
+    .dln-wizard ul.bwizard-steps > li:before, .dln-wizard ul.bwizard-steps > li:after {
+        margin-top: -48px;
+    }
+}
 
 @media (max-width: 768px) {
     .side-content-container {
@@ -888,19 +912,46 @@ a, a:hover {
     }
 }
 @media (max-width: 480px) {
+    body {
+        font-size: 11px;
+    }
     .btn-create-alert {
         display: none;
     }
+    .btn-filter-location {
+        font-size: 15px;
+        line-height: 30px;
+    }
     .main-content {
-        padding: 20px 5px;
+        padding: 20px 0px;
     }
     .main-content .container {
         padding: 0px;
+    }
+    .dln-wizard {
+        margin-top: 10px;
     }
     .dln-wizard ul.bwizard-steps > li .label{
         height: 30px;
         width: 30px;
         line-height: 30px;
         font-size: 12px;
+    }
+    .panel-body {
+        padding: 5px;
+    }
+    .well {
+        padding: 10px;
+    }
+    legend {
+        font-size: 14.5px;
+        margin-bottom: 10px;
+    }
+    .form-control {
+        font-size: 11px;
+        height: 30px;
+    }
+    .form-group {
+        margin-bottom: 10px;
     }
 }
