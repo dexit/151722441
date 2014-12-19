@@ -3,3 +3,4 @@
     - Initialize plugin
     - create_ads_table.php
     - create_ads_categories_table.php
+    - create_ad_read_table.php
