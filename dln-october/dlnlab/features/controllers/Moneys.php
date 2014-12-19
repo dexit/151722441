@@ -2,11 +2,12 @@
 
 use BackendMenu;
 use Backend\Classes\Controller;
+use DLNLab\Features\Models\Notification;
 
 /**
- * Money Back-end Controller
+ * Moneys Back-end Controller
  */
-class Money extends Controller
+class Moneys extends Controller
 {
     public $implement = [
         'Backend.Behaviors.FormController',
@@ -20,6 +21,6 @@ class Money extends Controller
     {
         parent::__construct();
 
-        BackendMenu::setContext('DLNLab.Features', 'features', 'money');
+        BackendMenu::setContext('DLNLab.Features', 'features', 'moneys');
     }
 }

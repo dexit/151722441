@@ -47,7 +47,7 @@ class Plugin extends PluginBase
 						'label' => 'Report',
 						'icon' => 'icon-list-ul',
 						'url' => Backend::url('dlnlab/features/reports'),
-						'permissions' => ['dlnlab.features.report'],
+						'permissions' => ['dlnlab.features.reports'],
 					],
 					'reward' => [
 						'label' => 'Reward',
@@ -58,8 +58,8 @@ class Plugin extends PluginBase
 					'money' => [
 						'label' => 'Money',
 						'icon' => 'icon-list-ul',
-						'url' => Backend::url('dlnlab/features/money'),
-						'permissions' => ['dlnlab.features.money'],
+						'url' => Backend::url('dlnlab/features/moneys'),
+						'permissions' => ['dlnlab.features.moneys'],
 					]
 				]
 			]

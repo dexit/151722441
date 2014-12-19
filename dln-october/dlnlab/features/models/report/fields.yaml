@@ -13,7 +13,8 @@ tabs:
             label: User
             tab: Details
             span: left
-            type: dropdown
+            disabled: true
+            readonly: true
         
         status:
             label: Status

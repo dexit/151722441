@@ -54,7 +54,7 @@ class Reports extends Controller
                 if ((!$report = Report::find($reportId)) || !$report->canEdit($this->user))
                     continue;
 
-                $post->delete();
+                $report->delete();
             }
 
             Flash::success('Successfully deleted those reports.');

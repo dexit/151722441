@@ -12,19 +12,19 @@ form: $/dlnlab/features/models/money/fields.yaml
 modelClass: DLNLab\Features\Models\Money
 
 # Default redirect location
-defaultRedirect: dlnlab/features/money
+defaultRedirect: dlnlab/features/moneys
 
 # Create page
 create:
     title: Create Money
-    redirect: dlnlab/features/money/update/:id
-    redirectClose: dlnlab/features/money
+    redirect: dlnlab/features/moneys/update/:id
+    redirectClose: dlnlab/features/moneys
 
 # Update page
 update:
     title: Edit Money
-    redirect: dlnlab/features/money
-    redirectClose: dlnlab/features/money
+    redirect: dlnlab/features/moneys
+    redirectClose: dlnlab/features/moneys
 
 # Preview page
 preview:

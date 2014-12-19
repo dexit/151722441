@@ -2,6 +2,7 @@
 
 use Model;
 use RainLab\User\Models\User;
+use Backend\Models\User as BackendUser;
 
 /**
  * Report Model
@@ -45,13 +46,20 @@ class Report extends Model
 	
 	public function getStatusAttribute() {
 		$options = $this->getStatusOptions();
-		return $options[$this->attributes['status']];
+		return isset($this->attributes['status']) ? $options[$this->attributes['status']] : $options[0];
 	}
 	
-	public function getUserOptions() {
-		$user = User::find($this->user_id);
-		return array(
-			$user->id => $user->name
-		);
+	public function getUserAttribute() {
+		$user_name = '';
+		if (isset($this->attribute['user_id'])) {
+			$user = User::find($this->attribute['user_id']);
+			$user_name = $user->name;
+		}
+		return $user_name;
 	}
+	
+	public function canEdit(BackendUser $user)
+    {
+        return ($this->user_id == $user->id) || $user->hasAnyAccess(['rainlab.blog.access_other_posts']);
+    }
 }

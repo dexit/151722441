@@ -6,3 +6,24 @@ columns:
     id:
         label: ID
         searchable: true
+        
+    user:
+        label: User
+        searchable: true
+        relation: user
+        select: name
+        
+    type:
+        label: Type
+    
+    status:
+        label: Status
+        searchable: true
+        
+    updated_at:
+        label: Update
+        type: timesince
+        
+    created_at:
+        label: Create
+        type: timesince
