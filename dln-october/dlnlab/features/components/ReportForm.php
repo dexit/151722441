@@ -58,7 +58,7 @@ class ReportForm extends ComponentBase
 		
 		$data = post();
 		$rules = [
-			'target_id' => 'required|numeric',
+			'item_id' => 'required|numeric',
 			'content'   => 'required',
 			'type'      => 'required',
 		];
@@ -75,7 +75,7 @@ class ReportForm extends ComponentBase
 			$report = new Report();
 			$report->content   = $data['content'];
 			$report->user_id   = Auth::getUser()->id;
-			$report->target_id = $data['target_id'];
+			$report->item_id   = $data['item_id'];
 			$report->type      = $data['type'];
 			$report->save();
 		} catch (Exception $ex) {

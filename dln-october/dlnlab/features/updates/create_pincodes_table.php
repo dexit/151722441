@@ -15,7 +15,7 @@ class CreatePincodesTable extends Migration
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->string('code', 5)->nullable();
 			$table->string('phone_number', 18)->nullabled();
-			$table->tinyInteger('status')->default(0);
+			$table->boolean('status')->default(false);
 			$table->string('error', 255)->nullable();
             $table->timestamps();
         });

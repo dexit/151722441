@@ -1,0 +1,10 @@
+<script type="text/javascript">
+    $(document).on('ready', function () {
+        var count = $('#report_unread').val();
+        if (count) {
+            $('span[data-menu-id="features/report"]').removeClass('empty').text(count);
+        }
+    });
+</script>
+<input type="hidden" id="report_unread" value="<?= $reportUnread ?>" />
+<?= $this->listRender() ?>

@@ -12,7 +12,7 @@ modelClass: DLNLab\Features\Models\Report
 title: Manage Reports
 
 # Link URL for each record
-recordUrl: dlnlab/features/report/update/:id
+recordUrl: dlnlab/features/reports/update/:id
 
 # Message to display if the list is empty
 noRecordsMessage: backend::lang.list.no_records
@@ -25,6 +25,9 @@ showSetup: true
 
 # Displays the sorting link on each column
 showSorting: true
+
+# Display checkboxes next to each record
+showCheckboxes: true
 
 # Default sorting column
 # defaultSort:
@@ -42,3 +45,6 @@ toolbar:
     # Search widget configuration
     search:
         prompt: backend::lang.list.search_prompt
+
+# Filter widget configuration
+filter: config_filter.yaml

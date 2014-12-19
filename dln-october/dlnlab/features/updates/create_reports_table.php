@@ -13,8 +13,8 @@ class CreateReportsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
 			$table->integer('user_id')->unsigned()->nullable()->index();
-			$table->integer('target_id')->unsigned()->nullable()->index();
 			$table->string('content')->nullable();
+			$table->integer('item_id')->unsigned()->nullable()->index();
 			$table->string('type', 20)->nullable()->index();
 			$table->tinyInteger('status')->default(0);
             $table->timestamps();

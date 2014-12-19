@@ -9,11 +9,8 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function($table)
         {
-            $table->string('phone', 100)->nullable();
-            $table->string('company', 100)->nullable();
-            $table->string('street_addr')->nullable();
-            $table->string('city', 100)->nullable();
-            $table->string('zip', 20)->nullable();
+            $table->boolean('is_validated')->default(false);
+			$table->string('phone_number', 18)->nullabled();
         });
     }
 
@@ -21,7 +18,8 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function($table)
         {
-            $table->dropColumn('is_banned');
+            $table->dropColumn('is_validated');
+			$table->dropColumn('phone_number');
         });
     }
 

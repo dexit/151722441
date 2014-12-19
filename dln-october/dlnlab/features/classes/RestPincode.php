@@ -8,6 +8,7 @@ use Response;
 use Validator;
 use Controller as BaseController;
 use DLNLab\Features\Models\Pincode;
+use RainLab\User\Models\User;
 
 require('HelperResponse.php');
 
@@ -18,40 +19,48 @@ class RestPincode extends BaseController {
 			return Response::json( response_message( 403 ), 403 );
 		}
 		
-		if ( !Input::has('user_id') || !Input::has('phone_number') )
+		if ( !Input::has('phone_number') )
 			return;
 		
+		$user = Auth::getUser();
+		if ($user->is_validated) {
+			return Response::json( response_message(200, 'User has activated'));
+		}
+		
 		$rules = array(
-		    'phone_number' => 'numeric',
-		    'user_id'      => 'numeric'
+		    'phone_number' => 'numeric'
 		);
 		if ($response = self::valid($rules))
 	        return Response::json($response);
 		
 		$phone_number = Input::get('phone_number');
-		$user_id      = Input::get('user_id');
+		$user_id      = $user->id;
 		
 		// Check last code has completed?
-		$last_pincode = Pincode::whereRaw( 'user_id = ? AND status = 0', array( $user_id ) )->first();
-		if ( $last_pincode ) {
+		$last_pincode = Pincode::getLastPincode($phone_number);
+		if ( empty($last_pincode) ) {
+			// Not exists code send complete then create new code
+		    $code   = strtolower(self::generate_password());
+		    $result = self::send_sms($phone_number, $code);
+		    
+			if ($result) {
+				// Insert pincode
+				$pincode = new Pincode();
+				$pincode->status       = '0';
+				$pincode->code         = $code;
+				$pincode->phone_number = $phone_number;
+				$pincode->user_id      = $user_id;
+				$pincode->error        = $result->error_message;
+				$pincode->save();
+			}
+		} else if($last_pincode->status == '1') {
+			return Response::json( response_message(400, 'Phone Number has activated'));
+		} else {
 		    // Has exist last code not validate then use current code
 		    $code                = $last_pincode->code;
 		    $result              = self::send_sms($phone_number, $code);
 		    $last_pincode->error = $result->error_message;
 		    $last_pincode->update();
-		} else {
-		    // Not exists code send complete then create new code
-		    $code = strtolower(self::generate_password());
-		    $result = self::send_sms($phone_number, $code);
-		    
-		    // Insert pincode
-		    $pincode = new Pincode();
-		    $pincode->status       = '0';
-		    $pincode->code         = $code;
-		    $pincode->phone_number = $phone_number;
-		    $pincode->user_id      = $user_id;
-		    $pincode->error        = $result->error_message;
-		    $pincode->save();
 		}
 		
 		return Response::json( response_message(200));
@@ -62,23 +71,30 @@ class RestPincode extends BaseController {
 			return Response::json( response_message( 403 ), 403 );
 		}
 		
-	    if (!Input::has('phone_number') || !Input::has('pincode'))
+	    if (!Input::has('pincode'))
 	        return;
 	    
 	    $rules = array(
-	        'pincode'      => 'alpha_num|size:4',
-	        'phone_number' => 'numeric'
+	        'pincode'      => 'required|alpha_num|size:4'
 	    );
 	    if ($response = self::valid($rules))
 	        return Response::json($response);
 	    
-	    $phone_number = Input::get('phone_number');
-	    $pincode      = Input::get('pincode');
+	    //$phone_number = Input::get('phone_number');
+		$user_id = Auth::getUser()->id;
+	    $pincode = Input::get('pincode');
 	    
-	    $check = Pincode::whereRaw('phone_number = ? AND code = ? AND status = 0', array($phone_number, $pincode))->first();
-	    if ($check) {
-	        // Update user has actived
-	        Pincode::where('phone_number', $phone_number)->update(array('status' => 1));
+		// Get pincode inactive
+	    $check = Pincode::getLastPincodeInActive($user_id, $pincode);
+	    if ($check && !empty($check->phone_number)) {
+			// Exists pincode inactive in db
+	        if (Pincode::ActivePincode($check->phone_number)) {
+				// Update user has actived
+				$user = User::where('id', $user_id)->update(array('is_validated' => 1, 'phone_number' => $check->phone_number));
+				if (isset($user->errors)) {
+					return Response::json( response_message( 400, $user->errors()->first() ), 400 );
+				}
+			}
             
             return Response::json( response_message( 200 ) );
 	    } else {
@@ -95,7 +111,7 @@ class RestPincode extends BaseController {
 	        'size'      => ':attribute bị giới hạn :size ký tự'
 	    );
 	    $valid = Validator::make(Input::all(), $rules, $messages);
-	    if ($valid->fails()) {
+	    if ($valid->fails()) { 
 	        $response = response_message(1006, $valid->messages()->first());
 	    }
 	    

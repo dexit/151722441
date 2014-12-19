@@ -37,12 +37,18 @@ class Plugin extends PluginBase
 	public function registerNavigation() {
 		return [
 			'features' => [
-				'label' => 'Features',
-				'url' => Backend::url('dlnlab/features/reward'),
+				'label' => 'Report',
+				'url' => Backend::url('dlnlab/features/reports'),
 				'icon' => 'icon-photo',
 				'permissions' => ['dlnlab.features.*'],
 				'order' => 500,
 				'sideMenu' => [
+					'report' => [
+						'label' => 'Report',
+						'icon' => 'icon-list-ul',
+						'url' => Backend::url('dlnlab/features/reports'),
+						'permissions' => ['dlnlab.features.report'],
+					],
 					'reward' => [
 						'label' => 'Reward',
 						'icon' => 'icon-list-ul',
@@ -54,12 +60,6 @@ class Plugin extends PluginBase
 						'icon' => 'icon-list-ul',
 						'url' => Backend::url('dlnlab/features/money'),
 						'permissions' => ['dlnlab.features.money'],
-					],
-					'report' => [
-						'label' => 'Report',
-						'icon' => 'icon-list-ul',
-						'url' => Backend::url('dlnlab/features/report'),
-						'permissions' => ['dlnlab.features.report'],
 					]
 				]
 			]

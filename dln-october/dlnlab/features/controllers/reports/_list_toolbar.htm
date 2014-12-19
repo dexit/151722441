@@ -1,0 +1,33 @@
+<div data-control="toolbar">
+    <a href="<?= Backend::url('dlnlab/features/reports/create') ?>" class="btn btn-primary oc-icon-plus">New Report</a>
+    <button
+        class="btn btn-default oc-icon-star"
+        disabled="disabled"
+        onclick="$(this).data('request-data', {
+            checked: $('.control-list').listWidget('getChecked')
+        })"
+        data-request="onApproved"
+        data-request-confirm="<?= e('Are you want to approve these items?') ?>"
+        data-trigger-type="enable"
+        data-trigger=".control-list input[type=checkbox]"
+        data-trigger-condition="checked"
+        data-request-success="$el.prop('disabled', false)"
+        data-stripe-load-indicator>
+        <?= e('Approve') ?>
+    </button>
+    <button
+        class="btn btn-default oc-icon-trash-o"
+        disabled="disabled"
+        onclick="$(this).data('request-data', {
+            checked: $('.control-list').listWidget('getChecked')
+        })"
+        data-request="onDelete"
+        data-request-confirm="<?= e(trans('rainlab.blog::lang.blog.delete_confirm')) ?>"
+        data-trigger-type="enable"
+        data-trigger=".control-list input[type=checkbox]"
+        data-trigger-condition="checked"
+        data-request-success="$el.prop('disabled', false)"
+        data-stripe-load-indicator>
+        <?= e(trans('backend::lang.form.delete')) ?>
+    </button>
+</div>

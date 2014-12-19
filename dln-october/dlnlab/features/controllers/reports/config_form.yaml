@@ -12,19 +12,19 @@ form: $/dlnlab/features/models/report/fields.yaml
 modelClass: DLNLab\Features\Models\Report
 
 # Default redirect location
-defaultRedirect: dlnlab/features/report
+defaultRedirect: dlnlab/features/reports
 
 # Create page
 create:
     title: Create Report
-    redirect: dlnlab/features/report/update/:id
-    redirectClose: dlnlab/features/report
+    redirect: dlnlab/features/reports/update/:id
+    redirectClose: dlnlab/features/reports
 
 # Update page
 update:
     title: Edit Report
-    redirect: dlnlab/features/report
-    redirectClose: dlnlab/features/report
+    redirect: dlnlab/features/reports
+    redirectClose: dlnlab/features/reports
 
 # Preview page
 preview:

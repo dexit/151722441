@@ -1,6 +1,6 @@
 <?php Block::put('breadcrumb') ?>
     <ul>
-        <li><a href="<?= Backend::url('dlnlab/features/report') ?>">Report</a></li>
+        <li><a href="<?= Backend::url('dlnlab/features/reports') ?>">Reports</a></li>
         <li><?= e($this->pageTitle) ?></li>
     </ul>
 <?php Block::endPut() ?>
@@ -41,7 +41,7 @@
                     data-request-confirm="Do you really want to delete this report?">
                 </button>
                 <span class="btn-text">
-                    or <a href="<?= Backend::url('dlnlab/features/report') ?>">Cancel</a>
+                    or <a href="<?= Backend::url('dlnlab/features/reports') ?>">Cancel</a>
                 </span>
             </div>
         </div>
@@ -51,6 +51,6 @@
 <?php else: ?>
 
     <p class="flash-message static error"><?= e($this->fatalError) ?></p>
-    <p><a href="<?= Backend::url('dlnlab/features/report') ?>" class="btn btn-default">Return to report list</a></p>
+    <p><a href="<?= Backend::url('dlnlab/features/reports') ?>" class="btn btn-default">Return to reports list</a></p>
 
 <?php endif ?>

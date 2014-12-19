@@ -16,7 +16,7 @@ columns:
     content:
         label: Content
     
-    target_id:
+    item_id:
         label: Report Item
         
     type:
