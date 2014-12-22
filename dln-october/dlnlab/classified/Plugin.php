@@ -54,8 +54,8 @@ class Plugin extends PluginBase {
 
 	public function registerComponents() {
 		return [
-			'DLNLab\Classified\Components\AdPost' => 'AdPost',
-			'DLNLab\Classified\Components\AdPosts' => 'AdPosts'
+			'DLNLab\Classified\Components\AdDetail' => 'AdDetail',
+			'DLNLab\Classified\Components\AdList' => 'AdList'
 		];
 	}
 

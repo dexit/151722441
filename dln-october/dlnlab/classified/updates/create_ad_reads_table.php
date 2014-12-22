@@ -12,9 +12,10 @@ class CreateAdReadsTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->integer('ad_id')->unsigned()->nullable()->index();
 			$table->integer('count')->default(0);
+			$table->integer('total_count')->default(0);
+			$table->string('log')->nullable();
             $table->timestamps();
         });
     }

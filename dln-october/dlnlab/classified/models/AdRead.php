@@ -36,4 +36,46 @@ class AdRead extends Model
     public $attachOne = [];
     public $attachMany = [];
 
+	private static function get_user_read($user, $count) {
+		$result = new stdClass();
+		$result->user_id = $user->id;
+		$result->email   = $user->email;
+		$result->count   = $count;
+		return $result;
+	}
+	
+	public static function add_read($ad_id, $user) {
+		// Get read entry exists in db
+		$entry  = self::find($ad_id);
+		$result = null;
+		if ($entry) {
+			// For update
+			$log   = json_decode($entry->log);
+			$count = $entry->count;
+			if (! empty($log['user_' . $user_id])) {
+				$obj_user = $log['user_' . $user_id];
+				$new_user = self::get_user_read($user, $obj_user->count + 1);
+				$log['user_' . $user_id] = $new_user;
+			} else {
+				$new_user = self::get_user_read($user, 1);
+				$log['user_' . $user_id] = $new_user;
+			}
+			
+			$entry->log   = json_encode($log);
+			$entry->count = $count+1;
+			$result = $entry->save();
+		} else {
+			// Insert new
+			$log = array();
+			$log['user_' . $user_id] = self::get_user_read($user, 1);
+			
+			$insert = new self;
+			$insert->ad_id = $ad_id;
+			$insert->count = 1;
+			$insert->log   = json_encode($log);
+			$result = $insert->save();
+		}
+		
+		return $result;
+	}
 }

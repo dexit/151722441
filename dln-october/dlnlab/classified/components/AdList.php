@@ -3,22 +3,13 @@
 namespace DLNLab\Classified\Components;
 
 use Cms\Classes\ComponentBase;
-use Cms\Classes\Page;
 use DLNLab\Classified\Models\Ad;
 
-class AdPosts extends ComponentBase {
-
-	public $ads;
-	public $pageParam;
-	public $category;
-	public $noAdsMessage;
-	public $adPage;
-	public $categoryPage;
-	public $AdOrderAttr;
+class AdList extends ComponentBase {
 
 	public function componentDetails() {
 		return [
-			'name' => 'Ads Component',
+			'name' => 'AdList Component',
 			'description' => 'No description provided yet...'
 		];
 	}
@@ -61,51 +52,39 @@ class AdPosts extends ComponentBase {
 				'title' => 'rainlab.blog::lang.settings.posts_post',
 				'description' => 'rainlab.blog::lang.settings.posts_post_description',
 				'type' => 'dropdown',
-				'default' => 'blog/post',
+				'default' => 'ad/post',
 				'group' => 'Links',
 			],
 		];
-	}
-
-	public function getCategoryPageOptions() {
-		return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
-	}
-
-	public function getAdPageOptions() {
-		return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
-	}
-
-	public function getAdOrderAttrOptions() {
-		return Ad::$allowedSortingOptions;
 	}
 
 	public function onRun() {
 		$this->prepareVars();
 
 		$this->category = $this->page['category'] = $this->loadCategory();
-		$this->ads = $this->page['ads'] = $this->listAds();
+		$this->ads      = $this->page['ads']      = $this->listAds();
 
 		$currentPage = $this->propertyOrParam('pageParam');
 		if ($currentPage > ($lastPage = $this->ads->getLastPage()) && $currentPage > 1)
 			return Redirect::to($this->controller->currentPageUrl([$this->property('pageParam') => $lastPage]));
 	}
-
+	
 	protected function prepareVars() {
-		$this->pageParam = $this->page['pageParam'] = $this->property('pageParam', 'page');
+		$this->pageParam    = $this->page['pageParam']    = $this->property('pageParam', 'page');
 		$this->noAdsMessage = $this->page['noAdsMessage'] = $this->property('noAdsMessage');
 
-		$this->adPage = $this->page['adPage'] = $this->property('adPage');
+		$this->adPage       = $this->page['adPage']       = $this->property('adPage');
 		$this->categoryPage = $this->page['categoryPage'] = $this->property('categoryPage');
 	}
-
+	
 	protected function listAds() {
 		$categories = $this->category ? $this->category->id : null;
-
+var_dump(Ad::all()->toArray());die();
 		$ads = Ad::with('category')->listFrontEnd([
 			'page' => $this->propertyOrParam('pageParam'),
 			'sort' => $this->property('AdOrderAttr'),
 			'perPage' => $this->property('AdsPerPage'),
-			'categories' => $categories
+			'categories' => $categories 
 		]);
 
 		$ads->each(function($ad) {
@@ -118,7 +97,7 @@ class AdPosts extends ComponentBase {
 
 		return $ads;
 	}
-
+	
 	protected function loadCategory() {
 		if (!$category_id = $this->propertyOrParam('categoryFilter'))
 			return null;
