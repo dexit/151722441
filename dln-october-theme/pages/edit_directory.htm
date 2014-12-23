@@ -297,22 +297,21 @@ hidden = "0"
                             <form action="http://geedmo.com/" method="POST">
                                 <div data-toggle="wizard" class="wizard-horizontal dln-wizard">
                                     <!-- START wizard steps indicator-->
-                                    <ul class="row">
-                                        <li class="col-xs-3">
+                                    <ul>
+                                        <li class="col-xs-25 text-center">
                                             <h4 class="hidden-xs">Thông tin chung</h4>
-                                            <small class="hidden-xs">Chọn vị trí và nhập địa chỉ email, số điện thoại của bạn</small>
                                         </li>
-                                        <li class="col-xs-3">
+                                        <li class="col-xs-25 text-center">
                                             <h4 class="hidden-xs">Personal Information</h4>
-                                            <small class="hidden-xs">Enter your first time username password details</small>
                                         </li>
-                                        <li class="col-xs-3">
+                                        <li class="col-xs-25 text-center">
                                             <h4 class="hidden-xs">Contact Information</h4>
-                                            <small class="hidden-xs">Enter your first time username password details</small>
                                         </li>
-                                        <li class="col-xs-3">
+                                        <li class="col-xs-25 text-center">
+                                            <h4 class="hidden-xs">Photo</h4>
+                                        </li>
+                                        <li class="col-xs-25 text-center">
                                             <h4 class="hidden-xs">Done!</h4>
-                                            <small class="hidden-xs">Enter your first time username password details</small>
                                         </li>
                                     </ul>
                                     <!-- END wizard steps indicator-->
@@ -543,14 +542,51 @@ hidden = "0"
                                     </div>
                                     <!-- END Wizard Step inputs -->
                                     <!-- START Wizard Step inputs -->
-                                    <div>
-                                        <div class="jumbotron m0">
-                                            <h1>Done!</h1>
-                                            <p>In vulputate mattis ipsum vitae vehicula. Praesent at arcu non arcu convallis pellentesque. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                            <p>
-                                                <button type="button" class="btn btn-info btn-lg">You can Proceed Now</button>
-                                            </p>
+                                    <div class="dln-tab-photo">
+                                        <div class="row">
+                                            <div class="col-xs-6 col-md-3">
+                                                <div class="dln-photo-placeholder">
+                                                    <img src="{{ 'assets/images/no-photo-sample.png'|theme }}" />
+                                                    <small class="center text-muted">Bạn có thể upload nhiều ảnh cùng một lúc! <br> (Giới hạn ảnh 10mb)</small>
+                                                    <br />
+                                                    <div class="dln-btn-upload">
+                                                        <a class="btn btn-primary btn-sm mt-sm" href="javascript:void(0);">Upload</a>
+                                                    <input type="file" onchange="editor.sections[3].photoManager.BeginUploadProcess(); editor.sections[3].Initiate()" multiple="" id="photo_upload">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <div class="dln-photo-placeholder">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <div class="dln-photo-placeholder">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <div class="dln-photo-placeholder">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <div class="dln-photo-placeholder">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <div class="dln-photo-placeholder">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <div class="dln-photo-placeholder">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6 col-md-3">
+                                                <div class="dln-photo-placeholder">
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
+                                    <div>
+                                        <span>Done!</span>
                                     </div>
                                 </div>
                             </form>

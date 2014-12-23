@@ -9,8 +9,22 @@ a, a:hover {
     text-decoration: none;
     color: #333;
 }
+ul {
+    list-style: none;
+}
+.col-xs-25 {
+    width: 20%;
+    float: left;
+    min-height: 1px;
+    padding-left: 15px;
+    padding-right: 15px;
+    position: relative;
+}
 .container {
     max-width: 970px;
+}
+.wrapper > section {
+    overflow: auto;
 }
 .panel {
     box-shadow: 0 0 0 #fff;
@@ -648,7 +662,7 @@ a, a:hover {
     border-top: 1px solid #d9d9d9;
     content: "";
     height: 5px;
-    margin-top: -38px;
+    margin-top: -18px;
     position: absolute;
     top: 50%;
     width: 50%;
@@ -687,6 +701,49 @@ a, a:hover {
     margin-bottom: 10px;
 }
 
+.dln-photo-placeholder {
+    border: 1px dashed #c0c0c0;
+    float: left;
+    height: 186px;
+    margin: 0 14px 14px 0;
+    position: relative;
+    width: 100%;
+    background-color: #f8f8f8;
+}
+.dln-photo-placeholder:first-child {
+    text-align: center;
+}
+.dln-photo-placeholder:first-child img{
+    cursor: default;
+    display: block;
+    float: none;
+    height: 46px;
+    margin: 30px auto 0;
+    width: 53px;
+    padding: 5px;
+}
+.dln-tab-photo .row{
+    margin-left: -8px;
+    margin-right: -8px;
+}
+.dln-tab-photo div.col-xs-6 {
+    padding-left: 8px;
+    padding-right: 8px;
+}
+#photo_upload {
+    cursor: pointer;
+    height: 33px;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    width: 67px;
+}
+.dln-btn-upload {
+    position: relative;
+    float: left;
+    left: 36%;
+}
 
 /* custom inclusion of right, left and below tabs */
 .tabs-below > .nav-tabs,
@@ -823,8 +880,11 @@ a, a:hover {
     }
 }
 @media (max-width: 1005px) {
+    .dln-wizard ul.bwizard-steps > li h4 {
+        display: none;
+    }
     .dln-wizard ul.bwizard-steps > li:before, .dln-wizard ul.bwizard-steps > li:after {
-        margin-top: -48px;
+        margin-top: 0px;
     }
 }
 
@@ -848,9 +908,6 @@ a, a:hover {
     }
     .navbar .btn-header-action {
         display: block;
-    }
-    .dln-wizard ul.bwizard-steps > li:before, .dln-wizard ul.bwizard-steps > li:after {
-        margin-top: 0px;
     }
 }
 @media (max-width: 720px) {
@@ -891,7 +948,6 @@ a, a:hover {
         line-height: 40px;
         overflow: hidden;
         width: 100%;
-        
     }
     .dln-contact-fields input {
         border-radius: 0px;
