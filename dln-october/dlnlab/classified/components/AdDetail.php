@@ -25,6 +25,7 @@ class AdDetail extends ComponentBase {
 	}
 
 	public function onRun() {
+		$this->addJs(CLF_ASSETS . '/js/com-ad-detail.js');
 		$this->ad = $this->page['ad'] = $this->loadAd();
 	}
 

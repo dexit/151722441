@@ -7,6 +7,8 @@ use Controller;
 use Event;
 use System\Classes\PluginBase;
 
+define( 'CLF_ASSETS', '/plugins/dlnlab/classified/assets' );
+
 /**
  * Classified Plugin Information File
  */
@@ -55,7 +57,8 @@ class Plugin extends PluginBase {
 	public function registerComponents() {
 		return [
 			'DLNLab\Classified\Components\AdDetail' => 'AdDetail',
-			'DLNLab\Classified\Components\AdList' => 'AdList'
+			'DLNLab\Classified\Components\AdList' => 'AdList',
+			'DLNLab\Classified\Components\AdEdit' => 'AdEdit'
 		];
 	}
 

@@ -38,6 +38,15 @@ class Ad extends Model {
 		'latitude',
 		'longtitude'
 	];
+	
+	public $rules = [
+        'title'       => 'required',
+        'slug'        => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
+        'description' => 'required',
+		'price'       => 'required|numeric',
+		'latitude'    => 'required',
+		'longtitude'  => 'required'
+    ];
 
 	/**
 	 * @var array Relations
@@ -69,9 +78,10 @@ class Ad extends Model {
 		'published_at asc' => 'Published asc',
 		'published_at desc' => 'Published desc',
 	);
+	protected $dates = ['published_at'];
 
 	public function getStatusOptions() {
-		return array('1' => $this->status);
+		return array('Pending', 'Published');
 	}
 
 	public function getCategoryOptions() {
@@ -137,8 +147,8 @@ class Ad extends Model {
 
 	public function scopeIsPublished($query) {
 		return $query
-						->whereNotNull('status')
-						->where('status', '=', 1)
+				->whereNotNull('status')
+				->where('status', '=', 1)
 		;
 	}
 
