@@ -121,3 +121,5 @@ dln-theme/.settings/org.eclipse.wst.common.project.facet.core.xml
 dln-abe/.externalToolBuilders/New_Builder (3).launch
 *.launch
 *.xml
+/dln-october/nbproject/private/
+/nbproject/private/
