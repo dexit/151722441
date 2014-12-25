@@ -1,7 +1,7 @@
 <ul>
     {% for ad in ads %}
     <li>
-        <a href="{{ ad.url }}" target="_blank">{{ ad.title }}</a>
+        <a href="{{ ad.url }}" target="_blank">{{ ad.name }}</a>
     </li>
     {% else %}
         <li class="no-data">{{ noPostsMessage }}</li>

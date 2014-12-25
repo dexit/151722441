@@ -57,8 +57,9 @@ class Plugin extends PluginBase {
 	public function registerComponents() {
 		return [
 			'DLNLab\Classified\Components\AdDetail' => 'AdDetail',
-			'DLNLab\Classified\Components\AdList' => 'AdList',
-			'DLNLab\Classified\Components\AdEdit' => 'AdEdit'
+			'DLNLab\Classified\Components\AdList'   => 'AdList',
+			'DLNLab\Classified\Components\AdEdit'   => 'AdEdit',
+			'DLNLab\Classified\Components\AdCookie' => 'AdCookie'
 		];
 	}
 

@@ -2,6 +2,7 @@
 
 namespace DLNLab\Classified\Components;
 
+use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use DLNLab\Classified\Models\Ad;
 
@@ -49,14 +50,24 @@ class AdList extends ComponentBase {
 				'group' => 'Links',
 			],
 			'adPage' => [
-				'title' => 'rainlab.blog::lang.settings.posts_post',
-				'description' => 'rainlab.blog::lang.settings.posts_post_description',
+				'title' => 'Ad Page',
+				'description' => 'Ad Page Description',
 				'type' => 'dropdown',
 				'default' => 'ad/post',
 				'group' => 'Links',
 			],
 		];
 	}
+	
+	public function getCategoryPageOptions()
+    {
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+    }
+	
+	public function getAdPageOptions()
+    {
+        return Page::sortBy('baseFileName')->lists('baseFileName', 'baseFileName');
+    }
 
 	public function onRun() {
 		$this->prepareVars();
@@ -79,7 +90,7 @@ class AdList extends ComponentBase {
 	
 	protected function listAds() {
 		$categories = $this->category ? $this->category->id : null;
-var_dump(Ad::all()->toArray());die();
+		
 		$ads = Ad::with('category')->listFrontEnd([
 			'page' => $this->propertyOrParam('pageParam'),
 			'sort' => $this->property('AdOrderAttr'),

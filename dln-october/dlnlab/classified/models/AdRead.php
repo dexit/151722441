@@ -52,13 +52,13 @@ class AdRead extends Model
 			// For update
 			$log   = json_decode($entry->log);
 			$count = $entry->count;
-			if (! empty($log['user_' . $user_id])) {
-				$obj_user = $log['user_' . $user_id];
+			if (! empty($log[$user_id])) {
+				$obj_user = $log[$user_id];
 				$new_user = self::get_user_read($user, $obj_user->count + 1);
-				$log['user_' . $user_id] = $new_user;
+				$log[$user_id] = $new_user;
 			} else {
 				$new_user = self::get_user_read($user, 1);
-				$log['user_' . $user_id] = $new_user;
+				$log[$user_id] = $new_user;
 			}
 			
 			$entry->log   = json_encode($log);
@@ -67,7 +67,7 @@ class AdRead extends Model
 		} else {
 			// Insert new
 			$log = array();
-			$log['user_' . $user_id] = self::get_user_read($user, 1);
+			$log[$user_id] = self::get_user_read($user, 1);
 			
 			$insert = new self;
 			$insert->ad_id = $ad_id;

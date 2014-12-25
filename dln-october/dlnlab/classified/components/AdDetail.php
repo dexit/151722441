@@ -3,6 +3,7 @@
 namespace DLNLab\Classified\Components;
 
 use Cms\Classes\ComponentBase;
+use DLNLab\Classified\Models\Ad;
 
 class AdDetail extends ComponentBase {
 
