@@ -102,6 +102,14 @@
 		
 		// Masked inputs initialization
 	    $.fn.inputmask && $('[data-toggle="masked"]').inputmask();
+	    
+	    // For multiple upload photos
+	    $('.dln-file-upload').on('change', function () {
+	    	console.log('select');
+	    });
+	    
+	    //Add dropzone
+	    
 	});
 	
 	function currency_formater(num) {

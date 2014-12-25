@@ -730,19 +730,8 @@ ul {
     padding-left: 8px;
     padding-right: 8px;
 }
-#photo_upload {
-    cursor: pointer;
-    height: 33px;
-    left: 0;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    width: 67px;
-}
-.dln-btn-upload {
-    position: relative;
-    float: left;
-    left: 36%;
+.bootstrap-filestyle {
+    margin: 0 auto;
 }
 
 /* custom inclusion of right, left and below tabs */

@@ -549,10 +549,7 @@ hidden = "0"
                                                     <img src="{{ 'assets/images/no-photo-sample.png'|theme }}" />
                                                     <small class="center text-muted">Bạn có thể upload nhiều ảnh cùng một lúc! <br> (Giới hạn ảnh 10mb)</small>
                                                     <br />
-                                                    <div class="dln-btn-upload">
-                                                        <a class="btn btn-primary btn-sm mt-sm" href="javascript:void(0);">Upload</a>
-                                                    <input type="file" onchange="editor.sections[3].photoManager.BeginUploadProcess(); editor.sections[3].Initiate()" multiple="" id="photo_upload">
-                                                    </div>
+                                                    <input type="file" class="filestyle dln-file-upload" data-input="false" data-buttonName="btn-primary btn-sm mt-sm" data-buttonText="Upload" data-badge="false"/>
                                                 </div>
                                             </div>
                                             <div class="col-xs-6 col-md-3">
