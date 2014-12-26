@@ -8,6 +8,7 @@ use Event;
 use System\Classes\PluginBase;
 
 define( 'CLF_ASSETS', '/plugins/dlnlab/classified/assets' );
+define( 'TIME_DELAY_COUNT_VIEW', 600 ); // 10 minutes
 
 /**
  * Classified Plugin Information File

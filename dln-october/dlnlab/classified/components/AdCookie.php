@@ -44,31 +44,35 @@ class AdCookie extends ComponentBase
         $slug = $this->property('slug', $deprecatedSlug);
         $item = Ad::isPublished()->where('slug', '=', $slug)->first();
 		
+		if (empty($item))
+			return null;
+		
 		// Get current ad cookie
-		$cookie_obj = null;
+		$cookie_obj = new \stdClass;
 		$cookie     = Cookie::get('dln_ads_cookie');
+		
 		if ($cookie) {
 			// Check current user has exist in cookie
 			$cookie_obj   = json_decode($cookie);
 			$current_time = time();
 			
-			if (!empty($cookie_obj[$item->id]) && $cookie_obj[$item->id]) {
-				if ($current_time >= ($cookie_obj[$item->id] + 600)) {
-					$cookie_obj[$item->id] = time();
+			if (!empty($cookie_obj->{$item->id}) && $cookie_obj->{$item->id}) {
+				if ($current_time >= ($cookie_obj->{$item->id} + TIME_DELAY_COUNT_VIEW)) {
+					$cookie_obj->{$item->id} = time();
 					$cookie = json_encode($cookie_obj);
-					Cookie::make('dln_ads_cookie', $cookie, 0);
+					Cookie::queue('dln_ads_cookie', $cookie, 1440);
 					AdRead::add_read($item->id, $user);
 				}
 			} else {
-				$cookie_obj[$item->id] = time();
+				$cookie_obj->{$item->id} = time();
 				$cookie = json_encode($cookie_obj);
-				Cookie::make('dln_ads_cookie', $cookie, 0);
+				Cookie::queue('dln_ads_cookie', $cookie, 1440);
 				AdRead::add_read($item->id, $user);
-			}	
+			}
 		} else {
-			$cookie_obj[$item->id] = time();
+			$cookie_obj->{$item->id} = time();
 			$cookie = json_encode($cookie_obj);
-			Cookie::make('dln_ads_cookie', $cookie, 0);
+			Cookie::queue('dln_ads_cookie', $cookie, 1440);
 			AdRead::add_read($item->id, $user);
 		}
 	}

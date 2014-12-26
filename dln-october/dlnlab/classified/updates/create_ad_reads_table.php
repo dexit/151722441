@@ -15,7 +15,7 @@ class CreateAdReadsTable extends Migration
 			$table->integer('ad_id')->unsigned()->nullable()->index();
 			$table->integer('count')->default(0);
 			$table->integer('total_count')->default(0);
-			$table->string('log')->nullable();
+			$table->text('log')->nullable();
             $table->timestamps();
         });
     }

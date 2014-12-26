@@ -35,8 +35,7 @@ class AdDetail extends ComponentBase {
         $deprecatedSlug = $this->propertyOrParam('idParam');
 
         $slug = $this->property('slug', $deprecatedSlug);
-        $post = Ad::where('slug', '=', $slug)->first();
-		var_dump($post);die();
+        $ad   = Ad::where('slug', '=', $slug)->first();
 
         /*
          * Add a "url" helper attribute for linking to each category
@@ -47,7 +46,7 @@ class AdDetail extends ComponentBase {
             });
         }*/
 
-        return $post;
+        return $ad;
 	}
 
 }
