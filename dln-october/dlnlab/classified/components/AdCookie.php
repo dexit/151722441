@@ -61,19 +61,19 @@ class AdCookie extends ComponentBase
 					$cookie_obj->{$item->id} = time();
 					$cookie = json_encode($cookie_obj);
 					Cookie::queue('dln_ads_cookie', $cookie, 1440);
-					AdRead::add_read($item->id, $user);
+					AdRead::add_read($item, $user);
 				}
 			} else {
 				$cookie_obj->{$item->id} = time();
 				$cookie = json_encode($cookie_obj);
 				Cookie::queue('dln_ads_cookie', $cookie, 1440);
-				AdRead::add_read($item->id, $user);
+				AdRead::add_read($item, $user);
 			}
 		} else {
 			$cookie_obj->{$item->id} = time();
 			$cookie = json_encode($cookie_obj);
 			Cookie::queue('dln_ads_cookie', $cookie, 1440);
-			AdRead::add_read($item->id, $user);
+			AdRead::add_read($item, $user);
 		}
 	}
 

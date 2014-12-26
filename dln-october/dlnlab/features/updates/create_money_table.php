@@ -13,7 +13,7 @@ class CreateMoneyTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
 			$table->integer('user_id')->unsigned()->nullable()->index();
-			$table->float('money')->nullable()->default(0);
+			$table->decimal('money', 14, 0)->nullable()->default(0);
 			$table->tinyInteger('type')->default(0);
 			$table->boolean('status')->default(true);
             $table->timestamps();

@@ -39,11 +39,10 @@ tabs:
             span: right
 
         status:
-            label: dlnlab.classified::lang.ads.status
+            label: Published
             tab: dlnlab.classified::lang.ads.details
-            type: dropdown
+            type: checkbox
             span: right
-            placeholder: -- select status --
             
         user_id: 
             label: dlnlab.classified::lang.ads.user_id

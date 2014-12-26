@@ -4,3 +4,4 @@
     - create_ads_table.php
     - create_ads_categories_table.php
     - create_ad_reads_table.php
+    - seed_all_tables.php

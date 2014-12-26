@@ -14,7 +14,7 @@ class CreateAdsTable extends Migration {
 			$table->string('name')->nullable();
 			$table->string('slug')->index();
 			$table->text('description')->nullable();
-			$table->float('price')->nullable()->default(0);
+			$table->decimal('price', 14, 0)->nullable()->default(0);
 			$table->timestamp('expiration')->nullable();
 			$table->string('address')->nullable();
 			$table->integer('user_id')->unsigned()->nullable()->index();
@@ -25,6 +25,7 @@ class CreateAdsTable extends Migration {
 			$table->decimal('longtitude', 10, 6)->nullable();
 			$table->timestamp('published_at')->nullable();
 			$table->tinyInteger('status')->default(0);
+			$table->integer('read')->default(0);
 			$table->timestamps();
 		});
 	}

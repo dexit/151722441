@@ -15,7 +15,7 @@ class CreateRewardsTable extends Migration
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->integer('code')->unsigned()->nullable()->index();
 			$table->string('type')->nullable()->default('friend');
-			$table->float('credit')->nullable()->default(0);
+			$table->decimal('credit', 14, 0)->nullable()->default(0);
 			$table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
