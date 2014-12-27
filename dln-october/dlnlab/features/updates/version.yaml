@@ -6,5 +6,7 @@
     - create_pincodes_table.php
     - create_reports_table.php
     - create_notifications_table.php
+    - create_message_threads_table.php
+    - create_message_recipients_table.php
     - update_users_table.php
     - seed_all_tables.php
