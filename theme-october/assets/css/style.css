@@ -1,0 +1,72 @@
+.page-container .page-content-wrapper .content {
+    padding-top: 70px;
+}
+.header {
+    height: 70px;
+    border-bottom: none;
+}
+.menu-container {
+    padding-top: 16px;
+}
+.dln-search {
+    position: relative;
+}
+.dln-search input{
+    border-color: #e3e3e3;
+    border-radius: 32px;
+    font-size: 13px;
+    height: 30px;
+    min-height: 30px;
+    min-width: 250px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 15px;
+    padding-right: 30px;
+}
+.dln-search .dln-find-locate {
+    color: #e3e3e3;
+    font-size: 16px;
+    position: absolute;
+    right: 12px;
+    top: 2px;
+}
+.dln-search .dln-find-locate:hover {
+    color: #aeb6bf;
+}
+.dln-secondary-header {
+    border-top: 1px solid #dfe1e8;
+    border-bottom: 1px solid #dfe1e8;
+    background-color: #f0f0f0;
+    display: block;
+    padding: 0;
+    position: relative;
+}
+.dln-filter-bar {
+    padding: 9px 14px;
+    position: relative;
+}
+.dln-filter-bar .btn {
+    border: 1px solid rgba(223, 225, 232, 0.9);
+    background-color: transparent;
+    font-size: 13px;
+    font-weight: 600;
+    color: #9ba4ad;
+}
+.dln-filter-bar .btn:hover {
+    background-color: #fafafa;
+}
+.dln-filter-bar i {
+    margin-right: 10px;
+}
+.dln-filter-sort {
+    position: absolute;
+    right: 15px;
+}
+.dln-filter-sort .btn {
+    width: 110px;
+}
+.dln-filter-sort li a{
+    font-size: 13px;
+    font-weight: 700;
+    color: #9ba4ad;
+}

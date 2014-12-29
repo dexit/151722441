@@ -1,0 +1,360 @@
+title = "Home Page"
+url = "/"
+layout = "default"
+hidden = "0"
+==
+<body class="fixed-header dashboard ">
+    <div class="page-container">
+        <div class="header">
+            <div class="pull-right full-height visible-sm visible-xs">
+                <div class="sm-action-bar">
+                    <a href="#" class="btn-link" data-toggle="quickview"
+                        data-toggle-element="#quickview"> <span
+                        class="icon-set menu-hambuger-plus"></span>
+                    </a>
+                </div>
+            </div>
+            <div class=" pull-left">
+                <div class="header-inner">
+                    <div class="brand inline">
+                        <img src="assets/img/logo.png" alt="logo" data-src="assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22">
+                    </div>
+                </div>
+            </div>
+            <div class="pull-left menu-container">
+                <div class="search-wrap">
+                    <div class="dln-search">
+                        <input type="text" class="form-control" placeholder="Tìm địa điểm...">
+                        <a class="dln-find-locate" href="javascript:void(0)"><i class="pg-map"></i></a>
+                    </div>
+                </div>
+                
+            </div>
+            <div class=" pull-right">
+                <div class="header-inner">
+                    <a href="#"
+                        class="btn-link icon-set menu-hambuger-plus m-l-20 sm-no-margin hidden-sm hidden-xs"
+                        data-toggle="quickview"
+                        data-toggle-element="#quickview"></a>
+                </div>
+            </div>
+            <div class=" pull-right">
+                <div class="visible-lg visible-md m-t-10">
+                    <div
+                        class="pull-left p-r-10 p-t-10 fs-16 font-heading">
+                        <span class="semi-bold">David</span> <span
+                            class="text-master">Nest</span>
+                    </div>
+                    <div
+                        class="thumbnail-wrapper d32 circular inline m-t-5">
+                        <img src="assets/img/profiles/avatar.jpg" alt=""
+                            data-src="assets/img/profiles/avatar.jpg"
+                            data-src-retina="assets/img/profiles/avatar_small2x.jpg"
+                            width="32" height="32">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="content">
+                <div data-pages="parallax" class="dln-secondary-header">
+                    <div class="container-fixed-lg sm-p-l-20 sm-p-r-20">
+                        <div class="dln-filter-bar">
+                            <a class="btn btn-default btn-rounded"><i class="pg-menu"></i> Filter Results</a>
+                            <div class="btn-group dropdown-default pull-right dln-filter-sort">
+                                <a href="#" data-toggle="dropdown"
+                                    class="btn btn-rounded dropdown-toggle">
+                                    Default <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Most Recent</a></li>
+                                    <li><a href="#">Popular</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid container-fixed-lg footer">
+                <div class="copyright sm-text-center">
+                    <p class="small no-margin pull-left sm-pull-reset">
+                        <span class="hint-text">Copyright &copy;
+                        2014 </span> <span class="font-montserrat">REVOX</span>.
+                        <span class="hint-text">All rights
+                        reserved. </span> <span class="sm-block"><a
+                            class="m-l-10 m-r-10" href="#">Terms of
+                        use</a> | <a class="m-l-10" href="#">Privacy
+                        Policy</a></span>
+                    </p>
+                    <p class="small no-margin pull-right sm-pull-reset">
+                        <a href="#">Hand-crafted</a> <span
+                            class="hint-text">&amp; Made with
+                        Love &reg;</span>
+                    </p>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="quickview" class="quickview-wrapper" data-pages="quickview">
+        <ul class="nav nav-tabs">
+            <li class=""><a href="#quickview-notes"
+                data-toggle="tab">Notes</a></li>
+            <li><a href="#quickview-alerts" data-toggle="tab">Alerts</a>
+            </li>
+            <li class="active"><a href="#quickview-chat"
+                data-toggle="tab">Chat</a></li>
+        </ul>
+        <a class="btn-link quickview-toggle"
+            data-toggle-element="#quickview" data-toggle="quickview"><i
+            class="pg-close"></i></a>
+        <div class="tab-content">
+            <div class="tab-pane fade  in no-padding"
+                id="quickview-notes">
+                <div class="view-port clearfix quickview-notes"
+                    id="note-views">
+                    <div class="view list" id="quick-note-list">
+                        <div class="toolbar clearfix">
+                            <ul class="pull-right ">
+                                <li><a href="#"
+                                    class="delete-note-link"><i
+                                    class="fa fa-trash-o"></i></a></li>
+                                <li><a href="#"
+                                    class="new-note-link"
+                                    data-navigate="view"
+                                    data-view-port="#note-views"
+                                    data-view-animation="push"><i
+                                    class="fa fa-plus"></i></a></li>
+                            </ul>
+                            <button
+                                class="btn-remove-notes btn btn-xs btn-block hide">
+                            <i class="fa fa-times"></i> Delete
+                            </button>
+                        </div>
+                        <ul>
+                            <li data-noteid="1" data-navigate="view"
+                                data-view-port="#note-views"
+                                data-view-animation="push">
+                                <div class="left">
+                                    <div
+                                        class="checkbox check-warning no-margin">
+                                        <input id="qncheckbox1"
+                                            type="checkbox" value="1">
+                                        <label for="qncheckbox1"></label>
+                                    </div>
+                                    <p class="note-preview">Lorem
+                                        ipsum dolor sit amet,
+                                        consectetur adipisicing elit,
+                                        sed do eiusmod tempor incididunt
+                                        ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam
+                                    </p>
+                                </div>
+                                <div class="right pull-right">
+                                    <span class="date">12/12/14</span> <a
+                                        href="#"><i
+                                        class="fa fa-chevron-right"></i></a>
+                                </div>
+                            </li>
+                            <li data-noteid="2" data-navigate="view"
+                                data-view-port="#note-views"
+                                data-view-animation="push">
+                                <div class="left">
+                                    <div
+                                        class="checkbox check-warning no-margin">
+                                        <input id="qncheckbox2"
+                                            type="checkbox" value="1">
+                                        <label for="qncheckbox2"></label>
+                                    </div>
+                                    <p class="note-preview">Lorem
+                                        ipsum dolor sit amet,
+                                        consectetur adipisicing elit,
+                                        sed do eiusmod tempor incididunt
+                                        ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam
+                                    </p>
+                                </div>
+                                <div class="right pull-right">
+                                    <span class="date">12/12/14</span> <a
+                                        href="#"><i
+                                        class="fa fa-chevron-right"></i></a>
+                                </div>
+                            </li>
+                            <li data-noteid="2" data-navigate="view"
+                                data-view-port="#note-views"
+                                data-view-animation="push">
+                                <div class="left">
+                                    <div
+                                        class="checkbox check-warning no-margin">
+                                        <input id="qncheckbox3"
+                                            type="checkbox" value="1">
+                                        <label for="qncheckbox3"></label>
+                                    </div>
+                                    <p class="note-preview">Lorem
+                                        ipsum dolor sit amet,
+                                        consectetur adipisicing elit,
+                                        sed do eiusmod tempor incididunt
+                                        ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam
+                                    </p>
+                                </div>
+                                <div class="right pull-right">
+                                    <span class="date">12/12/14</span> <a
+                                        href="#"><i
+                                        class="fa fa-chevron-right"></i></a>
+                                </div>
+                            </li>
+                            <li data-noteid="3" data-navigate="view"
+                                data-view-port="#note-views"
+                                data-view-animation="push">
+                                <div class="left">
+                                    <div
+                                        class="checkbox check-warning no-margin">
+                                        <input id="qncheckbox4"
+                                            type="checkbox" value="1">
+                                        <label for="qncheckbox4"></label>
+                                    </div>
+                                    <p class="note-preview">Lorem
+                                        ipsum dolor sit amet,
+                                        consectetur adipisicing elit,
+                                        sed do eiusmod tempor incididunt
+                                        ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam
+                                    </p>
+                                </div>
+                                <div class="right pull-right">
+                                    <span class="date">12/12/14</span> <a
+                                        href="#"><i
+                                        class="fa fa-chevron-right"></i></a>
+                                </div>
+                            </li>
+                            <li data-noteid="4" data-navigate="view"
+                                data-view-port="#note-views"
+                                data-view-animation="push">
+                                <div class="left">
+                                    <div
+                                        class="checkbox check-warning no-margin">
+                                        <input id="qncheckbox5"
+                                            type="checkbox" value="1">
+                                        <label for="qncheckbox5"></label>
+                                    </div>
+                                    <p class="note-preview">Lorem
+                                        ipsum dolor sit amet,
+                                        consectetur adipisicing elit,
+                                        sed do eiusmod tempor incididunt
+                                        ut labore et dolore magna
+                                        aliqua. Ut enim ad minim veniam
+                                    </p>
+                                </div>
+                                <div class="right pull-right">
+                                    <span class="date">12/12/14</span> <a
+                                        href="#"><i
+                                        class="fa fa-chevron-right"></i></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="view note" id="quick-note">
+                        <div>
+                            <ul class="toolbar">
+                                <li><a href="#"
+                                    class="close-note-link"
+                                    data-navigate="view"
+                                    data-view-port="#note-views"
+                                    data-view-animation="push"><i
+                                    class="pg-arrow_left"></i></a></li>
+                                <li><a href="#" class="Bold"><i
+                                    class="fa fa-bold"></i></a></li>
+                                <li><a href="#" class="Italic"><i
+                                    class="fa fa-italic"></i></a></li>
+                                <li><a href="#" class=""><i
+                                    class="fa fa-link"></i></a></li>
+                            </ul>
+                            <div class="body">
+                                <div>
+                                    <div class="top">
+                                        <span>21st april 2014
+                                        2:13am</span>
+                                    </div>
+                                    <div class="content">
+                                        <div
+                                            class="quick-note-editor full-width full-height js-input"
+                                            contenteditable="true"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ [
+        'assets/vendor/pace/pace.min.js',
+        'assets/vendor/jquery/jquery-1.8.3.min.js',
+        'assets/vendor/boostrapv3/js/bootstrap.min.js'
+        ]|theme }}"></script>
+    <!-- <script src="assets/plugins/pace/pace.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/jquery/jquery-1.8.3.min.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/modernizr.custom.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/jquery-ui/jquery-ui.min.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/boostrapv3/js/bootstrap.min.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/jquery/jquery-easy.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/jquery-unveil/jquery.unveil.min.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/jquery-bez/jquery.bez.min.js"></script>
+        <script src="assets/plugins/jquery-ios-list/jquery.ioslist.min.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/jquery-actual/jquery.actual.min.js"></script>
+        <script
+            src="assets/plugins/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+        <script type="text/javascript"
+            src="assets/plugins/bootstrap-select2/select2.min.js"></script>
+        <script type="text/javascript"
+            src="assets/plugins/classie/classie.js"></script>
+        <script src="assets/plugins/switchery/js/switchery.min.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/nvd3/lib/d3.v3.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/nvd3/nv.d3.min.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/nvd3/src/utils.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/nvd3/src/tooltip.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/nvd3/src/interactiveLayer.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/nvd3/src/models/axis.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/nvd3/src/models/line.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/nvd3/src/models/lineWithFocusChart.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/mapplic/js/hammer.js"></script>
+        <script src="assets/plugins/mapplic/js/jquery.mousewheel.js"></script>
+        <script src="assets/plugins/mapplic/js/mapplic.js"></script>
+        <script src="assets/plugins/rickshaw/rickshaw.min.js"></script>
+        <script src="assets/plugins/jquery-metrojs/MetroJs.min.js"
+            type="text/javascript"></script>
+        <script
+            src="assets/plugins/jquery-sparkline/jquery.sparkline.min.js"
+            type="text/javascript"></script>
+        <script src="assets/plugins/skycons/skycons.js"
+            type="text/javascript"></script>
+        <script
+            src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"
+            type="text/javascript"></script>
+        
+        
+        <script src="pages/js/pages.min.js"></script>
+        
+        <script src="assets/js/dashboard.js" type="text/javascript"></script>
+        <script src="assets/js/scripts.js" type="text/javascript"></script> -->
+    {% framework extras %}
+    {% scripts %}
+</body>

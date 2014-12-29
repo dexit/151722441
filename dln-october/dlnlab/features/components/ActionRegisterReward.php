@@ -32,10 +32,10 @@ class ActionRegisterReward extends ComponentBase
 	}
 
 	public function onRun() {
-		if ( ! Input::has('referer') || empty( Input::get('referer') ) )
-			return;
+		//if ( ! Input::has('referer') || empty( Input::get('referer') ) )
+		//	return;
 		// For reward referer friend case
-		caseRefererFriend();
+		//caseRefererFriend();
 	}
 	
 	private function caseRefererFriend() {

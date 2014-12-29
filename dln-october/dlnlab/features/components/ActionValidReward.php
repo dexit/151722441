@@ -25,7 +25,7 @@ class ActionValidReward extends ComponentBase
 	public function onRun() {
 		//$this->page['encrypted'] = Session::token();
 		
-		if ( ! Input::has('check_reward') || empty( Input::get('check_reward') ) )
+		/*if ( ! Input::has('check_reward') || empty( Input::get('check_reward') ) )
 			return;
 		
 		if (Input::has('dln_referer_code') && Auth::check()) {
@@ -35,7 +35,7 @@ class ActionValidReward extends ComponentBase
 				return false;
 			
 			// Update referer for user
-		}
+		}*/
 		
 	}
 
