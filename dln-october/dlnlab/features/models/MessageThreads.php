@@ -45,6 +45,58 @@ class MessageThreads extends Model
         return null;
     }
 	
+	public static function replyThread($thread_id = 0, $message = '') {
+		if (empty($thread_id) || empty($message))
+			return null;
+		
+		if (! Auth::check())
+			return null;
+		
+		$user_id = Auth::getUser()->id;
+		DB::beginTransaction();
+		try {
+			// Check current user exist in thread
+			if (self::checkAccess($thread_id, $user_id)) {
+				// Insert thread
+				$insert = new self;
+				$insert->message   = $message;
+				$insert->thread_id = $thread_id;
+				$insert->sender_id = $user_id;
+				$result = $insert->save();
+				if (! $result) {
+					throw  new \Exception('Can\'t sent message');
+				}
+				
+				$result = MessageRecipients::whereRaw('thread_id = ? AND user_id != ? AND is_deleted != 0', array($thread_id, $user_id))->update(array('unread_count' => 'unread_count + 1', 'is_sender' => 0));
+				if (! $result) {
+					throw  new \Exception('Can\'t update unread count');
+				}
+				
+				$recipients = MessageRecipients::getRecipients($thread_id);
+				foreach ($recipients as $uid => $recipient) {
+					if ($uid != $user_id) {
+						// Add notifications
+						$notify = Notification::add(
+							$uid,
+							$recipient->id,
+							$user_id,
+							'messages',
+							'new_message'
+						);
+						if (! $notify) {
+							throw  new \Exception('Can\'t add message notification');
+						}
+					}
+				}
+			}
+		} catch (Exception $ex) {
+			DB::rollback();
+			throw $ex;
+		}
+		DB::commit();
+		
+	}
+	
 	public static function addThread($sender_id, $receiver_id, $message) {
 		// Get max thread_id
 		$thread_id = self::max('thread_id') + 1;
@@ -53,40 +105,41 @@ class MessageThreads extends Model
 		
 		DB::beginTransaction();
 		try {
+			// Insert sender to recipient table
+			if (! MessageRecipients::addSender($thread_id, $sender_id) ) {
+				throw  new \Exception('Can\'t sent message from user');
+			}
+			
+			// Insert receiver to
+			if (! MessageRecipients::addReceiver($thread_id, $receiver_id) ) {
+				throw  new \Exception('Can\'t sent message to receiver');
+			}
+			
 			// Insert new message thread
 			$insert = new self;
 			$insert->thread_id = $thread_id;
 			$insert->sender_id = $sender_id;
 			$insert->message   = $message;
 			$result = $insert->save();
-			if (!$result) {
-				throw  new \Exception('Can\'t sent message');				
+			if (! $result) {
+				throw  new \Exception('Can\'t sent message');
+			}
+			
+			// Add notifications
+			$notify = Notification::add(
+				$receiver_id,
+				$result->id,
+				$sender_id,
+				'messages',
+				'new_message'
+			);
+			if (! $notify) {
+				throw  new \Exception('Can\'t add message notification');
 			}
 		} catch (Exception $ex) {
 			DB::rollback();
 			throw $ex;
 		}
-		
-		try {
-			// Insert sender to recipient table
-			if (! MessageRecipients::addSender($thread_id, $sender_id) ) {
-				throw  new \Exception('Can\'t sent message from user');
-			}
-		} catch (Exception $ex) {
-			DB::rollback();
-			throw $ex;
-		}
-
-		try {
-			// Insert receiver to
-			if (! MessageRecipients::addReceiver($thread_id, $receiver_id) ) {
-				throw  new \Exception('Can\'t sent message to receiver');
-			}
-		} catch (Exception $ex) {
-			DB::rollback();
-			throw $ex;
-		}
-		
 		DB::commit();
 	}
 	
@@ -129,19 +182,6 @@ class MessageThreads extends Model
 			$user_id = Auth::getUser()->id;
 		
 		return MessageRecipients::whereRaw('thread_id = ? AND is_deleted = 0 AND user_id = ?', array($thread_id, $user_id))->count();
-	}
-	
-	public function getRecipients() {
-		if (! $this->attributes['thread_id']) {
-			return null;
-		}
-
-		$recipients = array();
-		$results    = MessageRecipients::where('thread_id', '=', $this->attributes['thread_id']);
-		foreach ($results as $recipient)
-			$recipients[$recipient->user_id] = $recipient;
-		
-		return $recipients;
 	}
 	
 	public static function userIsSender($thread_id) {

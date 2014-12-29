@@ -54,15 +54,24 @@ class Notification extends Model
 		);
 	}
 	
-	public function add($receiver, $type, $content) {
-		$record = new static;
-        $record->user_id = $receiver->id;
-		$record->type    = $type;
-		$record->content = $content;
-		$record->read    = 0;
-        $record->save();
+	public function add($user_id, $item_id, $secondary_item_id, $component_name, $component_action) {
+		if (empty($user_id) || empty($item_id)) {
+			return null;
+		}
+		try {
+			$record = new static;
+			$record->user_id           = $user_id;
+			$record->item_id           = $item_id;
+			$record->secondary_item_id = $secondary_item_id;
+			$record->component_name    = $component_name;
+			$record->component_action  = $component_action;
+			$record->is_new            = true;
+			$record->save();
 
-        return $record;
+			return $record;	
+		} catch (Exception $ex) {
+			return null;
+		}
 	}
 	
 	public static function has_read($user, $ids) {

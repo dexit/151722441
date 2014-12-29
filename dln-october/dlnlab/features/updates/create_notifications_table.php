@@ -12,10 +12,13 @@ class CreateNotificationsTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-			$table->integer('user_id')->unsigned()->nullable()->index();
+			$table->bigInteger('user_id')->unsigned()->nullable()->index();
+			$table->bigInteger('item_id')->nullable();
+			$table->bigInteger('item_secondary_item_id')->nullable();
+			$table->string('component_name', 50)->nullable();
+			$table->string('component_action', 50)->nullable();
 			$table->string('type', 20)->nullable()->index();
-			$table->string('content', 255)->nullable();
-			$table->boolean('read')->default(false);
+			$table->boolean('is_new')->default(false);
             $table->timestamps();
         });
     }

@@ -43,11 +43,11 @@ class MessageRecipients extends Model
 			$user_id = Auth::getUser()->id;
 		}
 		
-		if (Cache::has('messages_unread_count')) {
-			$unread_count = Cache::get('messages_unread_count');
+		if (Cache::has('messages_unread_count_' . $user_id)) {
+			$unread_count = Cache::get('messages_unread_count_' . $user_id);
 		} else {
 			$unread_count = self::where('user_id', '=', $user_id)->sum('unread_count');
-			Cache::add('messages_unread_count', $unread_count, 60);
+			Cache::add('messages_unread_count_' . $user_id, $unread_count, 60);
 		}
 		
 		return $unread_count;
@@ -78,8 +78,21 @@ class MessageRecipients extends Model
 		$record->is_sender    = false;
 		$result = $record->save();
 		
-		Cache::forget('messages_unread_count');
+		Cache::forget('messages_unread_count_' . $receiver_id);
 		
 		return $result;
+	}
+	
+	public static function getRecipients($thread_id = 0) {
+		if (! $thread_id) {
+			return null;
+		}
+
+		$recipients = array();
+		$results    = self::whereRaw('thread_id = ? AND is_deleted = 0', array($thread_id));
+		foreach ($results as $recipient)
+			$recipients[$recipient->user_id] = $recipient;
+		
+		return $recipients;
 	}
 }
