@@ -15,4 +15,7 @@ App::before(function ($request) {
 	
 	Route::post('/api/v1/message', 'DLNLab\Features\Classes\RestMessage@postAddMessage');
 	Route::get('/api/v1/message', 'DLNLab\Features\Classes\RestMessage@getTest');
+	
+	Route::post('/api/v1/crawl/parent', 'DLNLab\Features\Classes\RestCrawl@postAddParentLinks');
+	Route::post('api/v1/crawl/link', 'DLNLab\Features\Classes\RestCrawl@postLinks');
 });

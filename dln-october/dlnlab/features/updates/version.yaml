@@ -10,3 +10,8 @@
     - create_message_recipients_table.php
     - update_users_table.php
     - seed_all_tables.php
+1.0.3:
+    - Add Crawl tables
+    - create_crawl_emails_table.php
+    - create_crawl_links_table.php
+    - create_crawl_phones_table.php
