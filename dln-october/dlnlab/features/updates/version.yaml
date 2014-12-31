@@ -15,3 +15,5 @@
     - create_crawl_emails_table.php
     - create_crawl_links_table.php
     - create_crawl_phones_table.php
+    - create_searches_table.php
+    - create_search_users_table.php

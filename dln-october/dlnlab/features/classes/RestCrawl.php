@@ -56,26 +56,11 @@ class RestCrawl extends BaseController {
 		}
 	}
 	
-	public static function postAddDetailLinks($data = null) {
-		// Get links detail
-		$links = CrawlLinks::where('type', '=', 'batdongsan|link')->orderBy('crawl', 'asc')->take(10)->get();
-		
-		if ($links->count()) {
-			foreach ($links as $link) {
-				if (!empty($link->link)) {
-					self::crawlDetail($link->link, $link);
-					var_dump($link->link);
-				}
-			}
-		}
-		return;
-	}
-	
-	public static function postAddLinks($data = null) {
+	private static function postAddLinks($data = null) {
 		// Get links from DB
 		$results = null;
 		
-		$links   = CrawlLinks::where('type', '!=', 'batdongsan|link')->orderBy('crawl', 'asc')->take(5)->get();
+		$links   = CrawlLinks::where('type', '!=', 'batdongsan|link')->orderBy('crawl', 'asc')->take(100)->get();
 		
 		if ($links->count()) {
 			foreach ($links as $link) {
@@ -98,6 +83,21 @@ class RestCrawl extends BaseController {
 		}
 		
 		var_dump($results);
+	}
+	
+	private static function postAddDetailLinks($data = null) {
+		// Get links detail
+		$links = CrawlLinks::whereRaw('type = ? AND crawl = 0', array('batdongsan|link'))->take(100)->get();
+		
+		if ($links->count()) {
+			foreach ($links as $link) {
+				if (!empty($link->link)) {
+					self::crawlDetail($link->link, $link);
+					var_dump($link->link);
+				}
+			}
+		}
+		return;
 	}
 	
 	private static function addLinks($type = '', $links = array()) {
@@ -180,15 +180,19 @@ class RestCrawl extends BaseController {
 		try {
 			if ($phone_number) {
 				preg_replace("/[^0-9]/", '', $phone_number);
+				$phone_number = str_replace(' ', '', $phone_number);
+				$phone_number = str_replace('.', '', $phone_number);
 				$phone = CrawlPhones::where('phone', '=', $phone_number)->first();
 				if ($phone) {
 					$phone->count = $phone->count + 1;
+					$phone->data  = $phone->data . ',' . $obj_link->id;
 					$phone->save();
 				} else {
-					$insert = new CrawlPhones();
+					$insert        = new CrawlPhones();
 					$insert->count = 1;
 					$insert->phone = $phone_number;
-					$insert->own = $contact_name ? strtolower($contact_name) : 'bạn';
+					$insert->own   = $contact_name ? strtolower($contact_name) : 'bạn';
+					$insert->data  = $obj_link->id;
 					$insert->save();
 				}
 			}
@@ -197,12 +201,14 @@ class RestCrawl extends BaseController {
 				$email = CrawlEmails::where('email', '=', $contact_email)->first();
 				if ($email) {
 					$email->count = $email->count + 1;
+					$email->data  = $email->data . ',' . $obj_link->id;
 					$email->save();
 				} else {
-					$insert = new CrawlEmails();
+					$insert        = new CrawlEmails();
 					$insert->count = 1;
 					$insert->email = $contact_email;
-					$insert->own = $contact_name ? strtolower($contact_name) : 'bạn';
+					$insert->own   = $contact_name ? strtolower($contact_name) : 'bạn';
+					$insert->data  = $obj_link->id;
 					$insert->save();
 				}
 			}

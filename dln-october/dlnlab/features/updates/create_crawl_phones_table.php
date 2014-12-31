@@ -12,10 +12,11 @@ class CreateCrawlPhonesTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-			$table->string('phone', 20);
+			$table->string('phone', 50);
 			$table->integer('count')->default(0);
 			$table->string('own', 50)->nullable()->default('bạn');
 			$table->boolean('status')->default(false);
+			$table->string('data')->nullable();
             $table->timestamps();
         });
     }
