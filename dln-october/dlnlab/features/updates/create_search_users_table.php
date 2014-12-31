@@ -16,8 +16,8 @@ class CreateSearchUsersTable extends Migration
 			$table->integer('search_id')->unsigned()->nullable()->index();
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->integer('last_search_count')->default(0);
-			$table->tinyInteger('is_readed')->default(0);
-			$table->tinyInteger('is_deleted')->default(0);
+			$table->boolean('is_readed')->default(false);
+			$table->boolean('is_deleted')->default(false);
             $table->timestamps();
         });
     }

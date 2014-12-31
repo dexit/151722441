@@ -40,7 +40,7 @@ class Search extends Model
 	
 	public $allow_field = array('price_min', 'price_max', 'area_min', 'area_max', 'user_id', 'state_id', 'country_id', 'category_id', 'sale_type_id');
 	
-	public function add($title = '', $search_query = '') {
+	public static function add($title = '', $search_query = '') {
 		if (empty($search_query))
 			return false;
 		
@@ -73,7 +73,7 @@ class Search extends Model
 		}
 	}
 
-	public function query($search_id = '', $page) {
+	public static function query($search_id = '', $is_count = false) {
 		if (! $searches) 
 			return null;
 		
@@ -136,23 +136,34 @@ class Search extends Model
 			}
 		}
 		
-		$results = Ad::whereRaw($ad_query, $ad_params)->take(10)->get();
+		if (! $is_count) {
+			$results = Ad::whereRaw($ad_query, $ad_params)->paginate(10)->get();
+		} else {
+			$results = Ad::whereRaw($ad_query, $ad_params)->count();
+		}
 		
 		return $results;
 	}
 	
-	public function crawl_search() {
+	public static function crawl_search() {
 		// Get 100 search from DB
 		$searches = self::orderBy('crawl', 'asc')->take(100)->get();
 		if ($searches->count()) {
 			foreach ($searches as $search) {
 				$search_id = $search->id;
 				
+				$count = self::query($search_id);
+				if ($count) {
+					SearchUser::whereRaw('search_id = ? AND is_readed = 1 AND is_deleted = 0', array($search_id))
+							->update(array('last_search_count' => $count, 'is_readed' => false));
+				}
+				$search->crawl = $search->crawl + 1;
+				$search->save();
 			}
 		}
 	}
 	
-	private function valid_query($search_query = '') {
+	private static function valid_query($search_query = '') {
 		if (empty($search_query))
 			return '';
 		
