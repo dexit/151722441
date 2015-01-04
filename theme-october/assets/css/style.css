@@ -1,12 +1,25 @@
 .page-container .page-content-wrapper .content {
     padding-top: 70px;
 }
+.page-content-wrapper.active .filter-wrapper {
+    display: block;
+}
+.page-content-wrapper.active .dln-item-container {
+    margin-left: 295px;
+}
 .header {
     height: 70px;
     border-bottom: none;
 }
 .menu-container {
     padding-top: 16px;
+}
+.copyright {
+    padding: 10px;
+    background-color: #fff;
+}
+.irs-min, .irs-max, .irs-line {
+    background: none repeat scroll 0 0 #eee;
 }
 .dln-search {
     position: relative;
@@ -69,4 +82,157 @@
     font-size: 13px;
     font-weight: 700;
     color: #9ba4ad;
+}
+
+.dln-filter-left {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    overflow-y: auto;
+    width: 288px;
+}
+.filter-wrapper {
+    background: none repeat scroll 0 0 #fff;
+    border-right: 1px solid #dfe1e8;
+    margin-bottom: 40px;
+    width: 288px;
+    bottom: 0;
+    left: 0;
+    top: 125px;
+    position: fixed;
+    display: none;
+}
+.filter-wrapper .panel-body {
+    height: 100%;
+    overflow: auto;
+    position: absolute;
+    top: 65px;
+}
+.dln-panel-header {
+    padding: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dln-item-container {
+    padding-top: 20px;
+}
+.dln-item-list {
+    list-style: none;
+    padding: 0px;
+}
+.dln-item {
+    background: none repeat scroll 0 0 #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    display: block;
+    height: 280px;
+    margin: 10px;
+    position: relative;
+    text-align: left;
+    width: 250px;
+    padding: 0px;
+}
+.dln-item .img {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 190px;
+    left: 0;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+    position: relative;
+}
+.dln-item .dln-meta {
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.6));
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    padding: 10px;
+}
+.dln-item .dln-meta h4 {
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    margin: 0;
+}
+.dln-item .dln-label{
+    border-radius: 2px;
+    font-size: 10px;
+    left: 10px;
+    line-height: 11px;
+    padding: 2px 4px;
+    position: absolute;
+    top: 10px;
+    z-index: 10;
+}
+.dln-item .dln-box-details {
+    position: relative;
+}
+.dln-item .dln-avatar {
+    background: none repeat scroll 0 0 #fff;
+    border: 2px solid #fff;
+    border-radius: 30px;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    top: -17px;
+    width: 30px;
+}
+.dln-item .dln-box-meta {
+    padding: 10px;
+}
+.dln-item .dln-box-meta .price {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 16px;
+}
+.dln-item-features-retails {
+    list-style: outside none none;
+    margin-top: 5px;
+    padding: 0px;
+}
+.dln-item-features-retails > li {
+    float: left;
+    margin-bottom: 0;
+    margin-right: 7px;
+    padding-bottom: 15px;
+    padding-left: 0px;
+    position: relative;
+}
+.dln-item-features-retails > li > i {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: #686868;
+    display: block;
+    font-size: 18px;
+    font-style: normal;
+    height: 26px;
+    line-height: 24px;
+    text-align: center;
+    transition: all 0.3s ease 0s;
+    width: 26px;
+}
+.dln-item-features-retails > li:hover > i {
+    border-color: #f35839;
+}
+.dln-item-features-retails > li span {
+    bottom: 2px;
+    display: block;
+    font-size: 10px;
+    left: 0;
+    line-height: 1em;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+.dln-item-features-retails > li > i, .dln-item-features-retails > li span {
+    color: #999;
 }
