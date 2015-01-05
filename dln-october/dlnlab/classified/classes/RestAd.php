@@ -1,6 +1,6 @@
 <?php
 
-namespace DLNLab\Features\Classes;
+namespace DLNLab\Classified\Classes;
 
 use Auth;
 use Input;
