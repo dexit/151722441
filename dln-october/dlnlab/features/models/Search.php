@@ -154,8 +154,18 @@ class Search extends Model
 				
 				$count = self::query($search_id);
 				if ($count) {
-					SearchUser::whereRaw('search_id = ? AND is_readed = 1 AND is_deleted = 0', array($search_id))
+					$rows = SearchUser::whereRaw('search_id = ? AND is_readed = 1 AND is_deleted = 0', array($search_id))->get();
+					if ($rows->count()) {
+						// Update notification for user
+						$arr_users = array();
+						foreach ($rows as $row) {
+							$arr_users[] = new Notification();
+						}
+						SearchUser::whereRaw('search_id = ? AND is_readed = 1 AND is_deleted = 0', array($search_id))
 							->update(array('last_search_count' => $count, 'is_readed' => false));
+					}
+					
+					
 				}
 				$search->crawl = $search->crawl + 1;
 				$search->save();
