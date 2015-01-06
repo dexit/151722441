@@ -50,10 +50,10 @@ class Plugin extends PluginBase {
 						'url' => Backend::url('dlnlab/classified/adcategories'),
 						'permissions' => ['rainlab.blog.access_ad_categories'],
 					],
-					'ad_tag' => [
+					'tag' => [
 						'label' => 'Tags',
 						'icon' => 'icon-list-ul',
-						'url' => Backend::url('dlnlab/classified/adtag'),
+						'url' => Backend::url('dlnlab/classified/tag'),
 					]
 				]
 			]

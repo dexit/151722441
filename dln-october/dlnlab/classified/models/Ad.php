@@ -3,6 +3,8 @@
 namespace DLNLab\Classified\Models;
 
 use App;
+use DB;
+use Response;
 use Model;
 use October\Rain\Auth\Models\User as UserBase;
 use RainLab\User\Models\Country;
@@ -58,7 +60,9 @@ class Ad extends Model {
 		'country' => ['RainLab\User\Models\Country'],
 		'state' => ['RainLab\User\Models\State'],
 	];
-	public $belongsToMany = [];
+	public $belongsToMany = [
+		'tags' => ['DLNLab\Classified\Models\Tag', 'table' => 'dlnlab_classified_ads_tags', 'order' => 'name']
+	];
 	public $morphTo = [];
 	public $morphOne = [];
 	public $morphMany = [];

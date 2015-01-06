@@ -1,0 +1,39 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: Name
+        tab: Details
+        span: left
+    
+    slug:
+        label: Slug
+        tab: Details
+        span: right
+        attributes:
+            data-input-preset: 'input[name="Tag[name]"]'
+            data-input-preset-type: slug
+            data-input-preset-closest-parent: form
+            
+tabs:
+    fields:
+        count:
+            label: Ads Count
+            type: text
+            disabled: true
+            default: 0
+            span: left
+            comment: The number of ads for this tag
+
+        type:
+            label: Type
+            type: dropdown
+            span: right
+
+        desc:
+            label: Description
+            type: textarea
+            size: small
+            span: full

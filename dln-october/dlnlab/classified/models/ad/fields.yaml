@@ -57,6 +57,13 @@ tabs:
             span: right
             placeholder: -- select category --
             
+        tags:
+            label: Tags
+            tab: Tags
+            type: relation
+            commentAbove: rainlab.blog::lang.post.categories_comment
+            placeholder: rainlab.blog::lang.post.categories_placeholder
+            
         address:
             label: dlnlab.classified::lang.ad.address
             tab: dlnlab.classified::lang.ad.details
@@ -80,10 +87,12 @@ tabs:
         latitude:
             label: dlnlab.classified::lang.ad.latitude
             disabled: true
+            span: left
             
         longtitude:
             label: dlnlab.classified::lang.ad.longtitude
             disabled: true
+            span: right
             
         ad_images:
             label: dlnlab.classified::lang.ad.ad_images

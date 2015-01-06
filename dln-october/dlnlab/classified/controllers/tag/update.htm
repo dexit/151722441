@@ -1,6 +1,6 @@
 <?php Block::put('breadcrumb') ?>
 <ul>
-    <li><a href="<?= Backend::url('dlnlab/classified/ad_tag') ?>">Ad_Tag</a></li>
+    <li><a href="<?= Backend::url('dlnlab/classified/tag') ?>">Tag</a></li>
     <li><?= e($this->pageTitle) ?></li>
 </ul>
 <?php Block::endPut() ?>
@@ -31,7 +31,7 @@
             data-request="onSave"
             data-request-data="redirect:0"
             data-hotkey="ctrl+s, cmd+s"
-            data-load-indicator="Saving Ad_Tag..."
+            data-load-indicator="Saving Tag..."
             class="btn btn-primary">
             <u>S</u>ave
         </button>
@@ -40,7 +40,7 @@
             data-request="onSave"
             data-request-data="close:1"
             data-hotkey="ctrl+enter, cmd+enter"
-            data-load-indicator="Saving Ad_Tag..."
+            data-load-indicator="Saving Tag..."
             class="btn btn-default">
             Save and Close
         </button>
@@ -48,11 +48,11 @@
             type="button"
             class="oc-icon-trash-o btn-icon danger pull-right"
             data-request="onDelete"
-            data-load-indicator="Deleting Ad_Tag..."
-            data-request-confirm="Do you really want to delete this ad_tag?">
+            data-load-indicator="Deleting Tag..."
+            data-request-confirm="Do you really want to delete this tag?">
         </button>
         <span class="btn-text">
-            or <a href="<?= Backend::url('dlnlab/classified/ad_tag') ?>">Cancel</a>
+            or <a href="<?= Backend::url('dlnlab/classified/tag') ?>">Cancel</a>
         </span>
     </div>
 </div>
@@ -62,6 +62,6 @@
 <?php else: ?>
 
 <p class="flash-message static error"><?= e($this->fatalError) ?></p>
-<p><a href="<?= Backend::url('dlnlab/classified/ad_tag') ?>" class="btn btn-default">Return to ad_tag list</a></p>
+<p><a href="<?= Backend::url('dlnlab/classified/tag') ?>" class="btn btn-default">Return to tag list</a></p>
 
 <?php endif ?>

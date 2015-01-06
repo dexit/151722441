@@ -3,20 +3,21 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class CreateAdTagsTable extends Migration
+class CreateTagsTable extends Migration
 {
 
     public function up()
     {
-        Schema::create('dlnlab_classified_ad_tags', function($table)
+        Schema::create('dlnlab_classified_tags', function($table)
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
 			$table->string('name');
 			$table->string('slug')->index();
-			$table->text('description')->nullable();
+			$table->text('desc')->nullable();
 			$table->string('type', 100)->nullable();
 			$table->integer('count')->default(0);
+			$table->boolean('status')->default(false);
             $table->timestamps();
         });
 		
@@ -31,7 +32,7 @@ class CreateAdTagsTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('dlnlab_classified_ad_tags');
+        Schema::dropIfExists('dlnlab_classified_tags');
 		Schema::dropIfExists('dlnlab_classified_ads_tags');
     }
 

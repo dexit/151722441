@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Tag
+
+# Model Form Field configuration
+form: $/dlnlab/classified/models/tag/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\Classified\Models\Tag
+
+# Default redirect location
+defaultRedirect: dlnlab/classified/tag
+
+# Create page
+create:
+    title: Create Tag
+    redirect: dlnlab/classified/tag/update/:id
+    redirectClose: dlnlab/classified/tag
+
+# Update page
+update:
+    title: Edit Tag
+    redirect: dlnlab/classified/tag
+    redirectClose: dlnlab/classified/tag
+
+# Preview page
+preview:
+    title: Preview Tag

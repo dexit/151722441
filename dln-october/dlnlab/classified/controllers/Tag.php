@@ -2,12 +2,12 @@
 
 use BackendMenu;
 use Backend\Classes\Controller;
-use DLNLab\Classified\Models\AdTag as AdTagModel;
+use DLNLab\Classified\Models\Tag as TagModel;
 
 /**
- * Ad_Tag Back-end Controller
+ * Tag Back-end Controller
  */
-class AdTag extends Controller
+class Tag extends Controller
 {
     public $implement = [
         'Backend.Behaviors.FormController',
@@ -21,7 +21,7 @@ class AdTag extends Controller
     {
         parent::__construct();
 
-        BackendMenu::setContext('DLNLab.Classified', 'classified', 'ad_tag');
+        BackendMenu::setContext('DLNLab.Classified', 'classified', 'tag');
     }
 	
 	public function onCalcAdTagCount()
@@ -30,7 +30,7 @@ class AdTag extends Controller
         if ( ! $tag_id ) {
             return false;
         }
-        AdTagModel::updateCount($tag_id);
+        TagModel::updateCount($tag_id);
         return true;
     }
 }

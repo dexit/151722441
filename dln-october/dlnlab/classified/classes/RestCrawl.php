@@ -11,6 +11,7 @@ use Response;
 use Controller as BaseController;
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Models\AdActive;
+use DLNLab\Classified\Models\Tag;
 use Symfony\Component\DomCrawler\Crawler;
 
 class RestCrawl extends BaseController {
@@ -34,5 +35,25 @@ class RestCrawl extends BaseController {
 			}
 		}
 		var_dump($arr_ids);
+	}
+	
+	public function postRefreshTagCount() {
+		// Get tags
+		$tags = Tag::where('status', '=', false)->take(10)->get();
+		if (!$tags->count()) {
+			// Reset crawl status for all tags
+			Tag::where('status', '=', true)->update(array('status' => false));
+		} else {
+			foreach ($tags as $tag) {
+				if ($tag->id)  {
+					// Count ad for tag
+					$count       = DB::table('dlnlab_classified_ads_tags')->where('tag_id', '=', $tag->id)->count();
+					$tag->count  = $count;
+					$tag->status = true;
+					$tag->save();
+				}
+			}
+		}
+		return Response::json(1);
 	}
 }
