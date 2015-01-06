@@ -114,23 +114,13 @@ class Search extends Model
 					$ad_params[] = $value;
 					break;
 				
-				case 'state_id':
-					$ad_query    .= 'state_id = ?';
-					$ad_params[] = $value;
-					break;
-				
-				case 'country_id':
-					$ad_query    .= 'country_id = ?';
-					$ad_params[] = $value;
-					break;
-				
 				case 'category_id':
 					$ad_query    .= 'category_id = ?';
 					$ad_params[] = $value;
 					break;
 				
-				case 'sale_type_id':
-					$ad_query    .= 'sale_type_id = ?';
+				case 'ad_type_id':
+					$ad_query    .= 'ad_type_id = ?';
 					$ad_params[] = $value;
 					break;
 			}
@@ -196,10 +186,8 @@ class Search extends Model
 			'area_min'  => 'numeric',
 			'area_max'  => 'numeric',
 			'user_id'   => 'numeric',
-			'state_id'  => 'numeric',
-			'region_id' => 'numeric',
 			'location_type_id' => 'numeric',
-			'sale_type_id'     => 'numeric',
+			'ad_type_id'       => 'numeric',
 		];
 		
 		$validation = Validator::make($arr_data, $rules);

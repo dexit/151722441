@@ -40,7 +40,8 @@ class Tag extends Model
 
 	public function getTypeOptions() {
 		return array(
-			'ad_type' => 'Ad'
+			'ad_kind'      => 'Kind',
+			'ad_amenities' => 'Amenities',
 		);
 	}
 	
@@ -54,5 +55,21 @@ class Tag extends Model
         $find->save();
         return true;
     }
+	
+	public static function save_tag($data = array()) {
+		$default = array(
+			'tags' => '',
+			'country_tag' => '',
+			'state_tag'   => '',
+		);
+		$params = array_merge($default, $data);
+		extract($params);
+		
+		// Find country tag
+		$country_tag = trim($country_tag);
+		if ($country_tag) {
+			self::whereRaw('name = ? AND type = ?', array($country_tag, 'country'));
+		}
+	}
 	
 }

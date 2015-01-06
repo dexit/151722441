@@ -6,6 +6,7 @@ use App;
 use DB;
 use Response;
 use Model;
+use Str;
 use October\Rain\Auth\Models\User as UserBase;
 use RainLab\User\Models\Country;
 use RainLab\User\Models\State;
@@ -31,7 +32,7 @@ class Ad extends Model {
 	protected $fillable = [
 		'name',
 		'slug',
-		'description',
+		'desc',
 		'price',
 		'expiration',
 		'address',
@@ -40,15 +41,14 @@ class Ad extends Model {
 		'latitude',
 		'longtitude'
 	];
-	
 	public $rules = [
-        'title'       => 'required',
-        'slug'        => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
-        'description' => 'required',
-		'price'       => 'required|numeric',
-		'latitude'    => 'required',
-		'longtitude'  => 'required'
-    ];
+		'title' => 'required',
+		'slug' => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
+		'description' => 'required',
+		'price' => 'required|numeric',
+		'latitude' => 'required',
+		'longtitude' => 'required'
+	];
 
 	/**
 	 * @var array Relations
@@ -90,14 +90,6 @@ class Ad extends Model {
 
 	public function getCategoryOptions() {
 		return AdCategory::getNameList();
-	}
-
-	public function getCountryOptions() {
-		return Country::getNameList();
-	}
-
-	public function getStateOptions() {
-		return State::getNameList($this->country_id);
 	}
 
 	public function scopeListFrontEnd($query, $options) {
@@ -151,8 +143,8 @@ class Ad extends Model {
 
 	public function scopeIsPublished($query) {
 		return $query
-				->whereNotNull('status')
-				->where('status', '=', 1)
+						->whereNotNull('status')
+						->where('status', '=', 1)
 		;
 	}
 
@@ -167,6 +159,54 @@ class Ad extends Model {
 		}
 
 		return $this->url = $controller->pageUrl($pageName, $params);
+	}
+	
+	public static function save_ad($data = array()) {
+		if (empty($data))
+			return false;
+		
+		self::save_post($data);
+		Tag::save_tag($data);
+		
+	}
+	
+	public static function save_post($data = array()) {
+		if (empty($data))
+			return false;
+
+		$default = array(
+			'id' => '0',
+			'name' => '',
+			'slug' => '',
+			'desc' => '',
+			'price' => '0',
+			'address' => '',
+			'category_id' => '0',
+			'latitude' => '',
+			'longtitude' => ''
+		);
+		extract(array_merge($default, $data));
+
+		try {
+			if (!empty($id) && intval($id) > 0) {
+				$record = self::find($id);
+			} else {
+				$record = new self();
+			}
+
+			$record->name = $name;
+			$record->slug = (empty($slug)) ? Str::slug($name) : $slug;
+			$record->desc = $desc;
+			$record->price = doubleval($price);
+			$record->address = $address;
+			$record->category_id = intval($category_id);
+			$record->latitude = floatval($latitude);
+			$record->longtitude = floatval($longtitude);
+
+			$record->save();
+		} catch (Exception $ex) {
+			throw $ex;
+		}
 	}
 
 }

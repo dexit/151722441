@@ -69,21 +69,6 @@ tabs:
             tab: dlnlab.classified::lang.ad.details
             span: full
             
-        country:
-            label: dlnlab.classified::lang.ad.country
-            tab: dlnlab.classified::lang.ad.details
-            type: dropdown
-            span: left
-            placeholder: -- select country --
-            
-        state:
-            label: dlnlab.classified::lang.ad.state
-            tab: dlnlab.classified::lang.ad.details
-            type: dropdown
-            span: right
-            depends: country
-            placeholder: -- select state --
-            
         latitude:
             label: dlnlab.classified::lang.ad.latitude
             disabled: true

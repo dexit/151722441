@@ -19,19 +19,4 @@ columns:
         
     created_at:
         label: dlnlab.classified::lang.ad.create_at
-    
-    country:
-        label: dlnlab.classified::lang.ad.country
-        searchable: true
-        invisible: true
-        relation: country
-        select: name
-        sortable: false
         
-    state:
-        label: dlnlab.classified::lang.ad.state
-        searchable: true
-        invisible: true
-        relation: country
-        select: name
-        sortable: false

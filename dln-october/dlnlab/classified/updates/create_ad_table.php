@@ -13,14 +13,12 @@ class CreateAdTable extends Migration {
 			$table->increments('id');
 			$table->string('name')->nullable();
 			$table->string('slug')->index();
-			$table->text('description')->nullable();
+			$table->text('desc')->nullable();
 			$table->decimal('price', 14, 0)->nullable()->default(0);
 			$table->timestamp('expiration')->nullable();
 			$table->string('address')->nullable();
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->integer('category_id')->unsigned()->nullable()->index();
-			$table->integer('country_id')->unsigned()->nullable()->index();
-			$table->integer('state_id')->unsigned()->nullable()->index();
 			$table->decimal('latitude', 10, 6)->nullable();
 			$table->decimal('longtitude', 10, 6)->nullable();
 			$table->timestamp('published_at')->nullable();

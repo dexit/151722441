@@ -32,8 +32,12 @@ tabs:
             type: dropdown
             span: right
 
+        icon: 
+            label: Icon
+            span: left
+            
         desc:
             label: Description
             type: textarea
             size: small
-            span: full
+            span: right
