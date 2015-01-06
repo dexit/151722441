@@ -4,24 +4,24 @@
 
 columns:
     id:
-        label: dlnlab.classified::lang.ads.id
+        label: dlnlab.classified::lang.ad.id
         invisible: true
         
     name:
-        label: dlnlab.classified::lang.ads.name
+        label: dlnlab.classified::lang.ad.name
         searchable: true
         
     price:
-        label: dlnlab.classified::lang.ads.price
+        label: dlnlab.classified::lang.ad.price
         
     status:
-        label: dlnlab.classified::lang.ads.status
+        label: dlnlab.classified::lang.ad.status
         
     created_at:
-        label: dlnlab.classified::lang.ads.create_at
+        label: dlnlab.classified::lang.ad.create_at
     
     country:
-        label: dlnlab.classified::lang.ads.country
+        label: dlnlab.classified::lang.ad.country
         searchable: true
         invisible: true
         relation: country
@@ -29,7 +29,7 @@ columns:
         sortable: false
         
     state:
-        label: dlnlab.classified::lang.ads.state
+        label: dlnlab.classified::lang.ad.state
         searchable: true
         invisible: true
         relation: country

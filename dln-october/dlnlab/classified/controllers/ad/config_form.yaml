@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Ad
+
+# Model Form Field configuration
+form: $/dlnlab/classified/models/ad/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\Classified\Models\Ad
+
+# Default redirect location
+defaultRedirect: dlnlab/classified/ad
+
+# Create page
+create:
+    title: Create Ad
+    redirect: dlnlab/classified/ad/update/:id
+    redirectClose: dlnlab/classified/ad
+
+# Update page
+update:
+    title: Edit Ad
+    redirect: dlnlab/classified/ad
+    redirectClose: dlnlab/classified/ad
+
+# Preview page
+preview:
+    title: Preview Ads

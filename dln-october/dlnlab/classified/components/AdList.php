@@ -82,7 +82,7 @@ class AdList extends ComponentBase {
 	
 	protected function prepareVars() {
 		$this->pageParam    = $this->page['pageParam']    = $this->property('pageParam', 'page');
-		$this->noAdsMessage = $this->page['noAdsMessage'] = $this->property('noAdsMessage');
+		$this->noAdMessage  = $this->page['noAdMessage']  = $this->property('noAdMessage');
 
 		$this->adPage       = $this->page['adPage']       = $this->property('adPage');
 		$this->categoryPage = $this->page['categoryPage'] = $this->property('categoryPage');
@@ -113,7 +113,7 @@ class AdList extends ComponentBase {
 		if (!$category_id = $this->propertyOrParam('categoryFilter'))
 			return null;
 
-		if (!$category = AdsCategory::whereSlug($category_id)->first())
+		if (!$category = AdCategory::whereSlug($category_id)->first())
 			return null;
 
 		return $category;

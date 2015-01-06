@@ -16,7 +16,7 @@ class Ad extends Model {
 	/**
 	 * @var string The database table used by the model.
 	 */
-	public $table = 'dlnlab_classified_ads';
+	public $table = 'dlnlab_classified_ad';
 
 	/**
 	 * @var array Guarded fields
@@ -54,7 +54,7 @@ class Ad extends Model {
 	public $hasOne = [];
 	public $hasMany = [];
 	public $belongsTo = [
-		'category' => ['DLNLab\Classified\Models\AdsCategory'],
+		'category' => ['DLNLab\Classified\Models\AdCategory'],
 		'country' => ['RainLab\User\Models\Country'],
 		'state' => ['RainLab\User\Models\State'],
 	];
@@ -85,7 +85,7 @@ class Ad extends Model {
 	}
 
 	public function getCategoryOptions() {
-		return AdsCategory::getNameList();
+		return AdCategory::getNameList();
 	}
 
 	public function getCountryOptions() {

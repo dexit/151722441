@@ -4,13 +4,13 @@
 
 fields:
     name:
-        label: dlnlab.classified::lang.ads.name
-        tab: dlnlab.classified::lang.ads.details
+        label: dlnlab.classified::lang.ad.name
+        tab: dlnlab.classified::lang.ad.details
         span: left
     
     slug:
-        label: dlnlab.classified::lang.ads.slug
-        tab: dlnlab.classified::lang.ads.details
+        label: dlnlab.classified::lang.ad.slug
+        tab: dlnlab.classified::lang.ad.details
         span: right
         attributes:
             data-input-preset: 'input[name="Ad[name]"]'
@@ -20,73 +20,73 @@ fields:
 tabs:
     fields:
         description:
-            label: dlnlab.classified::lang.ads.desc
-            tab: dlnlab.classified::lang.ads.details
+            label: dlnlab.classified::lang.ad.desc
+            tab: dlnlab.classified::lang.ad.details
             type: textarea
             size: large
             span: left
             
         price:
-            label: dlnlab.classified::lang.ads.price
-            tab: dlnlab.classified::lang.ads.details
+            label: dlnlab.classified::lang.ad.price
+            tab: dlnlab.classified::lang.ad.details
             span: right
             
         expiration:
-            label: dlnlab.classified::lang.ads.expire
-            tab: dlnlab.classified::lang.ads.details
+            label: dlnlab.classified::lang.ad.expire
+            tab: dlnlab.classified::lang.ad.details
             type: datepicker
             mode: datetime
             span: right
 
         status:
             label: Published
-            tab: dlnlab.classified::lang.ads.details
+            tab: dlnlab.classified::lang.ad.details
             type: checkbox
             span: right
             
         user_id: 
-            label: dlnlab.classified::lang.ads.user_id
-            tab: dlnlab.classified::lang.ads.details
+            label: dlnlab.classified::lang.ad.user_id
+            tab: dlnlab.classified::lang.ad.details
             disabled: true
             span: left
             
         category:
-            label: dlnlab.classified::lang.ads.category
-            tab: dlnlab.classified::lang.ads.details
+            label: dlnlab.classified::lang.ad.category
+            tab: dlnlab.classified::lang.ad.details
             type: dropdown
             span: right
             placeholder: -- select category --
             
         address:
-            label: dlnlab.classified::lang.ads.address
-            tab: dlnlab.classified::lang.ads.details
+            label: dlnlab.classified::lang.ad.address
+            tab: dlnlab.classified::lang.ad.details
             span: full
             
         country:
-            label: dlnlab.classified::lang.ads.country
-            tab: dlnlab.classified::lang.ads.details
+            label: dlnlab.classified::lang.ad.country
+            tab: dlnlab.classified::lang.ad.details
             type: dropdown
             span: left
             placeholder: -- select country --
             
         state:
-            label: dlnlab.classified::lang.ads.state
-            tab: dlnlab.classified::lang.ads.details
+            label: dlnlab.classified::lang.ad.state
+            tab: dlnlab.classified::lang.ad.details
             type: dropdown
             span: right
             depends: country
             placeholder: -- select state --
             
         latitude:
-            label: dlnlab.classified::lang.ads.latitude
+            label: dlnlab.classified::lang.ad.latitude
             disabled: true
             
         longtitude:
-            label: dlnlab.classified::lang.ads.longtitude
+            label: dlnlab.classified::lang.ad.longtitude
             disabled: true
             
         ad_images:
-            label: dlnlab.classified::lang.ads.ad_images
+            label: dlnlab.classified::lang.ad.ad_images
             type: fileupload
             mode: image
             imageWidth: 200

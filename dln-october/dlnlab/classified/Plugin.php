@@ -32,23 +32,28 @@ class Plugin extends PluginBase {
 	public function registerNavigation() {
 		return [
 			'classified' => [
-				'label' => 'dlnlab.classified::lang.ads.menu_label',
-				'url' => Backend::url('dlnlab/classified/ads'),
+				'label' => 'dlnlab.classified::lang.ad.menu_label',
+				'url' => Backend::url('dlnlab/classified/ad'),
 				'icon' => 'icon-photo',
 				'permissions' => ['dlnlab.classified.*'],
 				'order' => 500,
 				'sideMenu' => [
-					'ads' => [
-						'label' => 'dlnlab.classified::lang.ads.menu_label',
+					'ad' => [
+						'label' => 'dlnlab.classified::lang.ad.menu_label',
 						'icon' => 'icon-copy',
-						'url' => Backend::url('dlnlab/classified/ads'),
-						'permissions' => ['dlnlab.classified.access_ads'],
+						'url' => Backend::url('dlnlab/classified/ad'),
+						'permissions' => ['dlnlab.classified.access_ad'],
 					],
-					'ads_categories' => [
-						'label' => 'dlnlab.classified::lang.ads.categories',
+					'ad_categories' => [
+						'label' => 'dlnlab.classified::lang.ad.categories',
 						'icon' => 'icon-list-ul',
-						'url' => Backend::url('dlnlab/classified/adscategories'),
-						'permissions' => ['rainlab.blog.access_ads_categories'],
+						'url' => Backend::url('dlnlab/classified/adcategories'),
+						'permissions' => ['rainlab.blog.access_ad_categories'],
+					],
+					'ad_tag' => [
+						'label' => 'Tags',
+						'icon' => 'icon-list-ul',
+						'url' => Backend::url('dlnlab/classified/adtag'),
 					]
 				]
 			]

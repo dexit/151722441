@@ -49,7 +49,7 @@ class AdCookie extends ComponentBase
 		
 		// Get current ad cookie
 		$cookie_obj = new \stdClass;
-		$cookie     = Cookie::get('dln_ads_cookie');
+		$cookie     = Cookie::get('dln_ad_cookie');
 		
 		if ($cookie) {
 			// Check current user has exist in cookie
@@ -60,19 +60,19 @@ class AdCookie extends ComponentBase
 				if ($current_time >= ($cookie_obj->{$item->id} + TIME_DELAY_COUNT_VIEW)) {
 					$cookie_obj->{$item->id} = time();
 					$cookie = json_encode($cookie_obj);
-					Cookie::queue('dln_ads_cookie', $cookie, 1440);
+					Cookie::queue('dln_ad_cookie', $cookie, 1440);
 					AdRead::add_read($item, $user);
 				}
 			} else {
 				$cookie_obj->{$item->id} = time();
 				$cookie = json_encode($cookie_obj);
-				Cookie::queue('dln_ads_cookie', $cookie, 1440);
+				Cookie::queue('dln_ad_cookie', $cookie, 1440);
 				AdRead::add_read($item, $user);
 			}
 		} else {
 			$cookie_obj->{$item->id} = time();
 			$cookie = json_encode($cookie_obj);
-			Cookie::queue('dln_ads_cookie', $cookie, 1440);
+			Cookie::queue('dln_ad_cookie', $cookie, 1440);
 			AdRead::add_read($item, $user);
 		}
 	}

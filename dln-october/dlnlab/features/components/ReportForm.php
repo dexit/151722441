@@ -26,7 +26,7 @@ class ReportForm extends ComponentBase
                 'title'       => 'Report Type',
                 'description' => 'Report Type Desc',
                 'type'        => 'string',
-                'default'     => 'ads'
+                'default'     => 'ad'
             ],
 			'redirect' => [
                 'title'       => 'rainlab.user::lang.account.redirect_to',

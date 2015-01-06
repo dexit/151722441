@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: AdCategory
+
+# Model Form Field configuration
+form: $/dlnlab/classified/models/adcategory/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\Classified\Models\AdCategory
+
+# Default redirect location
+defaultRedirect: dlnlab/classified/adcategories
+
+# Create page
+create:
+    title: Create AdCategories
+    redirect: dlnlab/classified/adcategories/update/:id
+    redirectClose: dlnlab/classified/adcategories
+
+# Update page
+update:
+    title: Edit AdCategories
+    redirect: dlnlab/classified/adcategories
+    redirectClose: dlnlab/classified/adcategories
+
+# Preview page
+preview:
+    title: Preview AdCategories

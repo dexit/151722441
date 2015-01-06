@@ -1,7 +1,9 @@
 1.0.1: First version of Classified
 1.0.2:
     - Initialize plugin
-    - create_ads_table.php
-    - create_ads_categories_table.php
+    - create_ad_table.php
+    - create_ad_categories_table.php
     - create_ad_reads_table.php
+    - create_ad_actives_table.php
+    - create_ad_tags_table.php
     - seed_all_tables.php
