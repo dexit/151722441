@@ -8,7 +8,7 @@ use October\Rain\Database\Updates\Migration;
 class CreateAdTable extends Migration {
 
 	public function up() {
-		Schema::create('dlnlab_classified_ad', function($table) {
+		Schema::create('dlnlab_classified_ads', function($table) {
 			$table->engine = 'InnoDB';
 			$table->increments('id');
 			$table->string('name')->nullable();
@@ -29,7 +29,7 @@ class CreateAdTable extends Migration {
 	}
 
 	public function down() {
-		Schema::dropIfExists('dlnlab_classified_ad');
+		Schema::dropIfExists('dlnlab_classified_ads');
 	}
 
 }

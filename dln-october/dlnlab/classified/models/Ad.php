@@ -19,7 +19,7 @@ class Ad extends Model {
 	/**
 	 * @var string The database table used by the model.
 	 */
-	public $table = 'dlnlab_classified_ad';
+	public $table = 'dlnlab_classified_ads';
 
 	/**
 	 * @var array Guarded fields
@@ -41,6 +41,7 @@ class Ad extends Model {
 		'latitude',
 		'longtitude'
 	];
+    
 	public $rules = [
 		'title' => 'required',
 		'slug' => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
