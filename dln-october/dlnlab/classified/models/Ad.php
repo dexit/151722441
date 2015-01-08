@@ -165,9 +165,29 @@ class Ad extends Model {
 		if (empty($data))
 			return false;
 		
-		self::save_post($data);
-		Tag::save_tag($data);
+		$ad = self::save_post($data);
+        DB::beginTransaction();
+        try {
+            $tag_ids = Tag::save_tag($data);
 		
+            // Save ads_tags
+            if (! empty($ad) && ! empty($tag_ids)) {
+                $arr_inserts = array();
+                foreach ($tag_ids as $tag_id) {
+                    $arr_inserts[] = array('ad_id' => $ad->id, 'tag_id' => $tag_id);
+                }
+                
+                if ($arr_inserts) {
+                    DB::table('dlnlab_classified_ads_tags')->insert($arr_inserts);
+                }
+            }
+        } catch (Exception $ex) {
+            DB::rollback();
+            throw $ex;
+        }
+		DB::commit();
+        
+        return $ad;
 	}
 	
 	public static function save_post($data = array()) {
@@ -187,6 +207,7 @@ class Ad extends Model {
 		);
 		extract(array_merge($default, $data));
 
+        $record = null;
 		try {
 			if (!empty($id) && intval($id) > 0) {
 				$record = self::find($id);
@@ -195,7 +216,7 @@ class Ad extends Model {
 			}
 
 			$record->name = $name;
-			$record->slug = (empty($slug)) ? Str::slug($name) : $slug;
+			$record->slug = (empty($slug)) ? Str::slug($name, '-') : $slug;
 			$record->desc = $desc;
 			$record->price = doubleval($price);
 			$record->address = $address;
@@ -207,6 +228,8 @@ class Ad extends Model {
 		} catch (Exception $ex) {
 			throw $ex;
 		}
+        
+        return $record;
 	}
 
 }

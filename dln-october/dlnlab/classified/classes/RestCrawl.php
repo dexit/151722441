@@ -21,7 +21,7 @@ class RestCrawl extends BaseController {
 	public function postAdActive() {
 		// Get all ad actived
 		$arr_ids = array();
-		$records = AdActive::where('status', '=', true)->take(100)->get();
+		$records = AdActive::where('status', '=', 1)->take(100)->get();
 		if ($records->count()) {
 			$now = Carbon::now();
 			foreach ($records as $record) {
@@ -39,17 +39,17 @@ class RestCrawl extends BaseController {
 	
 	public function postRefreshTagCount() {
 		// Get tags
-		$tags = Tag::where('status', '=', false)->take(10)->get();
+		$tags = Tag::where('crawl', '=', false)->take(10)->get();
 		if (!$tags->count()) {
 			// Reset crawl status for all tags
-			Tag::where('status', '=', true)->update(array('status' => false));
+			Tag::where('crawl', '=', true)->update(array('crawl' => false));
 		} else {
 			foreach ($tags as $tag) {
 				if ($tag->id)  {
 					// Count ad for tag
-					$count       = DB::table('dlnlab_classified_ads_tags')->where('tag_id', '=', $tag->id)->count();
-					$tag->count  = $count;
-					$tag->status = true;
+					$count      = DB::table('dlnlab_classified_ads_tags')->where('tag_id', '=', $tag->id)->count();
+					$tag->count = $count;
+					$tag->crawl = true;
 					$tag->save();
 				}
 			}

@@ -1,5 +1,6 @@
 <?php namespace DLNLab\Classified\Models;
 
+use Str;
 use Model;
 
 /**
@@ -65,11 +66,66 @@ class Tag extends Model
 		$params = array_merge($default, $data);
 		extract($params);
 		
+        $tag_ids = array();
+        
 		// Find country tag
-		$country_tag = trim($country_tag);
-		if ($country_tag) {
-			self::whereRaw('name = ? AND type = ?', array($country_tag, 'country'));
+        $id = self::add_location_tag($country_tag, 'country');
+        if ($id) {
+            $tag_ids[] = $id;
+        }
+        
+        // Find state tag
+		$id = self::add_location_tag($state_tag, 'state');
+        if ($id) {
+            $tag_ids[] = $id;
+        }
+        
+        $tags = explode(',', $tags);
+        if ($tags) {
+            foreach ($tags as $tag) {
+                $id = self::add_location_tag($tag, 'ad_tag');
+                if ($id) {
+                    $tag_ids[] = $id;
+                }
+            }
+        }
+        
+        return $tag_ids;
+    }
+    
+    private static function add_location_tag($location_tag, $type = 'country') {
+        $id           = null;
+        $location_tag = trim($location_tag);
+		if ($location_tag) {
+            $slug = Str::slug($location_tag, '-');
+			$tag  = self::whereRaw('slug = ? AND type = ?', array($slug, $type))->first();
+            if (! $tag) {
+                $tag = new self;
+                $tag->name   = $location_tag;
+                $tag->tag    = $slug;
+                $tag->status = 0;
+                $tag->count  = 1;
+            } else {
+                // For same slug exists
+                if ($tag->name == $location_tag) {
+                    // If same name
+                    $tag->count  = $tag->count + 1;
+                } else {
+                    $id = $tag->id;
+                    // Add new tag with slug other
+                    $tag = new self;
+                    $tag->name   = $location_tag;
+                    $tag->tag    = $slug . '-' . $id;
+                    $tag->status = 0;
+                    $tag->count  = 1;
+                }
+            }
+            $tag->save();
+            
+            $id = $tag->id;
 		}
-	}
+        
+        return $id;
+    }
 	
 }

@@ -19,7 +19,8 @@ class CreateTagsTable extends Migration
 			$table->string('type', 100)->nullable();
 			$table->string('icon', 20)->nullable();
 			$table->integer('count')->default(0);
-			$table->boolean('status')->default(false);
+			$table->tinyInteger('status')->default(0);
+            $table->boolean('crawl')->default(false);
             $table->timestamps();
         });
 		
