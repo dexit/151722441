@@ -37,7 +37,7 @@ class Plugin extends PluginBase
 	public function registerNavigation() {
 		return [
 			'features' => [
-				'label' => 'Report',
+				'label' => 'Features',
 				'url' => Backend::url('dlnlab/features/reports'),
 				'icon' => 'icon-photo',
 				'permissions' => ['dlnlab.features.*'],

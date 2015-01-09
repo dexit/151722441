@@ -1,6 +1,8 @@
 <?php namespace DLNLab\Classified\Models;
 
+use DB;
 use Model;
+use DLNLab\Features\Models\Money;
 
 /**
  * Ad_Active Model
@@ -36,7 +38,7 @@ class AdActive extends Model
     public $attachOne = [];
     public $attachMany = [];
 
-    public static function active_ad($data = null) {
+    public static function active_ad($data = null, $ad = null, $_user_id = null) {
         if (empty($data))
             return false;
         
@@ -48,22 +50,59 @@ class AdActive extends Model
         extract($params);
         
         // Get Ad
-        $ad = Ad::find($ad_id);
+        if (! $ad) {
+            $ad = Ad::find($ad_id);
+        }
         
-        if (empty($ad) || empty($ad->status)) {
-            return false;
+        if (empty($ad) || !empty($ad->status)) {
+            return 'Ad has activated';
+        }
+        
+        // Get user_id
+        $user_id = $ad->user_id;
+        
+        if ($_user_id != $user_id) {
+            return 'Ad now user own';
         }
         
         // Get money and days
         $money = $day = 0;
         self::get_day_type($day_type, $money, $day);
         if (!$money || !$day) {
-            return false;
+            return 'Error get day type';
         }
         
-        // Check ad money
-        $ad_money = Money::get_basic_money($ad_id);
+        // Check user money
+        $user_money = Money::get_user_charge_money($user_id);
+        if (($user_money - $money) < 0) {
+            // No active ad when user not enough money
+            return 'No active ad when user not enough money';
+        }
         
+        DB::beginTransaction();
+        try {
+            // Minus money
+            $o_money = Money::minus_money_user($user_id, $money);
+            
+            // Active add
+            $ad->status       = 1;
+            $ad->published_at = time();
+            $ad->save();
+            
+            // Update add has activated to DB
+            $record = new self;
+            $record->ad_id = $ad_id;
+            $record->money = $money;
+            $record->day = $day;
+            $record->status = 1;
+            $record->save();
+        } catch (Exception $ex) {
+            DB::rollback();
+            return $ex->getMessage();
+        }
+        DB::commit();
+        
+        return true;
     }
     
     private static function get_day_type($type, &$money, &$day) {

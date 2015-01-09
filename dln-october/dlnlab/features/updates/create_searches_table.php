@@ -12,7 +12,7 @@ class CreateSearchesTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
-			$table->text('query')->index();
+			$table->string('query', 500)->index();
 			$table->integer('crawl')->default(0);
 			$table->tinyInteger('is_deleted')->default(0);
             $table->timestamps();

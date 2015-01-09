@@ -10,7 +10,10 @@ class UpdateUsersTable extends Migration
         Schema::table('users', function($table)
         {
             $table->boolean('is_validated')->default(false);
-			$table->string('phone_number', 18)->nullabled();
+			$table->string('phone_number', 18)->nullable();
+            $table->decimal('money_charge', 14, 0)->nullable()->default(0);
+            $table->decimal('money_spent', 14, 0)->nullable()->default(0);
+            $table->boolean('crawl')->default(false);
         });
     }
 
@@ -20,6 +23,9 @@ class UpdateUsersTable extends Migration
         {
             $table->dropColumn('is_validated');
 			$table->dropColumn('phone_number');
+            $table->dropColumn('money_charge');
+            $table->dropColumn('money_spent');
+            $table->dropColumn('crawl');
         });
     }
 

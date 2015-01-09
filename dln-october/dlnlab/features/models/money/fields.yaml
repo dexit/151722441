@@ -9,23 +9,11 @@ fields:
 
 tabs:
     fields:
-        money:
-            label: Money
-            tab: Details
-            span: left
-            
         user:
             label: User
             tab: Details
             type: relation
-            span: right
-        
-        status:
-            label: Status
-            tab: Details
-            type: dropdown
             span: left
-            placeholder: -- select status --
             
         type:
             label: Type
@@ -33,3 +21,18 @@ tabs:
             type: dropdown
             span: right
             placeholder: -- select type --
+            
+        money:
+            label: Money
+            type: number
+            tab: Details
+            span: left
+            default: 0
+        
+        status:
+            label: Status
+            tab: Details
+            type: checkbox
+            span: right
+            
+        

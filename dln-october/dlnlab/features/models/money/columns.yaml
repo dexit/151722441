@@ -16,6 +16,9 @@ columns:
     type:
         label: Type
     
+    money:
+        label: Money
+    
     status:
         label: Status
         searchable: true

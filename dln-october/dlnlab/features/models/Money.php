@@ -1,6 +1,7 @@
 <?php namespace DLNLab\Features\Models;
 
 use Model;
+use RainLab\User\Models\User;
 
 /**
  * Money Model
@@ -46,7 +47,11 @@ class Money extends Model
 	}
 	
 	public function getTypeOptions() {
-		return array('NULL', 'Recharge Money', 'Convert Gems', 'Deduction money');
+        return array(
+            '0' => 'Nothing',
+            'charge' => 'Charge Money',
+            'spent'  => 'Spent Money'  
+        );
 	}
 	
 	public function getStatusOptions() {
@@ -60,7 +65,50 @@ class Money extends Model
 	
 	public function getTypeAttribute() {
 		$options = $this->getTypeOptions();
-		return isset($this->attributes['type']) ? $options[$this->attributes['type']] : $options[0];
+		return isset($this->attributes['type']) ? $options[$this->attributes['type']] : 0;
 	}
-	
+    
+    public function afterCreate() {
+        // plus money for user
+        $type    = $this->attributes['type'];
+        $user_id = $this->attributes['user_id'];
+        $money   = $this->attributes['money'];
+        if (empty($type) || empty($user_id))
+            return;
+        switch ($type) {
+            case 'charge':
+                User::find($user_id)->increment('money_charge', $money);
+                break;
+            
+            case 'spent':
+                User::find($user_id)->increment('money_spent', $money);
+                break;
+        }
+    }
+    
+    public static function get_user_charge_money($user_id = 0) {
+        if (! $user_id)
+            return 0;
+        
+        $user          = User::find($user_id);
+        $money_account = $user->money_charge - $user->money_spent;
+        if ($money_account > 0) {
+            return $money_account;
+        } else {
+            return 0;
+        }
+    }
+    
+    public static function minus_money_user($user_id = 0, $money = 0) {
+        if (! $user_id || $money < 0)
+            return false;
+        
+        $record = new self;
+        $record->user_id = $user_id;
+        $record->type    = 'spent';
+        $record->money   = $money;
+        $record->save();
+        
+        return $record;
+    }
 }
