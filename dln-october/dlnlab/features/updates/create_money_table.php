@@ -15,7 +15,7 @@ class CreateMoneyTable extends Migration
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->decimal('money', 14, 0)->nullable()->default(0);
 			$table->string('type', 50)->default('basic');
-			$table->boolean('status')->default(true);
+			$table->boolean('crawl')->default(true);
             $table->timestamps();
         });
     }

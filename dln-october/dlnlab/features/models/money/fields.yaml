@@ -28,11 +28,5 @@ tabs:
             tab: Details
             span: left
             default: 0
-        
-        status:
-            label: Status
-            tab: Details
-            type: checkbox
-            span: right
             
         

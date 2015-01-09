@@ -48,33 +48,35 @@ class Money extends Model
 	
 	public function getTypeOptions() {
         return array(
-            '0' => 'Nothing',
-            'charge' => 'Charge Money',
-            'spent'  => 'Spent Money'  
+            'charge_admin' => 'Admin Charse',
         );
 	}
 	
-	public function getStatusOptions() {
-		return array('Disable', 'Enable');
-    }
-	
-	public function getStatusAttribute() {
-		$options = $this->getStatusOptions();
-		return isset($this->attributes['status']) ? $options[$this->attributes['status']] : $options[0];
-	}
-	
 	public function getTypeAttribute() {
-		$options = $this->getTypeOptions();
-		return isset($this->attributes['type']) ? $options[$this->attributes['type']] : 0;
+		$arr_type = array(
+            'charge' => 'Charge',
+            'spent' => 'Spent',
+            'charge_admin' => 'Admin Charse'
+        );
+		return isset($this->attributes['type']) ? $arr_type[$this->attributes['type']] : 0;
 	}
+    
+    public function getMoneyAttribute() {
+        setlocale(LC_MONETARY,"vi_VN");
+        $money = money_format('%i ', (double) $this->attributes['money']);
+        $money = str_replace('VND', ' VND', $money);
+        return $money;
+    }
     
     public function afterCreate() {
         // plus money for user
         $type    = $this->attributes['type'];
         $user_id = $this->attributes['user_id'];
         $money   = $this->attributes['money'];
+        
         if (empty($type) || empty($user_id))
             return;
+        
         switch ($type) {
             case 'charge':
                 User::find($user_id)->increment('money_charge', $money);

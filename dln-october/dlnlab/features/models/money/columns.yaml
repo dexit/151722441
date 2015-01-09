@@ -18,10 +18,6 @@ columns:
     
     money:
         label: Money
-    
-    status:
-        label: Status
-        searchable: true
         
     updated_at:
         label: Update
