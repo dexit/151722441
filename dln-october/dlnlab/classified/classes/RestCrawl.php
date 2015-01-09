@@ -20,7 +20,7 @@ class RestCrawl extends BaseController {
     public static $limit_crawl_ad_active = 100;
     public static $limit_crawl_tag_count = 10;
 	
-	public function postAdActive() {
+	public function postAdDeactive() {
 		// Get all ad actived
 		$arr_ids = array();
 		$records = AdActive::where('status', '=', 1)->take(self::$limit_crawl_ad_active)->get();
@@ -28,12 +28,19 @@ class RestCrawl extends BaseController {
 			$now = Carbon::now();
 			foreach ($records as $record) {
 				$created = new Carbon($record->created_at);
-				if ($created->diff($now)->days >= $record->days) {
+				if ($created->diff($now)->days >= $record->day) {
 					$arr_ids[] = $record->ad_id;
 				}
 			}
 			if (count($arr_ids)) {
-				Ad::whereIn('id', $arr_ids)->update(array('status' => 0));
+                DB::beginTransaction();
+                try {
+                    Ad::whereIn('id', $arr_ids)->update(array('status' => 0));
+                    AdActive::whereIn('ad_id', $arr_ids)->update(array('status' => 0));
+                } catch (Exception $ex) {
+                    DB::rollback();
+                }
+				DB::commit();
 			}
 		}
 		var_dump($arr_ids);
