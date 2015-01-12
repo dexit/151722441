@@ -2,6 +2,7 @@
 
 namespace DLNLab\Classified\Updates;
 
+use DB;
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
@@ -14,6 +15,7 @@ class CreateAdTable extends Migration {
 			$table->string('name')->nullable();
 			$table->string('slug')->index();
 			$table->text('desc')->nullable();
+            $table->string('full_text', 500)->nullable();
 			$table->decimal('price', 14, 0)->nullable()->default(0);
 			$table->timestamp('expiration')->nullable();
 			$table->string('address')->nullable();
@@ -26,6 +28,7 @@ class CreateAdTable extends Migration {
 			$table->integer('read')->default(0);
 			$table->timestamps();
 		});
+        DB::statement('ALTER TABLE `dlnlab_classified_ads` ADD FULLTEXT(`full_text`);');
 	}
 
 	public function down() {

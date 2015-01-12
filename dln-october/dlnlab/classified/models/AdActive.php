@@ -84,16 +84,16 @@ class AdActive extends Model
             // Minus money
             $o_money = Money::minus_money_user($user_id, $money);
             
-            // Active add
+            // Active ad
             $ad->status       = 1;
             $ad->published_at = time();
             $ad->save();
             
             // Update add has activated to DB
             $record = new self;
-            $record->ad_id = $ad_id;
-            $record->money = $money;
-            $record->day = $day;
+            $record->ad_id  = $ad_id;
+            $record->money  = $money;
+            $record->day    = $day;
             $record->status = 1;
             $record->save();
         } catch (Exception $ex) {

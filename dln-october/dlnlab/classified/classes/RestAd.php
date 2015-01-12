@@ -73,4 +73,15 @@ class RestAd extends BaseController {
         return Response::json( response_message($code, $message), $code);
     }
     
+    public function getSearch() {
+        $q = Input::get('query');
+        
+        if (! $q)
+            return null;
+        
+        $ads = Ad::whereRaw('MATCH(full_text) AGAINST(? IN BOOLEAN MODE)', array($q))->take(100)->get();
+        
+        return Response::json($ads->toJson());
+    }
+    
 }

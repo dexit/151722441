@@ -33,6 +33,7 @@ class Ad extends Model {
 		'name',
 		'slug',
 		'desc',
+        'full_text',
 		'price',
 		'expiration',
 		'address',
@@ -45,7 +46,7 @@ class Ad extends Model {
 	public $rules = [
 		'title' => 'required',
 		'slug' => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
-		'description' => 'required',
+		'desc' => 'required',
 		'price' => 'required|numeric',
 		'latitude' => 'required',
 		'longtitude' => 'required'
@@ -161,7 +162,22 @@ class Ad extends Model {
 
 		return $this->url = $controller->pageUrl($pageName, $params);
 	}
-	
+
+    public function beforeSave() {
+        $desc         = Str::words($this->getAttribute('desc'));
+        $slug         = str_replace('-', ' ', $this->getAttribute('slug'));
+        $slug_address = Str::slug($this->getAttribute('address'), ' ');
+        $arr_text   = array();
+        $arr_text[] = $this->getAttribute('name');
+        $arr_text[] = $slug;
+        $arr_text[] = $desc;
+        $arr_text[] = $this->getAttribute('address');
+        $arr_text[] = $slug_address;
+        
+        $text = implode(' ', $arr_text);
+        $this->setAttribute('full_text', $text);
+    }
+    
 	public static function save_ad($data = array()) {
 		if (empty($data))
 			return false;

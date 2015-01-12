@@ -19,7 +19,7 @@ fields:
 
 tabs:
     fields:
-        description:
+        desc:
             label: dlnlab.classified::lang.ad.desc
             tab: dlnlab.classified::lang.ad.details
             type: textarea

@@ -63,16 +63,16 @@ class Money extends Model
     
     public function getMoneyAttribute() {
         setlocale(LC_MONETARY,"vi_VN");
-        $money = money_format('%i ', (double) $this->attributes['money']);
+        $money = money_format('%i ', (double) $this->getAttribute('money'));
         $money = str_replace('VND', ' VND', $money);
         return $money;
     }
     
     public function afterCreate() {
         // plus money for user
-        $type    = $this->attributes['type'];
-        $user_id = $this->attributes['user_id'];
-        $money   = $this->attributes['money'];
+        $type    = $this->getAttribute('type');
+        $user_id = $this->getAttribute('user_id');
+        $money   = $this->getAttribute('money');
         
         if (empty($type) || empty($user_id))
             return;
