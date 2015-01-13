@@ -96,7 +96,8 @@ class RestAd extends BaseController {
             'l_c_ids' => '',
             'l_k_ids' => '',
             'l_amen_ids' => '',
-            'kws' => ''
+            'kws' => '',
+            'page' => ''
         );
         extract(array_merge($default, $data));
         
@@ -159,9 +160,16 @@ class RestAd extends BaseController {
             $cons[] = " id IN ({$ad_ids}) ";
         }
         
+        $offset = 0;
+        if ($page) {
+            $page = intval($page);
+            if ($page) {
+                $offset = $page * 20;
+            }
+        }
+        
         $cons = implode('AND', $cons);
-        $ads  = Ad::whereRaw($cons . ' ORDER BY `read` DESC', $arr_query)->select('id', 'name', 'slug', 'price', 'address', 'lat', 'lng', 'read', 'published_at', 'user_id', 'category_id')->take(20)->get();
-        //$ads  = Ad::whereRaw($cons . ' ORDER BY `read` DESC', $arr_query)->take(20)->get();
+        $ads  = Ad::whereRaw($cons . ' ORDER BY `read` DESC', $arr_query)->select('id', 'name', 'slug', 'price', 'address', 'lat', 'lng', 'read', 'published_at', 'user_id', 'category_id')->take(20)->offset($offset)->get();
         
         $arr_results = array();
         foreach ( $ads as $ad ) {
