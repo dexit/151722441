@@ -21,8 +21,8 @@ class CreateAdTable extends Migration {
 			$table->string('address')->nullable();
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->integer('category_id')->unsigned()->nullable()->index();
-			$table->decimal('latitude', 10, 6)->nullable();
-			$table->decimal('longtitude', 10, 6)->nullable();
+			$table->decimal('lat', 10, 6)->nullable();
+			$table->decimal('lng', 10, 6)->nullable();
 			$table->timestamp('published_at')->nullable();
 			$table->tinyInteger('status')->default(0);
 			$table->integer('read')->default(0);

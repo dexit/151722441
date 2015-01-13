@@ -40,6 +40,7 @@ class AdCategories extends Controller
         if ( ! $category_id ) {
             return false;
         }
+        
         AdCategory::updateCountCategory($category_id);
         return true;
     }

@@ -5,4 +5,5 @@ App::before(function ($request) {
 	Route::post('/api/v1/ad/upload',         'DLNLab\Classified\Classes\RestAd@postUpload');
 	Route::post('/api/v1/crawl/ad_deactive', 'DLNLab\Classified\Classes\RestCrawl@postAdDeactive');
 	Route::post('/api/v1/crawl/tag_count',   'DLNLab\Classified\Classes\RestCrawl@postRefreshTagCount');
+    Route::get('/api/v1/s/{query}', 'DLNLab\Classified\Classes\RestAd@getSearch');
 });

@@ -2,8 +2,8 @@
     "use strict";
 
     var MapDrag = function () {
-        this.$lat     = $('input[name="latitude"]');
-        this.$long    = $('input[name="longitude"]');
+        this.$lat     = $('input[name="lat"]');
+        this.$long    = $('input[name="lng"]');
         this.$map     = $('#dln_map_canvas');
         this.$address = $('#dln_address');
         this.map_id          = document.getElementById('dln_map_canvas');

@@ -18,8 +18,8 @@ return [
 		'category' => 'Category',
 		'country' => 'Country',
 		'state' => 'State',
-		'latitude' => 'Latitude',
-		'longtitude' => 'Longtitude',
+		'lat' => 'Latitude',
+		'lng' => 'Longtitude',
 		'categories' => 'Categories',
 		'address' => 'Address',
 		'ad_images' => 'Images'

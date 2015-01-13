@@ -39,8 +39,8 @@ class Ad extends Model {
 		'address',
 		'country',
 		'state',
-		'latitude',
-		'longtitude'
+		'lat',
+		'lng'
 	];
     
 	public $rules = [
@@ -48,8 +48,8 @@ class Ad extends Model {
 		'slug' => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
 		'desc' => 'required',
 		'price' => 'required|numeric',
-		'latitude' => 'required',
-		'longtitude' => 'required'
+		'lat' => 'required',
+		'lng' => 'required'
 	];
 
 	/**
@@ -61,6 +61,7 @@ class Ad extends Model {
 		'category' => ['DLNLab\Classified\Models\AdCategory'],
 		'country' => ['RainLab\User\Models\Country'],
 		'state' => ['RainLab\User\Models\State'],
+        'user' => ['RainLab\User\Models\User', 'foreign_key' => 'user_id']
 	];
 	public $belongsToMany = [
 		'tags' => ['DLNLab\Classified\Models\Tag', 'table' => 'dlnlab_classified_ads_tags', 'order' => 'name']
@@ -86,6 +87,11 @@ class Ad extends Model {
 	);
 	protected $dates = ['published_at'];
 
+    public function category()
+    {
+        return $this->belongsTo('DLNLab\Classified\Models\AdCategory');
+    }
+    
 	public function getStatusOptions() {
 		return array('Pending', 'Published');
 	}
@@ -176,6 +182,10 @@ class Ad extends Model {
         
         $text = implode(' ', $arr_text);
         $this->setAttribute('full_text', $text);
+        
+        if ($this->getAttribute('status') == 1) {
+            $this->setAttribute('published_at', time());
+        }
     }
     
 	public static function save_ad($data = array()) {
@@ -219,8 +229,8 @@ class Ad extends Model {
 			'price' => '0',
 			'address' => '',
 			'category_id' => '0',
-			'latitude' => '',
-			'longtitude' => ''
+			'lat' => '',
+			'lng' => ''
 		);
 		extract(array_merge($default, $data));
 
@@ -238,8 +248,8 @@ class Ad extends Model {
 			$record->price = doubleval($price);
 			$record->address = $address;
 			$record->category_id = intval($category_id);
-			$record->latitude = floatval($latitude);
-			$record->longtitude = floatval($longtitude);
+			$record->lat = floatval($lat);
+			$record->lng = floatval($lng);
 
 			$record->save();
 		} catch (Exception $ex) {

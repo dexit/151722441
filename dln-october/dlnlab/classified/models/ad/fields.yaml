@@ -69,13 +69,13 @@ tabs:
             tab: dlnlab.classified::lang.ad.details
             span: full
             
-        latitude:
-            label: dlnlab.classified::lang.ad.latitude
+        lat:
+            label: dlnlab.classified::lang.ad.lat
             disabled: true
             span: left
             
-        longtitude:
-            label: dlnlab.classified::lang.ad.longtitude
+        lng:
+            label: dlnlab.classified::lang.ad.lng
             disabled: true
             span: right
             
