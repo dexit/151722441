@@ -17,3 +17,4 @@
     - create_crawl_phones_table.php
     - create_searches_table.php
     - create_search_users_table.php
+    - create_bitlies_table.php

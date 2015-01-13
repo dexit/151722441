@@ -18,4 +18,6 @@ App::before(function ($request) {
 	
 	Route::post('/api/v1/crawl/parent', 'DLNLab\Features\Classes\RestCrawl@postAddParentLinks');
 	Route::post('/api/v1/crawl/link', 'DLNLab\Features\Classes\RestCrawl@postLinks');
+    
+    Route::post('api/v1/bitly', 'DLNLab\Features\Classes\RestBitly@postBitlyLink');
 });
