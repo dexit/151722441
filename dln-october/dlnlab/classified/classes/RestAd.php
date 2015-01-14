@@ -15,10 +15,6 @@ use DLNLab\Classified\Models\AdActive;
 
 require('HelperResponse.php');
 
-function validate() {
-    
-}
-
 class RestAd extends BaseController {
     
     public function postUpload() {
@@ -181,4 +177,31 @@ class RestAd extends BaseController {
         return Response::json($arr_results);
     }
     
+    public function postShareAd() {
+        if (! Auth::check())
+            return Response::json(null);
+        
+        $data    = post();
+        $default = array(
+            'type' => '',
+            'page_id' => '',
+        );
+        extract(array_merge($default, $data));
+        
+        require('libraries/SocialAutoPoster/SocialAutoPoster.php');
+        $autoposter = new \SocialAutoPoster();
+        
+        switch($type) {
+            case 'facebook':
+                $facebook = $autoposter->getApi('facebook',array(
+                    'page_id' => '408730579166315',
+                    'appid' => '225132297553705',
+                    'appsecret' => '8f00d29717ee8c6a49cd25da80c5aad8',
+                    'access_token' => 'CAADMwbKfhykBAKj0OCExhhWBIRFJw5K1jRjijq3W4v7vkKgWHk3du1PfRXUtvKpVIcfJrFP32wuzFVpFW7DWlWhbZAz7sMyxhFcGUbJrMDR46tyiOcZAsvbKBoSEO7iymHuCzKgxfmtk0p3MuyRnZAKKCFapZBNGmRzF803pZBUVcZCLCghizLIgTO0mlH65Pk9WbtzXHKZC0uwwZAjMtkCq'
+                ));
+                $facebook->postToWall('Hello FB');
+                var_dump($facebook->getErrors());
+                break;
+        }
+    }
 }

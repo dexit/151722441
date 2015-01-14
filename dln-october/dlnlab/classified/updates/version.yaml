@@ -6,4 +6,6 @@
     - create_ad_reads_table.php
     - create_ad_actives_table.php
     - create_tags_table.php
+    - create_ad_shares_table.php
+    - create_user_access_tokens_table.php
     - seed_all_tables.php
