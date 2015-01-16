@@ -12,6 +12,8 @@ use Controller as BaseController;
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Models\AdActive;
 use DLNLab\Classified\Models\Tag;
+use DLNLab\Classified\Models\UserAccessToken;
+use DLNLab\Classified\Models\AdShare;
 use Symfony\Component\DomCrawler\Crawler;
 
 class RestCrawl extends BaseController {
@@ -65,4 +67,34 @@ class RestCrawl extends BaseController {
 		}
 		return Response::json(1);
 	}
+    
+    public function postAdShareCrawl() {
+        // Get AdShare active
+        $records = AdShare::whereRaw('status = ? AND is_read = ?', array(true, true))->take(100)->get();
+        if (! count($records))
+            return Response::json(array('status' => 'Error'), 500);
+        
+        // Get App access token
+        $app_at  = UserAccessToken::get_app_access_token();
+        $api_url = UserAccessToken::$api_url;
+        
+        foreach ($records as $record) {
+            // Get fb id
+            $fb_id = $record->fb_id;
+            if ($fb_id) {
+                $count_like    = $record->count_like;
+                $count_comment = $record->count_comment;
+                $like    = AdShare::get_like_count($fb_id, $app_at);
+                $comment = AdShare::get_comment_count($fb_id, $app_at);
+                if ($count_like != $like || $count_comment != $comment) {
+                    $record->count_like    = $like;
+                    $record->count_comment = $comment;
+                    $record->is_read       = false;
+                    $record->save();
+                }
+            }
+        }
+        
+        return Response::json(1);
+    }
 }

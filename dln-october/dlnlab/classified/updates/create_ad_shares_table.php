@@ -20,7 +20,7 @@ class CreateAdSharesTable extends Migration
             $table->integer('count_comment')->default(0);
             $table->text('log')->nullable();
             $table->boolean('is_read')->default(false);
-            $table->tinyInteger('status')->default(0);
+            $table->boolean('status')->default(true);
             $table->boolean('crawl')->default(false);
             $table->timestamps();
         });

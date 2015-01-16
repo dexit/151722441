@@ -38,7 +38,11 @@ class UserAccessToken extends Model
     
     public static $app_id     = '225132297553705';
     public static $app_secret = '8f00d29717ee8c6a49cd25da80c5aad8';
-    public static $api_url    = 'https://graph.facebook.com/v2.2/debug_token?';
+    public static $api_url    = 'https://graph.facebook.com/v2.2/';
+    
+    public static function get_app_access_token() {
+        return self::$app_id . '|' . self::$app_secret;
+    }
     
     public static function valid_access_token($user_id = 0) {
         if (empty($user_id))
@@ -65,7 +69,7 @@ class UserAccessToken extends Model
             return false;
         
         $obj = json_decode(file_get_contents(self::$api_url
-            . 'input_token=' . $access_token
+            . 'debug_token?input_token=' . $access_token
             . '&access_token=' . self::$app_id . '|' . self::$app_secret));
         
         if (! empty($obj->data->error)) {
