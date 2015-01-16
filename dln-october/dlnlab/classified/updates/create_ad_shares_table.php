@@ -12,14 +12,15 @@ class CreateAdSharesTable extends Migration
         {
             $table->engine = 'InnoDB';
             $table->increments('id');
+            $table->integer('user_id')->unsigned()->nullable()->index();
             $table->string('link', 500)->nullable();
 			$table->string('md5', 500)->nullable();
             $table->string('fb_id', 50)->nullable();
-            $table->string('page_id', 50)->nullable();
-            $table->integer('last_count')->default(0);
+            $table->integer('count_like')->default(0);
+            $table->integer('count_comment')->default(0);
             $table->text('log')->nullable();
             $table->boolean('is_read')->default(false);
-            $table->boolean('status')->default(false);
+            $table->tinyInteger('status')->default(0);
             $table->boolean('crawl')->default(false);
             $table->timestamps();
         });

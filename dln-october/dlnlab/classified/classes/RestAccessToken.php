@@ -43,13 +43,13 @@ class RestAccessToken extends BaseController {
             
             try {
                 $url  = "https://graph.facebook.com/oauth/access_token?code={$data['code']}&client_id={$app_id}&client_secret={$app_secret}&redirect_uri={$redirect_uri}";
-                $data = file_get_contents($url);
+                $data = @file_get_contents($url);
                 parse_str( $data );
 
                 if ($access_token) {
                     // Grant access_token
                     $url  = "https://graph.facebook.com/oauth/access_token?client_id={$app_id}&client_secret={$app_secret}&grant_type=fb_exchange_token&fb_exchange_token={$access_token}";
-                    $data = file_get_contents( $url );
+                    $data = @file_get_contents( $url );
                     parse_str( $data );
 
                     $user_id = Auth::getUser()->id;
@@ -57,7 +57,7 @@ class RestAccessToken extends BaseController {
                         $record = UserAccessToken::where('user_id', '=', $user_id)->first();
                         if (empty($record)) {
                             $record = new UserAccessToken;
-                            $record->user_id      = $user_id;
+                            $record->user_id    = $user_id;
                         }
                         $record->access_token = $access_token;
                         $record->expire = false;
@@ -80,15 +80,60 @@ class RestAccessToken extends BaseController {
         $default = array(
             'link'    => '',
             'message' => '',
-            'access_token' => ''
+            'tags' => ''
         );
         extract(array_merge($default, $data));
         
-        if (! UserAccessToken::check_access_token($access_token)) {
+        // Get access token
+        $user_id = Auth::getUser()->id;
+        $record  = UserAccessToken::valid_access_token($user_id);
+        
+        if (empty($record) || empty($record->access_token)) {
+            return Response::json(array('status' => 'Error'), 500);
+        }
+        $access_token = $record->access_token;
+        $check        = UserAccessToken::check_access_token($access_token);
+        if (! $check) {
             return Response::json(array('status' => 'Error'), 500);
         }
         
-        $obj = json_decode(file_get_contents($host . 'me/feed'));
+        $fb_user_id  = $check->user_id;
+        $record      = null;
+        if ($fb_user_id) {
+            $postdata = http_build_query(
+                array(
+                    'access_token' => $access_token,
+                    'message'      => $message,
+                    'link'         => $link,
+                    'privacy'      => array('value' => 'EVERYONE')
+                )
+            );
+            $opts = array('http' =>
+                array(
+                    'method' => 'POST',
+                    'header' => 'Content-type: application/x-www-form-urlencoded',
+                    'content' => $postdata
+                )
+            );
+            $context = stream_context_create($opts);
+            $obj = json_decode(@file_get_contents(self::$graph . $fb_user_id . '/feed', false, $context));
+            if (! empty($obj->id)) {
+                // Get like & comment count 
+                $like_count    = AdShare::get_like_count($obj->id, $access_token);
+                $comment_count = AdShare::get_comment_count($obj->id, $access_token);
+                
+                $user_id = Auth::getUser()->id;
+                $record  = new AdShare;
+                $record->user_id       = $user_id;
+                $record->link          = $link;
+                $record->md5           = md5($link);
+                $record->fb_id         = $obj->id;
+                $record->count_like    = $like_count;
+                $record->count_comment = $comment_count;
+                $record->save();
+            }
+        }
+        return Response::json($record);
     }
     
 }

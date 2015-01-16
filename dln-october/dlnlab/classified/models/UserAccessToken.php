@@ -38,6 +38,7 @@ class UserAccessToken extends Model
     
     public static $app_id     = '225132297553705';
     public static $app_secret = '8f00d29717ee8c6a49cd25da80c5aad8';
+    public static $api_url    = 'https://graph.facebook.com/v2.2/debug_token?';
     
     public static function valid_access_token($user_id = 0) {
         if (empty($user_id))
@@ -48,8 +49,8 @@ class UserAccessToken extends Model
             return false;
         } else {
             // Check access token has expire
-            $expire = self::check_access_token($record->access_token);
-            if ($expire) {
+            $check = self::check_access_token($record->access_token);
+            if (! $check) {
                 $record->expire = true;
                 $record->save();
                 return $record;
@@ -63,14 +64,14 @@ class UserAccessToken extends Model
         if (empty($access_token))
             return false;
         
-        $obj = json_decode(file_get_contents('https://graph.facebook.com/debug_token?'
+        $obj = json_decode(file_get_contents(self::$api_url
             . 'input_token=' . $access_token
             . '&access_token=' . self::$app_id . '|' . self::$app_secret));
         
-        if (!empty($obj->data->error)) {
+        if (! empty($obj->data->error)) {
             return false;
         } else {
-            return true;
+            return $obj->data;
         }
     }
 
