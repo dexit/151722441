@@ -70,7 +70,9 @@ class Plugin extends PluginBase {
 			'DLNLab\Classified\Components\AdDetail' => 'AdDetail',
 			'DLNLab\Classified\Components\AdList'   => 'AdList',
 			'DLNLab\Classified\Components\AdEdit'   => 'AdEdit',
-			'DLNLab\Classified\Components\AdCookie' => 'AdCookie'
+			'DLNLab\Classified\Components\AdCookie' => 'AdCookie',
+			'DLNLab\Classified\Components\Account'  => 'Account',
+			'DLNLab\Classified\Components\HeaderBar' => 'HeaderBar',
 		];
 	}
 

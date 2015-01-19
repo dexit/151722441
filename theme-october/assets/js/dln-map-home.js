@@ -20,7 +20,7 @@
         // default lat lng
         latlng = L.latLng(21.033333, 105.85000000000000);
 
-    	this.map = L.map('dln_map', {center: latlng, zoom: 15, layers: [tiles]});
+    	this.map = L.map('dln_map', {center: latlng, zoom: 15, layers: [tiles], scrollWheelZoom: false});
     };
     
     MapHome.prototype.initClusterMarkers = function () {

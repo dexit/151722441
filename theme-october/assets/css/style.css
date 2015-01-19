@@ -1,5 +1,5 @@
 .page-container .page-content-wrapper .content {
-    padding-top: 70px;
+    padding-top: 48px;
 }
 .page-content-wrapper.active .filter-wrapper {
     display: block;
@@ -11,11 +11,11 @@
     z-index: 100;
 }
 .header {
-    height: 70px;
+    height: 48px;
     border-bottom: none;
 }
 .menu-container {
-    padding-top: 16px;
+    padding-top: 8px;
 }
 .copyright {
     padding: 10px;

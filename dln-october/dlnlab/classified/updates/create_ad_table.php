@@ -28,7 +28,7 @@ class CreateAdTable extends Migration {
 			$table->integer('read')->default(0);
 			$table->timestamps();
 		});
-        DB::statement('ALTER TABLE `dlnlab_classified_ads` ADD FULLTEXT(`full_text`);');
+        //DB::statement('ALTER TABLE `dlnlab_classified_ads` ADD FULLTEXT(`full_text`);');
 	}
 
 	public function down() {

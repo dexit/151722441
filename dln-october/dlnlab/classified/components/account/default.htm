@@ -1,0 +1,4 @@
+{% if not user and type == register %}
+    {% partial __SELF__ ~ '::register' %}
+{% endif %}
+<script src="{{ ['~/plugins/dlnlab/classified/assets/js/com-account-register.js']|theme }}"></script>
