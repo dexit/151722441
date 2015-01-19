@@ -74,23 +74,35 @@ class RestCrawl extends BaseController {
         if (! count($records))
             return Response::json(array('status' => 'Error'), 500);
         
+        // Get user access tokens
+        $arr_uids = array();
+        foreach ($records as $record) {
+            $arr_uids[] = $record->user_id;
+        }
+        $access_tokens = UserAccessToken::whereIn('user_id', $arr_uids)->get();
+        if (! count($access_tokens))
+            return Response::json(array('status' => 'Error'), 500);
+        
         // Get App access token
-        $app_at  = UserAccessToken::get_app_access_token();
         $api_url = UserAccessToken::$api_url;
         
         foreach ($records as $record) {
             // Get fb id
             $fb_id = $record->fb_id;
             if ($fb_id) {
-                $count_like    = $record->count_like;
-                $count_comment = $record->count_comment;
-                $like    = AdShare::get_like_count($fb_id, $app_at);
-                $comment = AdShare::get_comment_count($fb_id, $app_at);
-                if ($count_like != $like || $count_comment != $comment) {
-                    $record->count_like    = $like;
-                    $record->count_comment = $comment;
-                    $record->is_read       = false;
-                    $record->save();
+                foreach ($access_tokens as $item) {
+                    if ($item->user_id == $record->user_id) {
+                        $count_like    = $record->count_like;
+                        $count_comment = $record->count_comment;
+                        $like    = AdShare::get_like_count($fb_id, $item->access_token);
+                        $comment = AdShare::get_comment_count($fb_id, $item->access_token);
+                        if ($count_like != $like || $count_comment != $comment) {
+                            $record->count_like    = $like;
+                            $record->count_comment = $comment;
+                            $record->is_read       = false;
+                            $record->save();
+                        }
+                    }
                 }
             }
         }

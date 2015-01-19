@@ -54,7 +54,12 @@ class Plugin extends PluginBase {
 						'label' => 'Tags',
 						'icon' => 'icon-list-ul',
 						'url' => Backend::url('dlnlab/classified/tag'),
-					]
+					],
+                    'ad_share_page' => [
+                        'label' => 'Share Pages',
+                        'icon' => 'icon-list-ul',
+                        'url' => Backend::url('dlnlab/classified/adsharepage'),
+                    ]
 				]
 			]
 		];

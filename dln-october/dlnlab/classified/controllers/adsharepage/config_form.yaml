@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: AdSharePage
+
+# Model Form Field configuration
+form: $/dlnlab/classified/models/adsharepage/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\Classified\Models\AdSharePage
+
+# Default redirect location
+defaultRedirect: dlnlab/classified/adsharepage
+
+# Create page
+create:
+    title: Create AdSharePage
+    redirect: dlnlab/classified/adsharepage/update/:id
+    redirectClose: dlnlab/classified/adsharepage
+
+# Update page
+update:
+    title: Edit AdSharePage
+    redirect: dlnlab/classified/adsharepage
+    redirectClose: dlnlab/classified/adsharepage
+
+# Preview page
+preview:
+    title: Preview AdSharePage
