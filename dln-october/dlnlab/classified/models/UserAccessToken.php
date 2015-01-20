@@ -78,5 +78,16 @@ class UserAccessToken extends Model
             return $obj->data;
         }
     }
+    
+    public static function get_page_infor($page_link = '') {
+        if (empty($page_link))
+            return false;
+        
+        $obj = null;
+        $url = self::$api_url . '?id=' . $page_link . '&access_token=' . self::get_app_access_token();
+        $obj = json_decode(file_get_contents($url));
+        
+        return $obj;
+    }
 
 }

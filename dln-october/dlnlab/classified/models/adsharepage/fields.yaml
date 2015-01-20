@@ -30,6 +30,7 @@ tabs:
             label: Like
             tab: Details
             span: left
+            type: number
             
         count:
             label: Share count

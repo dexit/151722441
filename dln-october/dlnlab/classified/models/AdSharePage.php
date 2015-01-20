@@ -36,4 +36,13 @@ class AdSharePage extends Model
     public $attachOne = [];
     public $attachMany = [];
 
+    public function getLikeAttribute() {
+        $like = number_format((float) $this->attributes['like']);
+        return $like;
+    }
+    
+    public function getFBIDAttribute() {
+        $fb_id = $this->attributes['fb_id'];
+        return "<a href='https://www.facebook.com/{$fb_id}' target='_blank' onclick='javascript:void(0)'>https://www.facebook.com/{$fb_id}</a>";
+    }
 }

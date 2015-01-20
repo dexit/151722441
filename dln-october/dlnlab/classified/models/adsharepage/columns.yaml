@@ -17,6 +17,7 @@ columns:
     like:
         label: Like
         sortable: true
+        type: number
         
     count:
         label: Share Count
