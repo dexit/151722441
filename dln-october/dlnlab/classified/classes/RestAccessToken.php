@@ -6,10 +6,12 @@ use Auth;
 use Input;
 use Response;
 use Redirect;
+use Cookie;
 use Validator;
 use Controller as BaseController;
 use DLNLab\Classified\Models\UserAccessToken;
 use DLNLab\Classified\Models\AdShare;
+use DLNLab\Classified\Models\AdSharePage;
 
 require('HelperResponse.php');
 
@@ -22,9 +24,14 @@ class RestAccessToken extends BaseController {
         if (! Auth::check())
             return Response::json(array('status' => 'error'), 500);
         
+        $get = get();
+        if (!empty($get['return_url'])) {
+            Cookie::queue('dln_return_url', $get['return_url'], 10);
+        }
+        
         $app_id       = UserAccessToken::$app_id;
         $perms        = 'user_about_me,email,manage_pages,publish_actions';
-        $redirect_uri = 'http://localhost/october/api/v1/callback_fb';
+        $redirect_uri = self::$host . 'api/v1/callback_fb';
         $login_link   = "https://www.facebook.com/dialog/oauth?client_id={$app_id}&redirect_uri={$redirect_uri}&scope={$perms}";
         
         return Redirect::to($login_link);
@@ -39,16 +46,17 @@ class RestAccessToken extends BaseController {
         if (! empty($data['code'])) {
             $app_id     = UserAccessToken::$app_id;
             $app_secret = UserAccessToken::$app_secret;
-            $redirect_uri = 'http://localhost/october/api/v1/callback_fb';
+            $redirect_uri = self::$host . 'api/v1/callback_fb';
             
             try {
-                $url  = "https://graph.facebook.com/oauth/access_token?code={$data['code']}&client_id={$app_id}&client_secret={$app_secret}&redirect_uri={$redirect_uri}";
+                $url  = "https://graph.facebook.com/v2.2/oauth/access_token?code={$data['code']}&client_id={$app_id}&client_secret={$app_secret}&redirect_uri={$redirect_uri}";
                 $data = @file_get_contents($url);
                 parse_str( $data );
-
+                
                 if ($access_token) {
+                    $access_token = trim($access_token);
                     // Grant access_token
-                    $url  = "https://graph.facebook.com/oauth/access_token?client_id={$app_id}&client_secret={$app_secret}&grant_type=fb_exchange_token&fb_exchange_token={$access_token}";
+                    $url  = "https://graph.facebook.com/v2.2/oauth/access_token?client_id={$app_id}&client_secret={$app_secret}&grant_type=fb_exchange_token&fb_exchange_token={$access_token}";
                     $data = @file_get_contents( $url );
                     parse_str( $data );
 
@@ -62,6 +70,10 @@ class RestAccessToken extends BaseController {
                         $record->access_token = $access_token;
                         $record->expire = false;
                         $record->save();
+                        if (Cookie::get('dln_return_url')) {
+                            Cookie::queue('dln_access_token', $access_token, 10);
+                            return Redirect::to(Cookie::get('dln_return_url'));
+                        }
                     }
                 }
             } catch (Exception $ex) {
@@ -136,4 +148,34 @@ class RestAccessToken extends BaseController {
         return Response::json($record);
     }
     
+    public function getUpdatePageAccessTokenFB() {
+        if (! Auth::check()) {
+            return Response::json(array('status' => 'Error'), 500);
+        }
+        
+        $access_token = Cookie::get('dln_access_token');
+        if (empty($access_token)) {
+            return Response::json(array('status' => 'Error'), 500);
+        }
+        
+        $obj = json_decode(file_get_contents(UserAccessToken::$api_url . 'me/accounts?access_token=' . $access_token));
+        if (! empty($obj->data)) {
+            $pages = $obj->data;
+            
+            foreach ($pages as $page) {
+                if ($page->access_token) {
+                    $record = AdSharePage::where('fb_id', '=', $page->id)->first();
+                    if (empty($record)) {
+                        $record = new AdSharePage;
+                    }
+                    $record->name  = (isset($page->name)) ? $page->name : '';
+                    $record->fb_id = (isset($page->id)) ? $page->id : '';
+                    $record->like  = (isset($page->likes)) ? $page->likes : 0;
+                    $record->crawl = false;
+                    $record->access_token = $access_token;
+                    $record->save();
+                }
+            }
+        }
+    }
 }

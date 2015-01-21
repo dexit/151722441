@@ -87,6 +87,18 @@ class UserAccessToken extends Model
         $url = self::$api_url . '?id=' . $page_link . '&access_token=' . self::get_app_access_token();
         $obj = json_decode(file_get_contents($url));
         
+        if (! empty($obj->id)) {
+            $record = AdSharePageModel::where('fb_id', '=', $obj->id)->first();
+            if (empty($record)) {
+                $record = new AdSharePageModel;
+            }
+            $record->name  = (isset($obj->name)) ? $obj->name : '';
+            $record->fb_id = (isset($obj->id)) ? $obj->id : '';
+            $record->like  = (isset($obj->likes)) ? $obj->likes : 0;
+            $record->talking_about = (isset($obj->talking_about)) ? $obj->talking_about : 0;
+            $record->save();
+        }
+
         return $obj;
     }
 

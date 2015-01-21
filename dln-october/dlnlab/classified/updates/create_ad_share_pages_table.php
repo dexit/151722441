@@ -15,8 +15,11 @@ class CreateAdSharePagesTable extends Migration
             $table->string('name')->nullable();
             $table->string('fb_id')->nullable();
             $table->integer('like')->default(0);
+            $table->integer('talking_about')->default(0);
+            $table->text('access_token')->nullable();
             $table->integer('count')->default(0);
             $table->boolean('status')->default(true);
+            $table->boolean('crawl')->default(false);
             $table->timestamps();
         });
     }

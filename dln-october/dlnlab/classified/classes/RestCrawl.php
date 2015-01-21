@@ -14,6 +14,7 @@ use DLNLab\Classified\Models\AdActive;
 use DLNLab\Classified\Models\Tag;
 use DLNLab\Classified\Models\UserAccessToken;
 use DLNLab\Classified\Models\AdShare;
+use DLNLab\Classified\Models\AdSharePage;
 use Symfony\Component\DomCrawler\Crawler;
 
 class RestCrawl extends BaseController {
@@ -108,5 +109,21 @@ class RestCrawl extends BaseController {
         }
         
         return Response::json(1);
+    }
+    
+    public function postAdSharePage() {
+        $records = AdShare::whereRaw('status = ? AND crawl = ?', array(true, false))->take(100)->get();
+        if (! count($records))
+            return Response::json(array('status' => 'Error'), 500);
+        
+        foreach ($records as $record) {
+            if ($record->fb_id) {
+                $link = "https://www.facebook.com/" . $record->fb_id;
+                UserAccessToken::get_page_infor($AdSharePage['fb_link']);
+                $record->crawl = true;
+                $record->save();
+            }
+        }
+        return Response::json(array('status' => 'Success'), 500);
     }
 }
