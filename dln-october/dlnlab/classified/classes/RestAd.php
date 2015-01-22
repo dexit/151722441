@@ -12,6 +12,7 @@ use October\Rain\Support\ValidationException;
 use System\Models\File;
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Models\AdActive;
+use DLNLab\Classified\Models\AdShareCount;
 
 require('HelperResponse.php');
 

@@ -186,6 +186,24 @@ class Ad extends Model {
         if ($this->getAttribute('status') == 1) {
             $this->setAttribute('published_at', time());
         }
+        
+        AdShareCount::where('ad_id', '=', $this->attributes['id'])->update(array('status' => $this->getAttribute('status')));
+    }
+    
+    public function afterCreate() {
+        $ad_id = $this->attributes['id'];
+        if (empty($ad_id)) {
+            return false;
+        }
+        
+        $link = self::get_ad_link($ad_id);
+        
+        $record = AdShareCount::where('ad_id', '=', $ad_id)->first();
+        if (! $record) {
+            $record = new AdShareCount;
+            $record->ad_id = $ad_id;
+        }
+        $record->save();
     }
     
 	public static function save_ad($data = array()) {
@@ -259,4 +277,10 @@ class Ad extends Model {
         return $record;
 	}
 
+    public static function get_ad_link($ad_id = 0) {
+        if (! $ad_id)
+            return false;
+        
+        return 'http://localhost/october/' . $ad_id;
+    }
 }

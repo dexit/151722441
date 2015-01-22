@@ -49,14 +49,14 @@ class RestAccessToken extends BaseController {
             $redirect_uri = self::$host . 'api/v1/callback_fb';
             
             try {
-                $url  = "https://graph.facebook.com/v2.2/oauth/access_token?code={$data['code']}&client_id={$app_id}&client_secret={$app_secret}&redirect_uri={$redirect_uri}";
+                $url  = self::$graph . "oauth/access_token?code={$data['code']}&client_id={$app_id}&client_secret={$app_secret}&redirect_uri={$redirect_uri}";
                 $data = @file_get_contents($url);
                 parse_str( $data );
                 
                 if ($access_token) {
                     $access_token = trim($access_token);
                     // Grant access_token
-                    $url  = "https://graph.facebook.com/v2.2/oauth/access_token?client_id={$app_id}&client_secret={$app_secret}&grant_type=fb_exchange_token&fb_exchange_token={$access_token}";
+                    $url  = self::$graph . "oauth/access_token?client_id={$app_id}&client_secret={$app_secret}&grant_type=fb_exchange_token&fb_exchange_token={$access_token}";
                     $data = @file_get_contents( $url );
                     parse_str( $data );
 
@@ -90,9 +90,10 @@ class RestAccessToken extends BaseController {
         $data = post();
         
         $default = array(
+            'ad_id'   => '',
+            'type'    => '',
             'link'    => '',
-            'message' => '',
-            'tags' => ''
+            'message' => ''
         );
         extract(array_merge($default, $data));
         
@@ -130,18 +131,13 @@ class RestAccessToken extends BaseController {
             $context = stream_context_create($opts);
             $obj = json_decode(@file_get_contents(self::$graph . $fb_user_id . '/feed', false, $context));
             if (! empty($obj->id)) {
-                // Get like & comment count 
-                $like_count    = AdShare::get_like_count($obj->id, $access_token);
-                $comment_count = AdShare::get_comment_count($obj->id, $access_token);
-                
                 $user_id = Auth::getUser()->id;
                 $record  = new AdShare;
-                $record->user_id       = $user_id;
-                $record->link          = $link;
-                $record->md5           = md5($link);
-                $record->fb_id         = $obj->id;
-                $record->count_like    = $like_count;
-                $record->count_comment = $comment_count;
+                $record->ad_id    = $ad_id;
+                $record->user_id  = $user_id;
+                $record->link     = $link;
+                $record->md5      = md5($link);
+                $record->share_id = $obj->id;
                 $record->save();
             }
         }

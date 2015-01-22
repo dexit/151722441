@@ -15,6 +15,7 @@ use DLNLab\Classified\Models\Tag;
 use DLNLab\Classified\Models\UserAccessToken;
 use DLNLab\Classified\Models\AdShare;
 use DLNLab\Classified\Models\AdSharePage;
+use DLNLab\Classified\Models\AdShareCount;
 use Symfony\Component\DomCrawler\Crawler;
 
 class RestCrawl extends BaseController {
@@ -23,7 +24,7 @@ class RestCrawl extends BaseController {
     public static $limit_crawl_ad_active = 100;
     public static $limit_crawl_tag_count = 10;
 	
-	public function postAdDeactive() {
+	public function getAdDeactive() {
 		// Get all ad actived
 		$arr_ids = array();
 		$records = AdActive::where('status', '=', 1)->take(self::$limit_crawl_ad_active)->get();
@@ -47,33 +48,37 @@ class RestCrawl extends BaseController {
 			}
 		}
 		var_dump($arr_ids);
+        return Response::json(array('status' => 'Success'), 200);
 	}
 	
-	public function postRefreshTagCount() {
+	public function getRefreshTagCount() {
 		// Get tags
 		$tags = Tag::where('crawl', '=', false)->take(self::$limit_crawl_tag_count)->get();
 		if (!$tags->count()) {
 			// Reset crawl status for all tags
-			Tag::where('crawl', '=', true)->update(array('crawl' => false));
-		} else {
-			foreach ($tags as $tag) {
-				if ($tag->id)  {
-					// Count ad for tag
-					$count      = DB::table('dlnlab_classified_ads_tags')->where('tag_id', '=', $tag->id)->count();
-					$tag->count = $count;
-					$tag->crawl = true;
-					$tag->save();
-				}
-			}
-		}
-		return Response::json(1);
+			Tag::all()->update(array('crawl' => false));
+            return Response::json(array('status' => 'Error'), 500);
+        }
+
+        foreach ($tags as $tag) {
+            if ($tag->id)  {
+                // Count ad for tag
+                $count      = DB::table('dlnlab_classified_ads_tags')->where('tag_id', '=', $tag->id)->count();
+                $tag->count = $count;
+                $tag->crawl = true;
+                $tag->save();
+            }
+        }
+		return Response::json(array('status' => 'Success'), 200);
 	}
     
-    public function postAdShareCrawl() {
+    public function getAdShareStatusCrawl() {
         // Get AdShare active
-        $records = AdShare::whereRaw('status = ? AND is_read = ?', array(true, true))->take(100)->get();
-        if (! count($records))
+        $records = AdShare::whereRaw('status = ? AND is_read = ?', array(1, true))->take(100)->get();
+        if (! count($records)) {
+            //AdShare::all()->update(array('is_read' => false));
             return Response::json(array('status' => 'Error'), 500);
+        }
         
         // Get user access tokens
         $arr_uids = array();
@@ -89,32 +94,39 @@ class RestCrawl extends BaseController {
         
         foreach ($records as $record) {
             // Get fb id
-            $fb_id = $record->fb_id;
-            if ($fb_id) {
-                foreach ($access_tokens as $item) {
-                    if ($item->user_id == $record->user_id) {
-                        $count_like    = $record->count_like;
-                        $count_comment = $record->count_comment;
-                        $like    = AdShare::get_like_count($fb_id, $item->access_token);
-                        $comment = AdShare::get_comment_count($fb_id, $item->access_token);
-                        if ($count_like != $like || $count_comment != $comment) {
-                            $record->count_like    = $like;
-                            $record->count_comment = $comment;
-                            $record->is_read       = false;
-                            $record->save();
+            switch ($record->share_type) {
+                case 'facebook':
+                    $fb_id = $record->share_id;
+                    if ($fb_id) {
+                        foreach ($access_tokens as $item) {
+                            if ($item->user_id == $record->user_id) {
+                                $count_like    = $record->count_like;
+                                $count_comment = $record->count_comment;
+                                $like    = AdShare::get_like_count($fb_id, $item->access_token);
+                                $comment = AdShare::get_comment_count($fb_id, $item->access_token);
+                                if ($count_like != $like || $count_comment != $comment) {
+                                    $record->count_like    = $like;
+                                    $record->count_comment = $comment;
+                                    $record->total_count   = $like + $comment;
+                                    $record->is_read       = false;
+                                    $record->save();
+                                }
+                            }
                         }
                     }
-                }
+                    break;
             }
         }
         
         return Response::json(1);
     }
     
-    public function postAdSharePage() {
+    public function getAdSharePage() {
         $records = AdShare::whereRaw('status = ? AND crawl = ?', array(true, false))->take(100)->get();
-        if (! count($records))
+        if (! count($records)) {
+            AdShare::all()->update(array('crawl' => false));
             return Response::json(array('status' => 'Error'), 500);
+        }
         
         foreach ($records as $record) {
             if ($record->fb_id) {
@@ -124,6 +136,40 @@ class RestCrawl extends BaseController {
                 $record->save();
             }
         }
-        return Response::json(array('status' => 'Success'), 500);
+        
+        return Response::json(array('status' => 'Success'), 200);
+    }
+    
+    public function getAdShareCount() {
+        $records = AdShareCount::whereRaw('status = ? AND crawl = ?', array(1, false))->take(100)->get();
+        if (! count($records)) {
+            AdShareCount::all()->update(array('crawl' => false));
+            return Response::json(array('status' => 'Error'), 500);
+        }
+        
+        $continue = true;
+        foreach ($records as $record) {
+            if ($record->ad_id) {
+                if ($continue) {
+                    $link = Ad::get_ad_link($record->ad_id);
+                
+                    if (!isset($obj->Facebook)) {
+                        $continue = false;
+                        return false;
+                    }
+                    $obj = AdShareCount::get_obj_share_count($link);
+                    $record->share_count   = $obj->Facebook->share_count;
+                    $record->comment_count = $obj->Facebook->comment_count;
+                    $record->like_count    = $obj->Facebook->like_count;
+                    $record->gp_count      = $obj->GooglePlusOne;
+                    $record->tw_count      = $obj->Twitter;
+                    $record->pin_count     = $obj->Pinterest;
+                    $record->crawl         = true;
+                    $record->save();
+                }
+            }
+        }
+        
+        return Response::json(array('status' => 'Success'), 200);
     }
 }
