@@ -15,4 +15,6 @@ App::before(function ($request) {
     Route::get('/api/v1/callback_fb', 'DLNLab\Classified\Classes\RestAccessToken@getCallbackFB');
     Route::get('/api/v1/update_page_access_token','DLNLab\Classified\Classes\RestAccessToken@getUpdatePageAccessTokenFB' );
     Route::post('/api/v1/post_fb', 'DLNLab\Classified\Classes\RestAccessToken@postFeedFB');
+    
+    Route::post('/api/v1/login', 'DLNLab\Classified\Classes\RestAccount@postLogin');
 });

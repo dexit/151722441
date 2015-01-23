@@ -1,70 +1,77 @@
-<div class="modal fade slide-up disable-scroll" id="dln_modal_register" tabindex="-1" role="dialog" aria-hidden="false">
+<div class="modal fade slide-up disable-scroll register" id="dln_modal_register" tabindex="-1" role="dialog" aria-hidden="false">
     <div class="modal-dialog modal-sm">
         <div class="modal-content-wrapper">
             <div class="modal-content">
-                <div class="modal-header clearfix text-left">
+                <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
                     </button>
-                    <h5>Đăng ký <span class="semi-bold">tài khoản</span></h5>
-                    <p class="p-b-10">Chỉ trong vài phút </p>
                 </div>
                 <div class="modal-body">
-                    
                     <div class="social-buttons">
-                        <button type="button" class="btn btn-block btn-info">
+                        <a href="javascript:void(0);" class="btn btn-block btn-facebook dln-register-facebook">
                             <span class="pull-left"><i class="fa fa-facebook"></i></span>
                             <span class="bold">Đăng ký bằng Facebook</span>
-                        </button>
-                        <button type="button" class="btn btn-block btn-danger">
+                        </a>
+                        <button id="dln_register_googleplus" type="button" class="btn btn-block">
                             <span class="pull-left"><i class="fa fa-google-plus"></i></span>
                             <span class="bold">Đăng ký bằng Google+</span>
                         </button>
                     </div>
+                    <div class="text-center social-links">
+                        Đăng ký bằng <a href="#" class="dln-register-facebook">Facebook</a> hoặc <a href="#">Google</a>
+                    </div>
                     <div class="signup-or-separator">
-                        <h6 class="shift text text-special">or</h6>
+                        <h6 class="shift text text-special">hoặc</h6>
                         <hr>
                     </div>
-                    
-                    <form role="form" data-request="onRegister">
-                        <div class="form-group-attached">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group form-group-default">
-                                        <label>Company Name</label>
-                                        <input type="email" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <div class="form-group form-group-default">
-                                        <label>Card Number</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group form-group-default">
-                                        <label>Card Holder</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="social-buttons register-block">
+                        <button id="dln_register_email" type="button" class="btn btn-block btn-danger">
+                            <span class="pull-left"><i class="fa fa-envelope-o"></i>
+                            </span>
+                            <span class="bold">Đăng ký bằng Email</span>
+                        </button>
+                    </div>
+                    <form id="dln_form_register" class="register-block" role="form" data-request="onRegister" method="post">
+                        <div class="form-group form-group-default">
+                            <label>Tên</label>
+                            <input type="text" name="name" class="form-control" minlength="2" required>
                         </div>
+                        <div class="form-group  form-group-default required">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="ví dụ: vidu@gmail.com" required>
+                        </div>
+                        <div class="form-group form-group-default required">
+                            <label>Mật khẩu</label>
+                            <input id="password" type="password" name="password" class="form-control" required minlength="6">
+                        </div>
+                        <div class="form-group form-group-default required">
+                            <label>Xác nhận mật khẩu</label>
+                            <input type="password" name="password_confirmation" class="form-control" required equalTo="#password" minlength="6">
+                        </div>
+                        <button id="dln_btn_register" type="submit" class="btn btn-block btn-danger">
+                            <span class="pull-left"><i class="fs-14 sl-user-follow"></i>
+                            </span>
+                            <span class="bold">Đăng ký</span>
+                        </button>
                     </form>
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <div class="p-t-20 clearfix p-l-10 p-r-10">
-                                <div class="pull-left">
-                                    <p class="bold font-montserrat text-uppercase">TOTAL</p>
-                                </div>
-                                <div class="pull-right">
-                                    <p class="bold font-montserrat text-uppercase">$20.00</p>
-                                </div>
-                            </div>
+                    <form id="dln_form_login" class="login-block" role="form" method="post">
+                        <div class="form-group  form-group-default required">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="ví dụ: vidu@gmail.com" required>
                         </div>
-                        <div class="col-sm-4 m-t-10 sm-m-t-10">
-                            <button type="button" class="btn btn-primary btn-block m-t-5">Pay Now</button>
+                        <div class="form-group form-group-default required">
+                            <label>Mật khẩu</label>
+                            <input id="password" type="password" name="password" class="form-control" required minlength="6">
                         </div>
+                        <button id="dln_btn_login" type="submit" class="btn btn-block btn-danger">
+                            <span class="pull-left"><i class="fs-14 sl-user-follow"></i>
+                            </span>
+                            <span class="bold">Đăng nhập</span>
+                        </button>
+                    </form>
+                    <hr />
+                    <div class="register-bottom">
+                        Bạn <span class="register-block">đã</span><span class="login-block">chưa</span> có tài khoản? <a href="#" id="toggle_login">Đăng nhập</a><a href="#" id="toggle_register" class="login-block">Đăng ký</a>
                     </div>
                 </div>
             </div>

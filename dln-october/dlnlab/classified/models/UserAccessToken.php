@@ -102,7 +102,7 @@ class UserAccessToken extends Model
     }
     
     public static function get_user_infor($fb_uid, $access_token) {
-        $url = self::$api_url . $fb_uid . '&access_token=' . $access_token;
+        $url = self::$api_url . $fb_uid . '?access_token=' . $access_token;
         $obj = json_decode(file_get_contents($url));
         return $obj;
     }

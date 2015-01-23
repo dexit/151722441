@@ -3,11 +3,13 @@
 namespace DLNLab\Classified\Classes;
 
 use Auth;
+use DB;
 use Input;
 use Response;
 use Redirect;
 use Cookie;
 use Validator;
+use Exception;
 use Controller as BaseController;
 use DLNLab\Classified\Models\UserAccessToken;
 use DLNLab\Classified\Models\AdShare;
@@ -57,32 +59,38 @@ class RestAccessToken extends BaseController {
                     
                     if (Auth::check()) {
                         $user_id = Auth::getUser()->id;
-                        $record = UserAccessToken::where('user_id', '=', $user_id)->first();
-                        if (empty($record)) {
-                            $record = new UserAccessToken;
-                            $record->user_id    = $user_id;
-                        }
-                        $record->access_token = $access_token;
-                        $record->expire = false;
-                        $record->save();
+                        self::saveUserAccessToken($user_id, $access_token);
                     } else {
                         // Get current facebook user email
                         $obj = UserAccessToken::check_access_token($access_token);
                         if ($obj) {
                             $fb_uid  = $obj->user_id;
                             $fb_user = UserAccessToken::get_user_infor($fb_uid, $access_token);
-                            if (! empty($obj->email)) {
-                                // Check user exists in DB
-                                $user = User::where('email', '=', $obj->email)->first();
-                                if (! $user) {
-                                    $user = new User;
-                                }
-                                $user->email  = $obj->email;
-                                $user->fb_uid = $fb_uid;
-                                $user->name   = $obj->name;
-                                $user->save();
+                            
+                            if (! empty($fb_user->email)) {
+                                DB::beginTransaction();
+                                try {
+                                    // Check user exists in DB
+                                    $user = User::where('email', '=', $fb_user->email)->first();
+                                    if (! $user) {
+                                        $password       = str_random(8);
+                                        $user           = new User;
+                                        $user->password = $password;
+                                        $user->password_confirmation = $password; 
+                                    }
+                                    $user->email    = $fb_user->email;
+                                    $user->fb_uid   = $fb_user->id;
+                                    $user->name     = $fb_user->name;
+                                    $user->username = $fb_user->email;
+                                    $user->save();
+                                    self::saveUserAccessToken($user->id, $access_token);
                                 
-                                Auth::login($user);
+                                    Auth::login($user);
+                                } catch(Exception $e) {
+                                    DB::rollback();
+                                    throw $e;
+                                }
+                                DB::commit();
                             }
                         }
                     }
@@ -92,10 +100,25 @@ class RestAccessToken extends BaseController {
                     }
                 }
             } catch (Exception $ex) {
-                return Response::json(array('status' => 'Error'), 500);
+                return Response::json(array('status' => 'Error', 'message' => $ex->getMessage()), 500);
             }
         }
         return Response::json(array('status' => 'Success'), 200);
+    }
+    
+    private static function saveUserAccessToken($user_id, $access_token) {
+        try {
+            $record = UserAccessToken::where('user_id', '=', $user_id)->first();
+            if (empty($record)) {
+                $record = new UserAccessToken;
+                $record->user_id    = $user_id;
+            }
+            $record->access_token = $access_token;
+            $record->expire = false;
+            $record->save();
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
     
     public function postFeedFB() {

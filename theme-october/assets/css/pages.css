@@ -2445,10 +2445,9 @@ fieldset[disabled] .form-control {
 }
 
 .form-group label:not(.error) {
-  font-family: 'Montserrat';
   font-size: 11px;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .form-group label .help {
