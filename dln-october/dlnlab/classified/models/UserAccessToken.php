@@ -7,7 +7,6 @@ use Model;
  */
 class UserAccessToken extends Model
 {
-
     /**
      * @var string The database table used by the model.
      */
@@ -99,6 +98,12 @@ class UserAccessToken extends Model
             $record->save();
         }
 
+        return $obj;
+    }
+    
+    public static function get_user_infor($fb_uid, $access_token) {
+        $url = self::$api_url . $fb_uid . '&access_token=' . $access_token;
+        $obj = json_decode(file_get_contents($url));
         return $obj;
     }
 

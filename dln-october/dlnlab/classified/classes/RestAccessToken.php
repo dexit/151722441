@@ -12,6 +12,7 @@ use Controller as BaseController;
 use DLNLab\Classified\Models\UserAccessToken;
 use DLNLab\Classified\Models\AdShare;
 use DLNLab\Classified\Models\AdSharePage;
+use October\Rain\Auth\Models\User;
 
 require('HelperResponse.php');
 
@@ -21,9 +22,6 @@ class RestAccessToken extends BaseController {
     public static $host  = 'http://localhost/october/';
     
     public function getAuthenticateFB() {
-        if (! Auth::check())
-            return Response::json(array('status' => 'error'), 500);
-        
         $get = get();
         if (!empty($get['return_url'])) {
             Cookie::queue('dln_return_url', $get['return_url'], 10);
@@ -38,9 +36,6 @@ class RestAccessToken extends BaseController {
     }
     
     public function getCallbackFB() {
-        if (! Auth::check())
-            return Response::json(array('status' => 'Error'), 500);
-        
         $data = get();
         
         if (! empty($data['code'])) {
@@ -59,9 +54,9 @@ class RestAccessToken extends BaseController {
                     $url  = self::$graph . "oauth/access_token?client_id={$app_id}&client_secret={$app_secret}&grant_type=fb_exchange_token&fb_exchange_token={$access_token}";
                     $data = @file_get_contents( $url );
                     parse_str( $data );
-
-                    $user_id = Auth::getUser()->id;
-                    if ($user_id) {
+                    
+                    if (Auth::check()) {
+                        $user_id = Auth::getUser()->id;
                         $record = UserAccessToken::where('user_id', '=', $user_id)->first();
                         if (empty($record)) {
                             $record = new UserAccessToken;
@@ -70,10 +65,30 @@ class RestAccessToken extends BaseController {
                         $record->access_token = $access_token;
                         $record->expire = false;
                         $record->save();
-                        if (Cookie::get('dln_return_url')) {
-                            Cookie::queue('dln_access_token', $access_token, 10);
-                            return Redirect::to(Cookie::get('dln_return_url'));
+                    } else {
+                        // Get current facebook user email
+                        $obj = UserAccessToken::check_access_token($access_token);
+                        if ($obj) {
+                            $fb_uid  = $obj->user_id;
+                            $fb_user = UserAccessToken::get_user_infor($fb_uid, $access_token);
+                            if (! empty($obj->email)) {
+                                // Check user exists in DB
+                                $user = User::where('email', '=', $obj->email)->first();
+                                if (! $user) {
+                                    $user = new User;
+                                }
+                                $user->email  = $obj->email;
+                                $user->fb_uid = $fb_uid;
+                                $user->name   = $obj->name;
+                                $user->save();
+                                
+                                Auth::login($user);
+                            }
                         }
+                    }
+                    if (Cookie::get('dln_return_url')) {
+                        Cookie::queue('dln_access_token', $access_token, 10);
+                        return Redirect::to(Cookie::get('dln_return_url'));
                     }
                 }
             } catch (Exception $ex) {
