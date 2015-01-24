@@ -10,6 +10,7 @@ use Redirect;
 use Cookie;
 use Validator;
 use Exception;
+use System\Models\File;
 use Controller as BaseController;
 use DLNLab\Classified\Models\UserAccessToken;
 use DLNLab\Classified\Models\AdShare;
@@ -58,8 +59,16 @@ class RestAccessToken extends BaseController {
                     parse_str( $data );
                     
                     if (Auth::check()) {
-                        $user_id = Auth::getUser()->id;
-                        self::saveUserAccessToken($user_id, $access_token);
+                        $user    = Auth::getUser();
+                        $user_id = $user->id;
+                        $user->save();
+                        $obj     = UserAccessToken::check_access_token($access_token);
+                        if ($obj->user_id) {
+                            $user->fb_uid = $obj->user_id;
+                            $fb_uid = $obj->user_id;
+                            $user->save();
+                            self::saveUserAccessToken($user_id, $access_token);
+                        }
                     } else {
                         // Get current facebook user email
                         $obj = UserAccessToken::check_access_token($access_token);
@@ -76,7 +85,8 @@ class RestAccessToken extends BaseController {
                                         $password       = str_random(8);
                                         $user           = new User;
                                         $user->password = $password;
-                                        $user->password_confirmation = $password; 
+                                        $user->password_confirmation = $password;
+                                        $file = new File();
                                     }
                                     $user->email    = $fb_user->email;
                                     $user->fb_uid   = $fb_user->id;
@@ -84,7 +94,7 @@ class RestAccessToken extends BaseController {
                                     $user->username = $fb_user->email;
                                     $user->save();
                                     self::saveUserAccessToken($user->id, $access_token);
-                                
+                                    
                                     Auth::login($user);
                                 } catch(Exception $e) {
                                     DB::rollback();
@@ -94,12 +104,31 @@ class RestAccessToken extends BaseController {
                             }
                         }
                     }
+                    
+                    // Save user avatar
+                    $avatar = File::whereRaw('attachment_type = ? AND attachment_id = ?', array('RainLab\User\Models\User', $user->id))->first();
+                    if (empty($avatar) && $fb_uid) {
+                        $file_name             = $fb_uid . '.jpg';
+                        $temp_name             = CLF_UPLOAD . $file_name;
+                        $data                  = @file_get_contents("http://graph.facebook.com/v2.2/{$fb_uid}/picture?type=large");
+                        $success               = file_put_contents($temp_name, $data);
+                        $file                  = new File();
+                        $file->data            = $temp_name;
+                        $file->field           = 'avatar';
+                        $file->file_name       = $file_name;
+                        $file->attachment_id   = $user->id;
+                        $file->attachment_type = 'RainLab\User\Models\User';
+                        $file->is_public       = true;
+                        $file->save();
+                    }
+                    
                     if (Cookie::get('dln_return_url')) {
                         Cookie::queue('dln_access_token', $access_token, 10);
                         return Redirect::to(Cookie::get('dln_return_url'));
                     }
                 }
             } catch (Exception $ex) {
+                throw  $ex;
                 return Response::json(array('status' => 'Error', 'message' => $ex->getMessage()), 500);
             }
         }

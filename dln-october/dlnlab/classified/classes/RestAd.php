@@ -19,8 +19,8 @@ require('HelperResponse.php');
 class RestAd extends BaseController {
     
     public function postUpload() {
-        if (!Auth::check())
-            return null;
+        //if (!Auth::check())
+        //    return Response::json(array('status' => 'Error'), 500);
         
         $result = null;
         if (Input::hasFile('file_data')) {
@@ -58,7 +58,7 @@ class RestAd extends BaseController {
     
     public function putActiveAd() {
         if (!Auth::check())
-            return null;
+            return Response::json(array('status' => 'Error'), 500);
         
         $message = 'Success';
         $code    = 200;

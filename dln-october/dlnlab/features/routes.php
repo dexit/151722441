@@ -11,8 +11,6 @@ App::before(function ($request) {
 	Route::post('/api/v1/sessions', 'DLNLab\Features\Classes\RestSession@postSession');
 	Route::delete('/api/v1/sessions', 'DLNLab\Features\Classes\RestSession@deleteSession');
 	
-	Route::post('/api/v1/ad/upload', 'DLNLab\Features\Classes\RestAd@postUpload');
-	
 	Route::post('/api/v1/message', 'DLNLab\Features\Classes\RestMessage@postAddMessage');
 	Route::get('/api/v1/message', 'DLNLab\Features\Classes\RestMessage@getTest');
 	
