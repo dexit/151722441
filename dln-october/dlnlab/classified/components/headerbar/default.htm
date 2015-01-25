@@ -31,6 +31,8 @@
                 data-toggle-element="#quickview"></a>
         </div>
     </div>
+    {{ dump(user) }}
+    {% if not user %}
     <div class=" pull-right">
         <div class="visible-lg visible-md">
             <div
@@ -47,4 +49,6 @@
             </div>
         </div>
     </div>
+    {% endif %}
+    
 </div>

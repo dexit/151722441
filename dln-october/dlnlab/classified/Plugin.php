@@ -77,4 +77,13 @@ class Plugin extends PluginBase {
 		];
 	}
 
+	public function registerMarkupTags()
+	{
+	    return [
+	        'functions' => [
+        	    'dump' => 'var_dump',
+        	    'dd' => 'dd',
+    	    ]
+	    ];
+	}
 }

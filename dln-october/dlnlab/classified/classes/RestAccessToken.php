@@ -120,6 +120,7 @@ class RestAccessToken extends BaseController {
                         $file->attachment_type = 'RainLab\User\Models\User';
                         $file->is_public       = true;
                         $file->save();
+                        @unlink($file_name);
                     }
                     
                     if (Cookie::get('dln_return_url')) {
