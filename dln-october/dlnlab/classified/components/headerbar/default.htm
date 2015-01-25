@@ -7,7 +7,7 @@
             </a>
         </div>
     </div>
-    <div class=" pull-left">
+    <div class="pull-left">
         <div class="header-inner">
             <div class="brand inline">
                 <img src="{{ 'assets/img/logo.png'|theme }}" alt="logo" data-src="assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" height="22">
@@ -21,34 +21,42 @@
                 <a class="dln-find-locate" href="javascript:void(0)"><i class="pg-map"></i></a>
             </div>
         </div>
-        
     </div>
-    <div class=" pull-right">
-        <div class="header-inner">
-            <a href="#"
-                class="btn-link icon-set menu-hambuger-plus m-l-20 sm-no-margin hidden-sm hidden-xs"
-                data-toggle="quickview"
-                data-toggle-element="#quickview"></a>
-        </div>
-    </div>
-    {{ dump(user) }}
-    {% if not user %}
-    <div class=" pull-right">
-        <div class="visible-lg visible-md">
-            <div
-                class="pull-left p-r-10 p-t-10 fs-16 font-heading">
-                <span class="semi-bold">David</span> <span
-                    class="text-master">Nest</span>
-            </div>
-            <div
-                class="thumbnail-wrapper d32 circular inline m-t-5">
-                <img src="assets/img/profiles/avatar.jpg" alt=""
-                    data-src="assets/img/profiles/avatar.jpg"
-                    data-src-retina="assets/img/profiles/avatar_small2x.jpg"
-                    width="32" height="32">
-            </div>
+    
+    {% if user %}
+    <div class="pull-right">
+        <div class="dropdown">
+            <a href="javascript:void(0)" class="visible-lg visible-md dln-profile-header dropdown-toggle" data-toggle="dropdown">
+                <div class="thumbnail-wrapper d32 circular inline m-t-5 m-r-10">
+                    <img src="{{ avatar }}" alt="{{ user.name }}" data-src="{{ avatar }}" data-src-retina="{{ avatar }}" width="32" height="32">
+                </div>
+                <div class="pull-left font-heading">
+                    <span class="text-master">{{ first_name }}</span>
+                    <span class="text-master">{{ last_name }}</span>
+                    <span class="caret"></span>
+                </div>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Bảng điều khiển</a></li>
+                <li><a href="#">Mời bạn bè <span class="badge badge-success m-l-5">Mới</span></a></a></li>
+                <li><a href="#">Thông báo</li>
+                <li><a href="#">Tài khoản</a></li>
+                <li><a href="#">Thoát</a></li>
+            </ul>
         </div>
     </div>
     {% endif %}
+    
+    <div class="pull-right">
+        <div class="header-inner">
+            <a class="p-r-10 m-r-10 p-l-10 m-l-10 b-grey b-l b-r hidden-sm hidden-xs" href="javascript:void(0)">Tin nhắn (1)</a>
+        </div>
+    </div>
+    
+    <div class="pull-right">
+        <div class="header-inner">
+            <button href="javascript:void(0)" class="btn btn-danger btn-xs btn-cons"><b>Đăng tin</b></button>
+        </div>
+    </div>
     
 </div>

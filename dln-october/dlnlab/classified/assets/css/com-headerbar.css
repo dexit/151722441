@@ -1,0 +1,60 @@
+.dropdown {
+    float: left;
+}
+.dropdown-menu {
+    background-color: #fff;
+    box-shadow: none;
+    border: 1px solid #dfe1e8;
+    padding: 0 1px;
+    top: 90%;
+}
+.dropdown-menu:before {
+    border-bottom: 8px solid #dfe1e8;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 50%;
+    position: absolute;
+    top: -7px;
+}
+.dropdown-menu:after {
+    border-bottom: 7px solid #ffffff;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 50%;
+    margin-left: 1px;
+    position: absolute;
+    top: -6px;
+}
+.dropdown-menu .badge {
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 9px;
+    padding: 4px;
+}
+.dropdown-menu li a {
+    font-weight: 600;
+    font-size: 12px;
+}
+.dln-profile-header {
+    position: relative;
+}
+.dln-profile-header .thumbnail-wrapper {
+    margin-top: 7px;
+}
+.header {
+    font-size: 14px;
+    font-weight: 400;
+}
+.header a {
+    color: #626262;
+}
+.header a:hover {
+    color: #1a1a1a;
+}
+.dln-profile-header .font-heading {
+    line-height: 47px;
+}

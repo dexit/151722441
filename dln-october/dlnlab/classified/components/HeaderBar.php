@@ -20,7 +20,19 @@ class HeaderBar extends ComponentBase
     }
     
     public function onRun() {
-        $this->page['user'] = '123';
+        $user = $this->user();
+        if (! $user)
+            return false;
+        
+        $name       = trim($user->name);
+        $parts      = explode(" ", $name);
+        $last_name  = array_pop($parts);
+        $first_name = implode(" ", $parts);
+        
+        $this->page['user']       = $user;
+        $this->page['last_name']  = $last_name;
+        $this->page['first_name'] = $first_name;
+        $this->page['avatar']     = $user->avatar->getPath();
     }
     
     public function user()

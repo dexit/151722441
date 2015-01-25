@@ -10,6 +10,11 @@ hidden = "0"
 paramCode = "code"
 type = "register"
 ==
+<link rel="stylesheet" href="{{ [
+    '~/plugins/dlnlab/classified/assets/css/com-headerbar.css',
+    '~/plugins/dlnlab/classified/assets/css/com-account.css'
+    ]|theme }}" />
+</head>
 <body class="fixed-header dashboard ">
     <div class="page-container">
     
@@ -22,13 +27,15 @@ type = "register"
         
     </div>
     
+    {% component 'Account' %}
+    
     <script src="{{ [
         'assets/vendor/jquery/jquery-1.8.3.min.js',
         'assets/vendor/boostrapv3/js/bootstrap.min.js',
-        'assets/vendor/jquery-validation/js/jquery.validate.min.js'
+        'assets/vendor/jquery-validation/js/jquery.validate.min.js',
+        
+        '~/plugins/dlnlab/classified/assets/js/com-account-register.js'
     ]|theme }}"></script>
-    
-    {% component 'Account' %}
     
     {% framework extras %}
     {% scripts %}
