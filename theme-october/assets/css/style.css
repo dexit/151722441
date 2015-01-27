@@ -24,31 +24,6 @@
 .irs-min, .irs-max, .irs-line {
     background: none repeat scroll 0 0 #eee;
 }
-.dln-search {
-    position: relative;
-}
-.dln-search input{
-    border-color: #e3e3e3;
-    border-radius: 32px;
-    font-size: 13px;
-    height: 30px;
-    min-height: 30px;
-    min-width: 250px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    padding-left: 15px;
-    padding-right: 30px;
-}
-.dln-search .dln-find-locate {
-    color: #e3e3e3;
-    font-size: 16px;
-    position: absolute;
-    right: 12px;
-    top: 2px;
-}
-.dln-search .dln-find-locate:hover {
-    color: #aeb6bf;
-}
 .dln-secondary-header {
     background-color: #f0f0f0;
     border-bottom: 1px solid #dfe1e8;
