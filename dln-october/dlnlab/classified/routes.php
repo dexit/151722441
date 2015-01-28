@@ -13,6 +13,8 @@ App::before(function ($request) {
     
     Route::get('/api/v1/login_fb', 'DLNLab\Classified\Classes\RestAccessToken@getAuthenticateFB');
     Route::get('/api/v1/callback_fb', 'DLNLab\Classified\Classes\RestAccessToken@getCallbackFB');
+    Route::get('/api/v1/login_gp', 'DLNLab\Classified\Classes\RestAccessToken@getAuthenticateGPlus');
+    Route::get('/api/v1/callback_gp', 'DLNLab\Classified\Classes\RestAccessToken@getCallbackGP');
     Route::get('/api/v1/update_page_access_token','DLNLab\Classified\Classes\RestAccessToken@getUpdatePageAccessTokenFB' );
     Route::post('/api/v1/post_fb', 'DLNLab\Classified\Classes\RestAccessToken@postFeedFB');
     

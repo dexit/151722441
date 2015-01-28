@@ -35,7 +35,7 @@ class AdSharePage extends Controller
         
         $obj = array();
         if (! empty($AdSharePage['fb_link'])) {
-            $obj = UserAccessToken::get_page_infor($AdSharePage['fb_link']);
+            $obj = UserAccessToken::get_fb_page_infor($AdSharePage['fb_link']);
         }
     }
 }

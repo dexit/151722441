@@ -13,6 +13,7 @@ class CreateUserAccessTokensTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable()->index();
+            $table->string('type', 25)->nullable();
             $table->text('access_token')->nullable();
             $table->boolean('expire')->default(false);
             $table->timestamps();

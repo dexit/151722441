@@ -79,7 +79,7 @@ class SocialAutoPoster_Googleplus extends SocialAutoPoster_Abstract{
         $buf = str_replace( '&', '&amp;', $buf ); 
         $toreturn = '';
         $doc = new DOMDocument;
-        $doc->loadHTML($buf);
+        $doc->loadHTML(utf8_encode($buf));
         $inputs = $doc->getElementsByTagName('input');
         $auth_email_field = $this->_getOption('auth_email_field');
         $auth_pass_field = $this->_getOption('auth_pass_field');
@@ -103,6 +103,7 @@ class SocialAutoPoster_Googleplus extends SocialAutoPoster_Abstract{
         $this->_cookies = array();
         $loginData = $this->_getLoginData();
         $response = $this->_getPage($loginData[1],$loginData[0]);
+        var_dump($response);die();
         if(!$response['status'] || !isset($this->_cookies['SSID'])){
             $this->_addError('Authorization Error');
             return false;

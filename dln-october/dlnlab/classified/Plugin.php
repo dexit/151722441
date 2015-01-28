@@ -8,6 +8,7 @@ use Event;
 use System\Classes\PluginBase;
 
 define( 'CLF_ASSETS', '/plugins/dlnlab/classified/assets' );
+define( 'CLF_ROOT',  dirname(__FILE__) );
 define( 'CLF_UPLOAD', __DIR__ . '/uploads/' );
 define( 'TIME_DELAY_COUNT_VIEW', 420 ); // 7 minutes
 

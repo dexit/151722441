@@ -13,6 +13,7 @@ use System\Models\File;
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Models\AdActive;
 use DLNLab\Classified\Models\AdShareCount;
+use DLNLab\Classified\Models\AdSharePage;
 
 require('HelperResponse.php');
 
@@ -177,22 +178,25 @@ class RestAd extends BaseController {
         }
         return Response::json($arr_results);
     }
-    
+ 
     public function postShareAd() {
         if (! Auth::check())
-            return Response::json(null);
+            return Response::json(array('status' => 'Error'), 500);
         
         $data    = post();
         $default = array(
-            'type' => '',
+            'type'    => '',
             'page_id' => '',
+            'message' => ''
         );
         extract(array_merge($default, $data));
         
+        require('libraries/BufferApp/buffer.php');
         require('libraries/SocialAutoPoster/SocialAutoPoster.php');
         $autoposter = new \SocialAutoPoster();
         
-        switch($type) {
+        try {
+            switch($type) {
             case 'facebook':
                 $facebook = $autoposter->getApi('facebook',array(
                     'page_id' => '408730579166315',
@@ -203,6 +207,28 @@ class RestAd extends BaseController {
                 $facebook->postToWall('Hello FB');
                 var_dump($facebook->getErrors());
                 break;
+            
+            case 'googleplus':
+                $client_id = '54c5d3d2a4a87d060fb822b5';
+                $client_secret = 'fa161986339e85b17d71f8d70b25efa9';
+                $callback_url = 'http://localhost/october/api/v1/callback_buffer';
+
+                $buffer = new \BufferApp($client_id, $client_secret, $callback_url);
+                
+                $profiles = $buffer->go('/profiles');
+			var_dump($profiles);die();
+                if (is_array($profiles)) {
+                    foreach ($profiles as $profile) {
+                        $buffer->go('/updates/create', array('text' => 'My first status update from bufferapp-php worked!', 'profile_ids[]' => $profile->id));
+                    }
+                }
+
+                //$gplus = AdSharePage::connect_gplus($autoposter);
+                //AdSharePage::post_gplus_wall($gplus, $page_id, $message);
+                break;
+            }
+        } catch (Exception $ex) {
+            return Response::json(array('status' => $ex->getMessage()), 500);
         }
     }
 }

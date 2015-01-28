@@ -5,6 +5,7 @@ namespace DLNLab\Classified\Classes;
 use Auth;
 use DB;
 use Input;
+use Request;
 use Response;
 use Redirect;
 use Cookie;
@@ -22,17 +23,32 @@ require('HelperResponse.php');
 class RestAccessToken extends BaseController {
     
     public static $graph = 'https://graph.facebook.com/v2.2/';
-    public static $host  = 'http://localhost/october/';
+    
+    public function getAuthenticateGPlus() {
+        $get = get();
+        self::save_return_url();
+        
+        return Redirect::to(UserAccessToken::get_gp_login_url());
+    }
+    
+    public function getCallbackGP() {
+        $data = get();
+        
+        if (! empty($data['code'])) {
+            $access_token = UserAccessToken::create_gp_access_token($data['code']);
+        }
+        
+        self::redirect_return_url();
+        return Redirect::to(Request::root());
+    }
     
     public function getAuthenticateFB() {
         $get = get();
-        if (!empty($get['return_url'])) {
-            Cookie::queue('dln_return_url', $get['return_url'], 10);
-        }
+        self::save_return_url();
         
         $app_id       = UserAccessToken::$app_id;
         $perms        = 'user_about_me,email,manage_pages,publish_actions';
-        $redirect_uri = self::$host . 'api/v1/callback_fb';
+        $redirect_uri = Request::root() . '/api/v1/callback_fb';
         $login_link   = "https://www.facebook.com/dialog/oauth?client_id={$app_id}&redirect_uri={$redirect_uri}&scope={$perms}";
         
         return Redirect::to($login_link);
@@ -44,7 +60,7 @@ class RestAccessToken extends BaseController {
         if (! empty($data['code'])) {
             $app_id     = UserAccessToken::$app_id;
             $app_secret = UserAccessToken::$app_secret;
-            $redirect_uri = self::$host . 'api/v1/callback_fb';
+            $redirect_uri = Request::root() . '/api/v1/callback_fb';
             
             try {
                 $url  = self::$graph . "oauth/access_token?code={$data['code']}&client_id={$app_id}&client_secret={$app_secret}&redirect_uri={$redirect_uri}";
@@ -62,19 +78,21 @@ class RestAccessToken extends BaseController {
                         $user    = Auth::getUser();
                         $user_id = $user->id;
                         $user->save();
-                        $obj     = UserAccessToken::check_access_token($access_token);
+                        
+                        $obj = UserAccessToken::check_fb_access_token($access_token);
+                        
                         if ($obj->user_id) {
                             $user->fb_uid = $obj->user_id;
                             $fb_uid = $obj->user_id;
                             $user->save();
-                            self::saveUserAccessToken($user_id, $access_token);
+                            self::saveUserAccessToken($user_id, $access_token, 'facebook');
                         }
                     } else {
                         // Get current facebook user email
-                        $obj = UserAccessToken::check_access_token($access_token);
+                        $obj = UserAccessToken::check_fb_access_token($access_token);
                         if ($obj) {
                             $fb_uid  = $obj->user_id;
-                            $fb_user = UserAccessToken::get_user_infor($fb_uid, $access_token);
+                            $fb_user = UserAccessToken::get_fb_user_infor($fb_uid, $access_token);
                             
                             if (! empty($fb_user->email)) {
                                 DB::beginTransaction();
@@ -86,14 +104,15 @@ class RestAccessToken extends BaseController {
                                         $user           = new User;
                                         $user->password = $password;
                                         $user->password_confirmation = $password;
-                                        $file = new File();
+                                        $user->is_activated          = true;
+                                        $user->email    = $fb_user->email;
+                                        $user->name     = $fb_user->name;
+                                        $user->username = $fb_user->email;
                                     }
-                                    $user->email    = $fb_user->email;
                                     $user->fb_uid   = $fb_user->id;
-                                    $user->name     = $fb_user->name;
-                                    $user->username = $fb_user->email;
+                                    
                                     $user->save();
-                                    self::saveUserAccessToken($user->id, $access_token);
+                                    self::saveUserAccessToken($user->id, $access_token, 'facebook');
                                     
                                     Auth::login($user);
                                 } catch(Exception $e) {
@@ -106,27 +125,12 @@ class RestAccessToken extends BaseController {
                     }
                     
                     // Save user avatar
-                    $avatar = File::whereRaw('attachment_type = ? AND attachment_id = ?', array('RainLab\User\Models\User', $user->id))->first();
-                    if (empty($avatar) && $fb_uid) {
-                        $file_name             = $fb_uid . '.jpg';
-                        $temp_name             = CLF_UPLOAD . $file_name;
-                        $data                  = @file_get_contents("http://graph.facebook.com/v2.2/{$fb_uid}/picture?type=large");
-                        $success               = file_put_contents($temp_name, $data);
-                        $file                  = new File();
-                        $file->data            = $temp_name;
-                        $file->field           = 'avatar';
-                        $file->file_name       = $file_name;
-                        $file->attachment_id   = $user->id;
-                        $file->attachment_type = 'RainLab\User\Models\User';
-                        $file->is_public       = true;
-                        $file->save();
-                        @unlink($file_name);
+                    if ( $fb_uid ) {
+                        $image_url = "http://graph.facebook.com/v2.2/{$fb_uid}/picture?type=large";
+                        UserAccessToken::getUserAvatar($user->id, $image_url);
                     }
                     
-                    if (Cookie::get('dln_return_url')) {
-                        Cookie::queue('dln_access_token', $access_token, 10);
-                        return Redirect::to(Cookie::get('dln_return_url'));
-                    }
+                    self::redirect_return_url();
                 }
             } catch (Exception $ex) {
                 throw  $ex;
@@ -136,15 +140,29 @@ class RestAccessToken extends BaseController {
         return Response::json(array('status' => 'Success'), 200);
     }
     
-    private static function saveUserAccessToken($user_id, $access_token) {
+    private static function save_return_url() {
+        if (!empty($get['return_url'])) {
+            Cookie::queue('dln_return_url', $get['return_url'], 10);
+        }
+    }
+    
+    private static function redirect_return_url() {
+        if (Cookie::get('dln_return_url')) {
+            Cookie::queue('dln_access_token', $access_token, 10);
+            return Redirect::to(Cookie::get('dln_return_url'));
+        }
+    }
+    
+    private static function saveUserAccessToken($user_id, $access_token, $type) {
         try {
-            $record = UserAccessToken::where('user_id', '=', $user_id)->first();
+            $record = UserAccessToken::whereRaw('user_id = ? AND type = ?', array($user_id, $type))->first();
             if (empty($record)) {
                 $record = new UserAccessToken;
                 $record->user_id    = $user_id;
             }
+            $record->type         = $type;
             $record->access_token = $access_token;
-            $record->expire = false;
+            $record->expire       = false;
             $record->save();
         } catch (Exception $e) {
             throw $e;
@@ -167,13 +185,13 @@ class RestAccessToken extends BaseController {
         
         // Get access token
         $user_id = Auth::getUser()->id;
-        $record  = UserAccessToken::valid_access_token($user_id);
+        $record  = UserAccessToken::valid_access_token($user_id, 'facebook');
         
         if (empty($record) || empty($record->access_token)) {
             return Response::json(array('status' => 'Error'), 500);
         }
         $access_token = $record->access_token;
-        $check        = UserAccessToken::check_access_token($access_token);
+        $check        = UserAccessToken::check_fb_access_token($access_token);
         if (! $check) {
             return Response::json(array('status' => 'Error'), 500);
         }

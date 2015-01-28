@@ -99,7 +99,7 @@ class RestCrawl extends BaseController {
                     $fb_id = $record->share_id;
                     if ($fb_id) {
                         foreach ($access_tokens as $item) {
-                            if ($item->user_id == $record->user_id) {
+                            if ($item->user_id == $record->user_id && $item->type == 'facebook') {
                                 $count_like    = $record->count_like;
                                 $count_comment = $record->count_comment;
                                 $like    = AdShare::get_like_count($fb_id, $item->access_token);
@@ -131,7 +131,7 @@ class RestCrawl extends BaseController {
         foreach ($records as $record) {
             if ($record->fb_id) {
                 $link = "https://www.facebook.com/" . $record->fb_id;
-                UserAccessToken::get_page_infor($AdSharePage['fb_link']);
+                UserAccessToken::get_fb_page_infor($AdSharePage['fb_link']);
                 $record->crawl = true;
                 $record->save();
             }
