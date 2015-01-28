@@ -168,28 +168,37 @@ class UserAccessToken extends Model
             // Create new user with email if not exist in db
             if (! empty($me['emails']) && ! empty($me['emails'][0])) {
                 $email  = $me['emails'][0]->getValue();
-                $record = User::where('email', '=', $email)->first();
-                if (! $record) {
-                    $password = str_random(8);
-
-                    $record           = new User;
-                    $record->email    = $email;
-                    $record->name     = $me['displayName'];
-                    $record->password              = $password;
-                    $record->password_confirmation = $password;
-                    $record->is_activated          = true;
+                $user = User::where('email', '=', $email)->first();
+                if (! $user) {
+                    $user = str_random(8);
+                    $user           = new User;
+                    $user->email    = $email;
+                    $user->name     = $me['displayName'];
+                    $user->password              = $password;
+                    $user->password_confirmation = $password;
+                    $user->is_activated          = true;
                 }
-                $record->gp_uid = $me['id'];
-                $record->save();
+                $user->gp_uid = $me['id'];
+                $user->save();
 
                 // Save user avatar
                 if (! empty($me['image']) && ! empty($me['image']['url'])) {
                     $image_url = $me['image']['url'];
                     $image_url = str_replace('?sz=50', '?sz=250', $image_url);
-                    self::getUserAvatar($record->id, $image_url);
+                    self::getUserAvatar($user->id, $image_url);
                 }
                 
-                Auth::login($record);
+                // Save to UserAccessToken table
+                $record = self::whereRaw('user_id = ? AND type = ?', array($user->id, 'googleplus'))->first();
+                if (! $record) {
+                    $record = new self;
+                    $record->user_id = $user->id;
+                }
+                $record->access_token = $access_token;
+                $record->type = 'googleplus';
+                $record->save();
+                
+                Auth::login($user);
             }
         } catch (Exception $ex) {
             DB::rollback();

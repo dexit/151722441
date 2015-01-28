@@ -23,13 +23,13 @@ class UpdateUsersTable extends Migration
     {
         Schema::table('users', function($table)
         {
-            $table->dropColumn('fb_uid');
+            /*$table->dropColumn('fb_uid');
             $table->dropColumn('gp_uid');
             $table->dropColumn('is_validated');
 			$table->dropColumn('phone_number');
             $table->dropColumn('money_charge');
             $table->dropColumn('money_spent');
-            $table->dropColumn('crawl');
+            $table->dropColumn('crawl');*/
         });
     }
 
