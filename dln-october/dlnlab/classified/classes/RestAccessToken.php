@@ -112,6 +112,8 @@ class RestAccessToken extends BaseController {
                                     $user->fb_uid   = $fb_user->id;
                                     
                                     $user->save();
+                                    UserAccessToken::sendEmailAfterRegister($user->name, $user->email);
+                                    
                                     self::saveUserAccessToken($user->id, $access_token, 'facebook');
                                     
                                     Auth::login($user);

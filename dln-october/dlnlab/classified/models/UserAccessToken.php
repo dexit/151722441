@@ -3,9 +3,11 @@
 use Auth;
 use DB;
 use Request;
+use Mail;
 use Model;
 use October\Rain\Auth\Models\User;
 use System\Models\File;
+use RainLab\User\Models\Settings as UserSettings;
 
 require(CLF_ROOT . '/classes/libraries/google-api-php-client/autoload.php');
 
@@ -64,6 +66,8 @@ class UserAccessToken extends Model
         'https://www.googleapis.com/auth/plus.login',
         'https://www.googleapis.com/auth/plus.stream.write',
     );
+    public static $name = '';
+    public static $email = '';
     
     public static function get_app_access_token() {
         return self::$app_id . '|' . self::$app_secret;
@@ -168,28 +172,30 @@ class UserAccessToken extends Model
             // Create new user with email if not exist in db
             if (! empty($me['emails']) && ! empty($me['emails'][0])) {
                 $email  = $me['emails'][0]->getValue();
-                $record = User::where('email', '=', $email)->first();
-                if (! $record) {
+                $user = User::where('email', '=', $email)->first();
+                if (! $user) {
                     $password = str_random(8);
 
-                    $record           = new User;
-                    $record->email    = $email;
-                    $record->name     = $me['displayName'];
-                    $record->password              = $password;
-                    $record->password_confirmation = $password;
-                    $record->is_activated          = true;
+                    $user           = new User;
+                    $user->email    = $email;
+                    $user->name     = $me['displayName'];
+                    $user->password              = $password;
+                    $user->password_confirmation = $password;
+                    $user->is_activated          = true;
+                    $user->username = $email;
                 }
-                $record->gp_uid = $me['id'];
-                $record->save();
+                $user->gp_uid = $me['id'];
+                $user->save();
+                UserAccessToken::sendEmailAfterRegister($user->name, $user->email);
 
                 // Save user avatar
                 if (! empty($me['image']) && ! empty($me['image']['url'])) {
                     $image_url = $me['image']['url'];
                     $image_url = str_replace('?sz=50', '?sz=250', $image_url);
-                    self::getUserAvatar($record->id, $image_url);
+                    self::getUserAvatar($user->id, $image_url);
                 }
                 
-                Auth::login($record);
+                Auth::login($user);
             }
         } catch (Exception $ex) {
             DB::rollback();
@@ -220,6 +226,27 @@ class UserAccessToken extends Model
             $file->save();
             @unlink($file_name);
         }
+    }
+    
+    public static function sendEmailAfterRegister($name, $email) {
+        if (! $name || ! $email)
+            return false;
+        
+        if (! $mailTemplate = UserSettings::get('welcome_template'))
+            return;
+
+        self::$name  = $name;
+        self::$email = $email;
+        
+        $data = [
+            'name' => $name,
+            'email' => $email
+        ];
+
+        Mail::send($mailTemplate, $data, function($message)
+        {
+            $message->to(self::$email, self::$name);
+        });
     }
     
 }
