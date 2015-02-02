@@ -174,19 +174,16 @@ class UserAccessToken extends Model
                 $email  = $me['emails'][0]->getValue();
                 $user = User::where('email', '=', $email)->first();
                 if (! $user) {
-                    $password = str_random(8);
-
+                    $user = str_random(8);
                     $user           = new User;
                     $user->email    = $email;
                     $user->name     = $me['displayName'];
                     $user->password              = $password;
                     $user->password_confirmation = $password;
                     $user->is_activated          = true;
-                    $user->username = $email;
                 }
                 $user->gp_uid = $me['id'];
                 $user->save();
-                UserAccessToken::sendEmailAfterRegister($user->name, $user->email);
 
                 // Save user avatar
                 if (! empty($me['image']) && ! empty($me['image']['url'])) {
@@ -194,6 +191,16 @@ class UserAccessToken extends Model
                     $image_url = str_replace('?sz=50', '?sz=250', $image_url);
                     self::getUserAvatar($user->id, $image_url);
                 }
+                
+                // Save to UserAccessToken table
+                $record = self::whereRaw('user_id = ? AND type = ?', array($user->id, 'googleplus'))->first();
+                if (! $record) {
+                    $record = new self;
+                    $record->user_id = $user->id;
+                }
+                $record->access_token = $access_token;
+                $record->type = 'googleplus';
+                $record->save();
                 
                 Auth::login($user);
             }
