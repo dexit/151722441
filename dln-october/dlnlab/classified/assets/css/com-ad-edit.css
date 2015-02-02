@@ -2,9 +2,6 @@
     float: left;
     display: block;
 }
-.container {
-    max-width: 970px;
-}
 #flocation {
     position: relative;
     

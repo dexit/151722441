@@ -131,4 +131,15 @@ class Tag extends Model
         return $id;
     }
 	
+    public static function getTagByType($type = '') {
+        if (! $type)
+            return null;
+        
+        $records = self::where('type', '=', 'ad_kind')->get();
+        if (count($records)) {
+            return $records;
+        }
+        return null;
+    }
+    
 }

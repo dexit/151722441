@@ -59,14 +59,13 @@ class Account extends ComponentBase
             'login'    => 'Login'
         );
     }
-
    
     public function onRun() {
         //$this->addJs(CLF_ASSETS . '/js/com-account-register.js', 'core');
         //$this->addCss(CLF_ASSETS . '/css/com-account.css', 'core');
         
         $this->page['user'] = $this->user();
-        $this->type = $this->property('type', 'register');
+        $this->page['type'] = $this->property('type', 'register');
     }
 
     public function user()

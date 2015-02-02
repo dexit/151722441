@@ -1,0 +1,64 @@
+<div class="container">
+    <form autocomplete="off" role="form" class="form-horizontal m-b-50" id="form-work" novalidate="novalidate">
+        <div class="form-group clearfix">
+            <label class="col-sm-3 control-label">Loại</label>
+            <div class="col-sm-9">
+                <div class="btn-group" data-toggle="buttons">
+                    {% for category in categories %}
+                        <label class="btn btn-default btn-lg m-r-0 btn-cons {{ loop.index == 1 ? 'active' : '' }}">
+                            {% if category.desc %}
+                            <i class="fs-14 m-r-5 {{ category.desc }}"></i>
+                            {% endif %}
+                            <input type="radio" name="category" id="option{{ loop.index }}" value="{{ category.id }}" {{ loop.index == 1 ? 'checked' : '' }}>
+                            {{ category.name }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="col-sm-3 control-label">Kiểu</label>
+            <div class="col-sm-9">
+                <div class="btn-group" data-toggle="buttons">
+                    {% for kind in kinds %}
+                        <label class="btn btn-default btn-lg m-r-0 btn-cons {{ loop.index == 1 ? 'active' : '' }}">
+                            {% if kind.icon %}
+                            <i class="fs-14 m-r-5 {{ kind.icon }}"></i> 
+                            {% endif %}
+                            <input type="radio" name="type" id="option{{ loop.index }}" value="{{ kind.id }}" {{ loop.index == 1 ? 'checked' : '' }}>
+                            {{ kind.name }}
+                        </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="col-sm-3 control-label">Giá</label>
+            <div class="col-sm-9">
+                <div class="input-group col-sm-6">
+                    <input type="text" required="" name="price" id="dln_price" class="form-control" aria-required="true" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'" />
+                    <span class="input-group-addon "> đồng </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="col-sm-3 control-label" for="dln_location">Địa chỉ</label>
+            <div class="col-sm-9 location-wrapper">
+                <div class="input-group transparent center-margin">
+                    <input type="text" name="location" id="dln_location" placeholder="Hà Nội, TP.HCM, Đà Nẵng..." class="form-control">
+                    <span class="input-group-addon "> <i class="pg-search"></i> </span>
+                    <input type="hidden" id="clf_lat" name="lat" value="" />
+                    <input type="hidden" id="clf_long" name="lng" value="" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-9">
+                <button type="button" class="btn btn-danger btn-cons bold pull-left">
+                    <span>Đăng tin</span>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

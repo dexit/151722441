@@ -3,8 +3,6 @@
 
     var AdDetail = function () {
     	this.initWizard();
-    	this.initInputMask();
-    	this.initSelect2Plugin();
     	this.initPhotoUpload();
         this.addLatLngDragMap();
     };
@@ -30,29 +28,6 @@
                 $('#dln_wizard ul').removeClass('nav-pills');
             }
         });
-    };
-    
-    /**
-     * Initialize input mask library
-     */
-    AdDetail.prototype.initInputMask = function () {
-    	// Masked inputs initialization
-	    $.fn.inputmask && $('[data-toggle="masked"]').inputmask();
-    };
-    
-    /**
-     * Initialize select2
-     */
-    AdDetail.prototype.initSelect2Plugin = function() {
-        $.fn.select2 && $('[data-init-plugin="select2"]').each(function() {
-            $(this).select2({
-                minimumResultsForSearch: "true" == $(this).attr("data-disable-search") ? -1 : 1
-            }).on("select2-opening", function() {
-                $.fn.scrollbar && $(".select2-results").scrollbar({
-                    ignoreMobile: !1
-                })
-            })
-        })
     };
     
     /**
