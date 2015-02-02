@@ -174,16 +174,19 @@ class UserAccessToken extends Model
                 $email  = $me['emails'][0]->getValue();
                 $user = User::where('email', '=', $email)->first();
                 if (! $user) {
-                    $user = str_random(8);
+                    $password = str_random(8);
+
                     $user           = new User;
                     $user->email    = $email;
                     $user->name     = $me['displayName'];
                     $user->password              = $password;
                     $user->password_confirmation = $password;
                     $user->is_activated          = true;
+                    $user->username = $email;
                 }
                 $user->gp_uid = $me['id'];
                 $user->save();
+                UserAccessToken::sendEmailAfterRegister($user->name, $user->email);
 
                 // Save user avatar
                 if (! empty($me['image']) && ! empty($me['image']['url'])) {
