@@ -19,10 +19,10 @@ class AdEdit extends ComponentBase
     }
 	
 	public function onRun() {
-		$this->addJs('http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=vi');
-		$this->addJs(CLF_ASSETS . '/js/field-map.js');
-		$this->addJs(CLF_ASSETS . '/js/com-ad-edit.js');
-		$this->addCss(CLF_ASSETS . '/css/com-ad-edit.css');
+		//$this->addJs('http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=vi');
+		//$this->addJs(CLF_ASSETS . '/js/field-map.js');
+		//$this->addJs(CLF_ASSETS . '/js/com-ad-edit.js');
+		//$this->addCss(CLF_ASSETS . '/css/com-ad-edit.css');
 	}
 
 }

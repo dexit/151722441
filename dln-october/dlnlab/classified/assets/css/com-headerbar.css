@@ -58,3 +58,90 @@
 .dln-profile-header .font-heading {
     line-height: 47px;
 }
+
+.dln-search {
+    position: relative;
+}
+.dln-search input{
+    border-color: #e3e3e3;
+    border-radius: 32px;
+    font-size: 13px;
+    height: 30px;
+    min-height: 30px;
+    min-width: 250px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 15px;
+    padding-right: 30px;
+}
+.dln-search .dln-find-locate {
+    color: #e3e3e3;
+    font-size: 16px;
+    position: absolute;
+    right: 12px;
+    top: 2px;
+}
+.dln-search .dln-find-locate:hover {
+    color: #aeb6bf;
+}
+.dln-logo {
+    float: left;
+}
+
+.dln-filter-xs{
+    position: absolute;
+    top: -52px;
+    width: 100%;
+    background-color: #fff;
+    display: none !important;
+}
+.dln-filter-xs.open {
+    display: block !important;
+}
+.dln-filter-xs .checkbox {
+    float: left;
+    margin: 10px 0;
+    padding-right: 10px;
+    min-width: 170px;
+}
+.dln-filter-xs .form-control, .dln-filter-xs .input-group.transparent .input-group-addon {
+    border-color: #dfe1e8;
+}
+.dln-filter-xs hr {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    width: 95%;
+}
+.dln-filter-xs .btn-group .btn {
+    width: 50%;
+}
+.dln-filter-xs .dropdown, .dln-filter-xs .btn-group  {
+    width: 100%;
+}
+.dln-filter-xs .dropdown-menu {
+    margin-top: 12px;
+}
+
+.checkbox input[type="checkbox"]:checked + label:before {
+    border-width: 9px;
+}
+
+@media (max-width: 768px) {
+    .dln-search input {
+        width: 100%;
+    }
+    .dln-logo {
+        float: none;
+        position: absolute;
+        width: 100%;
+    }   
+    .dln-logo .header-inner {
+        display: block;
+        margin: 0 auto;
+        line-height: 48px;
+    }
+    .dln-logo .brand img {
+        float: none;
+        margin: 0 auto;
+    }
+}

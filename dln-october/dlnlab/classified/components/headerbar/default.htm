@@ -1,23 +1,23 @@
 <div class="header">
-    <div class="pull-right full-height visible-sm visible-xs">
+    <div class="pull-left full-height visible-xs">
         <div class="sm-action-bar">
-            <a href="#" class="btn-link" data-toggle="quickview"
-                data-toggle-element="#quickview"> <span
-                class="icon-set menu-hambuger-plus"></span>
+            <a href="#" class="btn-link toggle-sidebar"
+                data-toggle="sidebar"> <span
+                class="icon-set menu-hambuger"></span>
             </a>
         </div>
     </div>
-    <div class="pull-left">
+    <div class="dln-logo">
         <div class="header-inner">
-            <div class="brand inline">
+            <div class="brand">
                 <img src="{{ 'assets/img/logo.png'|theme }}" alt="logo" data-src="assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" height="22">
             </div>
         </div>
     </div>
     <div class="pull-left menu-container">
         <div class="search-wrap">
-            <div class="dln-search">
-                <input type="text" class="form-control" placeholder="Tìm địa điểm...">
+            <div class="dln-search m-l-15 hidden-xs">
+                <input type="search" class="form-control" placeholder="Tìm địa điểm...">
                 <a class="dln-find-locate" href="javascript:void(0)"><i class="pg-map"></i></a>
             </div>
         </div>
@@ -45,18 +45,130 @@
             </ul>
         </div>
     </div>
-    {% endif %}
     
     <div class="pull-right">
         <div class="header-inner">
             <a class="p-r-10 m-r-10 p-l-10 m-l-10 b-grey b-l b-r hidden-sm hidden-xs" href="javascript:void(0)">Tin nhắn (1)</a>
         </div>
     </div>
+    {% else %}
     
     <div class="pull-right">
         <div class="header-inner">
-            <button href="javascript:void(0)" class="btn btn-danger btn-xs btn-cons"><b>Đăng tin</b></button>
+            <a class="m-l-10 hidden-sm hidden-xs" href="javascript:void(0)">Đăng nhập</a>
         </div>
     </div>
     
+    {% endif %}
+    
+    <div class="pull-right">
+        <div class="header-inner">
+            <button href="javascript:void(0)" class="btn btn-success btn-xs visible-xs pull-left m-r-5 fs-12">
+                <i class="pg-search"></i><b class="m-l-5 hidden-xs">Tìm kiếm</b>
+            </button>
+            {% if user %}
+            <button href="javascript:void(0)" class="btn btn-danger btn-xs pull-left fs-12">
+                <i class="fa fa-plus"></i><b class="m-l-5 hidden-xs">Đăng tin</b>
+            </button>
+            {% else %}
+            <button href="javascript:void(0)" class="btn btn-danger btn-xs pull-left fs-12">
+                <i class="fa fa-user"></i><b class="m-l-5 hidden-xs">Đăng ký</b>
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="dln-filter-xs visible-sm visible-xs">
+    <form id="dln-form-filter" class="panel-body" role="form" method="post">
+        <div class="row clearfix">
+            <div class="form-group clearfix">
+                <div class="col-xs-12">
+                    <div class="input-group transparent col-md-4 center-margin">
+                        <input type="search" name="icon-filter" id="icon-filter" placeholder="Vị trí" class="form-control">
+                        <span class="input-group-addon "><i class="pg-search"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-xs-6">
+                    <div class="btn-group">
+                        <button class="btn btn-default" type="button">Bán
+                        </button>
+                        <button class="btn btn-default" type="button">Cho thuê
+                        </button>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle"
+                            type="button" id="dropdownMenu1"
+                            data-toggle="dropdown" aria-expanded="true">
+                            Dropdown <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu"
+                            aria-labelledby="dropdownMenu1">
+                            <li role="presentation"><a
+                                role="menuitem" tabindex="-1" href="#">Action</a></li>
+                            <li role="presentation"><a
+                                role="menuitem" tabindex="-1" href="#">Another
+                                    action</a></li>
+                            <li role="presentation"><a
+                                role="menuitem" tabindex="-1" href="#">Something
+                                    else here</a></li>
+                            <li role="presentation"><a
+                                role="menuitem" tabindex="-1" href="#">Separated
+                                    link</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-xs-6">
+                    <input type="number" class="form-control" placeholder="Giá từ" />
+                </div>
+                <div class="col-xs-6">
+                    <input type="number" class="form-control" placeholder="Giá cuối" />
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <div class="col-xs-12">
+                    <div class="checkbox check-danger">
+                        <input type="checkbox" checked="checked" value="1" id="checkbox1">
+                        <label for="checkbox1">Nhà trọ, phòng trọ</label>
+                    </div>
+                    <div class="checkbox check-danger">
+                        <input type="checkbox" checked="checked" value="1" id="checkbox2">
+                        <label for="checkbox2">Nhà riêng</label>
+                    </div>
+                    <div class="checkbox check-danger">
+                        <input type="checkbox" checked="checked" value="1" id="checkbox3">
+                        <label for="checkbox3">Nhà mặt phố</label>
+                    </div>
+                    <div class="checkbox check-danger">
+                        <input type="checkbox" checked="checked" value="1" id="checkbox4">
+                        <label for="checkbox4">Cửa hàng</label>
+                    </div>
+                    <div class="checkbox check-danger">
+                        <input type="checkbox" checked="checked" value="1" id="checkbox5">
+                        <label for="checkbox5">Văn phòng</label>
+                    </div>
+                    <div class="checkbox check-danger">
+                        <input type="checkbox" checked="checked" value="1" id="checkbox6">
+                        <label for="checkbox6">Kho, nhà xưởng, đất</label>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group clearfix">
+                <div class="col-xs-12">
+                    <button class="btn btn-block btn-danger" type="button">
+                        <span class="pull-left">
+                            <i class="pg-menu"></i>
+                        </span>
+                        <span>Lọc tin</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

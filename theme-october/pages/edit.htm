@@ -2,232 +2,27 @@ title = "Edit"
 url = "/edit"
 layout = "default"
 hidden = "0"
+
+[HeaderBar]
+
+[AdEdit]
 ==
+<script src="http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=vi" type="text/javascript"></script>
+
+<link rel="stylesheet" href="{{ [
+    'assets/vendor/bootstrap-select2/select2.css',
+    '~/plugins/dlnlab/classified/assets/css/select2-style.css',
+    '~/plugins/dlnlab/classified/assets/css/com-headerbar.css',
+    '~/plugins/dlnlab/classified/assets/css/com-ad-edit.css'
+    ]|theme }}" />
+</head>
 <body class="fixed-header dashboard ">
     <div class="page-container">
-        <div class="header">
-            <div class="pull-right full-height visible-sm visible-xs">
-                <div class="sm-action-bar">
-                    <a href="#" class="btn-link" data-toggle="quickview"
-                        data-toggle-element="#quickview"> <span
-                        class="icon-set menu-hambuger-plus"></span>
-                    </a>
-                </div>
-            </div>
-            <div class=" pull-left">
-                <div class="header-inner">
-                    <div class="brand inline">
-                        <img src="assets/img/logo.png" alt="logo" data-src="assets/img/logo.png" data-src-retina="assets/img/logo_2x.png" width="78" height="22">
-                    </div>
-                </div>
-            </div>
-            <div class="pull-left menu-container">
-                <div class="search-wrap">
-                    <div class="dln-search">
-                        <input type="text" class="form-control" placeholder="Tìm địa điểm...">
-                        <a class="dln-find-locate" href="javascript:void(0)"><i class="pg-map"></i></a>
-                    </div>
-                </div>
-                
-            </div>
-            <div class=" pull-right">
-                <div class="header-inner">
-                    <a href="#"
-                        class="btn-link icon-set menu-hambuger-plus m-l-20 sm-no-margin hidden-sm hidden-xs"
-                        data-toggle="quickview"
-                        data-toggle-element="#quickview"></a>
-                </div>
-            </div>
-            <div class=" pull-right">
-                <div class="visible-lg visible-md">
-                    <div
-                        class="pull-left p-r-10 p-t-10 fs-16 font-heading">
-                        <span class="semi-bold">David</span> <span
-                            class="text-master">Nest</span>
-                    </div>
-                    <div
-                        class="thumbnail-wrapper d32 circular inline m-t-5">
-                        <img src="assets/img/profiles/avatar.jpg" alt=""
-                            data-src="assets/img/profiles/avatar.jpg"
-                            data-src-retina="assets/img/profiles/avatar_small2x.jpg"
-                            width="32" height="32">
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+        {% component 'HeaderBar' %}
         
         <div class="content">
-            <div class="wrap-header container">
-                <h1 class="h2">List Your Space</h1>
-                <p>Airbnb lets you make money renting out your place.</p>
-            </div>
-
-            <div id="dln_wizard" class="m-t-50">
-                <ul class="dln-steps nav nav-tabs nav-tabs-linetriangle nav-tabs-separator nav-stack-sm container">
-                    <li class="active">
-                        <a data-toggle="tab" href="#tab1"><i class="fa fa-shopping-cart tab-icon"></i> <span class="hidden-xs">Your cart</span></a>
-                    </li>
-                    <li class="">
-                        <a data-toggle="tab" href="#tab2"><i class="fa fa-truck tab-icon"></i> <span class="hidden-xs">Shipping information</span></a>
-                    </li>
-                    <li class="">
-                        <a data-toggle="tab" href="#tab3"><i class="fa fa-credit-card tab-icon"></i> <span class="hidden-xs">Payment details</span></a>
-                    </li>
-                    <li class="">
-                        <a data-toggle="tab" href="#tab4"><i class="fa fa-check tab-icon"></i> <span class="hidden-xs">Summary</span></a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane padding-20 active slide-left container" id="tab1">
-                        <div class="row row-same-height">
-                            <form autocomplete="off" role="form"
-                                class="form-horizontal"
-                                id="form-work"
-                                novalidate="novalidate">
-                                <div class="form-group">
-                                    <label
-                                        class="col-sm-3 control-label"
-                                        for="fname">Name</label>
-                                    <div class="col-sm-9">
-                                        <input type="text"
-                                            required="" name="name"
-                                            placeholder="Full name"
-                                            id="fname"
-                                            class="form-control"
-                                            aria-required="true">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label
-                                        class="col-sm-3 control-label">Your
-                                        gender</label>
-                                    <div class="col-sm-9">
-                                        <div
-                                            class="radio radio-success">
-                                            <input type="radio"
-                                                id="male"
-                                                name="optionyes"
-                                                value="male">
-                                            <label for="male">Male</label>
-                                            <input type="radio"
-                                                id="female"
-                                                name="optionyes"
-                                                value="female"
-                                                checked="checked">
-                                            <label for="female">Female</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label
-                                        class="col-sm-3 control-label">Work</label>
-                                    <div class="col-sm-9">
-                                        <p>Have you Worked at
-                                            page Inc. before, Or
-                                            joined the Pages
-                                            Supirior Club?</p>
-                                        <p class="hint-text small">If
-                                            yes State which Place,
-                                            if yes note date and Job
-                                            CODE / Membership Number</p>
-                                        <div class="row">
-                                            <div class="col-sm-5">
-                                                <input type="text"
-                                                    required=""
-                                                    class="form-control"
-                                                    aria-required="true">
-                                            </div>
-                                            <div
-                                                class="col-sm-5 sm-m-t-10">
-                                                <input type="text"
-                                                    class="form-control"
-                                                    placeholder="Code/Number">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label
-                                        class="col-sm-3 control-label"
-                                        for="position">Position
-                                        applying for</label>
-                                    <div class="col-sm-9">
-                                        <input type="text"
-                                            required=""
-                                            placeholder="Designation"
-                                            id="position"
-                                            class="form-control"
-                                            aria-required="true">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label
-                                        class="col-sm-3 control-label"
-                                        for="name">Description</label>
-                                    <div class="col-sm-9">
-                                        <textarea
-                                            placeholder="Briefly Describe your Abilities"
-                                            id="name"
-                                            class="form-control"></textarea>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <p>I hereby certify that
-                                            the information above is
-                                            true and accurate.</p>
-                                    </div>
-                                    <div class="col-sm-9">
-                                        <button type="submit"
-                                            class="btn btn-success">Submit</button>
-                                        <button
-                                            class="btn btn-default">
-                                            <i class="pg-close"></i>
-                                            Clear
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="tab-pane slide-left padding-20 container" id="tab2">
-                        <div class="row row-same-height">
-                        sdfasdfasdf
-                        </div>
-                    </div>
-                    <div class="tab-pane slide-left padding-20 container" id="tab3">
-                        <div class="row row-same-height">
-                        </div>
-                    </div>
-                    <div class="tab-pane slide-left padding-20 container" id="tab4">
-                    </div>
-                    <div class="padding-20 bg-white m-b-50 container">
-                        <ul class="pager wizard">
-                            <li class="next">
-                                <button class="btn btn-primary btn-cons btn-animated from-left fa fa-truck pull-right" type="button">
-                                    <span>Next</span>
-                                </button>
-                            </li>
-                            <li class="next finish hidden">
-                                <button class="btn btn-primary btn-cons btn-animated from-left fa fa-cog pull-right" type="button">
-                                    <span>Finish</span>
-                                </button>
-                            </li>
-                            <li class="previous first hidden">
-                                <button class="btn btn-default btn-cons btn-animated from-left fa fa-cog pull-right" type="button">
-                                    <span>First</span>
-                                </button>
-                            </li>
-                            <li class="previous">
-                                <button class="btn btn-default btn-cons pull-right" type="button">
-                                    <span>Previous</span>
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            {% component 'AdEdit' %}
         </div>
         
         <div class="container-fixed-lg footer">
@@ -249,9 +44,16 @@ hidden = "0"
     <script src="{{ [
         'assets/vendor/jquery/jquery-1.8.3.min.js',
         'assets/vendor/boostrapv3/js/bootstrap.min.js',
+        'assets/vendor/jquery-validation/js/jquery.validate.min.js',
         'assets/vendor/boostrap-form-wizard/js/jquery.bootstrap.wizard.min.js',
-        'assets/js/dln-edit.js',
+        'assets/vendor/inputmask/jquery.inputmask.bundle.min.js',
+        'assets/vendor/bootstrap-select2/select2.min.js',
+        'assets/vendor/jquery-fileupload/js/vendor/jquery.ui.widget.js',
+        'assets/vendor/jquery-fileupload/js/jquery.fileupload.js',
+        '~/plugins/dlnlab/classified/assets/js/com-ad-edit.js',
+        '~/plugins/dlnlab/classified/assets/js/field-map.js',
     ]|theme }}"></script>
+    
     {% framework extras %}
     {% scripts %}
 </body>

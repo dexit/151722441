@@ -5,6 +5,7 @@
         this.initModalRegister();
         this.initValidator();
         this.initFacebook();
+        this.initGooglePlus();
         
         // On click email button
         $('#dln_register_email').on('click', function (e) {
@@ -100,6 +101,12 @@
     AccountRegister.prototype.initFacebook = function () {
     	///api/v1/login_fb
     	$('.dln-register-facebook').on('click', function (e) {
+    		window.location.href = window.root_url + '/api/v1/login_fb?return_url=' + window.location.href;
+    	});
+    };
+    
+    AccountRegister.prototype.initGooglePlus = function () {
+    	$('.dln-register-googleplus').on('click', function (e) {
     		window.location.href = window.root_url + '/api/v1/login_fb?return_url=' + window.location.href;
     	});
     };

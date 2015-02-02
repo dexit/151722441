@@ -5,9 +5,9 @@
         this.$lat     = $('input[name="lat"]');
         this.$long    = $('input[name="lng"]');
         this.$map     = $('#dln_map_canvas');
-        this.$address = $('#dln_address');
+        this.$address = $('#dln_location');
         this.map_id          = document.getElementById('dln_map_canvas');
-        this.autocomplete_id = document.getElementById('dln_address');
+        this.autocomplete_id = document.getElementById('dln_location');
         this.lat_val      = (this.$lat.length && this.$lat.val()) ? this.$lat.val() : '21.0277644';
         this.long_val     = (this.$long.length && this.$long.val()) ? this.$long.val() : '105.83415979999995';
         this.geocoder     = null;
@@ -15,12 +15,18 @@
         this.map          = null;
         this.autocomplete = null;
         this.latlng       = new google.maps.LatLng(this.lat_val, this.long_val);
-        this.s_placeholder = 'Enter a city';
+        this.s_placeholder = 'Nhập địa chỉ';
         
         this.initMap();
         this.initMarker();
         this.initAutocomplete();
         this.initEvents();
+        
+        var self = this;
+        $('#dln_track').on('click', function (e) {
+        	e.preventDefault();
+        	self.geolocate();
+        });
     };
     
     MapDrag.prototype.initMap = function () {
@@ -29,7 +35,8 @@
         var options = {
             zoom: 16,
             center: this.latlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDoubleClickZoom: true
         };
         this.map      = new google.maps.Map(self.map_id, options);
         this.geocoder = new google.maps.Geocoder();
@@ -48,20 +55,28 @@
     MapDrag.prototype.initAutocomplete = function () {
         var self = this;
         
-        this.autocomplete = new google.maps.places.Autocomplete(self.autocomplete_id, {
+        self.autocomplete = new google.maps.places.Autocomplete(self.autocomplete_id, {
             types: ['geocode']
         });
         
         // Prevent enter key
-        /*self.$address.keypress(function (event) {
+        self.$address.keypress(function (event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
             }
-        });*/
+        });
     };
     
     MapDrag.prototype.initEvents = function () {
         var self = this;
+        
+        google.maps.event.addListener(self.map, "dblclick", function (e) {
+            var current_location = e.latLng;
+            self.marker.setPosition(current_location);
+            var point = self.marker.getPosition();
+            self.map.panTo(point);
+            self.loadAddress();
+        });
         
         // For dragend marker
         google.maps.event.addListener(self.marker, 'dragend', function (event) {
@@ -72,7 +87,7 @@
         
         //Add listener to marker for reverse geocoding
         google.maps.event.addListener(self.marker, 'drag', function () {
-            self.loadAddress();
+            //self.loadAddress();
         });
         
         // For autocomplete
@@ -112,11 +127,14 @@
     MapDrag.prototype.geolocate = function () {
         var self = this;
         
-        if (this.autocomplete) {
+        if (self.autocomplete) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
                     var geolocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                    self.autocomplete.setBounds(new google.maps.LatLngBounds(geolocation, geolocation));
+                    self.marker.setPosition(geolocation);
+                    self.loadAddress();
+                    var point = self.marker.getPosition();
+                    self.map.panTo(point);
                 });
             }
         }

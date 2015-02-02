@@ -20,8 +20,8 @@ require('HelperResponse.php');
 class RestAd extends BaseController {
     
     public function postUpload() {
-        //if (!Auth::check())
-        //    return Response::json(array('status' => 'Error'), 500);
+        if (!Auth::check())
+            return Response::json(array('status' => 'Error'), 500);
         
         $result = null;
         if (Input::hasFile('file_data')) {
@@ -35,12 +35,12 @@ class RestAd extends BaseController {
                     ['file_data' => $uploadedFile],
                     ['file_data' => $validationRules]
                 );
-                
+
                 if ($validation->fails()) {
                     throw new ValidationException($validation);
                 }
-                
-                if (!$file->isValid()) {
+
+                if (! $uploadedFile->isValid()) {
                     throw new SystemException('File is not valid');
                 }
                 $file = new File();
@@ -53,6 +53,11 @@ class RestAd extends BaseController {
                 $result = $ex->getMessage();
             }
         }
+        $result->photo_pattern = '<div class="col-xs-6 col-md-3">
+            <div class="dln-photo-placeholder">
+                <img width="100%" src="__SRC__" />
+            </div>
+        </div>';
         
         return Response::json( response_message( 200, $result ));
     }

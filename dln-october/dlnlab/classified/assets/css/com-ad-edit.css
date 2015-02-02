@@ -2,3 +2,26 @@
     float: left;
     display: block;
 }
+.container {
+    max-width: 970px;
+}
+#flocation {
+    position: relative;
+    
+}
+.location-wrapper {
+    padding-left: 65px;
+    position: relative;
+}
+.location-wrapper .btn:first-child {
+    position: absolute;
+    max-width: 60px;
+    left: 10px;
+}
+.dln-file-upload {
+    display: none !important;
+}
+.dln-file-wrapper {
+    background-color: #edefed;
+    border: 1px solid #dce0e0;
+}

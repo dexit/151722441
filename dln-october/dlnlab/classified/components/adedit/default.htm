@@ -1,9 +1,289 @@
-<div class="form-group control-group">
+<!-- <div class="form-group control-group">
     <label for="dln_address" class="col-sm-2 control-label">Address</label>
     <div class="col-sm-10 controls">
         <input class="form-control" id="dln_address" name="dln_address" type="text" value=""/>
     </div>
 </div>
-<div id="dln_map_canvas" style="height: 300px; width: 600px"></div>
-<input type="hidden" id="clf_lat" name="lat" value="" />
-<input type="hidden" id="clf_long" name="lng" value="" />
+ -->
+
+<div class="wrap-header container">
+        <h1 class="h2">Đăng tin nhà đất</h1>
+        <p>NND sẽ mang tin rao/bán của bạn đến tất cả mọi người.</p>
+    </div>
+
+    <div id="dln_wizard" class="m-t-50">
+        <ul class="dln-steps nav nav-tabs nav-tabs-linetriangle nav-tabs-separator nav-stack-sm container">
+            <li class="active">
+                <a data-toggle="tab" href="#tab_common"><i class="pg-layouts3 tab-icon"></i> <span class="hidden-xs">Thông tin chung</span></a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#tab2"><i class="fa fa-sliders tab-icon"></i> <span class="hidden-xs">Thuộc tính</span></a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#tab3"><i class="pg-camera tab-icon"></i> <span class="hidden-xs">Hình ảnh</span></a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" href="#tab4"><i class="fa fa-credit-card tab-icon"></i> <span class="hidden-xs">Kêt thúc</span></a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane padding-20 active slide-left container" id="tab_common">
+                <div class="row row-same-height">
+                    <div autocomplete="off" role="form" class="form-horizontal" id="form-work" novalidate="novalidate">
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="fname">Thông tin</label>
+                            <div class="col-sm-5">
+                                <input type="text" required="" name="name" placeholder="Tiêu đề" id="dln_name" class="form-control" aria-required="true" />
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon ">Giá</span>
+                                    <input type="text" required="" name="price" id="dln_price" class="form-control" aria-required="true" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'" />
+                                    <span class="input-group-addon "> đồng </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="dln_location">Địa chỉ</label>
+                            <div class="col-sm-9 location-wrapper">
+                                <button class="btn pull-left fs-12 m-r-10" href="javascript:void(0)" id="dln_track"><i class="pg-map"></i></button>
+                                <div class="input-group transparent center-margin">
+                                    <input type="text" name="location" id="dln_location" placeholder="Hà Nội, TP.HCM, Đà Nẵng..." class="form-control">
+                                    <span class="input-group-addon "> <i class="pg-search"></i> </span>
+                                </div>
+                                <p class="hint-text small">Mẹo: Bạn có thể kéo thả marker để xác định vị trí chính xác hơn.</p>
+                            </div>
+                            <label class="col-sm-3"></label>
+                            <div class="col-sm-9">
+                                <div id="dln_map_canvas" style="height: 300px; width: 100%"></div>
+                                <input type="hidden" id="clf_lat" name="lat" value="" />
+                                <input type="hidden" id="clf_long" name="lng" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane slide-left padding-20 container" id="tab2">
+                <div class="row row-same-height">
+                    <div autocomplete="off" role="form" class="form-horizontal" id="form-work" novalidate="novalidate">
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="dln_type">Loại</label>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="radio radio-danger">
+                                            <input type="radio" id="yes" name="type" value="yes">
+                                            <label for="yes">Bán</label>
+                                            <input type="radio" id="no" name="type" value="no" checked="checked">
+                                            <label for="no">Cho thuê</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <select class="full-width" data-init-plugin="select2">
+                                            <option value="motel">Nhà trọ, phòng trọ</option>
+                                            <option value="house">Nhà riêng</option>
+                                            <option value="street">Nhà mặt phố</option>
+                                            <option value="shop">Cửa hàng</option>
+                                            <option value="other">Kho, nhà xưởng, đất</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label">Diện tích</label>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="input-group transparent center-margin">
+                                            <input type="text" name="location" id="dln_location" class="form-control"  data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'">
+                                            <span class="input-group-addon ">m<sup>2</sup></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="full-width" data-init-plugin="select2">
+                                            <option value="0">Phòng ngủ</option>
+                                            <option value="1">1 phòng ngủ</option>
+                                            <option value="2">2 phòng ngủ</option>
+                                            <option value="3">3 phòng ngủ</option>
+                                            <option value="4">4 phòng ngủ</option>
+                                            <option value="5">5+ phòng ngủ</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="full-width" data-init-plugin="select2">
+                                            <option value="0">Phòng tắm</option>
+                                            <option value="1">1 phòng tắm</option>
+                                            <option value="2">2 phòng tắm</option>
+                                            <option value="3">3 phòng tắm</option>
+                                            <option value="4">4 phòng tắm</option>
+                                            <option value="5">5+ phòng tắm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label" for="dln_amenity">Thuộc tính</label>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" checked="checked" id="chk_bancol" value="bancol" name="amenities[]">
+                                            <label for="chk_bancol">Ban công</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_guard" value="guard" name="amenities[]">
+                                            <label for="chk_guard">Bảo vệ</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_pool" value="pool" name="amenities[]">
+                                            <label for="chk_pool">Bể bơi</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_hot" value="hot" name="amenities[]">
+                                            <label for="chk_hot">Bình nóng lạnh</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_park" value="park" name="amenities[]">
+                                            <label for="chk_park">Chỗ để xe</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_air" value="air" name="amenities[]">
+                                            <label for="chk_air">Điều hòa nhiệt độ</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_gara" value="gara" name="amenities[]">
+                                            <label for="chk_air">Gara</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_internet" value="internet" name="amenities[]">
+                                            <label for="chk_internet">Internet</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_wash" value="wash" name="amenities[]">
+                                            <label for="chk_wash">Máy giặt</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_tv" value="tv" name="amenities[]">
+                                            <label for="chk_tv">Tivi</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_cap" value="cab" name="amenities[]">
+                                            <label for="chk_cab">Truyền hình cáp</label>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_cold" value="cold" name="amenities[]">
+                                            <label for="chk_cold">Tủ lạnh</label>
+                                        </div>
+                                        <div class="checkbox check-danger">
+                                            <input type="checkbox" id="chk_cold" value="cold" name="amenities[]">
+                                            <label for="chk_cold">Thang máy</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <label class="col-sm-3 control-label">Hướng nhà/ban công</label>
+                            <div class="col-sm-9">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <select class="full-width" data-init-plugin="select2">
+                                            <option value="0">Hướng nhà</option>
+                                            <option value="1">Đông</option>
+                                            <option value="2">Tây</option>
+                                            <option value="3">Nam</option>
+                                            <option value="4">Bắc</option>
+                                            <option value="5">Đông - Bắc</option>
+                                            <option value="6">Tây - Bắc</option>
+                                            <option value="7">Tây - Nam</option>
+                                            <option value="8">Đông - Nam</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <select class="full-width" data-init-plugin="select2">
+                                            <option value="0">Hướng ban công</option>
+                                            <option value="1">Đông</option>
+                                            <option value="2">Tây</option>
+                                            <option value="3">Nam</option>
+                                            <option value="4">Bắc</option>
+                                            <option value="5">Đông - Bắc</option>
+                                            <option value="6">Tây - Bắc</option>
+                                            <option value="7">Tây - Nam</option>
+                                            <option value="8">Đông - Nam</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="input-group">
+                                            <input type="text" required="" name="price" id="dln_price" class="form-control" aria-required="true" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'" />
+                                            <span class="input-group-addon "> tầng </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane slide-left padding-20 container" id="tab3">
+                <div class="row row-same-height">
+                    <div class="form-group clearfix">
+                        <label class="col-sm-3 control-label">Hình ảnh</label>
+                        <div class="col-sm-9">
+                            <div class="padding-15 dln-file-wrapper">
+                                <input type="file" class="dln-file-upload" />
+                                <button class="btn btn-danger btn-cons">Đăng ảnh</button>
+                            </div>
+                            <div class="dln-photos-wrapper row">
+                                <div class="col-xs-6 col-md-3">
+                                    <div class="dln-photo-placeholder">
+                                        <img width="100%" src="/october/uploads/public/54c/e0e/b72/thumb_8_200x200_0_0_crop.jpg">
+                                        <a href="javascript:void(0)" class="dln-delete-photo"></a>
+                                        <a href="javascript:void(0)" class="dln-feature-photo"></a>                                     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group clearfix">
+                        <label class="col-sm-3 control-label">Mô tả</label>
+                        <div class="col-sm-9">
+                            <textarea placeholder="Viết một đoạn mô tả ngắn về tin này" id="description" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane slide-left padding-20 container" id="tab4">
+            </div>
+            <div class="padding-20 bg-white m-b-50 container">
+                <ul class="pager wizard">
+                    <li class="next">
+                        <button class="btn btn-danger btn-cons btn-animated from-left fa fa-truck pull-right" type="button">
+                            <span>Tiếp tục</span>
+                        </button>
+                    </li>
+                    <li class="next finish hidden">
+                        <button class="btn btn-danger btn-cons btn-animated from-left fa fa-cog pull-right" type="button">
+                            <span>Kết thúc</span>
+                        </button>
+                    </li>
+                    <li class="previous first hidden">
+                        <button class="btn btn-default btn-cons btn-animated from-left fa fa-cog pull-right" type="button">
+                            <span>Bắt đầu</span>
+                        </button>
+                    </li>
+                    <li class="previous">
+                        <button class="btn btn-default btn-cons pull-right" type="button">
+                            <span>Quay lại</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
