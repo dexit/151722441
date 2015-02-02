@@ -39,7 +39,6 @@ class AdRead extends Model
 	private static function get_user_read($user, $count) {
 		$result = new \stdClass;
 		$result->user_id = $user->id;
-		$result->email   = $user->email;
 		$result->read    = $count;
 		return $result;
 	}
@@ -65,7 +64,7 @@ class AdRead extends Model
 			}
 			
 			$entry->log   = json_encode($log);
-			$entry->read  = $count+1;
+			$entry->read  = $count + 1;
 			$result       = $entry->save();
 		} else {
 			// Insert new

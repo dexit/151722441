@@ -179,6 +179,66 @@ class RestAd extends BaseController {
         return Response::json($arr_results);
     }
  
+    public function putUpdatePhotoDesc() {
+        if (! Auth::check())
+            return Response::json(array('status' => 'Error'), 500);
+        
+        $data = put();
+        $default = array(
+            'id'    => '',
+            'title' => '',
+            'desc'  => '',
+        );
+        extract(array_merge($default, $data));
+        
+        // Get current user
+        $user = Auth::getUser();
+        
+        // Kiem tra ad hien tai co dung la cua user hay ko
+        $record = Ad::whereRaw('id = ? AND user_id = ?', array($ad_id, $user->id))->first();
+        if (! $record)
+            return Response::json(array('status' => 'Error'), 500);
+        
+        // Cap nhat thong tin title va desc cho photo
+        $record = File::where();
+    }
+    
+    public function postAdExpress() {
+        if (! Auth::check)
+            return Response::json(array('status' => 'Error'), 500);
+        
+        $data = post();
+        $default = array(
+            'category_id' => '',
+            'address' => '',
+            'tag_ids' => '',
+            'lat' => '',
+            'lng' => ''
+        );
+        extract($default, $data);
+        
+        $user = Auth::getUser();
+        
+        // Kiem tra user hien tai da > 3 ad draft chua
+        $counts = Ad::whereRaw('user_id = ? AND status = 0', array($user->id))->count();
+        if ($counts > 3) {
+            return Response::json(array('status' => 'Error', 'message' => 'Không thể tạo thêm tin, Vui lòng kích hoạt những tin cũ!'), 500);
+        }
+        
+        $rules = [
+            'category_id' => 'required|numeric|min:1',
+            'address' => 'required',
+            'tag_ids' => 'required|array'
+        ];
+        
+        $error = valid($rules);
+        if ($error != null) {
+            return Response::json(array('status' => 'Error', 'message' => $error), 1006);
+        }
+        
+        
+    }
+    
     public function postShareAd() {
         if (! Auth::check())
             return Response::json(array('status' => 'Error'), 500);
@@ -216,7 +276,7 @@ class RestAd extends BaseController {
                 $buffer = new \BufferApp($client_id, $client_secret, $callback_url);
                 
                 $profiles = $buffer->go('/profiles');
-			var_dump($profiles);die();
+                
                 if (is_array($profiles)) {
                     foreach ($profiles as $profile) {
                         $buffer->go('/updates/create', array('text' => 'My first status update from bufferapp-php worked!', 'profile_ids[]' => $profile->id));

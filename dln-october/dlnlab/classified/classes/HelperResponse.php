@@ -1,5 +1,25 @@
 <?php
 
+function valid($rules) {
+    $response = null;
+    $messages = array(
+        'required'  => ':attribute bắt buộc',
+        'array'     => ':attribute phải đúng dạng array',
+        'between'   => ':attribute phải nằm trong khoảng :min - :max số.',
+        'numeric'   => ':attribute phải dùng dạng số',
+        'alpha_num' => ':attribute không được có ký tự đặc biệt',
+        'size'      => ':attribute bị giới hạn :size ký tự',
+        'min'       => ':attribute phải lớn hơn :min',
+        'max'       => ':attribute phải nhỏ hơn :max'
+    );
+    $valid = Validator::make(Input::all(), $rules, $messages);
+    if ($valid->fails()) { 
+        $response = $valid->messages()->first();
+    }
+
+    return $response;
+}
+
 function response_message($error_code, $text = null, $res = null) {
 	switch ($error_code) {
 		case 200:

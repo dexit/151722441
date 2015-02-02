@@ -20,3 +20,4 @@ App::before(function ($request) {
     
     Route::post('/api/v1/login', 'DLNLab\Classified\Classes\RestAccount@postLogin');
 });
+//http://cube.adbee.technology/gallery.html
