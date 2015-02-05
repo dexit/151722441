@@ -4,7 +4,6 @@ namespace DLNLab\Features\Classes;
 
 use Auth;
 use DB;
-use Cache;
 use Input;
 use Response;
 use Controller as BaseController;

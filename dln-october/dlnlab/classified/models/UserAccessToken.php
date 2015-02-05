@@ -144,7 +144,7 @@ class UserAccessToken extends Model
         self::$gp_client->setDeveloperKey(self::$gp_devkey);
         self::$gp_client->setClientId(self::$gp_client_id);
         self::$gp_client->setClientSecret(self::$gp_secret);
-        self::$gp_client->setRedirectUri(Request::root() . '/api/v1/callback_gp');
+        self::$gp_client->setRedirectUri(OCT_ROOT . '/api/v1/callback_gp');
         self::$gp_client->setScopes(self::$gp_scopes);
     }
     

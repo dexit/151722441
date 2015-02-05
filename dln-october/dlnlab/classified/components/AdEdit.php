@@ -1,13 +1,11 @@
 <?php namespace DLNLab\Classified\Components;
 
 use Auth;
-use Cache;
 use Redirect;
 use Response;
 use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
-use DLNLab\Classified\Models\Tag;
-use DLNLab\Classified\Models\AdCategory;
+use DLNLab\Classified\Classes\HelperCache;
 
 class AdEdit extends ComponentBase
 {
@@ -58,30 +56,7 @@ class AdEdit extends ComponentBase
 		
 	    
 	    $this->page['type']       = $this->property('type', 'quick');
-	    $this->page['kinds']      = $this->getKindTagOptions();
-	    $this->page['categories'] = $this->getAdCategoryOptions();
+	    $this->page['kinds']      = HelperCache::getAdKind();
+	    $this->page['categories'] = HelperCache::getAdCategory();
 	}
-	
-	public function getAdCategoryOptions() {
-	    $options = '';
-	    if (! Cache::has('ad_category')) {
-	        $options = AdCategory::all();
-	        Cache::put('ad_category', $options, 3600);
-	    } else {
-	        $options = Cache::get('ad_category');
-	    }
-	    return $options;
-	}
-	
-	public function getKindTagOptions() {
-	    $options = '';
-	    if (! Cache::has('kind_options')) {
-	        $options = Tag::getTagByType('ad_kind');
-	        Cache::put('kind_options', $options, 3600);
-	    } else {
-	        $options = Cache::get('kind_options');
-	    }
-	    return $options;
-	}
-
 }

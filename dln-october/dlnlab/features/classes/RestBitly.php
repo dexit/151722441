@@ -23,7 +23,7 @@ class RestBitly extends BaseController {
         $default = array(
             'link' => ''
         );
-        extract(array_merge($default, $data));
+        extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
         
         if ($link) {
             $md5 = md5($link);

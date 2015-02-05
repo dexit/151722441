@@ -11,6 +11,9 @@ use October\Rain\Auth\Models\User as UserBase;
 use RainLab\User\Models\Country;
 use RainLab\User\Models\State;
 
+use DLNLab\Classified\Classes\HelperClassified;
+use DLNLab\Classified\Classes\HelperCache;
+
 /**
  * Ad Model
  */
@@ -46,10 +49,7 @@ class Ad extends Model {
 	public $rules = [
 		'title' => 'required',
 		'slug' => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
-		'desc' => 'required',
 		'price' => 'required|numeric',
-		'lat' => 'required',
-		'lng' => 'required'
 	];
 
 	/**
@@ -170,9 +170,10 @@ class Ad extends Model {
 	}
 
     public function beforeSave() {
+        // Tao slug full_text va snippet content cho fulltext search
         $desc         = Str::words($this->getAttribute('desc'));
         $slug         = str_replace('-', ' ', $this->getAttribute('slug'));
-        $slug_address = Str::slug($this->getAttribute('address'), ' ');
+        $slug_address = HelperClassified::slug_utf8($this->getAttribute('address'), ' ');
         $arr_text   = array();
         $arr_text[] = $this->getAttribute('name');
         $arr_text[] = $slug;
@@ -183,14 +184,17 @@ class Ad extends Model {
         $text = implode(' ', $arr_text);
         $this->setAttribute('full_text', $text);
         
+        // Cap nhat publish time
         if ($this->getAttribute('status') == 1) {
             $this->setAttribute('published_at', time());
         }
         
+        // Cap nhat trang thai link share count sns
         AdShareCount::where('ad_id', '=', $this->attributes['id'])->update(array('status' => $this->getAttribute('status')));
     }
     
     public function afterCreate() {
+        // Insert ad link for crawl share sns count information
         $ad_id = $this->attributes['id'];
         if (empty($ad_id)) {
             return false;
@@ -250,7 +254,7 @@ class Ad extends Model {
 			'lat' => '',
 			'lng' => ''
 		);
-		extract(array_merge($default, $data));
+		extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
 
         $record = null;
 		try {
@@ -281,6 +285,41 @@ class Ad extends Model {
         if (! $ad_id)
             return false;
         
-        return 'http://localhost/october/' . $ad_id;
+        return OCT_ROOT . $ad_id;
     }
+
+    public static function gen_auto_ad_name($data) {
+        $default = array(
+            'tag_ids' => '',
+            'category_id' => '',
+            'price' => ''
+        );
+        extract(array_merge($default, $data));
+        
+        if (! $tag_ids)
+            return false;
+        
+        $tags = explode(',', $tag_ids);
+        $kind = $amenity = '';
+        foreach ($tags as $id) {
+           $tag = HelperCache::findAdTagById($id);
+           if ($tag) {
+               switch ($tag->type) {
+                   case 'ad_kind':
+                       $kind = $tag->name;
+                       break;
+                   case 'ad_amenities':
+                       $amenity = $tag->name;
+                       break;
+               }
+           }
+        }
+        
+        $ad_name = ucfirst($kind);
+        $ad_name .= ' ' . strtolower(HelperCache::findAdCategoryById($category_id));
+        $ad_name .= ' giá ' . strtolower($price) . ' đồng';
+        
+        return $ad_name;
+    }
+    
 }

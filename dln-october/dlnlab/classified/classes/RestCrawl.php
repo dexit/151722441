@@ -4,7 +4,6 @@ namespace DLNLab\Classified\Classes;
 
 use Auth;
 use DB;
-use Cache;
 use Carbon;
 use Input;
 use Response;

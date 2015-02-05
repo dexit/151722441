@@ -102,7 +102,7 @@ class RestAd extends BaseController {
             'kws' => '',
             'page' => ''
         );
-        extract(array_merge($default, $data));
+        extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
         
         $arr_query    = null;
         $cons         = null;
@@ -194,7 +194,7 @@ class RestAd extends BaseController {
             'title' => '',
             'desc'  => '',
         );
-        extract(array_merge($default, $data));
+        extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
         
         // Get current user
         $user = Auth::getUser();
@@ -208,7 +208,7 @@ class RestAd extends BaseController {
         $record = File::where();
     }
     
-    public function postAdExpress() {
+    public function postAdQuick() {
         if (! Auth::check)
             return Response::json(array('status' => 'Error'), 500);
         
@@ -220,14 +220,15 @@ class RestAd extends BaseController {
             'lat' => '',
             'lng' => ''
         );
-        extract($default, $data);
+        
+        extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
         
         $user = Auth::getUser();
         
         // Kiem tra user hien tai da > 3 ad draft chua
         $counts = Ad::whereRaw('user_id = ? AND status = 0', array($user->id))->count();
-        if ($counts > 3) {
-            return Response::json(array('status' => 'Error', 'message' => 'Không thể tạo thêm tin, Vui lòng kích hoạt những tin cũ!'), 500);
+        if ($counts > CLF_LIMIT_AD_PRIVATE) {
+            return Response::json(array('error' => 'Error', 'message' => 'Không thể tạo thêm tin, Vui lòng kích hoạt những tin cũ!'), 500);
         }
         
         $rules = [
@@ -238,10 +239,40 @@ class RestAd extends BaseController {
         
         $error = valid($rules);
         if ($error != null) {
-            return Response::json(array('status' => 'Error', 'message' => $error), 1006);
+            return Response::json(array('error' => 'Error', 'message' => $error), 1006);
         }
         
+        $name = Ad::gen_auto_ad_name($data);
+        $slug = HelperClassified::slug_utf8($name);
         
+        try {
+            DB::beginTransaction();
+            $record = new Ad;
+            $record->name = $name;
+            $record->slug = $slug;
+            $record->address = $address;
+            $record->category_id = $category_id;
+            $record->price = $price;
+            $record->lat = $lat;
+            $record->lng = $lng;
+            $record->save();
+            
+            // Them vao bang ads_tags
+            $tags = explode(',', $tag_ids);
+            $arr_insert = array();
+            foreach ($tags as $id) {
+                if ($id && $id > 0) {
+                    $arr_insert[] = array('ad_id' => $record->id, 'tag_id' => $id);
+                }
+            }
+            DB::table('dlnlab_classified_ads_tags')->insert($arr_insert);
+            
+            DB::commit();
+            return Response::json($record);
+        } catch (Exception $ex) {
+            DB::rollback();
+            return Response::json(array('error' => 'Error', 'message' => $error), 1006);
+        }
     }
     
     public function postShareAd() {
@@ -254,7 +285,7 @@ class RestAd extends BaseController {
             'page_id' => '',
             'message' => ''
         );
-        extract(array_merge($default, $data));
+        extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
         
         require('libraries/BufferApp/buffer.php');
         require('libraries/SocialAutoPoster/SocialAutoPoster.php');

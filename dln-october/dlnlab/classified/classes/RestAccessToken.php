@@ -39,7 +39,7 @@ class RestAccessToken extends BaseController {
         }
         
         self::redirect_return_url();
-        return Redirect::to(Request::root());
+        return Redirect::to(OCT_ROOT);
     }
     
     public function getAuthenticateFB() {
@@ -48,7 +48,7 @@ class RestAccessToken extends BaseController {
         
         $app_id       = UserAccessToken::$app_id;
         $perms        = 'user_about_me,email,manage_pages,publish_actions';
-        $redirect_uri = Request::root() . '/api/v1/callback_fb';
+        $redirect_uri = OCT_ROOT . '/api/v1/callback_fb';
         $login_link   = "https://www.facebook.com/dialog/oauth?client_id={$app_id}&redirect_uri={$redirect_uri}&scope={$perms}";
         
         return Redirect::to($login_link);
@@ -60,7 +60,7 @@ class RestAccessToken extends BaseController {
         if (! empty($data['code'])) {
             $app_id     = UserAccessToken::$app_id;
             $app_secret = UserAccessToken::$app_secret;
-            $redirect_uri = Request::root() . '/api/v1/callback_fb';
+            $redirect_uri = OCT_ROOT . '/api/v1/callback_fb';
             
             try {
                 $url  = self::$graph . "oauth/access_token?code={$data['code']}&client_id={$app_id}&client_secret={$app_secret}&redirect_uri={$redirect_uri}";
@@ -183,7 +183,8 @@ class RestAccessToken extends BaseController {
             'link'    => '',
             'message' => ''
         );
-        extract(array_merge($default, $data));
+        
+        extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
         
         // Get access token
         $user_id = Auth::getUser()->id;
