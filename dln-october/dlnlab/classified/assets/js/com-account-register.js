@@ -2,7 +2,6 @@
     "use strict";
 
     var AccountRegister = function () {
-        this.initModalRegister();
         this.initValidator();
         this.initFacebook();
         this.initGooglePlus();
@@ -70,7 +69,7 @@
     		if ($('#dln_form_login').valid()) {
     			$.ajax({
     				type: 'POST',
-    				url: window.root_url + '/api/v1/login',
+    				url: window.root_url_api + '/login',
     				data: $('#dln_form_login').serialize(),
     				success: function (data) {
     					console.log(data);
@@ -86,12 +85,6 @@
     		}
     	});
     };
-
-    AccountRegister.prototype.initModalRegister = function () {
-        var self = this;
-
-    	$('#dln_modal_register').modal('show');
-    };
     
     AccountRegister.prototype.initValidator = function () {
     	// Add jquery validation
@@ -101,13 +94,13 @@
     AccountRegister.prototype.initFacebook = function () {
     	///api/v1/login_fb
     	$('.dln-register-facebook').on('click', function (e) {
-    		window.location.href = window.root_url + '/api/v1/login_fb?return_url=' + window.location.href;
+    		window.location.href = window.root_url_api + '/login_fb?return_url=' + window.location.href;
     	});
     };
     
     AccountRegister.prototype.initGooglePlus = function () {
     	$('.dln-register-googleplus').on('click', function (e) {
-    		window.location.href = window.root_url + '/api/v1/login_fb?return_url=' + window.location.href;
+    		window.location.href = window.root_url_api + '/login_gp?return_url=' + window.location.href;
     	});
     };
     

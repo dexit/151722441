@@ -13,7 +13,7 @@ define( 'CLF_ROOT',  dirname(__FILE__) );
 define( 'CLF_UPLOAD', __DIR__ . '/uploads/' );
 define( 'OCT_ROOT', Request::root() );
 define( 'CLF_CACHE', 3600 );
-define( 'CLF_LIMIT_AD_PRIVATE', 3 );
+define( 'CLF_LIMIT_AD_PRIVATE', 30 );
 define( 'TIME_DELAY_COUNT_VIEW', 420 ); // 7 minutes
 
 /**

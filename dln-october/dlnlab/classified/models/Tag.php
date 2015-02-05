@@ -66,7 +66,9 @@ class Tag extends Model
 			'country_tag' => '',
 			'state_tag'   => '',
 		);
-		extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
+		$merge = array_merge($default, $data);
+        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+        extract($merge);
 		
         $tag_ids = array();
         

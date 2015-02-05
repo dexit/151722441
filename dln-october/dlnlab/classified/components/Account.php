@@ -70,7 +70,7 @@ class Account extends ComponentBase
 
     public function user()
     {
-        if (!Auth::check())
+        if (! Auth::check())
             return null;
     
         return Auth::getUser();

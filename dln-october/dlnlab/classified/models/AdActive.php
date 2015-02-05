@@ -46,8 +46,9 @@ class AdActive extends Model
             'ad_id'    => '',
             'day_type' => '',
         );
-        $params = array_merge($default, $data);
-        extract($params);
+        $merge = array_merge($default, $data);
+        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+        extract($merge);
         
         // Get Ad
         if (! $ad) {

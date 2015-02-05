@@ -23,7 +23,7 @@ class HeaderBar extends ComponentBase
         $user = $this->user();
         if (! $user)
             return false;
-        
+        csrf_token();
         $name       = trim($user->name);
         $parts      = explode(" ", $name);
         $last_name  = array_pop($parts);

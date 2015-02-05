@@ -17,7 +17,24 @@
         var self = this;
         $('#dln_track').on('click', function (e) {
         	e.preventDefault();
+        	
         	self.geolocate();
+        });
+        
+        $('#dln_submit_quick').on('click', function (e) {
+        	e.preventDefault();
+        	
+        	var data = $('#dln_frm_quick').serializeArray();
+        	if (data) {
+        		$.ajax({
+        			type : 'POST',
+        			url: window.root_url_api + '/ad/quick',
+        			data: data,
+        			success: function (response) {
+        				console.log(response);
+        			}
+        		});
+        	}
         });
     };
     
@@ -39,7 +56,8 @@
                 self.$lat.val(place.geometry.location.lat());
                 self.$long.val(place.geometry.location.lng());
             } else {
-                self.$address.placeholder = self.s_placeholder;
+            	self.$lat.val('');
+            	self.$long.val('');
             }
         });
     };
@@ -60,7 +78,7 @@
             }
         }
     };
-
+   
     $(document).ready(function () {
        var ad_quick = new AdQuick();
     });

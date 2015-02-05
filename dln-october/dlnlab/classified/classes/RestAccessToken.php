@@ -3,20 +3,21 @@
 namespace DLNLab\Classified\Classes;
 
 use Auth;
+use Cookie;
 use DB;
+use Exception;
 use Input;
 use Request;
 use Response;
 use Redirect;
-use Cookie;
 use Validator;
-use Exception;
 use System\Models\File;
 use Controller as BaseController;
 use DLNLab\Classified\Models\UserAccessToken;
 use DLNLab\Classified\Models\AdShare;
 use DLNLab\Classified\Models\AdSharePage;
 use October\Rain\Auth\Models\User;
+use DLNLab\Classified\Classes\HelperClassified;
 
 require('HelperResponse.php');
 
@@ -25,8 +26,7 @@ class RestAccessToken extends BaseController {
     public static $graph = 'https://graph.facebook.com/v2.2/';
     
     public function getAuthenticateGPlus() {
-        $get = get();
-        self::save_return_url();
+        HelperClassified::save_return_url();
         
         return Redirect::to(UserAccessToken::get_gp_login_url());
     }
@@ -38,13 +38,11 @@ class RestAccessToken extends BaseController {
             $access_token = UserAccessToken::create_gp_access_token($data['code']);
         }
         
-        self::redirect_return_url();
-        return Redirect::to(OCT_ROOT);
+        return Redirect::to(HelperClassified::redirect_return_url());
     }
     
     public function getAuthenticateFB() {
-        $get = get();
-        self::save_return_url();
+        HelperClassified::save_return_url();
         
         $app_id       = UserAccessToken::$app_id;
         $perms        = 'user_about_me,email,manage_pages,publish_actions';
@@ -132,7 +130,7 @@ class RestAccessToken extends BaseController {
                         UserAccessToken::getUserAvatar($user->id, $image_url);
                     }
                     
-                    self::redirect_return_url();
+                    return Redirect::to(HelperClassified::redirect_return_url());
                 }
             } catch (Exception $ex) {
                 throw  $ex;
@@ -140,19 +138,6 @@ class RestAccessToken extends BaseController {
             }
         }
         return Response::json(array('status' => 'Success'), 200);
-    }
-    
-    private static function save_return_url() {
-        if (!empty($get['return_url'])) {
-            Cookie::queue('dln_return_url', $get['return_url'], 10);
-        }
-    }
-    
-    private static function redirect_return_url() {
-        if (Cookie::get('dln_return_url')) {
-            Cookie::queue('dln_access_token', $access_token, 10);
-            return Redirect::to(Cookie::get('dln_return_url'));
-        }
     }
     
     private static function saveUserAccessToken($user_id, $access_token, $type) {
@@ -184,7 +169,9 @@ class RestAccessToken extends BaseController {
             'message' => ''
         );
         
-        extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
+        $merge = array_merge($default, $data);
+        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+        extract($merge);
         
         // Get access token
         $user_id = Auth::getUser()->id;

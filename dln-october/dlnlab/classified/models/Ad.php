@@ -3,6 +3,7 @@
 namespace DLNLab\Classified\Models;
 
 use App;
+use Auth;
 use DB;
 use Response;
 use Model;
@@ -170,10 +171,23 @@ class Ad extends Model {
 	}
 
     public function beforeSave() {
+        // Format lai price
+        $price = $this->getAttribute('price');
+        $price = str_replace(',', '', $price);
+        $price = doubleval($price);
+        $this->setAttribute('price', $price);
+        
+        // Format user_id
+        $user_id = $this->getAttribute('user_id');
+        if (empty($user_id) && Auth::check()) {
+            $this->setAttribute('user_id', Auth::getUser()->id);
+        }
+        
         // Tao slug full_text va snippet content cho fulltext search
         $desc         = Str::words($this->getAttribute('desc'));
         $slug         = str_replace('-', ' ', $this->getAttribute('slug'));
-        $slug_address = HelperClassified::slug_utf8($this->getAttribute('address'), ' ');
+        $slug_address = HelperClassified::slug_utf8($this->getAttribute('address'));
+        $slug_address = str_replace('-', ' ', $slug_address);
         $arr_text   = array();
         $arr_text[] = $this->getAttribute('name');
         $arr_text[] = $slug;
@@ -190,7 +204,9 @@ class Ad extends Model {
         }
         
         // Cap nhat trang thai link share count sns
-        AdShareCount::where('ad_id', '=', $this->attributes['id'])->update(array('status' => $this->getAttribute('status')));
+        if (! empty($this->attributes['id'])) {
+            AdShareCount::where('ad_id', '=', $this->attributes['id'])->update(array('status' => $this->getAttribute('status')));
+        }
     }
     
     public function afterCreate() {
@@ -254,7 +270,9 @@ class Ad extends Model {
 			'lat' => '',
 			'lng' => ''
 		);
-		extract(array_walk(array_merge($default, $data), array('\DLNLab\Classified\Classes\HelperClassified', 'trim_value')));
+		$merge = array_merge($default, $data);
+        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+        extract($merge);
 
         $record = null;
 		try {
@@ -294,14 +312,15 @@ class Ad extends Model {
             'category_id' => '',
             'price' => ''
         );
-        extract(array_merge($default, $data));
+        $merge = array_merge($default, $data);
+        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+        extract($merge);
         
         if (! $tag_ids)
             return false;
         
-        $tags = explode(',', $tag_ids);
         $kind = $amenity = '';
-        foreach ($tags as $id) {
+        foreach ($tag_ids as $id) {
            $tag = HelperCache::findAdTagById($id);
            if ($tag) {
                switch ($tag->type) {
@@ -314,10 +333,11 @@ class Ad extends Model {
                }
            }
         }
-        
+
+        $category = HelperCache::findAdCategoryById($category_id);
         $ad_name = ucfirst($kind);
-        $ad_name .= ' ' . strtolower(HelperCache::findAdCategoryById($category_id));
-        $ad_name .= ' giá ' . strtolower($price) . ' đồng';
+        $ad_name .= ' ' . mb_strtolower($category->name);
+        $ad_name .= ' giá ' . mb_strtolower($price) . ' đồng';
         
         return $ad_name;
     }

@@ -1,21 +1,24 @@
 <?php
 
 App::before(function ($request) {
-	Route::post('/api/v1/get_pincode',   'DLNLab\Features\Classes\RestPincode@postGetPincode');
-	Route::post('/api/v1/valid_pincode', 'DLNLab\Features\Classes\RestPincode@postValidPincode');
-	
-	Route::post('/api/v1/report', 'DLNLab\Features\Classes\RestReport@postSendReport');
-	
-	Route::post('/api/v1/notification', 'DLNLab\Features\Classes\RestNotification@postRead');
-	
-	Route::post('/api/v1/sessions', 'DLNLab\Features\Classes\RestSession@postSession');
-	Route::delete('/api/v1/sessions', 'DLNLab\Features\Classes\RestSession@deleteSession');
-	
-	Route::post('/api/v1/message', 'DLNLab\Features\Classes\RestMessage@postAddMessage');
-	Route::get('/api/v1/message', 'DLNLab\Features\Classes\RestMessage@getTest');
-	
-	Route::post('/api/v1/crawl/parent', 'DLNLab\Features\Classes\RestCrawl@postAddParentLinks');
-	Route::post('/api/v1/crawl/link', 'DLNLab\Features\Classes\RestCrawl@postLinks');
+    $api_path  = '/api/v1/';
+    $api_class = 'DLNLab\Features\Classes';
     
-    Route::post('/api/v1/bitly', 'DLNLab\Features\Classes\RestBitly@postBitlyLink');
+	Route::post($api_path . 'get_pincode',   $api_class . '\RestPincode@postGetPincode');
+	Route::post($api_path . 'valid_pincode', $api_class . '\RestPincode@postValidPincode');
+	
+	Route::post($api_path . 'report', $api_class . '\RestReport@postSendReport');
+	
+	Route::post($api_path . 'notification', $api_class . '\RestNotification@postRead');
+	
+	Route::post($api_path .   'sessions', $api_class . '\RestSession@postSession');
+	Route::delete($api_path . 'sessions', $api_class . '\RestSession@deleteSession');
+	
+	Route::post($api_path . 'message', $api_class .  '\RestMessage@postAddMessage');
+	Route::get($api_path .  'message', $api_class . '\RestMessage@getTest');
+	
+	Route::post($api_path . 'crawl/parent', $api_class . '\RestCrawl@postAddParentLinks');
+	Route::post($api_path . 'crawl/link',   $api_class . '\RestCrawl@postLinks');
+    
+    Route::post($api_path . 'bitly', $api_class . '\RestBitly@postBitlyLink');
 });

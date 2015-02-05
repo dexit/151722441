@@ -1,6 +1,8 @@
 <?php
 
 namespace DLNLab\Classified\Classes;
+use Input;
+use Cookie;
 
 class HelperClassified {
     
@@ -45,10 +47,29 @@ class HelperClassified {
         return $str;
     }
     
-    public static function trim_value($value) {
-        if (! $value)
+    public static function trim_value($values) {
+        if (! $values)
             return null;
-        
-        return trim($value);
+        $new_values = null;
+        foreach ($values as $key => $value) {
+            if (! is_array($value)) {
+                $new_values[$key] = trim($value);
+            } else {
+                $new_values[$key] = $value;
+            }
+        }
+        return $new_values;
+    }
+
+    public static function save_return_url() {
+        if (Input::has('return_url')) {
+            Cookie::queue('dln_return_url', Input::get('return_url'), 10);
+        }
+    }
+    
+    public static function redirect_return_url() {
+        if (Cookie::get('dln_return_url')) {
+            return Cookie::get('dln_return_url');
+        }
     }
 }
