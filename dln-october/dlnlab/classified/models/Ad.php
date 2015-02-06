@@ -80,7 +80,7 @@ class Ad extends Model {
         'desc'        => 'Mô tả',
         'lat'         => 'Vĩ độ',
         'lng'         => 'Kinh độ',
-        'user_id'     => 'Người dùng'
+        'user_id'     => 'ID người dùng'
     ];
     public $throwOnValidation = false;
 

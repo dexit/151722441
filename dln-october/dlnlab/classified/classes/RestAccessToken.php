@@ -134,10 +134,10 @@ class RestAccessToken extends BaseController {
                 }
             } catch (Exception $ex) {
                 throw  $ex;
-                return Response::json(array('status' => 'Error', 'message' => $ex->getMessage()), 500);
+                return Response::json(array('status' => 'error', 'message' => $ex->getMessage()), 500);
             }
         }
-        return Response::json(array('status' => 'Success'), 200);
+        return Response::json(array('status' => 'success'), 200);
     }
     
     private static function saveUserAccessToken($user_id, $access_token, $type) {
@@ -158,7 +158,7 @@ class RestAccessToken extends BaseController {
     
     public function postFeedFB() {
         if (! Auth::check())
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         
         $data = post();
         
@@ -178,12 +178,12 @@ class RestAccessToken extends BaseController {
         $record  = UserAccessToken::valid_access_token($user_id, 'facebook');
         
         if (empty($record) || empty($record->access_token)) {
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         }
         $access_token = $record->access_token;
         $check        = UserAccessToken::check_fb_access_token($access_token);
         if (! $check) {
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         }
         
         $fb_user_id  = $check->user_id;
@@ -222,12 +222,12 @@ class RestAccessToken extends BaseController {
     
     public function getUpdatePageAccessTokenFB() {
         if (! Auth::check()) {
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         }
         
         $access_token = Cookie::get('dln_access_token');
         if (empty($access_token)) {
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         }
         
         $obj = json_decode(file_get_contents(UserAccessToken::$api_url . 'me/accounts?access_token=' . $access_token));

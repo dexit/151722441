@@ -46,8 +46,8 @@ class RestCrawl extends BaseController {
 				DB::commit();
 			}
 		}
-		var_dump($arr_ids);
-        return Response::json(array('status' => 'Success'), 200);
+        
+        return Response::json(array('status' => 'success', 'data' => $arr_ids), 200);
 	}
 	
 	public function getRefreshTagCount() {
@@ -56,7 +56,7 @@ class RestCrawl extends BaseController {
 		if (!$tags->count()) {
 			// Reset crawl status for all tags
 			Tag::all()->update(array('crawl' => false));
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         }
 
         foreach ($tags as $tag) {
@@ -68,7 +68,7 @@ class RestCrawl extends BaseController {
                 $tag->save();
             }
         }
-		return Response::json(array('status' => 'Success'), 200);
+		return Response::json(array('status' => 'success'), 200);
 	}
     
     public function getAdShareStatusCrawl() {
@@ -76,7 +76,7 @@ class RestCrawl extends BaseController {
         $records = AdShare::whereRaw('status = ? AND is_read = ?', array(1, true))->take(100)->get();
         if (! count($records)) {
             //AdShare::all()->update(array('is_read' => false));
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         }
         
         // Get user access tokens
@@ -86,7 +86,7 @@ class RestCrawl extends BaseController {
         }
         $access_tokens = UserAccessToken::whereIn('user_id', $arr_uids)->get();
         if (! count($access_tokens))
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         
         // Get App access token
         $api_url = UserAccessToken::$api_url;
@@ -124,7 +124,7 @@ class RestCrawl extends BaseController {
         $records = AdShare::whereRaw('status = ? AND crawl = ?', array(true, false))->take(100)->get();
         if (! count($records)) {
             AdShare::all()->update(array('crawl' => false));
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         }
         
         foreach ($records as $record) {
@@ -136,14 +136,14 @@ class RestCrawl extends BaseController {
             }
         }
         
-        return Response::json(array('status' => 'Success'), 200);
+        return Response::json(array('status' => 'success'), 200);
     }
     
     public function getAdShareCount() {
         $records = AdShareCount::whereRaw('status = ? AND crawl = ?', array(1, false))->take(100)->get();
         if (! count($records)) {
             AdShareCount::all()->update(array('crawl' => false));
-            return Response::json(array('status' => 'Error'), 500);
+            return Response::json(array('status' => 'error'), 500);
         }
         
         $continue = true;
@@ -169,6 +169,6 @@ class RestCrawl extends BaseController {
             }
         }
         
-        return Response::json(array('status' => 'Success'), 200);
+        return Response::json(array('status' => 'success'), 200);
     }
 }
