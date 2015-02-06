@@ -15,8 +15,8 @@ require('HelperResponse.php');
 class RestMessage extends BaseController {
     
     public function postAddMessage() {
-        //if (!Auth::check())
-            //return null;
+        if (!Auth::check())
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 		
         $result = null;
 		

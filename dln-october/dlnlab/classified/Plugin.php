@@ -27,6 +27,7 @@ define( 'CLF_MESSAGES', json_encode(array(
         'regex'     => ':attribute không hợp lệ',
     ))
 );
+define( 'CLF_LANG_MESSAGE', 'dlnlab.classified::lang.messages.' );
 
 /**
  * Classified Plugin Information File

@@ -16,7 +16,7 @@ class RestPincode extends BaseController {
 	
 	public function postGetPincode() {
 		if (!Auth::check()) {
-			return Response::json( response_message( 403 ), 403 );
+			return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 		}
 		
 		if ( !Input::has('phone_number') )
@@ -68,7 +68,7 @@ class RestPincode extends BaseController {
 	
 	public function postValidPincode() {
 		if (!Auth::check()) {
-			return Response::json( response_message( 403 ), 403 );
+			return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 		}
 		
 	    if (!Input::has('pincode'))

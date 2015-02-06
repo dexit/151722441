@@ -23,5 +23,10 @@ return [
 		'categories' => 'Categories',
 		'address' => 'Address',
 		'ad_images' => 'Images'
-	]
+	],
+    'messages' => [
+        'error_user' => 'Người dùng không hợp lệ.',
+        'require_signin' => 'Yêu cầu đăng nhập.',
+        'not_create_ad' => 'Không thể tạo thêm tin, Vui lòng kích hoạt những tin cũ.',
+    ]
 ];

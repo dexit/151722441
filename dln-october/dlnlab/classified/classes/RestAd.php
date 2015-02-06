@@ -26,7 +26,7 @@ class RestAd extends BaseController {
     
     public function postUpload() {
         if (!Auth::check())
-            return Response::json(array('status' => 'error'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $result = null;
         if (Input::hasFile('file_data')) {
@@ -69,7 +69,7 @@ class RestAd extends BaseController {
     
     public function putActiveAd() {
         if (!Auth::check())
-            return Response::json(array('status' => 'error'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $message = 'Success';
         $code    = 200;
@@ -193,7 +193,7 @@ class RestAd extends BaseController {
  
     public function putUpdatePhotoDesc() {
         if (! Auth::check())
-            return Response::json(array('status' => 'error'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $data = put();
         $default = array(
@@ -219,7 +219,7 @@ class RestAd extends BaseController {
     
     public function postAdQuick() {
         if (! Auth::check())
-            return Response::json(array('status' => 'error'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $data = post();
         $default = array(
@@ -239,7 +239,7 @@ class RestAd extends BaseController {
         // Kiem tra user hien tai da > 3 ad draft chua
         $counts = Ad::whereRaw('user_id = ? AND status = 0', array($user->id))->count();
         if ($counts >= CLF_LIMIT_AD_PRIVATE) {
-            return Response::json(array('status' => 'error', 'message' => 'Không thể tạo thêm tin, Vui lòng kích hoạt những tin cũ!'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'not_create_ad')), 500);
         }
         
         $rules = [
@@ -291,16 +291,15 @@ class RestAd extends BaseController {
         }
     }
     
-    public function putAd() {
+    public function putAd($id) {
         if (! Auth::check())
-            return Response::json(array('status' => 'error'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $data = post();
         try {
             DB::beginTransaction();
             
             $default = array(
-                'id' => '',
                 'name' => '',
                 'slug' => '',
                 'desc' => '',
@@ -314,11 +313,9 @@ class RestAd extends BaseController {
             $merge = HelperClassified::trim_value($merge);
             extract($merge);
 
-            $record = null;
-            if (! empty($id) && intval($id) > 0) {
-				$record = Ad::find($id);
-			} else {
-				$record = new Ad;
+            $record = Ad::find($id);
+            if (empty($record) || $record->user_id != Auth::getUser()->id) {
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'error_user')), 500);
 			}
 
 			$record->name        = $name;
@@ -359,7 +356,7 @@ class RestAd extends BaseController {
     
     public function postShareAd() {
         if (! Auth::check())
-            return Response::json(array('status' => 'error'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $data    = post();
         $default = array(

@@ -158,7 +158,7 @@ class RestAccessToken extends BaseController {
     
     public function postFeedFB() {
         if (! Auth::check())
-            return Response::json(array('status' => 'error'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $data = post();
         
@@ -222,7 +222,7 @@ class RestAccessToken extends BaseController {
     
     public function getUpdatePageAccessTokenFB() {
         if (! Auth::check()) {
-            return Response::json(array('status' => 'error'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         }
         
         $access_token = Cookie::get('dln_access_token');

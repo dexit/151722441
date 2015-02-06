@@ -5,7 +5,7 @@ App::before(function ($request) {
     $api_class = 'DLNLab\Classified\Classes';
     
     Route::get($api_path .  's/{query}',  $api_class . '\RestAd@getSearch');
-    Route::put($api_path .  'ad',         $api_class . '\RestAd@putAd');
+    Route::put($api_path .  'ad/{id}',    $api_class . '\RestAd@putAd');
     Route::put($api_path .  'ad/active',  $api_class . '\RestAd@putActiveAd');
 	Route::post($api_path . 'ad/upload',  $api_class . '\RestAd@postUpload');
     Route::post($api_path . 'ad/share',   $api_class . '\RestAd@postShareAd');

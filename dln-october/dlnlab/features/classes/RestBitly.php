@@ -15,7 +15,7 @@ class RestBitly extends BaseController {
     
     public function postBitlyLink() {
         if (! Auth::check())
-            return Response::json(null);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $message = 'Success';
         $code    = 200;
