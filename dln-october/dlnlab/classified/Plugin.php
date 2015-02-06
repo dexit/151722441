@@ -15,13 +15,23 @@ define( 'OCT_ROOT', Request::root() );
 define( 'CLF_CACHE', 3600 );
 define( 'CLF_LIMIT_AD_PRIVATE', 30 );
 define( 'TIME_DELAY_COUNT_VIEW', 420 ); // 7 minutes
+define( 'CLF_MESSAGES', json_encode(array(
+        'required'  => ':attribute bị thiếu',
+        'array'     => ':attribute phải đúng dạng array',
+        'between'   => ':attribute phải nằm trong khoảng :min - :max số.',
+        'numeric'   => ':attribute phải dùng dạng số',
+        'alpha_num' => ':attribute không được có ký tự đặc biệt',
+        'size'      => ':attribute bị giới hạn :size ký tự',
+        'min'       => ':attribute phải lớn hơn :min',
+        'max'       => ':attribute phải nhỏ hơn :max',
+        'regex'     => ':attribute không hợp lệ',
+    ))
+);
 
 /**
  * Classified Plugin Information File
  */
 class Plugin extends PluginBase {
-
-    public $require = ['Rainlab.User'];
     
 	/**
 	 * Returns information about this plugin.

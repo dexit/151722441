@@ -23,5 +23,5 @@ return [
 		'categories' => 'Categories',
 		'address' => 'Address',
 		'ad_images' => 'Images'
-	],
+	]
 ];

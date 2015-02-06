@@ -6,18 +6,6 @@ use Cookie;
 
 class HelperClassified {
     
-    public static $messages = array(
-        'required'  => ':attribute bị thiếu',
-        'array'     => ':attribute phải đúng dạng array',
-        'between'   => ':attribute phải nằm trong khoảng :min - :max số.',
-        'numeric'   => ':attribute phải dùng dạng số',
-        'alpha_num' => ':attribute không được có ký tự đặc biệt',
-        'size'      => ':attribute bị giới hạn :size ký tự',
-        'min'       => ':attribute phải lớn hơn :min',
-        'max'       => ':attribute phải nhỏ hơn :max',
-        'regex'     => ':attribute không hợp lệ',
-    );
-    
     public static function slug_utf8($str) {
         if (!$str)
             return false;

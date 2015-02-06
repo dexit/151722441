@@ -1,9 +1,8 @@
 <?php
 
 function valid($rules) {
-    $response = null;
-    $messages = \DLNLab\Classified\Classes\HelperClassified::messages;
-    $valid = Validator::make(Input::all(), $rules, $messages);
+    $response = null;;
+    $valid = Validator::make(Input::all(), $rules, json_decode(CLF_MESSAGES));
     if ($valid->fails()) { 
         $response = $valid->messages()->first();
     }

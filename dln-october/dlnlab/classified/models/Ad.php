@@ -6,10 +6,8 @@ use App;
 use Auth;
 use DB;
 use Response;
-use Model;
 use Str;
-use October\Rain\Database\Model as RainModel;
-use October\Rain\Database\Traits\Validation;
+use October\Rain\Database\Model;
 use October\Rain\Auth\Models\User as UserBase;
 use RainLab\User\Models\Country;
 use RainLab\User\Models\State;
@@ -20,8 +18,10 @@ use DLNLab\Classified\Classes\HelperCache;
 /**
  * Ad Model
  */
-class Ad extends RainModel {
+class Ad extends Model {
 
+    use \October\Rain\Database\Traits\Validation;
+    
 	/**
 	 * @var string The database table used by the model.
 	 */
@@ -50,17 +50,29 @@ class Ad extends RainModel {
 	];
     
 	public $rules = [
-		'title'       => 'required',
+		'name'       => 'required',
 		'slug'        => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
 		'price'       => 'required|numeric',
         'category_id' => 'required|numeric',
         'id'          => 'numeric',
         'user_id'     => 'numeric',
-        'lat'         => 'regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/',
-        'lng'         => 'regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/',
+        //'lat'         => 'regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/',
+        //'lng'         => 'regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/',
 	];
+    public $customMessages = array(
+        'required'  => 'Yêu cầu nhập :attribute.',
+        'array'     => ':attribute phải đúng dạng array.',
+        'between'   => ':attribute phải nằm trong khoảng :min - :max số.',
+        'numeric'   => ':attribute phải dùng dạng số.',
+        'alpha_num' => ':attribute không được có ký tự đặc biệt.',
+        'size'      => ':attribute bị giới hạn :size ký tự.',
+        'min'       => ':attribute phải lớn hơn :min.',
+        'max'       => ':attribute phải nhỏ hơn :max.',
+        'regex'     => ':attribute không hợp lệ.',
+    );
+    
     public $attributeNames = [
-       'title'        => 'Tiêu đề',
+        'name'        => 'Tiêu đề',
         'slug'        => 'Slug',
         'price'       => 'Giá',
         'category_id' => 'Danh mục',
@@ -70,7 +82,7 @@ class Ad extends RainModel {
         'lng'         => 'Kinh độ',
         'user_id'     => 'Người dùng'
     ];
-    public $customMessages = \DLNLab\Classified\Classes\HelperClassified::get_messages;    
+    public $throwOnValidation = false;
 
 	/**
 	 * @var array Relations

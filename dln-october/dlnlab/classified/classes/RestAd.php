@@ -6,14 +6,19 @@ use Auth;
 use DB;
 use Input;
 use Response;
+use Str;
 use Validator;
 use Controller as BaseController;
 use October\Rain\Support\ValidationException;
 use System\Models\File;
+use October\Rain\Database\ModelException;
+
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Models\AdActive;
 use DLNLab\Classified\Models\AdShareCount;
 use DLNLab\Classified\Models\AdSharePage;
+use DLNLab\Classified\Models\Tag;
+use DLNLab\Classified\Classes\HelperClassified;
 
 require('HelperResponse.php');
 
@@ -295,42 +300,41 @@ class RestAd extends BaseController {
             DB::beginTransaction();
             
             $default = array(
-                'id' => '0',
+                'id' => '',
                 'name' => '',
                 'slug' => '',
                 'desc' => '',
-                'price' => '0',
+                'price' => '',
                 'address' => '',
-                'category_id' => '0',
+                'category_id' => '',
                 'lat' => '',
                 'lng' => ''
             );
             $merge = array_merge($default, $data);
-            $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+            $merge = HelperClassified::trim_value($merge);
             extract($merge);
 
             $record = null;
             if (! empty($id) && intval($id) > 0) {
 				$record = Ad::find($id);
 			} else {
-				$record = new self();
+				$record = new Ad;
 			}
 
 			$record->name        = $name;
-			$record->slug        = (empty($slug)) ? Str::slug($name, '-') : $slug;
+			$record->slug        = (empty($slug)) ? HelperClassified::slug_utf8($name) : $slug;
 			$record->desc        = $desc;
-			$record->price       = doubleval($price);
+			$record->price       = $price;
 			$record->address     = $address;
-			$record->category_id = intval($category_id);
-			$record->lat         = floatval($lat);
-			$record->lng         = floatval($lng);
+			$record->category_id = $category_id;
+			$record->lat         = (is_float($lat)) ? floatval($lat) : '';
+			$record->lng         = (is_float($lng)) ? floatval($lng) : '';
 
             if (! $record->validate()) {
-                $message = $record->errors()->all()[0];
-                return Response::json(array('status' => 'error', 'message' => $message), 500);
+                $message = $record->errors()->all();
+                return Response::json(array('status' => 'error', 'message_array' => $message), 500);
             }
 			$record->save();
-            
             $tag_ids = Tag::save_tag($data);
 
             // Save ads_tags
