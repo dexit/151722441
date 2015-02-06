@@ -21,6 +21,8 @@ define( 'TIME_DELAY_COUNT_VIEW', 420 ); // 7 minutes
  */
 class Plugin extends PluginBase {
 
+    public $require = ['Rainlab.User'];
+    
 	/**
 	 * Returns information about this plugin.
 	 *
@@ -88,7 +90,12 @@ class Plugin extends PluginBase {
 	        'functions' => [
         	    'dump' => 'var_dump',
         	    'dd' => 'dd',
+                'csrf_token' => [$this, 'createCsrfToken']
     	    ]
 	    ];
 	}
+    
+    public function createCsrfToken() {
+        echo '<input type="hidden" name="_token" value="' . csrf_token() . '">';
+    }
 }

@@ -286,6 +286,73 @@ class RestAd extends BaseController {
         }
     }
     
+    public function putAd() {
+        if (! Auth::check())
+            return Response::json(array('status' => 'error'), 500);
+        
+        $data = post();
+        try {
+            DB::beginTransaction();
+            
+            $default = array(
+                'id' => '0',
+                'name' => '',
+                'slug' => '',
+                'desc' => '',
+                'price' => '0',
+                'address' => '',
+                'category_id' => '0',
+                'lat' => '',
+                'lng' => ''
+            );
+            $merge = array_merge($default, $data);
+            $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+            extract($merge);
+
+            $record = null;
+            if (! empty($id) && intval($id) > 0) {
+				$record = Ad::find($id);
+			} else {
+				$record = new self();
+			}
+
+			$record->name        = $name;
+			$record->slug        = (empty($slug)) ? Str::slug($name, '-') : $slug;
+			$record->desc        = $desc;
+			$record->price       = doubleval($price);
+			$record->address     = $address;
+			$record->category_id = intval($category_id);
+			$record->lat         = floatval($lat);
+			$record->lng         = floatval($lng);
+
+            if (! $record->validate()) {
+                $message = $record->errors()->all()[0];
+                return Response::json(array('status' => 'error', 'message' => $message), 500);
+            }
+			$record->save();
+            
+            $tag_ids = Tag::save_tag($data);
+
+            // Save ads_tags
+            if (! empty($record) && ! empty($tag_ids)) {
+                $arr_inserts = array();
+                foreach ($tag_ids as $tag_id) {
+                    $arr_inserts[] = array('ad_id' => $record->id, 'tag_id' => $tag_id);
+                }
+
+                if ($arr_inserts) {
+                    DB::table('dlnlab_classified_ads_tags')->insert($arr_inserts);
+                }
+            }
+            DB::commit();
+            
+            return Response::json(array('status' => 'success', 'message' => $record));
+        } catch (Exception $ex) {
+            DB::rollback();
+            return Response::json(array('status' => 'error', 'message' => $ex->getMessage()), 500);
+        }
+    }
+    
     public function postShareAd() {
         if (! Auth::check())
             return Response::json(array('status' => 'Error'), 500);

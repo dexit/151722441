@@ -8,6 +8,8 @@ use DB;
 use Response;
 use Model;
 use Str;
+use October\Rain\Database\Model as RainModel;
+use October\Rain\Database\Traits\Validation;
 use October\Rain\Auth\Models\User as UserBase;
 use RainLab\User\Models\Country;
 use RainLab\User\Models\State;
@@ -18,7 +20,7 @@ use DLNLab\Classified\Classes\HelperCache;
 /**
  * Ad Model
  */
-class Ad extends Model {
+class Ad extends RainModel {
 
 	/**
 	 * @var string The database table used by the model.
@@ -48,10 +50,27 @@ class Ad extends Model {
 	];
     
 	public $rules = [
-		'title' => 'required',
-		'slug' => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
-		'price' => 'required|numeric',
+		'title'       => 'required',
+		'slug'        => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
+		'price'       => 'required|numeric',
+        'category_id' => 'required|numeric',
+        'id'          => 'numeric',
+        'user_id'     => 'numeric',
+        'lat'         => 'regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/',
+        'lng'         => 'regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/',
 	];
+    public $attributeNames = [
+       'title'        => 'Tiêu đề',
+        'slug'        => 'Slug',
+        'price'       => 'Giá',
+        'category_id' => 'Danh mục',
+        'address'     => 'Địa chỉ',
+        'desc'        => 'Mô tả',
+        'lat'         => 'Vĩ độ',
+        'lng'         => 'Kinh độ',
+        'user_id'     => 'Người dùng'
+    ];
+    public $customMessages = \DLNLab\Classified\Classes\HelperClassified::get_messages;    
 
 	/**
 	 * @var array Relations
@@ -171,6 +190,14 @@ class Ad extends Model {
 	}
 
     public function beforeSave() {
+        // Check user id co hop le hay khong
+        if ($this->getAttribute('user_id') && Auth::check()) {
+            $user_id = $this->getAttribute('user_id');
+            if ($user_id != Auth::getUser()->id) {
+                throw new Exception('Tin này không phải của người dùng hiện tại!', 500);
+            }
+        }
+        
         // Format lai price
         $price = $this->getAttribute('price');
         $price = str_replace(',', '', $price);
@@ -179,7 +206,7 @@ class Ad extends Model {
         
         // Format user_id
         $user_id = $this->getAttribute('user_id');
-        if (empty($user_id) && Auth::check()) {
+        if (empty($user_id)) {
             $this->setAttribute('user_id', Auth::getUser()->id);
         }
         
@@ -225,79 +252,6 @@ class Ad extends Model {
         }
         $record->save();
     }
-    
-	public static function save_ad($data = array()) {
-		if (empty($data))
-			return false;
-		
-		$ad = self::save_post($data);
-        DB::beginTransaction();
-        try {
-            $tag_ids = Tag::save_tag($data);
-		
-            // Save ads_tags
-            if (! empty($ad) && ! empty($tag_ids)) {
-                $arr_inserts = array();
-                foreach ($tag_ids as $tag_id) {
-                    $arr_inserts[] = array('ad_id' => $ad->id, 'tag_id' => $tag_id);
-                }
-                
-                if ($arr_inserts) {
-                    DB::table('dlnlab_classified_ads_tags')->insert($arr_inserts);
-                }
-            }
-        } catch (Exception $ex) {
-            DB::rollback();
-            throw $ex;
-        }
-		DB::commit();
-        
-        return $ad;
-	}
-	
-	public static function save_post($data = array()) {
-		if (empty($data))
-			return false;
-
-		$default = array(
-			'id' => '0',
-			'name' => '',
-			'slug' => '',
-			'desc' => '',
-			'price' => '0',
-			'address' => '',
-			'category_id' => '0',
-			'lat' => '',
-			'lng' => ''
-		);
-		$merge = array_merge($default, $data);
-        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
-        extract($merge);
-
-        $record = null;
-		try {
-			if (!empty($id) && intval($id) > 0) {
-				$record = self::find($id);
-			} else {
-				$record = new self();
-			}
-
-			$record->name = $name;
-			$record->slug = (empty($slug)) ? Str::slug($name, '-') : $slug;
-			$record->desc = $desc;
-			$record->price = doubleval($price);
-			$record->address = $address;
-			$record->category_id = intval($category_id);
-			$record->lat = floatval($lat);
-			$record->lng = floatval($lng);
-
-			$record->save();
-		} catch (Exception $ex) {
-			throw $ex;
-		}
-        
-        return $record;
-	}
 
     public static function get_ad_link($ad_id = 0) {
         if (! $ad_id)

@@ -2,16 +2,7 @@
 
 function valid($rules) {
     $response = null;
-    $messages = array(
-        'required'  => ':attribute bắt buộc',
-        'array'     => ':attribute phải đúng dạng array',
-        'between'   => ':attribute phải nằm trong khoảng :min - :max số.',
-        'numeric'   => ':attribute phải dùng dạng số',
-        'alpha_num' => ':attribute không được có ký tự đặc biệt',
-        'size'      => ':attribute bị giới hạn :size ký tự',
-        'min'       => ':attribute phải lớn hơn :min',
-        'max'       => ':attribute phải nhỏ hơn :max'
-    );
+    $messages = \DLNLab\Classified\Classes\HelperClassified::messages;
     $valid = Validator::make(Input::all(), $rules, $messages);
     if ($valid->fails()) { 
         $response = $valid->messages()->first();
