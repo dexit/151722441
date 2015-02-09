@@ -11,7 +11,7 @@ class HelperCache {
     public static function getAdCategory() {
 	    $options = '';
 	    if (! Cache::has('ad_category')) {
-	        $options = AdCategory::all();
+	        $options = AdCategory::all()->get('id', 'name', 'slug');
 	        Cache::put('ad_category', $options, CLF_CACHE);
 	    } else {
 	        $options = Cache::get('ad_category');

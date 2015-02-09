@@ -25,8 +25,10 @@ return [
 		'ad_images' => 'Images'
 	],
     'messages' => [
+        'error_value' => 'Giá trị không hợp lệ.',
         'error_user' => 'Người dùng không hợp lệ.',
         'require_signin' => 'Yêu cầu đăng nhập.',
         'not_create_ad' => 'Không thể tạo thêm tin, Vui lòng kích hoạt những tin cũ.',
+        'ad_activated' => 'Tin đã kích hoạt!'
     ]
 ];

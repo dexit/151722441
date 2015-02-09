@@ -4,8 +4,11 @@ namespace DLNLab\Classified\Components;
 
 use Cms\Classes\ComponentBase;
 use DLNLab\Classified\Models\Ad;
+use DLNLab\Classified\Classes\HelperCache;
 
 class AdDetail extends ComponentBase {
+    
+    public $allow_edit = false;
 
 	public function componentDetails() {
 		return [
@@ -27,15 +30,29 @@ class AdDetail extends ComponentBase {
 
 	public function onRun() {
 		$this->addJs(CLF_ASSETS . '/js/com-ad-detail.js');
-		$this->ad = $this->page['ad'] = $this->loadAd();
+		$this->page['ad']         = $this->loadAd();
+        $this->page['kinds']      = HelperCache::getAdKind();
+	    $this->page['categories'] = HelperCache::getAdCategory();
+        $this->page['amenities']  = HelperCache::getAdAmenities();
 	}
 
 	protected function loadAd() {
 		// @deprecated remove if year >= 2015
         $deprecatedSlug = $this->propertyOrParam('idParam');
 
-        $slug = $this->property('slug', $deprecatedSlug);
-        $ad   = Ad::where('slug', '=', $slug)->first();
+        $slug     = $this->property('slug', $deprecatedSlug);
+        $arr_slug = preg_split('/-(?=\d+$)/', $slug);
+        if (count($arr_slug) < 2)
+            return false;
+        
+        $slug    = $arr_slug[0];
+        $ad_id   = $arr_slug[1];
+        if ($ad_id == 0)
+            return false;
+        
+        $ad = Ad::find($ad_id);
+        if ($ad->user_id == Auth::getUser()->id)
+            $this->allow_edit = true;
 
         /*
          * Add a "url" helper attribute for linking to each category
@@ -48,5 +65,13 @@ class AdDetail extends ComponentBase {
 
         return $ad;
 	}
+    
+    public function user()
+    {
+        if (!Auth::check())
+            return null;
+    
+        return Auth::getUser();
+    }
 
 }

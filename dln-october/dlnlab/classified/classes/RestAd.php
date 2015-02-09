@@ -77,6 +77,71 @@ class RestAd extends BaseController {
         
         try {
             $user_id = Auth::getUser()->id;
+            
+            if (empty($data))
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'error_value')), 500);
+        
+            $default = array(
+                'ad_id'    => '',
+                'day_type' => '',
+            );
+            $merge = array_merge($default, $data);
+            $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+            extract($merge);
+
+            // Get Ad
+            $ad = Ad::find($ad_id);
+
+            if (empty($ad) || ! empty($ad->status)) {
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_activated')), 500);
+            }
+
+            // Get user_id
+            $user_id = $ad->user_id;
+
+            if ($_user_id != $user_id) {
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'error_user')), 500);
+            }
+
+            // Get money and days
+            $money = $day = 0;
+            AdActive::get_day_type($day_type, $money, $day);
+            if (! $money || ! $day) {
+                return 'Error get day type';
+            }
+
+            // Check user money
+            $user_money = Money::get_user_charge_money($user_id);
+            if (($user_money - $money) < 0) {
+                // No active ad when user not enough money
+                return 'No active ad when user not enough money';
+            }
+
+            DB::beginTransaction();
+            try {
+                // Minus money
+                $o_money = Money::minus_money_user($user_id, $money);
+
+                // Active ad
+                $ad->status       = 1;
+                $ad->published_at = time();
+                $ad->save();
+
+                // Update add has activated to DB
+                $record = new self;
+                $record->ad_id  = $ad_id;
+                $record->money  = $money;
+                $record->day    = $day;
+                $record->status = 1;
+                $record->save();
+            } catch (Exception $ex) {
+                DB::rollback();
+                return $ex->getMessage();
+            }
+            DB::commit();
+
+            return true;
+            
             $message = AdActive::active_ad($data, null, $user_id);
             $message = ($message) ? $message : 'fail';
         } catch (Exception $ex) {
@@ -84,7 +149,7 @@ class RestAd extends BaseController {
             $message = $ex->getMessage();
         }
         
-        return Response::json( response_message($code, $message), $code);
+        return Response::json(response_message($code, $message), $code);
     }
     
     public static function validate_integer($value) {
