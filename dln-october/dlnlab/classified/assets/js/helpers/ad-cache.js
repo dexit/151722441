@@ -12,7 +12,7 @@
     };
     
     AdCache.prototype.initKind = function () {
-        if (! $('#dln_kind').length)
+        if (! $('#dln_kind').length || $('#dln_kind').text() == '')
             return false;
         
         this.$kind     = JSON.parse($('#dln_kind').text());
@@ -20,7 +20,7 @@
     };
     
     AdCache.prototype.initCategory = function () {
-        if (! $('#dln_category').length)
+        if (! $('#dln_category').length || $('#dln_category').text() == '')
             return false;
         
         this.$category = JSON.parse($('#dln_category').text());
@@ -28,7 +28,7 @@
     };
     
     AdCache.prototype.initAmenity = function () {
-        if (! $('#dln_amenity').length)
+        if (! $('#dln_amenity').length || $('#dln_amenity').text() == '')
             return false;
         
         this.$amenity = JSON.parse($('#dln_amenity').text());

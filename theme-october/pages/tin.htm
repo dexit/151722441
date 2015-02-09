@@ -1,0 +1,49 @@
+title = "Tin"
+url = "/tin"
+layout = "default"
+hidden = "0"
+
+[HeaderBar]
+
+[AdDetail]
+==
+<link rel="stylesheet" href="{{ [
+    'assets/vendor/bootstrap3-editable/css/bootstrap-editable.css',
+    'assets/css/dln-detail.css',
+    '~/plugins/dlnlab/classified/assets/css/com-headerbar.css',
+    ]|theme }}" />
+</head>
+<body class="fixed-header dashboard ">
+    <div class="page-container">
+        
+        {% component 'HeaderBar' %}
+        <div class="fl-scrollable-container">
+            <div class="fl-navigation-container sub-header-container">
+                <div class="pull-left">
+                    <a class="text-p4 btn-back" href="javascript:void(0)"><i
+                        class="fa fa-angle-left"></i> Quay lại</a>
+                </div>
+                <div class="pull-right">
+                    <a class="text-p4" href="javascript:void(0)"><i
+                        class="fa fa-share"></i> <span class="hidden-xs">Chia sẻ</span></a>
+                    <a class="text-p4" href="javascript:void(0)"><i
+                        class="fa fa-flag-o"></i> <span class="hidden-xs">Phản ánh</span></a>
+                </div>
+            </div>
+            
+            {% component 'AdDetail' %}
+        </div>
+    
+    </div>
+    
+    <script src="{{ [
+        'assets/vendor/jquery/jquery-1.8.3.min.js',
+        'assets/vendor/boostrapv3/js/bootstrap.min.js',
+        'assets/vendor/bootstrap3-editable/js/bootstrap-editable.min.js',
+        '~/plugins/dlnlab/classified/assets/js/helpers/ad-cache.js',
+        '~/plugins/dlnlab/classified/assets/js/components/ad-detail.js',
+    ]|theme }}"></script>
+    
+    {% framework extras %}
+    {% scripts %}
+</body>

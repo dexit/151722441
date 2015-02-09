@@ -136,7 +136,7 @@ class Tag extends Model
         if (! $type)
             return null;
         
-        $records = self::where('type', '=', 'ad_kind')->get('id', 'name', 'slug');
+        $records = self::where('type', '=', $type)->get(array('id', 'name', 'slug'));
         if (count($records)) {
             return $records;
         }

@@ -2,13 +2,14 @@
 
 namespace DLNLab\Classified\Components;
 
+use Auth;
 use Cms\Classes\ComponentBase;
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Classes\HelperCache;
 
 class AdDetail extends ComponentBase {
     
-    public $allow_edit = false;
+    public $allow_edit = true;
 
 	public function componentDetails() {
 		return [
@@ -29,11 +30,19 @@ class AdDetail extends ComponentBase {
 	}
 
 	public function onRun() {
-		$this->addJs(CLF_ASSETS . '/js/com-ad-detail.js');
-		$this->page['ad']         = $this->loadAd();
-        $this->page['kinds']      = HelperCache::getAdKind();
-	    $this->page['categories'] = HelperCache::getAdCategory();
-        $this->page['amenities']  = HelperCache::getAdAmenities();
+		#$this->addJs(CLF_ASSETS . '/js/com-ad-detail.js');
+		
+		$ad       = $this->loadAd();
+		$kind     = HelperCache::getAdKind();
+		$category = HelperCache::getAdCategory();
+		$amenity  = HelperCache::getAdAmenities();
+		
+		$this->page['user']       = $this->user();
+		$this->page['ad']         = (! empty($ad)) ? $ad : '';
+		$this->page['ad_json']    = (! empty($ad)) ? $ad->toJson() : '';
+        $this->page['kinds']      = (! empty($kind)) ? $kind->toJson() : '';
+	    $this->page['categories'] = (! empty($category)) ? $category->toJson() : '';
+        $this->page['amenities']  = (! empty($amenity)) ? $amenity->toJson() : '';
 	}
 
 	protected function loadAd() {

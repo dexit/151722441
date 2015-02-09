@@ -11,11 +11,12 @@ class HelperCache {
     public static function getAdCategory() {
 	    $options = '';
 	    if (! Cache::has('ad_category')) {
-	        $options = AdCategory::all()->get('id', 'name', 'slug');
+	        $options = AdCategory::get(array('id', 'name', 'slug'));
 	        Cache::put('ad_category', $options, CLF_CACHE);
 	    } else {
 	        $options = Cache::get('ad_category');
 	    }
+	    
 	    return $options;
 	}
     
@@ -39,6 +40,7 @@ class HelperCache {
 	    } else {
 	        $options = Cache::get('kind_options');
 	    }
+
 	    return $options;
 	}
     
@@ -56,12 +58,13 @@ class HelperCache {
     
     public static function getAdAmenities() {
         $options = '';
-        if (! Cache::has('amenities_options')) {
-            $options = Tag::getTagByTypes('ad_amenities');
+        if (Cache::has('amenities_options')) {
+            $options = Tag::getTagByType('ad_amenities');
             Cache::put('amenities_options', $options, CLF_CACHE);
         } else {
             $options = Cache::get('amenities_options');
         }
+        
         return $options;
     }
     

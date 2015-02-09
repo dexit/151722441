@@ -14,7 +14,6 @@
         //console.log('AdDetail::initEditable::start');
         var self = this;
         
-        console.log(typeof($.fn.editable) != 'function');
         if (typeof($.fn.editable) != 'function')
             return false;
         
@@ -37,7 +36,6 @@
         
         // Init Amenity
         $('body').bind('dln-init-amenity', function () {
-            var sources = self.$cache.$amenity.each();
             $('.dln-amenity.editable').editable({
                 source: self.$cache.getAmenityOptions()
             });
@@ -51,6 +49,13 @@
             });
         });
         $('body').trigger('dln-init-kind');
+        
+        // Init price
+        $('.dln-property-price.ediable').editable({
+        	validate: function(value) {
+                if($.trim(value) == '') return 'Trường này không thể rỗng!';
+             }
+        });
     };
    
     $(document).ready(function () {
