@@ -30,7 +30,9 @@ class AdDetail extends ComponentBase {
 	}
 
 	public function onRun() {
-		#$this->addJs(CLF_ASSETS . '/js/com-ad-detail.js');
+		//$this->addJs(CLF_ASSETS . '/js/helpers/ad-cache.js');
+        //$this->addJs(CLF_ASSETS . '/js/helpers/ad-helper.js');
+        //$this->addJs(CLF_ASSETS . '/js/components/ad-detail.js');
 		
 		$ad       = $this->loadAd();
 		$kind     = HelperCache::getAdKind();

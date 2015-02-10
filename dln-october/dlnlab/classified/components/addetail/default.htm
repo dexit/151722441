@@ -35,16 +35,11 @@
         <div class="pull-right">
             <div class="panel dln-info-box">
                 <div class="action-info-container">
-                    <div class="dln-property-price ediable" data-type="text">1,320,000₫</div>
+                    <div class="dln-property-price editable" data-type="text">1320000</div>
                     <div class="dln-property-location">
-                        <h1 class="dln-property-location-title">1422
-                            Southwest 147th Terrace</h1>
-                        <div class="listing-location-locality">
-                            <span>Pembroke Pines</span> <span>FL,</span>
-                            <span>33027</span>
-                        </div>
-                        <div class="dln-property-updated">Posted
-                            12 days ago</div>
+                        <h1 class="dln-property-title editable">Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ</h1>
+                        <div class="dln-property-location">1422 Southwest 147th Terrace</div>
+                        <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="vital-info-container">
                             <span class="bedroom-info"> <i
                                 class="fa fa-arrows-h"></i> 2 Phòng
@@ -125,16 +120,11 @@
             </div>
             <div class="dln-box-wrapper">
                 <div class="action-info-container">
-                    <div class="dln-property-price ediable" data-type="text">1,320,000₫</div>
+                    <div class="dln-property-price editable" data-type="text">1320000</div>
                     <div class="dln-property-location">
-                        <h1 class="dln-property-location-title">1422
-                            Southwest 147th Terrace</h1>
-                        <div class="listing-location-locality">
-                            <span>Pembroke Pines</span> <span>FL,</span>
-                            <span>33027</span>
-                        </div>
-                        <div class="dln-property-updated">Posted
-                            12 days ago</div>
+                        <h1 class="dln-property-title editable">Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ</h1>
+                        <div class="dln-property-location">1422 Southwest 147th Terrace</div>
+                        <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="vital-info-container">
                             <span class="bedroom-info"> <i
                                 class="fa fa-arrows-h"></i> 2 Phòng
@@ -159,11 +149,9 @@
                         class="dot dot-green"></span> Deck/Patio
                     </span>
                 </div>
-                <div class="property-desc pull-left">
+                <div class="pull-left">
                     <div class="main-section-heading">Description</div>
-                    <p itemprop="description"
-                        ng-class="{ 'show-all': showMore }"
-                        class="text-p3 text-charcoal fl-description ng-binding show-all">
+                    <p class="dln-property-desc editable">
                         CALL 954.617.5707 Ref#: 2028744 STOP
                         LOOKING! 2 BEDROOMS 2 1/2 BATHS. . TILE
                         FLOORS IN AL LIVING AREAS AND CARPET IN
@@ -182,9 +170,9 @@
 
 {% if user %}
 <input id="dln_allow_editable" type="hidden" value="1" />
-<script id="dln_user">{{ user | raw }}</script>
-<script id="dln_ad">{{ ad_json | raw }}</script>
-<script id="dln_kind">{{ kinds | raw }}</script>
-<script id="dln_category">{{ categories | raw }}</script>
-<script id="dln_amenity">{{ amenities | raw }}</script>
+<script id="dln_user" type="application/json">{{ user | raw }}</script>
+<script id="dln_ad" type="application/json">{{ ad_json | raw }}</script>
+<script id="dln_kind" type="application/json">{{ kinds | raw }}</script>
+<script id="dln_category" type="application/json">{{ categories | raw }}</script>
+<script id="dln_amenity" type="application/json">{{ amenities | raw }}</script>
 {% endif %}

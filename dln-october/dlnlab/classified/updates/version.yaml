@@ -10,4 +10,5 @@
     - create_ad_share_pages_table.php
     - create_ad_share_counts_table.php
     - create_user_access_tokens_table.php
+    - create_ad_infors_table.php
     - seed_all_tables.php
