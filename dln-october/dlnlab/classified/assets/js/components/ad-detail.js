@@ -10,6 +10,7 @@
             this.initEditable();
             this.editTitle();
             this.editPrice();
+            this.editLocation();
         }
     };
     
@@ -20,7 +21,9 @@
         if (typeof($.fn.editable) != 'function')
             return false;
         
-        $.fn.editable.defaults.url = window.root_api_url + '/ad_edit';
+        $.fn.editable.defaults.url       = window.root_api_url + '/ad_edit';
+        $.fn.editable.defaults.placement = 'bottom';
+        $.fn.editable.defaults.mode      = 'inline';
         
         // Enable / disable
         $('#dln_enable').on('click', function (e) {
@@ -79,6 +82,26 @@
                 if($.trim(value) == '') return 'Trường này không thể rỗng!';
             }
         });
+    };
+    
+    /* Init editable location */
+    AdDetail.prototype.editLocation = function () {
+    	var self = this;
+    	
+    	$('.dln-property-location.editable').editable({
+    		display: function (value) {
+    			$(this).attr('id', 'dln_location');
+    			self.$helper.miniAutocomplete('dln_location');
+    		},
+            validate: function(value) {
+                if($.trim(value) == '') return 'Trường này không thể rỗng!';
+            }
+    	});
+    };
+    
+    /* Init editable description */
+    AdDetail.prototype.editDesc = function () {
+    	//display: function (value) {}
     };
    
     $(document).ready(function () {

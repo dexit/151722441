@@ -344,7 +344,7 @@ a, a:hover {
 .dln-tab-infor .tab-content{
     background: none repeat scroll 0 0 #666666;
     border-bottom: 1px solid #dcdcdc;
-    height: 400px;
+    min-height: 150px;
     margin: 10px;
     overflow: hidden;
     position: relative;
@@ -362,7 +362,7 @@ a, a:hover {
     height: 42px;
     text-align: center;
     transition: all 0.15s ease-in-out 0s;
-    width: 33%;
+    width: 50%;
 }
 .dln-tab-infor .nav-tabs > li > a {
     border: none;
@@ -373,14 +373,13 @@ a, a:hover {
 }
 .dln-tab-infor .nav-tabs > li.active {
     background: none repeat scroll 0 0 #ffffff;
-    border-top: 1px solid #ffffff;
     color: #333333;
 }
 .dln-tab-infor .nav-tabs > li.center {
     border-left: 1px solid #e5e5e5;
     border-right: 1px solid #e5e5e5;
     box-sizing: border-box;
-    width: 34%;
+    width: 50%;
 }
 .dln-info-box {
     background: none repeat scroll 0 0 #fff;
@@ -429,10 +428,13 @@ a, a:hover {
     line-height: 20px;
 }
 .dln-property-title {
-    font-size: 15px;
-    font-weight: 400;
-    line-height: 20px;
-    margin: 0;
+    color: #626262;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 22px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e5e5;
+    margin-top: 0px;
 }
 .dln-property-updated {
     margin-top: 10px;
