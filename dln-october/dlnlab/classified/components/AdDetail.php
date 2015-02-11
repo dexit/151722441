@@ -38,13 +38,15 @@ class AdDetail extends ComponentBase {
 		$kind     = HelperCache::getAdKind();
 		$category = HelperCache::getAdCategory();
 		$amenity  = HelperCache::getAdAmenities();
+        $caches           = new \stdClass;
+        $caches->kind     = (! empty($kind)) ? $kind->toJson() : '';
+        $caches->category = (! empty($category)) ? $category->toJson() : '';
+        $caches->amenity  = (! empty($amenity)) ? $amenity->toJson() : '';
 		
 		$this->page['user']       = $this->user();
 		$this->page['ad']         = (! empty($ad)) ? $ad : '';
 		$this->page['ad_json']    = (! empty($ad)) ? $ad->toJson() : '';
-        $this->page['kinds']      = (! empty($kind)) ? $kind->toJson() : '';
-	    $this->page['categories'] = (! empty($category)) ? $category->toJson() : '';
-        $this->page['amenities']  = (! empty($amenity)) ? $amenity->toJson() : '';
+        $this->page['dln_caches'] = (! empty($caches)) ? json_encode($caches) : '';
 	}
 
 	protected function loadAd() {

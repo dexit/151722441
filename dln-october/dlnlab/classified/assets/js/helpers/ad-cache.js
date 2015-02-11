@@ -5,34 +5,39 @@
         this.$kind     = [];
         this.$category = [];
         this.$amenity  = [];
+        this.$cache    = {};
         
-        this.initKind();
-        this.initCategory();
-        this.initAmenity();
+        this.parseCache();
+        if (this.$cache && this.$cache.kind) {
+            this.initKind();
+        }
+        if (this.$cache && this.$cache.category) {
+            this.initCategory();
+        }
+        if (this.$cache && this.$cache.amenity) {
+            this.initAmenity();
+        }
+    };
+    
+    AdCache.prototype.parseCache = function () {
+        if (! $('#dln_caches').length || $('#dln_caches').text() == '')
+            return false;
+        this.$cache = JSON.parse($('#dln_caches').text());
     };
     
     AdCache.prototype.initKind = function () {
-        if (! $('#dln_kind').length || $('#dln_kind').text() == '')
-            return false;
-        
-        this.$kind     = JSON.parse($('#dln_kind').text());
-        return this.$kind;
+        this.$kind = this.$cache.kind;
+        return this.$cache.kind;
     };
     
     AdCache.prototype.initCategory = function () {
-        if (! $('#dln_category').length || $('#dln_category').text() == '')
-            return false;
-        
-        this.$category = JSON.parse($('#dln_category').text());
-        return this.$category;
+        this.$category = this.$cache.category;
+        return this.$cache.category;
     };
     
     AdCache.prototype.initAmenity = function () {
-        if (! $('#dln_amenity').length || $('#dln_amenity').text() == '')
-            return false;
-        
-        this.$amenity = JSON.parse($('#dln_amenity').text());
-        return this.$amenity;
+        this.$amenity = this.$cache.amenity;
+        return this.$cache.amenity;
     };
     
     AdCache.prototype.getKindOptions = function () {

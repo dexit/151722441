@@ -1,0 +1,7 @@
+{% if type == "location" %}
+    {% partial __SELF__ ~ '::location' %}
+{% elseif type == "quick"  %}
+    {% partial __SELF__ ~ '::quick' %}
+{% else %}
+
+{% endif %}

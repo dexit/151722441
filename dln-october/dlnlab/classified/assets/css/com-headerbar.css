@@ -93,6 +93,9 @@
 .dln-logo {
     float: left;
 }
+.dln-modal .modal-body {
+    min-height: 100px;
+}
 
 .dln-filter-xs{
     position: absolute;

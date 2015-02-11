@@ -1,0 +1,17 @@
+title = "Tin"
+url = "/modal"
+layout = "modal"
+hidden = "0"
+
+[Modal]
+type = "location"
+==
+{% if asset_css %}
+<link rel="stylesheet" href="{{ asset_css|theme }}" />
+{% endif %}
+
+{% component 'Modal' %}
+
+{% if asset_script %}
+<script src="{{ asset_script|theme }}"></script>
+{% endif %}

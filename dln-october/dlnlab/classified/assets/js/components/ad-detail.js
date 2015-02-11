@@ -2,6 +2,7 @@
     "use strict";
 
     var AdDetail = function () {
+        var self = this;
         this.$cache  = window.ad_cache;
         this.$helper = window.ad_helper;
         
@@ -11,6 +12,12 @@
             this.editTitle();
             this.editPrice();
             this.editLocation();
+        } else {
+            $('.dln-property-price').each(function () {
+                var val = $(this).text();
+                val = self.$helper.formatCurrency(val) + ' ₫';
+                $(this).text(val);
+            });
         }
     };
     
@@ -76,7 +83,7 @@
         
         $('.dln-property-price.editable').editable({
             display: function (value) {
-                $(this).text(self.$helper.formatCurrency(value) + '₫');
+                $(this).text(self.$helper.formatCurrency(value) + ' ₫');
             },
             validate: function(value) {
                 if($.trim(value) == '') return 'Trường này không thể rỗng!';

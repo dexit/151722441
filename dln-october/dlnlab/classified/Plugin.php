@@ -92,6 +92,7 @@ class Plugin extends PluginBase {
 			'DLNLab\Classified\Components\AdCookie' => 'AdCookie',
 			'DLNLab\Classified\Components\Account'  => 'Account',
 			'DLNLab\Classified\Components\HeaderBar' => 'HeaderBar',
+            'DLNLab\Classified\Components\Modal' => 'Modal',
 		];
 	}
 

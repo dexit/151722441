@@ -623,7 +623,7 @@ body > .pgn-wrapper {
 .modal .modal-header {
   text-align: center;
   border-bottom: 0;
-  padding: 25px 25px 0 25px;
+  padding: 15px 15px 0 15px;
 }
 
 .modal .modal-header p {
@@ -632,7 +632,7 @@ body > .pgn-wrapper {
 
 .modal .modal-body {
   box-shadow: none;
-  padding: 25px;
+  padding: 15px;
   padding-top: 0;
   white-space: normal;
 }
@@ -8107,7 +8107,6 @@ Responsive Util
   }
   .page-container {
     padding-left: 0;
-    z-index: 100;
     position: relative;
     -webkit-transition: all 0.25s ease;
     transition: all 0.25s ease;
