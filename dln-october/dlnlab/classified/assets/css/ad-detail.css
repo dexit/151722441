@@ -392,7 +392,6 @@ a, a:hover {
 .action-info-container {
     padding-top: 30px;
     padding-bottom: 10px;
-    margin-bottom: 20px;
     border-bottom: 1px solid #e5e5e5;
     display: none;
 }
@@ -507,8 +506,6 @@ a, a:hover {
 }
 .property-content {
     width: 60%;
-    padding-left: 10px !important;
-    padding-right: 10px !important;
 }
 .dln-box-wrapper, .property-desc {
     width: 100%;
@@ -522,8 +519,8 @@ a, a:hover {
     text-transform: none;
 }
 .property-amenities span {
-    margin-top: 8px;
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 24px;
     font-weight: 400;
     color: #777;
 }
@@ -561,6 +558,13 @@ a, a:hover {
 }
 .dln-contact-fields a {
     right: 20px;
+}
+
+.editable-input, .editable-input .form-control, .editable-container, .control-group {
+    width: 100% !important;
+}
+.editable-pre-wrapped {
+    white-space: normal;
 }
 
 /* custom inclusion of right, left and below tabs */
@@ -664,6 +668,10 @@ a, a:hover {
 }
 
 @media (max-width: 1024px) {
+    .page-wrapper {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
     .grid-container {
         padding: 0px;
     }
@@ -699,6 +707,14 @@ a, a:hover {
 }
 
 @media (max-width: 768px) {
+    .page-wrapper {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+    .property-content {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
     .action-info-container {
         display: block;
     }

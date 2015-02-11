@@ -19,32 +19,27 @@
         <div class="pull-right">
             <div class="panel dln-info-box">
                 <div class="action-info-container">
-                    <h1 class="dln-property-title editable" data-type="textarea">Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ</h1>
+                    <h1 class="dln-property-title editable" data-type="textarea" data-rows="3">Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ</h1>
                     <div class="dln-property-price editable" data-type="text">1320000</div>
                     <div class="dln-property-location">
                         <div class="dln-property-location editable" data-type="text">1422 Southwest 147th Terrace</div>
                         <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="vital-info-container">
-                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> 2 Phòng
+                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable">2 Phòng</span>
                             </span> 
-                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> 2 Phòng
+                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable">2 Phòng</span>
                             </span> 
-                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> D.tích 120 m<sup>2</sup>
+                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-area editable">D.tích 120 m<sup>2</sup></span>
                             </span>
                         </div>
                     </div>
                 </div>
                 <div class="dln-contact-fields">
-                    <input type="tel" readonly class="form-control"
-                        placeholder="Phone number"
-                        value="(877) 960-0484 x6384"
-                        id="input_phone_number">
+                    <input type="tel" readonly class="form-control" placeholder="Phone number" value="(877) 960-0484 x6384" id="input_phone_number">
                     <div class="contact-phone-inner">
                         <i class="fa fa-phone"></i>
                     </div>
-                    <a href="javascript:void(0)"
-                        class="btn-contact-hidden"><i
-                        class="fa fa-times"></i></a>
+                    <a href="javascript:void(0)" class="btn-contact-hidden"><i class="fa fa-times"></i></a>
                 </div>
                 <div class="primary-action-container">
                     <div class="btn-group">
@@ -58,12 +53,14 @@
                         </button>
                     </div>
                 </div>
+                {% if not user %}
                 <div class="secondary-action-container">
                     <button class="btn btn-default btn-gray">
                         <i class="fa fa-star-o"></i> Save to
                         Favorites
                     </button>
                 </div>
+                {% endif %}
             </div>
         </div>
 
@@ -93,47 +90,49 @@
                         </button>
                     </div>
                 </div>
+                {% if not user %}
                 <div class="secondary-action-container">
                     <button class="btn btn-default btn-gray">
                         <i class="fa fa-star-o"></i><span
                             class="hidden-xs">Favorites</span>
                     </button>
                 </div>
+                {% endif %}
             </div>
             <div class="dln-box-wrapper">
                 <div class="action-info-container">
-                    <h1 class="dln-property-title editable" data-type="textarea">Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ</h1>
+                    <h1 class="dln-property-title editable" data-type="textarea" data-rows="3">Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ</h1>
                     <div class="dln-property-price editable" data-type="text">1320000</div>
                     <div class="dln-property-location">
                         <div class="dln-property-location editable" data-type="text">1422 Southwest 147th Terrace</div>
                         <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="vital-info-container">
-                            <span class="bedroom-info"> <i
-                                class="fa fa-arrows-h"></i> 2 Phòng
-                            </span> <span class="bathroom-info"> <i
-                                class="fa fa-arrows-h"></i> 2 Phòng
-                            </span> <span class="sqft-info"> <i
-                                class="fa fa-arrows-h"></i> D.tích
-                                120 m<sup>2</sup>
+                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable">2 Phòng</span>
+                            </span> 
+                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable">2 Phòng</span>
+                            </span> 
+                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-area editable">D.tích 120 m<sup>2</sup></span>
                             </span>
                         </div>
                     </div>
                 </div>
                 <div class="property-amenities">
                     <div class="main-section-heading">Amenities</div>
-                    <span class="col-xs-6"> <span
-                        class="dot dot-green"></span> Deck/Patio
-                    </span> <span class="col-xs-6"> <span
-                        class="dot dot-green"></span> Deck/Patio
-                    </span> <span class="col-xs-6"> <span
-                        class="dot dot-green"></span> Deck/Patio
-                    </span> <span class="col-xs-6"> <span
-                        class="dot dot-green"></span> Deck/Patio
-                    </span>
+                    <div class="row">
+                        <span class="col-xs-6"> <span
+                            class="dot dot-green"></span> Deck/Patio
+                        </span> <span class="col-xs-6"> <span
+                            class="dot dot-green"></span> Deck/Patio
+                        </span> <span class="col-xs-6"> <span
+                            class="dot dot-green"></span> Deck/Patio
+                        </span> <span class="col-xs-6"> <span
+                            class="dot dot-green"></span> Deck/Patio
+                        </span>
+                    </div>
                 </div>
-                <div class="pull-left">
+                <div class="property-desc">
                     <div class="main-section-heading">Description</div>
-                    <p class="dln-property-desc editable">
+                    <p class="dln-property-desc editable pull-left" data-type="textarea"">
                         CALL 954.617.5707 Ref#: 2028744 STOP
                         LOOKING! 2 BEDROOMS 2 1/2 BATHS. . TILE
                         FLOORS IN AL LIVING AREAS AND CARPET IN
@@ -143,7 +142,8 @@
                         CLUBHOUSE. GATED COMMUNITY JUST WEST OF
                         I-75. PROFESSIONALLY MANAGED. EASY TO SHOW,
                         JUST TEXT ME! This Listing is Courtesy Of:
-                        UTG Real Estate (1418042486)</p>
+                        UTG Real Estate (1418042486)
+                    </p>
                 </div>
             </div>
         </div>
@@ -151,7 +151,7 @@
 </div>
 
 <div class="modal fade slide-up dln-modal" id="dln_modal" tabindex="-1" role="dialog" aria-hidden="false">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
         <div class="modal-content-wrapper">
             <div class="modal-content">
                 <div class="modal-header clearfix text-left">
