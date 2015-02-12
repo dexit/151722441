@@ -37,6 +37,38 @@
         $.fn.editable.defaults.showbuttons  = false;
         $.fn.editable.defaults.onblur       = 'submit';
         
+        $('.editable').each(function () {
+            var self = this;
+            
+            // Set default text
+            var relate     = $(self).data('relate');
+            var suffix     = $(self).data('suffix');
+            
+            var relate_val = $('#dln_ad_' + relate).val();
+            
+            if (typeof(suffix) != 'undefined') {
+                $(self).text(relate_val + ' ' + suffix);
+            } else if (typeof(relate_val) != 'undefined') {
+                $(self).text(relate_val);
+            }
+            
+            $(this).on('save', function(e, params) {
+                var relate = $(this).data('relate');
+                $('#dln_ad_' + relate).val(params.newValue);
+            });
+            
+            $(this).on('shown', function(e, editable) {
+                var relate = $(this).data('relate');
+                var relate_val = $('#dln_ad_' + relate).val();
+                if (relate == 'price' && typeof(relate_val) != 'undefined') {
+                    relate_val = relate_val.replace(',', '');
+                    relate_val = relate_val.replace('₫', '');
+                    relate_val = relate_val.replace(' ', '');
+                }
+                editable.input.$input.val(relate_val);
+            });
+        });
+        
         // Enable / disable
         $('#dln_enable').on('click', function (e) {
             e.preventDefault();
@@ -67,8 +99,6 @@
             });
         });
         $('body').trigger('dln-init-kind');
-        
-        
     };
     
     /* Init editable title */
@@ -101,10 +131,10 @@
     	var self = this;
     	
     	$('.dln-property-location.editable').editable({
-    		display: function (value) {
-    			$(this).attr('id', 'dln_location');
-    			self.$helper.miniAutocomplete('dln_location');
-    		},
+            display: function (value) {
+                $(this).attr('id', 'dln_location');
+                self.$helper.miniAutocomplete('dln_location');
+            },
             validate: function(value) {
                 if($.trim(value) == '') return 'Trường này không thể rỗng!';
             }
@@ -116,7 +146,7 @@
     	var self = this;
     	
     	$('.dln-property-desc.editable').editable({
-    		validate: function(value) {
+            validate: function(value) {
                 if($.trim(value) == '') return 'Trường này không thể rỗng!';
             }
     	});
@@ -126,10 +156,19 @@
         var self = this;
         
         if (self.$cache.data.bed) {
+            var options = [];
+            
+            $.each(JSON.parse(self.$cache.data.bed), function (key, value) {
+                var option = {};
+                option.value = key;
+                option.text  = value;
+                options.push(option);
+            });
+            
             $('.dln-bed-room.editable').editable({
                 type: 'select',
                 mode: 'popup',
-                source: self.$cache.data.bed
+                source: options
             });
         }
     };
@@ -138,10 +177,19 @@
         var self = this;
         
         if (self.$cache.data.bath) {
+            var options = [];
+            
+            $.each(JSON.parse(self.$cache.data.bed), function (key, value) {
+                var option = {};
+                option.value = key;
+                option.text  = value;
+                options.push(option);
+            });
+            
             $('.dln-bath-room.editable').editable({
                 type: 'select',
                 mode: 'popup',
-                source: self.$cache.data.bath
+                source: options
             });
         }
     };

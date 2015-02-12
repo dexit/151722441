@@ -39,20 +39,20 @@ class AdInfor extends Model
     public static function getBedRoomOptions() {
 		return array(
             '0' => 'Không chọn',
-            '1' => '1 Phòng ngủ',
-            '2' => '2 Phòng ngủ',
-            '3' => '3 Phòng ngủ',
-            '4' => '4+ Phòng ngủ',
+            '1' => '1 Phòng',
+            '2' => '2 Phòng',
+            '3' => '3 Phòng',
+            '4' => '4+ Phòng',
         );
 	}
     
     public static function getBathRoomOptions() {
 		return array(
             '0' => 'Không chọn',
-            '1' => '1 Phòng tắm',
-            '2' => '2 Phòng tắm',
-            '3' => '3 Phòng tắm',
-            '4' => '4+ Phòng tắm',
+            '1' => '1 Phòng',
+            '2' => '2 Phòng',
+            '3' => '3 Phòng',
+            '4' => '4+ Phòng',
         );
 	}
     

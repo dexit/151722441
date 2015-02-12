@@ -19,15 +19,15 @@
         <div class="pull-right">
             <div class="panel dln-info-box">
                 <div class="action-info-container">
-                    <h1 class="dln-property-title editable" data-type="textarea" data-rows="3">Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ</h1>
-                    <div class="dln-property-price editable" data-type="text">1320000</div>
+                    <h1 class="dln-property-title editable" data-type="textarea" data-rows="3" data-relate="title"></h1>
+                    <div class="dln-property-price editable" data-type="text" data-relate="price"></div>
                     <div class="dln-property-location">
-                        <div class="dln-property-location editable" data-type="text">1422 Southwest 147th Terrace</div>
+                        <div class="dln-property-location editable" data-type="text" data-relate="address"></div>
                         <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="vital-info-container">
-                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable">2 Phòng</span>
+                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable" data-relate="bed" data-suffix="Phòng"></span>
                             </span> 
-                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable">2 Phòng</span>
+                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-relate="bath" data-suffix="Phòng"></span>
                             </span> 
                             <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-area editable">D.tích 120 m<sup>2</sup></span>
                             </span>
@@ -100,15 +100,15 @@
             </div>
             <div class="dln-box-wrapper">
                 <div class="action-info-container">
-                    <h1 class="dln-property-title editable" data-type="textarea" data-rows="3">Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ</h1>
-                    <div class="dln-property-price editable" data-type="text">1320000</div>
+                    <h1 class="dln-property-title editable" data-type="textarea" data-rows="3" data-relate="title"></h1>
+                    <div class="dln-property-price editable" data-type="text" data-relate="price"></div>
                     <div class="dln-property-location">
-                        <div class="dln-property-location editable" data-type="text">1422 Southwest 147th Terrace</div>
+                        <div class="dln-property-location editable" data-type="text" data-relate="address"></div>
                         <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="vital-info-container">
-                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable" data-value="2">2 Phòng</span>
+                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable" data-relate="bed" data-suffix="Phòng ngủ"></span>
                             </span> 
-                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-value="2">2 Phòng</span>
+                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-relate="bath" data-suffix="Phòng tắm"></span>
                             </span> 
                             <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-area editable">D.tích 120 m<sup>2</sup></span>
                             </span>
@@ -131,18 +131,7 @@
                 </div>
                 <div class="property-desc">
                     <div class="main-section-heading">Description</div>
-                    <p class="dln-property-desc editable pull-left" data-type="textarea"">
-                        CALL 954.617.5707 Ref#: 2028744 STOP
-                        LOOKING! 2 BEDROOMS 2 1/2 BATHS. . TILE
-                        FLOORS IN AL LIVING AREAS AND CARPET IN
-                        BEDROOMS. IMPACT WINDOWS. WOOD KITCHEN
-                        CABINETS AND GRANITE TOPS. 4 CAR PARKING
-                        SPACES, PATIO AND OPEN FLOOR PLAN. CLOSE TO
-                        CLUBHOUSE. GATED COMMUNITY JUST WEST OF
-                        I-75. PROFESSIONALLY MANAGED. EASY TO SHOW,
-                        JUST TEXT ME! This Listing is Courtesy Of:
-                        UTG Real Estate (1418042486)
-                    </p>
+                    <p class="dln-property-desc editable pull-left" data-type="textarea" data-relate="desc"></p>
                 </div>
             </div>
         </div>
@@ -170,6 +159,21 @@
         </div>
     </div>
 </div>
+
+<form id="dln_form_ad" method="post">
+<input id="dln_ad_title" type="hidden" name="title" value="Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ" />
+<input id="dln_ad_slug" type="hidden" name="slug" value="can-ban-nha-mat-tien" />
+<input id="dln_ad_desc" type="hidden" name="desc" value="" />
+<input id="dln_ad_price" type="hidden" name="price" value="1320000" />
+<input id="dln_ad_address" type="hidden" name="address" value="1422 Southwest 147th Terrace" />
+<input id="dln_ad_category_id" type="hidden" name="category_id" value="" />
+<input id="dln_ad_lat" type="hidden" name="lat" value="" />
+<input id="dln_ad_lng" type="hidden" name="lng" value="" />
+<input id="dln_ad_bed" type="hidden" name="bed" value="2" />
+<input id="dln_ad_bath" type="hidden" name="bath" value="2" />
+<input id="dln_ad_direction" type="hidden" name="direction" value="" />
+</form>
+
 {% if user %}
 <input id="dln_allow_editable" type="hidden" value="1" />
 <script id="dln_user" type="application/json">{{ user | raw }}</script>
