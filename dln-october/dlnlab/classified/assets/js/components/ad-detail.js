@@ -13,6 +13,8 @@
             this.editPrice();
             this.editLocation();
             this.editDesc();
+            this.editBed();
+            this.editBath();
         } else {
             $('.dln-property-price').each(function () {
                 var val = $(this).text();
@@ -118,6 +120,30 @@
                 if($.trim(value) == '') return 'Trường này không thể rỗng!';
             }
     	});
+    };
+   
+    AdDetail.prototype.editBed = function () {
+        var self = this;
+        
+        if (self.$cache.data.bed) {
+            $('.dln-bed-room.editable').editable({
+                type: 'select',
+                mode: 'popup',
+                source: self.$cache.data.bed
+            });
+        }
+    };
+    
+    AdDetail.prototype.editBath = function () {
+        var self = this;
+        
+        if (self.$cache.data.bath) {
+            $('.dln-bath-room.editable').editable({
+                type: 'select',
+                mode: 'popup',
+                source: self.$cache.data.bath
+            });
+        }
     };
    
     $(document).ready(function () {

@@ -71,8 +71,10 @@
     				type: 'POST',
     				url: window.root_url_api + '/login',
     				data: $('#dln_form_login').serialize(),
-    				success: function (data) {
-    					console.log(data);
+    				success: function (res) {
+                                    if (res.status == 'success') {
+                                        location.reload();
+                                    }
     				},
     				error: function (data) {
     					if (data.responseText) {

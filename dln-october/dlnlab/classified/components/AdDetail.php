@@ -5,6 +5,7 @@ namespace DLNLab\Classified\Components;
 use Auth;
 use Cms\Classes\ComponentBase;
 use DLNLab\Classified\Models\Ad;
+use DLNLab\Classified\Models\AdInfor;
 use DLNLab\Classified\Classes\HelperCache;
 
 class AdDetail extends ComponentBase {
@@ -38,10 +39,16 @@ class AdDetail extends ComponentBase {
 		$kind     = HelperCache::getAdKind();
 		$category = HelperCache::getAdCategory();
 		$amenity  = HelperCache::getAdAmenities();
-        $caches           = new \stdClass;
-        $caches->kind     = (! empty($kind)) ? $kind->toJson() : '';
-        $caches->category = (! empty($category)) ? $category->toJson() : '';
-        $caches->amenity  = (! empty($amenity)) ? $amenity->toJson() : '';
+        $bed_rooms  = AdInfor::getBedRoomOptions();
+        $bath_rooms = AdInfor::getBathRoomOptions();
+        $direction  = AdInfor::getDirectionOptions();
+        $caches            = new \stdClass;
+        $caches->kind      = (! empty($kind)) ? $kind->toJson() : '';
+        $caches->category  = (! empty($category)) ? $category->toJson() : '';
+        $caches->amenity   = (! empty($amenity)) ? $amenity->toJson() : '';
+        $caches->bed       = json_encode($bed_rooms);
+        $caches->bath      = json_encode($bath_rooms);
+        $caches->direction = json_encode($direction);
 		
 		$this->page['user']       = $this->user();
 		$this->page['ad']         = (! empty($ad)) ? $ad : '';

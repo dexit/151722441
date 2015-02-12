@@ -265,6 +265,36 @@ class Ad extends Model {
         $record->save();
     }
 
+    public static function getNearbyAd($ad_id = '', $page = 0) {
+        if (empty($ad_id))
+            return false;
+        
+        $record = self::find($ad_id);
+        if (empty($record)) {
+            return false;
+        }
+        
+        $lat   = $record->lat;
+        $lng   = $record->lng;
+        $limit = CLF_LIMIT;
+        $skip  = $page * $limit;
+        
+        $records = null;
+        if (empty($lat) || empty($lng)) {
+            // Get by country tag
+        } else {
+            // Get by lat long
+            $records = Ad::where('1', '=', '1')->select('*', "((ACOS(SIN({$lat} * PI() / 180) * SIN(lat * PI() / 180) + COS({$lat} * PI() / 180) * COS(lat * PI() / 180) * COS(({$lng} - lng) * PI() / 180)) * 180 / PI()) * 60 * 1.1515 * 1.609344) as distance")
+                ->having('distance ', '<=', CLF_DISTANCE)
+                ->orderBy('distance', 'ASC')
+                ->skip($skip)
+                ->take($limit)
+                ->get();
+        }
+        
+        return $records;
+    }
+    
     public static function get_ad_link($ad_id = 0) {
         if (! $ad_id)
             return false;

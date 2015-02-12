@@ -28,11 +28,12 @@ class HeaderBar extends ComponentBase
         $parts      = explode(" ", $name);
         $last_name  = array_pop($parts);
         $first_name = implode(" ", $parts);
+        $path       = (! empty($user->avatar)) ? $user->avatar->getPath() : '';
         
         $this->page['user']       = $user;
         $this->page['last_name']  = $last_name;
         $this->page['first_name'] = $first_name;
-        $this->page['avatar']     = $user->avatar->getPath();
+        $this->page['avatar']     = $path;
     }
     
     public function user()

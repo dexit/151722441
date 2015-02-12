@@ -23,9 +23,10 @@ class RestAccount extends BaseController {
             Account::onSignin();
         } catch(Exception $e) {
             throw $e;
+            return false;
         }
         
-        return false;
+        return Response::json(array('status' => 'success', 'data' => 'Login success!'), 200);
     }
     
     public function getLogout() {
@@ -35,6 +36,7 @@ class RestAccount extends BaseController {
             Auth::logout();
         } catch (Exception $e) {
             throw $e;
+            return false;
         }
         
         return Redirect::to(HelperClassified::redirect_return_url());

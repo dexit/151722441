@@ -3,6 +3,7 @@
 namespace DLNLab\Classified\Classes;
 use Input;
 use Cookie;
+use Request;
 
 class HelperClassified {
     
@@ -70,6 +71,8 @@ class HelperClassified {
     public static function redirect_return_url() {
         if (Cookie::get('dln_return_url')) {
             return Cookie::get('dln_return_url');
+        } else {
+            return Request::root();
         }
     }
 }

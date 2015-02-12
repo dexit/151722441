@@ -29,6 +29,9 @@ return [
         'error_user' => 'Người dùng không hợp lệ.',
         'require_signin' => 'Yêu cầu đăng nhập.',
         'not_create_ad' => 'Không thể tạo thêm tin, Vui lòng kích hoạt những tin cũ.',
-        'ad_activated' => 'Tin đã kích hoạt!'
+        'ad_activated' => 'Tin đã kích hoạt!',
+        'ad_not_exist' => 'Tin không tồn tại.',
+        'ad_favorite' => 'Bạn đã đánh dấu tin này.',
+        'ad_unfavorite' => 'Bạn đã bỏ đánh dấu tin này.'
     ]
 ];

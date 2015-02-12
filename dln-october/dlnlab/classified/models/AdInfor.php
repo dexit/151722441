@@ -36,29 +36,27 @@ class AdInfor extends Model
     public $attachOne = [];
     public $attachMany = [];
 
-    public function getBedRoomOptions() {
+    public static function getBedRoomOptions() {
 		return array(
             '0' => 'Không chọn',
-            '1' => '1 Phòng',
-            '2' => '2 Phòng',
-            '3' => '3 Phòng',
-            '4' => '4 Phòng',
-            '5' => '5+ Phòng',
+            '1' => '1 Phòng ngủ',
+            '2' => '2 Phòng ngủ',
+            '3' => '3 Phòng ngủ',
+            '4' => '4+ Phòng ngủ',
         );
 	}
     
-    public function getBathRoomOptions() {
+    public static function getBathRoomOptions() {
 		return array(
             '0' => 'Không chọn',
-            '1' => '1 Phòng',
-            '2' => '2 Phòng',
-            '3' => '3 Phòng',
-            '4' => '4 Phòng',
-            '5' => '5+ Phòng',
+            '1' => '1 Phòng tắm',
+            '2' => '2 Phòng tắm',
+            '3' => '3 Phòng tắm',
+            '4' => '4+ Phòng tắm',
         );
 	}
     
-    public function getDirectionOptions() {
+    public static function getDirectionOptions() {
 		return array(
             '0' => 'Không chọn',
             '1' => 'Đông',

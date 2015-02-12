@@ -173,13 +173,5 @@ class Account extends ComponentBase
         } catch (Exception $e) {
             throw $e;
         }
-    
-        /*
-         * Redirect to the intended page after successful sign in
-        */
-        $redirectUrl = $this->pageUrl($this->property('redirect'));
-    
-        if ($redirectUrl = post('redirect', $redirectUrl))
-            return Redirect::intended($redirectUrl);
     }
 }

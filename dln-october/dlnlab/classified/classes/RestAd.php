@@ -15,6 +15,7 @@ use October\Rain\Database\ModelException;
 
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Models\AdActive;
+use DLNLab\Classified\Models\AdFavorite;
 use DLNLab\Classified\Models\AdShareCount;
 use DLNLab\Classified\Models\AdSharePage;
 use DLNLab\Classified\Models\Tag;
@@ -472,5 +473,57 @@ class RestAd extends BaseController {
         } catch (Exception $ex) {
             return Response::json(array('status' => $ex->getMessage()), 500);
         }
+    }
+
+    public function putAdFavorite($id) {
+        if (! Auth::check())
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
+        
+        try {
+            // Check exists in DB
+            $user_id = Auth::getUser()->id;
+            $action  = Input::get('action');
+            
+            if (empty($id) || empty($user_id))
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
+
+            $state = '';
+            $record = AdFavorite::whereRaw('ad_id = ? AND user_id = ?', array($id, $user_id))->first();
+            if ($record) {
+                if ($action != 'unfavorite') {
+                    return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
+                }
+                $record->delete();
+                $state = 'ad_unfavorite';
+            } else {
+                if ($action != 'favorite') {
+                    return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
+                }
+                $record = new AdFavorite;
+                $record->ad_id   = $id;
+                $record->user_id = $user_id;
+                $record->save();
+                $state = 'ad_favorite';
+            }
+            
+            return Response::json(array('status' => 'success', 'message' => trans(CLF_LANG_MESSAGE . $state)), 500);
+        } catch (Exception $ex) {
+            throw $e;
+            return Response::json(array('status' => 'error'), 500);
+        }
+    }
+    
+    public function getNearby($id) {
+        $data = get();
+        $default = array(
+            'page'  => 0
+        );
+        $merge = array_merge($default, $data);
+        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+        extract($merge);
+        
+        $records = Ad::getNearbyAd($id, $page);
+        
+        return Response::json(array('status' => 'success', 'data' => $records));
     }
 }

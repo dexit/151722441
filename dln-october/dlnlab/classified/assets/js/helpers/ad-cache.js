@@ -5,16 +5,17 @@
         this.$kind     = [];
         this.$category = [];
         this.$amenity  = [];
-        this.$cache    = {};
+        this.data      = {};
         
         this.parseCache();
-        if (this.$cache && this.$cache.kind) {
+        
+        if (this.data && this.data.kind) {
             this.initKind();
         }
-        if (this.$cache && this.$cache.category) {
+        if (this.data && this.data.category) {
             this.initCategory();
         }
-        if (this.$cache && this.$cache.amenity) {
+        if (this.data && this.data.amenity) {
             this.initAmenity();
         }
     };
@@ -22,22 +23,22 @@
     AdCache.prototype.parseCache = function () {
         if (! $('#dln_caches').length || $('#dln_caches').text() == '')
             return false;
-        this.$cache = JSON.parse($('#dln_caches').text());
+        this.data = JSON.parse($('#dln_caches').text());
     };
     
     AdCache.prototype.initKind = function () {
-        this.$kind = this.$cache.kind;
-        return this.$cache.kind;
+        this.$kind = this.data.kind;
+        return this.data.kind;
     };
     
     AdCache.prototype.initCategory = function () {
-        this.$category = this.$cache.category;
-        return this.$cache.category;
+        this.$category = this.data.category;
+        return this.data.category;
     };
     
     AdCache.prototype.initAmenity = function () {
-        this.$amenity = this.$cache.amenity;
-        return this.$cache.amenity;
+        this.$amenity = this.data.amenity;
+        return this.data.amenity;
     };
     
     AdCache.prototype.getKindOptions = function () {

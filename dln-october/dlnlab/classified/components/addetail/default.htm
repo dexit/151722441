@@ -93,8 +93,7 @@
                 {% if not user %}
                 <div class="secondary-action-container">
                     <button class="btn btn-default btn-gray">
-                        <i class="fa fa-star-o"></i><span
-                            class="hidden-xs">Favorites</span>
+                        <i class="fa fa-star-o"></i><span class="hidden-xs">Favorites</span>
                     </button>
                 </div>
                 {% endif %}
@@ -107,9 +106,9 @@
                         <div class="dln-property-location editable" data-type="text">1422 Southwest 147th Terrace</div>
                         <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="vital-info-container">
-                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable">2 Phòng</span>
+                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable" data-value="2">2 Phòng</span>
                             </span> 
-                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable">2 Phòng</span>
+                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-value="2">2 Phòng</span>
                             </span> 
                             <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-area editable">D.tích 120 m<sup>2</sup></span>
                             </span>
@@ -175,5 +174,5 @@
 <input id="dln_allow_editable" type="hidden" value="1" />
 <script id="dln_user" type="application/json">{{ user | raw }}</script>
 <script id="dln_ad" type="application/json">{{ ad_json | raw }}</script>
-<script id="dln_caches" type="application/json">{{ kinds | raw }}</script>
+<script id="dln_caches" type="application/json">{{ dln_caches | raw }}</script>
 {% endif %}
