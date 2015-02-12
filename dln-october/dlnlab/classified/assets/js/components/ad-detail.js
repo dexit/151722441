@@ -131,13 +131,6 @@
     	var self = this;
     	
     	$('.dln-property-location.editable').editable({
-            display: function (value) {
-                $(this).attr('id', 'dln_location');
-                self.$helper.miniAutocomplete('dln_location');
-            },
-            validate: function(value) {
-                if($.trim(value) == '') return 'Trường này không thể rỗng!';
-            }
     	});
     };
     

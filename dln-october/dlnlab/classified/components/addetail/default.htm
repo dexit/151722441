@@ -4,7 +4,7 @@
             <div class="tabbable tabs-below dln-tab-infor">
                 <div class="tab-content">
                     <div class="tab-pane active" id="photo">
-                        <div class="dln-photo-upload btn btn-default dln-modal" data-type="location" data-header="test"><i class="fa fa-upload"></i></div>
+                        <div class="dln-photo-upload btn btn-default dln-modal" data-type="photo" data-header="Chọn hình ảnh"><i class="fa fa-upload"></i></div>
                         <div class="dln-photo-indicator">1 of 2</div>
                     </div>
                     <div class="tab-pane" id="map">
@@ -106,9 +106,9 @@
                         <div class="dln-property-location editable" data-type="text" data-relate="address"></div>
                         <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="vital-info-container">
-                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable" data-relate="bed" data-suffix="Phòng ngủ"></span>
+                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable" data-relate="bed" data-suffix="Phòng"></span>
                             </span> 
-                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-relate="bath" data-suffix="Phòng tắm"></span>
+                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-relate="bath" data-suffix="Phòng"></span>
                             </span> 
                             <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-area editable">D.tích 120 m<sup>2</sup></span>
                             </span>
@@ -138,7 +138,7 @@
     </div>
 </div>
 
-<div class="modal fade slide-up dln-modal" id="dln_modal" tabindex="-1" role="dialog" aria-hidden="false">
+<div class="modal fade slide-up dln-modal" id="dln_modal">
     <div class="modal-dialog">
         <div class="modal-content-wrapper">
             <div class="modal-content">
@@ -160,7 +160,9 @@
     </div>
 </div>
 
+<input type="file" class="dln-file-upload hide" />
 <form id="dln_form_ad" method="post">
+<input id="dln_ad_id" type="hidden" value="{{ ad.id }}" />
 <input id="dln_ad_title" type="hidden" name="title" value="Cần bán nhà mặt tiền đường Huỳnh Văn Bánh Q Phú Nhuận,DT :8x14m Giá :20 tỷ" />
 <input id="dln_ad_slug" type="hidden" name="slug" value="can-ban-nha-mat-tien" />
 <input id="dln_ad_desc" type="hidden" name="desc" value="" />

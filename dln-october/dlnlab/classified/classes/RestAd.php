@@ -25,8 +25,8 @@ require('HelperResponse.php');
 
 class RestAd extends BaseController {
     
-    public function postUpload() {
-        if (!Auth::check())
+    public function postUpload($id = '') {
+        if (! Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $result = null;
@@ -51,17 +51,24 @@ class RestAd extends BaseController {
                 }
                 $file = new File();
                 $file->data = $uploadedFile;
+                $file->field = 'ad_images';
+                $file->attachment_id = $id;
+                $file->attachment_type = ' DLNLab\Classified\Models\Ad';
                 $file->is_public = true;
                 $file->save();
                 $file->thumb = $file->getThumb(200, 200, ['mode' => 'crop']);
                 $result = $file;
             } catch (Exception $ex) {
                 $result = $ex->getMessage();
+                return Response::json(array('status' => 'error', 'message' => $result), 500);
             }
         }
         $result->photo_pattern = '<div class="col-xs-6 col-md-3">
             <div class="dln-photo-placeholder">
-                <img width="100%" src="__SRC__" />
+                <img width="100%" src="' . $result->thumb . '" />
+                <textarea class="dln-area-desc">' . $result->file_name . '</textarea>
+                <a href="javascript:void(0)" class="dln-delete-photo btn btn-warning btn-xs" data-id="' . $result->id . '"><i class="fa fa-check"></i></a>
+                <a href="javascript:void(0)" class="dln-feature-photo btn btn-danger btn-xs" data-id="' . $result->id . '"><i class="fa fa-close"></i></a>
             </div>
         </div>';
         

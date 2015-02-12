@@ -1,20 +1,40 @@
+<form method="POST" enctype="multipart/form-data" action="">
 <div autocomplete="off" role="form" class="form-horizontal">
     <div class="form-group clearfix">
         <label class="col-sm-3 control-label">Hình ảnh</label>
         <div class="col-sm-9">
             <div class="padding-15 dln-file-wrapper">
-                <input type="file" class="dln-file-upload" />
                 <button class="btn btn-danger btn-cons">Đăng ảnh</button>
             </div>
             <div class="dln-photos-wrapper row">
                 <div class="col-xs-6 col-md-3">
                     <div class="dln-photo-placeholder">
-                        <img width="100%" src="/october/uploads/public/54c/e0e/b72/thumb_8_200x200_0_0_crop.jpg">
+                        <img width="100%" src="" />
                         <a href="javascript:void(0)" class="dln-delete-photo"></a>
-                        <a href="javascript:void(0)" class="dln-feature-photo"></a>                                     
+                        <a href="javascript:void(0)" class="dln-feature-photo"></a>                                
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</form>
+<style>
+
+.dln-file-upload {
+    display: none !important;
+}
+.dln-file-wrapper {
+    background-color: #edefed;
+    border: 1px solid #dce0e0;
+}
+.dln-photos-wrapper {
+    padding: 7px;
+    margin: 7px;
+    border-radius: 5px;
+    border: 1px dashed #ccc;
+}
+.dln-photos-wrapper div[class^="col-xs"]{
+    padding: 7px;
+}
+</style>

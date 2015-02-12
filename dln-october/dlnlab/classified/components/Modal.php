@@ -41,7 +41,19 @@ class Modal extends ComponentBase
             case 'location':
                 $asset_script[] = '~/plugins/dlnlab/classified/assets/js/helpers/helper-googlemap.js';
                 $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/location.js';
-                break;
+            break;
+            case 'photo':
+                $asset_script[] = 'assets/vendor/jquery-fileupload/js/vendor/jquery.ui.widget.js';
+                $asset_script[] = 'assets/vendor/jquery-fileupload/js/jquery.fileupload.js';
+                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/photo.js';
+                
+                // Get photos of Ad
+                $ad_id = Input::has('ad_id') ? Input::get('ad_id') : '';
+                $records = null;
+                $records = File::where();
+                
+                $this->page['photos'] = $records;
+            break;
         }
         
         $this->page['type']         = $type;

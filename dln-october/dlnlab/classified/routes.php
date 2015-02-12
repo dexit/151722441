@@ -9,7 +9,7 @@ App::before(function ($request) {
     Route::put($api_path . 'ad/{id}',              $api_class . '\RestAd@putAd');
     Route::put($api_path . 'ad/{id}/favorite',  $api_class . '\RestAd@putAdFavorite');
     Route::put($api_path . 'ad/active',   $api_class . '\RestAd@putActiveAd');
-	Route::post($api_path . 'ad/upload',  $api_class . '\RestAd@postUpload');
+	Route::post($api_path . 'ad/{id}/upload',  $api_class . '\RestAd@postUpload');
     Route::post($api_path . 'ad/share',   $api_class . '\RestAd@postShareAd');
     
 	Route::get($api_path . 'crawl/ad_deactive',    $api_class . '\RestCrawl@getAdDeactive');
