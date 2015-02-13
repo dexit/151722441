@@ -29,7 +29,7 @@
                             </span> 
                             <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-relate="bath" data-suffix="Phòng"></span>
                             </span> 
-                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-area editable">D.tích 120 m<sup>2</sup></span>
+                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-property-area editable">D.tích 120 m<sup>2</sup></span>
                             </span>
                         </div>
                     </div>
@@ -110,28 +110,19 @@
                             </span> 
                             <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-relate="bath" data-suffix="Phòng"></span>
                             </span> 
-                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-area editable">D.tích 120 m<sup>2</sup></span>
+                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-property-area editable" data-relate="area" data-type="number">120</span> m<sup>2</sup>
                             </span>
                         </div>
                     </div>
                 </div>
                 <div class="property-amenities">
-                    <div class="main-section-heading dln-modal" data-type="amenity" data-header="Chọn thuộc tính" data-relate="dln_ad_amenities">Amenities</div>
+                    <div class="main-section-heading dln-modal editable-click" data-type="amenity" data-header="Chọn thuộc tính" data-relate="dln_ad_amenities">Amenities</div>
                     <div class="row">
-                        <span class="col-xs-6"> <span
-                            class="dot dot-green"></span> Deck/Patio
-                        </span> <span class="col-xs-6"> <span
-                            class="dot dot-green"></span> Deck/Patio
-                        </span> <span class="col-xs-6"> <span
-                            class="dot dot-green"></span> Deck/Patio
-                        </span> <span class="col-xs-6"> <span
-                            class="dot dot-green"></span> Deck/Patio
-                        </span>
                     </div>
                 </div>
                 <div class="property-desc">
                     <div class="main-section-heading">Description</div>
-                    <p class="dln-property-desc editable pull-left" data-type="textarea" data-relate="desc"></p>
+                    <p class="dln-property-desc editable pull-left" data-type="textarea" data-escape="false"  data-placeholder="Nhập mô tả cho bds này..." data-relate="desc"></p>
                 </div>
             </div>
         </div>
@@ -173,6 +164,7 @@
 <input id="dln_ad_lng" type="hidden" name="lng" value="" />
 <input id="dln_ad_bed" type="hidden" name="bed" value="2" />
 <input id="dln_ad_bath" type="hidden" name="bath" value="2" />
+<input id="dln_ad_area" type="hidden" name="area" value="120" />
 <input id="dln_ad_direction" type="hidden" name="direction" value="" />
 <input id="dln_ad_amenities" type="hidden" name="amenities" value="4,6,7,5,9" />
 </form>

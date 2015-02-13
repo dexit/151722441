@@ -75,6 +75,11 @@
         $('#dln_modal').modal('show');
     };
     
+    AdHelper.prototype.hideModal = function () {
+        // Show modal with loading indicator
+        $('#dln_modal').modal('hide');
+    };
+    
     AdHelper.prototype.hideModalLoading = function () {
         $('#dln_modal .dln-loading').removeClass('show');
     };

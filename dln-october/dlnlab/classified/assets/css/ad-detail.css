@@ -443,9 +443,9 @@ a, a:hover {
 }
 .vital-info-container {
     border-top: 1px solid #e5e5e5;
-    margin-top: 16px;
+    margin-top: 12px;
     padding-bottom: 4px;
-    padding-top: 20px;
+    padding-top: 12px;
 }
 .bedroom-info, .bathroom-info, .sqft-info {
     color: #777;
@@ -565,7 +565,7 @@ a, a:hover {
     width: 100% !important;
 }
 .editable-pre-wrapped {
-    white-space: normal;
+    width: auto;
 }
 
 /* custom inclusion of right, left and below tabs */
@@ -743,7 +743,8 @@ a, a:hover {
         border-radius: 0px !important;   
     }
     .main-section-heading {
-        margin: 38px 0 8px;
+        margin: 18px 0 8px;
+        display: table;
     }
 }
 @media (max-width: 720px) {
