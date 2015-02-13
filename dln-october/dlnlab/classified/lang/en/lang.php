@@ -32,6 +32,8 @@ return [
         'ad_activated' => 'Tin đã kích hoạt!',
         'ad_not_exist' => 'Tin không tồn tại.',
         'ad_favorite' => 'Bạn đã đánh dấu tin này.',
-        'ad_unfavorite' => 'Bạn đã bỏ đánh dấu tin này.'
+        'ad_unfavorite' => 'Bạn đã bỏ đánh dấu tin này.',
+        'ad_photo_saved' => 'Lưu thông tin hình ảnh thành công!',
+        'ad_photo_removed' => 'Xóa hình ảnh thành công!'
     ]
 ];

@@ -4,13 +4,16 @@ App::before(function ($request) {
     $api_path  = '/api/v1/';
     $api_class = 'DLNLab\Classified\Classes';
     
-    Route::get($api_path . 's/{query}',            $api_class . '\RestAd@getSearch');
-    Route::get($api_path . 'ad/{id}/nearby',            $api_class . '\RestAd@getNearby');
-    Route::put($api_path . 'ad/{id}',              $api_class . '\RestAd@putAd');
-    Route::put($api_path . 'ad/{id}/favorite',  $api_class . '\RestAd@putAdFavorite');
-    Route::put($api_path . 'ad/active',   $api_class . '\RestAd@putActiveAd');
-	Route::post($api_path . 'ad/{id}/upload',  $api_class . '\RestAd@postUpload');
-    Route::post($api_path . 'ad/share',   $api_class . '\RestAd@postShareAd');
+    Route::get($api_path . 's/{query}',      $api_class . '\RestAd@getSearch');
+    Route::get($api_path . 'ad/{id}/nearby', $api_class . '\RestAd@getNearby');
+    Route::put($api_path . 'ad/{id}',          $api_class . '\RestAd@putAd');
+    Route::put($api_path . 'ad/{id}/favorite', $api_class . '\RestAd@putAdFavorite');
+    Route::put($api_path . 'ad/active',        $api_class . '\RestAd@putActiveAd');
+	Route::post($api_path . 'ad/{id}/upload', $api_class . '\RestAd@postUpload');
+    Route::post($api_path . 'ad/share',       $api_class . '\RestAd@postShareAd');
+    
+    Route::put($api_path . 'photo/{id}', $api_class . '\RestAd@putPhotoDesc');
+    Route::delete($api_path . 'photo/{id}', $api_class . '\RestAd@deletePhoto');
     
 	Route::get($api_path . 'crawl/ad_deactive',    $api_class . '\RestCrawl@getAdDeactive');
 	Route::get($api_path . 'crawl/tag_count',      $api_class . '\RestCrawl@getRefreshTagCount');

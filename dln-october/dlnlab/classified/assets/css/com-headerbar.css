@@ -4,6 +4,9 @@
 .container {
     max-width: 970px;
 }
+select.input-sm {
+    line-height: 14px;
+}
 .dropdown {
     float: left;
 }

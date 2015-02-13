@@ -53,7 +53,7 @@ class RestAd extends BaseController {
                 $file->data = $uploadedFile;
                 $file->field = 'ad_images';
                 $file->attachment_id = $id;
-                $file->attachment_type = ' DLNLab\Classified\Models\Ad';
+                $file->attachment_type = 'DLNLab\Classified\Models\Ad';
                 $file->is_public = true;
                 $file->save();
                 $file->thumb = $file->getThumb(200, 200, ['mode' => 'crop']);
@@ -64,7 +64,7 @@ class RestAd extends BaseController {
             }
         }
         $result->photo_pattern = '<div class="col-xs-6 col-md-3">
-            <div class="dln-photo-placeholder">
+            <div class="dln-photo-placeholder" data-id="' . $result->id . '">
                 <img width="100%" src="' . $result->thumb . '" />
                 <textarea class="dln-area-desc">' . $result->file_name . '</textarea>
                 <a href="javascript:void(0)" class="dln-delete-photo btn btn-warning btn-xs" data-id="' . $result->id . '"><i class="fa fa-check"></i></a>
@@ -73,6 +73,21 @@ class RestAd extends BaseController {
         </div>';
         
         return Response::json( response_message( 200, $result ));
+    }
+    
+    public function deletePhoto($id = '') {
+        if (! Auth::check())
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
+        
+        // Get current user
+        $user = Auth::getUser();
+        
+        if ($file = self::checkAdPhoto($id, $user)) {
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
+        }
+        
+        $file->delete();
+        return Response::json(array('status' => 'success', 'message' => trans(CLF_LANG_MESSAGE . 'ad_photo_removed')));
     }
     
     public function putActiveAd() {
@@ -264,13 +279,12 @@ class RestAd extends BaseController {
         return Response::json($arr_results);
     }
  
-    public function putUpdatePhotoDesc() {
+    public function putPhotoDesc($id) {
         if (! Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
         
         $data = put();
         $default = array(
-            'id'    => '',
             'title' => '',
             'desc'  => '',
         );
@@ -281,13 +295,21 @@ class RestAd extends BaseController {
         // Get current user
         $user = Auth::getUser();
         
+        if ($file = self::checkAdPhoto($id, $user)) {
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
+        }
+        
         // Kiem tra ad hien tai co dung la cua user hay ko
-        $record = Ad::whereRaw('id = ? AND user_id = ?', array($ad_id, $user->id))->first();
+        $record = Ad::whereRaw('id = ? AND user_id = ?', array($file->attachment_id, $user->id))->first();
         if (! $record)
-            return Response::json(array('status' => 'error'), 500);
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
         
         // Cap nhat thong tin title va desc cho photo
-        $record = File::where();
+        $file->description = $desc;
+        $file->title = $title;
+        $file->save();
+        
+        return Response::json(array('status' => 'success', 'message' => trans(CLF_LANG_MESSAGE . 'ad_photo_saved')));
     }
     
     public function postAdQuick() {
@@ -532,5 +554,20 @@ class RestAd extends BaseController {
         $records = Ad::getNearbyAd($id, $page);
         
         return Response::json(array('status' => 'success', 'data' => $records));
+    }
+
+    private static function checkAdPhoto($id, $user) {
+        // Get this file
+        $file = File::find($id);
+        
+        if (! $file || $file->attachment_type != 'DLNLab\Classified\Models\Ad')
+            return false;
+        
+        // Kiem tra ad hien tai co dung la cua user hay ko
+        $record = Ad::whereRaw('id = ? AND user_id = ?', array($file->attachment_id, $user->id))->first();
+        if (! $record)
+            return false;
+        
+        return $file;
     }
 }
