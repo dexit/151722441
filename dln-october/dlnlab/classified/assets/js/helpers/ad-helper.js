@@ -47,9 +47,14 @@
             var url     = window.root_url + '/modal?type=' + $(this).data('type');
             var options = $(this).data('options');
             var header  = $(this).data('header');
+            var relate  = $(this).data('relate');
+            if (relate) {
+                url += '&values=' + $('#' + relate).val();
+            }
             
             self.showModal();
             self.showModalLoading();
+            $('#dln_modal .modal-header h5').text('');
             
             // Send ajax request for get html content
             $.ajax({
@@ -58,6 +63,7 @@
                 data : options,
                 success: function (response) {
                     self.hideModalLoading();
+                    $('#dln_modal .modal-header h5').text(header);
                     $('#dln_modal .dln-body').html(response);
                 },
             });

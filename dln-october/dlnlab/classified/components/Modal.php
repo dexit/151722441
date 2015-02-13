@@ -2,6 +2,8 @@
 
 use Input;
 use Cms\Classes\ComponentBase;
+use DLNLab\Classified\Models\Ad;
+use DLNLab\Classified\Classes\HelperCache;
 
 class Modal extends ComponentBase
 {
@@ -41,7 +43,7 @@ class Modal extends ComponentBase
             case 'location':
                 $asset_script[] = '~/plugins/dlnlab/classified/assets/js/helpers/helper-googlemap.js';
                 $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/location.js';
-            break;
+                break;
             case 'photo':
                 $asset_script[] = 'assets/vendor/jquery-fileupload/js/vendor/jquery.ui.widget.js';
                 $asset_script[] = 'assets/vendor/jquery-fileupload/js/jquery.fileupload.js';
@@ -50,10 +52,20 @@ class Modal extends ComponentBase
                 // Get photos of Ad
                 $ad_id = Input::has('ad_id') ? Input::get('ad_id') : '';
                 $records = null;
-                $records = File::where();
-                
+                if ($ad_id) {
+                    $ad = Ad::find($ad_id);
+                    $records = $ad->ad_images;
+                }
                 $this->page['photos'] = $records;
-            break;
+                
+                break;
+            case 'amenity':
+                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/amenity.js';
+                
+                $arr_selected = Input::has('values') ? explode(',', Input::get('values')) : '';
+                $this->page['arr_selected'] = $arr_selected;
+                $this->page['amenities'] = HelperCache::getAdAmenities();
+                break;
         }
         
         $this->page['type']         = $type;

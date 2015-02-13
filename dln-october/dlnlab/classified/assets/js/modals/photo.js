@@ -49,7 +49,7 @@
     		window.ad_helper.showModalLoading();
     		$.ajax({
     			type: 'PUT',
-    			url: window.root_api_url + '/photo/' ;
+    			url: window.root_api_url + '/photo/',
     			data: {
     				action: 'feature'
     			},

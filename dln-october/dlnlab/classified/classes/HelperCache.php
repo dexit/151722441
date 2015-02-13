@@ -58,7 +58,7 @@ class HelperCache {
     
     public static function getAdAmenities() {
         $options = '';
-        if (Cache::has('amenities_options')) {
+        if (! Cache::has('amenities_options')) {
             $options = Tag::getTagByType('ad_amenities');
             Cache::put('amenities_options', $options, CLF_CACHE);
         } else {

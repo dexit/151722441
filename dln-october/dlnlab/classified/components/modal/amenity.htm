@@ -1,0 +1,56 @@
+<div autocomplete="off" role="form" class="form-horizontal">
+    <div class="form-group clearfix">
+        <label class="col-sm-3 control-label" for="dln_amenity">Thuộc tính</label>
+        <div class="col-sm-9">
+            <div class="row chk_amenities">
+                {% set part = (amenities|length + (3 - amenities|length % 3)) / 3 %}
+                
+                <div class="col-sm-4">
+                    {% for amenity in amenities %}
+                        {% if loop.index >= part * 0 and loop.index < part * 1 %}
+                            {% if amenity.id in arr_selected %}
+                                {% set checked = 'checked="checked"' %}
+                            {% else %}
+                                {% set checked = '' %}
+                            {% endif %}
+                            <div class="checkbox check-danger">
+                                <input type="checkbox" {{ checked }} id="chk_{{ amenity.id }}" value="{{ amenity.id }}" name="amenities[]">
+                                <label for="chk_{{ amenity.id }}">{{ amenity.name }}</label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-sm-4">
+                    {% for amenity in amenities %}
+                        {% if loop.index >= part * 1 and loop.index < part * 2 %}
+                            {% if amenity.id in arr_selected %}
+                                {% set checked = 'checked="checked"' %}
+                            {% else %}
+                                {% set checked = '' %}
+                            {% endif %}
+                            <div class="checkbox check-danger">
+                                <input type="checkbox" {{ checked }} id="chk_{{ amenity.id }}" value="{{ amenity.id }}" name="amenities[]">
+                                <label for="chk_{{ amenity.id }}">{{ amenity.name }}</label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-sm-4">
+                    {% for amenity in amenities %}
+                        {% if loop.index >= part * 2 and loop.index < part * 3 %}
+                            {% if amenity.id in arr_selected %}
+                                {% set checked = 'checked="checked"' %}
+                            {% else %}
+                                {% set checked = '' %}
+                            {% endif %}
+                            <div class="checkbox check-danger">
+                                <input type="checkbox" {{ checked }} id="chk_{{ amenity.id }}" value="{{ amenity.id }}" name="amenities[]">
+                                <label for="chk_{{ amenity.id }}">{{ amenity.name }}</label>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

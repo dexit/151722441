@@ -13,7 +13,7 @@ class CreateAdFavoritesTable extends Migration
             $table->engine = 'InnoDB';
 			$table->integer('ad_id')->unsigned();
 			$table->integer('user_id')->unsigned();
-            $table->primary(['ad_id', 'tag_id']);
+            $table->primary(['ad_id', 'user_id']);
         });
     }
 
