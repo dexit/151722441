@@ -45,6 +45,7 @@ class Modal extends ComponentBase
                 $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/location.js';
                 break;
             case 'photo':
+                $asset_script[] = 'assets/vendor/jquery-ui/jquery-ui.min.js';
                 $asset_script[] = 'assets/vendor/jquery-fileupload/js/vendor/jquery.ui.widget.js';
                 $asset_script[] = 'assets/vendor/jquery-fileupload/js/jquery.fileupload.js';
                 $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/photo.js';

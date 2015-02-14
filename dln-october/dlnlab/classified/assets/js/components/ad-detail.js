@@ -197,27 +197,13 @@
             });
         }
     };
-   
-    AdDetail.prototype.loadAmenity = function () {
-    	var selected = $('#dln_ad_amenities').val();
-    	var arr_selected = selected.split(',');
-    	
-    	var html = '';
-    	$.each(JSON.parse(this.$cache.$amenity), function (key, value) {
-    		if ($.inArray(value.id.toString(), arr_selected) !== -1) {
-    			html += '<span class="col-xs-6"><span class="dot dot-green"></span> ' + value.name + '</span>';
-    		}
-    	});
-    	$('.property-amenities .row').html(html);
-    };
-    
+
     AdDetail.prototype.initModalSave = function () {
     	var self = this;
     	
     	$('#dln_modal_save').on('click', function (e) {
     		e.preventDefault();
-    		
-    		self.loadAmenity();
+                
     		self.$helper.hideModal();
     	});
     };

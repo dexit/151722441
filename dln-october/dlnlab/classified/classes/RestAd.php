@@ -64,12 +64,17 @@ class RestAd extends BaseController
                 $file->is_public = true;
                 $file->save();
                 $file->thumb = $file->getThumb(200, 200, ['mode' => 'crop']);
-                $result = $file;
+                
+                $result = new \stdClass;
+                $result->id = $file->id;
+                $result->thumb = $file->thumb;
+                $result->file_name = $file->file_name;
             } catch (Exception $ex) {
                 $result = $ex->getMessage();
                 return Response::json(array('status' => 'error', 'message' => $result), 500);
             }
         }
+        
         $result->photo_pattern = '<div class="col-xs-6 col-md-3">
             <div class="dln-photo-placeholder" data-id="' . $result->id . '">
                 <img width="100%" src="' . $result->thumb . '" />
