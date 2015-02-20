@@ -138,8 +138,11 @@
                     self.loadAddress();
                     var point = self.marker.getPosition();
                     self.map.panTo(point);
-                }, function () {
-                    console.log('fails');
+                }, function (response) {
+                	if (response.message) {
+                		alert(response.message);
+                	}
+                    console.log(response);
                 }, {
                     enableHighAccuracy: true, 
                     maximumAge: 3000, 

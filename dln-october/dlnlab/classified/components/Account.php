@@ -66,6 +66,11 @@ class Account extends ComponentBase
         
         $this->page['user'] = $this->user();
         $this->page['type'] = $this->property('type', 'register');
+        
+        $asset_script[] = '~/plugins/dlnlab/classified/assets/js/components/account-register.js';
+        $asset_css[]    = '~/plugins/dlnlab/classified/assets/css/components/account.css';
+        $this->page['asset_css']    = $asset_css;
+        $this->page['asset_script'] = $asset_script;
     }
 
     public function user()

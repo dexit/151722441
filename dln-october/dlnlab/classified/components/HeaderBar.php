@@ -34,6 +34,11 @@ class HeaderBar extends ComponentBase
         $this->page['last_name']  = $last_name;
         $this->page['first_name'] = $first_name;
         $this->page['avatar']     = $path;
+        
+        $asset_script[] = '~/plugins/dlnlab/classified/assets/js/components/headerbar.js';
+        $asset_css[]    = '~/plugins/dlnlab/classified/assets/css/components/headerbar.css';
+        $this->page['asset_css']    = $asset_css;
+        $this->page['asset_script'] = $asset_script;
     }
     
     public function user()

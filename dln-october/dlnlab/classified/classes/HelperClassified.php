@@ -75,4 +75,5 @@ class HelperClassified {
             return Request::root();
         }
     }
+
 }

@@ -40,15 +40,15 @@ class Modal extends ComponentBase
         $type = (Input::has('type')) ? Input::get('type') : '';
         
         switch($type) {
-            case 'location':
+            case 'ad-location':
                 $asset_script[] = '~/plugins/dlnlab/classified/assets/js/helpers/helper-googlemap.js';
-                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/location.js';
+                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/ad-location.js';
                 break;
-            case 'photo':
+            case 'ad-photo':
                 $asset_script[] = 'assets/vendor/jquery-ui/jquery-ui.min.js';
                 $asset_script[] = 'assets/vendor/jquery-fileupload/js/vendor/jquery.ui.widget.js';
                 $asset_script[] = 'assets/vendor/jquery-fileupload/js/jquery.fileupload.js';
-                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/photo.js';
+                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/ad-photo.js';
                 
                 // Get photos of Ad
                 $ad_id = Input::has('ad_id') ? Input::get('ad_id') : '';
@@ -60,12 +60,15 @@ class Modal extends ComponentBase
                 $this->page['photos'] = $records;
                 
                 break;
-            case 'amenity':
-                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/amenity.js';
+            case 'ad-amenity':
+                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/modals/ad-amenity.js';
                 
                 $arr_selected = Input::has('values') ? explode(',', Input::get('values')) : '';
                 $this->page['arr_selected'] = $arr_selected;
                 $this->page['amenities'] = HelperCache::getAdAmenities();
+                break;
+            
+            case 'ad-title':
                 break;
         }
         
