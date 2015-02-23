@@ -1,0 +1,10 @@
+.panel-group .panel-heading {
+    padding: 10px 20px;
+}
+.panel-group .panel-heading .panel-title {
+    line-height: 24px;
+    cursor: pointer;
+}
+.panel-group .panel-heading .panel-title:hover {
+    color: #f55753;
+}
