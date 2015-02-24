@@ -36,7 +36,8 @@
             zoom: 16,
             center: this.latlng,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            disableDoubleClickZoom: true
+            disableDoubleClickZoom: true,
+            draggableCursor:'crosshair'
         };
         this.map      = new google.maps.Map(self.map_id, options);
         this.geocoder = new google.maps.Geocoder();
