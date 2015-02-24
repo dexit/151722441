@@ -1,9 +1,7 @@
 .wrap-header {
     padding-top: 80px;
-    padding-bottom: 70px;
+    padding-bottom: 20px;
     text-align: center;
-    border-bottom: 1px solid rgba(220, 224, 224, 0.5);
-    border-color: rgba(220, 224, 224, 0.5);
 }
 .dln-steps li {
     margin-top: 10px;

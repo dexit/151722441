@@ -14,6 +14,11 @@ type = "quick"
     'assets/css/edit.css',
     '~/plugins/dlnlab/classified/assets/css/com-headerbar.css',
     ]|theme }}" />
+
+{% if asset_css %}
+<link rel="stylesheet" href="{{ asset_css|theme }}" />
+{% endif %}
+
 </head>
 <body class="fixed-header dashboard ">
     <div class="page-container">
@@ -46,8 +51,11 @@ type = "quick"
         'assets/vendor/jquery-validation/js/jquery.validate.min.js',
         'assets/vendor/inputmask/jquery.inputmask.bundle.min.js',
         '~/plugins/dlnlab/classified/assets/js/common.js',
-        '~/plugins/dlnlab/classified/assets/js/components/ad-quick.js',
     ]|theme }}"></script>
+    
+    {% if asset_script %}
+    <script src="{{ asset_script|theme }}"></script>
+    {% endif %}
     
     {% framework extras %}
     {% scripts %}

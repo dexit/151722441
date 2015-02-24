@@ -52,11 +52,19 @@ class AdEdit extends ComponentBase
 		//$this->addJs('http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=vi');
 		//$this->addJs(CLF_ASSETS . '/js/helper-googlemap.js');
 		//$this->addJs(CLF_ASSETS . '/js/com-ad-edit.js');
-		//$this->addCss(CLF_ASSETS . '/css/com-ad-edit.css');
-		
-	    
-	    $this->page['type']       = $this->property('type', 'quick');
+		$this->addCss(CLF_ASSETS . '/css/com-ad-edit.css');
+		$type = $this->property('type', 'quick');
+        switch ($type) {
+            case 'quick':
+                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/components/ad-quick.js';
+                break;
+            case 'edit':
+                $asset_script[] = '~/plugins/dlnlab/classified/assets/js/components/ad-edit2.js';
+                break;
+        }
+        $this->page['type']      = $type;
 	    $this->page['kinds']      = HelperCache::getAdKind();
 	    $this->page['categories'] = HelperCache::getAdCategory();
+	    
 	}
 }
