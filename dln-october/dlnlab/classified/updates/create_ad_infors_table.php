@@ -14,6 +14,7 @@ class CreateAdInforsTable extends Migration
             $table->increments('id');
             $table->integer('ad_id')->unsigned()->nullable()->index();
             $table->integer('area')->default(0);
+            $table->integer('tier')->default(0);
             $table->integer('bath_room')->default(0);
             $table->integer('bed_room')->default(0);
             $table->integer('direction')->default(0);
