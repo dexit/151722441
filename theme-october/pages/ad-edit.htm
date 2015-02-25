@@ -33,10 +33,10 @@ hidden = "0"
                                 <button class="btn btn-default btn-sm pull-left m-r-10"><i class="pg-menu_justify fs-14"></i></button>
                                 <button class="btn btn-default btn-sm pull-left disabled"><i class="fa fa-line-chart fs-14"></i><span class="hidden-xs bold m-l-5">Thông số</span></button>
                                 <button class="btn btn-success btn-sm pull-right"><i class="pg-desktop fs-14"></i><span class="hidden-xs bold m-l-5">Xem trước</span></button>
-                                <button class="btn btn-sm pull-right disabled m-r-10"><i class="fa fa-check fs-14"></i><span class="m-l-5 hidden-xs bold">Kích hoạt</span></button>
+                                <button id="dln_active" class="btn btn-sm pull-right disabled m-r-10"><i class="fa fa-check fs-14"></i><span class="m-l-5 hidden-xs bold">Kích hoạt</span></button>
                             </div>
                             <div class="progress no-margin">
-                                <div data-percentage="75%" class="progress-bar progress-bar-success" style="width: 75%;"></div>
+                                <div id="dln_progressbar" data-percentage="0%" class="progress-bar progress-bar-success" style="width: 0%;"></div>
                             </div>
                         </div>
                     </div>
@@ -48,43 +48,43 @@ hidden = "0"
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="pg-layouts3 fs-14 m-r-5"></i>Mô tả</span>
-                                        <span class="label pull-right m-t-5"><i class="fa fa-plus"></i> 30%</span>
+                                        <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 30%</span>
                                         <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                                     </h4>
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-relate="ad_photo" data-percent="30">
+                            <div class="panel panel-default" data-relate="ad_photo" data-percent="20">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="fa fa-image fs-14 m-r-5"></i>Hình ảnh</span>
-                                        <span class="label pull-right m-t-5"><i class="fa fa-plus"></i> 30%</span>
+                                        <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
                                         <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                                     </h4>
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-relate="ad_photo" data-percent="20">
+                            <div class="panel panel-default" data-relate="ad_room" data-percent="20">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="fa fa-slideshare fs-14 m-r-5"></i>Phòng</span>
-                                        <span class="label pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
+                                        <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
                                         <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                                     </h4>
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-relate="ad_photo" data-percent="20">
+                            <div class="panel panel-default" data-relate="ad_location" data-percent="20">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="fa fa-location-arrow fs-14 m-r-5"></i>Vị trí</span>
-                                        <span class="label pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
+                                        <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
                                         <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                                     </h4>
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-relate="ad_photo" data-percent="10">
+                            <div class="panel panel-default" data-relate="ad_property" data-percent="10">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="fa fa-list fs-14 m-r-5"></i>Thuộc tính</span>
-                                        <span class="label pull-right m-t-5"><i class="fa fa-plus"></i> 10%</span>
+                                        <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 10%</span>
                                         <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                                     </h4>
                                 </div>
@@ -93,27 +93,29 @@ hidden = "0"
                     </div>
                 
                     <div class="col-md-9 p-l-5 ad-panels">
-                        <div id="ad_desc" class="panel panel-default b-r-4 sm-m-l-15 sm-m-r-5">
+                        <div id="ad_desc" class="ad-form panel panel-default b-r-4 sm-m-l-15 sm-m-r-5">
                             <div class="panel-heading">
-                                <div class="panel-title"><i class="pg-layouts3 fs-14 m-r-5"></i>Mô tả</div>
+                                <div class="panel-title"><i class="pg-layouts3 fs-14 m-r-5"></i>Mô tả
+                                    <span class="dln-status bold text-success fade pull-"></span>
+                                </div>
                                 <hr class="m-t-10 m-b-10" />
                             </div>
                             <div class="panel-body">
-                                <form class="ad-form form-horizontal" method="post">
+                                <form class="form-horizontal" method="post">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label" for="dln_type">Loại</label>
                                         <div class="col-sm-9">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <div class="radio radio-success">
-                                                        <input type="radio" id="yes" name="type" value="1">
+                                                    <div id="dln_type" class="radio radio-success">
+                                                        <input type="radio" id="yes" name="type" value="1" />
                                                         <label for="yes">Bán</label>
-                                                        <input type="radio" id="no" name="type" value="0" checked="checked">
+                                                        <input type="radio" id="no" name="type" value="0" checked="checked" />
                                                         <label for="no">Cho thuê</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <select class="full-width" data-init-plugin="select2">
+                                                    <select id="dln_category_id" class="full-width" data-init-plugin="select2" name="category_id">
                                                         <option value="motel">Nhà trọ, phòng trọ</option>
                                                         <option value="house">Nhà riêng</option>
                                                         <option value="street">Nhà mặt phố</option>
@@ -125,24 +127,33 @@ hidden = "0"
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="fname">Tiêu đề</label>
-                                        <div class="col-sm-9">
-                                            <input type="text" name="name" placeholder="Tiêu đề cho tin" id="dln_name" class="form-control">
-                                            <span class="pull-right text-muted m-t-5">125 từ</span>
+                                        <label class="col-sm-3 control-label" for="price">Giá</label>
+                                        <div class="col-sm-5">
+                                            <div class="input-group">
+                                                <input type="text" required="" name="price" id="dln_price" class="form-control" aria-required="true" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'" />
+                                                <span class="input-group-addon "> đồng </span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="fname">Tiêu đề SEO</label>
+                                        <label class="col-sm-3 control-label" for="name">Tiêu đề</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" name="name" placeholder="Tiêu đề cho tin" id="dln_name" class="form-control" required maxlength="125">
+                                            <span class="pull-right text-muted m-t-5"><span id="dln_name_count">125</span> từ</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label" for="slug">Tiêu đề SEO</label>
                                         <div class="col-sm-9">
                                             <p class="hint-text small">Tiêu đề SEO giúp cho các công cụ tìm kiếm có thể dễ dàng tìm thấy tin của bạn hơn.</p>
-                                            <input type="text" name="slug" placeholder="Tiêu đề SEO" id="dln_slug" class="form-control">
+                                            <input type="text" name="slug" placeholder="Tiêu đề SEO" id="dln_slug" class="form-control" required maxlength="125">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label" for="name">Mô tả</label>
+                                        <label class="col-sm-3 control-label" for="desc">Mô tả</label>
                                         <div class="col-sm-9">
-                                            <textarea placeholder="Viết mô tả ngắn về tin này..." name="desc" id=dln_desc" class="form-control"></textarea>
-                                            <span class="pull-right text-muted m-t-5">500 từ</span>
+                                            <textarea placeholder="Viết mô tả ngắn về tin này..." name="desc" id="dln_desc" class="form-control" required maxlength="500"></textarea>
+                                            <span class="pull-right text-muted m-t-5"><span id="dln_desc_count">500</span> từ</span>
                                         </div>
                                     </div>
                                 </div>
@@ -158,9 +169,13 @@ hidden = "0"
     <script src="{{ [
         'assets/vendor/jquery/jquery-1.8.3.min.js',
         'assets/vendor/boostrapv3/js/bootstrap.min.js',
+        'assets/vendor/jquery-validation/js/jquery.validate.min.js',
+        'assets/vendor/inputmask/jquery.inputmask.bundle.min.js',
         'assets/vendor/bootstrap-select2/select2.min.js',
+        'assets/vendor/jquery-fileupload/js/vendor/jquery.ui.widget.js',
+        'assets/vendor/jquery-fileupload/js/jquery.fileupload.js',
         '~/plugins/dlnlab/classified/assets/js/common.js',
-        'assets/js/pages/ad.js'
+        'assets/js/pages/ad-edit.js'
     ]|theme }}"></script>
     
     {% if asset_script %}

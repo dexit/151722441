@@ -1,5 +1,6 @@
 <?php namespace DLNLab\Classified\Models;
 
+use DB;
 use Str;
 use Model;
 
@@ -62,42 +63,56 @@ class Tag extends Model
 	
 	public static function save_tag($data = array()) {
 		$default = array(
-			'tags' => '',
-			'country_tag' => '',
-			'state_tag'   => '',
+            'ad_id'     => '0',
+			'tag_ids'   => '',
+			'city_tag'  => '',
+			'state_tag' => '',
 		);
 		$merge = array_merge($default, $data);
         $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
         extract($merge);
 		
-        $tag_ids = array();
+        if (! $ad_id)
+            return false;
         
-		// Find country tag
-        $id = self::add_location_tag($country_tag, 'country');
-        if ($id) {
-            $tag_ids[] = $id;
+        $arr_tag_ids = array();
+        
+		// Find city tag
+        if ($city_tag) {
+            $id = self::add_location_tag($city_tag, 'city');
+            if ($id) {
+                $arr_tag_ids[] = array( 'ad_id' => $ad_id, 'tag_id' => $id );
+            }
         }
+        
         
         // Find state tag
-		$id = self::add_location_tag($state_tag, 'state');
-        if ($id) {
-            $tag_ids[] = $id;
+        if ($state_tag) {
+            $id = self::add_location_tag($state_tag, 'state');
+            if ($id) {
+                $arr_tag_ids[] = array( 'ad_id' => $ad_id, 'tag_id' => $id );
+            }
         }
         
-        $tags = explode(',', $tags);
-        if ($tags) {
-            foreach ($tags as $tag) {
-                $id = self::add_location_tag($tag, 'ad_tag');
-                if ($id) {
-                    $tag_ids[] = $id;
+        $tag_ids = explode(',', $tag_ids);
+        if ($tag_ids) {
+            $cache_ids = array();
+            foreach ($tag_ids as $id) {
+                if (! in_array($id, $cache_ids)) {
+                    $cache_ids[]   = $id;
+                    $arr_tag_ids[] = array( 'ad_id' => $ad_id, 'tag_id' => $id );
                 }
             }
         }
         
-        return $tag_ids;
+        if (count($arr_tag_ids)) {
+            $records = DB::table('dlnlab_classified_ads_tags')->where('ad_id', '=', $ad_id)->delete();
+            DB::table('dlnlab_classified_ads_tags')->insert($arr_tag_ids);
+        }
+        return true;
     }
     
-    private static function add_location_tag($location_tag, $type = 'country') {
+    private static function add_location_tag($location_tag, $type = 'city') {
         $id           = null;
         $location_tag = trim($location_tag);
 		if ($location_tag) {

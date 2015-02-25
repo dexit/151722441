@@ -54,7 +54,6 @@ class Ad extends Model {
 		'slug'        => ['required', 'regex:/^[a-z0-9\/\:_\-\*\[\]\+\?\|]*$/i'],
 		'price'       => 'required|numeric',
         'category_id' => 'required|numeric',
-        'id'          => 'numeric',
         'user_id'     => 'numeric',
         //'lat'         => 'regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/',
         //'lng'         => 'regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/',

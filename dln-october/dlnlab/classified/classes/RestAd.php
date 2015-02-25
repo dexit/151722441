@@ -12,7 +12,6 @@ use Controller as BaseController;
 use October\Rain\Support\ValidationException;
 use System\Models\File;
 use October\Rain\Database\ModelException;
-
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Models\AdActive;
 use DLNLab\Classified\Models\AdFavorite;
@@ -23,16 +22,13 @@ use DLNLab\Classified\Classes\HelperClassified;
 
 require('HelperResponse.php');
 
-class RestAd extends BaseController
-{
+class RestAd extends BaseController {
 
-    public static function validate_integer($value)
-    {
+    public static function validate_integer($value) {
         return intval($value);
     }
 
-    public function postUpload($id = '')
-    {
+    public function postUpload($id = '') {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
@@ -45,8 +41,7 @@ class RestAd extends BaseController
                 $validationRules[] = 'mimes:jpg,jpeg,bmp,png,gif';
 
                 $validation = Validator::make(
-                    ['file_data' => $uploadedFile],
-                    ['file_data' => $validationRules]
+                        ['file_data' => $uploadedFile], ['file_data' => $validationRules]
                 );
 
                 if ($validation->fails()) {
@@ -64,7 +59,7 @@ class RestAd extends BaseController
                 $file->is_public = true;
                 $file->save();
                 $file->thumb = $file->getThumb(200, 200, ['mode' => 'crop']);
-                
+
                 $result = new \stdClass;
                 $result->id = $file->id;
                 $result->thumb = $file->thumb;
@@ -74,7 +69,7 @@ class RestAd extends BaseController
                 return Response::json(array('status' => 'error', 'message' => $result), 500);
             }
         }
-        
+
         $result->photo_pattern = '<div class="col-xs-6 col-md-3">
             <div class="dln-photo-placeholder" data-id="' . $result->id . '">
                 <img width="100%" src="' . $result->thumb . '" />
@@ -87,8 +82,7 @@ class RestAd extends BaseController
         return Response::json(response_message(200, $result));
     }
 
-    public function deletePhoto($id = '')
-    {
+    public function deletePhoto($id = '') {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
@@ -103,8 +97,7 @@ class RestAd extends BaseController
         return Response::json(array('status' => 'success', 'message' => trans(CLF_LANG_MESSAGE . 'ad_photo_removed')));
     }
 
-    private static function checkAdPhoto($id, $user)
-    {
+    private static function checkAdPhoto($id, $user) {
         // Get this file
         $file = File::find($id);
 
@@ -119,8 +112,7 @@ class RestAd extends BaseController
         return $file;
     }
 
-    public function putActiveAd()
-    {
+    public function putActiveAd() {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
@@ -205,8 +197,7 @@ class RestAd extends BaseController
         return Response::json(response_message($code, $message), $code);
     }
 
-    public function getSearch($query)
-    {
+    public function getSearch($query) {
         $data = get();
         $default = array(
             'la_b' => '',
@@ -306,8 +297,36 @@ class RestAd extends BaseController
         return Response::json($arr_results);
     }
 
-    public function putPhotoDesc($id)
-    {
+    public function putPhotoOrder($id) {
+        if (!Auth::check())
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
+        
+        // Get current user
+        $user = Auth::getUser();
+        
+        if ($file = self::checkAdPhoto($id, $user)) {
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
+        }
+        
+        $data = put();
+        $default = array(
+            'photo_ids' => ''
+        );
+        $merge = array_merge($default, $data);
+        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+        extract($merge);
+        
+        $photo_ids = export(',', photo_ids);
+        foreach ($photo_ids as $i => $id) {
+            if ($id && is_numeric($id)) {
+                // Get this file
+                File::where('id', '=', $id)->update(array('sort_order' => $i + 1));
+            }
+        }
+        return Response::json(array('status' => 'success', 'message' => trans(CLF_LANG_MESSAGE . 'ad_photo_saved')));
+    }
+
+    public function putPhotoDesc($id) {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
@@ -333,15 +352,14 @@ class RestAd extends BaseController
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
 
         // Cap nhat thong tin title va desc cho photo
-        $file->description = $desc;
-        $file->title = $title;
+        $file->description = str_limit($title, $limit = 125);
+        $file->title = str_limit($desc, $limit = 500);
         $file->save();
 
         return Response::json(array('status' => 'success', 'message' => trans(CLF_LANG_MESSAGE . 'ad_photo_saved')));
     }
 
-    public function postAdQuick()
-    {
+    public function postAdQuick() {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
@@ -415,8 +433,7 @@ class RestAd extends BaseController
         }
     }
 
-    public function putAd($id)
-    {
+    public function putAd($id) {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
@@ -431,6 +448,7 @@ class RestAd extends BaseController
                 'price' => '',
                 'address' => '',
                 'category_id' => '',
+                'tag_ids' => '',
                 'lat' => '',
                 'lng' => ''
             );
@@ -443,33 +461,57 @@ class RestAd extends BaseController
                 return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'error_user')), 500);
             }
 
-            $record->name = $name;
+            $lat = (is_float($lat)) ? floatval($lat) : '';
+            $lng = (is_float($lng)) ? floatval($lng) : '';
+
+            $record->name = str_limit($name, $limit = 125);
             $record->slug = (empty($slug)) ? HelperClassified::slug_utf8($name) : $slug;
-            $record->desc = $desc;
-            $record->price = $price;
+            $record->desc = str_limit($desc, $limit = 500);
+            $record->price = preg_replace("/[^0-9]/", "", $price);
             $record->address = $address;
             $record->category_id = $category_id;
-            $record->lat = (is_float($lat)) ? floatval($lat) : '';
-            $record->lng = (is_float($lng)) ? floatval($lng) : '';
+            $record->lat = $lat;
+            $record->lng = $lng;
 
             if (!$record->validate()) {
                 $message = $record->errors()->all();
                 return Response::json(array('status' => 'error', 'message_array' => $message), 500);
             }
             $record->save();
-            $tag_ids = Tag::save_tag($data);
 
-            // Save ads_tags
-            if (!empty($record) && !empty($tag_ids)) {
-                $arr_inserts = array();
-                foreach ($tag_ids as $tag_id) {
-                    $arr_inserts[] = array('ad_id' => $record->id, 'tag_id' => $tag_id);
-                }
+            $city = '';
+            $state = '';
+            if ($lat && $lng) {
+                $response = @file_get_contents(sprintf('https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&language=vi_VN', $lat, $lng));
+                $json_resp = json_decode($response);
 
-                if ($arr_inserts) {
-                    DB::table('dlnlab_classified_ads_tags')->insert($arr_inserts);
+                if (isset($json_resp->results[0]->address_components) && is_array($json_resp->results[0]->address_components)) {
+                    $allow = true;
+                    foreach ($json_resp->results[0]->address_components as $i => $component) {
+                        if (!empty($component->types) && in_array('country', $component->types) && ($component->short_name != 'VN')) {
+                            $allow = false;
+                        }
+                        if ($allow && !empty($component->types) && in_array('administrative_area_level_1', $component->types)) {
+                            $city = $component->short_name;
+                        }
+
+                        if ($allow && !empty($component->types) && in_array('administrative_area_level_2', $component->types)) {
+                            $state = $component->long_name;
+                        }
+                    }
                 }
             }
+
+            if ($record->id) {
+                $default = array(
+                    'ad_id' => $record->id,
+                    'tag_ids' => $tag_ids,
+                    'city_tag' => $city,
+                    'state_tag' => $state,
+                );
+                Tag::save_tag($default);
+            }
+
             DB::commit();
 
             return Response::json(array('status' => 'success', 'data' => $record));
@@ -479,8 +521,7 @@ class RestAd extends BaseController
         }
     }
 
-    public function postShareAd()
-    {
+    public function postShareAd() {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
@@ -535,8 +576,7 @@ class RestAd extends BaseController
         }
     }
 
-    public function putAdFavorite($id)
-    {
+    public function putAdFavorite($id) {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
@@ -574,8 +614,7 @@ class RestAd extends BaseController
         }
     }
 
-    public function getNearby($id)
-    {
+    public function getNearby($id) {
         $data = get();
         $default = array(
             'page' => 0
@@ -588,4 +627,5 @@ class RestAd extends BaseController
 
         return Response::json(array('status' => 'success', 'data' => $records));
     }
+
 }
