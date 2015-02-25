@@ -23,7 +23,7 @@
         $('.dln-file-upload').fileupload({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
-            url: window.root_api_url + 'ad/' + self.$ad_id + '/upload',
+            url: window.root_url_api + 'ad/' + self.$ad_id + '/upload',
             paramName: 'file_data',
             send: function(e, data) {
                 window.ad_helper.showModalLoading();

@@ -33,7 +33,7 @@
         if (typeof($.fn.editable) != 'function')
             return false;
         
-        $.fn.editable.defaults.url          = window.root_api_url + '/ad_edit';
+        $.fn.editable.defaults.url          = window.root_url_api + '/ad_edit';
         $.fn.editable.defaults.placement    = 'bottom';
         $.fn.editable.defaults.mode         = 'inline';
         $.fn.editable.defaults.showbuttons  = false;
