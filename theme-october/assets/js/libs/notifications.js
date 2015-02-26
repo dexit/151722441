@@ -36,7 +36,7 @@
     Notification.VERSION = "1.0.0", Notification.prototype.show = function() {
         this.wrapper.prepend(this.notification), this.options.onShown(), 0 != this.options.timeout && setTimeout(function() {
             this.notification.fadeOut("slow", function() {
-                $(this).remove(), this.options.onClosed()
+                $(this).remove()
             })
         }.bind(this), this.options.timeout)
     }, $.fn.pgNotification = function(options) {

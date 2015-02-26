@@ -54,7 +54,7 @@ class HelperClassified {
         $new_values = null;
         foreach ($values as $key => $value) {
             if (! is_array($value)) {
-                $new_values[$key] = trim($value);
+                $new_values[$key] = e(trim($value));
             } else {
                 $new_values[$key] = $value;
             }

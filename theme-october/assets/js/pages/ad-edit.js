@@ -2,7 +2,7 @@
     "use strict";
 
     var AdEdit = function () {
-        this.$ad_id = intval($('#ad_id').val());
+        this.$ad_id = parseInt($('#ad_id').val());
         this.$allow = false;
         this.$timer = null;
         this.$time_out = 2000;
@@ -45,7 +45,7 @@
         /* For form desc */
         $('#ad_desc form').on('change', function (e) {
             self.$allow = true;
-            console.log(self.$allow);
+            self.checkFormDesc(true);
         });
         
         $('#dln_name').on({
@@ -57,10 +57,6 @@
                 } else {
                     $('#dln_name_count').text(0);
                 }
-            },
-            change: function (e) {
-                $(this).validate();
-                self.checkFormDesc(true);
             }
         });
 
@@ -73,10 +69,6 @@
                 } else {
                     $('#dln_desc_count').text(0);
                 }
-            },
-            change: function (e) {
-                $(this).validate();
-                self.checkFormDesc(true);
             }
         });
 
@@ -169,14 +161,10 @@
 
         var form = $('#ad_desc form');
 
-        /*if (calc) {
-            form.validate();
-        } else {
-            form.validate({
-                errorPlacement: function (error, element) {
-                }
-            });
-        }*/
+        form.validate({
+            errorPlacement: function (error, element) {
+            }
+        });
 
         if (self.$ad_id && self.$allow && form.valid()) {
             if (calc) {
@@ -354,9 +342,25 @@
                 //xhrFields: {withCredentials: true},
                 url: window.root_url_api + '/ad/' + self.$ad_id + '/upload',
                 paramName: 'file_data',
+                send: function (e, data) {
+                	self.showStatus(true);
+                },
                 done: function (e, data) {
+                	self.$allow = false;
+                    self.hideStatus(true);
+                    
                     if (data.result.code == 200) {
                         self.createPhotoAd(data.result);
+                    }
+                },
+                error: function (data) {
+                	self.$allow = false;
+                    self.errorStatus(true);
+                    
+                    if (data.responseText) {
+                        window.ad_common.showError(data.responseText);
+                    } else {
+                        console.log(data);
                     }
                 }
             });
@@ -371,7 +375,7 @@
 
         var html = response.data.photo_pattern;
         $('.dln_photos').append(html);
-        var selector = '#dln_photo_item_' + reponse.data.id;
+        var selector = '#dln_photo_item_' + response.data.id;
         self.initPhotoEvents();
         self.setPhotoFeature();
     };

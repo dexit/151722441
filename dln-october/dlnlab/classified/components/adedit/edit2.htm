@@ -1,0 +1,248 @@
+<div class="fl-scrollable-container">
+    <div class="container-fluid container-fixed-lg container">
+        <div class="row m-t-10">
+            <div class="col-md-12">
+                <div class="panel panel-default b-r-4 sm-m-l-5 sm-m-r-5 m-b-10">
+                    <div class="panel-body sm-p-t-15">
+                        <button class="btn btn-default btn-sm pull-left m-r-10"><i class="pg-menu_justify fs-14"></i></button>
+                        <button class="btn btn-default btn-sm pull-left disabled"><i class="fa fa-line-chart fs-14"></i><span class="hidden-xs bold m-l-5">Thông số</span></button>
+                        <button class="btn btn-success btn-sm pull-right"><i class="pg-desktop fs-14"></i><span class="hidden-xs bold m-l-5">Xem trước</span></button>
+                        <button id="dln_active" class="btn btn-sm pull-right disabled m-r-10"><i class="fa fa-check fs-14"></i><span class="m-l-5 hidden-xs bold">Kích hoạt</span></button>
+                    </div>
+                    <div class="progress no-margin">
+                        <div id="dln_progressbar" data-percentage="0%" class="progress-bar progress-bar-success" style="width: 0%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row m-t-5">
+            <div class="col-md-3 ad-tabs">
+                <div class="panel-group sm-m-l-5 sm-m-r-5">
+                    <div class="panel panel-default" data-relate="ad_desc" data-hash="mo-ta" data-percent="30">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span><i class="pg-layouts3 fs-14 m-r-5"></i>Mô tả</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 30%</span>
+                                <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" data-relate="ad_space" data-hash="khong-gian" data-percent="20">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span><i class="fa fa-home fs-14 m-r-5"></i>Không gian</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
+                                <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" data-relate="ad_photo" data-hash="hinh-anh" data-percent="20">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span><i class="fa fa-image fs-14 m-r-5"></i>Hình ảnh</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
+                                <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" data-relate="ad_location" data-hash="vi-tri" data-percent="20">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span><i class="fa fa-location-arrow fs-14 m-r-5"></i>Vị trí</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
+                                <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="panel panel-default" data-relate="ad_property" data-hash="thuoc-tinh" data-percent="10">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <span><i class="fa fa-list fs-14 m-r-5"></i>Thuộc tính</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 10%</span>
+                                <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-md-9 p-l-5 ad-panels">
+                <div id="ad_desc" class="ad-form panel panel-default b-r-4 sm-m-l-15 sm-m-r-5">
+                    <div class="panel-heading separator">
+                        <div class="panel-title"><i class="pg-layouts3 fs-14 m-r-5"></i>Mô tả</div>
+                        <span class="dln-status bold text-success fade pull-right"></span>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="post">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="dln_type">Loại</label>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div id="dln_type" class="radio radio-success">
+                                            {% for type in types %}
+                                                <input type="radio" id="option_{{ loop.index }}" name="type_id" value="{{ loop.index }}" {{ loop.index == ad.type_id ? 'checked' : '' }} />
+                                                <label for="option_{{ loop.index }}">{{ type }}</label>
+                                            {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <select id="dln_category_id" class="full-width" data-init-plugin="select2" name="category_id">
+                                            {% for category in categories %}
+                                                <option value="{{ category.id }}" {{ category.id == ad.category_id ? 'selected' : '' }} >{{ category.name }}</option>
+                                            {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="price">Giá</label>
+                                <div class="col-sm-5">
+                                    <div class="input-group">
+                                        <input type="text" required="" name="price" id="dln_price" class="form-control" aria-required="true" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'" />
+                                        <span class="input-group-addon "> đồng </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="name">Tiêu đề</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="name" placeholder="Tiêu đề cho tin" id="dln_name" class="form-control" required maxlength="125">
+                                    <span class="pull-right text-muted m-t-5"><span id="dln_name_count">125</span> từ</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="desc">Mô tả</label>
+                                <div class="col-sm-9">
+                                    <textarea placeholder="Viết mô tả ngắn về tin này..." name="desc" id="dln_desc" class="form-control" required maxlength="500"></textarea>
+                                    <span class="pull-right text-muted m-t-5"><span id="dln_desc_count">500</span> từ</span>
+                                </div>
+                            </div>
+                        </form>
+                        
+                        <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
+                    </div>
+                </div>
+                
+                <div id="ad_space" class="ad-form panel panel-default b-r-4 sm-m-l-15 sm-m-r-5">
+                    <div class="panel-heading separator">
+                        <div class="panel-title"><i class="fa fa-home fs-14 m-r-5"></i>Không gian</div>
+                        <span class="dln-status bold text-success fade pull-right"></span>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="post">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Diện tích</label>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="input-group transparent center-margin m-b-5">
+                                                <input type="number" name="area" id="dln_area" class="form-control" value="0" />
+                                                <span class="input-group-addon">m<sup>2</sup></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="input-group transparent center-margin">
+                                                <input type="number" required="" name="tier" id="dln_tier" class="form-control" value="0" />
+                                                <span class="input-group-addon"> tầng</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Phòng</label>
+                                <div class="col-sm-9">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <select name="bed" class="full-width" data-init-plugin="select2">
+                                            {% for bed in bed_rooms %}
+                                                <option value="{{ loop.index }}" {{ loop.index == ad_infor.bed ? 'selected' : '' }} >{{ bed }}</option>
+                                            {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <select name="bath" class="full-width" data-init-plugin="select2">
+                                            {% for bath in bath_rooms %}
+                                                <option value="{{ loop.index }}" {{ loop.index == ad_infor.bath ? 'selected' : '' }} >{{ bath }}</option>
+                                            {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Hướng nhà</label>
+                                <div class="col-sm-9">
+                                    <select name="direction" class="full-width" data-init-plugin="select2">
+                                    {% for direct in directions %}
+                                        <option value="{{ loop.index }}" {{ loop.index == ad_infor.direction ? 'selected' : '' }} >{{ direct }}</option>
+                                    {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
+                    </div>
+                </div>
+                
+                <div id="ad_photo" class="ad-form panel panel-default b-r-4 sm-m-l-15 sm-m-r-5">
+                    <div class="panel-heading separator">
+                        <div class="panel-title"><i class="fa fa-image fs-14 m-r-5"></i>Hình ảnh</div>
+                        <span class="dln-status bold text-success fade pull-right"></span>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="post">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <div class="row">
+                                        <div class="panel panel-default sm-m-b-5 sm-m-l-5 sm-m-r-5">
+                                            <div class="panel-body sm-p-t-15 text-center">
+                                                <input type="file" id="dln_file_upload" class="hide" />
+                                                <button id="dln_photo_upload" class="btn btn-danger btn-sm"><i class="fa fa-upload fs-14"></i><span class="hidden-xs bold m-l-5">Đăng ảnh</span></button>
+                                            </div>
+                                            <div class="progress no-margin">
+                                                <div style="width: 0%;" class="progress-bar progress-bar-success" data-percentage="0%" id="dln_process_upload"></div>
+                                            </div>
+                                        </div>
+                                        <div id="dln_photos"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
+                    </div>
+                </div>
+                
+                <div id="ad_location" class="ad-form panel panel-default b-r-4 sm-m-l-15 sm-m-r-5">
+                    <div class="panel-heading separator">
+                        <div class="panel-title"><i class="fa fa-location-arrow fs-14 m-r-5"></i>Vị trí</div>
+                        <span class="dln-status bold text-success fade pull-right"></span>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="post">
+                            <div class="form-group">
+                            </div>
+                        </form>
+                        <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
+                    </div>
+                </div>
+                
+                <div id="ad_property" class="ad-form panel panel-default b-r-4 sm-m-l-15 sm-m-r-5">
+                    <div class="panel-heading separator">
+                        <div class="panel-title"><i class="fa fa-list fs-14 m-r-5"></i>Thuộc tính</div>
+                        <span class="dln-status bold text-success fade pull-right"></span>
+                    </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="post">
+                            <div class="form-group">
+                            </div>
+                        </form>
+                        <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

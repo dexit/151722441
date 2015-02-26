@@ -4,6 +4,8 @@
 </div>
 {% if type == "edit" %}
     {% partial __SELF__ ~ '::edit' %}
+{% elseif type == "edit2"  %}
+    {% partial __SELF__ ~ '::edit2' %}
 {% elseif type == "quick"  %}
     {% partial __SELF__ ~ '::quick' %}
 {% else %}

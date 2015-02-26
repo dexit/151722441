@@ -15,6 +15,7 @@ class CreateAdCategoriesTable extends Migration {
 			$table->string('slug')->index();
 			$table->text('description')->nullable();
 			$table->integer('count')->default(0);
+			$table->tinyInteger('status')->default(0);
 			$table->timestamps();
 		});
 	}

@@ -1,7 +1,7 @@
 <?php namespace DLNLab\Classified\Updates;
 
 use October\Rain\Database\Updates\Seeder;
-use DLNLab\Classified\Models\Ad;
+use DLNLab\Classified\Models\AdCategory;
 use DLNLab\Classified\Models\Tag;
 
 class SeedAllTables extends Seeder
@@ -10,9 +10,20 @@ class SeedAllTables extends Seeder
     public function run()
     {   
         $timestamp = \Carbon\Carbon::now()->toDateTimeString();
+        
+        AdCategory::insert([
+            ['name' => 'Căn hộ chung cư', 'slug' => 'can-ho-chung-cu', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['name' => 'Nhà trọ, phòng trọ', 'slug' => 'nha-tro', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['name' => 'Nhà riêng', 'slug' => 'nha-rieng', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['name' => 'Nhà mặt phố', 'slug' => 'nha-mat-pho', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['name' => 'Đất', 'slug' => 'dat', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['name' => 'Văn phòng', 'slug' => 'van-phong', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['name' => 'Cửa hàng', 'slug' => 'cua-hang', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['name' => 'Nhà kho, xưởng', 'slug' => 'nha-kho', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['name' => 'Nhà đất khác', 'slug' => 'nha-dat-khac', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+        ]);
+        
         Tag::insert([
-            ['name' => 'Bán', 'slug' => 'ban', 'type' => 'ad_kind', 'icon' => '', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
-            ['name' => 'Cho thuê', 'slug' => 'cho-thue', 'type' => 'ad_kind', 'icon' => '', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
             ['name' => 'Ban công', 'slug' => 'ban-cong', 'type' => 'ad_amenities', 'icon' => '', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
             ['name' => 'Bảo vệ', 'slug' => 'bao-ve', 'type' => 'ad_amenities', 'icon' => '', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
             ['name' => 'Bể bơi', 'slug' => 'be-boi', 'type' => 'ad_amenities', 'icon' => '', 'status' => 1, 'updated_at' => $timestamp, 'created_at' => $timestamp],
