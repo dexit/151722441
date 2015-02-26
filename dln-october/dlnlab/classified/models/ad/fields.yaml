@@ -19,8 +19,8 @@ fields:
 
 tabs:
     fields:
-        desc:
-            label: dlnlab.classified::lang.ad.desc
+        description:
+            label: dlnlab.classified::lang.ad.description
             tab: dlnlab.classified::lang.ad.details
             type: textarea
             size: large

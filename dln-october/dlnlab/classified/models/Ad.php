@@ -38,7 +38,7 @@ class Ad extends Model {
 	protected $fillable = [
 		'name',
 		'slug',
-		'desc',
+		'description',
         'full_text',
 		'price',
 		'expiration',
@@ -76,7 +76,7 @@ class Ad extends Model {
         'price'       => 'Giá',
         'category_id' => 'Danh mục',
         'address'     => 'Địa chỉ',
-        'desc'        => 'Mô tả',
+        'description'        => 'Mô tả',
         'lat'         => 'Vĩ độ',
         'lng'         => 'Kinh độ',
         'user_id'     => 'ID người dùng'
@@ -155,7 +155,7 @@ class Ad extends Model {
 			if (in_array($_sort, array_keys(self::$allowedSortingOptions))) {
 				$parts = explode(' ', $_sort);
 				if (count($parts) < 2)
-					array_push($parts, 'desc');
+					array_push($parts, 'description');
 				list($sortField, $sortDirection) = $parts;
 
 				$query->orderBy($sortField, $sortDirection);
@@ -222,14 +222,14 @@ class Ad extends Model {
         }
         
         // Tao slug full_text va snippet content cho fulltext search
-        $desc         = Str::words($this->getAttribute('desc'));
+        $description         = Str::words($this->getAttribute('description'));
         $slug         = str_replace('-', ' ', $this->getAttribute('slug'));
         $slug_address = HelperClassified::slug_utf8($this->getAttribute('address'));
         $slug_address = str_replace('-', ' ', $slug_address);
         $arr_text   = array();
         $arr_text[] = $this->getAttribute('name');
         $arr_text[] = $slug;
-        $arr_text[] = $desc;
+        $arr_text[] = $description;
         $arr_text[] = $this->getAttribute('address');
         $arr_text[] = $slug_address;
         

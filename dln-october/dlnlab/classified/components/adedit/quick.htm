@@ -6,8 +6,8 @@
                 <div class="btn-group dln-kinds" data-toggle="buttons">
                     {% for category in categories %}
                         <label class="btn btn-default btn-lg m-r-0 btn-cons {{ loop.index == 1 ? 'active' : '' }}">
-                            {% if category.desc %}
-                            <i class="fs-14 m-r-5 {{ category.desc }}"></i>
+                            {% if category.description %}
+                            <i class="fs-14 m-r-5 {{ category.description }}"></i>
                             {% endif %}
                             <input type="radio" name="category_id" id="option{{ loop.index }}" value="{{ category.id }}" {{ loop.index == 1 ? 'checked' : '' }}>
                             {{ category.name }}

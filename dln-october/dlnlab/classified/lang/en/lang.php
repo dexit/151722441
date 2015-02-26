@@ -12,7 +12,7 @@ return [
 		'country' => 'Country',
 		'state' => 'State',
 		'details' => 'Details',
-		'desc' => 'Description',
+		'description' => 'Description',
 		'expire' => 'Expire',
 		'user_id' => 'User',
 		'category' => 'Category',
@@ -35,5 +35,11 @@ return [
         'ad_unfavorite' => 'Bạn đã bỏ đánh dấu tin này.',
         'ad_photo_saved' => 'Lưu thông tin hình ảnh thành công!',
         'ad_photo_removed' => 'Xóa hình ảnh thành công!'
+    ],
+    'labels' => [
+        'noi_dung' => 'Nội dung',
+        'len' => 'Lên',
+        'xuong' => 'Xuống',
+        'xoa' => 'Xóa'
     ]
 ];

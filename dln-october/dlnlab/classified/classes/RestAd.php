@@ -58,38 +58,41 @@ class RestAd extends BaseController {
                 $file->attachment_type = 'DLNLab\Classified\Models\Ad';
                 $file->is_public = true;
                 $file->save();
-                $file->thumb = $file->getThumb(200, 200, ['mode' => 'crop']);
+                $file->thumb = $file->getThumb(250, 250, ['mode' => 'crop']);
 
                 $result = new \stdClass;
                 $result->id = $file->id;
-                $result->thumb = $file->thumb;
-                $result->file_name = $file->file_name;
             } catch (Exception $ex) {
                 $result = $ex->getMessage();
                 return Response::json(array('status' => 'error', 'message' => $result), 500);
             }
         }
-
-        $result->photo_pattern = '<div class="col-xs-6 col-md-3">
-            <div class="dln-photo-placeholder" data-id="' . $result->id . '">
-                <img width="100%" src="' . $result->thumb . '" />
-                <textarea class="dln-area-desc">' . $result->file_name . '</textarea>
-                <a href="javascript:void(0)" class="dln-delete-photo btn btn-warning btn-xs" data-id="' . $result->id . '"><i class="fa fa-check"></i></a>
-                <a href="javascript:void(0)" class="dln-feature-photo btn btn-danger btn-xs" data-id="' . $result->id . '"><i class="fa fa-close"></i></a>
-            </div>
-        </div>';
+        
+        $result->photo_pattern = '<div id="dln_photo_item_' . $file->id . '" data-id="' . $file->id . '" class="dln-photo-item panel panel-default bg-master-lightest sm-m-b-5 sm-m-l-5 sm-m-r-5">
+    <div class="panel-body sm-p-t-10 sm-p-l-5 sm-p-r-5 sm-p-b-10">
+        <div class="col-xs-12 col-sm-3 sm-p-l-5 sm-p-r-5">
+            <img class="img-thumbnail m-b-5" width="100%" src="' . $file->thumb . '">
+        </div>
+        <div class="col-xs-12 col-sm-9 sm-p-l-5 sm-p-r-5">
+            <textarea placeholder="' . trans(CLF_LANG_LABEL . 'noi_dung') . '" id="dln_photo_desc" class="form-control clearfix m-b-10" required maxlength="500">' . $file->desc . '</textarea>
+            <a href="javascript:void(0)" class="dln-up-photo btn btn-sm btn-default pull-left m-r-5" data-original-title="' . trans(CLF_LANG_LABEL . 'len') . '" data-toggle="tooltip"><i class="fs-14 fa fa-arrow-up"></i></a>
+            <a href="javascript:void(0)" class="dln-down-photo btn btn-sm btn-default pull-left" data-original-title="' . trans(CLF_LANG_LABEL . 'xuong') . '" data-toggle="tooltip"><i class="fs-14 fa fa-arrow-down"></i></a>
+            <a href="javascript:void(0)" class="dln-delete-photo btn btn-sm btn-danger pull-right" data-original-title="' . trans(CLF_LANG_LABEL . 'xoa') . '" data-toggle="tooltip"><i class="fs-14 fa fa-trash-o"></i></a>
+        </div>
+    </div>
+</div>';
 
         return Response::json(response_message(200, $result));
     }
 
-    public function deletePhoto($id = '') {
+    public function deletePhoto($id, $photo_id) {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
         // Get current user
         $user = Auth::getUser();
 
-        if ($file = self::checkAdPhoto($id, $user)) {
+        if ($file = self::checkAdPhoto($id, $photo_id, $user)) {
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
         }
 
@@ -97,17 +100,17 @@ class RestAd extends BaseController {
         return Response::json(array('status' => 'success', 'message' => trans(CLF_LANG_MESSAGE . 'ad_photo_removed')));
     }
 
-    private static function checkAdPhoto($id, $user) {
-        // Get this file
-        $file = File::find($id);
-
-        if (!$file || $file->attachment_type != 'DLNLab\Classified\Models\Ad')
-            return false;
-
+    private static function checkAdPhoto($id, $photo_id, $user) {
         // Kiem tra ad hien tai co dung la cua user hay ko
-        $record = Ad::whereRaw('id = ? AND user_id = ?', array($file->attachment_id, $user->id))->first();
-        if (!$record)
+        $record = Ad::whereRaw('id = ? AND user_id = ?', array($id, $user->id))->first();
+        if (! $record) {
             return false;
+        }
+        
+        $file = File::whereRaw('id = ? AND attachment_id = ? && attachment_type = ?', array($photo_id, $id, 'DLNLab\Classified\Models\Ad'))->first();
+        if (! $file) {
+            return false;
+        }
 
         return $file;
     }
@@ -304,7 +307,9 @@ class RestAd extends BaseController {
         // Get current user
         $user = Auth::getUser();
         
-        if ($file = self::checkAdPhoto($id, $user)) {
+        // Kiem tra ad hien tai co dung la cua user hay ko
+        $record = Ad::whereRaw('id = ? AND user_id = ?', array($id, $user->id))->first();
+        if (! $record) {
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
         }
         
@@ -316,44 +321,44 @@ class RestAd extends BaseController {
         $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
         extract($merge);
         
-        $photo_ids = export(',', photo_ids);
+        if (! is_array(photo_ids)) {
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
+        }
+        
+        $insert_id = array();
         foreach ($photo_ids as $i => $id) {
-            if ($id && is_numeric($id)) {
+            if ($id && is_numeric($id) && ! in_array($id, $insert_id)) {
                 // Get this file
                 File::where('id', '=', $id)->update(array('sort_order' => $i + 1));
+                $insert_id[] = $id;
             }
         }
         return Response::json(array('status' => 'success', 'message' => trans(CLF_LANG_MESSAGE . 'ad_photo_saved')));
     }
 
-    public function putPhotoDesc($id) {
+    public function putPhotoDesc($id, $photo_id) {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
         $data = put();
         $default = array(
             'title' => '',
-            'desc' => '',
+            'description' => '',
         );
         $merge = array_merge($default, $data);
-        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+        $merge = HelperClassified::trim_value($merge);
         extract($merge);
 
         // Get current user
         $user = Auth::getUser();
-
-        if ($file = self::checkAdPhoto($id, $user)) {
+        
+        if ($file = self::checkAdPhoto($id, $photo_id, $user)) {
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
         }
 
-        // Kiem tra ad hien tai co dung la cua user hay ko
-        $record = Ad::whereRaw('id = ? AND user_id = ?', array($file->attachment_id, $user->id))->first();
-        if (!$record)
-            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
-
         // Cap nhat thong tin title va desc cho photo
-        $file->description = str_limit($title, $limit = 125);
-        $file->title = str_limit($desc, $limit = 500);
+        $file->description = str_limit($title, $limit = 500);
+        $file->title = str_limit($description, $limit = 125);
         $file->save();
 
         return Response::json(array('status' => 'success', 'message' => trans(CLF_LANG_MESSAGE . 'ad_photo_saved')));
@@ -444,7 +449,7 @@ class RestAd extends BaseController {
             $default = array(
                 'name' => '',
                 'slug' => '',
-                'desc' => '',
+                'description' => '',
                 'price' => '',
                 'address' => '',
                 'category_id' => '',
@@ -466,7 +471,7 @@ class RestAd extends BaseController {
 
             $record->name = str_limit($name, $limit = 125);
             $record->slug = (empty($slug)) ? HelperClassified::slug_utf8($name) : $slug;
-            $record->desc = str_limit($desc, $limit = 500);
+            $record->description = str_limit($description, $limit = 500);
             $record->price = preg_replace("/[^0-9]/", "", $price);
             $record->address = $address;
             $record->category_id = $category_id;
@@ -521,6 +526,46 @@ class RestAd extends BaseController {
         }
     }
 
+    public function putAdInfor($id) {
+        if (!Auth::check())
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
+        
+        $data = post();
+        try {
+            DB::beginTransaction();
+
+            $default = array(
+                'area' => '0',
+                'tier' => '0',
+                'direction' => '',
+                'bed' => '0',
+                'bath' => '0',
+            );
+            $merge = array_merge($default, $data);
+            $merge = HelperClassified::trim_value($merge);
+            extract($merge);
+            
+            $record = Ad::find($id);
+            if (empty($record) || $record->user_id != Auth::getUser()->id) {
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'error_user')), 500);
+            }
+            
+            $record->area      = intval($area);
+            $record->tier      = intval($tier);
+            $record->direction = intval($direction);
+            $record->bed       = intval($bed);
+            $record->bath      = intval($bath);
+            $record->save();
+            
+            DB::commit();
+
+            return Response::json(array('status' => 'success', 'data' => $record));
+        } catch (Exception $ex) {
+            DB::rollback();
+            return Response::json(array('status' => 'error', 'message' => $ex->getMessage()), 500);
+        }
+    }
+    
     public function postShareAd() {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);

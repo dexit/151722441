@@ -19,7 +19,7 @@ columns:
         label: Count
         sortable: true
     
-    desc:
+    description:
         label: Description
         sortable: true
     

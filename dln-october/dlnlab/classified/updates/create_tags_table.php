@@ -15,7 +15,7 @@ class CreateTagsTable extends Migration
 			$table->string('name');
 			$table->string('slug')->index();
 			$table->integer('parent')->default(0);
-			$table->string('desc', 500)->nullable();
+			$table->string('description', 500)->nullable();
 			$table->string('type', 100)->nullable();
 			$table->string('icon', 20)->nullable();
 			$table->integer('count')->default(0);

@@ -1,390 +1,550 @@
-(function($) {
-	"use strict";
+(function ($) {
+    "use strict";
 
-	var AdEdit = function() {
-		this.$ad_id = $('#ad_id').val();
-		this.$allow = false;
+    var AdEdit = function () {
+        this.$ad_id = intval($('#ad_id').val());
+        this.$allow = false;
+        this.$timer = null;
+        this.$time_out = 2000;
 
-		if (this.$ad_id) {
-			this.init();
-			this.initEvents();
-		}
-	};
+        if (this.$ad_id) {
+            this.init();
+            this.initEvents();
+            this.initPhoto();
+        }
+    };
 
-	AdEdit.prototype.init = function() {
-		var self = this;
-	};
+    AdEdit.prototype.init = function () {
+        var self = this;
+    };
 
-	AdEdit.prototype.initEvents = function() {
-		var self = this;
+    AdEdit.prototype.initEvents = function () {
+        var self = this;
 
-		$('.ad-tabs .panel-default').on('click', function(e) {
-			e.preventDefault();
+        $('.ad-tabs .panel-default').on('click', function (e) {
+            e.preventDefault();
 
-			var selector = $(this).data('relate');
-			if (selector) {
-				$('.ad-form').addClass('hide');
-				$('#' + selector).removeClass('hide');
-			}
-		});
-
-		/* For form desc */
-		$('#ad_desc form').on('change', function (e) {
-			self.$allow = true;
-			console.log(self.$allow);
-		});
-		$('#dln_name').on({
-			keydown : function(e) {
-				var length = $(this).val().length;
-				var count = 125 - length;
-				if (count >= 0) {
-					$('#dln_name_count').text(count);
-				} else {
-					$('#dln_name_count').text(0);
-				}
-			},
-			blur : function(e) {
-				self.checkFormDesc(true);
-			}
-		});
-
-		$('#dln_desc').on({
-			keydown : function(e) {
-				var length = $(this).val().length;
-				var count = 500 - length;
-				if (count >= 0) {
-					$('#dln_desc_count').text(count);
-				} else {
-					$('#dln_desc_count').text(0);
-				}
-			},
-			blur : function(e) {
-				self.checkFormDesc(true);
-			}
-		});
-
-		$('#dln_price').on({
-			blur : function(e) {
-				self.checkFormDesc(true);
-			}
-		});
-
-		$('#dln_type input:radio, #dln_category_id').on('change', function(e) {
-			self.checkFormDesc(true);
-		});
-
-		/* For form photo */
-		$('.dln-file-wrapper button').on('click', function(e) {
-			e.preventDefault();
-			$('.dln-file-upload').trigger('click');
-		});
-		if (self.$ad_id) {
-			$('.dln-file-upload').fileupload({
-				// Uncomment the following to send cross-domain cookies:
-				//xhrFields: {withCredentials: true},
-				url : window.root_url_api + '/ad/' + self.$ad_id + '/upload',
-				paramName : 'file_data',
-				done : function(e, data) {
-					if (data.result.code == 200) {
-						self.createPhotoAd(data.result);
-					}
-				}
-			});
-		}
-
-		$('#dln_save_photo_order').on('click', function(e) {
-			e.preventDefault();
-
-			var photo_ids = [];
-			$('.dln-photo-placeholder').each(function() {
-				var photo_id = $(this).data('id');
-				if (photo_id) {
-					photo_ids.push(photo_id);
-				}
-			});
-
-			if (photo_ids.length) {
-				photo_ids = photo_ids.split(',');
-				self.showStatus();
-				$.ajax({
-					type : 'POST',
-					url : window.root_url_api + '/photo/order',
-					data : {
-						photo_ids : photo_ids
-					},
-					success : function(res) {
-						self.$allow = false;
-						if (res.status == 'success') {
-							self.hideStatus();
-						}
-					},
-					error : function(data) {
-						self.$allow = false;
-						self.errorStatus();
-						self.hideChecked('dln_photo');
-						if (data.responseText) {
-							alert(data.responseText);
-						} else {
-							console.log(data);
-						}
-					}
-				});
-			}
-
-		});
-	};
-
-	AdEdit.prototype.checkCompleteAll = function() {
-		var self = this;
-
-		self.checkFormDesc(false);
-		self.checkFormPhoto(false);
-		self.checkFormSpace(false);
-		self.checkFormLocation(false);
-		self.checkFormProperty(false);
-		self.calculatePercent(false);
-	};
-
-	AdEdit.prototype.calculatePercent = function() {
-		var self = this;
-
-		var percent = 0;
-		$('.completed').each(function(e) {
-			percent += $(this).data('percent');
-		});
-		if (percent >= 90) {
-			$('#dln_active').addClass('btn-danger');
-			$('#dln_active').removeClass('disabled');
-		} else {
-			$('#dln_active').addClass('disabled');
-			$('#dln_active').removeClass('btn-danger');
-		}
-		percent += '%';
-		$('#dln_progressbar').data('percentage', percent);
-		$('#dln_progressbar').css('width', percent);
-	};
-
-	AdEdit.prototype.showChecked = function(selector) {
-		$('div[data-relate="' + selector + '"]').addClass('completed');
-		$('div[data-relate="' + selector + '"] .label-success').removeClass(
-				'hide');
-		$('div[data-relate="' + selector + '"] .label-default')
-				.addClass('hide');
-	};
-
-	AdEdit.prototype.hideChecked = function(selector) {
-		$('div[data-relate="' + selector + '"]').removeClass('completed');
-		$('div[data-relate="' + selector + '"] .label-success')
-				.addClass('hide');
-		$('div[data-relate="' + selector + '"] .label-default').removeClass(
-				'hide');
-	};
-
-	AdEdit.prototype.showStatus = function() {
-		$('.dln-status').removeClass('text-danger');
-		$('.dln-status').addClass('text-success');
-		$('.dln-status').addClass('in');
-		$('.dln-status').text('Đang lưu');
-		$('.dln-loading').addClass('show');
-	};
-
-	AdEdit.prototype.hideStatus = function() {
-		$('.dln-status').removeClass('in');
-		$('.dln-status').text('Đã lưu!');
-		$('.dln-loading').removeClass('show');
-	};
-
-	AdEdit.prototype.errorStatus = function() {
-		$('.dln-status').addClass('text-danger');
-		$('.dln-status').removeClass('in');
-		$('.dln-status').text('Lỗi!');
-		$('.dln-loading').removeClass('show');
-	};
-
-	AdEdit.prototype.checkFormDesc = function(calc) {
-		var self = this;
-
-		var form = $('#ad_desc form');
-
-		if (calc) {
-			form.validate();
-		} else {
-			form.validate({
-				errorPlacement : function(error, element) {
-				}
-			});
-		}
-		
-		if (self.$allow && form.valid()) {
-			if (calc) {
-				/* save form desc */
-				if (self.$ad_id) {
-					self.showStatus();
-					$.ajax({
-						type : 'PUT',
-						url : window.root_url_api + '/ad/' + self.$ad_id,
-						data : form.serialize(),
-						success : function(res) {
-							self.$allow = false;
-							if (res.status == 'success') {
-								self.showChecked('ad_desc');
-								self.hideStatus();
-								self.calculatePercent();
-							}
-						},
-						error : function(data) {
-							self.$allow = false;
-							self.errorStatus();
-							self.hideChecked('dln_desc');
-							if (data.responseText) {
-								var response = JSON.parse(data.responseText);
-								$('body').pgNotification({
-				                    message: response.message,
-				                    type: 'danger'
-				                }).show();
-							} else {
-								console.log(data);
-							}
-						}
-					});
-				}
-			} else {
-				self.showChecked('ad_desc');
-			}
-			return true;
-		} else {
-			self.hideChecked('dln_desc');
-			return false;
-		}
-	};
-
-	AdEdit.prototype.checkFormPhoto = function(calc) {
-		var self = this;
-
-		var form = $('#ad_photo form');
-
-		if (calc) {
-			form.validate();
-		} else {
-			form.validate({
-				errorPlacement : function(error, element) {
-				}
-			});
-		}
-
-		if (form.valid()) {
-			self.showChecked('ad_photo');
-			if (calc) {
-				self.calculatePercent();
-			}
-			return true;
-		}
-		return false;
-	};
-
-	AdEdit.prototype.checkFormSpace = function(calc) {
-		var self = this;
-
-		var form = $('#ad_space form');
-
-		if (calc) {
-			form.validate();
-		} else {
-			form.validate({
-				errorPlacement : function(error, element) {
-				}
-			});
-		}
-
-		if (form.valid()) {
-			self.showChecked('ad_space');
-			if (calc) {
-				self.calculatePercent();
-			}
-			return true;
-		}
-		return false;
-	};
-
-	AdEdit.prototype.checkFormLocation = function(calc) {
-		var self = this;
-
-		var form = $('#ad_location form');
-
-		if (calc) {
-			form.validate();
-		} else {
-			form.validate({
-				errorPlacement : function(error, element) {
-				}
-			});
-		}
-
-		if (form.valid()) {
-			self.showChecked('ad_location');
-			if (calc) {
-				self.calculatePercent();
-			}
-			return true;
-		}
-		return false;
-	};
-
-	AdEdit.prototype.checkFormProperty = function(calc) {
-		var self = this;
-
-		var form = $('#ad_property form');
-
-		if (calc) {
-			form.validate();
-		} else {
-			form.validate({
-				errorPlacement : function(error, element) {
-				}
-			});
-		}
-
-		if (form.valid()) {
-			self.showChecked('ad_property');
-			if (calc) {
-				self.calculatePercent();
-			}
-			return true;
-		}
-		return false;
-	};
-
-	/**
-	 * Function create thumb ad image after upload
-	 */
-	AdEdit.prototype.createPhotoAd = function(response) {
-		if (!response)
-			return false;
-		var self = this;
-
-		var html = response.data.photo_pattern;
-		html = html.replace('__SRC__', response.data.thumb);
-		$('.dln-photos-wrapper').append(html);
-	};
-
-	$(document).ready(function() {
-		var ad_edit = new AdEdit();
-		
-		// Masked inputs initialization
-	    $.fn.inputmask && $('[data-toggle="masked"]').inputmask();
-	    
-	    // Initialize select2
-	    $.fn.select2 && $('[data-init-plugin="select2"]').each(function() {
-            $(this).select2({
-                minimumResultsForSearch: "true" == $(this).attr("data-disable-search") ? -1 : 1
-            }).on("select2-opening", function() {
-                $.fn.scrollbar && $(".select2-results").scrollbar({
-                    ignoreMobile: !1
-                })
-            })
+            var selector = $(this).data('relate');
+            if (selector) {
+                $('.ad-form').addClass('hide');
+                $('#' + selector).removeClass('hide');
+                var hash = $(this).data('hash');
+                if (hash) {
+                    window.location.hash = '#' + hash;
+                }
+            }
         });
         
-        $.fn.tooltip && $('[data-toggle="tooltip"]').tooltip();
-	});
+        var type = window.location.hash.substr(1);
+        if (! type) {
+            $('.ad-tabs .panel-default:first-child').trigger('click');
+        } else {
+            $('.ad-tabs .panel-default[data-hash="' + type + '"]').trigger('click');
+        }
+
+        /* For form desc */
+        $('#ad_desc form').on('change', function (e) {
+            self.$allow = true;
+            console.log(self.$allow);
+        });
+        
+        $('#dln_name').on({
+            keydown: function (e) {
+                var length = $(this).val().length;
+                var count = 125 - length;
+                if (count >= 0) {
+                    $('#dln_name_count').text(count);
+                } else {
+                    $('#dln_name_count').text(0);
+                }
+            },
+            change: function (e) {
+                $(this).validate();
+                self.checkFormDesc(true);
+            }
+        });
+
+        $('#dln_desc').on({
+            keydown: function (e) {
+                var length = $(this).val().length;
+                var count = 500 - length;
+                if (count >= 0) {
+                    $('#dln_desc_count').text(count);
+                } else {
+                    $('#dln_desc_count').text(0);
+                }
+            },
+            change: function (e) {
+                $(this).validate();
+                self.checkFormDesc(true);
+            }
+        });
+
+        $('#dln_price').on({
+            change: function (e) {
+                self.checkFormDesc(true);
+            }
+        });
+
+        $('#dln_type input:radio, #dln_category_id').on('change', function (e) {
+            self.checkFormDesc(true);
+        });
+    };
+
+    AdEdit.prototype.checkCompleteAll = function () {
+        var self = this;
+
+        self.checkFormDesc(false);
+        self.checkFormPhoto(false);
+        self.checkFormSpace(false);
+        self.checkFormLocation(false);
+        self.checkFormProperty(false);
+        self.calculatePercent(false);
+    };
+
+    AdEdit.prototype.calculatePercent = function () {
+        var self = this;
+
+        var percent = 0;
+        $('.completed').each(function (e) {
+            percent += $(this).data('percent');
+        });
+        if (percent >= 90) {
+            $('#dln_active').addClass('btn-danger');
+            $('#dln_active').removeClass('disabled');
+        } else {
+            $('#dln_active').addClass('disabled');
+            $('#dln_active').removeClass('btn-danger');
+        }
+        percent += '%';
+        $('#dln_progressbar').data('percentage', percent);
+        $('#dln_progressbar').css('width', percent);
+    };
+
+    AdEdit.prototype.showChecked = function (selector) {
+        $('div[data-relate="' + selector + '"]').addClass('completed');
+        $('div[data-relate="' + selector + '"] .label-success').removeClass(
+                'hide');
+        $('div[data-relate="' + selector + '"] .label-default')
+                .addClass('hide');
+    };
+
+    AdEdit.prototype.hideChecked = function (selector) {
+        $('div[data-relate="' + selector + '"]').removeClass('completed');
+        $('div[data-relate="' + selector + '"] .label-success')
+                .addClass('hide');
+        $('div[data-relate="' + selector + '"] .label-default').removeClass(
+                'hide');
+    };
+
+    AdEdit.prototype.showStatus = function (no_loading) {
+        $('.dln-status').removeClass('text-danger');
+        $('.dln-status').addClass('text-success');
+        $('.dln-status').addClass('in');
+        $('.dln-status').text('Đang lưu...');
+        if (! no_loading) {
+            $('.dln-loading').addClass('show');
+        }
+    };
+
+    AdEdit.prototype.hideStatus = function (no_loading) {
+        $('.dln-status').removeClass('in');
+        $('.dln-status').text('Đã lưu!');
+        if (! no_loading) {
+            $('.dln-loading').removeClass('show');
+        }
+    };
+
+    AdEdit.prototype.errorStatus = function (no_loading) {
+        $('.dln-status').addClass('text-danger');
+        $('.dln-status').removeClass('in');
+        $('.dln-status').text('Lỗi!');
+        if (! no_loading) {
+            $('.dln-loading').removeClass('show');
+        }
+    };
+
+    AdEdit.prototype.checkFormDesc = function (calc) {
+        var self = this;
+
+        var form = $('#ad_desc form');
+
+        /*if (calc) {
+            form.validate();
+        } else {
+            form.validate({
+                errorPlacement: function (error, element) {
+                }
+            });
+        }*/
+
+        if (self.$ad_id && self.$allow && form.valid()) {
+            if (calc) {
+                /* save form desc */
+                self.showStatus(false);
+                $.ajax({
+                    type: 'PUT',
+                    url: window.root_url_api + '/ad/' + self.$ad_id,
+                    data: form.serialize(),
+                    success: function (res) {
+                        self.$allow = false;
+                        if (res.status == 'success') {
+                            self.showChecked('ad_desc');
+                            self.hideStatus(false);
+                            self.calculatePercent();
+                        }
+                    },
+                    error: function (data) {
+                        self.$allow = false;
+                        self.errorStatus(false);
+                        self.hideChecked('dln_desc');
+                        if (data.responseText) {
+                            window.ad_common.showError(data.responseText);
+                        } else {
+                            console.log(data);
+                        }
+                    }
+                });
+            } else {
+                self.showChecked('ad_desc');
+            }
+            return true;
+        } else {
+            self.hideChecked('dln_desc');
+            return false;
+        }
+    };
+
+    AdEdit.prototype.checkFormPhoto = function (calc) {
+        var self = this;
+
+        var form = $('#ad_photo form');
+
+        if (calc) {
+            form.validate();
+        } else {
+            form.validate({
+                errorPlacement: function (error, element) {
+                }
+            });
+        }
+
+        if (form.valid()) {
+            self.showChecked('ad_photo');
+            if (calc) {
+                self.calculatePercent();
+            }
+            return true;
+        }
+        return false;
+    };
+
+    AdEdit.prototype.checkFormSpace = function (calc) {
+        var self = this;
+
+        var form = $('#ad_space form');
+
+        if (calc) {
+            form.validate();
+        } else {
+            form.validate({
+                errorPlacement: function (error, element) {
+                }
+            });
+        }
+
+        if (self.$ad_id && self.$allow && form.valid()) {
+            if (calc) {
+                /* save form desc */
+                self.showStatus(false);
+                $.ajax({
+                    type: 'PUT',
+                    url: window.root_url_api + '/ad/' + self.$ad_id + '/infor',
+                    data: form.serialize(),
+                    success: function (res) {
+                        self.$allow = false;
+                        if (res.status == 'success') {
+                            self.showChecked('ad_desc');
+                            self.hideStatus(false);
+                            self.calculatePercent();
+                        }
+                    },
+                    error: function (data) {
+                        self.$allow = false;
+                        self.errorStatus(false);
+                        self.hideChecked('dln_desc');
+                        if (data.responseText) {
+                            window.ad_common.showError(data.responseText);
+                        } else {
+                            console.log(data);
+                        }
+                    }
+                });
+            } else {
+                self.showChecked('ad_desc');
+            }
+            return true;
+        } else {
+            self.hideChecked('dln_desc');
+            return false;
+        }
+    };
+
+    AdEdit.prototype.checkFormLocation = function (calc) {
+        var self = this;
+
+        var form = $('#ad_location form');
+
+        if (calc) {
+            form.validate();
+        } else {
+            form.validate({
+                errorPlacement: function (error, element) {
+                }
+            });
+        }
+
+        if (form.valid()) {
+            self.showChecked('ad_location');
+            if (calc) {
+                self.calculatePercent();
+            }
+            return true;
+        }
+        return false;
+    };
+
+    AdEdit.prototype.checkFormProperty = function (calc) {
+        var self = this;
+
+        var form = $('#ad_property form');
+
+        if (calc) {
+            form.validate();
+        } else {
+            form.validate({
+                errorPlacement: function (error, element) {
+                }
+            });
+        }
+
+        if (form.valid()) {
+            self.showChecked('ad_property');
+            if (calc) {
+                self.calculatePercent();
+            }
+            return true;
+        }
+        return false;
+    };
+
+    /**
+     * Function create thumb ad image after upload
+     */
+    AdEdit.prototype.initPhoto = function () {
+        var self = this;
+        
+        $('#dln_photo_upload').on('click', function (e) {
+            e.preventDefault();
+            $('#dln_file_upload').trigger('click');
+        });
+        if (self.$ad_id) {
+            $('#dln_file_upload').fileupload({
+                // Uncomment the following to send cross-domain cookies:
+                //xhrFields: {withCredentials: true},
+                url: window.root_url_api + '/ad/' + self.$ad_id + '/upload',
+                paramName: 'file_data',
+                done: function (e, data) {
+                    if (data.result.code == 200) {
+                        self.createPhotoAd(data.result);
+                    }
+                }
+            });
+            self.setPhotoFeature();
+        }
+    };
+    
+    AdEdit.prototype.createPhotoAd = function (response) {
+        if (!response)
+            return false;
+        var self = this;
+
+        var html = response.data.photo_pattern;
+        $('.dln_photos').append(html);
+        var selector = '#dln_photo_item_' + reponse.data.id;
+        self.initPhotoEvents();
+        self.setPhotoFeature();
+    };
+    
+    AdEdit.prototype.savePhotoOrder = function () {
+        var self = this;
+        
+        if (! self.$ad_id) {
+            return false;
+        }
+        
+        clearTimeout(self.$timer);
+        self.$timer = setTimeout(function (){
+            self.showStatus(true);
+            
+            var photo_ids = [];
+            $('#dln_photos .dln-photo-item').each(function () {
+                photo_ids.push($(this).data('id'));
+            });
+            
+            $.ajax({
+                type: 'POST',
+                url: window.root_url_api + 'ad/' + self.$ad_id + '/photo_order',
+                data: {
+                    photo_ids: photo_ids
+                },
+                success: function (res) {
+                    self.$allow = false;
+                    self.hideStatus(true);
+                    
+                    if (res.status == 'success') {
+                        self.setPhotoFeature();
+                    }
+                },
+                error: function (data) {
+                    self.$allow = false;
+                    self.errorStatus(true);
+                    
+                    if (data.responseText) {
+                        window.ad_common.showError(data.responseText);
+                    } else {
+                        console.log(data);
+                    }
+                }
+            });
+        }, self.$time_out);
+    };
+    
+    AdEdit.prototype.setPhotoFeature = function() {
+        $('#dln_photos .dln-photo-item').addClass('bg-master-lightest');
+        $('#dln_photos .dln-photo-item:first-child').removeClass('bg-master-lightest');
+        $('#dln_photos .dln-photo-item:first-child').addClass('bg-master-lightest');
+    };
+    
+    AdEdit.prototype.initPhotoEvents = function (id, selector) {
+        var self = this;
+        var id = intval(id);
+        
+        if (! id) {
+            return false;
+        }
+        
+        $(selector + ' #dln_photo_desc').on('change', function (e) {
+            if (! self.$ad_id) {
+                return false;
+            }
+            
+            var desc = $.trim($(this).text());
+            
+            if (self.$allow && desc) {
+                self.showStatus(false);
+                
+                $.ajax({
+                    type: 'PUT',
+                    url: window.root_url_api + 'ad/' + self.$ad_id + '/photo/' + id,
+                    data: {
+                        desc: desc
+                    },
+                    success: function (res) {
+                        self.$allow = false;
+                        self.hideStatus(false);
+                    },
+                    error: function (data) {
+                        self.$allow = false;
+                        self.errorStatus(false);
+                        if (data.responseText) {
+                            window.ad_common.showError(data.responseText);
+                        } else {
+                            console.log(data);
+                        }
+                    }
+                });
+            }
+        });
+        
+        /* For delete button*/
+        $(selector + ' .dln-delete-photo').on('click', function (e) {
+            if (! self.$ad_id) {
+                return false;
+            }
+            
+            var result = confirm("Bạn muốn xóa ảnh này?");
+            
+            if (self.$allow && result) {
+                self.showStatus(false);
+                
+                $.ajax({
+                    type: 'DELETE',
+                    url: window.root_url_api + 'ad/' + self.$ad_id + '/photo/' + id,
+                    success: function (res) {
+                        self.$allow = false;
+                        if (res.status == 'success') {
+                            self.hideStatus(false);
+                            $(selector).remove();
+                        }
+                    },
+                    error: function (data) {
+                        self.$allow = false;
+                        self.errorStatus(false);
+                        if (data.responseText) {
+                            window.ad_common.showError(data.responseText);
+                        } else {
+                            console.log(data);
+                        }
+                    }
+                });
+            }
+        });
+        
+        /* For order up photo */
+        $(selector + ' .dln-up-photo').on('click', function (e) {
+            var item = $(this).parents('.dln-photo-item');
+            var prev = item.prev();
+            if (prev.length == 0) return;
+            prev.css('z-index', 999).css('position', 'relative').animate({
+                top: item.height()
+            }, 250);
+            item.css('z-index', 1000).css('position', 'relative').animate({
+                top: '-' + prev.height()
+            }, 300, function () {
+                prev.css('z-index', '').css('top', '').css('position', '');
+                item.css('z-index', '').css('top', '').css('position', '');
+                item.insertBefore(prev);
+                
+                self.savePhotoOrder();
+            });
+        });
+        
+        /* For order down photo */
+        $(selector + ' .dln-down-photo').on('click', function (e) {
+            var item = $(this).parents('.dln-photo-item');
+            var next = item.next();
+            if (next.length == 0) return;
+            next.css('z-index', 999).css('position', 'relative').animate({
+                top: '-' + item.height()
+            }, 250);
+            item.css('z-index', 1000).css('position', 'relative').animate({
+                top: next.height()
+            }, 300, function () {
+                next.css('z-index', '').css('top', '').css('position', '');
+                item.css('z-index', '').css('top', '').css('position', '');
+                item.insertAfter(next);
+                
+                self.savePhotoOrder();
+            });
+        });
+    };
+
+    $(document).ready(function () {
+        var ad_edit = new AdEdit();
+
+        // Masked inputs initialization
+        $.fn.inputmask && $('[data-toggle="masked"]').inputmask();
+    });
 
 }(window.jQuery));

@@ -7,14 +7,15 @@ App::before(function ($request) {
     Route::get($api_path . 's/{query}',      $api_class . '\RestAd@getSearch');
     Route::get($api_path . 'ad/{id}/nearby', $api_class . '\RestAd@getNearby');
     Route::put($api_path . 'ad/{id}',          $api_class . '\RestAd@putAd');
+    Route::put($api_path . 'ad/{id}/infor',    $api_class . '\RestAd@putAdInfor');
     Route::put($api_path . 'ad/{id}/favorite', $api_class . '\RestAd@putAdFavorite');
     Route::put($api_path . 'ad/active',        $api_class . '\RestAd@putActiveAd');
     Route::post($api_path . 'ad/share',       $api_class . '\RestAd@postShareAd');
     
-    Route::post($api_path . 'ad/{id}/upload', $api_class . '\RestAd@postUpload');
-    Route::put($api_path . 'photo/{id}',    $api_class . '\RestAd@putPhotoDesc');
-    Route::post($api_path . 'photo/order',   $api_class . '\RestAd@putPhotoOrder');
-    Route::delete($api_path . 'photo/{id}', $api_class . '\RestAd@deletePhoto');
+    Route::post($api_path . 'ad/{id}/upload',             $api_class . '\RestAd@postUpload');
+    Route::post($api_path . 'ad/{id}/photo_order',        $api_class . '\RestAd@putPhotoOrder');
+    Route::put($api_path . 'ad/{id}/photo/{photo_id}',    $api_class . '\RestAd@putPhotoDesc');
+    Route::delete($api_path . 'ad/{id}/photo/{photo_id}', $api_class . '\RestAd@deletePhoto');
     
 	Route::get($api_path . 'crawl/ad_deactive',    $api_class . '\RestCrawl@getAdDeactive');
 	Route::get($api_path . 'crawl/tag_count',      $api_class . '\RestCrawl@getRefreshTagCount');

@@ -13,7 +13,7 @@ class CreateAdCategoriesTable extends Migration {
 			$table->increments('id');
 			$table->string('name');
 			$table->string('slug')->index();
-			$table->text('desc')->nullable();
+			$table->text('description')->nullable();
 			$table->integer('count')->default(0);
 			$table->timestamps();
 		});

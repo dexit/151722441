@@ -30,6 +30,7 @@ define( 'CLF_MESSAGES', json_encode(array(
     ))
 );
 define( 'CLF_LANG_MESSAGE', 'dlnlab.classified::lang.messages.' );
+define( 'CLF_LANG_LABEL', 'dlnlab.classified::lang.labels.' );
 
 /**
  * Classified Plugin Information File

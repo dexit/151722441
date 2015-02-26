@@ -6,8 +6,21 @@ hidden = "0"
 [HeaderBar]
 ==
 <?
+
+use File;
+use DLNLab\Classified\Classes\HelperCache;
+use DLNLab\Classified\Models\AdInfor;
+
 function onStart()
 {
+    $this[]
+    $this['kinds']      = HelperCache::getAdKind();
+    $this['categories'] = HelperCache::getAdCategory();
+    $this['amenities']  = HelperCache::getAdAmenities();
+    $this['bed_rooms']  = AdInfor::getBedRoomOptions();
+    $this['bath_rooms'] = AdInfor::getBathRoomOptions();
+    $this['directions'] = AdInfor::getDirectionOptions();
+    
     $this['ad_id'] = intval($this->param('ad_id'));
 }
 ?>
@@ -51,7 +64,7 @@ function onStart()
                 <div class="row m-t-5">
                     <div class="col-md-3 ad-tabs">
                         <div class="panel-group sm-m-l-5 sm-m-r-5">
-                            <div class="panel panel-default" data-relate="ad_desc" data-percent="30">
+                            <div class="panel panel-default" data-relate="ad_desc" data-hash="mo-ta" data-percent="30">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="pg-layouts3 fs-14 m-r-5"></i>Mô tả</span>
@@ -60,7 +73,7 @@ function onStart()
                                     </h4>
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-relate="ad_space" data-percent="20">
+                            <div class="panel panel-default" data-relate="ad_space" data-hash="khong-gian" data-percent="20">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="fa fa-home fs-14 m-r-5"></i>Không gian</span>
@@ -69,7 +82,7 @@ function onStart()
                                     </h4>
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-relate="ad_photo" data-percent="20">
+                            <div class="panel panel-default" data-relate="ad_photo" data-hash="hinh-anh" data-percent="20">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="fa fa-image fs-14 m-r-5"></i>Hình ảnh</span>
@@ -78,7 +91,7 @@ function onStart()
                                     </h4>
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-relate="ad_location" data-percent="20">
+                            <div class="panel panel-default" data-relate="ad_location" data-hash="vi-tri" data-percent="20">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="fa fa-location-arrow fs-14 m-r-5"></i>Vị trí</span>
@@ -87,7 +100,7 @@ function onStart()
                                     </h4>
                                 </div>
                             </div>
-                            <div class="panel panel-default" data-relate="ad_property" data-percent="10">
+                            <div class="panel panel-default" data-relate="ad_property" data-hash="thuoc-tinh" data-percent="10">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
                                         <span><i class="fa fa-list fs-14 m-r-5"></i>Thuộc tính</span>
@@ -113,19 +126,17 @@ function onStart()
                                             <div class="row">
                                                 <div class="col-sm-6">
                                                     <div id="dln_type" class="radio radio-success">
-                                                        <input type="radio" id="yes" name="type" value="1" />
-                                                        <label for="yes">Bán</label>
-                                                        <input type="radio" id="no" name="type" value="0" checked="checked" />
-                                                        <label for="no">Cho thuê</label>
+                                                    {% for kind in kinds %}
+                                                        <input type="radio" id="option_{{ kind.id }}" name="type" value="{{ kind.id }}" {{ kind.id == kind_id ? 'checked' : '' }} />
+                                                        <label for="option_{{ kind.id }}">{{ kind.name }}</label>
+                                                    {% endfor %}
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-6">
                                                     <select id="dln_category_id" class="full-width" data-init-plugin="select2" name="category_id">
-                                                        <option value="motel">Nhà trọ, phòng trọ</option>
-                                                        <option value="house">Nhà riêng</option>
-                                                        <option value="street">Nhà mặt phố</option>
-                                                        <option value="shop">Cửa hàng</option>
-                                                        <option value="other">Kho, nhà xưởng, đất</option>
+                                                    {% for category in categories %}
+                                                        <option value="{{ category.id }}" {{ category.id == ad.category_id ? 'selected' : '' }} >{{ category.name }}</option>
+                                                    {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
@@ -191,28 +202,34 @@ function onStart()
                                         <div class="col-sm-9">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <select class="full-width" data-init-plugin="select2">
-                                                        <option value="0">Phòng ngủ</option>
-                                                        <option value="1">1 phòng ngủ</option>
-                                                        <option value="2">2 phòng ngủ</option>
-                                                        <option value="3">3 phòng ngủ</option>
-                                                        <option value="4">4 phòng ngủ</option>
-                                                        <option value="5">5+ phòng ngủ</option>
+                                                    <select name="bed" class="full-width" data-init-plugin="select2">
+                                                    {% for bed in bed_rooms %}
+                                                        <option value="{{ bed.id }}" {{ bed.id == ad_infor.bed ? 'selected' : '' }} >{{ bed.name }}</option>
+                                                    {% endfor %}
                                                     </select>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <select class="full-width" data-init-plugin="select2">
-                                                        <option value="0">Phòng tắm</option>
-                                                        <option value="1">1 phòng tắm</option>
-                                                        <option value="2">2 phòng tắm</option>
-                                                        <option value="3">3 phòng tắm</option>
-                                                        <option value="4">4 phòng tắm</option>
-                                                        <option value="5">5+ phòng tắm</option>
+                                                    <select name="bath" class="full-width" data-init-plugin="select2">
+                                                    {% for bath in bath_rooms %}
+                                                        <option value="{{ bath.id }}" {{ bath.id == ad_infor.bath ? 'selected' : '' }} >{{ bath.name }}</option>
+                                                    {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>    
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">Hướng nhà</label>
+                                        <div class="col-sm-9">
+                                            <select name="direction" class="full-width" data-init-plugin="select2">
+                                                <select name="bath" class="full-width" data-init-plugin="select2">
+                                                {% for direct in directions %}
+                                                    <option value="{{ direct.id }}" {{ direct.id == ad_infor.direction ? 'selected' : '' }} >{{ bath.name }}</option>
+                                                {% endfor %}
+                                                </select>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </form>
                                 <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
                             </div>
@@ -229,40 +246,15 @@ function onStart()
                                         <div class="col-sm-12">
                                             <div class="row">
                                                 <div class="panel panel-default sm-m-b-5 sm-m-l-5 sm-m-r-5">
-                                                    <div class="panel-body sm-p-t-15">
-                                                        <button class="btn btn-danger btn-sm pull-left"><i class="fa fa-upload fs-14"></i><span class="hidden-xs bold m-l-5">Đăng ảnh</span></button>
-                                                        <button class="btn btn-success btn-sm pull-right disabled"><i class="fa fa-save fs-14"></i><span class="hidden-xs bold m-l-5">Lưu</span></button>
+                                                    <div class="panel-body sm-p-t-15 text-center">
+                                                        <input type="file" id="dln_file_upload" class="hide" />
+                                                        <button id="dln_photo_upload" class="btn btn-danger btn-sm"><i class="fa fa-upload fs-14"></i><span class="hidden-xs bold m-l-5">Đăng ảnh</span></button>
                                                     </div>
                                                     <div class="progress no-margin">
                                                         <div style="width: 0%;" class="progress-bar progress-bar-success" data-percentage="0%" id="dln_process_upload"></div>
                                                     </div>
                                                 </div>
-                                                <div class="panel panel-default bg-success-lighter sm-m-b-5 sm-m-l-5 sm-m-r-5">
-                                                    <div class="panel-body sm-p-t-10 sm-p-l-5 sm-p-r-5 sm-p-b-10">
-                                                        <div class="col-xs-12 col-sm-3 sm-p-l-5 sm-p-r-5">
-                                                            <img class="img-thumbnail m-b-5" width="100%" src="/october/uploads/public/54c/e0e/b72/thumb_8_200x200_0_0_crop.jpg">
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-9 sm-p-l-5 sm-p-r-5">
-                                                            <textarea placeholder="Nội dung..." id="dln_photo_desc" class="form-control clearfix m-b-10" required maxlength="500"></textarea>
-                                                            <a href="javascript:void(0)" class="btn btn-sm btn-default pull-left m-r-5" data-original-title="Lên" data-toggle="tooltip"><i class="fs-14 fa fa-arrow-up"></i></a>
-                                                            <a href="javascript:void(0)" class="btn btn-sm btn-default pull-left" data-original-title="Xuống" data-toggle="tooltip"><i class="fs-14 fa fa-arrow-down"></i></a>
-                                                            <a href="javascript:void(0)" class="btn btn-sm btn-danger dln-delete-photo pull-right" data-original-title="Xóa" data-toggle="tooltip"><i class="fs-14 fa fa-trash-o"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="panel panel-default bg-master-lightest sm-m-b-5 sm-m-l-5 sm-m-r-5">
-                                                    <div class="panel-body sm-p-t-10 sm-p-l-5 sm-p-r-5 sm-p-b-10">
-                                                        <div class="col-xs-12 col-sm-3 sm-p-l-5 sm-p-r-5">
-                                                            <img class="img-thumbnail m-b-5" width="100%" src="/october/uploads/public/54c/e0e/b72/thumb_8_200x200_0_0_crop.jpg">
-                                                        </div>
-                                                        <div class="col-xs-12 col-sm-9 sm-p-l-5 sm-p-r-5">
-                                                            <textarea placeholder="Nội dung..." id="dln_photo_desc" class="form-control clearfix m-b-10" required maxlength="500"></textarea>
-                                                            <a href="javascript:void(0)" class="btn btn-sm btn-default pull-left m-r-5" data-original-title="Lên" data-toggle="tooltip"><i class="fs-14 fa fa-arrow-up"></i></a>
-                                                            <a href="javascript:void(0)" class="btn btn-sm btn-default pull-left" data-original-title="Xuống" data-toggle="tooltip"><i class="fs-14 fa fa-arrow-down"></i></a>
-                                                            <a href="javascript:void(0)" class="btn btn-sm btn-danger dln-delete-photo pull-right" data-original-title="Xóa" data-toggle="tooltip"><i class="fs-14 fa fa-trash-o"></i></a>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <div id="dln_photos"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -309,14 +301,18 @@ function onStart()
     <script src="{{ [
         'assets/vendor/jquery/jquery-1.8.3.min.js',
         'assets/vendor/boostrapv3/js/bootstrap.min.js',
-        'assets/vendor/jquery-validation/js/jquery.validate.min.js',
-        'assets/vendor/inputmask/jquery.inputmask.bundle.min.js',
         'assets/vendor/bootstrap-select2/select2.min.js',
         'assets/vendor/jquery-ui/jquery-ui.min.js',
+        'assets/js/pages/common.js',
+    ]|theme }}"></script>
+    
+    <script src="{{ [
+        'assets/vendor/jquery-validation/js/jquery.validate.min.js',
+        'assets/vendor/inputmask/jquery.inputmask.bundle.min.js',
         'assets/vendor/jquery-fileupload/js/vendor/jquery.ui.widget.js',
         'assets/vendor/jquery-fileupload/js/jquery.fileupload.js',
+        'assets/js/libs/notifications.js',
         'assets/js/pages/ad-edit.js',
-        'assets/js/pages/common.js',
     ]|theme }}"></script>
     
     {% if asset_script %}

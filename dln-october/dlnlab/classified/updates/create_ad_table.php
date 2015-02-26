@@ -14,7 +14,7 @@ class CreateAdTable extends Migration {
 			$table->increments('id');
 			$table->string('name')->nullable();
 			$table->string('slug')->index();
-			$table->text('desc')->nullable();
+			$table->text('description')->nullable();
             $table->string('full_text', 500)->nullable();
 			$table->decimal('price', 14, 0)->nullable()->default(0);
 			$table->timestamp('expiration')->nullable();
@@ -25,7 +25,7 @@ class CreateAdTable extends Migration {
 			$table->decimal('lng', 10, 6)->nullable();
 			$table->timestamp('published_at')->nullable();
 			$table->tinyInteger('status')->default(0);
-			$table->integer('read')->default(0);
+			$table->integer('read_count')->default(0);
 			$table->timestamps();
 		});
         //DB::statement('ALTER TABLE `dlnlab_classified_ads` ADD FULLTEXT(`full_text`);');

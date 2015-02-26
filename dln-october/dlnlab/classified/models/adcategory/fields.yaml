@@ -24,7 +24,7 @@ fields:
         comment: The number of ads for this category
         span: left
         
-    desc:
+    description:
         label: Description
         type: textarea
         size: small
