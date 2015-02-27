@@ -91,10 +91,9 @@
             <div class="form-group clearfix">
                 <div class="col-xs-6">
                     <div class="btn-group">
-                        <button class="btn btn-default" type="button">Bán
-                        </button>
-                        <button class="btn btn-default" type="button">Cho thuê
-                        </button>
+                        {% for type in types %}
+                        <button class="btn btn-default" data-id="{{ loop.index }}" type="button">{{ type }}</button>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-xs-6">
@@ -131,30 +130,12 @@
             </div>
             <div class="form-group clearfix">
                 <div class="col-xs-12">
+                    {% for category in categories %}
                     <div class="checkbox check-danger">
-                        <input type="checkbox" checked="checked" value="1" id="checkbox1">
-                        <label for="checkbox1">Nhà trọ, phòng trọ</label>
+                        <input name="category_id" type="checkbox" checked="checked" value="{{ category.id }}" id="checkbox_{{ category.id }}">
+                        <label for="checkbox_{{ category.id }}">{{ category.name }}</label>
                     </div>
-                    <div class="checkbox check-danger">
-                        <input type="checkbox" checked="checked" value="1" id="checkbox2">
-                        <label for="checkbox2">Nhà riêng</label>
-                    </div>
-                    <div class="checkbox check-danger">
-                        <input type="checkbox" checked="checked" value="1" id="checkbox3">
-                        <label for="checkbox3">Nhà mặt phố</label>
-                    </div>
-                    <div class="checkbox check-danger">
-                        <input type="checkbox" checked="checked" value="1" id="checkbox4">
-                        <label for="checkbox4">Cửa hàng</label>
-                    </div>
-                    <div class="checkbox check-danger">
-                        <input type="checkbox" checked="checked" value="1" id="checkbox5">
-                        <label for="checkbox5">Văn phòng</label>
-                    </div>
-                    <div class="checkbox check-danger">
-                        <input type="checkbox" checked="checked" value="1" id="checkbox6">
-                        <label for="checkbox6">Kho, nhà xưởng, đất</label>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <hr />
@@ -171,3 +152,4 @@
         </div>
     </form>
 </div>
+{{ csrf_token() }}

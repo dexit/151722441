@@ -6,7 +6,7 @@ use Auth;
 use DB;
 use Input;
 use Response;
-use Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use DLNLab\Features\Models\CrawlLinks;
 use DLNLab\Features\Models\CrawlEmails;
 use DLNLab\Features\Models\CrawlPhones;

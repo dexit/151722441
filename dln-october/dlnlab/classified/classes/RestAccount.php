@@ -9,7 +9,7 @@ use Response;
 use Request;
 use Redirect;
 use Validator;
-use Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use October\Rain\Support\ValidationException;
 use DLNLab\Classified\Components\Account;
 use DLNLab\Classified\Classes\HelperClassified;

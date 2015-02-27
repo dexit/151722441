@@ -3,17 +3,16 @@
         <div class="pull-left">
             <div class="tabbable tabs-below dln-tab-infor">
                 <div class="tab-content">
-                    {% if photo %}
-                    <div class="tab-pane active" id="photo">    
+                    <div class="tab-pane active" id="photo">
+                        <div class="dln-photo-upload btn btn-default dln-modal" data-type="ad-photo" data-header="Chọn hình ảnh"><i class="fa fa-upload"></i></div>
+                        <div class="dln-photo-indicator">1 of 2</div>
                     </div>
-                    {% endif %}
                     <div class="tab-pane" id="map">
+                        <div class="dln-map-edit btn btn-default dln-modal" data-type="ad-location" data-header="Thay đổi địa điểm"><i class="fa fa-map-marker"></i></div>
                     </div>
                 </div>
                 <ul class="nav nav-tabs">
-                    {% if photo %}
                     <li class="active"><a href="#photo" data-toggle="tab"><i class="fa fa-camera"></i> Hình ảnh</a></li>
-                    {% endif %}
                     <li class="center"><a href="#map" data-toggle="tab"><i class="fa fa-map-marker"></i> Bản đồ</a></li>
                 </ul>
             </div>

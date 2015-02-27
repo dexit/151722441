@@ -7,7 +7,7 @@ use DB;
 use Carbon;
 use Input;
 use Response;
-use Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Models\AdActive;
 use DLNLab\Classified\Models\Tag;

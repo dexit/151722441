@@ -73,12 +73,26 @@ class AdEdit extends ComponentBase
                 $this->page['ad']         = $ad;
                 $this->page['ad_infor']   = $ad_infor;
                 $this->page['ad_tag']     = $ad_tag;
-                $this->page['types']      = HelperCache::getAdType();
-                $this->page['categories'] = HelperCache::getAdCategory();
-                $this->page['amenities']  = HelperCache::getAdAmenities();
-                $this->page['bed_rooms']  = AdInfor::getBedRoomOptions();
-                $this->page['bath_rooms'] = AdInfor::getBathRoomOptions();
-                $this->page['directions'] = AdInfor::getDirectionOptions();
+                break;
+            case 'edit-detail':
+                $kind     = HelperCache::getAdKind();
+                $category = HelperCache::getAdCategory();
+                $amenity  = HelperCache::getAdAmenities();
+                $bed_rooms  = AdInfor::getBedRoomOptions();
+                $bath_rooms = AdInfor::getBathRoomOptions();
+                $direction  = AdInfor::getDirectionOptions();
+                $caches            = new \stdClass;
+                $caches->kind      = (! empty($kind)) ? $kind->toJson() : '';
+                $caches->category  = (! empty($category)) ? $category->toJson() : '';
+                $caches->amenity   = (! empty($amenity)) ? $amenity->toJson() : '';
+                $caches->bed       = json_encode($bed_rooms);
+                $caches->bath      = json_encode($bath_rooms);
+                $caches->direction = json_encode($direction);
+
+                $this->page['user']       = $this->user();
+                $this->page['ad']         = (! empty($ad)) ? $ad : '';
+                $this->page['ad_json']    = (! empty($ad)) ? $ad->toJson() : '';
+                $this->page['dln_caches'] = (! empty($caches)) ? json_encode($caches) : '';
                 break;
         }
         $this->page['type'] = $type;

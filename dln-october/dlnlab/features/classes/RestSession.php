@@ -6,7 +6,7 @@ use Auth;
 use Input;
 use Response;
 use Validator;
-use Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use RainLab\User\Models\Settings as UserSettings;
 
 require('HelperResponse.php');

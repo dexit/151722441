@@ -3,7 +3,7 @@
 
     var AdEdit = function () {
         this.$ad_id = parseInt($('#ad_id').val());
-        this.$allow = false;
+        this.$allow = true;
         this.$timer = null;
         this.$time_out = 2000;
 
@@ -44,7 +44,6 @@
 
         /* For form desc */
         $('#ad_desc form').on('change', function (e) {
-            self.$allow = true;
             self.checkFormDesc(true);
         });
         
@@ -170,12 +169,13 @@
             if (calc) {
                 /* save form desc */
                 self.showStatus(false);
+                self.$allow = false;
                 $.ajax({
                     type: 'PUT',
                     url: window.root_url_api + '/ad/' + self.$ad_id,
                     data: form.serialize(),
                     success: function (res) {
-                        self.$allow = false;
+                        self.$allow = true;
                         if (res.status == 'success') {
                             self.showChecked('ad_desc');
                             self.hideStatus(false);
@@ -183,7 +183,7 @@
                         }
                     },
                     error: function (data) {
-                        self.$allow = false;
+                        self.$allow = true;
                         self.errorStatus(false);
                         self.hideChecked('dln_desc');
                         if (data.responseText) {
@@ -245,12 +245,13 @@
             if (calc) {
                 /* save form desc */
                 self.showStatus(false);
+                self.$allow = false;
                 $.ajax({
                     type: 'PUT',
                     url: window.root_url_api + '/ad/' + self.$ad_id + '/infor',
                     data: form.serialize(),
                     success: function (res) {
-                        self.$allow = false;
+                        self.$allow = true;
                         if (res.status == 'success') {
                             self.showChecked('ad_desc');
                             self.hideStatus(false);
@@ -258,7 +259,7 @@
                         }
                     },
                     error: function (data) {
-                        self.$allow = false;
+                        self.$allow = true;
                         self.errorStatus(false);
                         self.hideChecked('dln_desc');
                         if (data.responseText) {
@@ -343,10 +344,11 @@
                 url: window.root_url_api + '/ad/' + self.$ad_id + '/upload',
                 paramName: 'file_data',
                 send: function (e, data) {
-                	self.showStatus(true);
+                    self.$allow = false;
+                    self.showStatus(true);
                 },
                 done: function (e, data) {
-                	self.$allow = false;
+                    self.$allow = true;
                     self.hideStatus(true);
                     
                     if (data.result.code == 200) {
@@ -354,7 +356,7 @@
                     }
                 },
                 error: function (data) {
-                	self.$allow = false;
+                    self.$allow = true;
                     self.errorStatus(true);
                     
                     if (data.responseText) {
@@ -396,6 +398,7 @@
                 photo_ids.push($(this).data('id'));
             });
             
+            self.$allow = false;
             $.ajax({
                 type: 'POST',
                 url: window.root_url_api + 'ad/' + self.$ad_id + '/photo_order',
@@ -403,7 +406,7 @@
                     photo_ids: photo_ids
                 },
                 success: function (res) {
-                    self.$allow = false;
+                    self.$allow = true;
                     self.hideStatus(true);
                     
                     if (res.status == 'success') {
@@ -411,7 +414,7 @@
                     }
                 },
                 error: function (data) {
-                    self.$allow = false;
+                    self.$allow = true;
                     self.errorStatus(true);
                     
                     if (data.responseText) {
@@ -448,6 +451,7 @@
             if (self.$allow && desc) {
                 self.showStatus(false);
                 
+                self.$allow = false;
                 $.ajax({
                     type: 'PUT',
                     url: window.root_url_api + 'ad/' + self.$ad_id + '/photo/' + id,
@@ -455,11 +459,11 @@
                         desc: desc
                     },
                     success: function (res) {
-                        self.$allow = false;
+                        self.$allow = true;
                         self.hideStatus(false);
                     },
                     error: function (data) {
-                        self.$allow = false;
+                        self.$allow = true;
                         self.errorStatus(false);
                         if (data.responseText) {
                             window.ad_common.showError(data.responseText);
@@ -482,18 +486,19 @@
             if (self.$allow && result) {
                 self.showStatus(false);
                 
+                self.$allow = false;
                 $.ajax({
                     type: 'DELETE',
                     url: window.root_url_api + 'ad/' + self.$ad_id + '/photo/' + id,
                     success: function (res) {
-                        self.$allow = false;
+                        self.$allow = true;
                         if (res.status == 'success') {
                             self.hideStatus(false);
                             $(selector).remove();
                         }
                     },
                     error: function (data) {
-                        self.$allow = false;
+                        self.$allow = true;
                         self.errorStatus(false);
                         if (data.responseText) {
                             window.ad_common.showError(data.responseText);
