@@ -39,8 +39,6 @@ Route::group(array('before' => 'auth'), function () {
     $api_path  = '/api/v1/';
     $api_class = 'DLNLab\Classified\Classes';
     Route::get($api_path . 'logout', $api_class . '\RestAccount@getLogout');
-    
-    Route::put($api_path . 'ad/{id}',          $api_class . '\RestAd@putAd');
 });
 
 Route::group(array('before' => 'auth|csrf'), function() {
@@ -48,6 +46,7 @@ Route::group(array('before' => 'auth|csrf'), function() {
     $api_class = 'DLNLab\Classified\Classes';
 
     Route::post($api_path . 'ad/quick', $api_class . '\RestAd@postAdQuick');
+    Route::put($api_path .  'ad/{id}', $api_class . '\RestAd@putAd');
     Route::put($api_path .  'ad/{id}/infor', $api_class . '\RestAd@putAdInfor');
     Route::put($api_path .  'ad/{id}/favorite', $api_class . '\RestAd@putAdFavorite');
     Route::put($api_path .  'ad/active', $api_class . '\RestAd@putActiveAd');

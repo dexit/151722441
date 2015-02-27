@@ -35,6 +35,12 @@ class RestAd extends BaseController {
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'user_not_perm')), 500);
         }
         
+        // Check limit photos
+        $count = File::whereRaw('attachment_id = ? AND attachment_type = ?', array($id, 'DLNLab\Classified\Models\Ad'))->count();
+        if ($count >= CLF_LIMIT_AD_PHOTO) {
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'user_not_perm')), 500);
+        }
+        
         $result = null;
         if (Input::hasFile('file_data')) {
             try {
@@ -181,50 +187,37 @@ class RestAd extends BaseController {
     }
 
     public function putActiveAd() {
-        $message = 'Success';
-        $code = 200;
-        $data = post();
-
         try {
-            $user_id = Auth::getUser()->id;
-
-            if (empty($data))
-                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'error_value')), 500);
+            $data = post();
 
             $default = array(
                 'ad_id' => '',
-                'day_type' => '',
+                'day' => '',
             );
             $merge = array_merge($default, $data);
             $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
             extract($merge);
 
-            // Get Ad
-            $ad = Ad::find($ad_id);
-
-            if (empty($ad) || !empty($ad->status)) {
-                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_activated')), 500);
+            if (empty(intval($ad_id)) || empty(intval($day))) {
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'not_valid')), 500);
             }
 
             // Get user_id
-            $user_id = $ad->user_id;
-
-            if ($_user_id != $user_id) {
-                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'error_user')), 500);
-            }
-
-            // Get money and days
-            $money = $day = 0;
-            AdActive::get_day_type($day_type, $money, $day);
-            if (!$money || !$day) {
-                return 'Error get day type';
-            }
-
+            $user_id = Auth::getUser()->id;
+            
             // Check user money
             $user_money = Money::get_user_charge_money($user_id);
+            $money      = AdActive::calc_money($day);
             if (($user_money - $money) < 0) {
                 // No active ad when user not enough money
-                return 'No active ad when user not enough money';
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'user_not_enough_money')), 500);
+            }
+            
+            // Get Ad
+            $ad = Ad::whereRaw('id = ? AND user_id = ? AND status != ?', array($id, $user_id, 0))->first();
+
+            if (empty($ad)) {
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'user_not_perm')), 500);
             }
 
             DB::beginTransaction();
@@ -238,10 +231,12 @@ class RestAd extends BaseController {
                 $ad->save();
 
                 // Update add has activated to DB
+                $now    = \Carbon\Carbon::now();
                 $record = new self;
                 $record->ad_id = $ad_id;
                 $record->money = $money;
-                $record->day = $day;
+                $record->start_date = $now->toDateTimeString();
+                $record->end_date = $now->addDays($day)->toDateTimeString();
                 $record->status = 1;
                 $record->save();
             } catch (Exception $ex) {
@@ -436,9 +431,6 @@ class RestAd extends BaseController {
     }
 
     public function putAd($id) {
-        if (!Auth::check())
-            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
-
         $data = post();
         try {
             DB::beginTransaction();
@@ -450,6 +442,7 @@ class RestAd extends BaseController {
                 'price' => '',
                 'address' => '',
                 'category_id' => '',
+                'type_id' => '',
                 'tag_ids' => '',
                 'lat' => '',
                 'lng' => ''
@@ -466,20 +459,22 @@ class RestAd extends BaseController {
             $lat = (is_float($lat)) ? floatval($lat) : '';
             $lng = (is_float($lng)) ? floatval($lng) : '';
 
-            $record->name = str_limit($name, $limit = 125);
-            $record->slug = (empty($slug)) ? HelperClassified::slug_utf8($name) : $slug;
-            $record->description = str_limit($description, $limit = 500);
-            $record->price = preg_replace("/[^0-9]/", "", $price);
-            $record->address = $address;
-            $record->category_id = $category_id;
-            $record->lat = $lat;
-            $record->lng = $lng;
-
-            if (!$record->validate()) {
-                $message = $record->errors()->all();
-                return Response::json(array('status' => 'error', 'message_array' => $message), 500);
+            if (empty($tag_ids)) {
+                $record->name = str_limit($name, $limit = 125);
+                $record->slug = (empty($slug)) ? HelperClassified::slug_utf8($name) : $slug;
+                $record->description = str_limit($description, $limit = 500);
+                $record->price = preg_replace("/[^0-9]/", "", $price);
+                $record->address = $address;
+                $record->category_id = $category_id;
+                $record->lat = $lat;
+                $record->lng = $lng;
+                
+                if (!$record->validate()) {
+                    $message = $record->errors()->all();
+                    return Response::json(array('status' => 'error', 'message_array' => $message), 500);
+                }
+                $record->save();
             }
-            $record->save();
 
             $city = '';
             $state = '';

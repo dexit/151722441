@@ -168,31 +168,7 @@
         if (self.$ad_id && self.$allow && form.valid()) {
             if (calc) {
                 /* save form desc */
-                self.showStatus(false);
-                self.$allow = false;
-                $.ajax({
-                    type: 'PUT',
-                    url: window.root_url_api + '/ad/' + self.$ad_id,
-                    data: form.serialize(),
-                    success: function (res) {
-                        self.$allow = true;
-                        if (res.status == 'success') {
-                            self.showChecked('ad_desc');
-                            self.hideStatus(false);
-                            self.calculatePercent();
-                        }
-                    },
-                    error: function (data) {
-                        self.$allow = true;
-                        self.errorStatus(false);
-                        self.hideChecked('dln_desc');
-                        if (data.responseText) {
-                            window.ad_common.showError(data.responseText);
-                        } else {
-                            console.log(data);
-                        }
-                    }
-                });
+                self.saveAdCommon();
             } else {
                 self.showChecked('ad_desc');
             }
@@ -296,7 +272,8 @@
         if (form.valid()) {
             self.showChecked('ad_location');
             if (calc) {
-                self.calculatePercent();
+                /* save form location */
+                self.saveAdCommon();
             }
             return true;
         }
@@ -320,11 +297,42 @@
         if (form.valid()) {
             self.showChecked('ad_property');
             if (calc) {
-                self.calculatePercent();
+                /* save form property */
+                self.saveAdCommon();
             }
             return true;
         }
         return false;
+    };
+    
+    AdEdit.prototype.saveAdCommon = function (form) {
+        var self = this;
+        
+        self.showStatus(false);
+        self.$allow = false;
+        $.ajax({
+            type: 'PUT',
+            url: window.root_url_api + '/ad/' + self.$ad_id,
+            data: form.serialize(),
+            success: function (res) {
+                self.$allow = true;
+                if (res.status == 'success') {
+                    self.showChecked('ad_desc');
+                    self.hideStatus(false);
+                    self.calculatePercent();
+                }
+            },
+            error: function (data) {
+                self.$allow = true;
+                self.errorStatus(false);
+                self.hideChecked('dln_desc');
+                if (data.responseText) {
+                    window.ad_common.showError(data.responseText);
+                } else {
+                    console.log(data);
+                }
+            }
+        });
     };
 
     /**
