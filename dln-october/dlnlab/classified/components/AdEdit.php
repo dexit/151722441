@@ -67,12 +67,12 @@ class AdEdit extends ComponentBase
                 if (empty($ad_id)) {
                     Redirect::to('/ad/quick');
                 }
-                $ad       = Ad::find($ad_id);
-                $ad_infor = AdInfor::where('ad_id', '=', $ad_id);
-                $ad_tag   = DB::table('dlnlab_classified_ads_tags')->where('ad_id', '=', $ad_id)->get();
+                $ad        = Ad::find($ad_id);
+                $ad_infors = AdInfor::where('ad_id', '=', $ad_id);
+                $ad_tags   = Tag::getTagsOfAd($ad_id);
                 $this->page['ad']         = $ad;
-                $this->page['ad_infor']   = $ad_infor;
-                $this->page['ad_tag']     = $ad_tag;
+                $this->page['ad_infors']   = $ad_infors;
+                $this->page['ad_tags']     = $ad_tags;
                 break;
             case 'edit-detail':
                 $kind     = HelperCache::getAdKind();

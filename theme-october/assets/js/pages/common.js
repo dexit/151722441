@@ -33,7 +33,7 @@
             message: response.message,
             type: 'danger'
         }).show();
-    }
+    };
     
     $(document).ready(function () {
         window.ad_common = new AdCommon();

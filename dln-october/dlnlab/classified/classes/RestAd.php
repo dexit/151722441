@@ -203,7 +203,8 @@ class RestAd extends BaseController {
             }
 
             // Get user_id
-            $user_id = Auth::getUser()->id;
+            $user    = Auth::getUser();
+            $user_id = $user->id;
             
             // Check user money
             $user_money = Money::get_user_charge_money($user_id);
@@ -239,6 +240,9 @@ class RestAd extends BaseController {
                 $record->end_date = $now->addDays($day)->toDateTimeString();
                 $record->status = 1;
                 $record->save();
+                
+                $user->money_spent = $user->money_spent + $money;
+                $user->save();
             } catch (Exception $ex) {
                 DB::rollback();
                 return $ex->getMessage();
@@ -478,7 +482,7 @@ class RestAd extends BaseController {
 
             $city = '';
             $state = '';
-            if ($lat && $lng) {
+            if ($lat && $lng && ($lat != $record->lat && $lng != $record->lng)) {
                 $response = @file_get_contents(sprintf('https://maps.googleapis.com/maps/api/geocode/json?latlng=%s,%s&language=vi_VN', $lat, $lng));
                 $json_resp = json_decode($response);
 
@@ -660,9 +664,23 @@ class RestAd extends BaseController {
         $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
         extract($merge);
 
-        $records = Ad::getNearbyAd($id, $page);
+        $records = Ad::getNearbyAd(intval($id), intval($page));
 
         return Response::json(array('status' => 'success', 'data' => $records));
     }
 
+    public function getAdAroundState($ad_id) {
+        $data = get();
+        $default = array(
+            'page' => 0,
+            'state_id' => 0
+        );
+        $merge = array_merge($default, $data);
+        $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
+        extract($merge);
+        
+        $records = Ad::getAdAroundState($state_id, $ad_id, $page);
+        
+        return Response::json(array('status' => 'success', 'data' => $records));
+    }
 }

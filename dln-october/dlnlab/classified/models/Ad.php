@@ -294,6 +294,25 @@ class Ad extends Model {
         return $records;
     }
     
+    public static function getAdAroundState($state_id, $ad_id, $page = 0) {
+        if (empty($ad_id) || empty($state_id))
+            return false;
+        
+        $limit = CLF_LIMIT;
+        $skip  = $page * $limit;
+        
+        $records = DB::table('dlnlab_classified_ads_tags')
+            ->join('dlnlab_classified_ads', 'dlnlab_classified_ads_tags.ad_id', '=', 'dlnlab_classified_ads.id')
+            ->select('*')
+            ->where('tag_id', '=', $state_id)
+            ->orderBy('price', 'ASC')
+            ->skip($skip)
+            ->take($limit)
+            ->get();
+        
+        return $records;
+    }
+    
     public static function get_ad_link($ad_id = 0) {
         if (! $ad_id)
             return false;

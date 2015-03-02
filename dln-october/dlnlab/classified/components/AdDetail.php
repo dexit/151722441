@@ -36,6 +36,15 @@ class AdDetail extends ComponentBase {
         //$this->addJs(CLF_ASSETS . '/js/components/ad-detail.js');
 		
 		$ad       = $this->loadAd();
+        $this->page['nearbies']   = Ad::getNearbyAd($ad_id);
+                
+        $state_id = 0;
+        foreach ($ad_tags as $tag) {
+            if ($tag->type == 'state') {
+                $state_id = $tag->tag_id;
+            }
+        }
+        $this->page['nearby_states'] = Ad::getAdAroundState($state_id, $ad_id);
 	}
 
 	protected function loadAd() {

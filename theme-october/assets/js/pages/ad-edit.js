@@ -11,6 +11,7 @@
             this.init();
             this.initEvents();
             this.initPhoto();
+            this.initModal();
         }
     };
 
@@ -34,9 +35,9 @@
                 }
             }
         });
-        
+
         var type = window.location.hash.substr(1);
-        if (! type) {
+        if (!type) {
             $('.ad-tabs .panel-default:first-child').trigger('click');
         } else {
             $('.ad-tabs .panel-default[data-hash="' + type + '"]').trigger('click');
@@ -46,7 +47,7 @@
         $('#ad_desc form').on('change', function (e) {
             self.checkFormDesc(true);
         });
-        
+
         $('#dln_name').on({
             keydown: function (e) {
                 var length = $(this).val().length;
@@ -133,7 +134,7 @@
         $('.dln-status').addClass('text-success');
         $('.dln-status').addClass('in');
         $('.dln-status').text('Đang lưu...');
-        if (! no_loading) {
+        if (!no_loading) {
             $('.dln-loading').addClass('show');
         }
     };
@@ -141,7 +142,7 @@
     AdEdit.prototype.hideStatus = function (no_loading) {
         $('.dln-status').removeClass('in');
         $('.dln-status').text('Đã lưu!');
-        if (! no_loading) {
+        if (!no_loading) {
             $('.dln-loading').removeClass('show');
         }
     };
@@ -150,7 +151,7 @@
         $('.dln-status').addClass('text-danger');
         $('.dln-status').removeClass('in');
         $('.dln-status').text('Lỗi!');
-        if (! no_loading) {
+        if (!no_loading) {
             $('.dln-loading').removeClass('show');
         }
     };
@@ -304,10 +305,10 @@
         }
         return false;
     };
-    
+
     AdEdit.prototype.saveAdCommon = function (form) {
         var self = this;
-        
+
         self.showStatus(false);
         self.$allow = false;
         $.ajax({
@@ -340,7 +341,7 @@
      */
     AdEdit.prototype.initPhoto = function () {
         var self = this;
-        
+
         $('#dln_photo_upload').on('click', function (e) {
             e.preventDefault();
             $('#dln_file_upload').trigger('click');
@@ -358,7 +359,7 @@
                 done: function (e, data) {
                     self.$allow = true;
                     self.hideStatus(true);
-                    
+
                     if (data.result.code == 200) {
                         self.createPhotoAd(data.result);
                     }
@@ -366,7 +367,7 @@
                 error: function (data) {
                     self.$allow = true;
                     self.errorStatus(true);
-                    
+
                     if (data.responseText) {
                         window.ad_common.showError(data.responseText);
                     } else {
@@ -377,7 +378,7 @@
             self.setPhotoFeature();
         }
     };
-    
+
     AdEdit.prototype.createPhotoAd = function (response) {
         if (!response)
             return false;
@@ -389,23 +390,23 @@
         self.initPhotoEvents();
         self.setPhotoFeature();
     };
-    
+
     AdEdit.prototype.savePhotoOrder = function () {
         var self = this;
-        
-        if (! self.$ad_id) {
+
+        if (!self.$ad_id) {
             return false;
         }
-        
+
         clearTimeout(self.$timer);
-        self.$timer = setTimeout(function (){
+        self.$timer = setTimeout(function () {
             self.showStatus(true);
-            
+
             var photo_ids = [];
             $('#dln_photos .dln-photo-item').each(function () {
                 photo_ids.push($(this).data('id'));
             });
-            
+
             self.$allow = false;
             $.ajax({
                 type: 'POST',
@@ -416,7 +417,7 @@
                 success: function (res) {
                     self.$allow = true;
                     self.hideStatus(true);
-                    
+
                     if (res.status == 'success') {
                         self.setPhotoFeature();
                     }
@@ -424,7 +425,7 @@
                 error: function (data) {
                     self.$allow = true;
                     self.errorStatus(true);
-                    
+
                     if (data.responseText) {
                         window.ad_common.showError(data.responseText);
                     } else {
@@ -434,31 +435,31 @@
             });
         }, self.$time_out);
     };
-    
-    AdEdit.prototype.setPhotoFeature = function() {
+
+    AdEdit.prototype.setPhotoFeature = function () {
         $('#dln_photos .dln-photo-item').addClass('bg-master-lightest');
         $('#dln_photos .dln-photo-item:first-child').removeClass('bg-master-lightest');
         $('#dln_photos .dln-photo-item:first-child').addClass('bg-master-lightest');
     };
-    
+
     AdEdit.prototype.initPhotoEvents = function (id, selector) {
         var self = this;
         var id = intval(id);
-        
-        if (! id) {
+
+        if (!id) {
             return false;
         }
-        
+
         $(selector + ' #dln_photo_desc').on('change', function (e) {
-            if (! self.$ad_id) {
+            if (!self.$ad_id) {
                 return false;
             }
-            
+
             var desc = $.trim($(this).text());
-            
+
             if (self.$allow && desc) {
                 self.showStatus(false);
-                
+
                 self.$allow = false;
                 $.ajax({
                     type: 'PUT',
@@ -482,18 +483,18 @@
                 });
             }
         });
-        
+
         /* For delete button*/
         $(selector + ' .dln-delete-photo').on('click', function (e) {
-            if (! self.$ad_id) {
+            if (!self.$ad_id) {
                 return false;
             }
-            
+
             var result = confirm("Bạn muốn xóa ảnh này?");
-            
+
             if (self.$allow && result) {
                 self.showStatus(false);
-                
+
                 self.$allow = false;
                 $.ajax({
                     type: 'DELETE',
@@ -517,12 +518,13 @@
                 });
             }
         });
-        
+
         /* For order up photo */
         $(selector + ' .dln-up-photo').on('click', function (e) {
             var item = $(this).parents('.dln-photo-item');
             var prev = item.prev();
-            if (prev.length == 0) return;
+            if (prev.length == 0)
+                return;
             prev.css('z-index', 999).css('position', 'relative').animate({
                 top: item.height()
             }, 250);
@@ -532,16 +534,17 @@
                 prev.css('z-index', '').css('top', '').css('position', '');
                 item.css('z-index', '').css('top', '').css('position', '');
                 item.insertBefore(prev);
-                
+
                 self.savePhotoOrder();
             });
         });
-        
+
         /* For order down photo */
         $(selector + ' .dln-down-photo').on('click', function (e) {
             var item = $(this).parents('.dln-photo-item');
             var next = item.next();
-            if (next.length == 0) return;
+            if (next.length == 0)
+                return;
             next.css('z-index', 999).css('position', 'relative').animate({
                 top: '-' + item.height()
             }, 250);
@@ -551,10 +554,79 @@
                 next.css('z-index', '').css('top', '').css('position', '');
                 item.css('z-index', '').css('top', '').css('position', '');
                 item.insertAfter(next);
-                
+
                 self.savePhotoOrder();
             });
         });
+    };
+
+    AdEdit.prototype.initModal = function () {
+        var self = this;
+
+        // On close modal
+        $('#dln_modal').on('hide.bs.modal', function (e) {
+            $('#dln_modal .dln-body').html('');
+        });
+
+        $('.dln-modal').on('click', function (e) {
+            e.preventDefault();
+
+            var type = $(this).data('type');
+            if (!type) {
+                return false;
+            }
+            var url = window.root_url + '/modal?type=' + $(this).data('type');
+            var options = $(this).data('options');
+            var header = $(this).data('header');
+            var relate = $(this).data('relate');
+            if (relate) {
+                url += '&values=' + $('#' + relate).val();
+            }
+
+            self.showModal();
+            self.showModalLoading();
+            $('#dln_modal .modal-header h5').text('');
+
+            // Send ajax request for get html content
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: options,
+                success: function (response) {
+                    self.hideModalLoading();
+                    $('#dln_modal .modal-header h5').text(header);
+                    $('#dln_modal .dln-body').html(response);
+                },
+            });
+        });
+    };
+
+    AdDetail.prototype.initModalSave = function () {
+        var self = this;
+
+        $('#dln_modal_save').on('click', function (e) {
+            e.preventDefault();
+
+            self.$helper.hideModal();
+        });
+    };
+
+    AdEdit.prototype.showModal = function () {
+        // Show modal with loading indicator
+        $('#dln_modal').modal('show');
+    };
+
+    AdEdit.prototype.hideModal = function () {
+        // Show modal with loading indicator
+        $('#dln_modal').modal('hide');
+    };
+
+    AdEdit.prototype.hideModalLoading = function () {
+        $('#dln_modal .dln-loading').removeClass('show');
+    };
+
+    AdEdit.prototype.showModalLoading = function () {
+        $('#dln_modal .dln-loading').addClass('show');
     };
 
     $(document).ready(function () {
