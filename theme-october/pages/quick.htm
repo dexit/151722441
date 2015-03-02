@@ -11,7 +11,13 @@ type = "quick"
 <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=places&language=vi" type="text/javascript"></script>
 
 <link rel="stylesheet" href="{{ [
-    'assets/css/edit.css',
+    'assets/vendor/bootstrap-select2/select2.css',
+    '~/plugins/dlnlab/classified/assets/css/select2-style.css',
+    'assets/css/pages/dln-ad.css',
+    'assets/css/common.css',
+    ]|theme }}" />
+    
+<link rel="stylesheet" href="{{ [
     '~/plugins/dlnlab/classified/assets/css/com-headerbar.css',
     ]|theme }}" />
 
@@ -48,9 +54,15 @@ type = "quick"
     <script src="{{ [
         'assets/vendor/jquery/jquery-1.8.3.min.js',
         'assets/vendor/boostrapv3/js/bootstrap.min.js',
+        'assets/vendor/bootstrap-select2/select2.min.js',
+        'assets/vendor/jquery-ui/jquery-ui.min.js',
+        'assets/js/libs/notifications.js',
+        'assets/js/pages/common.js',
+    ]|theme }}"></script>
+    
+    <script src="{{ [
         'assets/vendor/jquery-validation/js/jquery.validate.min.js',
         'assets/vendor/inputmask/jquery.inputmask.bundle.min.js',
-        '~/plugins/dlnlab/classified/assets/js/common.js',
         '~/plugins/dlnlab/classified/assets/js/components/ad-quick.js',
     ]|theme }}"></script>
     

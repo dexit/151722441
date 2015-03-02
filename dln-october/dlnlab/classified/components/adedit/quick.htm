@@ -3,16 +3,12 @@
         <div class="form-group clearfix">
             <label class="col-sm-3 control-label">Loại</label>
             <div class="col-sm-9">
-                <div class="btn-group dln-kinds" data-toggle="buttons">
+                <div class="row sm-m-l-5 sm-m-r-5">
+                    <select id="dln_category_id" class="col-sm-6 full-width" data-init-plugin="select2" name="category_id">
                     {% for category in categories %}
-                        <label class="btn btn-default btn-lg m-r-0 btn-cons {{ loop.index == 1 ? 'active' : '' }}">
-                            {% if category.description %}
-                            <i class="fs-14 m-r-5 {{ category.description }}"></i>
-                            {% endif %}
-                            <input type="radio" name="category_id" id="option{{ loop.index }}" value="{{ category.id }}" {{ loop.index == 1 ? 'checked' : '' }}>
-                            {{ category.name }}
-                        </label>
+                        <option value="{{ category.id }}" {{ category.id == 2 ? 'selected' : '' }} >{{ category.name }}</option>
                     {% endfor %}
+                    </select>
                 </div>
             </div>
         </div>
@@ -20,15 +16,12 @@
             <label class="col-sm-3 control-label">Kiểu</label>
             <div class="col-sm-9">
                 <div class="btn-group" data-toggle="buttons">
-                    {% for kind in kinds %}
-                        <label class="btn btn-default btn-lg m-r-0 btn-cons {{ loop.index == 1 ? 'active' : '' }}">
-                            {% if kind.icon %}
-                            <i class="fs-14 m-r-5 {{ kind.icon }}"></i> 
-                            {% endif %}
-                            <input type="radio" name="tag_ids[]" id="option{{ loop.index }}" value="{{ kind.id }}" {{ loop.index == 1 ? 'checked' : '' }}>
-                            {{ kind.name }}
-                        </label>
+                    <div id="dln_type" class="radio radio-success">
+                    {% for type in types %}
+                        <input type="radio" id="option_{{ loop.index }}" name="type_id" value="{{ loop.index }}" {{ loop.index == 2 ? 'checked' : '' }} />
+                        <label for="option_{{ loop.index }}">{{ type }}</label>
                     {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,7 +36,7 @@
                     </div>
                     <div class="input-group col-sm-5">
                         <span class="input-group-addon"> D.tích </span>
-                        <input type="text" required="" name="price" id="dln_price" class="form-control" aria-required="true" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'" />
+                        <input type="text" required="" name="area" id="dln_area" class="form-control" aria-required="true" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'" />
                         <span class="input-group-addon "> m<sup>2</sup> </span>
                     </div>
                 </div>
@@ -52,11 +45,47 @@
         <div class="form-group clearfix">
             <label class="col-sm-3 control-label" for="dln_location">Địa chỉ</label>
             <div class="col-sm-9 location-wrapper">
-                <div class="input-group transparent center-margin">
-                    <input type="text" name="address" id="dln_location" placeholder="Thêm địa chỉ..." class="form-control">
-                    <span class="input-group-addon "> <i class="pg-search"></i> </span>
-                    <input type="hidden" id="clf_lat" name="lat" value="" />
-                    <input type="hidden" id="clf_long" name="lng" value="" />
+                <input type="text" name="address" id="dln_location" placeholder="Nhập địa chỉ..." class="form-control" required>
+                <input type="hidden" id="clf_lat" name="lat" value="" />
+                <input type="hidden" id="clf_long" name="lng" value="" />
+            </div>
+        </div>
+        <div class="form-group clearfix">
+            <label class="col-sm-3 control-label" for="dln_amenity">Thuộc tính</label>
+            <div class="col-sm-9">
+                <div class="row chk_amenities">
+                    {% set part = (amenities|length + (2 - amenities|length % 2)) / 2 %}
+
+                    <div class="col-sm-6">
+                        {% for amenity in amenities %}
+                            {% if loop.index >= part * 0 and loop.index < part * 1 %}
+                                {% if amenity.id in arr_selected %}
+                                    {% set checked = 'checked="checked"' %}
+                                {% else %}
+                                    {% set checked = '' %}
+                                {% endif %}
+                                <div class="checkbox check-success">
+                                    <input type="checkbox" {{ checked }} id="chk_{{ amenity.id }}" value="{{ amenity.id }}" name="tag_ids[]">
+                                    <label for="chk_{{ amenity.id }}">{{ amenity.name }}</label>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="col-sm-6">
+                        {% for amenity in amenities %}
+                            {% if loop.index >= part * 1 and loop.index < part * 2 %}
+                                {% if amenity.id in arr_selected %}
+                                    {% set checked = 'checked="checked"' %}
+                                {% else %}
+                                    {% set checked = '' %}
+                                {% endif %}
+                                <div class="checkbox check-success">
+                                    <input type="checkbox" {{ checked }} id="chk_{{ amenity.id }}" value="{{ amenity.id }}" name="tag_ids[]">
+                                    <label for="chk_{{ amenity.id }}">{{ amenity.name }}</label>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,9 +93,10 @@
             <label class="col-sm-3 control-label hidden-xs"></label>
             <div class="col-sm-9">
                 <button type="button" id="dln_submit_quick" class="btn btn-danger btn-cons bold pull-left">
-                    <span>Đăng tin</span>
+                    <span>Tạo tin</span>
                 </button>
             </div>
         </div>
+        <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
     </form>
 </div>

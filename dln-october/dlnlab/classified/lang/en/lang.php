@@ -31,7 +31,7 @@ return [
         'error_value' => 'Giá trị của bạn không hợp lệ.',
         'error_user' => 'Tài khoản của bạn không hợp lệ.',
         'require_signin' => 'Bạn vui lòng đăng nhập trước!',
-        'not_create_ad' => sprintf('Xin lỗi! Bạn chỉ được phép có tối đa %d tin chưa kích hoạt', CLF_LIMIT_AD_PRIVATE),
+        'not_create_ad' => sprintf('Xin lỗi! Không thể tạo quá %d tin, vui lòng kích hoạt tin cũ!', CLF_LIMIT_AD_PRIVATE),
         'not_create_photo' => sprintf('Xin lỗi! Bạn chỉ được phép đăng tối đa %d ảnh', CLF_LIMIT_AD_PHOTO),
         'ad_activated' => 'Tin này đã được kích hoạt!',
         'ad_not_exist' => 'Tin này không tồn tại.',

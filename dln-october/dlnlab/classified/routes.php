@@ -30,7 +30,8 @@ Route::filter('auth', function() {
 });
 
 Route::filter('csrf', function() {
-    if (Session::token() != Input::get('_token')) {
+    $token = Request::ajax() ? Request::header('X-CSRF-Token') : Input::get('_token');
+    if (Session::token() != $token) {
         return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'not_valid')), 500);
     }
 });
@@ -41,10 +42,10 @@ Route::group(array('before' => 'auth'), function () {
     Route::get($api_path . 'logout', $api_class . '\RestAccount@getLogout');
 });
 
-Route::group(array('before' => 'auth|csrf'), function() {
+Route::group(array('before' => 'csrf|auth'), function() {
     $api_path  = '/api/v1/';
     $api_class = 'DLNLab\Classified\Classes';
-
+    
     Route::post($api_path . 'ad/quick', $api_class . '\RestAd@postAdQuick');
     Route::put($api_path .  'ad/{id}', $api_class . '\RestAd@putAd');
     Route::put($api_path .  'ad/{id}/infor', $api_class . '\RestAd@putAdInfor');

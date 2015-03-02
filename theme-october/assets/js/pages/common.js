@@ -2,11 +2,11 @@
     "use strict";
 
     var AdCommon = function () {
-        var token = $('#_token').val();
+        var token = $('input[name="_token"]').val();
         if (token) {
-                $.ajaxSetup({
-                data: {
-                    _token: token
+            $.ajaxSetup({
+            	headers: {
+                    'X-CSRF-Token': token
                 }
             })
         }
@@ -37,6 +37,9 @@
     
     $(document).ready(function () {
         window.ad_common = new AdCommon();
+
+        // Masked inputs initialization
+        $.fn.inputmask && $('[data-toggle="masked"]').inputmask();
     });
 
 }(window.jQuery));

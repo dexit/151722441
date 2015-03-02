@@ -323,16 +323,12 @@ class Ad extends Model {
     public static function gen_auto_ad_name($data) {
         $default = array(
             'type_id' => '',
-            'tag_ids' => '',
             'category_id' => '',
             'price' => ''
         );
         $merge = array_merge($default, $data);
         $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
         extract($merge);
-        
-        if (! $tag_ids)
-            return false;
         
         $kind = '';
         $types = HelperCache::getAdType();

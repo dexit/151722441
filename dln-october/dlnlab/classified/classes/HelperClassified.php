@@ -4,8 +4,30 @@ namespace DLNLab\Classified\Classes;
 use Input;
 use Cookie;
 use Request;
+use Validator;
 
 class HelperClassified {
+    
+    public static function valid($rules) {
+        $response = null;
+        $messages = array(
+            'required'  => ':attribute bị thiếu',
+            'array'     => ':attribute phải đúng dạng array',
+            'between'   => ':attribute phải nằm trong khoảng :min - :max số.',
+            'numeric'   => ':attribute phải dùng dạng số',
+            'alpha_num' => ':attribute không được có ký tự đặc biệt',
+            'size'      => ':attribute bị giới hạn :size ký tự',
+            'min'       => ':attribute phải lớn hơn :min',
+            'max'       => ':attribute phải nhỏ hơn :max',
+            'regex'     => ':attribute không hợp lệ',
+        );
+        $valid = Validator::make(Input::all(), $rules, $messages);
+        if ($valid->fails()) {
+            $response = $valid->messages()->first();
+        }
+    
+        return $response;
+    }
     
     public static function slug_utf8($str) {
         if (!$str)

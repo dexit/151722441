@@ -7,6 +7,7 @@ use Cms\Classes\Page;
 use Cms\Classes\ComponentBase;
 use DLNLab\Classified\Models\Ad;
 use DLNLab\Classified\Models\AdInfor;
+use DLNLab\Classified\Models\Tag;
 use DLNLab\Classified\Classes\HelperCache;
 
 class AdEdit extends ComponentBase
@@ -67,12 +68,12 @@ class AdEdit extends ComponentBase
                 if (empty($ad_id)) {
                     Redirect::to('/ad/quick');
                 }
-                $ad        = Ad::find($ad_id);
-                $ad_infors = AdInfor::where('ad_id', '=', $ad_id);
-                $ad_tags   = Tag::getTagsOfAd($ad_id);
+                $ad       = Ad::find($ad_id);
+                $ad_infor = AdInfor::where('ad_id', '=', $ad_id);
+                $ad_tags  = Tag::getTagsOfAd($ad_id);
                 $this->page['ad']         = $ad;
-                $this->page['ad_infors']   = $ad_infors;
-                $this->page['ad_tags']     = $ad_tags;
+                $this->page['ad_infor']   = $ad_infor;
+                $this->page['ad_tags']    = $ad_tags;
                 break;
             case 'edit-detail':
                 $kind     = HelperCache::getAdKind();

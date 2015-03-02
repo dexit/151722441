@@ -26,8 +26,17 @@
         $('#dln_submit_quick').on('click', function (e) {
             e.preventDefault();
 
-            if (self.$allow) {
-                var data = $('#dln_frm_quick').serializeArray();
+            var form = $('#dln_frm_quick'); 
+            form.validate();
+            if (self.$allow && form.valid()) {
+            	/* Show modal */
+            	$('.dln-loading').addClass('show');
+            	
+            	/* hidden scrollbar and goto top */
+            	$('body').addClass('overflow-hidden');
+            	window.scrollTo(0, 0);
+            	
+                var data = form.serializeArray();
                 if (data) {
                     self.$allow = false;
                     $.ajax({
@@ -36,12 +45,16 @@
                         data: data,
                         success: function (res) {
                             self.$allow = true;
+                            $('.dln-loading').removeClass('show');
+                            $('body').removeClass('overflow-hidden');
                             if (res.status == 'success') {
                                 // Redirect to ad
                                 window.location = window.root_url + '/tin/' + res.data;
                             }
                         },
                         error: function (data) {
+                        	$('.dln-loading').removeClass('show');
+                            $('body').removeClass('overflow-hidden');
                             self.$allow = true;
                             if (data.responseText) {
                                 window.ad_common.showError(data.responseText);

@@ -1,15 +1,5 @@
 <?php
 
-function valid($rules) {
-    $response = null;;
-    $valid = Validator::make(Input::all(), $rules, json_decode(CLF_MESSAGES));
-    if ($valid->fails()) { 
-        $response = $valid->messages()->first();
-    }
-
-    return $response;
-}
-
 function response_message($error_code, $text = null, $res = null) {
 	switch ($error_code) {
 		case 200:

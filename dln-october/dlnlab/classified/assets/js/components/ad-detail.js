@@ -16,7 +16,6 @@
             this.editBed();
             this.editBath();
             this.editArea();
-            this.initModalSave();
         } else {
             $('.dln-property-price').each(function () {
                 var val = $(this).text();

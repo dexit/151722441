@@ -100,7 +100,7 @@
                                 <label class="col-sm-3 control-label" for="price">Giá</label>
                                 <div class="col-sm-5">
                                     <div class="input-group">
-                                        <input type="text" required="" name="price" id="dln_price" class="form-control" aria-required="true" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'" />
+                                        <input type="text" required="" name="price" value="{{ ad.price|e }}" id="dln_price" class="form-control" aria-required="true" data-toggle="masked" data-inputmask="'alias': 'numeric', 'groupSeparator': ',', 'autoGroup': true, 'digitsOptional': true, 'placeholder': '0'" />
                                         <span class="input-group-addon "> đồng </span>
                                     </div>
                                 </div>
@@ -108,19 +108,18 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="name">Tiêu đề</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="name" placeholder="Tiêu đề cho tin" id="dln_name" class="form-control" required maxlength="125">
+                                    <input type="text" name="name" placeholder="Tiêu đề cho tin" id="dln_name" class="form-control" required maxlength="125" value="{{ ad.name|e }}">
                                     <span class="pull-right text-muted m-t-5"><span id="dln_name_count">125</span> từ</span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label" for="desc">Mô tả</label>
                                 <div class="col-sm-9">
-                                    <textarea placeholder="Viết mô tả ngắn về tin này..." name="desc" id="dln_desc" class="form-control" required maxlength="500"></textarea>
+                                    <textarea placeholder="Viết mô tả ngắn về tin này..." name="desc" id="dln_desc" class="form-control" required maxlength="500">{{ ad.description|e }}</textarea>
                                     <span class="pull-right text-muted m-t-5"><span id="dln_desc_count">500</span> từ</span>
                                 </div>
                             </div>
                         </form>
-                        
                         <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
                     </div>
                 </div>
@@ -138,13 +137,13 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="input-group transparent center-margin m-b-5">
-                                                <input type="number" name="area" id="dln_area" class="form-control" value="0" />
+                                                <input type="number" name="area" id="dln_area" class="form-control" value="{{ ad_infor.area|e }}" />
                                                 <span class="input-group-addon">m<sup>2</sup></span>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="input-group transparent center-margin">
-                                                <input type="number" required="" name="tier" id="dln_tier" class="form-control" value="0" />
+                                                <input type="number" required="" name="tier" id="dln_tier" class="form-control" value="{{ ad_infor.tier|e }}" />
                                                 <span class="input-group-addon"> tầng</span>
                                             </div>
                                         </div>

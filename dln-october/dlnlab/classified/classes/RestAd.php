@@ -19,6 +19,7 @@ use DLNLab\Classified\Models\AdShareCount;
 use DLNLab\Classified\Models\AdSharePage;
 use DLNLab\Classified\Models\Tag;
 use DLNLab\Classified\Classes\HelperClassified;
+use DLNLab\Classified\Models\AdInfor;
 
 require('HelperResponse.php');
 
@@ -29,16 +30,6 @@ class RestAd extends BaseController {
     }
 
     public function postUpload($id = '') {
-<<<<<<< HEAD
-        if (!Auth::check())
-            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
-
-        $user = Auth::getUser();
-        
-        $record = Ad::whereRaw('id = ? AND user_id = ?', array($id, $user->id))->first();
-        if (! $record) {
-            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
-=======
         $user = Auth::getUser();
         $record = Ad::whereRaw('id = ? AND user_id = ?', array($id, $user->id))->first();
         if (! $record) {
@@ -49,7 +40,6 @@ class RestAd extends BaseController {
         $count = File::whereRaw('attachment_id = ? AND attachment_type = ?', array($id, 'DLNLab\Classified\Models\Ad'))->count();
         if ($count >= CLF_LIMIT_AD_PHOTO) {
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'user_not_perm')), 500);
->>>>>>> origin/master
         }
         
         $result = null;
@@ -197,7 +187,7 @@ class RestAd extends BaseController {
         return $file;
     }
 
-    public function putActiveAd() {
+    public function putActiveAd($ad_id = 0) {
         try {
             $data = post();
 
@@ -209,7 +199,7 @@ class RestAd extends BaseController {
             $merge = \DLNLab\Classified\Classes\HelperClassified::trim_value($merge);
             extract($merge);
 
-            if (empty(intval($ad_id)) || empty(intval($day))) {
+            if (intval($ad_id) || intval($day)) {
                 return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'not_valid')), 500);
             }
 
@@ -376,15 +366,13 @@ class RestAd extends BaseController {
         $data = post();
         $default = array(
             'category_id' => '',
-<<<<<<< HEAD
-            'type_id' => '',
-=======
-            'type_id' => '1',
->>>>>>> origin/master
+            'type_id' => 2,
             'address' => '',
             'tag_ids' => '',
             'lat' => '',
-            'lng' => ''
+            'lng' => '',
+            'price' => 0,
+            'area' => 0
         );
 
         $merge = array_merge($default, $data);
@@ -403,23 +391,28 @@ class RestAd extends BaseController {
             'category_id' => 'required|numeric|min:1',
             'type_id' => 'required|numeric|min:1',
             'address' => 'required',
-            'tag_ids' => 'required|array'
+            'price'   => 'required|numeric',
+            'tag_ids' => 'array',
+            'area'    => 'numeric'
         ];
 
-        // Format lai tag ids
-        foreach ($tag_ids as $id) {
-            if (!empty($id) || (intval($id) > 0) || (!in_array($id, $tags))) {
-                $tags[] = $id;
-            }
-        }
-        if (!count($tags))
-            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'not_create_ad')), 500);
-
-        $error = valid($rules);
+        $error = HelperClassified::valid($rules);
         if ($error != null)
             return Response::json(array('status' => 'error', 'message' => $error), 500);
+        
+        // Format lai tag ids
+        if ($tag_ids) {
+            foreach ($tag_ids as $id) {
+                if (!empty($id) || (intval($id) > 0) || (!in_array($id, $tags))) {
+                    $tags[] = $id;
+                }
+            }
+            if (!count($tags)) {
+                return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'not_create_ad')), 500);
+            }
+        }
 
-        $name = Ad::gen_auto_ad_name($data);
+        $name = Ad::gen_auto_ad_name($merge);
         $slug = HelperClassified::slug_utf8($name);
 
         try {
@@ -429,6 +422,7 @@ class RestAd extends BaseController {
             $record->slug = $slug;
             $record->address = $address;
             $record->category_id = $category_id;
+            $record->type_id = $type_id;
             $record->price = $price;
             $record->lat = $lat;
             $record->lng = $lng;
@@ -436,10 +430,18 @@ class RestAd extends BaseController {
 
             // Them vao bang ads_tags
             $arr_insert = array();
-            foreach ($tags as $id) {
-                $arr_insert[] = array('ad_id' => $record->id, 'tag_id' => $id);
+            if (! empty($tags)) {
+                foreach ($tags as $id) {
+                    $arr_insert[] = array('ad_id' => $record->id, 'tag_id' => $id);
+                }
+                DB::table('dlnlab_classified_ads_tags')->insert($arr_insert);
             }
-            DB::table('dlnlab_classified_ads_tags')->insert($arr_insert);
+            
+            if ($area) {
+                $record = new AdInfor();
+                $record->area = $area;
+                $record->save();
+            }
 
             DB::commit();
             return Response::json(array('status' => 'success', 'data' => $record->id));
@@ -464,11 +466,63 @@ class RestAd extends BaseController {
                 'type_id' => '',
                 'tag_ids' => '',
                 'lat' => '',
-                'lng' => ''
+                'lng' => '',
+                'step' => 0
             );
             $merge = array_merge($default, $data);
             $merge = HelperClassified::trim_value($merge);
             extract($merge);
+            
+            switch ($step) {
+                case '1':
+                    $rules = [
+                        'name' => 'required',
+                        'description' => 'required',
+                        'category_id' => 'required|numeric|min:1',
+                        'type_id' => 'required|numeric|min:1',
+                        'price' => 'required|numeric',
+                    ];
+                    break;
+                case '2':
+                    $rules = [
+                        'area' => 'required|numeric',
+                        'bed' => 'required|numeric',
+                        'bath' => 'required|numeric',
+                        'direction' => 'required|numeric',
+                    ];
+                    break;
+                case '3':
+                    $rules = [
+                        'address' => 'required',
+                        'lat'     => 'required',
+                        'lng'     => 'required',
+                    ];
+                    break;
+                case '4':
+                    $rules = [
+                        'tag_ids' => 'array'
+                    ];
+                    break;
+                default:
+                    $rules = [
+                        'name'        => 'required',
+                        'description' => 'required',
+                        'category_id' => 'required|numeric|min:1',
+                        'type_id' => 'required|numeric|min:1',
+                        'address' => 'required',
+                        'price'   => 'required|numeric',
+                        'lat'     => 'required',
+                        'lng'     => 'required',
+                        'tag_ids' => 'array',
+                        'area'    => 'numeric',
+                    ];
+                    break;
+            }
+            
+            $error = HelperClassified::valid($rules);
+            if ($error != null) {
+                return Response::json(array('status' => 'error', 'message' => $error), 500);
+            }
 
             $record = Ad::find($id);
             if (empty($record) || $record->user_id != Auth::getUser()->id) {
@@ -478,37 +532,22 @@ class RestAd extends BaseController {
             $lat = (is_float($lat)) ? floatval($lat) : '';
             $lng = (is_float($lng)) ? floatval($lng) : '';
 
-<<<<<<< HEAD
-            $record->name = str_limit($name, $limit = 125);
-            $record->slug = (empty($slug)) ? HelperClassified::slug_utf8($name) : $slug;
-            $record->description = str_limit($description, $limit = 500);
-            $record->price = preg_replace("/[^0-9]/", "", $price);
-            $record->address = $address;
-            $record->category_id = intval($category_id);
-            $record->type_id     = intval($type_id);
-            $record->lat = $lat;
-            $record->lng = $lng;
-
-            if (!$record->validate()) {
-                $message = $record->errors()->all();
-                return Response::json(array('status' => 'error', 'message_array' => $message), 500);
-=======
-            if (empty($tag_ids)) {
+            if (empty($lat) && empty($lng)) {
                 $record->name = str_limit($name, $limit = 125);
                 $record->slug = (empty($slug)) ? HelperClassified::slug_utf8($name) : $slug;
                 $record->description = str_limit($description, $limit = 500);
                 $record->price = preg_replace("/[^0-9]/", "", $price);
                 $record->address = $address;
-                $record->category_id = $category_id;
+                $record->category_id = intval($category_id);
+                $record->type_id     = intval($type_id);
                 $record->lat = $lat;
                 $record->lng = $lng;
-                
-                if (!$record->validate()) {
-                    $message = $record->errors()->all();
-                    return Response::json(array('status' => 'error', 'message_array' => $message), 500);
-                }
                 $record->save();
->>>>>>> origin/master
+            }
+
+            if (!$record->validate()) {
+                $message = $record->errors()->all();
+                return Response::json(array('status' => 'error', 'message_array' => $message), 500);
             }
 
             $city = '';

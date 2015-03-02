@@ -59,6 +59,7 @@
                 }
             }
         });
+        $('#dln_name').trigger('keydown');
 
         $('#dln_desc').on({
             keydown: function (e) {
@@ -71,6 +72,7 @@
                 }
             }
         });
+        $('#dln_desc').trigger('keydown');
 
         $('#dln_price').on({
             change: function (e) {
@@ -169,7 +171,7 @@
         if (self.$ad_id && self.$allow && form.valid()) {
             if (calc) {
                 /* save form desc */
-                self.saveAdCommon();
+                self.saveAdCommon(form);
             } else {
                 self.showChecked('ad_desc');
             }
@@ -274,7 +276,7 @@
             self.showChecked('ad_location');
             if (calc) {
                 /* save form location */
-                self.saveAdCommon();
+                self.saveAdCommon(form);
             }
             return true;
         }
@@ -299,7 +301,7 @@
             self.showChecked('ad_property');
             if (calc) {
                 /* save form property */
-                self.saveAdCommon();
+                self.saveAdCommon(form);
             }
             return true;
         }
@@ -601,7 +603,7 @@
         });
     };
 
-    AdDetail.prototype.initModalSave = function () {
+    AdEdit.prototype.initModalSave = function () {
         var self = this;
 
         $('#dln_modal_save').on('click', function (e) {
@@ -631,9 +633,6 @@
 
     $(document).ready(function () {
         var ad_edit = new AdEdit();
-
-        // Masked inputs initialization
-        $.fn.inputmask && $('[data-toggle="masked"]').inputmask();
     });
 
 }(window.jQuery));

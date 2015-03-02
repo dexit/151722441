@@ -19,18 +19,6 @@ define( 'CLF_LIMIT', 10 );
 define( 'CLF_MONEY_AD', 700 );
 define( 'CLF_DISTANCE', 100 );
 define( 'TIME_DELAY_COUNT_VIEW', 420 ); // 7 minutes
-define( 'CLF_MESSAGES', json_encode(array(
-        'required'  => ':attribute bị thiếu',
-        'array'     => ':attribute phải đúng dạng array',
-        'between'   => ':attribute phải nằm trong khoảng :min - :max số.',
-        'numeric'   => ':attribute phải dùng dạng số',
-        'alpha_num' => ':attribute không được có ký tự đặc biệt',
-        'size'      => ':attribute bị giới hạn :size ký tự',
-        'min'       => ':attribute phải lớn hơn :min',
-        'max'       => ':attribute phải nhỏ hơn :max',
-        'regex'     => ':attribute không hợp lệ',
-    ))
-);
 define( 'CLF_LANG_MESSAGE', 'dlnlab.classified::lang.messages.' );
 define( 'CLF_LANG_LABEL', 'dlnlab.classified::lang.labels.' );
 

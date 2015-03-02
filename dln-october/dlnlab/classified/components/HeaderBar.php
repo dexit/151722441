@@ -2,6 +2,8 @@
 
 use Auth;
 use Cms\Classes\ComponentBase;
+use DLNLab\Classified\Classes\HelperCache;
+use DLNLab\Classified\Models\AdInfor;
 
 class HeaderBar extends ComponentBase
 {
