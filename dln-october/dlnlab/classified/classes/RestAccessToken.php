@@ -12,7 +12,7 @@ use Response;
 use Redirect;
 use Validator;
 use System\Models\File;
-use Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use DLNLab\Classified\Models\UserAccessToken;
 use DLNLab\Classified\Models\AdShare;
 use DLNLab\Classified\Models\AdSharePage;

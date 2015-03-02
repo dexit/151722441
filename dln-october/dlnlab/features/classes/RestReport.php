@@ -4,7 +4,7 @@ namespace DLNLab\Features\Classes;
 
 use Auth;
 use Response;
-use Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use DLNLab\Features\Components\ReportForm;
 
 require('HelperResponse.php');

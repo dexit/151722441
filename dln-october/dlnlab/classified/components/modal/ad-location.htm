@@ -2,16 +2,21 @@
     <div class="form-group clearfix">
         <label class="col-sm-3 control-label" for="dln_location">Địa chỉ</label>
         <div class="col-sm-9 location-wrapper">
-            <button class="btn pull-left fs-12 m-r-10" href="javascript:void(0)" id="dln_track"><i class="pg-map"></i></button>
             <div class="input-group transparent center-margin">
                 <input type="text" name="location" id="dln_location" placeholder="Hà Nội, TP.HCM, Đà Nẵng..." class="form-control">
                 <span class="input-group-addon "> <i class="pg-search"></i> </span>
             </div>
             <p class="hint-text small">Mẹo: Bạn có thể kéo thả marker để xác định vị trí chính xác hơn.</p>
         </div>
-        <label class="col-sm-3"></label>
+        <label class="col-sm-3">Bản đồ</label>
         <div class="col-sm-9">
             <div id="dln_map_canvas" style="height: 300px; width: 100%"></div>
+            <i class="dln-pin-map"></i>
+            <div class="btn-group dln-map-zoom-controls">
+                <button class="btn btn-default btn-sm"><i class="fa fa-minus"></i></button>
+                <button class="btn btn-default btn-sm"><i class="fa fa-add"></i></button>
+            </div>
+            <button class="btn btn-default btn-sm" href="javascript:void(0)" id="dln_track"><i class="pg-map"></i></button>
             <input type="hidden" id="clf_lat" name="lat" value="" />
             <input type="hidden" id="clf_long" name="lng" value="" />
         </div>

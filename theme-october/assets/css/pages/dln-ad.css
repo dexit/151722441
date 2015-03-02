@@ -11,3 +11,12 @@
 .b-r-4 {
     border-radius: 4px;
 }
+.location-wrapper {
+    padding-left: 65px;
+    position: relative;
+}
+.location-wrapper .btn:first-child {
+    position: absolute;
+    max-width: 60px;
+    left: 10px;
+}

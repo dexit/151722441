@@ -38,25 +38,7 @@ class AdActive extends Model
     public $attachOne = [];
     public $attachMany = [];
     
-    private static function get_day_type($type, &$money, &$day) {
-        switch($type) {
-            case '1':
-                // 7 days
-                $money = 5 * 1000;
-                $day   = 7;
-                break;
-            
-            case '2':
-                // 15 days
-                $money = 10 * 1000;
-                $day   = 15;
-                break;
-            
-            case '3':
-                // a month
-                $money = 15 * 1000;
-                $day   = 30;
-                break;
-        }
+    public static function calc_money($day = 0) {
+        return $day * CLF_MONEY_AD;
     }
 }

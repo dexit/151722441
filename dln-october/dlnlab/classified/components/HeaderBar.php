@@ -23,7 +23,7 @@ class HeaderBar extends ComponentBase
         $user = $this->user();
         if (! $user)
             return false;
-        csrf_token();
+        
         $name       = trim($user->name);
         $parts      = explode(" ", $name);
         $last_name  = array_pop($parts);
@@ -39,6 +39,13 @@ class HeaderBar extends ComponentBase
         $asset_css[]    = '~/plugins/dlnlab/classified/assets/css/components/headerbar.css';
         $this->page['asset_css']    = $asset_css;
         $this->page['asset_script'] = $asset_script;
+        
+        $this->page['types']      = HelperCache::getAdType();
+        $this->page['categories'] = HelperCache::getAdCategory();
+        $this->page['amenities']  = HelperCache::getAdAmenities();
+        $this->page['bed_rooms']  = AdInfor::getBedRoomOptions();
+        $this->page['bath_rooms'] = AdInfor::getBathRoomOptions();
+        $this->page['directions'] = AdInfor::getDirectionOptions();
     }
     
     public function user()

@@ -2,6 +2,16 @@
     "use strict";
 
     var AdCommon = function () {
+        var token = $('#_token').val();
+        if (token) {
+                $.ajaxSetup({
+                data: {
+                    _token: token
+                }
+            })
+        }
+        
+        
         // Initialize select2
         $.fn.select2 && $('[data-init-plugin="select2"]').each(function () {
             $(this).select2({
@@ -23,7 +33,7 @@
             message: response.message,
             type: 'danger'
         }).show();
-    }
+    };
     
     $(document).ready(function () {
         window.ad_common = new AdCommon();

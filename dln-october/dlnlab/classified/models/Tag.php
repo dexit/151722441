@@ -157,4 +157,16 @@ class Tag extends Model
         return null;
     }
     
+    public static function getTagsOfAd($ad_id = 0) {
+        if (empty($ad_id))
+            return false;
+        
+        $records = DB::table('dlnlab_classified_tags')
+            ->join('dlnlab_classified_ads_tags', 'dlnlab_classified_ads_tags.tag_id', '=', 'dlnlab_classified_tags.id')
+            ->select('*')
+            ->where('ad_id', '=', $ad_id)
+            ->get();
+        
+        return $records;
+    }
 }

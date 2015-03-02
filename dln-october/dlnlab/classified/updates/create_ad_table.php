@@ -17,7 +17,6 @@ class CreateAdTable extends Migration {
 			$table->text('description')->nullable();
             $table->string('full_text', 500)->nullable();
 			$table->decimal('price', 14, 0)->nullable()->default(0);
-			$table->timestamp('expiration')->nullable();
 			$table->string('address')->nullable();
 			$table->integer('user_id')->unsigned()->nullable()->index();
 			$table->tinyInteger('type_id')->default(1);

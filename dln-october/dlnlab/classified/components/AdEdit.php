@@ -67,18 +67,32 @@ class AdEdit extends ComponentBase
                 if (empty($ad_id)) {
                     Redirect::to('/ad/quick');
                 }
-                $ad       = Ad::find($ad_id);
-                $ad_infor = AdInfor::where('ad_id', '=', $ad_id);
-                $ad_tag   = DB::table('dlnlab_classified_ads_tags')->where('ad_id', '=', $ad_id)->get();
+                $ad        = Ad::find($ad_id);
+                $ad_infors = AdInfor::where('ad_id', '=', $ad_id);
+                $ad_tags   = Tag::getTagsOfAd($ad_id);
                 $this->page['ad']         = $ad;
-                $this->page['ad_infor']   = $ad_infor;
-                $this->page['ad_tag']     = $ad_tag;
-                $this->page['types']      = HelperCache::getAdType();
-                $this->page['categories'] = HelperCache::getAdCategory();
-                $this->page['amenities']  = HelperCache::getAdAmenities();
-                $this->page['bed_rooms']  = AdInfor::getBedRoomOptions();
-                $this->page['bath_rooms'] = AdInfor::getBathRoomOptions();
-                $this->page['directions'] = AdInfor::getDirectionOptions();
+                $this->page['ad_infors']   = $ad_infors;
+                $this->page['ad_tags']     = $ad_tags;
+                break;
+            case 'edit-detail':
+                $kind     = HelperCache::getAdKind();
+                $category = HelperCache::getAdCategory();
+                $amenity  = HelperCache::getAdAmenities();
+                $bed_rooms  = AdInfor::getBedRoomOptions();
+                $bath_rooms = AdInfor::getBathRoomOptions();
+                $direction  = AdInfor::getDirectionOptions();
+                $caches            = new \stdClass;
+                $caches->kind      = (! empty($kind)) ? $kind->toJson() : '';
+                $caches->category  = (! empty($category)) ? $category->toJson() : '';
+                $caches->amenity   = (! empty($amenity)) ? $amenity->toJson() : '';
+                $caches->bed       = json_encode($bed_rooms);
+                $caches->bath      = json_encode($bath_rooms);
+                $caches->direction = json_encode($direction);
+
+                $this->page['user']       = $this->user();
+                $this->page['ad']         = (! empty($ad)) ? $ad : '';
+                $this->page['ad_json']    = (! empty($ad)) ? $ad->toJson() : '';
+                $this->page['dln_caches'] = (! empty($caches)) ? json_encode($caches) : '';
                 break;
         }
         $this->page['type'] = $type;

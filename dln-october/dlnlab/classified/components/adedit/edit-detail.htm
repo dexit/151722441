@@ -3,53 +3,16 @@
         <div class="pull-left">
             <div class="tabbable tabs-below dln-tab-infor">
                 <div class="tab-content">
-                    {% if photo %}
                     <div class="tab-pane active" id="photo">
-                        <div id="dln_photo_slide" class="carousel slide" data-ride="carousel">
-                            <!-- Indicators -->
-                            <ol class="carousel-indicators">
-                                {% for photo in photos %}
-                                {% if photo.isPublic() %}
-                                <li data-target="#dln_photo_slide" data-slide-to="{{ loop.index }}" class="active"></li>
-                                {% endif %}
-                                {% endfor %}
-                            </ol>
-
-                            <!-- Wrapper for slides -->
-                            <div class="carousel-inner" role="listbox">
-                                {% for photo in photos %}
-                                <div class="item active">
-                                    {% if photo.isPublic() %}
-                                    <img src="{{ photo.getPath() }}" alt="{{ photo.title|e }}">
-                                    <div class="carousel-caption">{{ photo.description|e }}</div>
-                                    {% endif %}
-                                </div>
-                                {% endfor %}
-                            </div>
-
-                            <!-- Controls -->
-                            <a class="left carousel-control" href="#dln_photo_slide" role="button" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                                <span class="sr-only">Trước</span>
-                            </a>
-                            <a class="right carousel-control" href="#dln_photo_slide" role="button" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                                <span class="sr-only">Sau</span>
-                            </a>
-                        </div>
+                        <div class="dln-photo-upload btn btn-default dln-modal" data-type="ad-photo" data-header="Chọn hình ảnh"><i class="fa fa-upload"></i></div>
+                        <div class="dln-photo-indicator">1 of 2</div>
                     </div>
-                    {% endif %}
-                    
-                    {% if ad.lat != '' && ad.lng != ''  %}
                     <div class="tab-pane" id="map">
-                        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{ ad.lat }},{{ ad.lng }}&zoom=16&size=400x400" alt="" />
+                        <div class="dln-map-edit btn btn-default dln-modal" data-type="ad-location" data-header="Thay đổi địa điểm"><i class="fa fa-map-marker"></i></div>
                     </div>
-                    {% endif %}
                 </div>
                 <ul class="nav nav-tabs">
-                    {% if photo %}
                     <li class="active"><a href="#photo" data-toggle="tab"><i class="fa fa-camera"></i> Hình ảnh</a></li>
-                    {% endif %}
                     <li class="center"><a href="#map" data-toggle="tab"><i class="fa fa-map-marker"></i> Bản đồ</a></li>
                 </ul>
             </div>
@@ -57,25 +20,18 @@
         <div class="pull-right">
             <div class="panel dln-info-box">
                 <div class="action-info-container">
-                    <h1 class="dln-property-title">{{ ad.name|e }}</h1>
-                    {% if ad.price %}
-                    <span class="dln-property-price">{{ ad.price|e }}</span>
-                    {% endif %}
+                    <h1 class="dln-property-title editable" data-type="textarea" data-rows="3" data-relate="title"></h1>
+                    <div class="dln-property-price editable" data-type="number" data-relate="price"></div>
                     <div class="dln-property-location">
-                        {% if ad.address %}
-                        <div class="dln-property-location">{{ ad.address|e }}</div>
-                        {% endif %}
-                        <div class="dln-property-updated">{{ ad.published_at|e }}</div>
+                        <div class="dln-property-location editable" data-type="text" data-relate="address"></div>
+                        <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="dln-info-container">
-                            {% if bed %}
-                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room">{{ bed|e }}</span></span>
-                            {% endif %}
-                            {% if bath %}
-                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room">{{ bath|e }}</span></span>
-                            {% endif %}
-                            {% if area %}
-                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room">D.tích {{ area|e }} m<sup>2</sup></span></span>
-                            {% endif %}
+                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable" data-relate="bed" data-suffix="Phòng"></span>
+                            </span> 
+                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-relate="bath" data-suffix="Phòng"></span>
+                            </span> 
+                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-property-area editable">D.tích 120 m<sup>2</sup></span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -88,35 +44,10 @@
                 </div>
                 <div class="primary-action-container">
                     <div class="btn-group">
-                        <button class="btn btn-danger btn-show-number" type="button"><i class="fa fa-phone"></i> Hiện số</button>
-                        <button class="btn btn-danger" type="button"><i class="fa fa-envelope-o"></i> Email</button>
-                    </div>
-                </div>
-                {% if not user %}
-                <div class="secondary-action-container">
-                    <button class="btn btn-default btn-gray">
-                        <i class="fa fa-star-o"></i> Ghim lại
-                    </button>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="pull-left property-content">
-            <div class="dln-info-box-mobile">
-                <div class="dln-contact-fields">
-                    <input type="tel" readonly class="form-control" placeholder="Điện thoại" value="(877) 960-0484 x6384" id="input_phone_number">
-                    <div class="contact-phone-inner">
-                        <i class="fa fa-phone"></i>
-                    </div>
-                    <a href="javascript:void(0)"
-                        class="btn-contact-hidden"><i
-                        class="fa fa-times"></i></a>
-                </div>
-                <div class="primary-action-container">
-                    <div class="btn-group">
-                        <button class="btn btn-danger btn-show-number" type="button">
-                            <i class="fa fa-phone"></i> Hiện số
+                        <button
+                            class="btn btn-danger btn-show-number"
+                            type="button">
+                            <i class="fa fa-phone"></i> Show Number
                         </button>
                         <button class="btn btn-danger" type="button">
                             <i class="fa fa-envelope-o"></i> Email
@@ -126,32 +57,62 @@
                 {% if not user %}
                 <div class="secondary-action-container">
                     <button class="btn btn-default btn-gray">
-                        <i class="fa fa-star-o"></i><span class="hidden-xs">Ghim lại</span>
+                        <i class="fa fa-star-o"></i> Save to
+                        Favorites
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="pull-left property-content">
+            <div class="dln-info-box-mobile">
+                <div class="dln-contact-fields">
+                    <input type="tel" readonly class="form-control"
+                        placeholder="Phone number"
+                        value="(877) 960-0484 x6384"
+                        id="input_phone_number">
+                    <div class="contact-phone-inner">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <a href="javascript:void(0)"
+                        class="btn-contact-hidden"><i
+                        class="fa fa-times"></i></a>
+                </div>
+                <div class="primary-action-container">
+                    <div class="btn-group">
+                        <button
+                            class="btn btn-danger btn-show-number"
+                            type="button">
+                            <i class="fa fa-phone"></i> Call
+                        </button>
+                        <button class="btn btn-danger" type="button">
+                            <i class="fa fa-envelope-o"></i> Email
+                        </button>
+                    </div>
+                </div>
+                {% if not user %}
+                <div class="secondary-action-container">
+                    <button class="btn btn-default btn-gray">
+                        <i class="fa fa-star-o"></i><span class="hidden-xs">Favorites</span>
                     </button>
                 </div>
                 {% endif %}
             </div>
             <div class="dln-box-wrapper">
                 <div class="action-info-container">
-                    <h1 class="dln-property-title">{{ ad.name|e }}</h1>
-                    {% if ad.price %}
-                    <span class="dln-property-price">{{ ad.price|e }}</span>
-                    {% endif %}
+                    <h1 class="dln-property-title editable" data-type="textarea" data-rows="3" data-relate="title"></h1>
+                    <div class="dln-property-price editable" data-type="number" data-relate="price"></div>
                     <div class="dln-property-location">
-                        {% if ad.address %}
-                        <div class="dln-property-location">{{ ad.address|e }}</div>
-                        {% endif %}
-                        <div class="dln-property-updated">{{ ad.published_at|e }}</div>
+                        <div class="dln-property-location editable" data-type="text" data-relate="address"></div>
+                        <div class="dln-property-updated">Posted 12 days ago</div>
                         <div class="dln-info-container">
-                            {% if bed %}
-                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room">{{ bed|e }}</span></span>
-                            {% endif %}
-                            {% if bath %}
-                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room">{{ bath|e }}</span></span>
-                            {% endif %}
-                            {% if area %}
-                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room">D.tích {{ area|e }} m<sup>2</sup></span></span>
-                            {% endif %}
+                            <span class="bedroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bed-room editable" data-relate="bed" data-suffix="Phòng"></span>
+                            </span> 
+                            <span class="bathroom-info"> <i class="fa fa-arrows-h"></i> <span class="dln-bath-room editable" data-relate="bath" data-suffix="Phòng"></span>
+                            </span> 
+                            <span class="sqft-info"> <i class="fa fa-arrows-h"></i> <span class="dln-property-area editable" data-relate="area" data-type="number">120</span> m<sup>2</sup>
+                            </span>
                         </div>
                     </div>
                 </div>

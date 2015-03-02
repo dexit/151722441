@@ -223,6 +223,37 @@
                     <div class="panel-body">
                         <form class="form-horizontal" method="post">
                             <div class="form-group">
+                                <label class="col-sm-3 control-label">Địa chỉ</label>
+                                <div class="col-sm-9 location-wrapper">
+                                    <button class="btn pull-left fs-12 m-r-10" href="javascript:void(0)" id="dln_track"><i class="pg-map"></i></button>
+                                    <div class="input-group transparent center-margin">
+                                        <input type="text" name="location" id="dln_location" placeholder="Hà Nội, TP.HCM, Đà Nẵng..." class="form-control">
+                                        <span class="input-group-addon "> <i class="pg-search"></i> </span>
+                                    </div>
+                                    <p class="hint-text small">Mẹo: Bạn có thể kéo thả bản đồ để xác định vị trí chính xác hơn.</p>
+                                </div>
+                                <label class="col-sm-3 control-label">Địa chỉ</label>
+                                <div class="col-sm-9">
+                                    <div class="dln-location-photo">
+                                        <div class="dln-location-overlay"></div>
+                                        <div class="dln-location-pin"></div>
+                                        <img src="#" />
+                                    </div>
+                                    <div class="panel">
+                                        <div class="panel-body">
+                                            <address class="">
+                                                <span></span>
+                                            </address>
+                                            <a href="javascript:void(0)" class="dln_edit_address">Sửa địa chỉ</a>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="text-center">
+                                              <h4 class="text-muted">This listing has no address.</h4>
+                                              <button class="btn btn-primary" id="js-add-address">Add Address</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                         <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
@@ -237,10 +268,69 @@
                     <div class="panel-body">
                         <form class="form-horizontal" method="post">
                             <div class="form-group">
+                                <div class="form-group clearfix">
+                                    <label class="col-sm-3 control-label" for="dln_amenity">Thông thường</label>
+                                    <div class="col-sm-9">
+                                        <div class="row chk_amenities">
+                                            {% set part = (amenities|length + (2 - amenities|length % 2)) / 2 %}
+
+                                            <div class="col-sm-6">
+                                                {% for amenity in amenities %}
+                                                    {% if loop.index >= part * 0 and loop.index < part * 1 %}
+                                                        {% if amenity.id in arr_selected %}
+                                                            {% set checked = 'checked="checked"' %}
+                                                        {% else %}
+                                                            {% set checked = '' %}
+                                                        {% endif %}
+                                                        <div class="checkbox check-success">
+                                                            <input type="checkbox" {{ checked }} id="chk_{{ amenity.id }}" value="{{ amenity.id }}" name="tag_ids[]">
+                                                            <label for="chk_{{ amenity.id }}">{{ amenity.name }}</label>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                            <div class="col-sm-6">
+                                                {% for amenity in amenities %}
+                                                    {% if loop.index >= part * 1 and loop.index < part * 2 %}
+                                                        {% if amenity.id in arr_selected %}
+                                                            {% set checked = 'checked="checked"' %}
+                                                        {% else %}
+                                                            {% set checked = '' %}
+                                                        {% endif %}
+                                                        <div class="checkbox check-success">
+                                                            <input type="checkbox" {{ checked }} id="chk_{{ amenity.id }}" value="{{ amenity.id }}" name="tag_ids[]">
+                                                            <label for="chk_{{ amenity.id }}">{{ amenity.name }}</label>
+                                                        </div>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                         <div class="dln-loading portlet-progress"><div class="progress-circle-indeterminate progress-circle-master"></div></div>
                     </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade slide-up dln-modal" id="dln_modal">
+    <div class="modal-dialog">
+        <div class="modal-content-wrapper">
+            <div class="modal-content">
+                <div class="modal-header clearfix text-left">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="pg-close fs-14"></i>
+                    </button>
+                    <h5 class="m-t-0"></h5>
+                </div>
+                <div class="modal-body">
+                    <div class="dln-body"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="dln_modal_save">Lưu & Đóng</button>
                 </div>
             </div>
         </div>

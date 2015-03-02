@@ -6,7 +6,7 @@ use Auth;
 use Cache;
 use Input;
 use Response;
-use Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use DLNLab\Features\Models\MessageThreads;
 use DLNLab\Features\Models\MessageRecipients;
 

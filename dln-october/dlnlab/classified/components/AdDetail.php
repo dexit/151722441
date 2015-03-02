@@ -36,24 +36,15 @@ class AdDetail extends ComponentBase {
         //$this->addJs(CLF_ASSETS . '/js/components/ad-detail.js');
 		
 		$ad       = $this->loadAd();
-		$kind     = HelperCache::getAdKind();
-		$category = HelperCache::getAdCategory();
-		$amenity  = HelperCache::getAdAmenities();
-        $bed_rooms  = AdInfor::getBedRoomOptions();
-        $bath_rooms = AdInfor::getBathRoomOptions();
-        $direction  = AdInfor::getDirectionOptions();
-        $caches            = new \stdClass;
-        $caches->kind      = (! empty($kind)) ? $kind->toJson() : '';
-        $caches->category  = (! empty($category)) ? $category->toJson() : '';
-        $caches->amenity   = (! empty($amenity)) ? $amenity->toJson() : '';
-        $caches->bed       = json_encode($bed_rooms);
-        $caches->bath      = json_encode($bath_rooms);
-        $caches->direction = json_encode($direction);
-		
-		$this->page['user']       = $this->user();
-		$this->page['ad']         = (! empty($ad)) ? $ad : '';
-		$this->page['ad_json']    = (! empty($ad)) ? $ad->toJson() : '';
-        $this->page['dln_caches'] = (! empty($caches)) ? json_encode($caches) : '';
+        $this->page['nearbies']   = Ad::getNearbyAd($ad_id);
+                
+        $state_id = 0;
+        foreach ($ad_tags as $tag) {
+            if ($tag->type == 'state') {
+                $state_id = $tag->tag_id;
+            }
+        }
+        $this->page['nearby_states'] = Ad::getAdAroundState($state_id, $ad_id);
 	}
 
 	protected function loadAd() {

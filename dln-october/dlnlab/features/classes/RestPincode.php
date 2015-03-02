@@ -6,7 +6,7 @@ use Auth;
 use Input;
 use Response;
 use Validator;
-use Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use DLNLab\Features\Models\Pincode;
 use RainLab\User\Models\User;
 

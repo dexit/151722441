@@ -5,7 +5,7 @@ namespace DLNLab\Features\Classes;
 use Auth;
 use Response;
 use Validator;
-use Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 use DLNLab\Features\Components\ReportForm;
 use DLNLab\Features\Models\Notification;
 
