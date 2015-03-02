@@ -303,6 +303,7 @@ class Ad extends Model {
 
     public static function gen_auto_ad_name($data) {
         $default = array(
+            'type_id' => '',
             'tag_ids' => '',
             'category_id' => '',
             'price' => ''
@@ -314,19 +315,12 @@ class Ad extends Model {
         if (! $tag_ids)
             return false;
         
-        $kind = $amenity = '';
-        foreach ($tag_ids as $id) {
-           $tag = HelperCache::findAdTagById($id);
-           if ($tag) {
-               switch ($tag->type) {
-                   case 'ad_kind':
-                       $kind = $tag->name;
-                       break;
-                   case 'ad_amenities':
-                       $amenity = $tag->name;
-                       break;
-               }
-           }
+        $kind = '';
+        $types = HelperCache::getAdType();
+        foreach ($types as $id => $type) {
+            if ($id == $type_id) {
+                $kind = $type;
+            }
         }
 
         $category = HelperCache::findAdCategoryById($category_id);

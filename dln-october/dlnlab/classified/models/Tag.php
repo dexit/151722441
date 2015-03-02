@@ -41,11 +41,10 @@ class Tag extends Model
     public $attachMany = [];
 
     /*
-     * country, state, ad_tag, ad_kind, ad_amenities
+     * country, state, ad_tag, ad_amenities
      */
 	public function getTypeOptions() {
 		return array(
-			'ad_kind'      => 'Kind',
 			'ad_amenities' => 'Amenities',
 		);
 	}

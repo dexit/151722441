@@ -32,6 +32,13 @@ class RestAd extends BaseController {
         if (!Auth::check())
             return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'require_signin')), 500);
 
+        $user = Auth::getUser();
+        
+        $record = Ad::whereRaw('id = ? AND user_id = ?', array($id, $user->id))->first();
+        if (! $record) {
+            return Response::json(array('status' => 'error', 'message' => trans(CLF_LANG_MESSAGE . 'ad_not_exist')), 500);
+        }
+        
         $result = null;
         if (Input::hasFile('file_data')) {
             try {
@@ -371,6 +378,7 @@ class RestAd extends BaseController {
         $data = post();
         $default = array(
             'category_id' => '',
+            'type_id' => '',
             'address' => '',
             'tag_ids' => '',
             'lat' => '',
@@ -453,6 +461,7 @@ class RestAd extends BaseController {
                 'price' => '',
                 'address' => '',
                 'category_id' => '',
+                'type_id' => '',
                 'tag_ids' => '',
                 'lat' => '',
                 'lng' => ''
@@ -474,7 +483,8 @@ class RestAd extends BaseController {
             $record->description = str_limit($description, $limit = 500);
             $record->price = preg_replace("/[^0-9]/", "", $price);
             $record->address = $address;
-            $record->category_id = $category_id;
+            $record->category_id = intval($category_id);
+            $record->type_id     = intval($type_id);
             $record->lat = $lat;
             $record->lng = $lng;
 

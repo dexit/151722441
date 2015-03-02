@@ -32,29 +32,12 @@ class HelperCache {
         return false;
     }
 	
-	public static function getAdKind() {
-	    $options = '';
-	    if (! Cache::has('kind_options')) {
-	        $options = Tag::getTagByType('ad_kind');
-	        Cache::put('kind_options', $options, CLF_CACHE);
-	    } else {
-	        $options = Cache::get('kind_options');
-	    }
-
-	    return $options;
+	public static function getAdType() {
+	    return array(
+            '1' => 'Bán',
+	        '2' => 'Cho thuê'
+        );
 	}
-    
-    public static function findAdKindById($id) {
-        if (! $id)
-            return false;
-        $options = self::getAdKind();
-        foreach ($options as $i => $option) {
-            if ($id == $option->id) {
-                return $option;
-            }
-        }
-        return false;
-    }
     
     public static function getAdAmenities() {
         $options = '';
@@ -85,10 +68,8 @@ class HelperCache {
         if (! $id)
             return false;
         
-        $option = self::findAdKindById($id);
-        if (! $option) {
-            $option = self::findAdAmenityById($id);
-        }
+        $option = self::findAdAmenityById($id);
+        
         return $option;
     }
     

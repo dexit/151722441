@@ -20,6 +20,7 @@ class CreateAdTable extends Migration {
 			$table->timestamp('expiration')->nullable();
 			$table->string('address')->nullable();
 			$table->integer('user_id')->unsigned()->nullable()->index();
+			$table->tinyInteger('type_id')->default(1);
 			$table->integer('category_id')->unsigned()->nullable()->index();
 			$table->decimal('lat', 10, 6)->nullable();
 			$table->decimal('lng', 10, 6)->nullable();
