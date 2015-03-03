@@ -368,7 +368,6 @@ class RestAd extends BaseController {
             'category_id' => '',
             'type_id' => 2,
             'address' => '',
-            'tag_ids' => '',
             'lat' => '',
             'lng' => '',
             'price' => 0,
@@ -392,7 +391,6 @@ class RestAd extends BaseController {
             'type_id' => 'required|numeric|min:1',
             'address' => 'required',
             'price'   => 'required|numeric',
-            'tag_ids' => 'array',
             'area'    => 'numeric'
         ];
 
@@ -429,13 +427,13 @@ class RestAd extends BaseController {
             $record->save();
 
             // Them vao bang ads_tags
-            $arr_insert = array();
+            /*$arr_insert = array();
             if (! empty($tags)) {
                 foreach ($tags as $id) {
                     $arr_insert[] = array('ad_id' => $record->id, 'tag_id' => $id);
                 }
                 DB::table('dlnlab_classified_ads_tags')->insert($arr_insert);
-            }
+            }*/
             
             if ($area) {
                 $record = new AdInfor();
@@ -467,38 +465,32 @@ class RestAd extends BaseController {
                 'tag_ids' => '',
                 'lat' => '',
                 'lng' => '',
-                'step' => 0
+                'step' => 0,
+                'action' => ''
             );
             $merge = array_merge($default, $data);
             $merge = HelperClassified::trim_value($merge);
             extract($merge);
             
-            switch ($step) {
-                case '1':
+            switch ($action) {
+                case 'desc':
                     $rules = [
                         'name' => 'required',
                         'description' => 'required',
                         'category_id' => 'required|numeric|min:1',
                         'type_id' => 'required|numeric|min:1',
                         'price' => 'required|numeric',
+                        'step' => ''
                     ];
                     break;
-                case '2':
-                    $rules = [
-                        'area' => 'required|numeric',
-                        'bed' => 'required|numeric',
-                        'bath' => 'required|numeric',
-                        'direction' => 'required|numeric',
-                    ];
-                    break;
-                case '3':
+                case 'location':
                     $rules = [
                         'address' => 'required',
                         'lat'     => 'required',
                         'lng'     => 'required',
                     ];
                     break;
-                case '4':
+                case 'property':
                     $rules = [
                         'tag_ids' => 'array'
                     ];
@@ -601,15 +593,27 @@ class RestAd extends BaseController {
             DB::beginTransaction();
 
             $default = array(
-                'area' => '0',
-                'tier' => '0',
-                'direction' => '',
-                'bed' => '0',
-                'bath' => '0',
+                'area' => 0,
+                'tier' => 0,
+                'direction' => 0,
+                'bed' => 0,
+                'bath' => 0,
             );
             $merge = array_merge($default, $data);
             $merge = HelperClassified::trim_value($merge);
             extract($merge);
+            
+            $rules = [
+                'area' => 'required|numeric',
+                'bed' => 'required|numeric',
+                'bath' => 'required|numeric',
+                'direction' => 'required|numeric',
+                'tier' => 'required|numeric'
+            ];
+            $error = HelperClassified::valid($rules);
+            if ($error != null) {
+                return Response::json(array('status' => 'error', 'message' => $error), 500);
+            }
             
             $record = Ad::find($id);
             if (empty($record) || $record->user_id != Auth::getUser()->id) {

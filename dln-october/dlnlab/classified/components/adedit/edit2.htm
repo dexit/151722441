@@ -18,47 +18,47 @@
         <div class="row m-t-5">
             <div class="col-md-3 ad-tabs">
                 <div class="panel-group sm-m-l-5 sm-m-r-5">
-                    <div class="panel panel-default" data-relate="ad_desc" data-hash="mo-ta" data-percent="30">
+                    <div class="panel panel-default" data-relate="ad_desc" data-hash="mo-ta" data-percent="25">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <span><i class="pg-layouts3 fs-14 m-r-5"></i>Mô tả</span>
-                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 30%</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i></span>
                                 <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                             </h4>
                         </div>
                     </div>
-                    <div class="panel panel-default" data-relate="ad_space" data-hash="khong-gian" data-percent="20">
+                    <div class="panel panel-default" data-relate="ad_space" data-hash="khong-gian" data-percent="25">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <span><i class="fa fa-home fs-14 m-r-5"></i>Không gian</span>
-                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i></span>
                                 <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                             </h4>
                         </div>
                     </div>
-                    <div class="panel panel-default" data-relate="ad_photo" data-hash="hinh-anh" data-percent="20">
+                    <div class="panel panel-default" data-relate="ad_photo" data-hash="hinh-anh" data-percent="25">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <span><i class="fa fa-image fs-14 m-r-5"></i>Hình ảnh</span>
-                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i></span>
                                 <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                             </h4>
                         </div>
                     </div>
-                    <div class="panel panel-default" data-relate="ad_location" data-hash="vi-tri" data-percent="20">
+                    <div class="panel panel-default" data-relate="ad_location" data-hash="vi-tri" data-percent="25">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <span><i class="fa fa-location-arrow fs-14 m-r-5"></i>Vị trí</span>
-                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 20%</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i></span>
                                 <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                             </h4>
                         </div>
                     </div>
-                    <div class="panel panel-default" data-relate="ad_property" data-hash="thuoc-tinh" data-percent="10">
+                    <div class="panel panel-default" data-relate="ad_property" data-hash="thuoc-tinh" data-percent="25">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <span><i class="fa fa-list fs-14 m-r-5"></i>Thuộc tính</span>
-                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i> 10%</span>
+                                <span class="label label-default pull-right m-t-5"><i class="fa fa-plus"></i></span>
                                 <span class="label label-success pull-right m-t-5 hide"><i class="fa fa-check"></i></span>
                             </h4>
                         </div>
@@ -316,6 +316,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="dln_steps" value="{{ ad_infor.step|e }}" />
 <div class="modal fade slide-up dln-modal" id="dln_modal">
     <div class="modal-dialog">
         <div class="modal-content-wrapper">

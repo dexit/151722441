@@ -18,6 +18,7 @@ class CreateAdInforsTable extends Migration
             $table->integer('bath_room')->default(0);
             $table->integer('bed_room')->default(0);
             $table->integer('direction')->default(0);
+            $table->integer('step')->default(0);
             $table->timestamps();
         });
     }

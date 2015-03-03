@@ -56,6 +56,12 @@ class AdList extends ComponentBase {
 				'default' => 'ad/post',
 				'group' => 'Links',
 			],
+            'type' => [
+                'title'       => 'Type',
+                'description' => 'Desc',
+                'type'        => 'dropdown',
+                'default'     => 'quick'
+            ]
 		];
 	}
 	
@@ -72,8 +78,18 @@ class AdList extends ComponentBase {
 	public function onRun() {
 		$this->prepareVars();
 
-		$this->category = $this->page['category'] = $this->loadCategory();
-		$this->ads      = $this->page['ads']      = $this->listAds();
+        $type = $this->property('type');
+        switch ($type) {
+            case 'list_ad_user':
+                $this->page['ads'] = $this->listAdsUser();
+                break;
+            default:
+                $this->category = $this->page['category'] = $this->loadCategory();
+                $this->ads      = $this->page['ads']      = $this->listAds();
+                $type = 'list_default';
+                break;
+        }
+        $this->type     = $type;
 
 		$currentPage = $this->propertyOrParam('pageParam');
 		if ($currentPage > ($lastPage = $this->ads->getLastPage()) && $currentPage > 1)
@@ -88,6 +104,15 @@ class AdList extends ComponentBase {
 		$this->categoryPage = $this->page['categoryPage'] = $this->property('categoryPage');
 	}
 	
+    protected function listAdsUser() {
+        $user = Auth::getUser();
+        
+        $ads = Ad::whereRaw('user_id = ?')->listUser([
+            'page' => $this->propertyOrParam('pageParam'),
+            'perPage' => $this->property('AdsPerPage')
+        ]);
+    }
+    
 	protected function listAds() {
 		$categories = $this->category ? $this->category->id : null;
 		

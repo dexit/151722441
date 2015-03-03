@@ -76,7 +76,7 @@ class Ad extends Model {
         'price'       => 'Giá',
         'category_id' => 'Danh mục',
         'address'     => 'Địa chỉ',
-        'description'        => 'Mô tả',
+        'description' => 'Mô tả',
         'lat'         => 'Vĩ độ',
         'lng'         => 'Kinh độ',
         'user_id'     => 'ID người dùng'
@@ -131,6 +131,20 @@ class Ad extends Model {
 		return AdCategory::getNameList();
 	}
 
+    public function scopeListUser($query, $options) {
+        extract(array_merge([
+            'page' => 1,
+            'perPage' => 10,
+            'sort' => 'created_at',
+        ]));
+        
+        App::make('paginator')->setCurrentPage($page);
+        
+        $query->orderBy($sortField, 'asc');
+        
+        return $query->paginate($perPage);
+    }
+    
 	public function scopeListFrontEnd($query, $options) {
 		extract(array_merge([
 			'page' => 1,
@@ -155,7 +169,7 @@ class Ad extends Model {
 			if (in_array($_sort, array_keys(self::$allowedSortingOptions))) {
 				$parts = explode(' ', $_sort);
 				if (count($parts) < 2)
-					array_push($parts, 'description');
+					array_push($parts, 'desc');
 				list($sortField, $sortDirection) = $parts;
 
 				$query->orderBy($sortField, $sortDirection);

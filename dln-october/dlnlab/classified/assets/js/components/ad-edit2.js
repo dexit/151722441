@@ -100,10 +100,12 @@
         var self = this;
 
         var percent = 0;
+        var steps = 0;
         $('.completed').each(function (e) {
+            steps += 1;
             percent += $(this).data('percent');
         });
-        if (percent >= 90) {
+        if (percent == 90) {
             $('#dln_active').addClass('btn-danger');
             $('#dln_active').removeClass('disabled');
         } else {
@@ -113,6 +115,7 @@
         percent += '%';
         $('#dln_progressbar').data('percentage', percent);
         $('#dln_progressbar').css('width', percent);
+        $('#dln_steps').val(steps);
     };
 
     AdEdit.prototype.showChecked = function (selector) {
@@ -171,7 +174,7 @@
         if (self.$ad_id && self.$allow && form.valid()) {
             if (calc) {
                 /* save form desc */
-                self.saveAdCommon(form);
+                self.saveAdCommon(form, 'desc');
             } else {
                 self.showChecked('ad_desc');
             }
@@ -225,10 +228,13 @@
                 /* save form desc */
                 self.showStatus(false);
                 self.$allow = false;
+                var data = form.serialize();
+                data.step = intval($('dln_steps').val());
+                data.action = 'space';
                 $.ajax({
                     type: 'PUT',
                     url: window.root_url_api + '/ad/' + self.$ad_id + '/infor',
-                    data: form.serialize(),
+                    data: data,
                     success: function (res) {
                         self.$allow = true;
                         if (res.status == 'success') {
@@ -276,7 +282,7 @@
             self.showChecked('ad_location');
             if (calc) {
                 /* save form location */
-                self.saveAdCommon(form);
+                self.saveAdCommon(form, 'location');
             }
             return true;
         }
@@ -301,22 +307,25 @@
             self.showChecked('ad_property');
             if (calc) {
                 /* save form property */
-                self.saveAdCommon(form);
+                self.saveAdCommon(form, 'property');
             }
             return true;
         }
         return false;
     };
 
-    AdEdit.prototype.saveAdCommon = function (form) {
+    AdEdit.prototype.saveAdCommon = function (form, action) {
         var self = this;
 
         self.showStatus(false);
         self.$allow = false;
+        var data = form.serialize();
+        data.step = intval($('dln_steps').val());
+        data.action = action;
         $.ajax({
             type: 'PUT',
             url: window.root_url_api + '/ad/' + self.$ad_id,
-            data: form.serialize(),
+            data: data,
             success: function (res) {
                 self.$allow = true;
                 if (res.status == 'success') {
