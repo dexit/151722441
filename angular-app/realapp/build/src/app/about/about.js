@@ -1,6 +1,6 @@
 (function(app) {
 
-    app.controller('AboutController', ['$scope', function ($scope) {
+    app.controller('AboutController', function ($scope) {
         var model = this;
 
         init();
@@ -10,6 +10,6 @@
             //  writing any code outside of this function that executes immediately.
         }
 
-    }]);
+    });
 
 }(angular.module("dlnRealApp.about")));
