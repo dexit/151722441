@@ -21,6 +21,11 @@
     "tests"
   ],
   "dependencies": {
-    "angular-material": "~0.8.3"
-  }
+    "angular-material": "~0.8.3",
+    "fontawesome": "~4.3.0"
+  },
+  "homepage": "https://github.com/kikokiko00/151722441",
+  "authors": [
+    "lenhatdinh@gmail.com <lenhatdinh@gmail.com>"
+  ]
 }

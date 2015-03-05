@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="dlnRealApp" ng-controller="AppController">
+<html>
 <head>
 	<title ng-bind="pageTitle"></title>
 
@@ -23,12 +23,9 @@
 		}
 	</script> -->
 
-	<!-- compiled JavaScript -->
-	<% scripts.forEach( function ( file ) { %>
-	<script type="text/javascript" src="<%= file %>"></script>
-	<% }); %>
 </head>
-<body>
+<body ng-app="dlnRealApp" ng-controller="AppController">
+<dln-toolbar></dln-toolbar>
 <header>
 	<nav class="container navbar-default">
 		<ul class="nav navbar-nav">
@@ -43,5 +40,9 @@
 <div class="container" ui-view="main"></div>
 
 <footer class="container"> (c) <%= date %> <%= author %> </footer>
+<!-- compiled JavaScript -->
+<% scripts.forEach( function ( file ) { %>
+<script type="text/javascript" src="<%= file %>"></script>
+<% }); %>
 </body>
 </html>

@@ -1,4 +1,4 @@
-/*(function (module) {
+(function (module) {
 
 	module.directive('dlnToolbar', ['$parse', 'security', function ($parse, security) {
 		return {
@@ -10,4 +10,4 @@
 		};
 	}]);
 
-}(angular.module('directives.toolbar', [])));*/
+}(angular.module('directives.toolbar', [])));

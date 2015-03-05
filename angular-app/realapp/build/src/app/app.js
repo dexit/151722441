@@ -11,11 +11,11 @@
     }]);
 
 }(angular.module("dlnRealApp", [
+	'ngMaterial',
     'dlnRealApp.home',
     'dlnRealApp.about',
     'templates-app',
     'templates-common',
     'ui.router.state',
-    'ui.router',
-	'ngMaterial'
+    'ui.router'
 ])));

@@ -77,16 +77,17 @@ module.exports = function(grunt) {
         vendor_files: {
             js: [
                 'vendor/angular/angular.js',
+				'vendor/angular-aria/angular-aria.js',
+				'vendor/angular-animate/angular-animate.js',
+				'vendor/angular-material/angular-material.js',
                 'vendor/angular-resource/angular-resource.js',
                 'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
                 'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
                 'vendor/angular-ui-router/release/angular-ui-router.js',
-                'vendor/angular-ui-utils/modules/route/route.js',
-				'vendor/angular-aria/angular-aria.min.js',
-				'vendor/angular-animate/angular-animate.min.js',
-				'vendor/angular-material/angular-material.min.js'
+                'vendor/angular-ui-utils/modules/route/route.js'
             ],
             css: [
+				'vendor/angular-material/angular-material.min.css'
             ],
             assets: [
             ]
@@ -595,7 +596,7 @@ module.exports = function(grunt) {
         'clean:all', 'html2js', 'jshint', 'coffeelint', 'coffee', 'less:build',
         'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
         'copy:build_appjs', 'copy:build_vendorjs', 'ngAnnotate:build', 'index:build', 'karmaconfig',
-        'karma:continuous'
+        //'karma:continuous'
     ]);
 
     // The 'compile' task gets your app ready for deployment by concatenating and minifying your code.
