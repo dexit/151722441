@@ -1,0 +1,7 @@
+1.0.1: First version of FBNews
+1.0.2:
+    - Initialize plugin
+    - create_fb_categories_table.php
+    - create_fb_feeds_table.php
+    - create_fb_pages_table.php
+    - seed_all_tables.php

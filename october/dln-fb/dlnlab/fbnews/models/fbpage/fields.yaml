@@ -1,0 +1,38 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    name:
+        label: Name
+        tab: Details
+        span: left
+    
+    fb_id:
+        label: Facebook ID
+        tab: Details
+        span: right
+        
+tabs:
+    fields:
+        fb_link:
+            label: Fetch Link
+            tab: Details
+            span: left
+            
+        status:
+            label: Enabled
+            tab: Details
+            type: checkbox
+            span: right
+            
+        like:
+            label: Like
+            tab: Details
+            span: left
+            type: number
+            
+        count:
+            label: Share count
+            tab: Details
+            span: right

@@ -1,0 +1,58 @@
+<?php Block::put('breadcrumb') ?>
+    <ul>
+        <li><a href="<?= Backend::url('dlnlab/fbnews/fbpage') ?>">FbPage</a></li>
+        <li><?= e($this->pageTitle) ?></li>
+    </ul>
+<?php Block::endPut() ?>
+
+<?php if (!$this->fatalError): ?>
+
+    <?= Form::open(['class'=>'layout']) ?>
+
+        <div class="layout-row">
+            <?= $this->formRender() ?>
+        </div>
+
+        <div class="form-buttons">
+            <div class="loading-indicator-container">
+                <button data-request="onGetFBPageInfor"
+                        data-load-indicator="Calculating ad count..."
+                        class="btn btn-primary"
+                        href="javascript:void(0);">
+                    Fetch facebook information</button>
+            </div>
+        </div>
+    
+        <div class="form-buttons">
+            <div class="loading-indicator-container">
+                <button
+                    type="submit"
+                    data-request="onSave"
+                    data-hotkey="ctrl+s, cmd+s"
+                    data-load-indicator="Creating FbPage..."
+                    class="btn btn-primary">
+                    Create
+                </button>
+                <button
+                    type="button"
+                    data-request="onSave"
+                    data-request-data="close:1"
+                    data-hotkey="ctrl+enter, cmd+enter"
+                    data-load-indicator="Creating FbPage..."
+                    class="btn btn-default">
+                    Create and Close
+                </button>
+                <span class="btn-text">
+                    or <a href="<?= Backend::url('dlnlab/fbnews/fbpage') ?>">Cancel</a>
+                </span>
+            </div>
+        </div>
+
+    <?= Form::close() ?>
+
+<?php else: ?>
+
+    <p class="flash-message static error"><?= e($this->fatalError) ?></p>
+    <p><a href="<?= Backend::url('dlnlab/fbnews/fbpage') ?>" class="btn btn-default">Return to fbpage list</a></p>
+
+<?php endif ?>

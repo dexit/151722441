@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: FbPage
+
+# Model Form Field configuration
+form: $/dlnlab/fbnews/models/fbpage/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\FBNews\Models\FbPage
+
+# Default redirect location
+defaultRedirect: dlnlab/fbnews/fbpage
+
+# Create page
+create:
+    title: Create FbPage
+    redirect: dlnlab/fbnews/fbpage/update/:id
+    redirectClose: dlnlab/fbnews/fbpage
+
+# Update page
+update:
+    title: Edit FbPage
+    redirect: dlnlab/fbnews/fbpage
+    redirectClose: dlnlab/fbnews/fbpage
+
+# Preview page
+preview:
+    title: Preview FbPage
