@@ -42,4 +42,8 @@ class FbFeed extends Model
         return $this->belongsTo('DLNLab\FBNews\Models\FbCategory');
     }
 
+    public function getCategoryOptions() {
+		return FbCategory::getNameList();
+	}
+    
 }

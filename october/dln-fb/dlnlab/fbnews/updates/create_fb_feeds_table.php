@@ -13,6 +13,7 @@ class CreateFbFeedsTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('name')->nullable();
+            $table->integer('page_id')->nullable();
             $table->string('fb_id')->index();
             $table->string('object_id')->nullable();
             $table->integer('category_id')->unsigned()->nullable()->index();

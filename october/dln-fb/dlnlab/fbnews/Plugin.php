@@ -3,6 +3,7 @@
 use Backend;
 use System\Classes\PluginBase;
 
+define('DLN_LIMIT', 10);
 define( 'FB_APP_ID', '225132297553705' );
 define( 'FB_APP_SECRET', '8f00d29717ee8c6a49cd25da80c5aad8' );
 
@@ -29,7 +30,7 @@ class Plugin extends PluginBase
     
     public function registerNavigation() {
 		return [
-			'features' => [
+			'fbnews' => [
 				'label' => 'FB News',
 				'url' => Backend::url('dlnlab/fbnews/fbpage'),
 				'icon' => 'icon-photo',
@@ -40,13 +41,13 @@ class Plugin extends PluginBase
 						'label' => 'Page',
 						'icon' => 'icon-list-ul',
 						'url' => Backend::url('dlnlab/fbnews/fbpage'),
-						'permissions' => ['dlnlab.fbnews.pages'],
+						'permissions' => ['dlnlab.fbnews.fbpage'],
 					],
                     'feed' => [
 						'label' => 'Feed',
 						'icon' => 'icon-list-ul',
 						'url' => Backend::url('dlnlab/fbnews/fbfeed'),
-						'permissions' => ['dlnlab.fbnews.feeds'],
+						'permissions' => ['dlnlab.fbnews.fbfeed'],
 					]
 				]
 			]

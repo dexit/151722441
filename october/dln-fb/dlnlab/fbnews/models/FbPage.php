@@ -61,11 +61,11 @@ class FbPage extends Model
         return "<a href='https://www.facebook.com/{$fb_id}' target='_blank' onclick='javascript:void(0)'>https://www.facebook.com/{$fb_id}</a>";
     }*/
     
-    public static function get_fb_feeds($fb_page_id = '') {
+    public static function get_fb_feeds($fb_page_id = '', $page_id = 0, $category_id = 0) {
         if (! $fb_page_id)
             return false;
         
-        $url = self::$api_url . $fb_page_id . '/feed?limit=' . self::$limit . '&access_token=' . self::get_fb_access_token();
+        $url = self::$api_url . $fb_page_id . '/posts?limit=' . self::$limit . '&access_token=' . self::get_fb_access_token();
         $obj = json_decode(HelperNews::curl($url));
         
         $batches_like    = array();
@@ -74,9 +74,14 @@ class FbPage extends Model
         $item_ids = array();
         if (! empty($obj->data) && is_array($obj->data)) {
             foreach ($obj->data as $i => $item) {
+                if (empty($item->id))
+                    return false;
+                
                 $shares     = (! empty($item->shares->count)) ? $item->shares->count : 0;
                 $timestamp  = \Carbon\Carbon::now()->toDateTimeString();
                 $items[]    = array(
+                    'page_id'   => $page_id,
+                    'category_id' => $category_id,
                     'fb_id'     => (! empty($item->id)) ? $item->id : 0,
                     'object_id' => (! empty($item->object_id)) ? $item->object_id : 0,
                     'name'      => (! empty($item->name)) ? $item->name : '',
@@ -88,16 +93,16 @@ class FbPage extends Model
                     'created_at'  => $timestamp,
                     'updated_at'  => $timestamp,
                 );
-                $item_ids[] = $item->object_id;
+                $item_ids[] = $item->id;
                 
                 $batch = new \stdClass;
                 $batch->method = 'GET';
-                $batch->relative_url = $item->object_id . '/likes?summary=1';
+                $batch->relative_url = $item->id . '/likes?summary=1';
                 $batches_like[] = $batch;
                 
                 $batch = new \stdClass;
                 $batch->method = 'GET';
-                $batch->relative_url = $item->object_id . '/comments?summary=1';
+                $batch->relative_url = $item->id . '/comments?summary=1';
                 $batches_comment[] = $batch;
             }
             
@@ -127,12 +132,12 @@ class FbPage extends Model
 					}
 				}
 			}
-            $records = FbFeed::whereIn('object_id', $item_ids)->get();
+            $records = FbFeed::whereIn('fb_id', $item_ids)->get();
             if (count($records)) {
                 foreach ($items as $i => $item) {
                     if ($item) {
                         foreach ($records as $j => $record) {
-                            if ($item['object_id'] == $record->object_id) {
+                            if ($item['fb_id'] == $record->fb_id) {
                                 
                                 if (( $item['share_count'] != $record->share_count 
                                 || $item['like_count'] != $record->like_count
@@ -141,8 +146,6 @@ class FbPage extends Model
                                     $record->like_count = $item['like_count'];
                                     $record->comment_count = $item['comment_count'];
                                     $record->save();
-                                    
-                                    var_dump($item['object_id']);
                                 }
                                 
                                 unset($items[$i]);
@@ -169,7 +172,6 @@ class FbPage extends Model
         $obj = null;
         $url = self::$api_url . '?id=' . $page_link . '&access_token=' . self::get_fb_access_token();
         $obj = json_decode(HelperNews::curl($url));
-        
         if (! empty($obj->id)) {
             $record = self::where('fb_id', '=', $obj->id)->first();
             if (empty($record)) {
@@ -178,7 +180,7 @@ class FbPage extends Model
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
             $record->like  = (isset($obj->likes)) ? $obj->likes : 0;
-            $record->talking_about = (isset($obj->talking_about)) ? $obj->talking_about : 0;
+            $record->talking_about = (isset($obj->talking_about_count)) ? $obj->talking_about_count : 0;
             $record->save();
         }
 

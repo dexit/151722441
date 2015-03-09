@@ -19,9 +19,10 @@ columns:
         sortable: true
         type: number
         
-    count:
-        label: Share Count
+    talking_about:
+        label: Talking about
         sortable: true
+        type: number
         
     status:
         label: Enable
