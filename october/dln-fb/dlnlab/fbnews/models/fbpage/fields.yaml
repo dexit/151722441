@@ -26,13 +26,8 @@ tabs:
             type: checkbox
             span: right
             
-        like:
-            label: Like
+        category:
+            label: Category
             tab: Details
-            span: left
-            type: number
-            
-        count:
-            label: Share count
-            tab: Details
-            span: right
+            type: dropdown
+            placeholder: -- select category --

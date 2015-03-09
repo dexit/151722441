@@ -35,5 +35,13 @@ class FbCategory extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
+    
+    protected static $nameList = null;
 
+    public static function getNameList() {
+        if ( self::$nameList )
+            return self::$nameList;
+
+        return self::$nameList = self::lists( 'name', 'id' );
+    }
 }

@@ -3,6 +3,26 @@
 # ===================================
 
 fields:
-    id:
-        label: ID
-        disabled: true
+    name:
+        label: Name
+        tab: Details
+        span: left
+    
+    fb_id:
+        label: Facebook ID
+        tab: Details
+        span: right
+tabs:
+    fields:
+        status:
+            label: Enabled
+            tab: Details
+            type: checkbox
+            span: right
+            
+        category:
+            label: Category
+            tab: Details
+            type: dropdown
+            span: right
+            placeholder: -- select category --

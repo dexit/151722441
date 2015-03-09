@@ -1,6 +1,7 @@
 <?php namespace DLNLab\FBNews\Models;
 
 use Model;
+use DLNLab\FBNews\Classes\HelperNews;
 
 /**
  * FbPage Model
@@ -43,9 +44,17 @@ class FbPage extends Model
     public static $api_url    = 'https://graph.facebook.com/v2.2/';
     public static $limit = 50;
     
+    public function beforeSave() {
+        unset($this->attributes['fb_link']);
+    }
+    
     public function category() {
         return $this->belongsTo('DLNLab\FBNews\Models\FbCategory');
     }
+    
+    public function getCategoryOptions() {
+		return FbCategory::getNameList();
+	}
     
     /*public function getFBIDAttribute() {
         $fb_id = (! empty($this->attributes['fb_id'])) ? $this->attributes['fb_id'] : '';
@@ -57,26 +66,29 @@ class FbPage extends Model
             return false;
         
         $url = self::$api_url . $fb_page_id . '/feed?limit=' . self::$limit . '&access_token=' . self::get_fb_access_token();
-        $obj = json_decode(@file_get_contents($url));
+        $obj = json_decode(HelperNews::curl($url));
         
         $batches_like    = array();
         $batches_comment = array();
         $items    = array();
         $item_ids = array();
         if (! empty($obj->data) && is_array($obj->data)) {
-            foreach ($data as $i => $item) {
-                $shares = (! empty($item->shares->count)) ? $item->shares->count : 0;
+            foreach ($obj->data as $i => $item) {
+                $shares     = (! empty($item->shares->count)) ? $item->shares->count : 0;
+                $timestamp  = \Carbon\Carbon::now()->toDateTimeString();
                 $items[]    = array(
-                    'fb_id'     => $item->id,
-                    'object_id' => $item->object_id,
-                    'name'      => $item->name,
-                    'message'   => $item->message,
-                    'picture'   => $item->picture,
-                    'source'    => $item->source,
-                    'type'      => $item->type,
+                    'fb_id'     => (! empty($item->id)) ? $item->id : 0,
+                    'object_id' => (! empty($item->object_id)) ? $item->object_id : 0,
+                    'name'      => (! empty($item->name)) ? $item->name : '',
+                    'message'   => (! empty($item->message)) ? $item->message : '',
+                    'picture'   => (! empty($item->picture)) ? $item->picture : '',
+                    'source'    => (! empty($item->source)) ? $item->source : '',
+                    'type'      => (! empty($item->type)) ? $item->type : '',
                     'share_count' => $shares,
+                    'created_at'  => $timestamp,
+                    'updated_at'  => $timestamp,
                 );
-                $item_ids[] = $item->id;
+                $item_ids[] = $item->object_id;
                 
                 $batch = new \stdClass;
                 $batch->method = 'GET';
@@ -90,9 +102,8 @@ class FbPage extends Model
             }
             
             // Get facebook like meta information
-            $url = self::$api_url . '?batch=' . json_encode($batches_like) . '&access_token' . self::get_fb_access_token();
-            $objs = json_decode(@file_get_contents($url));
-			
+            $url = self::$api_url . '?batch=' . urlencode(json_encode($batches_like)) . '&access_token=' . self::get_fb_access_token() . '&method=post';
+            $objs = json_decode(HelperNews::curl($url));
 			if (! empty($objs)) {
 				foreach ($objs as $i => $obj) {
 					if ($obj->body) {
@@ -104,8 +115,8 @@ class FbPage extends Model
 			}
             
             // Get facebook like meta information
-            $url = self::$api_url . '?batch=' . json_encode($batches_comment) . '&access_token' . self::get_fb_access_token();
-            $objs = json_decode(@file_get_contents($url));
+            $url = self::$api_url . '?batch=' . urlencode(json_encode($batches_comment)) . '&access_token=' . self::get_fb_access_token() . '&method=post';
+            $objs = json_decode(HelperNews::curl($url));
 			
 			if (! empty($objs)) {
 				foreach ($objs as $i => $obj) {
@@ -116,8 +127,34 @@ class FbPage extends Model
 					}
 				}
 			}
+            $records = FbFeed::whereIn('object_id', $item_ids)->get();
+            if (count($records)) {
+                foreach ($items as $i => $item) {
+                    if ($item) {
+                        foreach ($records as $j => $record) {
+                            if ($item['object_id'] == $record->object_id) {
+                                
+                                if (( $item['share_count'] != $record->share_count 
+                                || $item['like_count'] != $record->like_count
+                                || $item['comment_count'] != $record->comment_count )) {
+                                    $record->share_count = $item['share_count'];
+                                    $record->like_count = $item['like_count'];
+                                    $record->comment_count = $item['comment_count'];
+                                    $record->save();
+                                    
+                                    var_dump($item['object_id']);
+                                }
+                                
+                                unset($items[$i]);
+                            }
+                        }
+                    }
+                }
+            }
             
-            var_dump($items);die();
+            if (count($items)) {
+                FbFeed::insert($items);
+            }
         }
     }
     
@@ -131,7 +168,7 @@ class FbPage extends Model
         
         $obj = null;
         $url = self::$api_url . '?id=' . $page_link . '&access_token=' . self::get_fb_access_token();
-        $obj = json_decode(file_get_contents($url));
+        $obj = json_decode(HelperNews::curl($url));
         
         if (! empty($obj->id)) {
             $record = self::where('fb_id', '=', $obj->id)->first();
@@ -150,7 +187,7 @@ class FbPage extends Model
     
     public static function get_fb_user_infor($fb_uid, $access_token) {
         $url = self::$api_url . $fb_uid . '?access_token=' . $access_token;
-        $obj = json_decode(file_get_contents($url));
+        $obj = json_decode(HelperNews::curl($url));
         return $obj;
     }
 }
