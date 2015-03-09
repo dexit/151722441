@@ -24,6 +24,7 @@ class CreateFbFeedsTable extends Migration
             $table->integer('like_count')->default(0)->nullable();
             $table->integer('comment_count')->default(0)->nullable();
             $table->integer('share_count')->default(0)->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

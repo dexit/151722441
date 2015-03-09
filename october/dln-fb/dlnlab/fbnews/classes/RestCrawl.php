@@ -21,7 +21,7 @@ class RestCrawl extends BaseController {
         $records = FbPage::whereRaw('status = ? AND crawl = ?', array(true, false))->take(100)->get();
         if (! count($records)) {
             FbPage::where('crawl', '=', true)->update(array('crawl' => false));
-            return Response::json(array('status' => 'error'), 500);
+            $records = FbPage::whereRaw('status = ? AND crawl = ?', array(true, false))->take(100)->get();
         }
         
         foreach ($records as $record) {
@@ -37,10 +37,10 @@ class RestCrawl extends BaseController {
     }
     
     public function getFBPageLinks() {
-        $records = FbPage::whereRaw('status = ? AND crawl = ?', array(true, false))->take(10)->get();
+        $records = FbPage::whereRaw('status = ? AND crawl = ?', array(true, false))->take(3)->get();
         if (! count($records)) {
             FbPage::where('crawl', '=', true)->update(array('crawl' => false));
-            return Response::json(array('status' => 'error'), 500);
+            $records = FbPage::whereRaw('status = ? AND crawl = ?', array(true, false))->take(3)->get();
         }
         
         foreach ($records as $record) {
