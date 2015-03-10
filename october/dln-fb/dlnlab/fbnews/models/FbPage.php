@@ -90,8 +90,8 @@ class FbPage extends Model
                     'source'    => (! empty($item->source)) ? $item->source : '',
                     'type'      => (! empty($item->type)) ? $item->type : '',
                     'share_count' => $shares,
-                    'created_at'  => $timestamp,
-                    'updated_at'  => $timestamp,
+                    'created_at'      => (! empty($item->created_time)) ? $item->created_time : '',
+                    'updated_at'      => $timestamp
                 );
                 $item_ids[] = $item->id;
                 

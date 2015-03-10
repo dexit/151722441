@@ -30,6 +30,7 @@ class FbFeed extends Model
     public $hasMany = [];
     public $belongsTo = [
         'category' => ['DLNLab\FBNews\Models\FbCategory'],
+        'page' => ['DLNLab\FBNews\Models\FbPage']
     ];
     public $belongsToMany = [];
     public $morphTo = [];
@@ -38,12 +39,31 @@ class FbFeed extends Model
     public $attachOne = [];
     public $attachMany = [];
     
+    protected $appends = array('photo');
+    
     public function category() {
         return $this->belongsTo('DLNLab\FBNews\Models\FbCategory');
+    }
+    
+    public function page() {
+        return $this->belongsTo('DLNLab\FBNews\Models\FbPage');
+    }
+    
+    public function getPhotoAttribute() {
+        $full_url = '';
+        if (! empty($this->attributes['object_id'])) {
+            $full_url = 'http://graph.facebook.com/' . $this->attributes['object_id'] . '/picture?type=normal';
+        }
+        return $full_url;
     }
 
     public function getCategoryOptions() {
 		return FbCategory::getNameList();
 	}
+    
+    public function toArray() {
+        $this->load('category', 'page');
+        return parent::toArray();
+    }
     
 }
