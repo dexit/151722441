@@ -81,11 +81,17 @@ module.exports = function(grunt) {
                 'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
                 'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
                 'vendor/angular-ui-router/release/angular-ui-router.js',
-                'vendor/angular-ui-utils/modules/route/route.js'
+                'vendor/angular-ui-utils/modules/route/route.js',
+                'vendor/framework7/dist/js/framework7.min.js'
             ],
             css: [
+                'vendor/framework7/dist/css/framework7.min.css',
+                'vendor/framework7/dist/css/framework7.themes.min.css',
             ],
             assets: [
+            ],
+            folder: [
+                'vendor/framework7'
             ]
         }
     };
@@ -164,6 +170,16 @@ module.exports = function(grunt) {
                 files: [
                     {
                         src: [ '<%= vendor_files.js %>' ],
+                        dest: '<%= build_dir %>/',
+                        cwd: '.',
+                        expand: true
+                    }
+                ]
+            },
+            build_vendorcss: {
+                files: [
+                    {
+                        src: [ '<%= vendor_files.css %>' ],
                         dest: '<%= build_dir %>/',
                         cwd: '.',
                         expand: true
@@ -489,7 +505,8 @@ module.exports = function(grunt) {
                 files: [
                     '<%= app_files.js %>'
                 ],
-                tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs', 'index:build' ]
+                //tasks: [ 'jshint:src', 'karma:unit:run', 'copy:build_appjs', 'index:build' ]
+                tasks: [ 'jshint:src', 'copy:build_appjs', 'index:build' ]
             },
 
             /**
@@ -591,8 +608,7 @@ module.exports = function(grunt) {
     grunt.registerTask('build', [
         'clean:all', 'html2js', 'jshint', 'coffeelint', 'coffee', 'less:build',
         'concat:build_css', 'copy:build_app_assets', 'copy:build_vendor_assets',
-        'copy:build_appjs', 'copy:build_vendorjs', 'ngAnnotate:build', 'index:build', 'karmaconfig',
-        'karma:continuous'
+        'copy:build_appjs', 'copy:build_vendorjs', 'copy:build_vendorcss', 'ngAnnotate:build', 'index:build', 'karmaconfig'
     ]);
 
     // The 'compile' task gets your app ready for deployment by concatenating and minifying your code.

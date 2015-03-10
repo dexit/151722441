@@ -3,6 +3,12 @@
 <head>
     <title ng-bind="pageTitle"></title>
 
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
     <!-- font awesome from BootstrapCDN -->
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 
@@ -13,23 +19,59 @@
     <script type="text/javascript" src="<%= file %>"></script><% }); %>
 </head>
 <body>
-    <header>
-        <nav class="container navbar-default">
-            <ul class="nav navbar-nav">
-                <li ui-sref-active="active">
-                    <a ui-sref="home">Home</a>
-                </li>
-                <li ui-sref-active="active">
-                    <a ui-sref="about">About</a>
-                </li>
-            </ul>
-        </nav>
-    </header>
+<!-- Status bar overlay for fullscreen mode-->
+<div class="statusbar-overlay"></div>
+<!-- Panels overlay-->
+<div class="panel-overlay"></div>
+<!-- Left panel with reveal effect-->
+<div class="panel panel-left panel-reveal">
+    <div class="content-block">
+        <p>Left panel content goes here</p>
+    </div>
+</div>
 
-    <div class="container" ui-view="main"></div>
+<!-- Views-->
+<div class="views">
+    <!-- Your main view, should have "view-main" class -->
+    <div class="view view-main">
+        <!-- Top Navbar-->
+        <div class="navbar">
+            <div class="navbar-inner">
+                <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+                <div class="center sliding">Awesome App</div>
+                <div class="right">
+                    <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+                </div>
+            </div>
+        </div>
 
-    <footer class="container">
-        (c) <%= date %> <%= author %>
-    </footer>
+    </div>
+</div>
+
+<!-- Left panel with reveal effect-->
+<div class="panel panel-left panel-reveal">
+    <div class="content-block">
+        <p>Left panel content goes here</p>
+    </div>
+</div>
+
+<header>
+    <nav class="container navbar-default">
+        <ul class="nav navbar-nav">
+            <li ui-sref-active="active">
+                <a ui-sref="home">Test123</a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="about">About</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<div class="container" ui-view="main"></div>
+
+<footer class="container">
+    (c) <%= date %> <%= author %>
+</footer>
 </body>
 </html>
