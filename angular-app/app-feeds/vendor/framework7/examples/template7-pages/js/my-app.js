@@ -5,7 +5,6 @@ Template7.registerHelper('json_stringify', function (context) {
 
 // Initialize your app
 var myApp = new Framework7({
-	pushState: true,
     animateNavBackIcon: true,
     // Enable templates auto precompilation
     precompileTemplates: true,

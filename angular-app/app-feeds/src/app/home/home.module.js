@@ -15,6 +15,7 @@
                     templateUrl: 'home/home.tpl.html'
                 }
             },
+			animation : 'first',
             data:{ pageTitle: 'Home' }
         });
     });

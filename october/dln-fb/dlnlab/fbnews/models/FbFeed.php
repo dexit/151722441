@@ -39,7 +39,7 @@ class FbFeed extends Model
     public $attachOne = [];
     public $attachMany = [];
     
-    protected $appends = array('photo');
+    protected $appends = array('photo', 'link');
     
     public function category() {
         return $this->belongsTo('DLNLab\FBNews\Models\FbCategory');
@@ -55,6 +55,14 @@ class FbFeed extends Model
             $full_url = 'http://graph.facebook.com/' . $this->attributes['object_id'] . '/picture?type=normal';
         }
         return $full_url;
+    }
+    
+    public function getLinkAttribute() {
+        $url = '';
+        if (! empty($this->attributes['fb_id'])) {
+            $url = 'https://www.facebook.com/' . str_replace('_', '/posts/', $this->attributes['fb_id']);
+        }
+        return $url;
     }
 
     public function getCategoryOptions() {

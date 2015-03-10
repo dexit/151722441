@@ -86,12 +86,9 @@ module.exports = function(grunt) {
             ],
             css: [
                 'vendor/framework7/dist/css/framework7.min.css',
-                'vendor/framework7/dist/css/framework7.themes.min.css',
+                'vendor/framework7/dist/css/framework7.themes.min.css'
             ],
             assets: [
-            ],
-            folder: [
-                'vendor/framework7'
             ]
         }
     };

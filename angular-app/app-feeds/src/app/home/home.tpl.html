@@ -1,11 +1,26 @@
 <h1>Home of Dln app feed</h1>
 
-<p>Code it up</p>
-
-<p>
-    <span ng-bind="model.someVar" />
-    <ul>
-        <li ng-repeat="item in model.someList">{{item}}</li>
-    </ul>
-    <button class="btn btn-primary" ng-click="model.someFunctionUsedByTheHomePage()">Click Me</button>
-</p>
+<div class="card facebook-card" ng-repeat="item in model.feeds">
+	<div class="card-header">
+		<div class="facebook-avatar"><img src="http://graph.facebook.com/{{item.page.fb_id}}/picture?type=small" width="34" height="34"></div>
+		<div class="facebook-name">{{item.page.name}}</div>
+		<div class="facebook-date">{{item.created_at}}</div>
+	</div>
+	<div class="card-content">
+		<div class="card-content-inner">
+			<p>{{item.message}}</p>
+			<img src="{{item.photo}}" width="100%">
+			<a href="{{item.link}}" target="_blank">Link</a>
+			<p class="color-gray">Likes: {{item.like_count}} Comments: {{item.comment_count}}</p>
+		</div>
+	</div>
+	<div class="card-footer">
+		<a href="#" class="link">Like</a>
+		<a href="#" class="link">Comment</a>
+		<a href="#" class="link">Share</a>
+	</div>
+</div>
+<!-- Preloader -->
+<div class="infinite-scroll-preloader">
+	<div class="preloader"></div>
+</div>

@@ -53,6 +53,5 @@
   },
   "_source": "git://github.com/nolimits4web/Framework7.git",
   "_target": "~1.0.3",
-  "_originalSource": "framework7",
-  "_direct": true
+  "_originalSource": "framework7"
 }

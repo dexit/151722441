@@ -45,30 +45,16 @@
             </div>
         </div>
 
+	    <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+	    <div class="pages navbar-through">
+		    <div data-page="index" class="page with-subnavbar">
+			    <div class="page-content infinite-scroll">
+				    <div class="container" ui-view="main"></div>
+			    </div>
+		    </div>
+	    </div>
     </div>
 </div>
-
-<!-- Left panel with reveal effect-->
-<div class="panel panel-left panel-reveal">
-    <div class="content-block">
-        <p>Left panel content goes here</p>
-    </div>
-</div>
-
-<header>
-    <nav class="container navbar-default">
-        <ul class="nav navbar-nav">
-            <li ui-sref-active="active">
-                <a ui-sref="home">Test123</a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="about">About</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-
-<div class="container" ui-view="main"></div>
 
 <footer class="container">
     (c) <%= date %> <%= author %>

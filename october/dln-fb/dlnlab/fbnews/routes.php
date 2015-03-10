@@ -10,5 +10,5 @@ App::before(function ($request) {
     Route::get($api_path . 'crawl/page_infor', $api_class . '\RestCrawl@getUpdateFBPageInfor');
     Route::get($api_path . 'crawl/page_feeds', $api_class . '\RestCrawl@getFBPageLinks');
     Route::get($api_path . 'feeds', $api_class . '\RestFeed@getFeeds');
-    Route::get($api_path . '{page_id}/feeds', $api_class . '\RestFeed@getFeedsByPage');
+    Route::get($api_path . 'page/{page_id}/feeds', $api_class . '\RestFeed@getFeedsByPage');
 });
