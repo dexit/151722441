@@ -1,0 +1,23 @@
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes.dex : \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\BuildConfig.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\CordovaApp.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\R$attr.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\R$drawable.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\R$string.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\R$xml.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\R.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$1.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$2.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$3.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$4$1.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$4.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$5$1.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$5$2.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$5$3.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$5$4.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$5.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser$InAppBrowserClient.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowser.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppBrowserDialog.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\org\apache\cordova\inappbrowser\InAppChromeClient.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\dexedLibs\classes-861d4c9cafcf4d5c31cb13f57ad6627d.jar \
