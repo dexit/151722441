@@ -27,7 +27,7 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
   $templateCache.put("home/home.tpl.html",
     "<h1>Home of Dln app feed</h1>\n" +
     "\n" +
-    "<div class=\"card facebook-card\" ng-repeat=\"item in model.feeds\">\n" +
+    "<!--<div class=\"card facebook-card\" ng-repeat=\"item in model.feeds\">\n" +
     "	<div class=\"card-header\">\n" +
     "		<div class=\"facebook-avatar\"><img src=\"http://graph.facebook.com/{{item.page.fb_id}}/picture?type=small\" width=\"34\" height=\"34\"></div>\n" +
     "		<div class=\"facebook-name\">{{item.page.name}}</div>\n" +
@@ -46,6 +46,9 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
     "		<a href=\"#\" class=\"link\">Comment</a>\n" +
     "		<a href=\"#\" class=\"link\">Share</a>\n" +
     "	</div>\n" +
+    "</div> -->\n" +
+    "<div class=\"card facebook-card\" ng-repeat=\"item in model.feeds\">\n" +
+    "    <div class=\"fb-post\" data-href=\"{{item.link}}\" data-width=\"350\"></div>\n" +
     "</div>\n" +
     "<!-- Preloader -->\n" +
     "<div class=\"infinite-scroll-preloader\">\n" +

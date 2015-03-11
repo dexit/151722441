@@ -13,7 +13,7 @@
 
     // As you add controllers to a module and they grow in size, feel free to place them in their own files.
     //  Let each module grow organically, adding appropriate organization and sub-folders as needed.
-    module.controller('HomeController', function ($rootScope, $http) {
+    module.controller('HomeController', ['$rootScope', '$http', function ($rootScope, $http) {
         // The top section of a controller should be lean and make it easy to see the "signature" of the controller
         //  at a glance.  All function definitions should be contained lower down.
         var model = this;
@@ -47,7 +47,7 @@
 			return 'http://www.facebook.com/' + url.replace('_', '/posts/');
 		}
 
-    });
+    }]);
 
 // The name of the module, followed by its dependencies (at the bottom to facilitate enclosure)
 }(angular.module("dlnAppFeed.home")));

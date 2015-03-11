@@ -18,6 +18,7 @@ class CreateFbPagesTable extends Migration
             $table->integer('like')->default(0);
             $table->integer('talking_about')->default(0);
             $table->text('access_token')->nullable();
+            $table->string('type', 10)->default('page');
             $table->integer('count')->default(0);
             $table->boolean('status')->default(true);
             $table->boolean('crawl')->default(false);

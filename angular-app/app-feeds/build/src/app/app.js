@@ -1,11 +1,11 @@
 (function(app) {
 
-    app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    app.config(['$stateProvider', '$urlRouterProvider', '$locationProvider', function ($stateProvider, $urlRouterProvider, $locationProvider) {
         //$locationProvider.html5Mode(true);
         $urlRouterProvider.otherwise('/home');
-    });
+    }]);
 
-    app.run(function ($rootScope) {
+    app.run(['$rootScope', function ($rootScope) {
         window.f7App = new Framework7();
         window.$$ = Dom7;
 		var $$ = Dom7;
@@ -32,11 +32,11 @@
 		$rootScope.hideLoading = function () {
 			window.f7App.hidePreloader();
 		};
-	});
+	}]);
 
-    app.controller('AppController', function ($scope) {
+    app.controller('AppController', ['$scope', function ($scope) {
 
-    });
+    }]);
 
 }(angular.module("dlnAppFeed", [
     'dlnAppFeed.home',

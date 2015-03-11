@@ -82,7 +82,11 @@ module.exports = function(grunt) {
                 'vendor/placeholders/angular-placeholders-0.0.1-SNAPSHOT.min.js',
                 'vendor/angular-ui-router/release/angular-ui-router.js',
                 'vendor/angular-ui-utils/modules/route/route.js',
-                'vendor/framework7/dist/js/framework7.min.js'
+
+                'vendor/framework7/dist/js/framework7.min.js',
+                'vendor/moment/min/moment.min.js',
+                'vendor/moment/locale/vi.js',
+                'vendor/angular-moment/angular-moment.min.js',
             ],
             css: [
                 'vendor/framework7/dist/css/framework7.min.css',
