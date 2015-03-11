@@ -5,7 +5,7 @@ namespace DLNLab\FBNews;
 use Backend;
 use System\Classes\PluginBase;
 
-define('DLN_LIMIT', 10);
+define('DLN_LIMIT', 20);
 define('FB_APP_ID', '225132297553705');
 define('FB_APP_SECRET', '8f00d29717ee8c6a49cd25da80c5aad8');
 //https://graph.facebook.com/822643817770854/picture?access_token=225132297553705|8f00d29717ee8c6a49cd25da80c5aad8&type=small

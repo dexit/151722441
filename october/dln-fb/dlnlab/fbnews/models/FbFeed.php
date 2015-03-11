@@ -39,7 +39,7 @@ class FbFeed extends Model
     public $attachOne = [];
     public $attachMany = [];
     
-    protected $appends = array('photo', 'link');
+    protected $appends = array('photo', 'link', 'app_link');
     
     public function category() {
         return $this->belongsTo('DLNLab\FBNews\Models\FbCategory');
@@ -50,11 +50,19 @@ class FbFeed extends Model
     }
     
     public function getPhotoAttribute() {
-        $full_url = '';
+        $photo = '';
         if (! empty($this->attributes['object_id'])) {
-            $full_url = 'http://graph.facebook.com/' . $this->attributes['object_id'] . '/picture?type=normal';
+            $photo = 'http://graph.facebook.com/' . $this->attributes['object_id'] . '/picture?width=250';
         }
-        return $full_url;
+        return $photo;
+    }
+    
+    public function getAppLinkAttribute() {
+        $url = '';
+        if (! empty($this->attributes['fb_id'])) {
+            $url = 'fb://post/' . $this->attributes['fb_id'];
+        }
+        return $url;
     }
     
     public function getLinkAttribute() {

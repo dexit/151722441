@@ -31,3 +31,11 @@ tabs:
             tab: Details
             type: dropdown
             placeholder: -- select category --
+            span: left
+            
+        type:
+            label: Type
+            tab: Details
+            type: dropdown
+            placeholder: -- select category --
+            span: right

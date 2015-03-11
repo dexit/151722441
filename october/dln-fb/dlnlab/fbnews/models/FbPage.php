@@ -39,6 +39,8 @@ class FbPage extends Model
     public $attachOne = [];
     public $attachMany = [];
     
+    protected $appends = array('app_page_link');
+    
     public static $app_id     = FB_APP_ID;
     public static $app_secret = FB_APP_SECRET;
     public static $api_url    = 'https://graph.facebook.com/v2.2/';
@@ -55,6 +57,25 @@ class FbPage extends Model
     public function getCategoryOptions() {
 		return FbCategory::getNameList();
 	}
+    
+    public function getTypeOptions() {
+        return array(
+            'page' => 'Page',
+            'user' => 'User'
+        );
+    }
+    
+    public function getAppPageLinkAttribute() {
+        $url = '';
+        if (! empty($this->attributes['fb_id'])) {
+            if (! empty($this->attributes['type']) && $this->attributes['type'] == 'user') {
+                $url = 'fb://profile/' . $this->attributes['fb_id'];
+            } else {
+                $url = 'fb://page/' . $this->attributes['fb_id'];
+            }
+        }
+        return $url;
+    }
     
     /*public function getFBIDAttribute() {
         $fb_id = (! empty($this->attributes['fb_id'])) ? $this->attributes['fb_id'] : '';
@@ -165,6 +186,31 @@ class FbPage extends Model
         return self::$app_id . '|' . self::$app_secret;
     }
     
+    public static function get_fb_profile_infor($user_link = '') {
+        if (empty($user_link))
+            return false;
+        
+        $user_name = end((explode('/', rtrim($user_link, '/'))));
+        
+        $obj = null;
+        $url = self::$api_url . $user_name . '&access_token=' . self::get_fb_access_token();
+        $obj = json_decode(HelperNews::curl($url));
+        if (! empty($obj->name)) {
+            $record = self::where('fb_id', '=', $obj->id)->first();
+            if (empty($record)) {
+                $record = new self;
+            }
+            $record->type  = 'user';
+            $record->name  = (isset($obj->name)) ? $obj->name : '';
+            $record->fb_id = (isset($obj->id)) ? $obj->id : '';
+            $record->save();
+        } else {
+            $obj = false;
+        }
+
+        return $obj;
+    }
+    
     public static function get_fb_page_infor($page_link = '') {
         if (empty($page_link))
             return false;
@@ -172,16 +218,19 @@ class FbPage extends Model
         $obj = null;
         $url = self::$api_url . '?id=' . $page_link . '&access_token=' . self::get_fb_access_token();
         $obj = json_decode(HelperNews::curl($url));
-        if (! empty($obj->id)) {
+        if (! empty($obj->name)) {
             $record = self::where('fb_id', '=', $obj->id)->first();
             if (empty($record)) {
                 $record = new self;
             }
+            $record->type  = 'page';
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
             $record->like  = (isset($obj->likes)) ? $obj->likes : 0;
             $record->talking_about = (isset($obj->talking_about_count)) ? $obj->talking_about_count : 0;
             $record->save();
+        } else {
+            $obj = false;
         }
 
         return $obj;

@@ -23,6 +23,9 @@ columns:
         label: Talking about
         sortable: true
         type: number
+    
+    type:
+        label: Type
         
     status:
         label: Enable
