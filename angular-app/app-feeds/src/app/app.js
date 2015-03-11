@@ -8,22 +8,16 @@
     app.run(function ($rootScope) {
         window.f7App = new Framework7();
         window.$$ = Dom7;
-		var $$ = Dom7;
-
-// Loading flag
-		var loading = false;
-
-// Last loaded index
-		var lastIndex = $$('.list-block li').length;
 
         var mainView = window.f7App.addView('.view-main', {
             // Because we want to use dynamic navbar, we need to enable it for this view:
             dynamicNavbar: true,
             pushState: true,
-			precompileTemplates: true
+			precompileTemplates: true,
+			animateNavBackIcon: true
         });
 
-		$rootScope.host = 'http://localhost/october/api/v1';
+		$rootScope.host = 'http://192.168.1.12/october/api/v1';
 
 		$rootScope.showLoading = function (message) {
 			window.f7App.showPreloader(message);
@@ -45,4 +39,7 @@
     'templates-common',
     'ui.router.state',
     'ui.router',
+	'infinite-scroll',
+	'dlnAppFeed.Directives',
+	'angularMoment'
 ])));

@@ -11,11 +11,10 @@
             url: '/home',
             views: {
                 "main": {
-                    controller: 'HomeController as model',
+                    controller: 'HomeController',
                     templateUrl: 'home/home.tpl.html'
                 }
             },
-			animation : 'first',
             data:{ pageTitle: 'Home' }
         });
     }]);
@@ -38,11 +37,10 @@
             url: '/home',
             views: {
                 "main": {
-                    controller: 'HomeController as model',
+                    controller: 'HomeController',
                     templateUrl: 'home/home.tpl.html'
                 }
             },
-			animation : 'first',
             data:{ pageTitle: 'Home' }
         });
     }]);

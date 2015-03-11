@@ -1,26 +1,32 @@
 <h1>Home of Dln app feed</h1>
 
-<div class="card facebook-card" ng-repeat="item in model.feeds">
+<div class="card facebook-card" ng-repeat="item in feeds" on-last-repeat="ngRepeatFinished">
 	<div class="card-header">
-		<div class="facebook-avatar"><img src="http://graph.facebook.com/{{item.page.fb_id}}/picture?type=small" width="34" height="34"></div>
+		<div class="facebook-avatar">
+			<img class="j-lazy" data-original="http://graph.facebook.com/{{item.page.fb_id}}/picture?type=small" width="34" height="34">
+		</div>
 		<div class="facebook-name">{{item.page.name}}</div>
-		<div class="facebook-date">{{item.created_at}}</div>
+		<div class="facebook-date">{{item.created_at | amCalendar}}</div>
 	</div>
 	<div class="card-content">
 		<div class="card-content-inner">
 			<p>{{item.message}}</p>
-			<img src="{{item.photo}}" width="100%">
-			<a href="{{item.link}}" target="_blank">Link</a>
+			<img ng-src="{{item.photo}}" />
 			<p class="color-gray">Likes: {{item.like_count}} Comments: {{item.comment_count}}</p>
+			<div ng-lick="redirectAppLink(item.app_link)">Test</div>
+			<a href="{{item.app_link}}" class="external" target="_blank">Link</a>
+			<a href="{{item.app_link}}" class="external" target="_system">Link 1</a>
 		</div>
 	</div>
-	<div class="card-footer">
-		<a href="#" class="link">Like</a>
-		<a href="#" class="link">Comment</a>
-		<a href="#" class="link">Share</a>
-	</div>
 </div>
+
+<div class="content-block">
+	<p>
+	<div ng-hide="loading" class="button button-fill color-green" ng-click="getFeeds()">Trang sau</div>
+	</p>
+</div>
+
 <!-- Preloader -->
-<div class="infinite-scroll-preloader">
+<div ng-show="loading" class="infinite-scroll-preloader">
 	<div class="preloader"></div>
 </div>

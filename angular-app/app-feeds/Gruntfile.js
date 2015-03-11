@@ -76,6 +76,7 @@ module.exports = function(grunt) {
          */
         vendor_files: {
             js: [
+				'vendor/jquery/dist/jquery.min.js',
                 'vendor/angular/angular.js',
                 'vendor/angular-resource/angular-resource.js',
                 'vendor/angular-bootstrap/ui-bootstrap-tpls.min.js',
@@ -87,6 +88,8 @@ module.exports = function(grunt) {
                 'vendor/moment/min/moment.min.js',
                 'vendor/moment/locale/vi.js',
                 'vendor/angular-moment/angular-moment.min.js',
+				'vendor/ngInfiniteScroll/build/ng-infinite-scroll.js',
+				'vendor/jquery.lazyload/jquery.lazyload.js'
             ],
             css: [
                 'vendor/framework7/dist/css/framework7.min.css',

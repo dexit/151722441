@@ -27,31 +27,34 @@ angular.module("home/home.tpl.html", []).run(["$templateCache", function($templa
   $templateCache.put("home/home.tpl.html",
     "<h1>Home of Dln app feed</h1>\n" +
     "\n" +
-    "<!--<div class=\"card facebook-card\" ng-repeat=\"item in model.feeds\">\n" +
+    "<div class=\"card facebook-card\" ng-repeat=\"item in feeds\" on-last-repeat=\"ngRepeatFinished\">\n" +
     "	<div class=\"card-header\">\n" +
-    "		<div class=\"facebook-avatar\"><img src=\"http://graph.facebook.com/{{item.page.fb_id}}/picture?type=small\" width=\"34\" height=\"34\"></div>\n" +
+    "		<div class=\"facebook-avatar\">\n" +
+    "			<img class=\"j-lazy\" data-original=\"http://graph.facebook.com/{{item.page.fb_id}}/picture?type=small\" width=\"34\" height=\"34\">\n" +
+    "		</div>\n" +
     "		<div class=\"facebook-name\">{{item.page.name}}</div>\n" +
-    "		<div class=\"facebook-date\">{{item.created_at}}</div>\n" +
+    "		<div class=\"facebook-date\">{{item.created_at | amCalendar}}</div>\n" +
     "	</div>\n" +
     "	<div class=\"card-content\">\n" +
     "		<div class=\"card-content-inner\">\n" +
     "			<p>{{item.message}}</p>\n" +
-    "			<img src=\"{{item.photo}}\" width=\"100%\">\n" +
-    "			<a href=\"{{item.link}}\" target=\"_blank\">Link</a>\n" +
+    "			<img ng-src=\"{{item.photo}}\" />\n" +
     "			<p class=\"color-gray\">Likes: {{item.like_count}} Comments: {{item.comment_count}}</p>\n" +
+    "			<div ng-lick=\"redirectAppLink(item.app_link)\">Test</div>\n" +
+    "			<a href=\"{{item.app_link}}\" class=\"external\" target=\"_blank\">Link</a>\n" +
+    "			<a href=\"{{item.app_link}}\" class=\"external\" target=\"_system\">Link 1</a>\n" +
     "		</div>\n" +
     "	</div>\n" +
-    "	<div class=\"card-footer\">\n" +
-    "		<a href=\"#\" class=\"link\">Like</a>\n" +
-    "		<a href=\"#\" class=\"link\">Comment</a>\n" +
-    "		<a href=\"#\" class=\"link\">Share</a>\n" +
-    "	</div>\n" +
-    "</div> -->\n" +
-    "<div class=\"card facebook-card\" ng-repeat=\"item in model.feeds\">\n" +
-    "    <div class=\"fb-post\" data-href=\"{{item.link}}\" data-width=\"350\"></div>\n" +
     "</div>\n" +
+    "\n" +
+    "<div class=\"content-block\">\n" +
+    "	<p>\n" +
+    "	<div ng-hide=\"loading\" class=\"button button-fill color-green\" ng-click=\"getFeeds()\">Trang sau</div>\n" +
+    "	</p>\n" +
+    "</div>\n" +
+    "\n" +
     "<!-- Preloader -->\n" +
-    "<div class=\"infinite-scroll-preloader\">\n" +
+    "<div ng-show=\"loading\" class=\"infinite-scroll-preloader\">\n" +
     "	<div class=\"preloader\"></div>\n" +
     "</div>");
 }]);
