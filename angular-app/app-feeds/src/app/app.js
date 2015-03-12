@@ -17,7 +17,7 @@
 			animateNavBackIcon: true
         });
 
-		$rootScope.host = 'http://192.168.1.12/october/api/v1';
+		$rootScope.host = 'http://192.168.1.130/october/api/v1';
 
 		$rootScope.showLoading = function (message) {
 			window.f7App.showPreloader(message);
