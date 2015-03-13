@@ -45,6 +45,8 @@ class FbPage extends Model
     public static $app_secret = FB_APP_SECRET;
     public static $api_url    = 'https://graph.facebook.com/v2.2/';
     public static $limit = 50;
+
+    protected static $nameList = null;
     
     public function beforeSave() {
         unset($this->attributes['fb_link']);
@@ -57,7 +59,7 @@ class FbPage extends Model
     public function getCategoryOptions() {
 		return FbCategory::getNameList();
 	}
-    
+
     public function getTypeOptions() {
         return array(
             'page' => 'Page',
@@ -76,7 +78,14 @@ class FbPage extends Model
         }
         return $url;
     }
-    
+
+    public static function getNameList() {
+        if ( self::$nameList )
+            return self::$nameList;
+
+        return self::$nameList = self::lists( 'name', 'id' );
+    }
+
     /*public function getFBIDAttribute() {
         $fb_id = (! empty($this->attributes['fb_id'])) ? $this->attributes['fb_id'] : '';
         return "<a href='https://www.facebook.com/{$fb_id}' target='_blank' onclick='javascript:void(0)'>https://www.facebook.com/{$fb_id}</a>";
@@ -203,6 +212,7 @@ class FbPage extends Model
             $record->type  = 'user';
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
+            $record->status = true;
             $record->save();
         } else {
             $obj = false;
@@ -218,13 +228,14 @@ class FbPage extends Model
         $obj = null;
         $url = self::$api_url . '?id=' . $page_link . '&access_token=' . self::get_fb_access_token();
         $obj = json_decode(HelperNews::curl($url));
-        var_dump($page_link, $obj);die();
+
         if (! empty($obj->name)) {
             $record = self::where('fb_id', '=', $obj->id)->first();
             if (empty($record)) {
                 $record = new self;
             }
             $record->type  = 'page';
+            $record->status = true;
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
             $record->like  = (isset($obj->likes)) ? $obj->likes : 0;

@@ -7,12 +7,21 @@ columns:
         label: ID
         searchable: true
         
-    name:
-        label: Name
+    message:
+        label: Message
         searchable: true
-        
-    fb_id:
-        label: FB ID
+
+    category:
+        relation: category
+        select: name
+        searchable: true
+        sortable: false
+
+    page:
+        relation: page
+        select: name
+        searchable: true
+        sortable: false
         
     like_count:
         label: Like

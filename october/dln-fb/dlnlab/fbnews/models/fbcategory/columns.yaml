@@ -10,10 +10,6 @@ columns:
         label: Name
         searchable: true
         sortable: true
-    
-    slug:
-        label: slug
-        sortable: true
         
     count:
         label: Count

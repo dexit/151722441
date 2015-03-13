@@ -14,15 +14,38 @@ fields:
         span: right
 tabs:
     fields:
+
+        message:
+            label: Message
+            tab: Details
+            span: left
+
+        page:
+            label: Page
+            tab: Details
+            type: dropdown
+            span: right
+            placeholder: -- select page --
+
         status:
             label: Enabled
             tab: Details
             type: checkbox
-            span: right
-            
+            span: left
+
         category:
             label: Category
             tab: Details
             type: dropdown
             span: right
             placeholder: -- select category --
+
+        like_count:
+            label: Like
+            tab: Details
+            span: left
+
+        comment_count:
+            label: Comment
+            tab: Details
+            span: right

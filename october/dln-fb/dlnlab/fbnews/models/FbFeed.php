@@ -40,7 +40,9 @@ class FbFeed extends Model
     public $attachMany = [];
     
     protected $appends = array('photo', 'link', 'app_link');
-    
+
+    protected static $nameList = null;
+
     public function category() {
         return $this->belongsTo('DLNLab\FBNews\Models\FbCategory');
     }
@@ -76,6 +78,10 @@ class FbFeed extends Model
     public function getCategoryOptions() {
 		return FbCategory::getNameList();
 	}
+
+    public function getPageOptions() {
+        return FbPage::getNameList();
+    }
     
     public function toArray() {
         $this->load('category', 'page');

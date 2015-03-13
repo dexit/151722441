@@ -13,6 +13,12 @@ columns:
         
     fb_id:
         label: FB ID
+
+    category:
+        relation: category
+        select: name
+        searchable: true
+        sortable: false
         
     like:
         label: Like

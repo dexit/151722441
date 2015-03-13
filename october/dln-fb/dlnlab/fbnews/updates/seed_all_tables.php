@@ -24,6 +24,7 @@ class SeedAllTables extends Seeder
             ['fb_id' => '232665283585847', 'category_id' => 1, 'type' => 'page', 'status' => true, 'updated_at' => $timestamp, 'created_at' => $timestamp],
             ['fb_id' => '506318469450579', 'category_id' => 1, 'type' => 'page', 'status' => true, 'updated_at' => $timestamp, 'created_at' => $timestamp],
             ['fb_id' => '383923618322771', 'category_id' => 1, 'type' => 'page', 'status' => true, 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['fb_id' => '178077709031664', 'category_id' => 1, 'type' => 'page', 'status' => true, 'updated_at' => $timestamp, 'created_at' => $timestamp],
         ]);
     }
 
