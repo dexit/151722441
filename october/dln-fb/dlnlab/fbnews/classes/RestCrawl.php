@@ -33,7 +33,7 @@ class RestCrawl extends BaseController {
             }
         }
         
-        return Response::json(array('status' => 'success'), 200);
+        return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
     
     public function getFBPageLinks() {
@@ -50,5 +50,7 @@ class RestCrawl extends BaseController {
                 $record->save();
             }
         }
+
+        return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
 }

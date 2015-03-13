@@ -218,6 +218,7 @@ class FbPage extends Model
         $obj = null;
         $url = self::$api_url . '?id=' . $page_link . '&access_token=' . self::get_fb_access_token();
         $obj = json_decode(HelperNews::curl($url));
+        var_dump($page_link, $obj);die();
         if (! empty($obj->name)) {
             $record = self::where('fb_id', '=', $obj->id)->first();
             if (empty($record)) {
