@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="dlnAppFeed" ng-controller="AppController">
+<head>
+    <title ng-bind="pageTitle"></title>
+
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <!-- compiled CSS -->
+    <link rel="stylesheet" type="text/css" href="vendor/framework7/dist/css/framework7.min.css" />
+    <link rel="stylesheet" type="text/css" href="vendor/framework7/dist/css/framework7.themes.min.css" />
+    <link rel="stylesheet" type="text/css" href="assets/dlnAppFeed-0.0.1.css" />
+
+    <!-- compiled JavaScript -->
+    <script type="text/javascript" src="assets/dlnAppFeed-0.0.1.js"></script>
+</head>
+<body>
+
+<!-- Status bar overlay for fullscreen mode-->
+<div class="statusbar-overlay"></div>
+<!-- Panels overlay-->
+<div class="panel-overlay"></div>
+<!-- Left panel with reveal effect-->
+<div class="panel panel-left panel-reveal">
+    <div class="content-block">
+        <p>Left panel content goes here</p>
+    </div>
+</div>
+
+<!-- Views-->
+<div class="views">
+    <!-- Your main view, should have "view-main" class -->
+    <div class="view view-main">
+        <!-- Top Navbar-->
+        <div class="navbar">
+            <div class="navbar-inner">
+                <!-- We need cool sliding animation on title element, so we have additional "sliding" class -->
+                <div class="center sliding">Awesome App</div>
+                <div class="right">
+                    <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+                </div>
+            </div>
+        </div>
+
+	    <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+	    <div class="pages navbar-through">
+		    <div data-page="index" class="page with-subnavbar">
+			    <div class="page-content infinite-scroll">
+				    <div class="container" ui-view="main"></div>
+			    </div>
+		    </div>
+	    </div>
+    </div>
+</div>
+
+<footer class="container">
+    (c) 2015 DLNLab
+</footer>
+</body>
+</html>
