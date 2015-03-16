@@ -4,5 +4,18 @@
             "type": "registry",
             "id": "org.apache.cordova.inappbrowser"
         }
+    },
+    "com.ohh2ahh.plugins.appavailability": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ohh2ahh/AppAvailability.git",
+            "subdir": "."
+        }
+    },
+    "com.lampa.startapp": {
+        "source": {
+            "type": "registry",
+            "id": "com.lampa.startapp"
+        }
     }
 }

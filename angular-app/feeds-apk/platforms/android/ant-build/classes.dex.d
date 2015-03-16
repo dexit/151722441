@@ -1,4 +1,6 @@
 E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes.dex : \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\lampa\startapp\startApp.class \
+E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\ohh2ahh\appavailability\AppAvailability.class \
 E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\BuildConfig.class \
 E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\CordovaApp.class \
 E:\GitHub\151722441\angular-app\feeds-apk\platforms\android\ant-build\classes\com\phonegap\helloworld\R$attr.class \

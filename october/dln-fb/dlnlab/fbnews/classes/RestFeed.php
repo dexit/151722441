@@ -7,6 +7,7 @@ use DB;
 use Carbon;
 use Input;
 use Response;
+use Redirect;
 use Illuminate\Routing\Controller as BaseController;
 use DLNLab\FBNews\Models\FbFeed;
 use Symfony\Component\DomCrawler\Crawler;
@@ -52,17 +53,17 @@ class RestFeed extends BaseController {
         
         if (! empty($category_id) ) {
             $records = FbFeed::whereRaw('status = ? AND category_id = ?', array(true, $category_id))
-                ->select(DB::raw('id, fb_id, message, page_id, category_id, like_count, comment_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+                ->select(DB::raw('id, fb_id, message, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                 ->orderBy('per_day', 'DESC')
-                ->orderBy('like_count', 'DESC')
+                ->orderBy('created_at', 'DESC')
                 ->skip($skip)
                 ->take($limit)
                 ->get();
         } else {
             $records = FbFeed::whereRaw('status = ?', array(true))
-                ->select(DB::raw('id, fb_id, message, page_id, category_id, like_count, comment_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+                ->select(DB::raw('id, fb_id, message, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                 ->orderBy('per_day', 'DESC')
-                ->orderBy('like_count', 'DESC')
+                ->orderBy('created_at', 'DESC')
                 ->skip($skip)
                 ->take($limit)
                 ->get();
@@ -75,5 +76,12 @@ class RestFeed extends BaseController {
         $records = FbCategory::all();
         
         return Response::json(array('status' => 'success', 'data' => $records), 200);
+    }
+
+    public function getRedirectUrl() {
+        $data = get();
+        $url = $data['url'];
+
+        return header('Location: ' . $url);
     }
 }
