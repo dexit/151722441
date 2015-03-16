@@ -470,3 +470,6 @@ angular-app/feeds-apk/plugins/org.apache.cordova.inappbrowser/tests/resources/vi
 angular-app/feeds-apk/plugins/org.apache.cordova.inappbrowser/tests/tests.js
 angular-app/feeds-apk/plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js
 angular-app/feeds-apk/plugins/org.apache.cordova.inappbrowser/www/windows8/InAppBrowserProxy.js
+angular-app/fb-app/plugins/*
+angular-app/fb-app/platforms/*
+angular-app/fb-app/node_modules/*
