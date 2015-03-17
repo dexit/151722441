@@ -1,0 +1,32 @@
+<ion-view view-title="Feeds">
+  <ion-content overflow-scroll="true" padding="true">
+
+    <div class="container">
+      <div class="ui cards">
+        <div class="ui card" ng-repeat="feed in feeds">
+          <div class="content">
+            <div class="header">{{feed.profile_name}}</div>
+            <div class="meta">
+              <span class="right floated time">{{feed.created_at | amCalendar}}</span>
+              <span class="category">Animals</span>
+            </div>
+            <div class="description">
+              <p>{{feed.message}}</p>
+
+              <div>
+                <i ng-if="item.type == 'video'" class="fa-4 fa fa-play"></i>
+                <img ng-src="{{feed.photo}}" />
+              </div>
+            </div>
+          </div>
+          <div class="extra content">
+            <div class="right floated author">
+              <img class="ui avatar image" src="{{feed.profile_src}}"> {{feed.profile_name}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

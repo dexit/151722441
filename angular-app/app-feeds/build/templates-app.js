@@ -25,36 +25,34 @@ angular.module("about/about.tpl.html", []).run(["$templateCache", function($temp
 
 angular.module("home/home.tpl.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("home/home.tpl.html",
-    "<h1>Home of Dln app feed</h1>\n" +
-    "\n" +
     "<div class=\"card facebook-card\" ng-repeat=\"item in feeds\" on-last-repeat=\"ngRepeatFinished\">\n" +
     "	<div class=\"card-header\">\n" +
     "		<div class=\"facebook-avatar\">\n" +
-    "			<img class=\"j-lazy\" data-original=\"http://graph.facebook.com/{{item.page.fb_id}}/picture?type=small\" width=\"34\" height=\"34\">\n" +
+    "			<img class=\"j-lazy\" data-original=\"{{item.profile_src}}\" width=\"34\" height=\"34\">\n" +
     "		</div>\n" +
-    "		<div class=\"facebook-name\">{{item.page.name}}</div>\n" +
-    "		<div class=\"facebook-date\">{{item.created_at | amCalendar}}</div>\n" +
+    "		<div class=\"facebook-name\">{{item.profile_name}}</div>\n" +
+    "		<div class=\"facebook-date\">{{item.created_at | amCalendar}} <i class=\"{{item.font_type}}\"></i></div>\n" +
+    "		<a href=\"javascript:void(0)\" class=\"facebook-heart\"><i class=\"fa fa-heart-o\"></i></a>\n" +
     "	</div>\n" +
     "	<div class=\"card-content\">\n" +
     "		<div class=\"card-content-inner\">\n" +
     "			<p>{{item.message}}</p>\n" +
-    "			<img ng-src=\"{{item.photo}}\" />\n" +
-    "			<p class=\"color-gray\">Likes: {{item.like_count}} Comments: {{item.comment_count}}</p>\n" +
-    "			<div ng-lick=\"redirectAppLink(item.app_link)\">Test</div>\n" +
-    "			<a href=\"{{item.app_link}}\" class=\"external\" target=\"_blank\">Link</a>\n" +
-    "			<a href=\"{{item.app_link}}\" class=\"external\" target=\"_system\">Link 1</a>\n" +
+    "			<div class=\"card-thumbnail\">\n" +
+    "				<i ng-if=\"item.type == 'video'\" class=\"fa-4 fa fa-play\"></i>\n" +
+    "				<img ng-src=\"{{item.photo}}\" />\n" +
+    "			</div>\n" +
+    "			<p class=\"color-gray\">\n" +
+    "				<i class=\"fa fa-thumbs-o-up\"></i> {{item.like_count|nFormater}} <span class=\"tab\"></span>\n" +
+    "				<i class=\"fa fa-comments\"></i> {{item.comment_count|nFormater}} <span class=\"tab\"></span>\n" +
+    "				<i class=\"fa fa-share-alt\"></i> {{item.share_count|nFormater}}\n" +
+    "				<open-external url=\"item.link\">OpenURL</open-external>\n" +
+    "				<a href=\"javascript:void(0)\" ng-click=\"window.open(item.link, '_system');\" class=\"link pull-right external\">Xem tin</a>\n" +
+    "			</p>\n" +
     "		</div>\n" +
     "	</div>\n" +
     "</div>\n" +
     "\n" +
     "<div class=\"content-block\">\n" +
-    "	<p>\n" +
-    "	<div ng-hide=\"loading\" class=\"button button-fill color-green\" ng-click=\"getFeeds()\">Trang sau</div>\n" +
-    "	</p>\n" +
-    "</div>\n" +
-    "\n" +
-    "<!-- Preloader -->\n" +
-    "<div ng-show=\"loading\" class=\"infinite-scroll-preloader\">\n" +
-    "	<div class=\"preloader\"></div>\n" +
+    "	<p><div ng-hide=\"loading\" class=\"button button-fill color-green\" ng-click=\"getFeeds()\">Trang sau</div></p>\n" +
     "</div>");
 }]);

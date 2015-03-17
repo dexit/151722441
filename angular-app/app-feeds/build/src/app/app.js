@@ -13,11 +13,10 @@
             // Because we want to use dynamic navbar, we need to enable it for this view:
             dynamicNavbar: true,
             pushState: true,
-			precompileTemplates: true,
-			animateNavBackIcon: true
+			precompileTemplates: true
         });
 
-		$rootScope.host = 'http://192.168.1.12/october/api/v1';
+		$rootScope.host = 'http://vivufb.com/api/v1';
 
 		$rootScope.showLoading = function (message) {
 			window.f7App.showPreloader(message);
@@ -26,10 +25,20 @@
 		$rootScope.hideLoading = function () {
 			window.f7App.hidePreloader();
 		};
+
+		$rootScope.checkPhonegapBrowser = function () {
+			if (window.device) {
+				console.log('phonegap');
+				return true;
+			} else {
+				console.log('web');
+				return false;
+			}
+		};
 	}]);
 
-    app.controller('AppController', ['$scope', function ($scope) {
-
+    app.controller('AppController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+		$rootScope.checkPhonegapBrowser();
     }]);
 
 }(angular.module("dlnAppFeed", [
@@ -41,5 +50,20 @@
     'ui.router',
 	'infinite-scroll',
 	'dlnAppFeed.Directives',
-	'angularMoment'
+	'dlnAppFeed.Filters',
+	'angularMoment',
 ])));
+
+document.addEventListener("deviceready", onDeviceReady, false);
+
+// device APIs are available
+//
+function onDeviceReady() {
+	navigator.startApp.check("com.application.name", function(message) { /* success */
+			console.log(message); // => OK
+		},
+		function(error) { /* error */
+			console.log(error);
+		});
+}
+

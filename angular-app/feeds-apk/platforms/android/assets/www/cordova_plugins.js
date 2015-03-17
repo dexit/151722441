@@ -6,12 +6,28 @@ module.exports = [
         "clobbers": [
             "window.open"
         ]
+    },
+    {
+        "file": "plugins/com.ohh2ahh.plugins.appavailability/www/AppAvailability.js",
+        "id": "com.ohh2ahh.plugins.appavailability.AppAvailability",
+        "clobbers": [
+            "appAvailability"
+        ]
+    },
+    {
+        "file": "plugins/com.lampa.startapp/www/startApp.js",
+        "id": "com.lampa.startapp.startapp",
+        "merges": [
+            "navigator.startApp"
+        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
-    "org.apache.cordova.inappbrowser": "0.6.0"
+    "org.apache.cordova.inappbrowser": "0.6.0",
+    "com.ohh2ahh.plugins.appavailability": "0.3.1",
+    "com.lampa.startapp": "0.0.5"
 }
 // BOTTOM OF METADATA
 });
