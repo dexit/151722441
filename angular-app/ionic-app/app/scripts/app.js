@@ -67,6 +67,7 @@
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
+
     });
 
     $rootScope.showLoading = function (message) {
@@ -83,6 +84,8 @@
 
 }(angular.module('dlnFeed', [
   'ionic',
+  'ngCordova',
+  'infinite-scroll',
   'dlnFeed.appCtrl',
   'dlnFeed.feedsCtrl',
 
@@ -90,7 +93,5 @@
   'dlnFeed.filters',
   'angularMoment'
 ])));
-
-
 
 

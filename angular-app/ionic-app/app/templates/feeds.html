@@ -1,39 +1,42 @@
 <ion-view view-title="Feeds">
-  <ion-content overflow-scroll="true" padding="true">
+	<ion-content overflow-scroll="true" padding="true">
+		<div class="container">
+			<div class="ui cards" infinite-scroll="getFeeds()" infinite-scroll-distance='0'>
+				<div class="ui card" ng-repeat="feed in feeds">
+					<div class="content dln-content">
+						<div class="dln-body">
+							<div class="left floated author m-r-5">
+								<img class="ui avatar image" src="{{feed.profile_src}}">
+							</div>
+							<a href="javascript:void(0)" ng-click="removeFeed($index)">
+								<i class="right floated remove icon"></i>
+							</a>
 
-    <div class="container">
+							<div class="header">{{feed.profile_name}}</div>
+							<div class="meta">
+								<span class="category">{{feed.created_at | amCalendar}} <i class="{{feed.font_type}}"></i></span>
+							</div>
+						</div>
+						<div class="description">
+							<p>{{feed.message}}</p>
+							<a href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')">
+								<i ng-if="item.type == 'video'" class="play icon"></i>
+								<img ng-src="{{feed.photo}}"/>
+							</a>
+						</div>
+					</div>
+					<div class="extra content">
+							<span class="left floated m-r-10"><i
+								class="thumbs outline up icon"></i>{{feed.like_count|nFormater}}</span>
+							<span class="left floated m-r-10"><i
+								class="comment outline icon"></i>{{feed.comment_count|nFormater}}</span>
+							<span class="left floated m-r-10"><i
+								class="share alternate icon"></i>{{feed.share_count|nFormater}}</span>
+						<i class="right floated like icon"></i>
+					</div>
+				</div>
+			</div>
+		</div>
 
-      <a href="fb://post/506318469450579_790124167736673">Open my app</a>
-      <button onclick="window.open('fb://post/506318469450579_790124167736673', '_system')">Open the other app1</button>
-
-      <div class="ui cards">
-        <div class="ui card" ng-repeat="feed in feeds">
-          <div class="content">
-            <div class="header">{{feed.profile_name}}</div>
-            <div class="meta">
-              <span class="right floated time">{{feed.created_at | amCalendar}}</span>
-              <span class="category">Animals</span>
-            </div>
-            <div class="description">
-              <p>{{feed.message}}</p>
-
-              <div>
-                <i ng-if="item.type == 'video'" class="fa-4 fa fa-play"></i>
-                <img ng-src="{{feed.photo}}" />
-              </div>
-              <button onclick="window.open('{{feed.link}}', '_system')">Link</button>
-              <button onclick="window.open({{feed.link}}, '_system')">Link2</button>
-              <button onclick="window.open('fb://post/506318469450579_790124167736673', '_system')">Link 1</button>
-            </div>
-          </div>
-          <div class="extra content">
-            <div class="right floated author">
-              <img class="ui avatar image" src="{{feed.profile_src}}"> {{feed.profile_name}}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </ion-content>
+	</ion-content>
 </ion-view>

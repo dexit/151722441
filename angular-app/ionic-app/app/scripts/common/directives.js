@@ -25,7 +25,7 @@
 				loadError: '&'
 			},
 			transclude: true,
-			template:'<a href="javascript:void(0)" ng-click="openUrl()"><span ng-transclude></span></a>',
+			template:'<button onclick="openUrl()"><span ng-transclude></span></button>',
 			controller: ['$scope', function($scope){
 				var wrappedFunction = function(action){
 					return function(){

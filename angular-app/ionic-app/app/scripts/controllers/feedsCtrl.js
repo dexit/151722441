@@ -4,12 +4,77 @@
 (function (module) {
   'use strict';
 
-  module.controller('FeedsCtrl', ['$rootScope', '$http', '$scope', 'GLOB', function ($rootScope, $http, $scope, GLOB) {
+  module.controller('FeedsCtrl', ['$rootScope', '$http', '$scope', 'GLOB', '$ionicPopup', '$cordovaAppAvailability', function ($rootScope, $http, $scope, GLOB, $ionicPopup, $cordovaAppAvailability) {
     $scope.feeds = [];
     var page = 0;
     $scope.loading = false;
 
+    $scope.gotoLink = function (url) {
+      console.log(url);
+      console.log(window);
+      window.open(url, '_system');
+    };
+
+    $scope.removeFeed = function (index) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Xóa tin',
+        template: 'Bạn có muốn xóa tin này không?'
+      });
+      confirmPopup.then(function(res) {
+        if(res) {
+          var item = $scope.feeds.splice(index, 1);
+          item = item[0];
+          $scope.addfeedDeletedCache(item.id);
+        }
+      });
+    };
+
+    $scope.addfeedDeletedCache = function (feedId) {
+      if (! feedId) {
+        return false;
+      }
+      var feeds_deleted = JSON.parse(window.localStorage.feeds_deleted || {});
+      if (! feeds_deleted.indexOf(feedId)) {
+        feeds_deleted.push(feedId);
+        window.localStorage.feeds_deleted = JSON.stringify(feeds_deleted);
+      }
+      console.log(window.localStorage.feeds_deleted);
+    };
+
+    $scope.checkFeedDeleted = function (feedId) {
+      if (! feedId) {
+        return false;
+      }
+      var feeds_deleted = JSON.parse(window.localStorage.feeds_deleted || {});
+      for (i = 0; i < feeds_deleted.length; i++) {
+        if (feeds_deleted[i] === feedId) {
+          return true;
+        }
+      }
+      return false;
+    };
+
+    document.addEventListener("deviceready", function () {
+
+      var scheme;
+
+    // Don't forget to add the org.apache.cordova.device plugin!
+      if (device.platform === 'iOS') {
+        scheme = 'fb://';
+      }
+      else if (device.platform === 'Android') {
+        scheme = 'com.facebook.katana';
+      }
+    $cordovaAppAvailability.check(scheme)
+      .then(function() {
+        console.log('exists');
+      }, function () {
+        console.log('not exists');
+      });
+  }, false);
+
     $scope.getFeeds = function () {
+      console.log($scope.loading)
       if ($scope.loading) {
         return;
       }
@@ -20,15 +85,16 @@
           if (resp.status === 'success') {
             angular.forEach(resp.data, function (item) {
               var obj = {};
+              obj.id            = item.id;
               obj.profile_src   = 'http://graph.facebook.com/' + item.page.fb_id + '/picture?type=small';
               obj.profile_name  = item.page.name;
               obj.created_at    = $scope.toTimeZone(item.created_at);
-              if ($rootScope.checkPhonegapBrowser) {
-                //obj.link      = item.link;
+              obj.link      = item.app_link;
+              /*if ($rootScope.checkFBScheme) {
                 obj.link      = item.app_link;
               } else {
                 obj.link      = item.link;
-              }
+              }*/
               obj.message       = item.message;
               obj.photo         = item.photo;
               obj.like_count    = item.like_count;
@@ -37,16 +103,16 @@
               obj.type          = item.type;
               switch(item.type) {
                 case 'photo':
-                  obj.font_type = 'fa fa-camera-retro';
+                  obj.font_type = 'camera retro icon';
                   break;
                 case 'video':
-                  obj.font_type = 'fa fa-play-circle';
+                  obj.font_type = 'video play outline icon';
                   break;
                 case 'link':
-                  obj.font_type = 'fa fa-unlink';
+                  obj.font_type = 'unlink icon';
                   break;
                 case 'status':
-                  obj.font_type = 'fa fa-comment-o';
+                  obj.font_type = 'newspaper icon';
                   break;
               }
 
@@ -55,15 +121,15 @@
           }
           $rootScope.hideLoading();
           page += 1;
+          $scope.$broadcast('scroll.infiniteScrollComplete');
         })
         .error(function(data, status, headers, config) {
           $scope.loading = false;
           console.log(data, status, headers, config);
           $rootScope.hideLoading();
+          $scope.$broadcast('scroll.infiniteScrollComplete');
         });
     };
-
-    $scope.getFeeds();
 
     $scope.toTimeZone = function (time) {
       return moment(time).add(7, 'hours');
