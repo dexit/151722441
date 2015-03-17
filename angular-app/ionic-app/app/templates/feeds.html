@@ -2,6 +2,10 @@
   <ion-content overflow-scroll="true" padding="true">
 
     <div class="container">
+
+      <a href="fb://post/506318469450579_790124167736673">Open my app</a>
+      <button onclick="window.open('fb://post/506318469450579_790124167736673', '_system')">Open the other app1</button>
+
       <div class="ui cards">
         <div class="ui card" ng-repeat="feed in feeds">
           <div class="content">
@@ -17,6 +21,9 @@
                 <i ng-if="item.type == 'video'" class="fa-4 fa fa-play"></i>
                 <img ng-src="{{feed.photo}}" />
               </div>
+              <button onclick="window.open('{{feed.link}}', '_system')">Link</button>
+              <button onclick="window.open({{feed.link}}, '_system')">Link2</button>
+              <button onclick="window.open('fb://post/506318469450579_790124167736673', '_system')">Link 1</button>
             </div>
           </div>
           <div class="extra content">
