@@ -4,7 +4,7 @@
 (function (module) {
   'use strict';
 
-  module.controller('FeedsCtrl', ['$rootScope', '$http', '$scope', 'GLOB', '$ionicPopup', '$cordovaAppAvailability', function ($rootScope, $http, $scope, GLOB, $ionicPopup, $cordovaAppAvailability) {
+  module.controller('FeedsCtrl', ['$rootScope', '$http', '$scope', 'GLOB', '$ionicPopup', '$cordovaAppAvailability', '$ionicLoading', function ($rootScope, $http, $scope, GLOB, $ionicPopup, $cordovaAppAvailability, $ionicLoading) {
     $scope.feeds = [];
     var page = 0;
     $scope.loading = false;
@@ -33,10 +33,13 @@
       if (!feedId) {
         return false;
       }
-      var feeds_deleted = JSON.parse(window.localStorage.feeds_deleted || {});
+      var feeds_deleted = {};
+      if (typeof(window.localStorage.feeds_deleted) !== undefined) {
+        feeds_deleted = window.localStorage.feeds_deleted;
+      }
       if (!feeds_deleted.indexOf(feedId)) {
         feeds_deleted.push(feedId);
-        window.localStorage.feeds_deleted = JSON.stringify(feeds_deleted);
+        window.localStorage.feeds_deleted = feeds_deleted;
       }
       console.log(window.localStorage.feeds_deleted);
     };
@@ -45,13 +48,29 @@
       if (!feedId) {
         return false;
       }
-      var feeds_deleted = JSON.parse(window.localStorage.feeds_deleted || {});
-      for (i = 0; i < feeds_deleted.length; i++) {
-        if (feeds_deleted[i] === feedId) {
-          return true;
+      var feeds_deleted = [];
+      if (typeof(window.localStorage.feeds_deleted) !== undefined) {
+        feeds_deleted = window.localStorage.feeds_deleted;
+      }
+      if (typeof(feeds_deleted) !== undefined) {
+        for (var i = 0; i < feeds_deleted.length; i++) {
+          if (feeds_deleted[i] === feedId) {
+            return true;
+          }
         }
       }
+
       return false;
+    };
+
+    $scope.show = function() {
+      $ionicLoading.show({
+        template: 'Đang tải...'
+      });
+    };
+
+    $scope.hide = function(){
+      $ionicLoading.hide();
     };
 
     document.addEventListener('deviceready', function () {
@@ -70,11 +89,17 @@
         });
     }, false);
 
+    $scope.onRefreshFeeds = function () {
+      page = 0;
+      $scope.feeds = [];
+      $scope.getFeeds();
+    };
+
     $scope.getFeeds = function () {
       if ($scope.loading) {
         return;
       }
-
+      $scope.show();
       $http.get(GLOB.host + '/feeds?page=' + page)
         .success(function (resp) {
           $scope.loading = false;
@@ -86,16 +111,19 @@
               obj.profile_name = item.page.name;
               obj.created_at = $scope.toTimeZone(item.created_at);
               if ($scope.allowScheme) {
-               obj.link      = item.app_link;
-               } else {
-               obj.link      = item.link;
-               }
+                obj.link = item.app_link;
+                obj.page_link = item.page.app_page_link;
+              } else {
+                obj.link = item.link;
+                obj.page_link = 'http://m.facebook.com/' + item.page.fb_id;
+              }
               obj.message = item.message;
               obj.photo = item.photo;
               obj.like_count = item.like_count;
               obj.comment_count = item.comment_count;
               obj.share_count = item.share_count;
               obj.type = item.type;
+              obj.category_name = item.category.name;
               switch (item.type) {
                 case 'photo':
                   obj.font_type = 'camera retro icon';
@@ -114,13 +142,13 @@
               $scope.feeds.push(obj);
             });
           }
-          $rootScope.hideLoading();
+          $scope.hide();
           page += 1;
         })
         .error(function (data, status, headers, config) {
           $scope.loading = false;
           console.log(data, status, headers, config);
-          $rootScope.hideLoading();
+          $scope.hide();
         });
     };
 

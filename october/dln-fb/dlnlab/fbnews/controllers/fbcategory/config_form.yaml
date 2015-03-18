@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: FbCategory
+
+# Model Form Field configuration
+form: $/dlnlab/fbnews/models/fbcategory/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\FBNews\Models\FbCategory
+
+# Default redirect location
+defaultRedirect: dlnlab/fbnews/fbcategory
+
+# Create page
+create:
+    title: Create FbCategory
+    redirect: dlnlab/fbnews/fbcategory/update/:id
+    redirectClose: dlnlab/fbnews/fbcategory
+
+# Update page
+update:
+    title: Edit FbCategory
+    redirect: dlnlab/fbnews/fbcategory
+    redirectClose: dlnlab/fbnews/fbcategory
+
+# Preview page
+preview:
+    title: Preview FbCategory
