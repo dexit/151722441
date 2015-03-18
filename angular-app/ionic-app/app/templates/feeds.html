@@ -1,7 +1,7 @@
 <ion-view view-title="Feeds">
-	<ion-content overflow-scroll="true" padding="true">
-		<div class="container">
-			<div class="ui cards" infinite-scroll="getFeeds()" infinite-scroll-distance='0'>
+	<ion-content overflow-scroll="true" padding="true" class="scroll-content">
+		<div class="row" infinite-scroll="getFeeds()" infinite-scroll-container='".scroll-content"' infinite-scroll-disabled="loading">
+			<div class="ui cards" pull-to-refresh="getFeeds()">
 				<div class="ui card" ng-repeat="feed in feeds">
 					<div class="content dln-content">
 						<div class="dln-body">
@@ -37,6 +37,9 @@
 				</div>
 			</div>
 		</div>
+    <div ng-if="loading" class="row">
+      <div class="col col-center text-center"><div class="ui active inline loader"></div></div>
+    </div>
 
 	</ion-content>
 </ion-view>

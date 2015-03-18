@@ -86,12 +86,13 @@
   'ionic',
   'ngCordova',
   'infinite-scroll',
+  'mgcrea.pullToRefresh',
+  'angularMoment',
+
   'dlnFeed.appCtrl',
   'dlnFeed.feedsCtrl',
-
   'dlnFeed.directives',
-  'dlnFeed.filters',
-  'angularMoment'
+  'dlnFeed.filters'
 ])));
 
 

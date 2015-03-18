@@ -8,11 +8,11 @@
     $scope.feeds = [];
     var page = 0;
     $scope.loading = false;
+    $scope.allowScheme = false;
 
     $scope.gotoLink = function (url) {
       console.log(url);
-      console.log(window);
-      window.open(url, '_system');
+      window.open(url, '_system', 'location=yes,toolbar=yes');
     };
 
     $scope.removeFeed = function (index) {
@@ -20,8 +20,8 @@
         title: 'Xóa tin',
         template: 'Bạn có muốn xóa tin này không?'
       });
-      confirmPopup.then(function(res) {
-        if(res) {
+      confirmPopup.then(function (res) {
+        if (res) {
           var item = $scope.feeds.splice(index, 1);
           item = item[0];
           $scope.addfeedDeletedCache(item.id);
@@ -30,11 +30,11 @@
     };
 
     $scope.addfeedDeletedCache = function (feedId) {
-      if (! feedId) {
+      if (!feedId) {
         return false;
       }
       var feeds_deleted = JSON.parse(window.localStorage.feeds_deleted || {});
-      if (! feeds_deleted.indexOf(feedId)) {
+      if (!feeds_deleted.indexOf(feedId)) {
         feeds_deleted.push(feedId);
         window.localStorage.feeds_deleted = JSON.stringify(feeds_deleted);
       }
@@ -42,7 +42,7 @@
     };
 
     $scope.checkFeedDeleted = function (feedId) {
-      if (! feedId) {
+      if (!feedId) {
         return false;
       }
       var feeds_deleted = JSON.parse(window.localStorage.feeds_deleted || {});
@@ -54,54 +54,49 @@
       return false;
     };
 
-    document.addEventListener("deviceready", function () {
-
+    document.addEventListener('deviceready', function () {
       var scheme;
-
-    // Don't forget to add the org.apache.cordova.device plugin!
       if (device.platform === 'iOS') {
         scheme = 'fb://';
       }
       else if (device.platform === 'Android') {
         scheme = 'com.facebook.katana';
       }
-    $cordovaAppAvailability.check(scheme)
-      .then(function() {
-        console.log('exists');
-      }, function () {
-        console.log('not exists');
-      });
-  }, false);
+      $cordovaAppAvailability.check(scheme)
+        .then(function () {
+          $scope.allowScheme = true;
+        }, function () {
+          $scope.allowScheme = false;
+        });
+    }, false);
 
     $scope.getFeeds = function () {
-      console.log($scope.loading)
       if ($scope.loading) {
         return;
       }
 
       $http.get(GLOB.host + '/feeds?page=' + page)
-        .success(function(resp) {
+        .success(function (resp) {
           $scope.loading = false;
           if (resp.status === 'success') {
             angular.forEach(resp.data, function (item) {
               var obj = {};
-              obj.id            = item.id;
-              obj.profile_src   = 'http://graph.facebook.com/' + item.page.fb_id + '/picture?type=small';
-              obj.profile_name  = item.page.name;
-              obj.created_at    = $scope.toTimeZone(item.created_at);
-              obj.link      = item.app_link;
-              /*if ($rootScope.checkFBScheme) {
-                obj.link      = item.app_link;
-              } else {
-                obj.link      = item.link;
-              }*/
-              obj.message       = item.message;
-              obj.photo         = item.photo;
-              obj.like_count    = item.like_count;
+              obj.id = item.id;
+              obj.profile_src = 'http://graph.facebook.com/' + item.page.fb_id + '/picture?type=small';
+              obj.profile_name = item.page.name;
+              obj.created_at = $scope.toTimeZone(item.created_at);
+              if ($scope.allowScheme) {
+               obj.link      = item.app_link;
+               } else {
+               obj.link      = item.link;
+               }
+              obj.message = item.message;
+              obj.photo = item.photo;
+              obj.like_count = item.like_count;
               obj.comment_count = item.comment_count;
-              obj.share_count   = item.share_count;
-              obj.type          = item.type;
-              switch(item.type) {
+              obj.share_count = item.share_count;
+              obj.type = item.type;
+              switch (item.type) {
                 case 'photo':
                   obj.font_type = 'camera retro icon';
                   break;
@@ -121,13 +116,11 @@
           }
           $rootScope.hideLoading();
           page += 1;
-          $scope.$broadcast('scroll.infiniteScrollComplete');
         })
-        .error(function(data, status, headers, config) {
+        .error(function (data, status, headers, config) {
           $scope.loading = false;
           console.log(data, status, headers, config);
           $rootScope.hideLoading();
-          $scope.$broadcast('scroll.infiniteScrollComplete');
         });
     };
 
