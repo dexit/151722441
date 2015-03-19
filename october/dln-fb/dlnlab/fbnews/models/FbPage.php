@@ -221,7 +221,7 @@ class FbPage extends Model
         return $obj;
     }
     
-    public static function get_fb_page_infor($page_link = '') {
+    public static function get_fb_page_infor($page_link = '', $category_id = 0, $status = 0) {
         if (empty($page_link))
             return false;
         
@@ -235,6 +235,8 @@ class FbPage extends Model
                 $record = new self;
             }
             $record->type  = 'page';
+            $record->status = $status;
+            $record->category_id = $category_id;
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
             $record->like  = (isset($obj->likes)) ? $obj->likes : 0;

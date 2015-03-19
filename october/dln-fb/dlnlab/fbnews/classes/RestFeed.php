@@ -57,7 +57,7 @@ class RestFeed extends BaseController {
         if (! Cache::has($cache_id)) {
             if (! empty($category_id) ) {
                 $records = FbFeed::whereRaw('status = ? AND category_id = ?', array(true, $category_id))
-                    ->select(DB::raw('id, fb_id, message, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+                    ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                     ->orderBy('per_day', 'DESC')
                     ->orderBy('created_at', 'DESC')
                     ->skip($skip)
@@ -65,7 +65,7 @@ class RestFeed extends BaseController {
                     ->get();
             } else {
                 $records = FbFeed::whereRaw('status = ?', array(true))
-                    ->select(DB::raw('id, fb_id, message, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+                    ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                     ->orderBy('per_day', 'DESC')
                     ->orderBy('created_at', 'DESC')
                     ->skip($skip)

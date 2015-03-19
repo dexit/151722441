@@ -34,9 +34,9 @@ class FbPage extends Controller
         $obj = array();
         if (! empty($FbPage['fb_link'])) {
             if ($FbPage['type'] == 'user') {
-                $obj = FbPageModel::get_fb_profile_infor($FbPage['fb_link']);
+                //$obj = FbPageModel::get_fb_profile_infor($FbPage['fb_link']);
             } else {
-                $obj = FbPageModel::get_fb_page_infor($FbPage['fb_link']);
+                $obj = FbPageModel::get_fb_page_infor($FbPage['fb_link'], $FbPage['category'], $FbPage['status']);
             }
         }
     }
