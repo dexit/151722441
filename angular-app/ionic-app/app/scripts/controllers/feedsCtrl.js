@@ -152,6 +152,8 @@
         });
     };
 
+    $scope.getFeeds();
+
     $scope.toTimeZone = function (time) {
       return moment(time).add(7, 'hours');
     };
