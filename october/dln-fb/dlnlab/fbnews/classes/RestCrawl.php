@@ -57,7 +57,7 @@ class RestCrawl extends BaseController {
 
     public function getFeedExpired() {
         $timestamp = \Carbon\Carbon::now()->subWeeks(2)->toDateTimeString();
-        $records = FbFeed::whereRaw('status = ? AND created_at > ?', array(true, $timestamp))->take(100)->delete();
+        $records = FbFeed::whereRaw('status = ? AND created_at > ?', array(true, $timestamp))->delete();
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
 }
