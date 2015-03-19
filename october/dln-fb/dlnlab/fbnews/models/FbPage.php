@@ -212,7 +212,7 @@ class FbPage extends Model
             $record->type  = 'user';
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
-            $record->status = true;
+            $record->status = false;
             $record->save();
         } else {
             $obj = false;
@@ -235,7 +235,7 @@ class FbPage extends Model
                 $record = new self;
             }
             $record->type  = 'page';
-            $record->status = true;
+            $record->status = false;
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
             $record->like  = (isset($obj->likes)) ? $obj->likes : 0;
