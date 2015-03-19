@@ -3,12 +3,13 @@
 namespace DLNLab\FBNews\Classes;
 
 use Auth;
-use DB;
 use Carbon;
+use DB;
+use DLNLab\FBNews\Models\FbFeed;
+use DLNLab\FBNews\Models\FbPage;
+use Illuminate\Routing\Controller as BaseController;
 use Input;
 use Response;
-use Illuminate\Routing\Controller as BaseController;
-use DLNLab\FBNews\Models\FbPage;
 use Symfony\Component\DomCrawler\Crawler;
 
 class RestCrawl extends BaseController {
@@ -51,6 +52,12 @@ class RestCrawl extends BaseController {
             }
         }
 
+        return Response::json(array('status' => 'success', 'data' => $records), 200);
+    }
+
+    public function getFeedExpired() {
+        $timestamp = \Carbon\Carbon::now()->subWeeks(2)->toDateTimeString();
+        $records = FbFeed::whereRaw('status = ? AND created_at > ?', array(true, $timestamp))->take(100)->delete();
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
 }
