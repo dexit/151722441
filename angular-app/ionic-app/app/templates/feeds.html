@@ -2,7 +2,7 @@
 	<ion-nav-buttons side="right">
 		<button class="button button-icon button-clear ion-loop" ng-click="onRefreshFeeds()"></button>
 	</ion-nav-buttons>
-	<ion-content overflow-scroll="true" padding="true" class="scroll-content">
+	<ion-content padding="true" class="scroll-content">
 		<div class="row" infinite-scroll="getFeeds()" infinite-scroll-container='".scroll-content"' infinite-scroll-disabled="loading">
 			<div class="ui cards">
 				<div class="ui card" ng-repeat="feed in feeds">

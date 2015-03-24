@@ -15,23 +15,38 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'onsen',
+    'angularMoment',
+    'ngCordova',
+    'infinite-scroll'
   ])
   .config(function ($routeProvider) {
     $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
-      })
-      .when('/test', {
-        templateUrl: 'views/test.html',
-        controller: 'TestCtrl'
+      .when('/feeds', {
+        templateUrl: 'views/feeds.html',
+        controller: 'FeedsCtrl'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/feeds'
       });
+  })
+  .run(function ($rootScope, $cordovaAppAvailability) {
+
+    document.addEventListener('deviceready', function () {
+      var scheme;
+      if (device.platform === 'iOS') {
+        scheme = 'fb://';
+      }
+      else if (device.platform === 'Android') {
+        scheme = 'com.facebook.katana';
+      }
+      $cordovaAppAvailability.check(scheme)
+        .then(function () {
+          $rootScope.allowScheme = true;
+        }, function () {
+          $rootScope.allowScheme = false;
+        });
+    }, false);
+
   });

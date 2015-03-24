@@ -51,7 +51,3 @@
 .text-center {
   text-align: center;
 }
-
-.ui.cards, .ui.cards > div {
-  width: 100% !important;
-}

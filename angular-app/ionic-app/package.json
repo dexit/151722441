@@ -54,6 +54,7 @@
     "com.ionic.keyboard",
     "org.apache.cordova.console",
     "org.apache.cordova.inappbrowser",
-    "com.ohh2ahh.appavailability"
+    "com.ohh2ahh.appavailability",
+    "org.apache.cordova.device"
   ]
 }

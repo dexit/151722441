@@ -235,8 +235,10 @@ class FbPage extends Model
                 $record = new self;
             }
             $record->type  = 'page';
-            $record->status = $status;
-            $record->category_id = $category_id;
+            if ($category_id && $status) {
+                $record->status = $status;
+                $record->category_id = $category_id;
+            }
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
             $record->like  = (isset($obj->likes)) ? $obj->likes : 0;

@@ -15,21 +15,18 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
+    'ngCordova',
     'angularMoment'
   ])
-  .config(function ($routeProvider) {
-    /*$routeProvider
+  .config(function ($routeProvider, $locationProvider) {
+    $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+        templateUrl: 'views/feeds.html',
+        controller: 'FeedsCtrl'
       })
       .otherwise({
         redirectTo: '/'
-      });*/
+      });
   })
   .run(function ($rootScope) {
     window.f7 = new Framework7({
@@ -38,9 +35,7 @@ angular
     });
     window.$$ = Dom7;
 
-    window.mainView = window.f7.addView('.dln-view-main', {
-      dynamicNavbar: true
-    });
+
     //window.mainView.router.loadPage('views/feeds.html');
 
     $rootScope.gotoNavLink = function (url) {

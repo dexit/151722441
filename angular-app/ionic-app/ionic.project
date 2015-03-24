@@ -1,4 +1,11 @@
 {
   "name": "ionic-app",
-  "app_id": "2cc14ced"
+  "app_id": "2cc14ced",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "10.39.235.15"
+    }
+  ]
 }
