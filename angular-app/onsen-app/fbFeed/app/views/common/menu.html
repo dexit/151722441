@@ -1,0 +1,28 @@
+<div ng-controller="CommonMenuCtrl" id="dln_menu_wrapper">
+	<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="menu_nav">
+		<md-toolbar class="md-theme-indigo">
+			<h1 class="md-toolbar-tools">Sidenav Left</h1>
+		</md-toolbar>
+		<md-content class="md-padding">
+			<p hide-md show-gt-md>
+				This sidenav is locked open on your device. To go back to the default behavior,
+				narrow your display.
+			</p>
+			<md-button ng-click="close()" class="md-primary" hide-gt-md>
+				Close Sidenav Left
+			</md-button>
+		</md-content>
+	</md-sidenav>
+	<md-toolbar class="dln-toolbar">
+		<div class="md-toolbar-tools">
+			<button ng-click="toggleMenu()" class="docs-menu-icon" hide-gt-sm="" aria-label="Toggle Menu">
+				<i class="fa fa-bars"></i>
+			</button>
+			<div layout="row" flex class="fill-height">
+				<div class="md-toolbar-item md-breadcrumb">
+					<span>{{shareData.title}}</span>
+				</div>
+			</div>
+		</div>
+	</md-toolbar>
+</div>
