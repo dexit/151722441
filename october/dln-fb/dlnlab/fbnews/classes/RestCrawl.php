@@ -28,7 +28,11 @@ class RestCrawl extends BaseController {
         foreach ($records as $record) {
             if ($record->fb_id) {
                 $link = "https://www.facebook.com/" . $record->fb_id;
+
                 FbPage::get_fb_page_infor($link, $record->category_id, $record->status);
+                // Count feed for page
+                $count = FbFeed::whereRaw('status = ? AND page_id = ?', array(true, $record->id))->count();
+                $record->count = $count;
                 $record->crawl = true;
                 $record->save();
             }
