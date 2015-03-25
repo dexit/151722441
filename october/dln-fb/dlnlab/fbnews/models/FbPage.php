@@ -71,7 +71,7 @@ class FbPage extends Model
         $url = '';
         if (! empty($this->attributes['fb_id'])) {
             if (! empty($this->attributes['type']) && $this->attributes['type'] == 'user') {
-                $url = 'fb://profile/' . $this->attributes['fb_id'];
+                //$url = 'fb://profile/' . $this->attributes['fb_id'];
             } else {
                 $url = 'fb://page/' . $this->attributes['fb_id'];
             }
@@ -97,7 +97,6 @@ class FbPage extends Model
         
         $url = self::$api_url . $fb_page_id . '/posts?limit=' . self::$limit . '&access_token=' . self::get_fb_access_token();
         $obj = json_decode(HelperNews::curl($url));
-        
         $batches_like    = array();
         $batches_comment = array();
         $items    = array();
@@ -189,30 +188,34 @@ class FbPage extends Model
                 FbFeed::insert($items);
             }
         }
+
+        return $items;
     }
     
     public static function get_fb_access_token() {
         return self::$app_id . '|' . self::$app_secret;
     }
     
-    public static function get_fb_profile_infor($user_link = '') {
+    public static function get_fb_profile_infor($user_link = '', $category_id = 0, $status = 0) {
         if (empty($user_link))
             return false;
-        
+
         $user_name = end((explode('/', rtrim($user_link, '/'))));
         
         $obj = null;
-        $url = self::$api_url . $user_name . '&access_token=' . self::get_fb_access_token();
+        //$url = self::$api_url . $user_name . '?access_token=' . self::get_fb_access_token();
+        $url = 'http://graph.facebook.com/' .$user_name;
         $obj = json_decode(HelperNews::curl($url));
-        if (! empty($obj->name)) {
+        if (! empty($obj->id)) {
             $record = self::where('fb_id', '=', $obj->id)->first();
             if (empty($record)) {
                 $record = new self;
             }
+            $record->category_id = $category_id;
+            $record->status = $status;
             $record->type  = 'user';
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
-            $record->status = false;
             $record->save();
         } else {
             $obj = false;
@@ -235,10 +238,8 @@ class FbPage extends Model
                 $record = new self;
             }
             $record->type  = 'page';
-            if ($category_id && $status) {
-                $record->status = $status;
-                $record->category_id = $category_id;
-            }
+            $record->status = $status;
+            $record->category_id = $category_id;
             $record->name  = (isset($obj->name)) ? $obj->name : '';
             $record->fb_id = (isset($obj->id)) ? $obj->id : '';
             $record->like  = (isset($obj->likes)) ? $obj->likes : 0;

@@ -44,25 +44,49 @@ class RestFeed extends BaseController {
         $data = get();
         
         $default = array(
-            'category_id' => 0,
-            'page' => 0
+            'category_ids' => '',
+            'page' => 0,
+            'clear_cache' => 0
         );
         extract(array_merge($default, $data));
 
+        $arr_cats = array();
+        if (is_string($category_ids)) {
+            $arr_cats_old = explode(',', $category_ids);
+            if (! is_array($arr_cats_old) && empty($arr_cats_old)) {
+                return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
+            }
+            foreach ($arr_cats_old as $i => $item) {
+                $item = intval($item);
+                if (! in_array($item, $arr_cats) && ! empty($item)) {
+                    $arr_cats[] = $item;
+                }
+            }
+        }
         
-        $limit = DLN_LIMIT;
-        $skip  = $page * $limit;
+        $limit = DLN_LIMIT * 10;
+        $index = (int) ($page / 10);
+        $pos   = (int) ($page % 10);
+        $skip  = $index * $limit;
 
-        $cache_id = md5("{$page}_{$category_id}");
+        sort($arr_cats);
+        $category_path = implode('_', $arr_cats);
+        $cache_id = md5("{$page}_{$category_path}_{$index}");
+        if (! empty($clear_cache)) {
+            Cache::forget($cache_id);
+        }
+
         if (! Cache::has($cache_id)) {
-            if (! empty($category_id) ) {
-                $records = FbFeed::whereRaw('status = ? AND category_id = ?', array(true, $category_id))
+            if (! empty($arr_cats) ) {
+                $records = FbFeed::whereRaw('status = ?', array(true))
+                    ->whereIn('category_id', $arr_cats)
                     ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                     ->orderBy('per_day', 'DESC')
                     ->orderBy('created_at', 'DESC')
                     ->skip($skip)
                     ->take($limit)
-                    ->get();
+                    ->get()
+                    ->toArray();
             } else {
                 $records = FbFeed::whereRaw('status = ?', array(true))
                     ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
@@ -70,13 +94,16 @@ class RestFeed extends BaseController {
                     ->orderBy('created_at', 'DESC')
                     ->skip($skip)
                     ->take($limit)
-                    ->get();
+                    ->get()
+                    ->toArray();
             }
 
-            Cache::put($cache_id, json_encode($records), 1);
+            Cache::put($cache_id, json_encode($records), DLN_CACHE_MINUTE);
         } else {
             $records = json_decode(Cache::get($cache_id));
         }
+
+        $records = array_slice($records, $pos * DLN_LIMIT, DLN_LIMIT);
         
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }

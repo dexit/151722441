@@ -28,7 +28,7 @@ class RestCrawl extends BaseController {
         foreach ($records as $record) {
             if ($record->fb_id) {
                 $link = "https://www.facebook.com/" . $record->fb_id;
-                FbPage::get_fb_page_infor($link);
+                FbPage::get_fb_page_infor($link, $record->category_id, $record->status);
                 $record->crawl = true;
                 $record->save();
             }
@@ -55,9 +55,40 @@ class RestCrawl extends BaseController {
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
 
+    public function getPageSpec($page_id) {
+        if (empty(intval($page_id)))
+            return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
+
+        $record = FbPage::find($page_id);
+        $items = null;
+        if ($record) {
+            $items = FbPage::get_fb_feeds($record->fb_id, $record->id, $record->category_id);
+            $record->crawl = true;
+            $record->save();
+        }
+
+        return Response::json(array('status' => 'success', 'data' => $items), 200);
+    }
+
+    public function deleteFeedSpec($page_id) {
+        $data = post();
+        $default = array(
+            'page_id' => 0,
+            'token' => ''
+        );
+        extract(array_merge($default, $data));
+
+        if (empty(intval($page_id)) || $token != DLN_TOKEN)
+            return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
+
+        $records = FbFeed::where('page_id', '=', $page_id)->delete();
+
+        return Response::json(array('status' => 'success', 'data' => $records), 200);
+    }
+
     public function getFeedExpired() {
         $timestamp = \Carbon\Carbon::now()->subWeeks(2)->toDateTimeString();
-        $records = FbFeed::whereRaw('created_at < NOW() - INTERVAL ? WEEK', array(2))->delete();
+        $records = FbFeed::whereRaw('created_at < NOW() - INTERVAL ? WEEK', array(DLN_LIMIT_WEEK))->delete();
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
 }

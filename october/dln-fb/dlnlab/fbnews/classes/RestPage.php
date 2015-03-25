@@ -10,9 +10,11 @@ use DLNLab\FBNews\Models\FbPage;
  *
  * @author dinhln
  */
-class RestPage extends BaseController {
-    
-    public function postPage() {
+class RestPage extends BaseController
+{
+
+    public function postPage()
+    {
         $data = post();
         $default = array(
             'fb_link' => '',
@@ -20,20 +22,20 @@ class RestPage extends BaseController {
             'type' => 'page'
         );
         extract(array_merge($default, $data));
-        
+
         if (empty($fb_link))
             return Response::json(array('status' => 'error'), 500);
-        
+
         if ($type == 'user') {
-            $obj = FbPage::get_fb_profile_infor($fb_link);
+            $obj = FbPage::get_fb_profile_infor($fb_link, $category_id);
         } else {
-            $obj = FbPage::get_fb_page_infor($fb_link);
+            $obj = FbPage::get_fb_page_infor($fb_link, $category_id);
         }
-        
+
         if (empty($obj))
             return Response::json(array('status' => 'error'), 500);
-        
+
         return Response::json(array('status' => 'success', 'data' => $obj), 200);
     }
-    
+
 }
