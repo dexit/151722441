@@ -9,3 +9,7 @@
 .text-center {
   text-align: center;
 }
+
+.border-top {
+  border-top: 1px solid rgba(0, 0, 0, 0.47);
+}

@@ -39,6 +39,10 @@
 .dln-content .dln-body {
   padding: 0.75em 1em !important;
 }
+.dln-content .meta .category.right {
+  width: 60px;
+  text-align: right;
+}
 
 .dln-image-thumb {
   position: relative;
