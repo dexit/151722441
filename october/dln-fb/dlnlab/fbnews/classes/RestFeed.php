@@ -46,7 +46,8 @@ class RestFeed extends BaseController {
         $default = array(
             'category_ids' => '',
             'page' => 0,
-            'clear_cache' => 0
+            'clear_cache' => 0,
+            'order' => 'new'
         );
         extract(array_merge($default, $data));
 
@@ -71,7 +72,24 @@ class RestFeed extends BaseController {
 
         sort($arr_cats);
         $category_path = implode('_', $arr_cats);
-        $cache_id = md5("{$page}_{$category_path}_{$index}");
+
+        switch ($order) {
+            case 'share':
+                $order_by = 'share_count';
+                break;
+            case 'comment':
+                $order_by = 'comment_count';
+                break;
+            case 'like':
+                $order_by = 'like_count';
+                break;
+            case 'new':
+            default:
+                $order_by = 'created_at';
+                break;
+        }
+
+        $cache_id = md5("{$order_by}_{$category_path}_{$index}");
         if (! empty($clear_cache)) {
             Cache::forget($cache_id);
         }
@@ -82,7 +100,7 @@ class RestFeed extends BaseController {
                     ->whereIn('category_id', $arr_cats)
                     ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                     ->orderBy('per_day', 'DESC')
-                    ->orderBy('created_at', 'DESC')
+                    ->orderBy($order_by, 'DESC')
                     ->skip($skip)
                     ->take($limit)
                     ->get()
@@ -91,7 +109,7 @@ class RestFeed extends BaseController {
                 $records = FbFeed::whereRaw('status = ?', array(true))
                     ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                     ->orderBy('per_day', 'DESC')
-                    ->orderBy('created_at', 'DESC')
+                    ->orderBy($order_by, 'DESC')
                     ->skip($skip)
                     ->take($limit)
                     ->get()
@@ -105,7 +123,7 @@ class RestFeed extends BaseController {
 
         $records = array_slice($records, $pos * DLN_LIMIT, DLN_LIMIT);
         
-        return Response::json(array('status' => 'success', 'data' => $records), 200);
+        return Response::json(array('status' => 'success', 'page_id' => $cache_id, 'data' => $records), 200);
     }
     
     public function getFbCategory() {
