@@ -11,8 +11,8 @@
 }
 
 .description p {
-  font-size: 13px;
-  line-height: 20px;
+  font-size: 11px;
+  line-height: 16px;
   padding-left: 1em;
   padding-right: 1em;
   margin-bottom: 0.75em;
@@ -30,6 +30,10 @@
   -moz-filter: drop-shadow(0px 0px 3px #000);
   filter: drop-shadow(0px 0px 3px #000);
   opacity: 0.40;
+}
+
+.description a {
+  text-decoration: none;
 }
 
 .dln-content.content {
@@ -53,6 +57,13 @@
   border-right: 0px !important;
 }
 
+.dln-link {
+  border-top: 1px solid #ddd !important;
+  border-bottom: 1px solid #ddd !important;
+  padding: 0px !important;
+  border-radius: 0px !important;
+}
+
 .dln-link .header {
   padding-top: 5px;
   font-size: 13px !important;
@@ -71,6 +82,10 @@
 }
 .dln-link .content .header {
   white-space: normal;
+  font-size: 11px !important;
+}
+.dln-link .content .header, .dln-content .header {
+  font-weight: 700;
 }
 
 .ui.items > .item > .image {
@@ -86,4 +101,9 @@
 .dln-loading {
   height: 60px;
   box-shadow: none !important;
+}
+
+.extra.content i {
+  margin-right: 5px;
+  font-size: 14px;
 }

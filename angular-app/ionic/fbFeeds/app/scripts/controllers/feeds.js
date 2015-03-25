@@ -8,14 +8,14 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('FeedsCtrl', function ($scope, $http, $rootScope, appGlobal) {
+  .controller('FeedsCtrl', function ($scope, $http, $rootScope, appGlobal, localStorageService) {
     $scope.feeds = [];
     var page = 0;
     $scope.loading = false;
     $scope.allowScheme = false;
 
     $scope.init = function () {
-      $('#dln_scroll_wrapper').on('scroll', function (e) {
+      /*$('#dln_scroll_wrapper').on('scroll', function (e) {
         if ($(this).scrollTop() === 0) {
           $('#dln_pull_feed').removeAttr('disabled');
         } else {
@@ -52,7 +52,13 @@ angular.module('fbFeedsApp')
 
       $rootScope.showLoading('Đang tải!');
 
-      $http.get(appGlobal.host + '/feeds?page=' + page)
+      // Get category_ids
+      var category_id = '';
+      if (localStorageService.isSupported && localStorageService.get('dln_category_id')) {
+        category_id = localStorageService.get('dln_category_id');
+      }
+
+      $http.get(appGlobal.host + '/feeds?page=' + page + '&category_ids=' + category_id)
         .success(function (resp) {
           $scope.loading = false;
           if (resp.status === 'success') {
@@ -71,16 +77,16 @@ angular.module('fbFeedsApp')
               }
               switch (item.type) {
                 case 'photo':
-                  obj.font_type = 'camera retro icon';
+                  obj.font_type = 'fa fa-camera-retro';
                   break;
                 case 'video':
-                  obj.font_type = 'video play outline icon';
+                  obj.font_type = 'fa fa-play-circle';
                   break;
                 case 'link':
-                  obj.font_type = 'unlink icon';
+                  obj.font_type = 'fa fa-unlink';
                   break;
                 case 'status':
-                  obj.font_type = 'newspaper icon';
+                  obj.font_type = 'fa fa-newspaper-o';
                   break;
               }
 

@@ -1,0 +1,27 @@
+<ion-view view-title="Chọn danh mục">
+	<ion-nav-buttons side="left">
+	</ion-nav-buttons>
+
+	<ion-content overflow-scroll="true">
+		<form id="dln_category_filter">
+			<ul class="list">
+				<li class="item item-toggle" ng-repeat="category in categories">
+					<i class="icon {{category.description}}"></i>
+					{{category.name}}
+					<label class="toggle toggle-positive">
+						<input name="category_id[]" value="{{category.id}}" type="checkbox">
+						<div class="track">
+							<div class="handle"></div>
+						</div>
+					</label>
+				</li>
+			</ul>
+		</form>
+
+		<div class="padding">
+			<button class="button button-block button-positive" ng-click="gotoFeeds()" nav-direction="back">Đồng ý</button>
+		</div>
+
+	</ion-content>
+
+</ion-view>

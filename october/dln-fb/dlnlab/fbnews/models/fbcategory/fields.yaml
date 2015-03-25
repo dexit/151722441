@@ -8,14 +8,14 @@ fields:
         label: Name
         placeholder: Category Name
         span: left
-    
+
     slug:
         label: Slug
         span: right
         placeholder: Slug
         attributes:
             data-input-preset: 'input[name="FbCategory[name]"]'
-    
+
     count:
         label: Ads
         type: text
@@ -23,9 +23,14 @@ fields:
         default: 0
         comment: The number of ads for this category
         span: left
-        
+
     description:
         label: Description
         type: textarea
         size: small
         span: right
+    status:
+        label: Enabled
+        tab: Details
+        type: checkbox
+        span: left

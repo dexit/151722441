@@ -11,5 +11,25 @@
 }
 
 .border-top {
-  border-top: 1px solid rgba(0, 0, 0, 0.47);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.ui.card .meta, .ui.cards > .card .meta {
+  font-size: 11px;
+}
+
+.ui.card > .content, .ui.cards > .card > .content {
+  font-size: 12px;
+}
+
+.item-icon-left .icon, .item-icon-right .icon {
+  font-size: 24px !important;
 }

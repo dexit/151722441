@@ -14,6 +14,9 @@ columns:
     count:
         label: Count
         sortable: true
+
+    status:
+        label: Enable
     
     description:
         label: Description

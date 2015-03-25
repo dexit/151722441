@@ -18,9 +18,10 @@ angular
     'ngCordova',
     'ionic',
     'angularMoment',
-    'infinite-scroll'
+    'infinite-scroll',
+    'LocalStorageModule'
   ])
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
 
     $stateProvider
       .state('app', {
@@ -37,6 +38,15 @@ angular
             controller: 'FeedsCtrl'
           }
         }
+      })
+      .state('app.categoryfilter', {
+        url: '/categoryfilter',
+        views: {
+          'appContent': {
+            templateUrl: 'views/category-filter.html',
+            controller: 'CategoryFilterCtrl'
+          }
+        }
       });
       /*.state('app.feed', {
         url: '/feed/:feedId',
@@ -50,8 +60,13 @@ angular
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/feeds');
+
+    localStorageServiceProvider
+      .setPrefix('fbFeedsApp')
+      .setStorageType('sessionStorage')
+      .setNotify(true, true);
   })
-  .run(function($rootScope, $ionicPlatform, $ionicLoading) {
+  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -74,6 +89,22 @@ angular
     $rootScope.hideLoading = function () {
       $ionicLoading.hide();
     };
+
+    document.addEventListener('deviceready', function () {
+      var scheme;
+      if (device.platform === 'iOS') {
+        scheme = 'fb://';
+      }
+      else if (device.platform === 'Android') {
+        scheme = 'com.facebook.katana';
+      }
+      $cordovaAppAvailability.check(scheme)
+        .then(function () {
+          $rootScope.allowScheme = true;
+        }, function () {
+          $rootScope.allowScheme = false;
+        });
+    }, false);
 
     FastClick.attach(document.body);
     /*window.f7 = new Framework7({

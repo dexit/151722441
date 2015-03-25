@@ -15,8 +15,8 @@ App::before(function ($request) {
     Route::get($api_path . 'category', $api_class . '\RestCategory@getCategoryList');
     Route::get($api_path . 'category/{category_id}', $api_class . '\RestCategory@getCategoryList');
     Route::get($api_path . 'feeds', $api_class . '\RestFeed@getFeeds');
-    Route::get($api_path . 'page', $api_class . '\RestPage@getPageList');
-    Route::get($api_path . 'page/{page_id}', $api_class . '\RestPage@getPageDetail');
-    Route::get($api_path . 'page/{page_id}/feeds', $api_class . '\RestFeed@getFeedsByPage');
+    Route::get($api_path . 'pages', $api_class . '\RestPage@getPageList');
+    Route::get($api_path . 'pages/{page_id}', $api_class . '\RestPage@getPageDetail');
+    Route::get($api_path . 'pages/{page_id}/feeds', $api_class . '\RestFeed@getFeedsByPage');
     Route::get($api_path . 'redirect', $api_class . '\RestFeed@getRedirectUrl');
 });

@@ -1,58 +1,59 @@
-<ion-view view-title="Feeds">
+<ion-view view-title="Tin">
 
 	<ion-nav-buttons side="right">
-		<button class="button button-icon button-clear ion-loop" ng-click="onRefreshFeeds()"></button>
+		<a class="button button-icon button-clear" href="#/app/categoryfilter"><i class="fa fa-th"></i></a>
 	</ion-nav-buttons>
 
 	<ion-content overflow-scroll="true" id="dln_wrapper">
-		<div class="row" infinite-scroll="getFeeds()" infinite-scroll-container='"#dln_wrapper"' infinite-scroll-disabled="loading">
-			<div class="ui cards">
-				<div class="ui card" ng-repeat="feed in feeds" on-last-repeat="ngRepeatFinished">
-					<div class="content dln-content">
-						<div class="dln-body">
-							<div class="left floated author m-r-5">
-								<img class="ui avatar image lazy-images" data-original="{{feed.profile_src}}"/>
-							</div>
-							<a href="javascript:void(0)" ng-click="removeFeed($index)">
-								<i class="right floated remove icon"></i>
-							</a>
-
-							<div class="header" ng-click="gotoLink('{{feed.page_link}}')">{{feed.page.name}}</div>
-							<div class="meta">
-								<span class="category">{{feed.created_at | amCalendar}} <i class="{{feed.font_type}}"></i></span>
-								<span class="category right floated">{{feed.category.name}}</span>
-							</div>
+		<div class="ui cards" infinite-scroll="getFeeds()" infinite-scroll-container='"#dln_wrapper"'
+		     infinite-scroll-disabled="loading">
+			<div class="ui card" ng-repeat="feed in feeds" on-last-repeat="ngRepeatFinished">
+				<div class="content dln-content">
+					<div class="dln-body">
+						<div class="left floated author m-r-5">
+							<img class="ui avatar image lazy-images" data-original="{{feed.profile_src}}"/>
 						</div>
-						<div class="description">
-							<p ng-if="feed.type != 'link'">{{feed.message}}</p>
-							<a ng-if="feed.type != 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')" class="dln-image-thumb">
-								<i ng-if="feed.type == 'video'" class="play icon"></i>
-								<img class="lazy-images dln-thumb-images" data-original="{{feed.photo}}"/>
-							</a>
-							<a ng-if="feed.type == 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')" class="dln-image-thumb border-top">
-								<div class="ui items bordered">
-									<div class="item dln-link">
-										<div class="ui small left floated m-r-5">
-											<img class="lazy-images dln-small-130" data-original="{{feed.picture}}"/>
-										</div>
-										<div class="content">
-											<div class="header">{{feed.name}}</div>
-											<div class="description full-width">
-												<p>{{feed.message}}</p>
-											</div>
+						<a href="javascript:void(0)" ng-click="removeFeed($index)">
+							<i class="right floated fa fa-angle-down"></i>
+						</a>
+
+						<div class="header" ng-click="gotoLink('{{feed.page_link}}')">{{feed.page.name}}</div>
+						<div class="meta">
+							<span class="category">{{feed.created_at | amCalendar}} <i class="{{feed.font_type}}"></i></span>
+							<span class="category right floated">{{feed.category.name}}</span>
+						</div>
+					</div>
+					<div class="description">
+						<p ng-if="feed.type != 'link'">{{feed.message}}</p>
+						<a ng-if="feed.type != 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')"
+						   class="dln-image-thumb">
+							<i ng-if="feed.type == 'video'" class="play icon"></i>
+							<img class="lazy-images dln-thumb-images" data-original="{{feed.photo}}"/>
+						</a>
+						<a ng-if="feed.type == 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')"
+						   class="dln-image-thumb border-top">
+							<div class="ui items">
+								<div class="dln-link item">
+									<div class="ui small left floated m-r-5">
+										<img class="lazy-images dln-small-130" data-original="{{feed.picture}}"/>
+									</div>
+									<div class="content">
+										<div class="header">{{feed.name}}</div>
+										<div class="description full-width">
+											<p>{{feed.message}}</p>
 										</div>
 									</div>
 								</div>
-							</a>
-						</div>
+							</div>
+						</a>
 					</div>
-					<div class="extra content">
-						<span class="left floated m-r-10"><i class="thumbs outline up icon"></i>{{feed.like_count|nThousand}}</span>
-						<span class="left floated m-r-10"><i class="comment outline icon"></i>{{feed.comment_count|nThousand}}</span>
-						<span class="left floated m-r-10"><i class="share alternate icon"></i>{{feed.share_count|nThousand}}</span>
-						<i class="right floated facebook square icon" ng-click="gotoLink('{{feed.link}}')"></i>
-						<!--<i class="right floated like icon"></i> -->
-					</div>
+				</div>
+				<div class="extra content">
+					<span class="left floated m-r-10"><i class="fa fa-thumbs-o-up"></i>{{feed.like_count|nThousand}}</span>
+					<span class="left floated m-r-10"><i class="fa fa-comment-o"></i>{{feed.comment_count|nThousand}}</span>
+					<span class="left floated m-r-10"><i class="fa fa-share-alt"></i>{{feed.share_count|nThousand}}</span>
+					<i class="right floated fa fa-facebook-square" ng-click="gotoLink('{{feed.link}}')"></i>
+					<!--<i class="right floated like icon"></i> -->
 				</div>
 			</div>
 		</div>
