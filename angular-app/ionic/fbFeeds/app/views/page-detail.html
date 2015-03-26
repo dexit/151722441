@@ -1,0 +1,26 @@
+<ion-view view-title="Fanpage">
+
+	<ion-content overflow-scroll="true" id="dln_wrapper" class="dln-page-detail">
+
+		<div class="ui cards">
+			<div class="card">
+				<div class="content dln-item dln-content">
+					<div class="dln-item">
+						<div class="left floated author m-r-5">
+							<img class="ui avatar image lazy-images" data-original="http://graph.facebook.com/{{page.fb_id}}/picture?type=small"/>
+						</div>
+						<div class="header">{{page.name}}</div>
+						<div class="meta">
+							<span class="category">{{category.name}}</span>
+						</div>
+					</div>
+				</div>
+				<div class="ui bottom attached button">
+					<i class="fa fa-facebook-official fs-14"></i> Xem trang
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+
+</ion-view>

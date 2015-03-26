@@ -8,12 +8,11 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('FeedsCtrl', function ($scope, $http, $rootScope, appGlobal, localStorageService) {
+  .controller('FeedsCtrl', function ($scope, $http, $location, $rootScope, appGlobal, localStorageService, shareParams) {
     $scope.feeds = [];
     var page = 0;
     var last_request = '';
     $scope.loading = false;
-    $scope.afterLoaded = false;
     $scope.allowScheme = false;
 
     $scope.init = function () {
@@ -37,6 +36,15 @@ angular.module('fbFeedsApp')
       window.open(url, '_system', 'location=yes,toolbar=yes');
     };
 
+    $scope.gotoPage = function (index) {
+      if ($scope.feeds[index].page) {
+        shareParams.setPage($scope.feeds[index].page);
+        shareParams.setCategory($scope.feeds[index].category);
+      }
+
+      $location.path('/pages/' + index);
+    };
+
     $scope.toTimeZone = function (time) {
       return moment(time).add(7, 'hours');
     };
@@ -48,17 +56,17 @@ angular.module('fbFeedsApp')
     };
 
     $scope.getFeeds = function ($done) {
-      if ($scope.loading || ! $scope.afterLoaded) {
+      if ($scope.loading) {
         return;
       }
 
-      // Get category_ids
+      /* Get category_ids */
       var category_ids = [];
       if (localStorageService.isSupported && localStorageService.get('dln_category_ids')) {
         category_ids = localStorageService.get('dln_category_ids');
       }
 
-      // Abort last request same
+      /* Abort last request same */
       var url = appGlobal.host + '/feeds?page=' + page + '&category_ids=' + category_ids.join(',');
 
       /*if (last_request !== '' && last_request === url) {
@@ -74,14 +82,13 @@ angular.module('fbFeedsApp')
 
             angular.forEach(resp.data, function (item) {
               var obj = {};
-              obj.profile_src = 'http://graph.facebook.com/' + item.page.fb_id + '/picture?type=small';
               obj.created_at = $scope.toTimeZone(item.created_at);
               if ($rootScope.allowScheme) {
                 obj.link = item.app_link;
                 obj.page_link = item.page.app_page_link;
               } else {
                 obj.link = item.link;
-                obj.page_link = 'http://m.facebook.com/' + item.page.fb_id;
+                obj.page_link = item.page.page_link;
               }
               switch (item.type) {
                 case 'photo':
@@ -111,6 +118,7 @@ angular.module('fbFeedsApp')
         .error(function (data, status, headers, config) {
           $scope.loading = false;
           console.log(data, status, headers, config);
+          window.alert('Không thể lấy tin, xin vui lòng thử lại!');
           $rootScope.hideLoading();
           if ($done) {
             $done();
@@ -118,17 +126,19 @@ angular.module('fbFeedsApp')
         });
     };
 
-    $scope.$on('$ionicView.enter', function (e, args) {
-      $scope.afterLoaded = true;
+    $rootScope.$on('onRefreshFeeds', function (e, args) {
       $scope.refreshFeeds();
     });
 
     $scope.$on('ngRepeatFinished', function() {
-      //window.$$('img.lazy').trigger('lazy');
-      $('img.lazy-images').lazyload({
-        effect : 'fadeIn'
+      /*window.$$('img.lazy').trigger('lazy');*/
+      $('img.lazy-images:not(.active)').each(function () {
+        $(this).lazyload({
+          effect : 'fadeIn'
+        });
+        $(this).trigger('appear');
+        $(this).addClass('active');
       });
-      $('img.lazy-images').trigger('appear');
     });
 
   });

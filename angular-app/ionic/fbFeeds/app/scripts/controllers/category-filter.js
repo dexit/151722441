@@ -24,6 +24,8 @@ angular.module('fbFeedsApp')
         localStorageService.set(dln_category_ids, category_ids);
       }
 
+      $rootScope.$emit('onRefreshFeeds', null);
+
       $ionicHistory.goBack();
     };
 

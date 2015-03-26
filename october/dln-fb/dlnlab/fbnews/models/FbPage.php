@@ -39,7 +39,7 @@ class FbPage extends Model
     public $attachOne = [];
     public $attachMany = [];
     
-    protected $appends = array('app_page_link');
+    protected $appends = array('app_page_link', 'page_link');
     
     public static $app_id     = FB_APP_ID;
     public static $app_secret = FB_APP_SECRET;
@@ -76,6 +76,16 @@ class FbPage extends Model
                 $url = 'fb://page/' . $this->attributes['fb_id'];
             }
         }
+        return $url;
+    }
+
+    public function getPageLinkAttribute() {
+        $url = 'https://www.facebook.com/';
+
+        if (! empty($this->attributes['fb_id'])) {
+            $url .= $this->attributes['fb_id'];
+        }
+
         return $url;
     }
 

@@ -39,6 +39,15 @@ angular
           }
         }
       })
+      .state('app.page_detail', {
+        url: 'pages/:pageId',
+        views: {
+          'appContent': {
+            templateUrl: 'views/page-detail.html',
+            controller: 'PageDetailCtrl'
+          }
+        }
+      })
       .state('app.category_filter', {
         url: 'category_filter',
         views: {
@@ -66,7 +75,7 @@ angular
       .setStorageCookieDomain('http://vivufb.com')
       .setNotify(true, true);
   })
-  .run(function($timeout, $rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability) {
+  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -87,7 +96,7 @@ angular
     };
 
     $rootScope.hideLoading = function () {
-      $timeout($ionicLoading.hide(), 1500);
+      $ionicLoading.hide()
     };
 
     document.addEventListener('deviceready', function () {

@@ -27,7 +27,7 @@
   padding: 0px !important;
 }
 
-.dln-content .dln-body {
+.dln-content .dln-item {
   padding: 0.75em 1em !important;
 }
 .dln-content .meta .category.right {
@@ -66,6 +66,7 @@
   padding: 0;
   font-size: 11px;
   white-space: pre-wrap;
+  max-height: 80px;
 }
 .dln-link .content .header {
   white-space: normal;
