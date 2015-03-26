@@ -10,39 +10,74 @@
 angular.module('fbFeedsApp')
   .controller('CategoryFilterCtrl', function ($scope, $rootScope, $http, $ionicHistory, appGlobal, localStorageService) {
     $scope.categories = [];
+    var isSupported = false;
     var page = 0;
+    var dln_category_ids = 'dln_category_ids';
+    var dln_category_cache = 'dln_category_cache';
 
     $scope.gotoFeeds = function () {
-      var category_id = '';
+      var category_ids = [];
       $('#dln_category_filter input:checked').each(function () {
-        category_id += $(this).val() + ',';
+        category_ids.push($(this).val());
       });
       if (localStorageService.isSupported) {
-        localStorageService.set('dln_category_id', category_id);
+        localStorageService.set(dln_category_ids, category_ids);
       }
 
       $ionicHistory.goBack();
     };
 
-    $scope.getCategory = function () {
-      $rootScope.showLoading();
-      $http.get(appGlobal.host + '/category?page=' + page)
-        .success(function (resp) {
-          $scope.loading = false;
-          if (resp.status === 'success') {
-            angular.forEach(resp.data, function (item) {
-              $scope.categories.push(item);
-            });
-          }
-          $rootScope.hideLoading();
-          page += 1;
-        })
-        .error(function (data, status, headers, config) {
-          $scope.loading = false;
-          console.log(data, status, headers, config);
-          $rootScope.hideLoading();
-        });
+    $scope.parseObj = function(data) {
+      angular.forEach(data, function (item) {
+        item.checked = false;
+        if (isSupported) {
+          var category_ids = localStorageService.get(dln_category_ids);
+          angular.forEach(category_ids, function (cat) {
+            if (item.id === cat) {
+              item.checked = true;
+            }
+          });
+        }
+        $scope.categories.push(item);
+      });
+
+      $rootScope.hideLoading();
     };
 
-    $scope.getCategory();
+    $scope.getCategory = function () {
+      // Check category exists in cache
+      if (isSupported && localStorageService.get(dln_category_cache)) {
+        var category_cache = localStorageService.get(dln_category_cache);
+        var data = null;
+        if (typeof(category_cache) === 'string') {
+          data = JSON.parse(dln_category_cache);
+        } else {
+          data = category_cache;
+        }
+
+        $scope.parseObj(data);
+      } else {
+        $http.get(appGlobal.host + '/category?page=' + page)
+          .success(function (resp) {
+            $scope.loading = false;
+            if (resp.status === 'success') {
+              localStorageService.set(dln_category_cache, JSON.stringify(resp.data));
+
+              $scope.parseObj(resp.data);
+            }
+            page += 1;
+          })
+          .error(function (data, status, headers, config) {
+            $scope.loading = false;
+            console.log(data, status, headers, config);
+            $rootScope.hideLoading();
+          });
+      }
+    };
+
+    $scope.$on('$ionicView.enter', function (e, args) {
+      $rootScope.showLoading();
+      isSupported = localStorageService.isSupported;
+      $scope.getCategory();
+    });
   });

@@ -24,6 +24,7 @@
     "StatusBar": false,
     "FastClick": false,
     "$": false,
-    "moment": false
+    "moment": false,
+    "device": false
   }
 }

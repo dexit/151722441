@@ -11,7 +11,9 @@ angular.module('fbFeedsApp')
   .controller('FeedsCtrl', function ($scope, $http, $rootScope, appGlobal, localStorageService) {
     $scope.feeds = [];
     var page = 0;
+    var last_request = '';
     $scope.loading = false;
+    $scope.afterLoaded = false;
     $scope.allowScheme = false;
 
     $scope.init = function () {
@@ -46,25 +48,31 @@ angular.module('fbFeedsApp')
     };
 
     $scope.getFeeds = function ($done) {
-      if ($scope.loading) {
+      if ($scope.loading || ! $scope.afterLoaded) {
         return;
       }
 
-      $rootScope.showLoading('Đang tải!');
-
       // Get category_ids
-      var category_id = '';
-      if (localStorageService.isSupported && localStorageService.get('dln_category_id')) {
-        category_id = localStorageService.get('dln_category_id');
+      var category_ids = [];
+      if (localStorageService.isSupported && localStorageService.get('dln_category_ids')) {
+        category_ids = localStorageService.get('dln_category_ids');
       }
 
-      $http.get(appGlobal.host + '/feeds?page=' + page + '&category_ids=' + category_id)
+      // Abort last request same
+      var url = appGlobal.host + '/feeds?page=' + page + '&category_ids=' + category_ids.join(',');
+
+      /*if (last_request !== '' && last_request === url) {
+        return;
+      }*/
+
+      $rootScope.showLoading('Đang tải!');
+      $http.get(url)
         .success(function (resp) {
           $scope.loading = false;
           if (resp.status === 'success') {
+            last_request = url;
 
             angular.forEach(resp.data, function (item) {
-
               var obj = {};
               obj.profile_src = 'http://graph.facebook.com/' + item.page.fb_id + '/picture?type=small';
               obj.created_at = $scope.toTimeZone(item.created_at);
@@ -109,6 +117,11 @@ angular.module('fbFeedsApp')
           }
         });
     };
+
+    $scope.$on('$ionicView.enter', function (e, args) {
+      $scope.afterLoaded = true;
+      $scope.refreshFeeds();
+    });
 
     $scope.$on('ngRepeatFinished', function() {
       //window.$$('img.lazy').trigger('lazy');

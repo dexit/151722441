@@ -1,12 +1,25 @@
 <ion-view view-title="Tin">
 
 	<ion-nav-buttons side="right">
-		<a class="button button-icon button-clear" href="#/app/categoryfilter"><i class="fa fa-th"></i></a>
+		<a class="button button-icon button-clear" href="#/category_filter"><i class="fa fa-th"></i></a>
 	</ion-nav-buttons>
 
 	<ion-content overflow-scroll="true" id="dln_wrapper">
+    <div class="tabs-striped tabs-background-positive tabs-color-light">
+      <div class="tabs">
+        <a class="tab-item active" href="#">
+          <i class="icon ion-home"></i>
+          Test
+        </a>
+        <a class="tab-item" href="#">
+          <i class="icon ion-star"></i>
+          Favorites
+        </a>
+      </div>
+    </div>
+
 		<div class="ui cards" infinite-scroll="getFeeds()" infinite-scroll-container='"#dln_wrapper"'
-		     infinite-scroll-disabled="loading">
+		     infinite-scroll-disabled="loading" infinite-scroll-listen-for-event="list:filtered">
 			<div class="ui card" ng-repeat="feed in feeds" on-last-repeat="ngRepeatFinished">
 				<div class="content dln-content">
 					<div class="dln-body">
@@ -27,7 +40,7 @@
 						<p ng-if="feed.type != 'link'">{{feed.message}}</p>
 						<a ng-if="feed.type != 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')"
 						   class="dln-image-thumb">
-							<i ng-if="feed.type == 'video'" class="play icon"></i>
+							<i ng-if="feed.type == 'video'" class="fa fa-play icon"></i>
 							<img class="lazy-images dln-thumb-images" data-original="{{feed.photo}}"/>
 						</a>
 						<a ng-if="feed.type == 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')"

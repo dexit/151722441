@@ -25,13 +25,13 @@ angular
 
     $stateProvider
       .state('app', {
-        url: '/app',
+        url: '/',
         abstract: true,
         templateUrl: 'views/app.html',
         controller: 'AppCtrl'
       })
       .state('app.feeds', {
-        url: '/feeds',
+        url: 'feeds',
         views: {
           'appContent': {
             templateUrl: 'views/feeds.html',
@@ -39,8 +39,8 @@ angular
           }
         }
       })
-      .state('app.categoryfilter', {
-        url: '/categoryfilter',
+      .state('app.category_filter', {
+        url: 'category_filter',
         views: {
           'appContent': {
             templateUrl: 'views/category-filter.html',
@@ -59,14 +59,14 @@ angular
       });*/
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/feeds');
+    $urlRouterProvider.otherwise('/feeds');
 
     localStorageServiceProvider
       .setPrefix('fbFeedsApp')
-      .setStorageType('sessionStorage')
+      .setStorageCookieDomain('http://vivufb.com')
       .setNotify(true, true);
   })
-  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability) {
+  .run(function($timeout, $rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability) {
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -87,7 +87,7 @@ angular
     };
 
     $rootScope.hideLoading = function () {
-      $ionicLoading.hide();
+      $timeout($ionicLoading.hide(), 1500);
     };
 
     document.addEventListener('deviceready', function () {
@@ -106,7 +106,6 @@ angular
         });
     }, false);
 
-    FastClick.attach(document.body);
     /*window.f7 = new Framework7({
       pushState: true,
       animateNavBackIcon: true

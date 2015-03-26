@@ -1,4 +1,11 @@
 {
   "name": "fbFeeds",
-  "app_id": "de7d6985"
+  "app_id": "de7d6985",
+  "browsers": [
+    {
+      "platform": "android",
+      "browser": "crosswalk",
+      "version": "10.39.235.15"
+    }
+  ]
 }
