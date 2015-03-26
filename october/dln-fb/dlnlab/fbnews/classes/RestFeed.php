@@ -39,6 +39,43 @@ class RestFeed extends BaseController {
         
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
+
+    public function getFeedByIds() {
+        $data = get();
+
+        $default = array(
+            'feed_ids' => ''
+        );
+        extract(array_merge($default, $data));
+
+        if (empty($feed_ids)) {
+            return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
+        }
+
+        $arr_ids = array();
+        if (is_string($feed_ids)) {
+            $arr_ids_old = explode(',', $feed_ids);
+            if (count($arr_ids_old)) {
+                foreach ($arr_ids_old as $item) {
+                    if (intval($item) > 0 && ! in_array($item, $arr_ids)) {
+                        $arr_ids[] = $item;
+                    }
+                    if (count($arr_ids) > DLN_LIMIT) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        $records = FbFeed::whereRaw('status = ?', array(true))
+            ->whereIn('id', $arr_ids)
+            ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+            ->orderBy('per_day', 'DESC')
+            ->get()
+            ->toArray();
+
+        return Response::json(array('status' => 'success', 'data' => $records), 200);
+    }
     
     public function getFeeds() {
         $data = get();
@@ -123,7 +160,7 @@ class RestFeed extends BaseController {
 
         $records = array_slice($records, $pos * DLN_LIMIT, DLN_LIMIT);
         
-        return Response::json(array('status' => 'success', 'page_id' => $cache_id, 'data' => $records), 200);
+        return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
     
     public function getFbCategory() {
