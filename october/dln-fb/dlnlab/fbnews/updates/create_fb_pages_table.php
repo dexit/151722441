@@ -15,7 +15,7 @@ class CreateFbPagesTable extends Migration
             $table->string('name')->nullable();
             $table->string('fb_id')->nullable();
             $table->integer('category_id')->unsigned()->nullable()->index();
-            $table->integer('like')->default(0);
+            $table->integer('like_count')->default(0);
             $table->integer('talking_about')->default(0);
             $table->string('type', 10)->default('page');
             $table->integer('count')->default(0);

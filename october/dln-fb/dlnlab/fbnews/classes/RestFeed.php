@@ -82,6 +82,7 @@ class RestFeed extends BaseController {
         
         $default = array(
             'category_ids' => '',
+            'page_id' => 0,
             'page' => 0,
             'clear_cache' => 0,
             'order' => 'new'
@@ -126,14 +127,22 @@ class RestFeed extends BaseController {
                 break;
         }
 
-        $cache_id = md5("{$order_by}_{$category_path}_{$index}");
+        $cache_id = md5("{$order_by}_{$category_path}_{$page_id}_{$index}");
         if (! empty($clear_cache)) {
             Cache::forget($cache_id);
         }
 
         if (! Cache::has($cache_id)) {
+            if ($page_id) {
+                $_cond = 'status = ? AND page_id = ?';
+                $_cona = array(true, $page_id);
+            } else {
+                $_cond = 'status = ?';
+                $_cona = array(true);
+            }
+
             if (! empty($arr_cats) ) {
-                $records = FbFeed::whereRaw('status = ?', array(true))
+                $records = FbFeed::whereRaw($_cond, $_cona)
                     ->whereIn('category_id', $arr_cats)
                     ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                     ->orderBy('per_day', 'DESC')
@@ -143,7 +152,7 @@ class RestFeed extends BaseController {
                     ->get()
                     ->toArray();
             } else {
-                $records = FbFeed::whereRaw('status = ?', array(true))
+                $records = FbFeed::whereRaw($_cond, $_cona)
                     ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                     ->orderBy('per_day', 'DESC')
                     ->orderBy($order_by, 'DESC')

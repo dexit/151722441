@@ -44,9 +44,14 @@ angular.module('fbFeedsApp')
         category_ids = localStorageService.get('dln_category_ids');
       }
 
+      var page_id = 0;
+      if (localStorageService.isSupported && localStorageService.get('dln_page_id')) {
+        page_id = localStorageService.get('dln_page_id');
+      }
+
       $rootScope.showLoading('Đang tải!');
       /* Abort last request same */
-      var url = appGlobal.host + '/feeds?page=' + page + '&category_ids=' + category_ids.join(',');
+      var url = appGlobal.host + '/feeds?page=' + page + '&category_ids=' + category_ids.join(',') + '&page_id=' + page_id;
 
       if (last_request !== '' && last_request === url) {
         return;

@@ -20,7 +20,7 @@ columns:
         searchable: true
         sortable: false
         
-    like:
+    like_count:
         label: Like
         sortable: true
         type: number

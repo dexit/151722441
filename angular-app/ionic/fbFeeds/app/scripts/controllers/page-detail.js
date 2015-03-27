@@ -8,11 +8,12 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('PageDetailCtrl', function ($scope, $http, $stateParams, $rootScope, appGlobal, shareParams, fCache) {
+  .controller('PageDetailCtrl', function ($scope, $http, $stateParams, $rootScope, appGlobal, shareParams, fCache, localStorageService) {
     $scope.page = null;
     $scope.category = null;
+    var dln_page_id = 'dln_page_id';
 
-    $scope.getPage = function (id) {
+    /*$scope.getPage = function (id) {
       if (!id) {
         return false;
       }
@@ -37,7 +38,7 @@ angular.module('fbFeedsApp')
             $done();
           }
         });
-    };
+    };*/
 
     $scope.gotoPageLink = function (index) {
       if (! $scope.page[index]){
@@ -58,15 +59,13 @@ angular.module('fbFeedsApp')
       fCache.init(function () {
         $scope.page = fCache.findPageById($stateParams.pageId);
         $scope.category = fCache.findCategoryById($scope.page.id);
+
+        if (localStorageService.isSupported) {
+          localStorageService.set(dln_page_id, $stateParams.pageId);
+        }
+
         $rootScope.$emit('onRequestFeeds', null);
       });
-
-
-      /*$scope.page = shareParams.getPage();
-       if (!$scope.page) {
-       //$scope.getPage($stateParams.pageId);
-       }
-       $scope.category = shareParams.getCategory();*/
     });
 
   });

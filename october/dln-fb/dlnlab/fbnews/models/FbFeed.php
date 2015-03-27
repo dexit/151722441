@@ -82,10 +82,5 @@ class FbFeed extends Model
     public function getPageOptions() {
         return FbPage::getNameList();
     }
-    
-    public function toArray() {
-        $this->load('category', 'page');
-        return parent::toArray();
-    }
-    
+
 }
