@@ -87,7 +87,7 @@ angular
     };
 
     $rootScope.hideLoading = function () {
-      $ionicLoading.hide()
+      $ionicLoading.hide();
     };
 
     document.addEventListener('deviceready', function () {

@@ -24,7 +24,7 @@ angular.module('fbFeedsApp')
         localStorageService.set(dln_category_ids, category_ids);
       }
 
-      $rootScope.$emit('onRefreshFeeds', null);
+      $rootScope.$emit('onFeedRefreshFeeds', null);
 
       $ionicHistory.goBack();
     };
@@ -78,6 +78,7 @@ angular.module('fbFeedsApp')
     };
 
     $scope.$on('$ionicView.enter', function (e, args) {
+      localStorageService.set('dln_page_id', null);
       $rootScope.showLoading();
       isSupported = localStorageService.isSupported;
       $scope.getCategory();

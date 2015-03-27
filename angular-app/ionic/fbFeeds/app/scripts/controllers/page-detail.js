@@ -8,7 +8,7 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('PageDetailCtrl', function ($scope, $http, $stateParams, $rootScope, appGlobal, shareParams, fCache, localStorageService) {
+  .controller('PageDetailCtrl', function ($scope, $http, $stateParams, $rootScope) {
     $scope.page = null;
     $scope.category = null;
     var dln_page_id = 'dln_page_id';
@@ -56,6 +56,7 @@ angular.module('fbFeedsApp')
     };
 
     $scope.$on('$ionicView.enter', function (e, args) {
+      localStorageService.set('dln_category_ids', null);
       fCache.init(function () {
         $scope.page = fCache.findPageById($stateParams.pageId);
         $scope.category = fCache.findCategoryById($scope.page.id);
@@ -64,7 +65,7 @@ angular.module('fbFeedsApp')
           localStorageService.set(dln_page_id, $stateParams.pageId);
         }
 
-        $rootScope.$emit('onRequestFeeds', null);
+        $rootScope.$emit('onRefreshFeeds', null);
       });
     });
 

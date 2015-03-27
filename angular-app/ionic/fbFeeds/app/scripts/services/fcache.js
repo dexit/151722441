@@ -18,7 +18,8 @@ angular.module('fbFeedsApp')
       /* Initialize factory */
       init: function (next) {
         if (! angular.equals({}, cache)) {
-          return next();
+          next();
+          return;
         }
 
         /* Get cache from server */
@@ -26,6 +27,7 @@ angular.module('fbFeedsApp')
         $rootScope.showLoading('Loading');
         $http.get(url)
           .success(function (resp) {
+            $rootScope.hideLoading();
             if (resp.status === 'success') {
               cache.categories = resp.data.category;
               cache.pages = resp.data.page;
