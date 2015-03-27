@@ -8,17 +8,9 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('PageDetailCtrl', function ($scope, $http, $stateParams, $rootScope, appGlobal, shareParams) {
+  .controller('PageDetailCtrl', function ($scope, $http, $stateParams, $rootScope, appGlobal, shareParams, fCache) {
     $scope.page = null;
     $scope.category = null;
-
-    $scope.$on('$ionicView.enter', function (e, args) {
-      $scope.page = shareParams.getPage();
-      if (!$scope.page) {
-        $scope.getPage($stateParams.pageId);
-      }
-      $scope.category = shareParams.getCategory();
-    });
 
     $scope.getPage = function (id) {
       if (!id) {
@@ -46,5 +38,35 @@ angular.module('fbFeedsApp')
           }
         });
     };
+
+    $scope.gotoPageLink = function (index) {
+      if (! $scope.page[index]){
+        return false;
+      }
+
+      var url = '';
+      if ($rootScope.allowScheme) {
+        url = $scope.page[index].app_page_link;
+      } else {
+        url = $scope.page[index].page_link;
+      }
+
+      window.open(url, '_system', 'location=yes,toolbar=yes');
+    };
+
+    $scope.$on('$ionicView.enter', function (e, args) {
+      fCache.init(function () {
+        $scope.page = fCache.findPageById($stateParams.pageId);
+        $scope.category = fCache.findCategoryById($scope.page.id);
+        $rootScope.$emit('onRequestFeeds', null);
+      });
+
+
+      /*$scope.page = shareParams.getPage();
+       if (!$scope.page) {
+       //$scope.getPage($stateParams.pageId);
+       }
+       $scope.category = shareParams.getCategory();*/
+    });
 
   });
