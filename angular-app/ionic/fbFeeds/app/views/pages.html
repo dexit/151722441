@@ -1,0 +1,35 @@
+<ion-view view-title="Pages">
+
+	<ion-nav-buttons side="right">
+		<a class="button button-icon button-clear" href="#/page_add"><i class="fa fa-plus"></i></a>
+	</ion-nav-buttons>
+
+	<ion-content overflow-scroll="true" id="dln_pages_wrapper">
+
+		<div class="ui cards" infinite-scroll="scollGetFeeds()" infinite-scroll-container='"#dln_pages_wrapper"'>
+			<div class="card" ng-repeat="item in pages">
+				<div class="content dln-item dln-content">
+					<div class="dln-item">
+						<div class="left floated author m-r-5">
+							<img class="ui avatar image lazy-images"
+							     data-original="http://graph.facebook.com/{{item.fb_id}}/picture?type=small"/>
+						</div>
+						<div class="header">{{item.name}}</div>
+						<div class="meta">
+							<span class="category">{{item.category.name}}</span>
+              <span class="category">
+                <span class="left floated m-r-10"><i class="fa fa-thumbs-o-up"></i>{{item.like_count|nThousand}}</span>
+					      <span class="left floated m-r-10"><i class="fa fa-comment-o"></i>{{item.talking_about|nThousand}}</span>
+              </span>
+						</div>
+					</div>
+				</div>
+				<div class="ui bottom attached button" ng-click="gotoPageLink('{{$index}}')">
+					<i class="fa fa-facebook-official fs-14"></i> Xem trang
+				</div>
+			</div>
+		</div>
+
+	</ion-content>
+
+</ion-view>

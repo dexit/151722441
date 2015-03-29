@@ -8,10 +8,13 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('PageDetailCtrl', function ($scope, $http, $stateParams, $rootScope) {
+  .controller('PageCtrl', function ($scope, $http, $stateParams, $rootScope, localStorageService, fCache, sFeed) {
     $scope.page = null;
     $scope.category = null;
-    var dln_page_id = 'dln_page_id';
+    $scope.feeds = [];
+    $scope._page = 0;
+    $scope.last_request = '';
+    $scope.loading = true;
 
     /*$scope.getPage = function (id) {
       if (!id) {
@@ -40,6 +43,23 @@ angular.module('fbFeedsApp')
         });
     };*/
 
+    $scope.scollGetFeeds = function () {
+      sFeed.getFeeds($scope);
+    };
+
+    $scope.setFeeds = function (feeds) {
+      $scope.feeds = feeds;
+    };
+
+    $scope.gotoPage = function (index) {
+      if ($scope.feeds[index].page) {
+        shareParams.setPage($scope.feeds[index].page);
+        shareParams.setCategory($scope.feeds[index].category);
+      }
+
+      $location.path('/pages/' + $scope.feeds[index].page.id);
+    };
+
     $scope.gotoPageLink = function (index) {
       if (! $scope.page[index]){
         return false;
@@ -55,17 +75,30 @@ angular.module('fbFeedsApp')
       window.open(url, '_system', 'location=yes,toolbar=yes');
     };
 
+    $scope.$on('ngRepeatFinished', function() {
+      $('img.lazy-images:not(.active)').each(function () {
+        $(this).lazyload({
+          effect : 'fadeIn'
+        });
+        $(this).trigger('appear');
+        $(this).addClass('active');
+      });
+    });
+
     $scope.$on('$ionicView.enter', function (e, args) {
+      if (! $stateParams.pageId) {
+        $location.href = '/feeds';
+      }
+
       localStorageService.set('dln_category_ids', null);
+
       fCache.init(function () {
         $scope.page = fCache.findPageById($stateParams.pageId);
         $scope.category = fCache.findCategoryById($scope.page.id);
 
-        if (localStorageService.isSupported) {
-          localStorageService.set(dln_page_id, $stateParams.pageId);
-        }
-
-        $rootScope.$emit('onRefreshFeeds', null);
+        $scope.loading = false;
+        $scope.page_id = $stateParams.pageId;
+        sFeed.getFeeds($scope);
       });
     });
 

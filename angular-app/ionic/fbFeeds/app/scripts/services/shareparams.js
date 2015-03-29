@@ -11,9 +11,18 @@ angular.module('fbFeedsApp')
   .service('shareParams', function () {
     var data = {
       page: '',
-      category: ''
+      category: '',
+      refreshFeed: false
     };
     return {
+      setRefreshFeed: function (_value) {
+        data.refreshFeed = _value;
+      },
+
+      getRefreshFeed: function () {
+        return data.refreshFeed;
+      },
+
       getCategory: function () {
         return data.category;
       },

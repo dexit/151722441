@@ -47,7 +47,6 @@ angular.module('fbFeedsApp')
 
     $rootScope.$on('onRequestFeeds', function (e, args) {
       $scope.loading = false;
-console.log('ok');
       $scope.requestFeeds();
     });
 

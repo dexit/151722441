@@ -8,38 +8,51 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('FeedsCtrl', function ($scope, $rootScope, fCache, localStorageService, fFeed) {
+  .controller('FeedsCtrl', function ($scope, $rootScope, $location, fCache, sFeed, shareParams) {
 
-    $scope.toTimeZone = function (time) {
-      return moment(time).add(7, 'hours');
-    };
+    $scope.feeds = [];
+    $scope._page = 0;
+    $scope.last_request = '';
+    $scope.loading = true;
 
     $scope.gotoPage = function (index) {
-      if (!$scope.feeds[index].page_id) {
-        /*shareParams.setPage($scope.feeds[index].page);
-         shareParams.setCategory($scope.feeds[index].category);*/
-        return false;
+      if ($scope.feeds[index].page) {
+        shareParams.setPage($scope.feeds[index].page);
+        shareParams.setCategory($scope.feeds[index].category);
       }
 
-      $location.path('/pages/' + $scope.feeds[index].page_id);
+      $location.path('/pages/' + $scope.feeds[index].page.id);
     };
 
-    $scope.gotoLink = function (url) {
-      window.open(url, '_system', 'location=yes,toolbar=yes');
+    $scope.setFeeds = function (feeds) {
+      $scope.feeds = feeds;
     };
+
+    $scope.scollGetFeeds = function () {
+      sFeed.getFeeds($scope);
+    };
+
+    $scope.init = function () {
+      fCache.init(function () {
+        $scope.loading = false;
+        sFeed.getFeeds($scope);
+      });
+    };
+    $scope.init();
 
     $rootScope.$on('onFeedRefreshFeeds', function (e, args) {
-      $rootScope.$emit('onRefreshFeeds', null);
+      $scope._page = 0;
+      $scope.feeds = [];
+      sFeed.getFeeds($scope, true);
     });
 
-    $scope.$on('$ionicView.enter', function (e, args) {
-      fCache.init(function () {
-        fFeed.init();
-        fFeed.requestFeeds(function () {
-          $scope.loading = fFeed.getLoading();
-          $scope.feeds   = fFeed.getFeeds();
+    $scope.$on('ngRepeatFinished', function() {
+      $('img.lazy-images:not(.active)').each(function () {
+        $(this).lazyload({
+          effect : 'fadeIn'
         });
-        //$rootScope.$emit('onRequestFeeds', null);
+        $(this).trigger('appear');
+        $(this).addClass('active');
       });
     });
 

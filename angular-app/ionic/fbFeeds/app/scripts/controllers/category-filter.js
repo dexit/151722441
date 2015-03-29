@@ -14,32 +14,35 @@ angular.module('fbFeedsApp')
     var page = 0;
     var dln_category_ids = 'dln_category_ids';
     var dln_category_cache = 'dln_category_cache';
+    var category_ids = '';
 
     $scope.gotoFeeds = function () {
-      var category_ids = [];
+      var category_ids_selected = [];
       $('#dln_category_filter input:checked').each(function () {
-        category_ids.push($(this).val());
+        category_ids_selected.push($(this).val());
       });
-      if (localStorageService.isSupported) {
-        localStorageService.set(dln_category_ids, category_ids);
-      }
 
-      $rootScope.$emit('onFeedRefreshFeeds', null);
+      if (! angular.equals(category_ids_selected, category_ids)) {
+        if (localStorageService.isSupported) {
+          localStorageService.set(dln_category_ids, category_ids_selected);
+        }
+
+        $rootScope.$emit('onFeedRefreshFeeds', null);
+      }
 
       $ionicHistory.goBack();
     };
 
-    $scope.parseObj = function(data) {
+    $scope.parseObj = function (data) {
       angular.forEach(data, function (item) {
         item.checked = false;
-        if (isSupported) {
-          var category_ids = localStorageService.get(dln_category_ids);
-          angular.forEach(category_ids, function (cat) {
-            if (item.id === cat) {
-              item.checked = true;
-            }
-          });
-        }
+
+        angular.forEach(category_ids, function (cat) {
+          if (item.id === cat) {
+            item.checked = true;
+          }
+        });
+
         $scope.categories.push(item);
       });
 
@@ -78,9 +81,11 @@ angular.module('fbFeedsApp')
     };
 
     $scope.$on('$ionicView.enter', function (e, args) {
-      localStorageService.set('dln_page_id', null);
       $rootScope.showLoading();
       isSupported = localStorageService.isSupported;
+      if (isSupported) {
+        category_ids = localStorageService.get(dln_category_ids);
+      }
       $scope.getCategory();
     });
   });

@@ -5,15 +5,12 @@
 	<ion-content overflow-scroll="true">
 		<form id="dln_category_filter">
 			<ul class="list">
-				<li class="item item-toggle" ng-repeat="category in categories">
+				<li class="item item-checkbox" ng-repeat="category in categories">
+					<label class="checkbox">
+						<input name="category_id[]" value="{{category.id}}" type="checkbox" ng-checked="category.checked">
+					</label>
 					<i class="icon {{category.description}}"></i>
 					{{category.name}}
-					<label class="toggle toggle-positive">
-						<input name="category_id[]" value="{{category.id}}" type="checkbox" ng-checked="category.checked">
-						<div class="track">
-							<div class="handle"></div>
-						</div>
-					</label>
 				</li>
 			</ul>
 		</form>

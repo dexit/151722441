@@ -24,7 +24,7 @@ angular.module('fbFeedsApp')
 
         /* Get cache from server */
         var url = appGlobal.host + '/cache';
-        $rootScope.showLoading('Loading');
+        $rootScope.showLoading('Đang tải...');
         $http.get(url)
           .success(function (resp) {
             $rootScope.hideLoading();
@@ -65,6 +65,11 @@ angular.module('fbFeedsApp')
         });
 
         return _return;
+      },
+
+      /* Get pages */
+      getPages: function () {
+        return cache.pages;
       }
 
     };

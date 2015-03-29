@@ -39,12 +39,21 @@ angular
           }
         }
       })
-      .state('app.page_detail', {
+      .state('app.pages', {
+        url: 'pages',
+        views: {
+          'appContent': {
+            templateUrl: 'views/pages.html',
+            controller: 'PagesCtrl'
+          }
+        }
+      })
+      .state('app.page', {
         url: 'pages/:pageId',
         views: {
           'appContent': {
-            templateUrl: 'views/page-detail.html',
-            controller: 'PageDetailCtrl'
+            templateUrl: 'views/page.html',
+            controller: 'PageCtrl'
           }
         }
       })
@@ -67,6 +76,7 @@ angular
       .setNotify(true, true);
   })
   .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability) {
+
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
@@ -88,6 +98,10 @@ angular
 
     $rootScope.hideLoading = function () {
       $ionicLoading.hide();
+    };
+
+    $rootScope.gotoLink = function (url) {
+      window.open(url, '_system', 'location=yes,toolbar=yes');
     };
 
     document.addEventListener('deviceready', function () {
