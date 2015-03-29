@@ -1,0 +1,40 @@
+.m-r-5 {
+  margin-right: 5px;
+}
+
+.m-r-10 {
+  margin-right: 10px;
+}
+
+.fs-14 {
+  font-size: 14px !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.border-top {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.right {
+  float: right;
+}
+
+.left {
+  float: left;
+}
+
+.ui.card .meta, .ui.cards > .card .meta {
+  font-size: 11px;
+}
+
+.ui.card > .content, .ui.cards > .card > .content {
+  font-size: 12px;
+  text-align: left;
+}
+
+.item-icon-left .icon, .item-icon-right .icon {
+  font-size: 24px !important;
+}
