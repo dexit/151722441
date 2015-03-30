@@ -16,8 +16,6 @@ angular.module('fbFeedsApp')
     $scope.empty = false;
     $scope.allowScheme = false;
 
-
-
     $scope.requestFeeds = function ($done, isRefresh) {
 
     };
@@ -29,17 +27,6 @@ angular.module('fbFeedsApp')
 
       //$scope.requestFeeds();
     };
-
-    $scope.$on('ngRepeatFinished', function () {
-      /*window.$$('img.lazy').trigger('lazy');*/
-      $('img.lazy-images:not(.active)').each(function () {
-        $(this).lazyload({
-          effect: 'fadeIn'
-        });
-        $(this).trigger('appear');
-        $(this).addClass('active');
-      });
-    });
 
     $rootScope.$on('onRefreshFeeds', function (e, args) {
       $scope.requestFeeds(null, true);

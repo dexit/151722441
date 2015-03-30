@@ -45,7 +45,6 @@ angular.module('fbFeedsApp')
       _scope.last_request = url;
       $http.get(url)
         .success(function (resp) {
-
           _scope.loading = false;
 
           if (resp.status === 'success') {
@@ -85,10 +84,8 @@ angular.module('fbFeedsApp')
           }
           $rootScope.hideLoading();
           _scope._page += 1;
-
         })
         .error(function (data, status, headers, config) {
-
           _scope.loading = false;
 
           console.log(data, status, headers, config);

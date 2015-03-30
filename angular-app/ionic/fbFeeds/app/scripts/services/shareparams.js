@@ -12,9 +12,18 @@ angular.module('fbFeedsApp')
     var data = {
       page: '',
       category: '',
-      refreshFeed: false
+      refreshFeed: false,
+      vote: ''
     };
     return {
+      setVote: function (_value) {
+        data.vote = _value;
+      },
+
+      getVote: function () {
+        return data.vote;
+      },
+
       setRefreshFeed: function (_value) {
         data.refreshFeed = _value;
       },

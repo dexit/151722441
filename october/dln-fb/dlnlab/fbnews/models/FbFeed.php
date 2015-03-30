@@ -83,4 +83,8 @@ class FbFeed extends Model
         return FbPage::getNameList();
     }
 
+    public function toArray() {
+        $this->load('category');
+        return parent::toArray();
+    }
 }

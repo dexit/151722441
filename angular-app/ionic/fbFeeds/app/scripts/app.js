@@ -57,6 +57,24 @@ angular
           }
         }
       })
+      .state('app.page_vote', {
+        url: 'page/vote/{fbId}',
+        views: {
+          'appContent': {
+            templateUrl: 'views/page-vote.html',
+            controller: 'PageVoteCtrl'
+          }
+        }
+      })
+      .state('app.page_vote_search', {
+        url: 'page/vote_search',
+        views: {
+          'appContent': {
+            templateUrl: 'views/page-vote-search.html',
+            controller: 'PageVoteSearchCtrl'
+          }
+        }
+      })
       .state('app.category_filter', {
         url: 'category_filter',
         views: {
@@ -87,7 +105,6 @@ angular
         // org.apache.cordova.statusbar required
         StatusBar.styleDefault();
       }
-
     });
 
     $rootScope.showLoading = function (message) {
@@ -104,6 +121,16 @@ angular
       window.open(url, '_system', 'location=yes,toolbar=yes');
     };
 
+    $rootScope.$on('ngRepeatFinished', function() {
+      $('img.lazy-images:not(.active)').each(function () {
+        $(this).lazyload({
+          effect : 'fadeIn'
+        });
+        $(this).trigger('appear');
+        $(this).addClass('active');
+      });
+    });
+
     document.addEventListener('deviceready', function () {
       var scheme;
       if (device.platform === 'iOS') {
@@ -119,23 +146,4 @@ angular
           $rootScope.allowScheme = false;
         });
     }, false);
-
-    /*window.f7 = new Framework7({
-      pushState: true,
-      animateNavBackIcon: true
-    });
-    window.$$ = Dom7;
-
-
-    //window.mainView.router.loadPage('views/feeds.html');
-
-    $rootScope.gotoNavLink = function (url) {
-      if (url) {
-        window.mainView.router.loadPage(url);
-      }
-    };
-
-    $rootScope.backNavLink = function () {
-      window.mainView.router.back();
-    };*/
   });

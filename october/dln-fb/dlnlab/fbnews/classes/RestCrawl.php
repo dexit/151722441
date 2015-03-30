@@ -12,19 +12,21 @@ use Input;
 use Response;
 use Symfony\Component\DomCrawler\Crawler;
 
-class RestCrawl extends BaseController {
-	
-	public static $params = null;
+class RestCrawl extends BaseController
+{
+
+    public static $params = null;
     public static $limit_crawl_ad_active = 100;
     public static $limit_crawl_tag_count = 10;
-    
-    public function getUpdateFBPageInfor() {
+
+    public function getUpdateFBPageInfor()
+    {
         $records = FbPage::whereRaw('status = ? AND crawl = ?', array(true, false))->take(100)->get();
-        if (! count($records)) {
+        if (!count($records)) {
             FbPage::where('crawl', '=', true)->update(array('crawl' => false));
             $records = FbPage::whereRaw('status = ? AND crawl = ?', array(true, false))->take(100)->get();
         }
-        
+
         foreach ($records as $record) {
             if ($record->fb_id) {
                 $link = "https://www.facebook.com/" . $record->fb_id;
@@ -37,17 +39,18 @@ class RestCrawl extends BaseController {
                 $record->save();
             }
         }
-        
+
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
-    
-    public function getFBPageLinks() {
+
+    public function getFBPageLinks()
+    {
         $records = FbPage::whereRaw('status = ? AND crawl = ?', array(true, false))->take(5)->get();
-        if (! count($records)) {
+        if (!count($records)) {
             FbPage::where('crawl', '=', true)->update(array('crawl' => false));
             $records = FbPage::whereRaw('status = ? AND crawl = ?', array(true, false))->take(5)->get();
         }
-        
+
         foreach ($records as $record) {
             if ($record->fb_id) {
                 FbPage::get_fb_feeds($record->fb_id, $record->id, $record->category_id);
@@ -59,7 +62,8 @@ class RestCrawl extends BaseController {
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
 
-    public function getPageSpec($page_id) {
+    public function getPageSpec($page_id)
+    {
         if (empty(intval($page_id)))
             return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
 
@@ -74,7 +78,8 @@ class RestCrawl extends BaseController {
         return Response::json(array('status' => 'success', 'data' => $items), 200);
     }
 
-    public function deleteFeedSpec($page_id) {
+    public function deleteFeedSpec($page_id)
+    {
         $data = post();
         $default = array(
             'page_id' => 0,
@@ -90,9 +95,59 @@ class RestCrawl extends BaseController {
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
 
-    public function getFeedExpired() {
+    public function getFeedExpired()
+    {
         $timestamp = \Carbon\Carbon::now()->subWeeks(2)->toDateTimeString();
         $records = FbFeed::whereRaw('created_at < NOW() - INTERVAL ? WEEK', array(DLN_LIMIT_WEEK))->delete();
         return Response::json(array('status' => 'success', 'data' => $records), 200);
+    }
+
+    public function getPostFBPage()
+    {
+        $record = FbFeed::whereNull('shared')
+            ->select(DB::raw('id, fb_id, message, picture, category_id, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+            ->orderBy('per_day', 'DESC')
+            ->orderBy('like_count', 'DESC')
+            ->first();
+
+        if (! $record) {
+            return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
+        }
+
+        $result = new \stdClass();
+        $result->message = $record->message;
+        $result->link = FbPage::get_feed_infor($record->fb_id);
+        //$result->original_link = HelperNews::genBitly($record->link);
+        $result->original_link = $record->link;
+        $result->type = $record->category->name;
+
+        $tag = strtolower(trim(str_replace(' ', '_', $result->type)));
+        $message = $record->message .
+            "\n\n\nLink gốc: " . $result->original_link .
+            "\nNhóm: " . TAG . $tag;
+
+        $attachment =  array(
+            'access_token' => PAGE_TOKEN,
+            'message' => $message,
+            'link' => $result->link
+        );
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,FbPage::$api_url . PAGE_ID . "/feed");
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $attachment);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);  //to suppress the curl output
+        $post = curl_exec($ch);
+        curl_close ($ch);
+
+        $post = json_decode($post);
+        if (! empty($post->id)) {
+            $record->shared = $post->id;
+            $record->save();
+        }
+
+        return Response::json(array('status' => 'success', 'data' => $result), 200);
     }
 }

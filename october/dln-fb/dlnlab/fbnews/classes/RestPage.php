@@ -98,4 +98,20 @@ class RestPage extends BaseController
         return Response::json(array('status' => 'success', 'data' => $record), 200);
     }
 
+    public function getSearchPage() {
+        $data = get();
+
+        $default = array(
+            'q' => ''
+        );
+        extract(array_merge($default, $data));
+
+        if (empty($q))
+            return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
+
+        $result = FbPage::search_fb_pages($q);
+
+        return Response::json(array('status' => 'success', 'data' => $result), 200);
+    }
+
 }

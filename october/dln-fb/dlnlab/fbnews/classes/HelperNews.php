@@ -22,5 +22,18 @@ class HelperNews {
             var_dump($ex);die();
         }
     }
+
+    public static function genBitly($longUrl = '') {
+        if (empty($longUrl))
+            return false;
+
+        $url = "https://api-ssl.bitly.com/v3/shorten?longUrl={$longUrl}&access_token=" . BIT_TOKEN;
+        $obj = json_decode(self::curl($url));
+
+        if (empty($obj->data))
+            return false;
+
+        return $obj->data->url;
+    }
     
 }

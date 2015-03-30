@@ -7,7 +7,7 @@
 	<ion-content overflow-scroll="true" id="dln_pages_wrapper">
 
 		<div class="ui cards" infinite-scroll="scollGetFeeds()" infinite-scroll-container='"#dln_pages_wrapper"'>
-			<div class="card" ng-repeat="item in pages">
+			<div class="card" ng-repeat="item in pages" on-last-repeat="ngRepeatFinished">
 				<div class="content dln-item dln-content">
 					<div class="dln-item">
 						<div class="left floated author m-r-5">

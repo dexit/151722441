@@ -15,7 +15,10 @@ define('DLN_CACHE_PAGE', 120);
 define('DLN_CACHE_SHORT_MINUTE', 60);
 define('FB_APP_ID', '225132297553705');
 define('FB_APP_SECRET', '8f00d29717ee8c6a49cd25da80c5aad8');
-define('PAGE_TOKEN', 'CAADMwbKfhykBAPcd4eSXIGVkz8ijJ0aRZBQS0NTvkZBQaY8Lszy96mE3Pdhqa515AK1sJnjtJGAE3IpB1szH1Xr0ZAzsUK6wHUO3m9AW00yZAaDmoFlB1XaYIkOtZB7X6fZC9LJCEqh051KdD9KZCfTmESHv5IbFERJtsR3vIHijyZBLvoGYlauDs5mkopVhW42ZAolLOcMxyg0aiaAA50UXFTahclOWMrlUZD');
+define('PAGE_ID', '408730579166315');
+define('PAGE_TOKEN', 'CAADMwbKfhykBAM6mSY3gAdUfor2wpkDnvnPbRDC6V2rqZCQpy7965uby5PhR8zT2wEFwm0v12t2TDdQ9wsFscp7AbPayML68B2pRp7idaUxPZA2fuOTLSS0OOgu7BnWyK2tWcVi7ZBxHhZAy8InVVe519JsZAqZC85fx8BYISJSGWUA2iSKyRnQMhyj7mwu7EZD');
+define('BIT_TOKEN', '9e016bcaeee8f29bae802366a3f2eaa32b4937fc');
+define('TAG', '#vivufb_');
 //https://graph.facebook.com/822643817770854/picture?access_token=225132297553705|8f00d29717ee8c6a49cd25da80c5aad8&type=small
 //DB::enableQueryLog();
 //$queries = DB::getQueryLog();

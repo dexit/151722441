@@ -14,16 +14,6 @@ angular.module('fbFeedsApp')
     $scope._lastRequest = '';
     $scope._loading = true;
 
-    $scope.$on('ngRepeatFinished', function() {
-      $('img.lazy-images:not(.active)').each(function () {
-        $(this).lazyload({
-          effect : 'fadeIn'
-        });
-        $(this).trigger('appear');
-        $(this).addClass('active');
-      });
-    });
-
     $scope.init = function () {
       fCache.init(function () {
         var pages = [];
