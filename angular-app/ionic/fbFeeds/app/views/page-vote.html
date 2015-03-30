@@ -1,0 +1,32 @@
+<ion-view view-title="Votes detail">
+
+	<ion-content overflow-scroll="true" id="dln_vote_search_wrapper">
+
+		<div class="list">
+
+			<div class="item item-avatar">
+				<img ng-src="{{page.thumb}}">
+
+				<h2>{{page.name}}</h2>
+
+				<p>{{page.likes|nThousand}} | {{page.talking_about|nThousand}}</p>
+			</div>
+
+			<label class="item item-input item-select">
+				<div class="input-label">
+					Danh mục
+				</div>
+				<select id="category_id">
+					<option value="{{item.id}}" ng-repeat="item in categories">{{item.name}}</option>
+				</select>
+			</label>
+
+			<div class="padding">
+				<button class="button button-block button-positive" ng-click="sendVote()" nav-direction="back">Bình chọn</button>
+			</div>
+
+		</div>
+
+	</ion-content>
+
+</ion-view>

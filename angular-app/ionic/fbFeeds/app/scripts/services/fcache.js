@@ -70,6 +70,11 @@ angular.module('fbFeedsApp')
       /* Get pages */
       getPages: function () {
         return cache.pages;
+      },
+
+      /* Get categories */
+      getCategories: function () {
+        return cache.categories;
       }
 
     };
