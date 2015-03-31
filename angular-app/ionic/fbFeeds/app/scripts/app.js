@@ -14,7 +14,6 @@ angular
     'ngCookies',
     'ngRoute',
     'ngSanitize',
-    'ngTouch',
     'ngCordova',
     'ionic',
     'angularMoment',
@@ -124,7 +123,8 @@ angular
     $rootScope.$on('ngRepeatFinished', function() {
       $('img.lazy-images:not(.active)').each(function () {
         $(this).lazyload({
-          effect : 'fadeIn'
+          effect : 'fadeIn',
+          skip_invisible : false
         });
         $(this).trigger('appear');
         $(this).addClass('active');

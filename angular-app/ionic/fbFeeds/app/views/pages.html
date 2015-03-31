@@ -24,9 +24,11 @@
 						</div>
 					</div>
 				</div>
-				<div class="ui bottom attached button" ng-click="gotoPageLink('{{$index}}')">
-					<i class="fa fa-facebook-official fs-14"></i> Xem trang
-				</div>
+        <div class="extra content">
+          <span class="left floated" ng-click="gotoFBLink('{{$index}}')"><i class="fa fa-facebook-square"></i>Facebook</span>
+          <span class="right floated" ng-click="gotoPage()"><i class="fa fa-thumbs-o-up"></i>Xem tin</span>
+          <!--<i class="right floated like icon"></i> -->
+        </div>
 			</div>
 		</div>
 

@@ -8,11 +8,34 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('PagesCtrl', function ($scope, fCache) {
+  .controller('PagesCtrl', function ($scope, $rootScope, fCache) {
     $scope.pages = [];
     $scope._page = 0;
     $scope._lastRequest = '';
     $scope._loading = true;
+
+    $scope.gotoPage = function (index) {
+      if (! $scope.pages[index]) {
+        return false;
+      }
+
+      $location.path('/pages/' + $scope.pages[index].id);
+    };
+
+    $scope.gotoFBLink = function (index) {
+      if (! $scope.pages[index]) {
+        return false;
+      }
+
+      var url = '';
+      if ($rootScope.allowScheme) {
+        url = $scope.pages[index].app_page_link;
+      } else {
+        url = $scope.pages[index].page_link;
+      }
+
+      $rootScope.gotoLink(url);
+    };
 
     $scope.init = function () {
       fCache.init(function () {

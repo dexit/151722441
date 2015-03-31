@@ -16,9 +16,8 @@ angular.module('fbFeedsApp')
     $scope.loading = true;
 
     $scope.gotoPage = function (index) {
-      if ($scope.feeds[index].page) {
-        shareParams.setPage($scope.feeds[index].page);
-        shareParams.setCategory($scope.feeds[index].category);
+      if (! $scope.feeds[index].page) {
+        return false;
       }
 
       $location.path('/pages/' + $scope.feeds[index].page.id);
@@ -44,16 +43,6 @@ angular.module('fbFeedsApp')
       $scope._page = 0;
       $scope.feeds = [];
       sFeed.getFeeds($scope, true);
-    });
-
-    $scope.$on('ngRepeatFinished', function() {
-      $('img.lazy-images:not(.active)').each(function () {
-        $(this).lazyload({
-          effect : 'fadeIn'
-        });
-        $(this).trigger('appear');
-        $(this).addClass('active');
-      });
     });
 
   });

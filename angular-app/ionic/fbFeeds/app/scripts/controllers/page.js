@@ -51,16 +51,7 @@ angular.module('fbFeedsApp')
       $scope.feeds = feeds;
     };
 
-    $scope.gotoPage = function (index) {
-      if ($scope.feeds[index].page) {
-        shareParams.setPage($scope.feeds[index].page);
-        shareParams.setCategory($scope.feeds[index].category);
-      }
-
-      $location.path('/pages/' + $scope.feeds[index].page.id);
-    };
-
-    $scope.gotoPageLink = function (index) {
+    $scope.gotoFBLink = function (index) {
       if (! $scope.page[index]){
         return false;
       }
@@ -72,20 +63,10 @@ angular.module('fbFeedsApp')
         url = $scope.page[index].page_link;
       }
 
-      window.open(url, '_system', 'location=yes,toolbar=yes');
+      $rootScope.gotoLink(url);
     };
 
-    $scope.$on('ngRepeatFinished', function() {
-      $('img.lazy-images:not(.active)').each(function () {
-        $(this).lazyload({
-          effect : 'fadeIn'
-        });
-        $(this).trigger('appear');
-        $(this).addClass('active');
-      });
-    });
-
-    $scope.$on('$ionicView.enter', function (e, args) {
+    $scope.init = function () {
       if (! $stateParams.pageId) {
         $location.href = '/feeds';
       }
@@ -94,12 +75,12 @@ angular.module('fbFeedsApp')
 
       fCache.init(function () {
         $scope.page = fCache.findPageById($stateParams.pageId);
-        $scope.category = fCache.findCategoryById($scope.page.id);
+        $scope.category = fCache.findCategoryById($stateParams.pageId);
 
         $scope.loading = false;
         $scope.page_id = $stateParams.pageId;
         sFeed.getFeeds($scope);
       });
-    });
+    };
 
   });
