@@ -22,4 +22,5 @@ App::before(function ($request) {
     Route::get($api_path . 'cache', $api_class . '\RestCache@getCacheBasic');
     Route::get($api_path . 'helper/search_vote', $api_class . '\RestPage@getSearchPage');
     Route::get($api_path . 'helper/post', $api_class . '\RestCrawl@getPostFBPage');
+    Route::post($api_path . 'vote', $api_class . '\RestVote@postAddVote');
 });

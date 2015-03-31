@@ -3,7 +3,7 @@
 use Schema;
 use October\Rain\Database\Updates\Migration;
 
-class CreateVotesTable extends Migration
+class CreateFbVotesTable extends Migration
 {
 
     public function up()
@@ -14,6 +14,7 @@ class CreateVotesTable extends Migration
             $table->increments('id');
             $table->string('device_id')->nullable();
             $table->string('fb_id')->nullable();
+            $table->integer('category_id');
             $table->boolean('status')->default(false);
             $table->timestamps();
         });

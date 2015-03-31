@@ -8,11 +8,30 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('PageVoteCtrl', function ($scope, $rootScope, $stateParams, fCache, shareParams) {
+  .controller('PageVoteCtrl', function ($scope, $rootScope, $stateParams, $http, fCache, shareParams, appGlobal) {
     var pages = [];
     $scope.page = {};
     $scope.categories = [];
     $scope.pageId = '';
+
+    $scope.sendVote = function () {
+      var categoryId = angular.element('#category_id').val();
+      if (! $rootScope.uuid || ! $stateParams.fbId || ! categoryId) {
+        return false;
+      }
+
+      $http.post(appGlobal.host + '/vote', {
+        device_id: $rootScope.uuid,
+        fb_id: $stateParams.fbId,
+        category_id: categoryId
+      }).
+        success(function(data, status, headers, config) {
+          alert(data.data);
+        }).
+        error(function(data, status, headers, config) {
+          alert(data.data);
+        });
+    };
 
     $scope.init = function () {
       $rootScope.showLoading('Đang tải.');

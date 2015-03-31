@@ -92,7 +92,15 @@ angular
       .setStorageCookieDomain('http://vivufb.com')
       .setNotify(true, true);
   })
-  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability) {
+  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability, $cordovaDevice) {
+
+    /* Get UUID */
+    try {
+      $rootScope.uuid = $cordovaDevice.getUUID();
+    } catch(err) {
+      $rootScope.uuid = 'Simulator';
+    }
+
 
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
