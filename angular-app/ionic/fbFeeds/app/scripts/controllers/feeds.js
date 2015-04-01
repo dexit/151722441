@@ -8,7 +8,7 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('FeedsCtrl', function ($scope, $rootScope, $location, fCache, sFeed, shareParams) {
+  .controller('FeedsCtrl', function ($scope, $rootScope, $location, fCache, sFeed, shareParams, $state) {
 
     $scope.feeds = [];
     $scope._page = 0;
@@ -36,12 +36,12 @@ angular.module('fbFeedsApp')
         $scope.loading = false;
         sFeed.getFeeds($scope);
       });
+      console.log($state);
     };
     $scope.init();
 
     $rootScope.$on('onFeedRefreshFeeds', function (e, args) {
       $scope._page = 0;
-      $scope.feeds = [];
       sFeed.getFeeds($scope, true);
     });
 

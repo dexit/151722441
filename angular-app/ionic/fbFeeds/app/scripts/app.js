@@ -101,6 +101,8 @@ angular
       $rootScope.uuid = 'Simulator';
     }
 
+    $rootScope.slideHeader = false;
+    $rootScope.slideHeaderPrevious = 0;
 
     $ionicPlatform.ready(function() {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

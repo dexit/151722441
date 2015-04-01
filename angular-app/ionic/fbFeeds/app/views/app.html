@@ -12,7 +12,22 @@
 		</ion-nav-bar>
 
 		<ion-nav-view name="appContent"></ion-nav-view>
-
+		<div class="tabs-striped tabs-color-positive">
+			<div class="tabs fixed tabs-icon-left" ng-class="{'bar-slide-away': slideHeader}" id="dln_tab_feed">
+				<a class="tab-item active" data-type="new">
+					<i class="icon ion-refresh"></i>
+					Mới
+				</a>
+				<a class="tab-item" data-type="like">
+					<i class="icon ion-heart"></i>
+					Top like
+				</a>
+				<a class="tab-item" data-type="share">
+					<i class="icon ion-share"></i>
+					Top chia sẻ
+				</a>
+			</div>
+		</div>
 	</ion-side-menu-content>
 
 	<ion-side-menu side="left">

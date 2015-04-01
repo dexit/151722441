@@ -43,9 +43,9 @@
       </div>
     </div>
     <div class="extra content">
-      <span class="left floated m-r-10"><i class="fa fa-thumbs-o-up"></i>{{feed.like_count|nThousand}}</span>
-      <span class="left floated m-r-10"><i class="fa fa-comment-o"></i>{{feed.comment_count|nThousand}}</span>
-      <span class="left floated m-r-10"><i class="fa fa-share-alt"></i>{{feed.share_count|nThousand}}</span>
+      <span class="left floated m-r-10" ng-click="gotoLink('{{feed.link}}')"><i class="fa fa-thumbs-o-up"></i>{{feed.like_count|nThousand}}</span>
+      <span class="left floated m-r-10" ng-click="gotoLink('{{feed.link}}')"><i class="fa fa-comment-o"></i>{{feed.comment_count|nThousand}}</span>
+      <span class="left floated m-r-10" ng-click="gotoLink('{{feed.link}}')"><i class="fa fa-share-alt"></i>{{feed.share_count|nThousand}}</span>
       <i class="right floated fa fa-facebook-square" ng-click="gotoLink('{{feed.link}}')"></i>
       <!--<i class="right floated like icon"></i> -->
     </div>

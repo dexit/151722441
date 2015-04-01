@@ -26,7 +26,9 @@ angular.module('fbFeedsApp')
         category_id: categoryId
       }).
         success(function(data, status, headers, config) {
-          alert(data.data);
+          if (data.status == 'success') {
+            alert('Đăng ký thành công!');
+          }
         }).
         error(function(data, status, headers, config) {
           alert(data.data);

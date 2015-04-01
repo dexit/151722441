@@ -75,12 +75,13 @@ angular.module('fbFeedsApp')
 
       fCache.init(function () {
         $scope.page = fCache.findPageById($stateParams.pageId);
-        $scope.category = fCache.findCategoryById($stateParams.pageId);
+        $scope.category = fCache.findCategoryById($scope.page.category_id);
 
         $scope.loading = false;
         $scope.page_id = $stateParams.pageId;
         sFeed.getFeeds($scope);
       });
     };
+    $scope.init();
 
   });

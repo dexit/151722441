@@ -95,3 +95,12 @@
   margin-right: 5px;
   font-size: 14px;
 }
+
+#dln_tab_feed {
+  transition: 0.25s ease;
+}
+
+#dln_tab_feed.bar-slide-away {
+  -webkit-transform: translateY(50px); /* Safari */
+  transform: translateY(50px);
+}

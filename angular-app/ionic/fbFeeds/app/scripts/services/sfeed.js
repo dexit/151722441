@@ -14,7 +14,7 @@ angular.module('fbFeedsApp')
       return moment(time).add(7, 'hours');
     },
 
-    this.getFeeds = function (_scope) {
+    this.getFeeds = function (_scope, isRefreshed) {
       var self = this;
 
       if (_scope.loading) {
@@ -33,11 +33,17 @@ angular.module('fbFeedsApp')
         page_id = _scope.page_id;
       }
 
+      var type = $rootScope.feedType;
+
       /* Abort last request same */
-      var url = appGlobal.host + '/feeds?page=' + _scope._page + '&category_ids=' + category_ids.join(',') + '&page_id=' + page_id;
+      var url = appGlobal.host + '/feeds?page=' + _scope._page + '&category_ids=' + category_ids.join(',') + '&page_id=' + page_id + '&order=' + type;
 
       if (_scope.last_request !== '' && _scope.last_request === url) {
         return;
+      }
+
+      if (isRefreshed) {
+        _scope.feeds = [];
       }
 
       $rootScope.showLoading('Đang tải!');

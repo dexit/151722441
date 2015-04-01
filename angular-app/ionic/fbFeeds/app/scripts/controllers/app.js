@@ -9,6 +9,19 @@
  */
 angular.module('fbFeedsApp')
   .controller('AppCtrl', function ($scope, $rootScope) {
-    $rootScope = $rootScope;
-    $scope = $scope;
+
+    $scope.init = function () {
+      $rootScope.feedType = 'new';
+
+      $('#dln_tab_feed .tab-item').on('click', function (e) {
+        e.preventDefault();
+
+        $('.tab-item.active').removeClass('active');
+        $(this).addClass('active');
+        $rootScope.feedType = $(this).data('type');
+        $rootScope.$emit('onFeedRefreshFeeds', null);
+      });
+    };
+    $scope.init();
+
   });

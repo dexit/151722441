@@ -13,7 +13,6 @@ angular.module('fbFeedsApp')
       var threshold = 150;
 
       elem.bind('scroll', function(e) {
-        console.log(e.currentTarget.scrollTop, start, threshold);
         if(e.currentTarget.scrollTop - start > threshold) {
           $rootScope.slideHeader = true;
         } else {
