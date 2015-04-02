@@ -8,7 +8,7 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('FeedsCtrl', function ($scope, $rootScope, $location, fCache, sFeed, shareParams, $state) {
+  .controller('FeedsCtrl', function ($scope, $rootScope, $location, fCache, sFeed, shareParams) {
 
     $scope.feeds = [];
     $scope._page = 0;
@@ -36,9 +36,16 @@ angular.module('fbFeedsApp')
         $scope.loading = false;
         sFeed.getFeeds($scope);
       });
-      console.log($state);
     };
     $scope.init();
+
+    $scope.$on('$ionicView.enter', function () {
+      $('#dln_tab_feed').show();
+    });
+
+    $scope.$on('$ionicView.leave', function () {
+      $('#dln_tab_feed').hide();
+    });
 
     $rootScope.$on('onFeedRefreshFeeds', function (e, args) {
       $scope._page = 0;

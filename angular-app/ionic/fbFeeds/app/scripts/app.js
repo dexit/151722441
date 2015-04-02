@@ -92,7 +92,9 @@ angular
       .setStorageCookieDomain('http://vivufb.com')
       .setNotify(true, true);
   })
-  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability, $cordovaDevice) {
+  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability, $cordovaDevice, $state) {
+
+    $rootScope.state = $state;
 
     /* Get UUID */
     try {
@@ -135,6 +137,17 @@ angular
         $(this).lazyload({
           effect : 'fadeIn',
           skip_invisible : false
+        });
+        $(this).on('appear', function () {
+          if ($(this).hasClass('dln-thumb-images')) {
+            var height = $(this).height();
+            var width = $(this).width();
+            if (height && width) {
+              $(this).closest('.dln-image-thumb').find('i.icon').css({
+                'display' : 'block'
+              });
+            }
+          }
         });
         $(this).trigger('appear');
         $(this).addClass('active');

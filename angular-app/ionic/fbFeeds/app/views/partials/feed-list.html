@@ -21,7 +21,7 @@
         <p ng-if="feed.type != 'link'">{{feed.message}}</p>
         <a ng-if="feed.type != 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')"
            class="dln-image-thumb">
-          <!--<i ng-if="feed.type == 'video'" class="fa fa-play icon"></i> -->
+          <i ng-if="feed.type == 'video'" class="fa fa-play icon"></i>
           <img class="lazy-images dln-thumb-images" data-original="{{feed.photo}}"/>
         </a>
         <a ng-if="feed.type == 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')"
