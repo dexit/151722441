@@ -1,7 +1,7 @@
 <ion-side-menus enable-menu-with-back-views="true">
 	<ion-side-menu-content>
 
-		<ion-nav-bar class="bar-positive" id="dln_header_bar" data-headroom>
+		<ion-nav-bar class="bar-positive" id="dln_header_bar" data-headroom ng-class="{'bar-slide-away': slideHeader}">
 			<ion-nav-back-button>
 			</ion-nav-back-button>
 
@@ -38,6 +38,9 @@
 			<ion-list>
 				<ion-item nav-clear menu-close href="#/feeds">
 					Feeds
+				</ion-item>
+				<ion-item nav-clear menu-close href="#/category">
+					Category
 				</ion-item>
 				<ion-item nav-clear menu-close href="#/pages">
 					Pages

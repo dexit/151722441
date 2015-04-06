@@ -8,12 +8,13 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('FeedsCtrl', function ($scope, $rootScope, $location, fCache, sFeed, shareParams) {
+  .controller('FeedsCtrl', function ($scope, $rootScope, $location, fCache, sFeed, $cordovaAdMob) {
 
     $scope.feeds = [];
     $scope._page = 0;
     $scope.last_request = '';
     $scope.loading = true;
+    $scope.indexPos = 0;
 
     $scope.gotoPage = function (index) {
       if (! $scope.feeds[index].page) {
@@ -32,6 +33,14 @@ angular.module('fbFeedsApp')
     };
 
     $scope.init = function () {
+
+     /* var options = {
+        publisherId: 'ca-app-pub-9356823423719215/3164925682',
+        bannerAtTop: true,
+        autoShow: true
+      };
+      $cordovaAdMob.createBannerView(options);*/
+
       fCache.init(function () {
         $scope.loading = false;
         sFeed.getFeeds($scope);

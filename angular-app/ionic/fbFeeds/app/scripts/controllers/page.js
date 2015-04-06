@@ -8,13 +8,13 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('PageCtrl', function ($scope, $http, $stateParams, $rootScope, localStorageService, fCache, sFeed) {
+  .controller('PageCtrl', function ($scope, $http, $stateParams, $rootScope, $location, localStorageService, fCache, sFeed) {
     $scope.page = null;
     $scope.category = null;
     $scope.feeds = [];
     $scope._page = 0;
     $scope.last_request = '';
-    $scope.loading = true;
+    $scope.loading = false;
 
     /*$scope.getPage = function (id) {
       if (!id) {

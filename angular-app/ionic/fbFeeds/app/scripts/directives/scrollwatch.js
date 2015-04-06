@@ -25,7 +25,7 @@ angular.module('fbFeedsApp')
           }
           $rootScope.slideHeaderPrevious = e.currentTarget.scrollTop - start;
           $rootScope.$apply();
-        }, 100);
+        }, 75);
       });
     };
   });

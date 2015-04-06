@@ -18,6 +18,10 @@
   text-align: center;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .border-top {
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
@@ -45,4 +49,16 @@
 
 .item-icon-left .icon, .item-icon-right .icon {
   font-size: 24px !important;
+}
+
+.has-header {
+  top: 0px !important;
+  padding-top: 44px;
+}
+
+.dln-full-width{
+  width: 100%;
+}
+.dln-full-width h4 {
+  color: #ddd;
 }

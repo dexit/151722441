@@ -82,6 +82,24 @@ angular
             controller: 'CategoryFilterCtrl'
           }
         }
+      })
+      .state('app.category', {
+        url: 'category',
+        views: {
+          'appContent': {
+            templateUrl: 'views/category.html',
+            controller: 'CategoryCtrl'
+          }
+        }
+      })
+      .state('app.page_category', {
+        url: 'category/:categoryId',
+        views: {
+          'appContent': {
+            templateUrl: 'views/pages.html',
+            controller: 'PagesCtrl'
+          }
+        }
       });
 
     // if none of the above states are matched, use this as the fallback
@@ -92,9 +110,12 @@ angular
       .setStorageCookieDomain('http://vivufb.com')
       .setNotify(true, true);
   })
-  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability, $cordovaDevice, $state) {
+  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability, $cordovaDevice, $state, $window) {
 
     $rootScope.state = $state;
+
+    /* Get width of windows */
+    $rootScope.mainWidth = $window.innerWidth;
 
     /* Get UUID */
     try {
@@ -163,10 +184,37 @@ angular
         scheme = 'com.facebook.katana';
       }
       $cordovaAppAvailability.check(scheme)
+
         .then(function () {
           $rootScope.allowScheme = true;
         }, function () {
           $rootScope.allowScheme = false;
         });
+
+      var admobid = {};
+      if( /(android)/i.test(navigator.userAgent) ) { // for android
+        admobid = {
+          banner: 'ca-app-pub-9356823423719215/3164925682',
+          interstitial: 'ca-app-pub-xxx/yyy'
+        };
+      } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
+        admobid = {
+          banner: 'ca-app-pub-9356823423719215/2268445281',
+          interstitial: 'ca-app-pub-xxx/kkk'
+        };
+      } else {
+        admobid = {
+          banner: 'ca-app-pub-9356823423719215/3164925682',
+          interstitial: 'ca-app-pub-xxx/yyy'
+        };
+      }
+
+      if(AdMob)  {
+        AdMob.createBanner( {
+          adId: admobid.banner,
+          position:AdMob.AD_POSITION.BOTTOM_CENTER,
+          autoShow:true} );
+      }
+
     }, false);
   });

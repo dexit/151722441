@@ -9,5 +9,5 @@
  */
 angular.module('fbFeedsApp')
   .constant('appGlobal', {
-    host: 'http://vivufb.com/api/v1'
+    host: 'http://home.vivufb.com/api/v1'
   });

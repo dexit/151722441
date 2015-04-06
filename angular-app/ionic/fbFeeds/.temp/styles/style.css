@@ -46,3 +46,8 @@
 .item-icon-left .icon, .item-icon-right .icon {
   font-size: 24px !important;
 }
+
+.has-header {
+  top: 0px !important;
+  padding-top: 30px;
+}

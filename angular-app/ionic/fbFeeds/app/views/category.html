@@ -4,41 +4,14 @@
     <a class="button button-icon button-clear" href="#/page_add"><i class="fa fa-plus"></i></a>
   </ion-nav-buttons>
 
-  <ion-content overflow-scroll="true" id="dln_pages_wrapper">
+  <ion-content overflow-scroll="true" id="dln_category_wrapper">
 
-    <div class="tabs-striped tabs-background-positive tabs-color-light">
-      <div class="tabs">
-        <a class="tab-item active" href="#"><i class="icon ion-home"></i>Status</a>
-        <a class="tab-item" href="#"><i class="icon ion-star"></i>Fanpage</a>
-      </div>
-    </div>
-
-    <div class="ui cards" infinite-scroll="scollGetFeeds()" infinite-scroll-container='"#dln_pages_wrapper"'>
-      <div class="card" ng-repeat="item in pages" on-last-repeat="ngRepeatFinished">
-        <div class="content dln-item dln-content">
-          <div class="dln-item">
-            <div class="left floated author m-r-5">
-              <img class="ui avatar image lazy-images"
-                   data-original="http://graph.facebook.com/{{item.fb_id}}/picture?type=small"/>
-            </div>
-            <div class="header">{{item.name}}</div>
-            <div class="meta">
-              <span class="category">{{item.category.name}}</span>
-              <span class="category">
-                <span class="left floated m-r-10"><i class="fa fa-thumbs-o-up"></i>{{item.like_count|nThousand}}</span>
-					      <span class="left floated m-r-10"><i class="fa fa-comment-o"></i>{{item.talking_about|nThousand}}</span>
-              </span>
-            </div>
-          </div>
-        </div>
-        <div class="extra content">
-          <span class="left floated" ng-click="gotoFBLink('{{$index}}')"><i
-            class="fa fa-facebook-square"></i>Facebook</span>
-          <span class="right floated" ng-click="gotoPage()"><i class="fa fa-thumbs-o-up"></i>Xem tin</span>
-          <!--<i class="right floated like icon"></i> -->
-        </div>
-      </div>
-    </div>
+	  <ul class="list">
+		  <li class="item" ng-repeat="category in categories" ng-click="gotoPages('{{$index}}')">
+			  <i class="icon {{category.description}}"></i>
+			  {{category.name}}
+		  </li>
+	  </ul>
 
   </ion-content>
 

@@ -8,7 +8,7 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('PagesCtrl', function ($scope, $rootScope, fCache) {
+  .controller('PagesCtrl', function ($scope, $rootScope, $stateParams, $location, fCache) {
     $scope.pages = [];
     $scope._page = 0;
     $scope._lastRequest = '';
@@ -42,6 +42,11 @@ angular.module('fbFeedsApp')
         var pages = [];
         if (fCache.getPages().length) {
           angular.forEach(fCache.getPages(), function (item) {
+
+            if ($stateParams.categoryId && item.category_id != $stateParams.categoryId) {
+              return;
+            }
+
             if (item.category_id) {
               item.category = fCache.findCategoryById(item.category_id);
             }

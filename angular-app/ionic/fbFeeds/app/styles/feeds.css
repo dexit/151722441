@@ -105,11 +105,20 @@
   font-size: 14px;
 }
 
-#dln_tab_feed {
+#dln_tab_feed, #dln_header_bar .bar-header {
   transition: 0.25s ease;
 }
 
 #dln_tab_feed.bar-slide-away {
   -webkit-transform: translateY(50px); /* Safari */
   transform: translateY(50px);
+}
+
+#dln_header_bar.bar-slide-away .bar-header {
+  -webkit-transform: translateY(-50px); /* Safari */
+  transform: translateY(-50px);
+}
+
+.no-boxshadow {
+  box-shadow: none !important;
 }

@@ -16,17 +16,17 @@
 						</div>
 						<div class="header">{{item.name}}</div>
 						<div class="meta">
-							<span class="category">{{item.category.name}}</span>
+							<span class="category right floated">{{item.category.name}}</span>
               <span class="category">
-                <span class="left floated m-r-10"><i class="fa fa-thumbs-o-up"></i>{{item.like_count|nThousand}}</span>
-					      <span class="left floated m-r-10"><i class="fa fa-comment-o"></i>{{item.talking_about|nThousand}}</span>
+                <span class="left floated m-r-10"><i class="fa fa-thumbs-o-up m-r-5"></i>{{item.like_count|nThousand}}</span>
+					      <span class="left floated m-r-10"><i class="fa fa-comment-o m-r-5"></i>{{item.talking_about|nThousand}}</span>
               </span>
 						</div>
 					</div>
 				</div>
         <div class="extra content">
           <span class="left floated" ng-click="gotoFBLink('{{$index}}')"><i class="fa fa-facebook-square"></i>Facebook</span>
-          <span class="right floated" ng-click="gotoPage()"><i class="fa fa-thumbs-o-up"></i>Xem tin</span>
+          <span class="right floated" ng-click="gotoPage('{{$index}}')"><i class="fa fa-arrow-circle-right"></i>Xem tin</span>
           <!--<i class="right floated like icon"></i> -->
         </div>
 			</div>
