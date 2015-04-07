@@ -25,6 +25,7 @@
     "FastClick": false,
     "$": false,
     "moment": false,
-    "device": false
+    "device": false,
+    "AdMob": false
   }
 }

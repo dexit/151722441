@@ -43,7 +43,7 @@ angular.module('fbFeedsApp')
         if (fCache.getPages().length) {
           angular.forEach(fCache.getPages(), function (item) {
 
-            if ($stateParams.categoryId && item.category_id != $stateParams.categoryId) {
+            if ($stateParams.categoryId && item.category_id !== $stateParams.categoryId) {
               return;
             }
 

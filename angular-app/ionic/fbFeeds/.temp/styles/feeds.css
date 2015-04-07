@@ -35,6 +35,10 @@
   text-align: right;
 }
 
+.dln-item .category {
+  min-width: 100px;
+}
+
 .dln-image-thumb .items {
   border-left: 0px !important;
   border-right: 0px !important;

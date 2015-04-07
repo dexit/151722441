@@ -1,4 +1,4 @@
-<ion-view view-title="Votes">
+<ion-view view-title="Tìm Fanpage">
 
 	<ion-content overflow-scroll="true" id="dln_vote_search_wrapper">
 
@@ -13,9 +13,9 @@
 			<div class="item item-avatar item-button-right" ng-repeat="item in pages" on-last-repeat="ngRepeatFinished">
 				<img class="lazy-images" data-original="{{item.thumb}}" ng-click="gotoPageLink('{{$index}}')">
 
-				<h2 ng-click="gotoPageLink('{{$index}}')">{{item.name}}</h2>
+				<h3 ng-click="gotoPageLink('{{$index}}')">{{item.name}}</h3>
 
-				<p>{{item.likes|nThousand}} | {{item.talking_about|nThousand}}</p>
+				<h4>{{item.likes|nThousand}} | {{item.talking_about|nThousand}}</h4>
 
 				<button class="button button-positive m-t-10" ng-click="gotoVotePage('{{$index}}')">
 					<i class="icon fa fa-angle-right"></i>

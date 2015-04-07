@@ -40,6 +40,7 @@
 
 .ui.card .meta, .ui.cards > .card .meta {
   font-size: 11px;
+  height: 16px;
 }
 
 .ui.card > .content, .ui.cards > .card > .content {

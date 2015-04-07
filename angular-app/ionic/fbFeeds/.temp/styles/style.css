@@ -18,6 +18,10 @@
   text-align: center;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .border-top {
   border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
@@ -36,6 +40,7 @@
 
 .ui.card .meta, .ui.cards > .card .meta {
   font-size: 11px;
+  height: 16px;
 }
 
 .ui.card > .content, .ui.cards > .card > .content {
@@ -49,5 +54,12 @@
 
 .has-header {
   top: 0px !important;
-  padding-top: 30px;
+  padding-top: 44px;
+}
+
+.dln-full-width{
+  width: 100%;
+}
+.dln-full-width h4 {
+  color: #ddd;
 }

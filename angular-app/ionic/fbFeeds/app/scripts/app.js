@@ -20,7 +20,9 @@ angular
     'infinite-scroll',
     'LocalStorageModule'
   ])
-  .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+  .config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider, $httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
     $stateProvider
       .state('app', {
@@ -98,6 +100,15 @@ angular
           'appContent': {
             templateUrl: 'views/pages.html',
             controller: 'PagesCtrl'
+          }
+        }
+      })
+      .state('app.about', {
+        url: 'about',
+        views: {
+          'appContent': {
+            templateUrl: 'views/about.html',
+            controller: 'AboutCtrl'
           }
         }
       });

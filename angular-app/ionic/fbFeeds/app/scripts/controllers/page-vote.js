@@ -8,7 +8,7 @@
  * Controller of the fbFeedsApp
  */
 angular.module('fbFeedsApp')
-  .controller('PageVoteCtrl', function ($scope, $rootScope, $stateParams, $http, fCache, shareParams, appGlobal) {
+  .controller('PageVoteCtrl', function ($scope, $rootScope, $stateParams, $http, $window, fCache, shareParams, appGlobal) {
     var pages = [];
     $scope.page = {};
     $scope.categories = [];
@@ -26,12 +26,14 @@ angular.module('fbFeedsApp')
         category_id: categoryId
       }).
         success(function(data, status, headers, config) {
-          if (data.status == 'success') {
-            alert('Đăng ký thành công!');
+          if (data.status === 'success') {
+            $window.alert('Đăng ký thành công!');
           }
+          return;
         }).
         error(function(data, status, headers, config) {
-          alert(data.data);
+          $window.alert(data.data);
+          return;
         });
     };
 

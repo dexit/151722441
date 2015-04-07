@@ -515,14 +515,14 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('coverage', 
-    ['karma:continuous',
+    [//'karma:continuous',
     'connect:coverage:keepalive'
   ]);
 
   grunt.registerTask('default', [
     'wiredep',
     'newer:jshint',
-    'karma:continuous',
+    //'karma:continuous',
     'compress'
   ]);
 };

@@ -1,4 +1,4 @@
-<ion-view view-title="Votes detail">
+<ion-view view-title="Bình chọn">
 
 	<ion-content overflow-scroll="true" id="dln_vote_search_wrapper">
 
@@ -7,9 +7,9 @@
 			<div class="item item-avatar">
 				<img ng-src="{{page.thumb}}">
 
-				<h2>{{page.name}}</h2>
+				<h3>{{page.name}}</h3>
 
-				<p>{{page.likes|nThousand}} | {{page.talking_about|nThousand}}</p>
+				<h4><i class="fa fa-thumbs-o-up m-r-5"></i>{{page.likes|nThousand}} | <i class="fa fa-bullhorn m-r-5"></i>{{page.talking_about|nThousand}}</h4>
 			</div>
 
 			<label class="item item-input item-select">

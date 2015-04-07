@@ -21,7 +21,7 @@ angular.module('fbFeedsApp')
         return false;
       }
 
-      $rootScope.showLoading('Đang tải!');
+      $rootScope.showLoading('Đang tải...');
       var url = appGlobal + '/pages/' + id;
       $http.get(url)
         .success(function (resp) {
