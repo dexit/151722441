@@ -43,7 +43,7 @@ class FbPage extends Model
 
     public static $app_id = FB_APP_ID;
     public static $app_secret = FB_APP_SECRET;
-    public static $api_url = 'https://graph.facebook.com/v2.2/';
+    public static $api_url = FB_GRAPH;
     public static $limit = 50;
 
     protected static $nameList = null;
@@ -130,7 +130,7 @@ class FbPage extends Model
             return false;
 
         $query = urlencode($query);
-        $url = "https://graph.facebook.com/search?q={$query}&type=page&limit=50&access_token=" . self::get_fb_access_token();
+        $url = FB_GRAPH . "search?q={$query}&type=page&limit=50&access_token=" . self::get_fb_access_token();
         $obj = json_decode(HelperNews::curl($url));
 
         $result = array();
@@ -197,6 +197,7 @@ class FbPage extends Model
                     'name' => (!empty($item->name)) ? $item->name : '',
                     'message' => (!empty($item->message)) ? $item->message : '',
                     'picture' => (!empty($item->picture)) ? $item->picture : '',
+                    'link' => (! empty($item->link)) ? $item->link : '',
                     'source' => (!empty($item->source)) ? $item->source : '',
                     'type' => (!empty($item->type)) ? $item->type : '',
                     'share_count' => $shares,
