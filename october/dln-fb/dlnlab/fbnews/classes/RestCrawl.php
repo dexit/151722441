@@ -150,4 +150,41 @@ class RestCrawl extends BaseController
 
         return Response::json(array('status' => 'success', 'data' => $result), 200);
     }
+
+    public function getSpamCommentPage() {
+        $records = FbPage::whereRaw('status = ? AND crawl_fb = ?', array(true, false))->take(2)->get();
+        if (! count($records)) {
+            FbPage::where('crawl_fb', '=', true)->update(['crawl_fb' => false]);
+            $records = FbPage::whereRaw('status = ? AND crawl_fb = ?', array(true, false))->take(2)->get();
+        }
+
+        foreach ($records as $record) {
+            if ($record->fb_id) {
+
+                // Get post of current page
+                $records = FbFeed::whereRaw('status = ? AND page_id = ? AND post_comment = ? AND per_day = CURDATE() AND comment_count > ? AND type = ?', [true, $record->id, LIMIT_COMMENT_COUNT, 'link'])
+                    ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+                    ->orderBy('per_day', 'DESC')
+                    ->orderBy('comment_count', 'DESC')
+                    ->take(10)
+                    ->get()
+                    ->toArray();
+
+                if (count($records)) {
+                    // Get hot news
+                    $feeds = FbFeed::getHotFeeds($record->id, 2);
+                    if (count($feeds)) {
+                        foreach ( $records as $record ) {
+                            if ($record->fb_id == $feeds[0]->fb_id) {
+                                HelperNews::postCommentToFB($record->fb_id, $record->link, $record->name);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return Response::json(array('status' => 'success', 'data' => $records), 200);
+    }
+
 }

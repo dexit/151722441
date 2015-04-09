@@ -21,6 +21,7 @@ class CreateFbPagesTable extends Migration
             $table->integer('count')->default(0);
             $table->boolean('status')->default(false);
             $table->boolean('crawl')->default(false);
+            $table->boolean('crawl_fb')->default(false);
             $table->boolean('is_read')->default(false);
             $table->timestamps();
         });

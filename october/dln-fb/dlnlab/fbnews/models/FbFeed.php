@@ -87,4 +87,20 @@ class FbFeed extends Model
         $this->load('category');
         return parent::toArray();
     }
+
+    public static function getHotFeeds($pageId = 0, $limit = 3) {
+        if (! $pageId) {
+            return null;
+        }
+
+        $records = self::whereRaw('status = ? AND page_id = ?', [true, $pageId])
+            ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+            ->orderBy('per_day', 'DESC')
+            ->orderBy('like_count', 'DESC')
+            ->take($limit)
+            ->get()
+            ->toArray();
+
+        return $records;
+    }
 }
