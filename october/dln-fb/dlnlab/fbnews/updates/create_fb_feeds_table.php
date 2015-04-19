@@ -20,14 +20,14 @@ class CreateFbFeedsTable extends Migration
             $table->string('type', 20)->nullable();
             $table->string('picture', 500)->nullable();
             $table->string('source', 500)->nullable();
-            $table->string('link', 500)->nullable();
+            $table->string('fb_link', 500)->nullable();
             $table->string('message')->nullable();
             $table->integer('like_count')->default(0)->nullable();
             $table->integer('comment_count')->default(0)->nullable();
             $table->integer('share_count')->default(0)->nullable();
             $table->boolean('status')->default(true);
-            $table->boolean('post_comment')->default(false);
             $table->string('shared')->nullable();
+            $table->string('spam')->nullable();
             $table->timestamps();
         });
     }

@@ -1,6 +1,6 @@
 <?php
 
-include 'define.php';
+include '../define.php';
 
 echo "==============================================================\n";
 $time = time();

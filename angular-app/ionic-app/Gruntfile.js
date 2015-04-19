@@ -1,4 +1,4 @@
-// Generated on 2015-03-16 using generator-ionic 0.7.1
+// Generated on 2015-03-24 using generator-ionic 0.7.1
 'use strict';
 
 var _ = require('lodash');
@@ -32,30 +32,30 @@ module.exports = function (grunt) {
     // This creates an Angular Module that can be injected via ENV
     // Add any desired constants to the ENV objects below.
     // https://github.com/diegonetto/generator-ionic#environment-specific-configuration
-    ngconstant: {
-      options: {
-        space: '  ',
-        wrap: '\'use strict\';\n\n {%= __ngModule %}',
-        name: 'config',
-        dest: '<%= yeoman.app %>/<%= yeoman.scripts %>/configuration.js'
-      },
-      development: {
-        constants: {
-          ENV: {
-            name: 'development',
-            apiEndpoint: 'http://dev.yoursite.com:10000/'
-          }
-        }
-      },
-      production: {
-        constants: {
-          ENV: {
-            name: 'production',
-            apiEndpoint: 'http://api.yoursite.com/'
-          }
-        }
-      }
-    },
+    /*ngconstant: {
+     options: {
+     space: '  ',
+     wrap: '"use strict";\n\n {%= __ngModule %}',
+     name: 'config',
+     dest: '<%= yeoman.app %>/<%= yeoman.scripts %>/configuration.js'
+     },
+     development: {
+     constants: {
+     ENV: {
+     name: 'development',
+     apiEndpoint: 'http://dev.yoursite.com:10000/'
+     }
+     }
+     },
+     production: {
+     constants: {
+     ENV: {
+     name: 'production',
+     apiEndpoint: 'http://api.yoursite.com/'
+     }
+     }
+     }
+     },*/
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
@@ -77,7 +77,8 @@ module.exports = function (grunt) {
       },
       gruntfile: {
         files: ['Gruntfile.js'],
-        tasks: ['ngconstant:development', 'newer:copy:app']
+        tasks: [//'ngconstant:development',
+          'newer:copy:app']
       }
     },
 
@@ -488,7 +489,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('init', [
     'clean',
-    'ngconstant:development',
+    //'ngconstant:development',
     'wiredep',
     'concurrent:server',
     'autoprefixer',
@@ -499,7 +500,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('compress', [
     'clean',
-    'ngconstant:production',
+    //'ngconstant:production',
     'wiredep',
     'useminPrepare',
     'concurrent:dist',
@@ -514,9 +515,9 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('coverage',
-    ['karma:continuous',
-    'connect:coverage:keepalive'
-  ]);
+    [//'karma:continuous',
+      'connect:coverage:keepalive'
+    ]);
 
   grunt.registerTask('default', [
     'wiredep',

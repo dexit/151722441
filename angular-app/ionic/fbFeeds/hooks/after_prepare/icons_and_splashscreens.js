@@ -20,7 +20,7 @@ var Orchestrator = require('orchestrator');
 
 var BASES = {
   android: 'res',
-  ios: 'FbFeeds/Resources'
+  ios: 'DlnFeed/Resources'
 };
 var RESOURCE_DIR = 'resources';
 

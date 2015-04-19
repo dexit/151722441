@@ -1,0 +1,15 @@
+<ion-view view-title="Danh mục">
+
+  <ion-content overflow-scroll="true" id="dln_category_wrapper">
+
+	  <ul class="list">
+		  <li class="item" ng-repeat="category in categories" ng-click="gotoPages('{{$index}}')">
+			  <i class="icon {{category.description}}"></i>
+			  {{category.name}}
+		  </li>
+	  </ul>
+	  <div class="text-center dln-full-width" ng-if="categories.length < 1"><h4>Không có fanpage</h4></div>
+
+  </ion-content>
+
+</ion-view>

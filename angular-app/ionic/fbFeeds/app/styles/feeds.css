@@ -89,6 +89,10 @@
   font-weight: 700;
 }
 
+a.category {
+  text-decoration: none;
+}
+
 .ui.items > .item > .image {
   display: table-cell;
   float: none;

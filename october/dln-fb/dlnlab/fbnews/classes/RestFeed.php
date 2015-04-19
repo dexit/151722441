@@ -137,8 +137,8 @@ class RestFeed extends BaseController {
                 $_cond = 'status = ? AND page_id = ?';
                 $_cona = array(true, $page_id);
             } else {
-                $_cond = 'status = ?';
-                $_cona = array(true);
+                $_cond = 'status = ? AND like_count > ?';
+                $_cona = array(true, ALLOW_LIKE);
             }
 
             if (! empty($arr_cats) ) {

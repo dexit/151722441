@@ -41,6 +41,7 @@ class RestCache extends BaseController {
         if (! Cache::has($cache_id)) {
             $page = FbPage::where('status', '=', true)
                 ->select(DB::raw('id, name, fb_id, category_id, like_count, talking_about'))
+                ->orderBy('like_count', 'DESC')
                 ->get()
                 ->toArray();
 

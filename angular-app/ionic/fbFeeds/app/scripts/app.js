@@ -121,7 +121,7 @@ angular
       .setStorageCookieDomain('http://vivufb.com')
       .setNotify(true, true);
   })
-  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability, $cordovaDevice, $state, $window) {
+  .run(function($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability, $cordovaDevice, $state, $window, $cordovaSplashscreen) {
 
     $rootScope.state = $state;
 

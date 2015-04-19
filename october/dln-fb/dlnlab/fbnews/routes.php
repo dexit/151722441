@@ -12,8 +12,8 @@ App::before(function ($request) {
     Route::get($api_path . 'crawl/page_infor', $api_class . '\RestCrawl@getUpdateFBPageInfor');
     Route::get($api_path . 'crawl/page_feeds', $api_class . '\RestCrawl@getFBPageLinks');
     Route::get($api_path . 'crawl/feed_expired', $api_class . '\RestCrawl@getFeedExpired');
-    Route::get($api_path . 'crawl/pages/{page_id}', $api_class . '\RestCrawl@getPageSpec');
-    Route::get($api_path . 'crawl/spam/comment', $api_class . '\RestCrawl@getSpamPage');
+    //Route::get($api_path . 'crawl/pages/{page_id}', $api_class . '\RestCrawl@getPageSpec');
+    Route::get($api_path . 'crawl/spam/comment', $api_class . '\RestCrawl@getSpamCommentPage');
     Route::get($api_path . 'category', $api_class . '\RestCategory@getCategoryList');
     Route::get($api_path . 'category/{category_id}', $api_class . '\RestCategory@getCategoryList');
     Route::get($api_path . 'feeds', $api_class . '\RestFeed@getFeeds');

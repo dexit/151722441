@@ -1,6 +1,7 @@
 <?php namespace DLNLab\FBNews\Models;
 
 use Model;
+use DB;
 
 /**
  * FbFeed Model
@@ -98,8 +99,7 @@ class FbFeed extends Model
             ->orderBy('per_day', 'DESC')
             ->orderBy('like_count', 'DESC')
             ->take($limit)
-            ->get()
-            ->toArray();
+            ->get();
 
         return $records;
     }

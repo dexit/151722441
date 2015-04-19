@@ -28,7 +28,6 @@ class FbPage extends Controller
     public function onGetFBPageInfor()
     {
         $post = post();
-        
         extract($post);
         
         $obj = array();

@@ -197,7 +197,7 @@ class FbPage extends Model
                     'name' => (!empty($item->name)) ? $item->name : '',
                     'message' => (!empty($item->message)) ? $item->message : '',
                     'picture' => (!empty($item->picture)) ? $item->picture : '',
-                    'link' => (! empty($item->link)) ? $item->link : '',
+                    'fb_link' => (! empty($item->link)) ? $item->link : '',
                     'source' => (!empty($item->source)) ? $item->source : '',
                     'type' => (!empty($item->type)) ? $item->type : '',
                     'share_count' => $shares,
@@ -243,6 +243,7 @@ class FbPage extends Model
                     }
                 }
             }
+
             $records = FbFeed::whereIn('fb_id', $item_ids)->get();
             if (count($records)) {
                 foreach ($items as $i => $item) {
@@ -268,7 +269,12 @@ class FbPage extends Model
             }
 
             if (count($items)) {
-                FbFeed::insert($items);
+                foreach ($items as $i => $item) {
+                    $record = FbFeed::where('fb_id', '=', $item['fb_id'])->first();
+                    if (! $record) {
+                        FbFeed::insert(array($item));
+                    }
+                }
             }
         }
 

@@ -62,7 +62,7 @@ class RestCrawl extends BaseController
         return Response::json(array('status' => 'success', 'data' => $records), 200);
     }
 
-    public function getPageSpec($page_id)
+    /*public function getPageSpec($page_id)
     {
         if (empty(intval($page_id)))
             return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
@@ -76,9 +76,9 @@ class RestCrawl extends BaseController
         }
 
         return Response::json(array('status' => 'success', 'data' => $items), 200);
-    }
+    }*/
 
-    public function deleteFeedSpec($page_id)
+    /*public function deleteFeedSpec($page_id)
     {
         $data = post();
         $default = array(
@@ -93,7 +93,7 @@ class RestCrawl extends BaseController
         $records = FbFeed::where('page_id', '=', $page_id)->delete();
 
         return Response::json(array('status' => 'success', 'data' => $records), 200);
-    }
+    }*/
 
     public function getFeedExpired()
     {
@@ -152,39 +152,49 @@ class RestCrawl extends BaseController
     }
 
     public function getSpamCommentPage() {
-        $records = FbPage::whereRaw('status = ? AND crawl_fb = ?', array(true, false))->take(2)->get();
-        if (! count($records)) {
+        $record = FbPage::whereRaw('status = ? AND crawl_fb = ?', array(true, false))->first();
+        if (! $record) {
             FbPage::where('crawl_fb', '=', true)->update(['crawl_fb' => false]);
-            $records = FbPage::whereRaw('status = ? AND crawl_fb = ?', array(true, false))->take(2)->get();
+            $record = FbPage::whereRaw('status = ? AND crawl_fb = ?', array(true, false))->first();
         }
 
-        foreach ($records as $record) {
-            if ($record->fb_id) {
+        if (! empty($record->fb_id)) {
 
-                // Get post of current page
-                $records = FbFeed::whereRaw('status = ? AND page_id = ? AND post_comment = ? AND per_day = CURDATE() AND comment_count > ? AND type = ?', [true, $record->id, LIMIT_COMMENT_COUNT, 'link'])
-                    ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
-                    ->orderBy('per_day', 'DESC')
-                    ->orderBy('comment_count', 'DESC')
-                    ->take(10)
-                    ->get()
-                    ->toArray();
+            // Get post of current page
+            //$records = FbFeed::whereRaw('status = ? AND page_id = ? AND per_day = CURDATE() AND comment_count > ? AND type = ? AND spam IS NULL', [true, $record->id, LIMIT_COMMENT_COUNT, 'link', null])
+            $feeds = FbFeed::whereRaw('status = ? AND page_id = ? AND DATE(created_at) = CURDATE() AND type = ? AND spam IS NULL', [true, $record->id, 'link'])
+                ->select(DB::raw('id, fb_id, fb_link, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+                ->orderBy('per_day', 'DESC')
+                ->orderBy('comment_count', 'DESC')
+                ->take(10)
+                ->get();
 
-                if (count($records)) {
-                    // Get hot news
-                    $feeds = FbFeed::getHotFeeds($record->id, 2);
-                    if (count($feeds)) {
-                        foreach ( $records as $record ) {
-                            if ($record->fb_id == $feeds[0]->fb_id) {
-                                HelperNews::postCommentToFB($record->fb_id, $record->link, $record->name);
-                            }
+            if (count($feeds)) {
+                // Get hot news
+                //$feeds = FbFeed::getHotFeeds($record->id, 2);
+                /*if (count($feeds)) {
+                    foreach ( $records as $record ) {
+                        if ($record->fb_id != ) {
+                            HelperNews::postCommentToFB($record->fb_id, $record->link, $record->name);
+                        }
+
+                    }
+                }*/
+                $last = count($feeds) - 1;
+                if ($last >= 1) {
+                    foreach ($feeds as $i => $feed) {
+                        if ($last - $i != $i) {
+                            $feed->spam = HelperNews::postCommentToFB($feed->fb_id, $feeds[$last - $i]->fb_link, $feeds[$last - $i]->name);
+                            $feed->save();
+                            $record->crawl_fb = true;
+                            $record->save();
                         }
                     }
                 }
             }
         }
 
-        return Response::json(array('status' => 'success', 'data' => $records), 200);
+        return Response::json(array('status' => 'success', 'data' => $feeds), 200);
     }
 
 }
