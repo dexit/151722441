@@ -1,0 +1,72 @@
+
+<div class="ui cards" infinite-scroll="scollGetFeeds()" infinite-scroll-container='"#dln_wrapper"'
+     infinite-scroll-disabled="loading" infinite-scroll-listen-for-event="list:filtered">
+  <!--<div class="ui card" ng-repeat="feed in feeds" on-last-repeat="ngRepeatFinished" ng-class="feed.type == 'ads' ? 'no-boxshadow' : ''">-->
+	<div class="ui card" ng-repeat="feed in feeds" on-last-repeat="ngRepeatFinished">
+
+	  <!--<div class="dln-ads" ng-if="feed.type == 'ads'">
+		  <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+
+		  &lt;!&ndash; ads mobile &ndash;&gt;
+		  <ins class="adsbygoogle"
+		       style="display:inline-block;width:320px;height:100px"
+		       data-ad-client="ca-pub-9356823423719215"
+		       data-ad-slot="2547646880"></ins>
+		  <script>
+			  try{
+				  (adsbygoogle = window.adsbygoogle || []).push({});
+			  }catch(ex){}
+		  </script>
+	  </div>-->
+
+    <div class="content dln-content" ng-if="feed.type != 'ads'">
+      <div class="dln-item">
+        <div ng-click="gotoPage('{{$index}}')" class="left floated author m-r-5">
+          <img class="ui avatar image lazy-images"
+               data-original="http://graph.facebook.com/{{feed.page.fb_id}}/picture?type=small"/>
+        </div>
+        <!--<a href="javascript:void(0)" ng-click="removeFeed($index)">
+          <i class="right floated fa fa-angle-down"></i>
+        </a> -->
+
+        <div class="header" ng-click="gotoPage('{{$index}}')">{{feed.page.name}}</div>
+        <div class="meta">
+          <span class="category">{{feed.created_at | amCalendar}} <i class="{{feed.font_type}}"></i></span>
+          <a class="category right floated" href="#/category/{{feed.category.id}}">{{feed.category.name}}</a>
+        </div>
+      </div>
+      <div class="description">
+        <p ng-if="feed.type != 'link'">{{feed.message}}</p>
+        <a ng-if="feed.type != 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')"
+           class="dln-image-thumb">
+          <i ng-if="feed.type == 'video'" class="fa fa-play icon"></i>
+          <img class="lazy-images dln-thumb-images" data-original="{{feed.photo}}"/>
+        </a>
+        <a ng-if="feed.type == 'link'" href="javascript:void(0)" ng-click="gotoLink('{{feed.link}}')"
+           class="dln-image-thumb border-top">
+          <div class="ui items">
+            <div class="dln-link item">
+              <div class="ui small left floated m-r-5">
+                <img class="lazy-images dln-small-130" data-original="{{feed.picture}}"/>
+              </div>
+              <div class="content">
+                <div class="header">{{feed.name}}</div>
+                <div class="description full-width">
+                  <p>{{feed.message}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="extra content" ng-if="feed.type != 'ads'">
+      <span class="left floated m-r-10" ng-click="gotoLink('{{feed.link}}')"><i class="fa fa-thumbs-o-up"></i>{{feed.like_count|nThousand}}</span>
+      <span class="left floated m-r-10" ng-click="gotoLink('{{feed.link}}')"><i class="fa fa-comment-o"></i>{{feed.comment_count|nThousand}}</span>
+      <span class="left floated m-r-10" ng-click="gotoLink('{{feed.link}}')"><i class="fa fa-share-alt"></i>{{feed.share_count|nThousand}}</span>
+      <i class="right floated fa fa-facebook-square" ng-click="gotoLink('{{feed.link}}')"></i>
+      <!--<i class="right floated like icon"></i> -->
+    </div>
+  </div>
+	<div class="text-center dln-full-width" ng-if="feeds.length < 1"><h4>Không có tin</h4></div>
+</div>

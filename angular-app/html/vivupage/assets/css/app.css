@@ -1,9 +1,18 @@
+@font-face {
+  font-family: vnQuickSand;
+  src: url('../fonts/vnf-quicksand-bold.ttf');
+}
+
 body, #app {
   height: 100%;
   overflow: hidden;
   position: fixed;
   width: 100%;
   margin: 0px;
+}
+
+.dln-link .content .header, .dln-content .header {
+  color: #333;
 }
 
 .demo-wrapper {
@@ -31,10 +40,12 @@ body, #app {
   font-weight: 300;
   line-height: 1.1;
   margin: 0;
+  font-family: 'vnQuickSand' !important;
 }
 
 .demo-wrapper * + * {
   margin-top: 1em;
+  font-family: 'vnQuickSand' !important;
 }
 
 .demo-links {
@@ -44,6 +55,30 @@ body, #app {
   list-style: outside none none;
   margin: 40px 0 0;
   padding: 0;
+}
+
+.demo-links:hover {
+  opacity: 0.5;
+}
+
+.demo-links > li > a {
+  margin-right: 10px;
+  color: white;
+  font-size: 22px;
+  vertical-align: middle;
+  display: block;
+  padding: 8px 0;
+  transition: opacity 150ms ease 0s;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.demo-links > li > a:hover {
+  opacity: 1;
+}
+
+.demo-links > li > a > i {
+  margin-right: 10px;
 }
 
 @media (min-width: 769px) {

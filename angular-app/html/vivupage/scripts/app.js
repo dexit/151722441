@@ -25,14 +25,14 @@ angular
       .state('app', {
         url: '/',
         abstract: true,
-        templateUrl: 'views/app.html',
+        templateUrl: window.appRoot + '/views/app.html',
         controller: 'AppCtrl'
       })
       .state('app.feeds', {
         url: 'feeds',
         views: {
           'appContent': {
-            templateUrl: 'views/feeds.html',
+            templateUrl: window.appRoot + '/views/feeds.html',
             controller: 'FeedsCtrl'
           }
         }
@@ -41,7 +41,7 @@ angular
         url: 'pages',
         views: {
           'appContent': {
-            templateUrl: 'views/pages.html',
+            templateUrl: window.appRoot + '/views/pages.html',
             controller: 'PagesCtrl'
           }
         }
@@ -50,7 +50,7 @@ angular
         url: 'pages/:pageId',
         views: {
           'appContent': {
-            templateUrl: 'views/page.html',
+            templateUrl: window.appRoot + '/views/page.html',
             controller: 'PageCtrl'
           }
         }
@@ -59,7 +59,7 @@ angular
         url: 'category_filter',
         views: {
           'appContent': {
-            templateUrl: 'views/category-filter.html',
+            templateUrl: window.appRoot + '/views/category-filter.html',
             controller: 'CategoryFilterCtrl'
           }
         }
@@ -68,7 +68,7 @@ angular
         url: 'category',
         views: {
           'appContent': {
-            templateUrl: 'views/category.html',
+            templateUrl: window.appRoot + '/views/category.html',
             controller: 'CategoryCtrl'
           }
         }
@@ -77,7 +77,7 @@ angular
         url: 'category/:categoryId',
         views: {
           'appContent': {
-            templateUrl: 'views/pages.html',
+            templateUrl: window.appRoot + '/views/pages.html',
             controller: 'PagesCtrl'
           }
         }
@@ -86,7 +86,7 @@ angular
         url: 'about',
         views: {
           'appContent': {
-            templateUrl: 'views/about.html',
+            templateUrl: window.appRoot + '/views/about.html',
             controller: 'AboutCtrl'
           }
         }
