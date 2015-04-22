@@ -88,7 +88,7 @@ class FbFeed extends Model
         $this->load('category');
         return parent::toArray();
     }
-
+    
     public static function getHotFeeds($pageId = 0, $limit = 3) {
         if (! $pageId) {
             return null;
