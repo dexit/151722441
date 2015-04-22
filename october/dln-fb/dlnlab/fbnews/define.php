@@ -1,7 +1,7 @@
 <?php
 //define('DLN_HOST', 'http://home.vivufb.com/api/v1');
-//define('DLN_HOST', 'http://tintuc.vivufb.com/api/v1');
-define('DLN_HOST', 'http://giaitri.vivufb.com/api/v1');
+define('DLN_HOST', 'http://tintuc.vivufb.com/api/v1');
+//define('DLN_HOST', 'http://giaitri.vivufb.com/api/v1');
 define('DLN_TOKEN', 'iammaster');
 define('DLN_LIMIT', 20);
 define('DLN_LIMIT_WEEK', 1);

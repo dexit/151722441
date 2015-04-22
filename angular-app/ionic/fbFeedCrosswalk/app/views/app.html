@@ -12,8 +12,8 @@
 		</ion-nav-bar>
 
 		<ion-nav-view name="appContent"></ion-nav-view>
-		<div class="tabs-striped tabs-color-positive">
-			<div class="tabs fixed tabs-icon-left" ng-class="{'bar-slide-away': slideHeader}" id="dln_tab_feed">
+		<div class="tabs-striped tabs-color-positive" id="dln_tab_feed">
+			<div class="tabs fixed tabs-icon-left" ng-class="{'bar-slide-away': slideHeader}">
 				<a class="tab-item active" data-type="new">
 					<i class="icon ion-refresh"></i>
 					Mới
@@ -27,6 +27,20 @@
 					Top chia sẻ
 				</a>
 			</div>
+		</div>
+
+		<div class="tabs-striped tabs-color-positive" id="dln_tab_pages">
+			<div class="tabs fixed tabs-icon-left" ng-class="{'bar-slide-away': slideHeader}">
+				<a class="tab-item active" data-type="feed">
+					<i class="fa fa-newspaper-o"></i>
+					Tin tức
+				</a>
+				<a class="tab-item" data-type="page">
+					<i class="fa fa-facebook-official"></i>
+					Fanpage
+				</a>
+			</div>
+
 		</div>
 	</ion-side-menu-content>
 

@@ -117,12 +117,12 @@ class RestCrawl extends BaseController
         $result = new \stdClass();
         $result->message = $record->message;
         $result->link = FbPage::get_feed_infor($record->fb_id);
-        //$result->original_link = HelperNews::genBitly($record->link);
         $result->original_link = $record->link;
         $result->type = $record->category->name;
 
         $tag = strtolower(trim(str_replace(' ', '_', $result->type)));
-        $message = $record->message .
+        $message = ($record->name) ? $record->name : $record->message;
+        $message = $message .
             "\n\n\nLink gốc: " . $result->original_link .
             "\nNhóm: " . TAG . $tag;
 

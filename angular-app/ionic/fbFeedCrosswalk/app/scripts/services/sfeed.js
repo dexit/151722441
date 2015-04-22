@@ -35,7 +35,8 @@ angular.module('fbFeedsApp')
       var type = $rootScope.feedType;
 
       /* Abort last request same */
-      var url = appGlobal.host + '/feeds?page=' + _scope._page + '&category_ids=' + category_ids.join(',') + '&page_id=' + page_id + '&order=' + type;
+      var category_ids = (_scope.category_id) ? _scope.category_id : category_ids.join(',');
+      var url = appGlobal.host + '/feeds?page=' + _scope._page + '&category_ids=' + category_ids + '&page_id=' + page_id + '&order=' + type;
 
       if (_scope.last_request !== '' && _scope.last_request === url) {
        return;
