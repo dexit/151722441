@@ -161,7 +161,7 @@ angular
 
     localStorageServiceProvider
       .setPrefix('fbFeedsApp')
-      .setStorageCookie(3, '/')
+      .setStorageCookie(2, '/')
       .setStorageType('sessionStorage')
       .setStorageCookieDomain('http://vivufb.com')
       .setNotify(true, true);

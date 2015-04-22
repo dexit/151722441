@@ -4,21 +4,6 @@
   <!--<div class="ui card" ng-repeat="feed in feeds" on-last-repeat="ngRepeatFinished" ng-class="feed.type == 'ads' ? 'no-boxshadow' : ''">-->
 	<div class="ui card" ng-repeat="feed in feeds" on-last-repeat="ngRepeatFinished">
 
-	  <!--<div class="dln-ads" ng-if="feed.type == 'ads'">
-		  <script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-
-		  &lt;!&ndash; ads mobile &ndash;&gt;
-		  <ins class="adsbygoogle"
-		       style="display:inline-block;width:320px;height:100px"
-		       data-ad-client="ca-pub-9356823423719215"
-		       data-ad-slot="2547646880"></ins>
-		  <script>
-			  try{
-				  (adsbygoogle = window.adsbygoogle || []).push({});
-			  }catch(ex){}
-		  </script>
-	  </div>-->
-
     <div class="content dln-content" ng-if="feed.type != 'ads'">
       <div class="dln-item">
         <div ng-click="gotoPage('{{$index}}')" class="left floated author m-r-5">

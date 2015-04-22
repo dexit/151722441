@@ -32,7 +32,7 @@ angular.module('fbFeedsApp')
         page_id = _scope.page_id;
       }
 
-      var type = $rootScope.feedType;
+      var type = ($rootScope.feedType !== 'unread') ? $rootScope.feedType : '';
 
       /* Abort last request same */
       var category_ids = (_scope.category_id) ? _scope.category_id : category_ids.join(',');
@@ -54,8 +54,25 @@ angular.module('fbFeedsApp')
           _scope.loading = false;
 
           if (resp.status === 'success') {
+            var cachedIds = localStorageService.get('dln_cached_ids') || [];
+
+            // Clear cache if length > 400
+            if (cachedIds.length >= 400) {
+              cachedIds = [];
+              localStorageService.set('dln_cached_ids', cachedIds);
+            }
 
             angular.forEach(resp.data, function (item, index) {
+              if ($rootScope.feedType === 'unread') {
+                if (cachedIds.indexOf(item.id) >= 0) {
+                  return false;
+                }
+              }
+
+              if (cachedIds.indexOf(item.id) < 0 || cachedIds.length === 0) {
+                cachedIds.push(item.id);
+                localStorageService.set('dln_cached_ids', cachedIds);
+              }
               /*if (index % 4 == 0) {
                var _new = {};
                _new.type = 'ads';
@@ -92,10 +109,13 @@ angular.module('fbFeedsApp')
 
               _scope.feeds.push(angular.extend({}, item, obj));
             });
-
           }
           $rootScope.hideLoading();
           _scope._page += 1;
+
+          if (_scope.feeds.length === 0) {
+            self.getFeeds(_scope, isRefreshed);
+          }
         })
         .error(function (data, status, headers, config) {
           _scope.loading = false;

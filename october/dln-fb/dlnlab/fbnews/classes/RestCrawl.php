@@ -105,7 +105,7 @@ class RestCrawl extends BaseController
     public function getPostFBPage()
     {
         $record = FbFeed::whereNull('shared')
-            ->select(DB::raw('id, fb_id, message, picture, category_id, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+            ->select(DB::raw('id, fb_id, name, message, picture, category_id, type, source, object_id, created_at, DATE(created_at) AS per_day'))
             ->orderBy('per_day', 'DESC')
             ->orderBy('like_count', 'DESC')
             ->first();

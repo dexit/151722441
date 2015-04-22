@@ -16,7 +16,7 @@ angular.module('fbFeedsApp')
       $('#dln_tab_feed .tab-item').on('click', function (e) {
         e.preventDefault();
 
-        $('.tab-item.active').removeClass('active');
+        $('#dln_tab_feed .tab-item.active').removeClass('active');
         $(this).addClass('active');
         $rootScope.feedType = $(this).data('type');
         $rootScope.$emit('onFeedRefreshFeeds', null);

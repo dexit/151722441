@@ -113,7 +113,23 @@ a.category {
   font-size: 14px;
 }
 
-#dln_tab_feed, #dln_header_bar .bar-header {
+#dln_tab_feed, #dln_tab_pages, .tab-item-content{
+  display: none;
+}
+
+.tab-item-content.active {
+  display: block;
+}
+
+.tab-item i {
+  font-size: 24px;
+  line-height: 49px;
+  margin-right: 5px;
+  position: relative;
+  top: 5px;
+}
+
+#dln_tab_feed, #dln_header_bar .bar-header, #dln_tab_pages {
   transition: 0.25s ease;
 }
 
