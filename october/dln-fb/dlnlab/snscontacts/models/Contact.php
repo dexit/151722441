@@ -35,5 +35,5 @@ class Contact extends Model
     public $morphMany = [];
     public $attachOne = [];
     public $attachMany = [];
-
+    
 }

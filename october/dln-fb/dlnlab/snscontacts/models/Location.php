@@ -84,14 +84,27 @@ class Location extends Model
         // Insert to DB
         $loc_id = 0;
         if ($isDB) {
+            $obj = new \stdClass();
+            
+            // Insert province
             $record = self::firstOrNew(array('name' => $province->long_name, 'type' => 'province'));
+            $obj->province = $province->long_name;
+            
+            // Insert district
             $loc_id += $record->id * 100;
             $record = self::firstOrNew(array('name' => $district->long_name, 'parent_id' => $record->id, 'type' => 'district'));
+            $obj->district = $district->long_name;
+            
+            // Insert ward
             $loc_id += $record->id * 10;
-            $record = self::firstOrNew(array('name' => $district->long_name, 'parent_id' => $record->id, 'type' => 'ward'));
+            $record = self::firstOrNew(array('name' => $ward->long_name, 'parent_id' => $record->id, 'type' => 'ward'));
             $loc_id += $record->id * 1;
-
-            return $loc_id;
+            $obj->ward     = $ward->long_name;
+            
+            // Add location_id
+            $obj->location_id = $loc_id;
+            
+            return $obj;
         } else {
             $obj = new \stdClass();
             $obj->province = $province->long_name;
@@ -100,7 +113,6 @@ class Location extends Model
             
             return $obj;
         }
-        
     }
     
     /**
