@@ -18,6 +18,11 @@ use Auth;
 class RestContact extends BaseController
 {
 
+    /**
+     * API function for add new contact.
+     * 
+     * @return multitype:
+     */
     public function postContact() 
     {
         $data = post();
@@ -50,7 +55,7 @@ class RestContact extends BaseController
         }
         $fulltext = SNSContactsHelper::buildFullTextSearch($fulltexts);
         
-        
+        return array();
     }
     
 }

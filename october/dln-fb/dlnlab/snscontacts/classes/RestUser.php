@@ -62,7 +62,7 @@ class RestUser extends BaseController
      * 
      * @return Response
      */
-    public function putUser()
+    public function postUser()
     {
         $data = post();
         
