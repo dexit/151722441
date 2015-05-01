@@ -17,7 +17,6 @@ angular
     'ngCordova',
     'ionic',
     'angularMoment',
-    'infinite-scroll',
     'LocalStorageModule'
   ])
   .config(function ($stateProvider, $urlRouterProvider, localStorageServiceProvider, $httpProvider) {

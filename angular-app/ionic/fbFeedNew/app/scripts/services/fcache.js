@@ -35,6 +35,7 @@ angular.module('fbFeedsApp')
             }
           })
           .error(function (data, status, headers, config) {
+            window.alert('Không thể lấy tin, xin vui lòng thử lại!');
             console.log(data, status, headers, config);
             $rootScope.hideLoading();
           });
