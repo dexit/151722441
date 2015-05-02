@@ -132,7 +132,7 @@ a.category {
   top: 5px;
 }
 
-#dln_tab_feed, #dln_header_bar .bar-header, #dln_tab_pages {
+#dln_tab_feed, #dln_header_bar .bar-header, #dln_tab_pages .tabs {
   transition: 0.25s ease;
 }
 
@@ -140,7 +140,7 @@ a.category {
   display: none;
 }
 
-#dln_tab_feed.bar-slide-away, #dln_tab_pages.bar-slide-away {
+#dln_tab_feed.bar-slide-away, #dln_tab_pages .bar-slide-away {
   -webkit-transform: translateY(50px); /* Safari */
   transform: translateY(50px);
 }
