@@ -1,0 +1,267 @@
+@font-face {
+  font-family: 'iconfont';
+  src: url('../fonts/iconfont.woff') format('woff'), url('../fonts/iconfont.ttf') format('truetype');
+}
+.icon {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.ios7-reloading,
+.icon-load-a {
+  -webkit-animation: spin 1s infinite linear;
+  -moz-animation: spin 1s infinite linear;
+  -o-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+}
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-o-keyframes spin {
+  0% {
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    -o-transform: rotate(359deg);
+  }
+}
+@-ms-keyframes spin {
+  0% {
+    -ms-transform: rotate(0deg);
+  }
+  100% {
+    -ms-transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+.ios7-dingxiang:before {
+  content: "\e600";
+}
+.ios7-emotion:before {
+  content: "\e601";
+}
+.ios7-pic:before {
+  content: "\e602";
+}
+.ios7-reload:before {
+  content: "\e603";
+}
+.ios7-compose-outline:before {
+  content: "\e604";
+}
+.ios7-redo-outline:before {
+  content: "\e605";
+}
+.ios7-chatbubble:before {
+  content: "\e61b";
+}
+.ios7-chatbubble-outline:before {
+  content: "\e606";
+}
+.ios7-heart-outline:before {
+  content: "\e607";
+}
+.ios7-people-outline:before {
+  content: "\e608";
+}
+.ios7-people:before {
+  content: "\e609";
+}
+.ios7-person:before {
+  content: "\e60a";
+}
+.ios7-person-outline:before {
+  content: "\e60b";
+}
+.ios7-gear:before {
+  content: "\e60c";
+}
+.ios7-gear-outline:before {
+  content: "\e60d";
+}
+.ios7-camera-outline:before {
+  content: "\e60e";
+}
+.ios7-at-outline:before {
+  content: "\e60f";
+}
+.ios7-filing-outline:before {
+  content: "\e610";
+}
+.ios7-alarm-outline:before {
+  content: "\e611";
+}
+.ios7-chatboxes-outline:before {
+  content: "\e612";
+}
+.ios7-arrow-thin-left:before {
+  content: "\e613";
+}
+.ios7-paper-plane-outline:before {
+  content: "\e614";
+}
+.ios7-location-outline:before {
+  content: "\e615";
+}
+.icon-load-a:before {
+  content: "\e618";
+}
+.ios7-close:before {
+  content: "\e617";
+}
+.ios7-home:before {
+  content: "\e619";
+}
+.ios7-home-outline:before {
+  content: "\e61a";
+}
+.ios7-world-outline:before {
+  content: "\e61c";
+}
+/*Base Style*/
+.spring {
+  background: url("../img/sprite@2x.png") no-repeat;
+  background-size: 200%;
+}
+img {
+  background-color: #E3E3E6;
+}
+.orange {
+  color: #ff9630 !important;
+}
+.views {
+  overflow: hidden;
+}
+.list-block,
+.item-detail {
+  margin: 0 5px 15px 5px;
+}
+.list-block ul {
+  border: 0;
+}
+.pull-to-refresh-layer {
+  display: none;
+}
+.navbar i.icon {
+  font-size: 25px;
+}
+.navbar i.ios7-compose-outline {
+  font-size: 30px;
+}
+.navbar i.ios7-arrow-thin-left {
+  font-size: 32px;
+}
+.navbar a.link {
+  color: #333;
+}
+.navbar a.link:active,
+.navbar div.link:active {
+  opacity: 1;
+  color: #ff9630;
+}
+.navbar .text-navbar {
+  font-size: 15px;
+}
+.toolbar i.icon {
+  font-size: 28px;
+  line-height: 28px;
+}
+.toolbar .active .ios7-home-outline:before {
+  content: "\e619";
+}
+.toolbar .active .ios7-chatbubble-outline:before {
+  content: "\e61b";
+}
+.toolbar .active .ios7-gear-outline:before {
+  content: "\e60c";
+}
+.toolbar a.active {
+  color: #ff9630;
+}
+.toolbar span.tabbar-label {
+  font-size: 12px;
+}
+.views .logo {
+  width: 90px;
+  height: 90px;
+  background: url("../img/hiapp_logo@2x.png") center no-repeat #ffffff;
+  background-size: 83%;
+  text-indent: -9999px;
+  border-radius: 5px;
+  margin: 0 auto;
+  border: 1px solid #dfdfdf;
+}
+.views .login-input-content {
+  margin-bottom: 0;
+}
+.views .login-input-content .list-block {
+  margin-bottom: 0;
+}
+.views .login-input-content .list-block input {
+  border: 1px solid #dfdfdf;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  color: #666;
+  padding: 0 5px 0 40px;
+}
+.views .login-input-content .list-block .login-name {
+  border-bottom: none;
+  background-image: url("../img/user.png");
+  background-position: 4px 5px;
+}
+.views .login-input-content .list-block .password {
+  background-image: url("../img/password.png");
+  background-position: 7px 6px;
+}
+.views .login-input-content .list-block .multi-language {
+  margin: 15px 0 25px 0;
+  display: block;
+  color: #909090;
+}
+.views .login-input-content .list-block .multi-language > i {
+  font-size: 20px;
+}
+.views .login-input-content .list-block .multi-language > span {
+  vertical-align: middle;
+}
+.views .login-btn-content {
+  margin-top: 0;
+}
+.views .copyright {
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  left: 0;
+  top: -20px;
+  text-align: center;
+  padding: 5px 0;
+  width: 100%;
+  color: #909090;
+}
+.views .copyright > a {
+  display: inline-block;
+  color: #909090;
+}

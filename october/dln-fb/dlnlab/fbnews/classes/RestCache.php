@@ -26,6 +26,7 @@ class RestCache extends BaseController {
         if (! Cache::has($cache_id)) {
             $category = FbCategory::where('status', '=', true)
                 ->select(DB::raw('id, name, description'))
+                ->orderBy('name', 'ASC')
                 ->get()
                 ->toArray();
 

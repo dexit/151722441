@@ -1,0 +1,52 @@
+<ion-view view-title="{{ 'header.title_setting' | translate }}">
+	<ion-content class="padding-left padding-right padding-bottom main-bg">
+
+		<!-- BEGIN list settings -->
+		<div class="list-block setting-page">
+			<ul>
+				<li>
+					<div class="item-content">
+						<div class="item-inner user-info">
+							<div class="avatar">
+								<img src="images/ionic.png" alt="USER" />
+							</div>
+							<div class="user-detail">
+								<div class="name">Name</div>
+								<div class="point">Point</div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<a href="javascript:void(0)" ui-sref="app.setting.notify" class="item-link">
+						<div class="item-content">
+							<i class="fa fa-globe notify left"></i>
+							<div class="item-inner">
+								<div class="item-title">{{ 'setting.notify' | translate }}</div>
+							</div>
+							<i class="fa fa-chevron-right pull-right"></i>
+						</div>
+					</a>
+				</li>
+				<li>
+					<a href="javascript:void(0)" ui-sref="app.setting.about" class="item-link">
+						<div class="item-content">
+							<i class="fa fa-user about left"></i>
+							<div class="item-inner">
+								<div class="item-title">{{ 'setting.about' | translate }}</div>
+							</div>
+							<i class="fa fa-chevron-right pull-right"></i>
+						</div>
+					</a>
+				</li>
+			</ul>
+
+			<button class="button button-block button-assertive">
+				{{ 'setting.exit' | translate }}
+			</button>
+
+		</div>
+		<!-- END list settings -->
+
+	</ion-content>
+</ion-view>

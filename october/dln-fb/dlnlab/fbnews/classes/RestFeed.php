@@ -144,7 +144,7 @@ class RestFeed extends BaseController {
             if (! empty($arr_cats) ) {
                 $records = FbFeed::whereRaw($_cond, $_cona)
                     ->whereIn('category_id', $arr_cats)
-                    ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+                    ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, shared, created_at, DATE(created_at) AS per_day'))
                     ->orderBy('per_day', 'DESC')
                     ->orderBy($order_by, 'DESC')
                     ->skip($skip)
@@ -153,7 +153,7 @@ class RestFeed extends BaseController {
                     ->toArray();
             } else {
                 $records = FbFeed::whereRaw($_cond, $_cona)
-                    ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+                    ->select(DB::raw('id, fb_id, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, shared, created_at, DATE(created_at) AS per_day'))
                     ->orderBy('per_day', 'DESC')
                     ->orderBy($order_by, 'DESC')
                     ->skip($skip)

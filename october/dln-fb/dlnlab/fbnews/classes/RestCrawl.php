@@ -106,8 +106,8 @@ class RestCrawl extends BaseController
     {
         $record = FbFeed::whereNull('shared')
             ->select(DB::raw('id, fb_id, name, message, picture, category_id, type, source, object_id, created_at, DATE(created_at) AS per_day'))
+            ->where('like_count', '>', 700)
             ->orderBy('per_day', 'DESC')
-            ->orderBy('like_count', 'DESC')
             ->first();
 
         if (! $record) {
@@ -133,7 +133,7 @@ class RestCrawl extends BaseController
         );
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,FbPage::$api_url . PAGE_ID . "/feed");
+        curl_setopt($ch, CURLOPT_URL, FbPage::$api_url . PAGE_ID . "/feed");
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -144,9 +144,11 @@ class RestCrawl extends BaseController
 
         $post = json_decode($post);
         if (! empty($post->id)) {
-            $record->shared = $post->id;
-            $record->save();
+            $record->shared = $post;
+        } else {
+            $record->shared = '0';
         }
+        $record->save();
 
         return Response::json(array('status' => 'success', 'data' => $result), 200);
     }
@@ -162,14 +164,14 @@ class RestCrawl extends BaseController
 
             // Get post of current page
             //$records = FbFeed::whereRaw('status = ? AND page_id = ? AND per_day = CURDATE() AND comment_count > ? AND type = ? AND spam IS NULL', [true, $record->id, LIMIT_COMMENT_COUNT, 'link', null])
-            $feeds = FbFeed::whereRaw('status = ? AND page_id = ? AND DATE(created_at) = CURDATE() AND type = ? AND spam IS NULL', [true, $record->id, 'link'])
+            $feeds = FbFeed::whereRaw('status = ? AND page_id = ? AND DATE(created_at) = CURDATE() AND comment_count > ? AND type = ? AND spam IS NULL', [true, $record->id, LIMIT_COMMENT_COUNT, 'link'])
                 ->select(DB::raw('id, fb_id, fb_link, name, message, picture, page_id, category_id, like_count, comment_count, share_count, type, source, object_id, created_at, DATE(created_at) AS per_day'))
                 ->orderBy('per_day', 'DESC')
                 ->orderBy('comment_count', 'DESC')
                 ->take(10)
                 ->get();
 
-            if (count($feeds)) {
+            if (count($feeds) >= 4) {
                 // Get hot news
                 //$feeds = FbFeed::getHotFeeds($record->id, 2);
                 /*if (count($feeds)) {

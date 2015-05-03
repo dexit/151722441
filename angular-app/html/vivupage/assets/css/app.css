@@ -1,144 +1,144 @@
 @font-face {
-  font-family: vnQuickSand;
-  src: url('../fonts/vnf-quicksand-bold.ttf');
+    font-family: vnQuickSand;
+    src: url('../fonts/vnf-quicksand-bold.ttf');
 }
 
 body, #app {
-  height: 100%;
-  overflow: hidden;
-  position: fixed;
-  width: 100%;
-  margin: 0px;
+    height: 100%;
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    margin: 0px;
 }
 
 .dln-link .content .header, .dln-content .header {
-  color: #333;
+    color: #333;
 }
 
 .demo-wrapper {
-  color: rgba(255, 255, 255, 0.75);
-  display: none;
-  font-weight: 300;
-  height: auto;
-  letter-spacing: 0.02em;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 320px;
+    color: rgba(255, 255, 255, 0.75);
+    display: none;
+    font-weight: 300;
+    height: auto;
+    letter-spacing: 0.02em;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 320px;
 }
 
 .demo-brand {
-  border: 2px solid #fff;
-  border-radius: 5px;
-  height: 80px;
-  margin-bottom: 30px;
-  width: 80px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    height: 80px;
+    margin-bottom: 30px;
+    width: 80px;
 }
 
 .demo-wrapper h1, .demo-wrapper h2, .demo-wrapper h3 {
-  color: white;
-  font-weight: 300;
-  line-height: 1.1;
-  margin: 0;
-  font-family: 'vnQuickSand' !important;
+    color: white;
+    font-weight: 300;
+    line-height: 1.1;
+    margin: 0;
+    font-family: 'vnQuickSand' !important;
 }
 
 .demo-wrapper * + * {
-  margin-top: 1em;
-  font-family: 'vnQuickSand' !important;
+    margin-top: 1em;
+    font-family: 'vnQuickSand' !important;
 }
 
 .demo-links {
-  display: inline-block;
-  font-size: 14px;
-  line-height: 1;
-  list-style: outside none none;
-  margin: 40px 0 0;
-  padding: 0;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    list-style: outside none none;
+    margin: 40px 0 0;
+    padding: 0;
 }
 
 .demo-links:hover {
-  opacity: 0.5;
+    opacity: 0.5;
 }
 
 .demo-links > li > a {
-  margin-right: 10px;
-  color: white;
-  font-size: 22px;
-  vertical-align: middle;
-  display: block;
-  padding: 8px 0;
-  transition: opacity 150ms ease 0s;
-  cursor: pointer;
-  text-decoration: none;
+    margin-right: 10px;
+    color: white;
+    font-size: 22px;
+    vertical-align: middle;
+    display: block;
+    padding: 8px 0;
+    transition: opacity 150ms ease 0s;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 .demo-links > li > a:hover {
-  opacity: 1;
+    opacity: 1;
 }
 
 .demo-links > li > a > i {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
 @media (min-width: 769px) {
-  #app {
-    background-color: #4a87ee;
-    background-image: linear-gradient(135deg, #4a87ee, #145fd7);
-    background-repeat: repeat-x;
-    color: rgba(255, 255, 255, 0.5);
-  }
+    #app {
+        background-color: #4a87ee;
+        background-image: linear-gradient(135deg, #4a87ee, #145fd7);
+        background-repeat: repeat-x;
+        color: rgba(255, 255, 255, 0.5);
+    }
 
-  .app-wrapper {
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
-    height: 568px;
-    left: 50%;
-    margin-left: -340px;
-    margin-top: -284px;
-    overflow: visible;
-    top: 50%;
-    width: 680px;
-    position: fixed;
-    right: 0;
-    bottom: 0;
-  }
+    .app-wrapper {
+        background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+        height: 768px;
+        left: 50%;
+        margin-left: -440px;
+        margin-top: -384px;
+        overflow: visible;
+        top: 50%;
+        width: 880px;
+        position: fixed;
+        right: 0;
+        bottom: 0;
+    }
 
-  .device-silhouette {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 20px;
-    height: 668px;
-    margin: -50px 0 0 -10px;
-    padding: 50px 10px;
-    width: 340px;
-  }
+    .device-silhouette {
+        background-color: rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
+        height: 868px;
+        margin: -50px 0 0 -10px;
+        padding: 50px 10px;
+        width: 540px;
+    }
 
-  .view-wrapper {
-    background: none repeat scroll 0 0 black;
-    height: 568px;
-    overflow: hidden;
-    position: relative;
-    width: 320px;
-  }
+    .view-wrapper {
+        background: none repeat scroll 0 0 black;
+        height: 768px;
+        overflow: hidden;
+        position: relative;
+        width: 520px;
+    }
 
-  .demo-wrapper {
-    display: block;
-  }
+    .demo-wrapper {
+        display: block;
+    }
 }
 
 @media (max-width: 768px) {
-  .app-wrapper {
-    background-color: black;
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    position: fixed;
-    right: 0;
-    top: 0;
-  }
+    .app-wrapper {
+        background-color: black;
+        bottom: 0;
+        left: 0;
+        overflow: hidden;
+        position: fixed;
+        right: 0;
+        top: 0;
+    }
 
-  .view-wrapper {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
+    .view-wrapper {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
 }

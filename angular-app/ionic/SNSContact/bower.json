@@ -1,0 +1,11 @@
+{
+  "name": "SNSContact",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.0-rc.4"
+  },
+  "appPath": "www",
+  "dependencies": {
+    "angular-material": "~0.8.3"
+  }
+}

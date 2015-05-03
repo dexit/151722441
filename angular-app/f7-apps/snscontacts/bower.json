@@ -1,0 +1,12 @@
+{
+  "name": "SNSContacts",
+  "version": "0.0.1",
+  "dependencies": {
+    "react": "~0.13.2",
+    "framework7": "~1.0.5",
+    "requirejs": "~2.1.17",
+    "requirejs-i18n": "~2.0.4",
+    "requirejs-text": "~2.0.14"
+  },
+  "devDependencies": {}
+}

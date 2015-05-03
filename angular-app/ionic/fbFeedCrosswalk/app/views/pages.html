@@ -4,7 +4,7 @@
 		<a class="button button-icon button-clear" href="#/page/vote_search"><i class="fa fa-plus"></i></a>
 	</ion-nav-buttons>
 
-	<ion-content overflow-scroll="true" id="dln_wrapper" scroll-watch="">
+	<ion-content overflow-scroll="true" id="dln_pages_wrapper" scroll-watch="" scroll-infitine="" scroll-wapper="#dln_pages_wrapper .tab-item-content.active .cards" callback-infinite="scollGetFeeds()">
 
 		<div class="tab-item-content active" data-type="feed">
 			<div ng-include src="'views/partials/feed-list.html'"></div>

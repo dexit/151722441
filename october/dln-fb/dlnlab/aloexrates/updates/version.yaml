@@ -1,0 +1,6 @@
+1.0.1: First version of AloExrates
+1.0.2:
+    - Initialize plugin
+    - create_currencies_table.php
+    - create_devices_table.php
+    - seed_all_tables.php

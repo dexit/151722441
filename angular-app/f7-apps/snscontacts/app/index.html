@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport"
+	      content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta charset="UTF-8">
+	<title>SNSContacts</title>
+
+	<!--(if target dev)><!-->
+	<link rel="stylesheet" href="vendors/framework7/dist/css/framework7.min.css">
+	<link rel="stylesheet" href="styles/css/app.css">
+	<!--<!(endif)-->
+
+	<!--(if target dist)>
+    <link rel="stylesheet" href="styles/css/snscontacts.min.css?v={{rlsdate}}">
+  <!(endif)-->
+
+	<!--(if target dev)><!-->
+	<script type="text/javascript">
+		var $CONFIG = {};
+		$CONFIG['host_api'] = '';
+		$CONFIG['version'] = 'Test';
+		$CONFIG['release_time'] = 'Test';
+	</script>
+	<!--<!(endif)-->
+
+	<!--(if target dist)>
+    <script type="text/javascript">
+        var $CONFIG = {};
+        $CONFIG['version'] = '{{version}}';
+        $CONFIG['release_time'] = '{{rlsdate2}}';
+    </script>
+    <!(endif)-->
+</head>
+<body>
+<div class="statusbar-overlay"></div>
+<div class="panel-overlay"></div>
+
+<div class="views tabs toolbar-through">
+	<div id="mainView" class="view view-main tab active">
+
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="center sliding i18n" data-i18n="app.name">{{i}}</div>
+
+				<div class="right">
+					<a href="#" class="open-send-popup link icon-only">
+						<i class="icon ios7-compose-outline"></i>
+					</a>
+				</div>
+
+				<!-- Sub navbar -->
+				<div class="subnavbar sliding">
+					<div class="buttons-row">
+						<a href="#" class="button active">Link 1</a>
+						<a href="#" class="button">Link 2</a>
+						<a href="#" class="button">Link 3</a>
+						<a href="#" class="button">Link 4</a>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="pages navbar-through">
+			<div data-page="mainView" class="page no-swipeback">
+				<div data-distance="50" class="page-content pull-to-refresh-content infinite-scroll">
+					<div class="pull-to-refresh-layer">
+						<div class="preloader"></div>
+						<div class="pull-to-refresh-arrow"></div>
+					</div>
+					<div class="list-block media-list">
+						<div class="load-result"></div>
+						<ul class="time-line-content">
+
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- Please ignore the 404 error when you are not running under PhoneGap environment or delete it. -->
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="vendors/react/react.min.js"></script>
+
+<!--(if target dev)><!-->
+<script data-main="src/app" src="vendors/requirejs/require.js"></script>
+<!--<!(endif)-->
+
+<!--(if target dist)>
+	<script data-main="scripts/snscontacts.min" src="script/require.min.js?v={{rlsdate}}"></script>
+<!(endif)-->
+</body>
+</html>

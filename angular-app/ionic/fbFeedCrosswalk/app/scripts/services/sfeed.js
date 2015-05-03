@@ -10,6 +10,8 @@
 angular.module('fbFeedsApp')
   .service('sFeed', function ($rootScope, $http, appGlobal, fCache, localStorageService) {
 
+    var countRefresh = 0;
+
     this.toTimeZone = function (time) {
       return moment(time).add(7, 'hours');
     };
@@ -113,7 +115,8 @@ angular.module('fbFeedsApp')
           $rootScope.hideLoading();
           _scope._page += 1;
 
-          if (_scope.feeds.length === 0) {
+          if (_scope.feeds.length === 0 && countRefresh <= 5) {
+            countRefresh++;
             self.getFeeds(_scope, isRefreshed);
           }
         })

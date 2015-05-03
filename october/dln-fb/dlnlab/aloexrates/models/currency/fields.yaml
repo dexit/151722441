@@ -1,0 +1,18 @@
+# ===================================
+#  Form Field Definitions
+# ===================================
+
+fields:
+    code:
+        label: Code
+        disabled: true
+        span: left
+
+    name:
+        label: Name
+        span: right
+
+    status:
+        label: Published
+        type: checkbox
+        span: left

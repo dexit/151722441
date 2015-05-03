@@ -1,1 +1,5 @@
 1.0.1: First version of SNSContacts
+1.0.2:
+    - Initialize plugin
+    - create_fb_categories_table.php
+    - create_fb_feeds_table.php

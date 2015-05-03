@@ -1,0 +1,112 @@
+.main-bg {
+  background: #efeff4;
+}
+.list-block ul {
+  background: 0 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.list-block .item-inner {
+  align-items: center;
+  border-bottom: 1px solid #c8c7cc;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  min-height: 44px;
+  padding-bottom: 7px;
+  padding-right: 15px;
+  padding-top: 8px;
+  width: 100%;
+}
+
+.list-block li {
+  box-sizing: border-box;
+  position: relative;
+}
+
+.list-block .item-link {
+  color: inherit;
+  display: block;
+  transition-duration: 300ms;
+  text-decoration: none;
+}
+
+.list-block .item-content {
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  min-height: 44px;
+  padding-left: 15px;
+}
+
+.list-block .fa + .item-inner {
+  margin-left: 10px;
+}
+
+.setting-page .item-content {
+  background: none repeat scroll 0 0 #fff;
+  border: 1px solid #ebe9e9;
+  box-shadow: none;
+  color: #6d6d72;
+  margin: 10px 0 0;
+  padding: 0 0 0 10px;
+}
+
+.setting-page .user-info {
+  padding: 10px 10px 10px 0 !important;
+  position: relative;
+}
+
+.setting-page .item-content .item-inner {
+  border: 0 none;
+}
+
+.setting-page .user-info .avatar, .setting-page .user-info .avatar > img {
+  height: 55px;
+  width: 55px;
+}
+
+.setting-page .user-info .user-detail {
+  left: 60px;
+  margin: 10px;
+  position: absolute;
+  top: 7px;
+}
+
+.setting-page .user-info .user-detail .name {
+  font-size: 14px;
+}
+
+.setting-page .user-info .user-detail .point {
+  color: #818080;
+  font-size: 13px;
+}
+
+.setting-page .item-content i.left {
+  color: #fff;
+  font-size: 24px;
+  height: 30px;
+  line-height: 30px;
+  text-indent: 4px;
+  width: 30px;
+  min-width: 30px;
+}
+
+.setting-page .item-content i.pull-right {
+  padding-right: 10px;
+  color: #ccc;
+  line-height: 30px;
+}
+
+.notify {
+  background-color: #38b57f;
+}
+
+.about {
+  background-color: #5999f3;
+}
+

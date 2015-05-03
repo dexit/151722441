@@ -165,4 +165,39 @@ class SNSContactsHelper extends BaseController
         
         return $fulltext;
     }
+
+    /**
+     * Helper function for get http content using curl.
+     *
+     * @param $url
+     * @param array $fields
+     * @return json
+     */
+    public static function curl($url, $fields = array()) {
+        try {
+            $fields_string = '';
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+            if (count($fields)) {
+                //url-ify the data for the POST
+                foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+                rtrim($fields_string, '&');
+
+                curl_setopt($ch, CURLOPT_POST, count($fields));
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+            }
+
+            // Get the response and close the channel.
+            $response = curl_exec($ch);
+
+            curl_close($ch);
+
+            return $response;
+        } catch (\Exception $ex) {
+            var_dump($ex);die();
+        }
+    }
 }

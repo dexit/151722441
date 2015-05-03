@@ -1,0 +1,28 @@
+{
+  "name": "snscontacts",
+  "description": "Ứng dụng tổng hợp thông tin dạnh bạ.",
+  "version": "0.0.1",
+  "repository": {},
+  "devDependencies": {
+    "connect-livereload": "latest",
+    "grunt-banner": "latest",
+    "grunt-contrib-clean": "latest",
+    "grunt-contrib-compress": "latest",
+    "grunt-contrib-connect": "latest",
+    "grunt-contrib-copy": "latest",
+    "grunt-contrib-jshint": "latest",
+    "grunt-contrib-less": "latest",
+    "grunt-contrib-requirejs": "latest",
+    "grunt-contrib-uglify": "latest",
+    "grunt-contrib-watch": "latest",
+    "grunt-open": "latest",
+    "grunt-shell": "^1.1.2",
+    "grunt-targethtml": "latest",
+    "jshint": "latest",
+    "jshint-stylish": "latest",
+    "matchdep": "latest"
+  },
+  "scripts": {
+    "test": "grunt test"
+  }
+}
