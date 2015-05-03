@@ -20,9 +20,11 @@ columns:
 
     crawl:
         label: Crawl
+        type: switch
 
     status:
         label: Status
+        type: switch
 
     updated_at:
         label: Update

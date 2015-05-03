@@ -20,7 +20,7 @@ class RestCrawl extends BaseController
     /**
      * Api function for crawl exrates.
      *
-     * @return Response
+     * @return ResponseWWWWW
      */
     public function getExrates()
     {

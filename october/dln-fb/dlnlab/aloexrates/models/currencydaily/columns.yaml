@@ -6,3 +6,25 @@ columns:
     id:
         label: ID
         searchable: true
+
+    currency:
+        relation: currency
+        select: name
+        searchable: true
+        sortable: false
+
+    price:
+        label: Giá
+        searchable: true
+        sortablt: true
+        type: number
+
+    updated_at:
+        label: Cập nhật
+        sortable: true
+        type: timesince
+
+    created_at:
+        label: Create
+        sortable: true
+        type: timesince

@@ -30,7 +30,9 @@ class CurrencyDaily extends Model
      */
     public $hasOne = [];
     public $hasMany = [];
-    public $belongsTo = [];
+    public $belongsTo = [
+        'currency' => array('DLNLab\AloExrates\Models\Currency')
+    ];
     public $belongsToMany = [];
     public $morphTo = [];
     public $morphOne = [];
@@ -93,5 +95,11 @@ class CurrencyDaily extends Model
         }
 
         return $record;
+    }
+
+    public function getPriceAttribute() {
+        $price = $this->attributes['price'];
+        $price = EXRHelper::numberToMoney($price, ' VND', 0);
+        return $price;
     }
 }

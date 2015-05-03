@@ -12,27 +12,27 @@ use Response;
  * @author dinhln
  * @since 22/04/2015
  */
-class EXRHelper extends BaseController
+class EXRHelper
 {
 
     /**
      * Function to check csrf token.
      *
-     * @param string $token            
+     * @param string $token
      * @throws Illuminate\Session\TokenMismatchException
      * @return boolean
      */
     public static function checkToken($token = '')
     {
-        if (! $token) {
+        if (!$token) {
             return false;
         }
-        
+
         if (Session::token() != $token) {
             throw new Illuminate\Session\TokenMismatchException();
             return false;
         }
-        
+
         return true;
     }
 
@@ -57,22 +57,22 @@ class EXRHelper extends BaseController
             'required' => 'Thuộc tính :attribute bắt buộc.',
             'email' => 'email',
             'confirmed' => 'confirmed',
-            'required'  => ':attribute bị thiếu',
-            'array'     => ':attribute phải đúng dạng array',
-            'between'   => ':attribute phải nằm trong khoảng :min - :max số.',
-            'numeric'   => ':attribute phải dùng dạng số',
+            'required' => ':attribute bị thiếu',
+            'array' => ':attribute phải đúng dạng array',
+            'between' => ':attribute phải nằm trong khoảng :min - :max số.',
+            'numeric' => ':attribute phải dùng dạng số',
             'alpha_num' => ':attribute không được có ký tự đặc biệt',
-            'size'      => ':attribute bị giới hạn :size ký tự',
-            'min'       => ':attribute phải lớn hơn :min',
-            'max'       => ':attribute phải nhỏ hơn :max',
-            'regex'     => ':attribute không hợp lệ',
+            'size' => ':attribute bị giới hạn :size ký tự',
+            'min' => ':attribute phải lớn hơn :min',
+            'max' => ':attribute phải nhỏ hơn :max',
+            'regex' => ':attribute không hợp lệ',
         ];
     }
 
     /**
      * Common method for get error messages response.
      *
-     * @param array $messages            
+     * @param array $messages
      * @return Response
      */
     public static function getErrorMsg($messages = array())
@@ -80,12 +80,12 @@ class EXRHelper extends BaseController
         return Response::json(array(
             'status' => 'error',
             'data' => $messages
-            ), 500);
+        ), 500);
     }
-    
+
     /**
      * Common method for get success response.
-     * 
+     *
      * @param array $data
      * @return Response
      */
@@ -96,14 +96,15 @@ class EXRHelper extends BaseController
             'data' => $data
         ), 200);
     }
-    
+
     /**
      * Helper function for convert utf8 string become to slug
-     * 
+     *
      * @param string $str
      * @return boolean|Ambigous <string, mixed>
      */
-    public static function slugUTF8($str = '') {
+    public static function slugUTF8($str = '')
+    {
         if (!$str)
             return false;
         $unicode = array(
@@ -143,26 +144,26 @@ class EXRHelper extends BaseController
             $str = preg_replace("/($uni)/i", $nonUnicode, $str);
         return $str;
     }
-    
+
     /**
      * Helper function for build full-text-search string.
-     * 
+     *
      * @param array $data
      * @return boolean|string
      */
     public static function buildFullTextSearch($data = array())
     {
-        if (! empty($data)) {
+        if (!empty($data)) {
             return false;
         }
-    
+
         $fulltext = '';
         foreach ($data as $i => $item) {
             if ($item) {
                 $fulltext .= str_replace('-', ' ', self::slugUTF8(strtolower($item))) . ' ';
             }
         }
-        
+
         return $fulltext;
     }
 
@@ -173,7 +174,8 @@ class EXRHelper extends BaseController
      * @param array $fields
      * @return json
      */
-    public static function curl($url, $fields = array()) {
+    public static function curl($url, $fields = array())
+    {
         try {
             $fields_string = '';
 
@@ -183,7 +185,9 @@ class EXRHelper extends BaseController
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
             if (count($fields)) {
                 //url-ify the data for the POST
-                foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
+                foreach ($fields as $key => $value) {
+                    $fields_string .= $key . '=' . $value . '&';
+                }
                 rtrim($fields_string, '&');
 
                 curl_setopt($ch, CURLOPT_POST, count($fields));
@@ -197,7 +201,21 @@ class EXRHelper extends BaseController
 
             return $response;
         } catch (\Exception $ex) {
-            var_dump($ex);die();
+            var_dump($ex);
+            die();
         }
+    }
+
+    /**
+     * Helper function for convert number to money.
+     *
+     * @param $value
+     * @param string $symbol
+     * @param int $decimals
+     * @return string
+     */
+    public static function numberToMoney($value, $symbol = 'VND', $decimals = 2)
+    {
+        return ($value < 0 ? '-' : '') . number_format(abs($value), $decimals) . $symbol;
     }
 }
