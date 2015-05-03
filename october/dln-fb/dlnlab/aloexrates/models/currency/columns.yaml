@@ -15,8 +15,15 @@ columns:
         label: Name
         searchable: true
 
+    flag:
+        label: Flag
+
+    crawl:
+        label: Crawl
+
     status:
         label: Status
 
     updated_at:
         label: Update
+        type: timesince

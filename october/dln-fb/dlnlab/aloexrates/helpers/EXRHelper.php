@@ -94,7 +94,7 @@ class EXRHelper extends BaseController
         return Response::json(array(
             'status' => 'success',
             'data' => $data
-        ));
+        ), 200);
     }
     
     /**

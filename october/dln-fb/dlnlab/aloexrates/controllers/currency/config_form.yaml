@@ -1,0 +1,31 @@
+# ===================================
+#  Form Behavior Config
+# ===================================
+
+# Record name
+name: Currency
+
+# Model Form Field configuration
+form: $/dlnlab/aloexrates/models/currency/fields.yaml
+
+# Model Class name
+modelClass: DLNLab\AloExrates\Models\Currency
+
+# Default redirect location
+defaultRedirect: dlnlab/aloexrates/currency
+
+# Create page
+create:
+    title: Create Currency
+    redirect: dlnlab/aloexrates/currency/update/:id
+    redirectClose: dlnlab/aloexrates/currency
+
+# Update page
+update:
+    title: Edit Currency
+    redirect: dlnlab/aloexrates/currency
+    redirectClose: dlnlab/aloexrates/currency
+
+# Preview page
+preview:
+    title: Preview Currency

@@ -3,4 +3,5 @@
     - Initialize plugin
     - create_currencies_table.php
     - create_devices_table.php
+    - create_currency_dailies_table.php
     - seed_all_tables.php

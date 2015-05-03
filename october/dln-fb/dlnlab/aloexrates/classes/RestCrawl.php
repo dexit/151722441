@@ -1,6 +1,9 @@
-<?php namespace DLNLab\AloExrates;
+<?php namespace DLNLab\AloExrates\Classes;
 
-use DLNLab\AloExrates\Models\Devices;
+
+use Illuminate\Routing\Controller as BaseController;
+use DLNLab\AloExrates\Models\Currency;
+use DLNLab\AloExrates\Models\CurrencyDaily;
 use DLNLab\ALoExrates\Helpers\EXRHelper;
 use Response;
 use Validator;
@@ -11,31 +14,34 @@ use Validator;
  * @author dinhln
  * @since 02/05/2015
  */
-class RestContact extends BaseController
+class RestCrawl extends BaseController
 {
 
     /**
-     * API function for register device.
+     * Api function for crawl exrates.
      *
      * @return Response
      */
-    public function postRegisterDevice()
+    public function getExrates()
     {
-        $data = post();
-
-        // Validator for post params
-        $valids = Validator::make($data, [
-            'device_id' => 'required'
-        ]);
-
-        // Check is valid
-        if ($valids->fails()) {
-            return EXRHelper::getErrorMsg($valids->messages());
+        $records = Currency::where('crawl', '=', false)->take(5)->get();
+        if (! count($records)) {
+            Currency::where('crawl', '=', true)->update(array('crawl' => false));
+            $records = Currency::where('crawl', '=', false)->take(5)->get();
         }
 
-        $result = Devices::addDevice($data['device_id']);
+        // Crawl data
+        foreach ($records as $record) {
+            if (CurrencyDaily::updatePriceDaily($record->id, $record->code)) {
+                $record->crawl = true;
+                $record->save();
+            }
+        }
 
-        return EXRHelper::getSuccess($result);
+        return Response::json(array(
+            'status' => 'success',
+            'data' => $records
+        ), 200);
     }
 
 }

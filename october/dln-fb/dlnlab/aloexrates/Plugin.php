@@ -35,8 +35,18 @@ class Plugin extends PluginBase
     {
         return [
             'aloexrates' => [
-                'label' => 'Exrates',
-                'url' => Backend::url('dlnlab/aloexrates/currencies')
+                'label' => 'Tỷ giá',
+                'url' => Backend::url('dlnlab/aloexrates/currency'),
+                'icon' => 'icon-list',
+                'permissions' => ['dlnlab.aloexrates.*'],
+                'order' => 500,
+                'sideMenu' => [
+                    'currency' => [
+                        'label' => 'Tỷ giá',
+                        'icon' => 'icon-list',
+                        'url' => Backend::url('dlnlab/aloexrates/currency'),
+                    ]
+                ]
             ]
         ];
     }

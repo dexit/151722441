@@ -5,7 +5,6 @@
 fields:
     code:
         label: Code
-        disabled: true
         span: left
 
     name:
@@ -16,3 +15,8 @@ fields:
         label: Published
         type: checkbox
         span: left
+
+    crawl:
+        label: Crawl
+        type: checkbox
+        span: right

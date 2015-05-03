@@ -1,5 +1,6 @@
-<?php namespace DLNLab\AloExrates;
+<?php namespace DLNLab\AloExrates\Classes;
 
+use Illuminate\Routing\Controller as BaseController;
 use DLNLab\AloExrates\Models\Devices;
 use DLNLab\ALoExrates\Helpers\EXRHelper;
 use Response;
