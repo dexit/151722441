@@ -28,6 +28,14 @@ class SeedAllTables extends Seeder
             ['code' => 'SGD', 'name' => 'Singapore', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
             ['code' => 'THB', 'name' => 'Thái Lan', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
             ['code' => 'USD', 'name' => 'Mĩ', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'Hồ Chí Minh', 'type' => 'GOLD', 'name' => 'SJC Hồ Chí Minh', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'Hà Nội', 'type' => 'GOLD', 'name' => 'SJC Hà Nội', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'Đà Nẵng', 'type' => 'GOLD', 'name' => 'SJC Đà Nẵng', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'Nha Trang', 'type' => 'GOLD', 'name' => 'SJC Nha Trang', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'Cà Mau', 'type' => 'GOLD', 'name' => 'SJC Cà Mau', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'Buôn Ma Thuột', 'type' => 'GOLD', 'name' => 'SJC Buôn Ma Thuột', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'Bình Phước', 'type' => 'GOLD', 'name' => 'SJC Bình Phước', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'Huế', 'type' => 'GOLD', 'name' => 'SJC Huế', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
         ]);
     }
 

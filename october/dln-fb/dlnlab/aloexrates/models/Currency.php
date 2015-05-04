@@ -36,4 +36,18 @@ class Currency extends Model
     public $attachOne = [];
     public $attachMany = [];
 
+    /**
+     * Function for get currencies by codes.
+     * 
+     * @param array $codes
+     * @return boolean|objects
+     */
+    public static function getCurrenciesByCodes($codes = array()) {
+        if (! count($codes)) {
+            return false;
+        }
+        
+        return self::whereIn('code', $codes)->get();
+    }
+    
 }

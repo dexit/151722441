@@ -11,7 +11,7 @@ columns:
         relation: currency
         select: name
         searchable: true
-        sortable: false
+        sortable: true
 
     price:
         label: Giá
