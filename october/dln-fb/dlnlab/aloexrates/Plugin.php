@@ -50,6 +50,16 @@ class Plugin extends PluginBase
                         'label' => 'Tỷ giá hàng ngày',
                         'icon' => 'icon-list',
                         'url' => Backend::url('dlnlab/aloexrates/currencydaily')
+                    ],
+                    'bank_daily' => [
+                        'label' => 'Ngoại tệ Vietcombank',
+                        'icon' => 'icon-list',
+                        'url' => Backend::url('dlnlab/aloexrates/bankdaily')
+                    ],
+                    'gold_daily' => [
+                        'label' => 'Vàng SJC',
+                        'icon' => 'icon-list',
+                        'url' => Backend::url('dlnlab/aloexrates/golddaily')
                     ]
                 ]
             ]

@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller as BaseController;
 use DLNLab\AloExrates\Models\Currency;
 use DLNLab\AloExrates\Models\CurrencyDaily;
 use DLNLab\AloExrates\Models\BankDaily;
+use DLNLab\AloExrates\Models\GoldDaily;
 use DLNLab\ALoExrates\Helpers\EXRHelper;
 use Response;
 use Validator;
@@ -24,7 +25,7 @@ class RestCrawl extends BaseController
      * 
      * @return Response
      */
-    public function getGolds()
+    public function getGoldDaily()
     {
         $apies = json_decode(EXR_GOLDS);
         
@@ -53,8 +54,8 @@ class RestCrawl extends BaseController
         
                     // Get exchange rates over bank api.
                     foreach ($cities as $city) {
-                        $item = $xpath->query('//city[@name="' . $city->code . '/item"]')->item(0);
-                        $currencyId = $currency->id;
+                        $item = $xpath->query('//city[@name="' . $city->code . '"]/item')->item(0);
+                        $currencyId = $city->id;
                         $buy        = $item->getAttribute('buy');
                         $sell       = $item->getAttribute('sell');
         
@@ -79,12 +80,12 @@ class RestCrawl extends BaseController
      */
     public function getExrates()
     {
-        $records = Currency::where('crawl', '=', false)->take(5)->get();
+        $records = Currency::where('crawl', '=', false)->take(10)->get();
         if (! count($records)) {
             Currency::where('crawl', '=', true)->update(array(
                 'crawl' => false
             ));
-            $records = Currency::where('crawl', '=', false)->take(5)->get();
+            $records = Currency::where('crawl', '=', false)->take(10)->get();
         }
         
         // Crawl data

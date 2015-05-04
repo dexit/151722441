@@ -19,12 +19,6 @@ columns:
         sortablt: true
         type: number
 
-    transfer:
-        label: Giao dịch
-        searchable: true
-        sortablt: true
-        type: number
-
     sell:
         label: Bán
         searchable: true
