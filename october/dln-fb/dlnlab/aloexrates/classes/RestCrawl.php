@@ -80,12 +80,12 @@ class RestCrawl extends BaseController
      */
     public function getExrates()
     {
-        $records = Currency::where('crawl', '=', false)->take(10)->get();
+        $records = Currency::whereRaw('crawl = ? AND type = ?', array(false, 'CURRENCY'))->take(10)->get();
         if (! count($records)) {
             Currency::where('crawl', '=', true)->update(array(
                 'crawl' => false
             ));
-            $records = Currency::where('crawl', '=', false)->take(10)->get();
+            $records = Currency::whereRaw('crawl = ? AND type = ?', array(false, 'CURRENCY'))->take(10)->get();
         }
         
         // Crawl data
@@ -155,4 +155,28 @@ class RestCrawl extends BaseController
             'data' => $apies
         ), 200);
     }
+
+    /**
+     * Api function for crawl send notification to devices.
+     * 
+     * @return Response
+     */
+    public function getSendNotificationDevices()
+    {
+        $data = get();
+        
+        // Valid get params.
+        $valids = Validator::make($data, [
+            'type' => 'required_if:type,defice,facebook'
+        ], EXRHelper::getMessage());
+        
+        // Check valid.
+        if ($valids->fails())
+        {
+            return Response::json(array('status' => 'Error', 'data' => $valids->messages()));
+        }
+        
+        // 
+    }
+    
 }

@@ -66,6 +66,7 @@ class EXRHelper
             'min' => ':attribute phải lớn hơn :min',
             'max' => ':attribute phải nhỏ hơn :max',
             'regex' => ':attribute không hợp lệ',
+            'boolean' => ':attribute phải là giá trị đúng hoặc sai'
         ];
     }
 
