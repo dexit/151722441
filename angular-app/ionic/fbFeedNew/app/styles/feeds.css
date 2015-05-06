@@ -1,9 +1,22 @@
+body {
+  background-color: #000;
+}
+
+#main_view_container {
+  bottom: 60px;
+}
+
 .ui.cards {
   margin: 0;
 }
 
 .ui.cards > .card {
   margin: 0.6em 0.5em;
+}
+
+.ui.card {
+  max-width: 760px !important;
+  margin: 7px auto !important;
 }
 
 .ui.cards, .ui.cards > .card, .dln-thumb-images {

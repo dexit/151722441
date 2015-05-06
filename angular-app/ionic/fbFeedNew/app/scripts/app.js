@@ -50,20 +50,22 @@ angular
           overlap: true,
           position: AdMob.AD_POSITION.BOTTOM_CENTER,
           autoShow: false});
+
+        AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
       }
 
       // Show ad for 30s
-      var showAd = function () {
-        AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
+      /*var showAd = function () {
+
         var timeOut = setTimeout(function () {
           AdMob.hideBanner();
         }, 6000);
-      };
+      };*/
 
       // Show first time.
-      showAd();
+      //showAd();
 
-      var timeInterval = setInterval(showAd, 18000);
+      //var timeInterval = setInterval(showAd, 18000);
     }, false);
 
     $stateProvider

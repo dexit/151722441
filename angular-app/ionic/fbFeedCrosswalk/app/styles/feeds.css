@@ -1,3 +1,11 @@
+body {
+  background-color: #000;
+}
+
+#main_view_container {
+  bottom: 60px;
+}
+
 .ui.cards {
   margin: 0;
 }
@@ -6,13 +14,18 @@
   margin: 0.6em 0.5em;
 }
 
+.ui.card {
+  max-width: 760px !important;
+  margin: 7px auto !important;
+}
+
 .ui.cards, .ui.cards > .card, .dln-thumb-images {
   width: 100% !important;
   text-align: center;
 }
 
 .description p {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 16px;
   padding-left: 1em;
   padding-right: 1em;
@@ -85,7 +98,7 @@
 
 .dln-link .content .header {
   white-space: normal;
-  font-size: 11px !important;
+  font-size: 12px !important;
 }
 
 .dln-link .content .header, .dln-content .header {
