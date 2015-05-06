@@ -34,6 +34,7 @@
   color: inherit;
   display: block;
   transition-duration: 300ms;
+  text-decoration: none;
 }
 
 .list-block .item-content {
@@ -49,7 +50,7 @@
 }
 
 .list-block .fa + .item-inner {
-  margin-left: 15px;
+  margin-left: 10px;
 }
 
 .setting-page .item-content {
@@ -98,6 +99,7 @@
   line-height: 30px;
   text-indent: 4px;
   width: 30px;
+  min-width: 30px;
 }
 
 .setting-page .item-content i.pull-right {

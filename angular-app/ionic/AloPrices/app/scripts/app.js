@@ -5,6 +5,7 @@ angular.module('AloPrices', [
   'ngCookies',
   'ngRoute',
   'ngSanitize',
+  'ngMaterial',
   'ionic',
   'ngCordova',
   'pascalprecht.translate'

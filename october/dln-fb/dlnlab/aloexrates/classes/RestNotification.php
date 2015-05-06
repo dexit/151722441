@@ -3,6 +3,7 @@ namespace DLNLab\AloExrates\Classes;
 
 use Illuminate\Routing\Controller as BaseController;
 use DLNLab\AloExrates\Models\Notification;
+use DLNLab\AloExrates\Models\NotificationCurrency;
 use DLNLab\ALoExrates\Helpers\EXRHelper;
 use Response;
 use Validator;
@@ -68,22 +69,25 @@ class RestNotification extends BaseController
         $senderIds   = array_slice($senderIds, 2);
         $currencyIds = explode(',', $data['currency_ids']);
         
-        foreach ($senderIds $as $sId)
+        foreach ($senderIds as $sId)
         {
-            // Check limit number notification per account
-            
-            
             foreach ($currencyIds as $cId)
             {
                 $cId = intval($cId);
             
                 if (! $cId)
                 {
-                    
+                    $record = NotificationCurrency::whereRaw('sender_id = ? AND currency_id = ?', array($sId, $cId))->first();
+                    if (! $record) {
+                        $record = new NotificationCurrency();
+                        $record->sender_id = $sId;
+                        $record->currency_id = $cId;
+                        $record->save();
+                    }
                 }
             }
         }
         
-        return Response::json();
+        return Response::json(array('status' => 'Success', 'data' => true));
     }
 }
