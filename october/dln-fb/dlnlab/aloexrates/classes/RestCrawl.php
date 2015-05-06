@@ -176,7 +176,40 @@ class RestCrawl extends BaseController
             return Response::json(array('status' => 'Error', 'data' => $valids->messages()));
         }
         
-        // Get C
+        // Get Currency
     }
-    
+
+
+    /**
+     * Api function for crawl get min max currency
+     *
+     * @return Response
+     */
+    public function getMinMaxCurrency()
+    {
+        $record = CurrencyDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
+        if (! $record)
+        {
+            CurrencyDaily::where('is_send', true)->update(array('is_send' => true));
+            $record = CurrencyDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
+        }
+
+        // Check is Min|Max in two week
+        $currencyId = $record->currency_id;
+
+        // Get min
+        $min = CurrencyDaily::whereRaw('currency_id = ? AND price < ? AND updated_at < NOW() - INTERVAL ? WEEK', array($currencyId, $record->price, EXR_LIMIT_WEEK))
+            ->orderBy('price', 'ASC')
+            ->first();
+
+        if (empty($min))
+        {
+            //Get max
+            $max = CurrencyDaily::whereRaw('currency_id = ? AND price > ? AND updated_at < NOW() - INTERVAL ? WEEK', array($currencyId, $record->price, EXR_LIMIT_WEEK))
+                ->orderBy('price', 'DESC')
+                ->first();
+        }
+
+        
+    }
 }

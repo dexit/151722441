@@ -8,3 +8,5 @@ define('EXR_BANKS', json_encode([
 define('EXR_GOLDS', json_encode([
     'SJC' => 'http://www3.sjc.com.vn/xml/tygiavang.xml'
 ]));
+define('EXR_LIMIT_NTFS', 3);
+define('EXR_LIMIT_WEEK', 2);

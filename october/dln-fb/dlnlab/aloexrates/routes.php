@@ -12,4 +12,5 @@ App::before(function ($request) {
     Route::get($api_path . '/crawl/exrates', $api_class . '\RestCrawl@getExrates');
     Route::get($api_path . '/crawl/banks', $api_class . '\RestCrawl@getBankDaily');
     Route::get($api_path . '/crawl/golds', $api_class . '\RestCrawl@getGoldDaily');
+    Route::post($api_path . '/notifications', $api_class . '\RestNotification@postRegisterNotification');
 });
