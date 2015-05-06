@@ -96,7 +96,12 @@ class CurrencyDaily extends Model
 
         return $record;
     }
-
+    
+    /**
+     * get price attribute
+     * 
+     * @return string
+     */
     public function getPriceAttribute() {
         $price = $this->attributes['price'];
         $price = EXRHelper::numberToMoney($price, ' VND', 0);

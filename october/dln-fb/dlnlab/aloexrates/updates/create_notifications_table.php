@@ -14,8 +14,10 @@ class CreateNotificationsTable extends Migration
             $table->increments('id');
             $table->string('type', 12)->nullable();
             $table->string('sender_id', 255)->index();
+            $table->integer('currency_id')->index();
             $table->boolean('is_min')->default(false);
             $table->boolean('is_max')->default(false);
+            $table->boolean('is_send')->default(false);
             $table->timestamps();
         });
     }

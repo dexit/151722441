@@ -13,8 +13,6 @@ class CreateNotificationCurrenciesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->integer('notification_id')->index();
-            $table->integer('currency_id')->index();
-            $table->boolean('is_send')->default(false);
             $table->timestamps();
         });
     }
