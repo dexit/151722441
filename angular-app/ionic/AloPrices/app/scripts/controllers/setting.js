@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name AloPrices.controller:SettingCtrl
+ * @name aloPricesApp.controller:SettingCtrl
  * @description
  * # SettingCtrl
- * Controller of the AloPrices
+ * Controller of the aloPricesApp
  */
-angular.module('AloPrices')
+angular.module('aloPricesApp')
   .controller('SettingCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',

@@ -10,7 +10,6 @@
 	<link rel="stylesheet" href="bower_components/ionic/release/css/ionic.css" />
 	<link rel="stylesheet" href="bower_components/semantic-ui-list/list.css" />
 	<link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
-	<link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
 	<!-- endbower -->
 	<!-- endbuild -->
 	<link href="styles/main.css" rel="stylesheet">
@@ -34,9 +33,9 @@
 	<script src="bower_components/Chart.js/Chart.js"></script>
 	<script src="bower_components/angular-translate/angular-translate.js"></script>
 	<script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-	<script src="bower_components/angular-aria/angular-aria.js"></script>
-	<script src="bower_components/angular-material/angular-material.js"></script>
+	<script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
 	<!-- endbower -->
+	<script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
 	<!-- endbuild -->
 
 	<!-- cordova script (this will be a 404 during development) -->
@@ -45,25 +44,23 @@
 	<!-- your app's js -->
 	<!-- build:js scripts/scripts.js -->
 	<script src="scripts/app.js"></script>
+	<script src="scripts/services/appglobal.js"></script>
+	<script src="scripts/services/device.js"></script>
 	<script src="scripts/controllers/home.js"></script>
 	<script src="scripts/controllers/setting.js"></script>
 	<script src="scripts/controllers/notifications.js"></script>
+	<script src="scripts/controllers/app.js"></script>
+<script src="scripts/services/currency.js"></script>
 	<!-- endbuild -->
 	<script src="scripts/languages/vi.js"></script>
 
 </head>
-<body ng-app="AloPrices">
-	<div layout="column" layout-fill>
-		<md-toolbar md-scroll-shrink class="md-default-theme">
-			<div class="md-toolbar-tools">
-				<h3>
-					<span>My App Title</span>
-				</h3>
-			</div>
-		</md-toolbar>
+<body ng-app="aloPricesApp">
+	<ion-nav-bar class="bar-balanced">
+		<ion-nav-back-button>
+		</ion-nav-back-button>
+	</ion-nav-bar>
 
-		<ion-nav-view></ion-nav-view>
-	</div>
-
+	<ion-nav-view></ion-nav-view>
 </body>
 </html>

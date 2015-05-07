@@ -2,12 +2,12 @@
 
 /**
  * @ngdoc function
- * @name AloPrices.controller:HomeCtrl
+ * @name aloPricesApp.controller:HomeCtrl
  * @description
  * # HomeCtrl
- * Controller of the AloPrices
+ * Controller of the aloPricesApp
  */
-angular.module('AloPrices')
+angular.module('aloPricesApp')
   .controller('HomeCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',

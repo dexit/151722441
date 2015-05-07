@@ -255,14 +255,7 @@ class RestCrawl extends BaseController
         }
         
         // Convert devices registations ids to array.
-        $regIds = array();
-        foreach ($records as $record)
-        {
-            if (! in_array($record->sender_id, $regIds))
-            {
-                $regIds[] = $record->sender_id;
-            }
-        }
+        $regIds = $records->lists('sender_id');
         
         $response = '';
         if (count($regIds) <= 1000 && ! empty($message))

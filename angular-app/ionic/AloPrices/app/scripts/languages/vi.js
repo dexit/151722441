@@ -2,7 +2,7 @@
  * Created by DinhLN on 28/4/2015.
  */
 
-angular.module('AloPrices')
+angular.module('aloPricesApp')
   .config(function ($translateProvider) {
 
     /* Translator locale object */
@@ -17,6 +17,10 @@ angular.module('AloPrices')
         notify: 'Thông báo',
         about: 'Tác giả',
         exit: 'Thoát'
+      },
+
+      message: {
+        error_get_device: 'Không thể đăng ký thiết bị!'
       }
     };
 

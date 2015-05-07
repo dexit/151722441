@@ -1,17 +1,23 @@
 'use strict';
 
-angular.module('AloPrices', [
+angular.module('aloPricesApp', [
   'ngAnimate',
   'ngCookies',
   'ngRoute',
   'ngSanitize',
-  'ngMaterial',
   'ionic',
   'ngCordova',
-  'pascalprecht.translate'
-]).config(function ($translateProvider, $stateProvider, $urlRouterProvider) {
+  'pascalprecht.translate',
+  'LocalStorageModule'
+]).config(function ($translateProvider, $stateProvider, $urlRouterProvider, localStorageServiceProvider) {
 
+  // Setting for languages.
   $translateProvider.preferredLanguage('vi');
+
+  // Setting for local-storage.
+  localStorageServiceProvider.setPrefix('aloPricesApp');
+  localStorageServiceProvider.setStorageType('sessionStorage');
+  localStorageServiceProvider.setStorageCookie(3, '/');
 
   /* Defalt route */
   $urlRouterProvider.otherwise('/home');
@@ -21,7 +27,8 @@ angular.module('AloPrices', [
     .state('app', {
       url: '/',
       abstract: true,
-      templateUrl: 'views/app.html'
+      templateUrl: 'views/app.html',
+      controller: 'AppCtrl'
     })
     .state('app.home', {
       url: 'home',
@@ -51,7 +58,7 @@ angular.module('AloPrices', [
       }
     });
 
-}).run(function ($ionicPlatform) {
+}).run(function ($ionicPlatform, Device) {
 
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -63,4 +70,9 @@ angular.module('AloPrices', [
       StatusBar.styleDefault();
     }
   });
+
+  document.addEventListener('deviceready', function () {
+    // Register device id and get uid.
+    Device.registerDevice();
+  }, false);
 });
