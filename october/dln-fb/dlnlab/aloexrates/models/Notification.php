@@ -95,4 +95,32 @@ class Notification extends Model
         return $record;
     }
     
+    /**
+     * Static function for send message to devices.
+     * 
+     * @param string $message
+     * @param unknown $regIds
+     * @return boolean|unknown
+     */
+    public static function sendNtfsToDevices($message = '', $regIds = array())
+    {
+        if (! $message || ! $regIds)
+        {
+            return false;
+        }
+        
+        $registration_ids = implode(',', $regIds);
+        $fields = array(
+            'registration_ids' => $registration_ids,
+            'message' => $message
+        );
+        $headers = array(
+            'Authorization: key=' . GOOGLE_API_KEY,
+            'Content-Type: application/json'
+        );
+        
+        $result = EXRHelper::curl(GOOGLE_GCM_URL, $fields, $headers);
+        
+        return $result;
+    }
 }

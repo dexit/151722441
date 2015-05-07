@@ -173,9 +173,10 @@ class EXRHelper
      *
      * @param $url
      * @param array $fields
+     * @param array $headers
      * @return json
      */
-    public static function curl($url, $fields = array())
+    public static function curl($url, $fields = array(), $headers = array())
     {
         try {
             $fields_string = '';
@@ -183,8 +184,10 @@ class EXRHelper
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-            if (count($fields)) {
+            if (count($fields))
+            {
                 //url-ify the data for the POST
                 foreach ($fields as $key => $value) {
                     $fields_string .= $key . '=' . $value . '&';
@@ -193,6 +196,10 @@ class EXRHelper
 
                 curl_setopt($ch, CURLOPT_POST, count($fields));
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
+            }
+            if (count($headers))
+            {
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             }
 
             // Get the response and close the channel.

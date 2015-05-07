@@ -26,17 +26,19 @@ class RestDevices extends BaseController
 
         // Validator for post params
         $valids = Validator::make($data, [
-            'device_id' => 'required'
+            'device_id' => 'required',
+            'phone_number' => 'numeric'
         ]);
 
         // Check is valid
-        if ($valids->fails()) {
-            return EXRHelper::getErrorMsg($valids->messages());
+        if ($valids->fails())
+        {
+            return Response::json(array('status' => 'Error', $valids->messages()));
         }
 
         $result = Devices::addDevice($data['device_id']);
 
-        return EXRHelper::getSuccess($result);
+        return Response::json(array('status' => 'Success', $result));
     }
 
 }

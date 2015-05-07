@@ -98,6 +98,43 @@ class CurrencyDaily extends Model
     }
     
     /**
+     * Function for get currency today compare it with yesterday.
+     * 
+     * @param number $currencyId
+     * @param number $price
+     * @return boolean|string
+     */
+    public static function getCurrencyToday($currencyId = 0, $price = 0)
+    {
+        if (! $currencyId || ! $price)
+        {
+            return false;
+        }
+        
+        $record = self::whereRaw('currency_id = ? AND DATE(created_at) != CURDATE()')
+            ->orderBy('created_at', 'DESC')
+            ->first();
+        
+        $templatePrice = "{$price} (%s)";
+        
+        $newPrice = '';
+        if (! $record)
+        {
+            $newPrice = sprintf($templatePrice, $price);
+        }
+        
+        if ($record->price > $price)
+        {
+            $newPrice = sprintf($templatePrice, '-' . ($record->price - $price));
+        } else
+        {
+            $newPrice = sprintf($templatePrice, '+' . ($price - $record->price));
+        }
+        
+        return $newPrice;
+    }
+    
+    /**
      * get price attribute
      * 
      * @return string
