@@ -39,6 +39,15 @@ angular.module('aloPricesApp', [
         }
       }
     })
+    .state('app.exchange_add', {
+      url: 'them-ty-gia',
+      views: {
+        'home-tab': {
+          templateUrl: 'views/exchange/exchange-add.html',
+          controller: 'ExchangeExchangeaddCtrl'
+        }
+      }
+    })
     .state('app.notifications', {
       url: 'notifications',
       views: {

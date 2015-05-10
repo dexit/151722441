@@ -50,16 +50,18 @@ class RestCrawl extends BaseController
                     }
         
                     // Get currency by ids
-                    $cities = Currency::getCurrenciesByCodes($codes);
-        
+                    $cities = Currency::where('type', 'GOLD')->get();
                     // Get exchange rates over bank api.
                     foreach ($cities as $city) {
-                        $item = $xpath->query('//city[@name="' . $city->code . '"]/item')->item(0);
-                        $currencyId = $city->id;
-                        $buy        = $item->getAttribute('buy');
-                        $sell       = $item->getAttribute('sell');
-        
-                        GoldDaily::updateGoldsDaily($currencyId, $buy, $sell, $type);
+                        $codes = explode('|', $city->code);
+                        $item = $xpath->query('//city[@name="' . $codes[0] . '"]/item[@type="' . $codes[1] . '"]')->item(0);
+                        if ($item) {
+                            $currencyId = $city->id;
+                            $buy        = $item->getAttribute('buy');
+                            $sell       = $item->getAttribute('sell');
+
+                            GoldDaily::updateGoldsDaily($currencyId, $buy, $sell, $type);
+                        }
                     }
         
                     break;

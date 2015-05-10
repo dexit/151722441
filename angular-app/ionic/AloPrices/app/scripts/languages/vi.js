@@ -7,10 +7,15 @@ angular.module('aloPricesApp')
 
     /* Translator locale object */
     var translator = {
+      common: {
+        save: 'Lưu'
+      },
+
       header: {
         title_home: 'Tỷ giá',
         title_notifications: 'Thông báo',
-        title_setting: 'Khác'
+        title_setting: 'Tùy chỉnh',
+        title_exchange_add: 'Thêm tỷ giá'
       },
 
       setting: {
@@ -21,6 +26,17 @@ angular.module('aloPricesApp')
 
       message: {
         error_get_device: 'Không thể đăng ký thiết bị!'
+      },
+
+      home: {
+        share: 'Chia sẻ',
+        exchange: 'Tỷ giá',
+        chart: 'Lược đồ'
+      },
+
+      exchange_add: {
+        external: 'Ngoại tệ',
+        internal: 'Trong nước'
       }
     };
 
