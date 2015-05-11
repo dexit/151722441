@@ -19,7 +19,6 @@ use Validator;
  */
 class RestCrawl extends BaseController
 {
-    
     /**
      * Api function for crawl golds.
      * 
@@ -267,5 +266,43 @@ class RestCrawl extends BaseController
         }
         
         return Response::json(array('status' => 'success', 'data' => $response));
+    }
+
+    /**
+     * Api function for crawl post news to facebook fanpage.
+     * 
+     * @return Response
+     */
+    public function getPostToFBDaily()
+    {
+        // Get list fb ranges.
+        $cCodes = json_decode(EXR_FB_RANGES);
+        
+        // Get list currency ids.
+        $records = Currency::whereIn('code', $cCodes)->get();
+        $listIds = $records->lists('id', 'code');
+        
+        if (count($listIds))
+        {
+            // Get currency type
+            $currencyIds = [];
+            $goldIds     = [];
+            
+            foreach ( $listIds as $item )
+            {
+                if ($item->code == 'GOLD')
+                {
+                    $goldIds[] = $item->id;
+                }
+                else
+                {
+                    $currencyIds[] = $item->id;
+                }
+            }
+            
+            var_dump(Currency::getCurrenciesDetail($goldIds, 'GOLD'));
+            var_dump(Currency::getCurrenciesDetail($currencyIds, 'CURRENCY'));
+            die();
+        }
     }
 }

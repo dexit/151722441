@@ -13,4 +13,8 @@ App::before(function ($request) {
     Route::get($api_path . '/crawl/banks', $api_class . '\RestCrawl@getBankDaily');
     Route::get($api_path . '/crawl/golds', $api_class . '\RestCrawl@getGoldDaily');
     Route::post($api_path . '/notifications', $api_class . '\RestNotification@postRegisterNotification');
+    Route::get($api_path . '/currencies', $api_class . '\RestCurrency@getListCurrencies');
+    Route::get($api_path . '/currencyies/detail', $api_class . '\RestCurrency@getListCurrenciesDetail');
+    Route::get($api_path . '/currency/{id}', $api_class . '\RestCurrency@getCurrenciesById');
+    Route::get($api_path . '/post/fb-daily', $api_class . '\RestCrawl@getPostToFBDaily');
 });
