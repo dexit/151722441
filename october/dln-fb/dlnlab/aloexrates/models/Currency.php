@@ -41,14 +41,17 @@ class Currency extends Model
      * Function for get currencies by codes.
      * 
      * @param array $codes
+     * @param string $type
      * @return boolean|objects
      */
-    public static function getCurrenciesByCodes($codes = array()) {
-        if (! count($codes)) {
+    public static function getCurrenciesByCodes($codes = array(), $type = '') {
+        if (! count($codes) || ! $type) {
             return false;
         }
         
-        return self::whereIn('code', $codes)->get();
+        return self::where('type', $type)
+            ->whereIn('code', $codes)
+            ->get();
     }
     
     /**

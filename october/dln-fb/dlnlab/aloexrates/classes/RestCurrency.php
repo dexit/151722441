@@ -63,7 +63,7 @@ class RestCurrency extends BaseController
         
         // Validator get params.
         $valids = Validator::make($data, [
-            'type' => 'required_if,type,CURRENCY,GOLD',
+            'type' => 'required_if,type,CURRENCY,GOLD,CURRENCY|BANK',
             'currency_ids' => 'required|array',
             'week' => 'required|numeric|min:1|max:4'
         ], EXRHelper::getMessage());

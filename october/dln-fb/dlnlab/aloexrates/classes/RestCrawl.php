@@ -133,7 +133,7 @@ class RestCrawl extends BaseController
                     }
                     
                     // Get currency by ids
-                    $currencies = Currency::getCurrenciesByCodes($codes);
+                    $currencies = Currency::getCurrenciesByCodes($codes, $type);
                     
                     // Get exchange rates over bank api.
                     foreach ($currencies as $currency) {

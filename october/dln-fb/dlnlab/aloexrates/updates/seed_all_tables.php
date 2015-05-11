@@ -40,6 +40,23 @@ class SeedAllTables extends Seeder
             ['code' => 'Hồ Chí Minh|Vàng nữ trang 99,99%', 'type' => 'GOLD', 'name' => 'Vàng nữ trang 99,99%', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
             ['code' => 'Hồ Chí Minh|Vàng nữ trang 99%', 'type' => 'GOLD', 'name' => 'Vàng nữ trang 99%', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
             ['code' => 'Hồ Chí Minh|Vàng nữ trang 75%', 'type' => 'GOLD', 'name' => 'Vàng nữ trang 75%', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'AUD', 'name' => 'VCB Úc', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'CAD', 'name' => 'VCB Canada', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'CHF', 'name' => 'VCB Pháp', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'DKK', 'name' => 'VCB Đan mạch', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'EUR', 'name' => 'VCB Euro', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'GBP', 'name' => 'VCB Bảng Anh', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'HKD', 'name' => 'VCB Hồng Kông', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'INR', 'name' => 'VCB Ấn Độ', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'JPY', 'name' => 'VCB Nhật', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'KRW', 'name' => 'VCB Hàn Quốc', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'MYR', 'name' => 'VCB Malaysia', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'RUB', 'name' => 'VCB Nga', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'SAR', 'name' => 'VCB Ả Rập Saudi', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'SEK', 'name' => 'VCB Thụy Sĩ', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'SGD', 'name' => 'VCB Singapore', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'THB', 'name' => 'VCB Thái Lan', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
+            ['code' => 'USD', 'name' => 'VCB Mĩ', 'type' => 'VCB', 'status' => 1, 'flag' => '', 'updated_at' => $timestamp, 'created_at' => $timestamp],
         ]);
     }
 

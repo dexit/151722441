@@ -17,6 +17,8 @@ class CreateBankDailiesTable extends Migration
             $table->float('buy')->default(0);
             $table->float('transfer')->default(0);
             $table->float('sell')->default(0);
+            $table->float('min')->default(0);
+            $table->float('max')->default(0);
             $table->timestamps();
         });
     }
