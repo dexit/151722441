@@ -8,7 +8,8 @@ angular.module('aloPricesApp', [
   'ionic',
   'ngCordova',
   'pascalprecht.translate',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'chart.js'
 ]).config(function ($translateProvider, $stateProvider, $urlRouterProvider, localStorageServiceProvider) {
 
   // Setting for languages.

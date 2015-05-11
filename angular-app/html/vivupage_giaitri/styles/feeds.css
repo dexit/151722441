@@ -6,9 +6,15 @@
     margin: 0.6em 0.5em;
 }
 
-.ui.cards, .ui.cards > .card, .dln-thumb-images {
-    width: 100% !important;
+.ui.card {
+    max-width: 760px !important;
+    margin: 7px auto !important;
+    width: 95% !important;
     text-align: center;
+}
+
+.ui.cards, .dln-thumb-images {
+    width: 100% !important;
 }
 
 .description p {

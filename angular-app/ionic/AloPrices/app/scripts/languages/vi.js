@@ -15,11 +15,13 @@ angular.module('aloPricesApp')
         title_home: 'Tỷ giá',
         title_notifications: 'Thông báo',
         title_setting: 'Tùy chỉnh',
-        title_exchange_add: 'Thêm tỷ giá'
+        title_exchange_add: 'Thêm tỷ giá',
+        title_facebook: 'Tài khoản Facebook'
       },
 
       setting: {
         notify: 'Thông báo',
+        facebook: 'Facebook',
         about: 'Tác giả',
         exit: 'Thoát'
       },
