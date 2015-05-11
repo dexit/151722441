@@ -66,6 +66,22 @@ class GoldDaily extends Model
         $record = self::whereRaw('currency_id = ? AND type = ? AND DATE(created_at) = CURDATE()', array($cId, $type))->first();
         if ($record) {
             if ($record->buy != $buy || $record->sell != $sell) {
+                if ($record->min_buy > $record->buy)
+                {
+                    $record->min_buy = $record->buy;
+                }
+                if ($record->max_buy < $record->buy)
+                {
+                    $record->max_buy = $record->buy;
+                }
+                if ($record->min_sell > $record->sell)
+                {
+                    $record->min_sell = $record->sell;
+                }
+                if ($record->max_sell < $record->sell)
+                {
+                    $record->max_sell = $record->sell;
+                }
                 $record->buy = $buy;
                 $record->sell = $sell;
                 $record->save();
@@ -76,6 +92,10 @@ class GoldDaily extends Model
             $record->type = $type;
             $record->buy = $buy;
             $record->sell = $sell;
+            $record->min_buy = $buy;
+            $record->max_buy = $buy;
+            $record->min_sell = $sell;
+            $record->max_sell = $sell;
 
             $record->save();
         }

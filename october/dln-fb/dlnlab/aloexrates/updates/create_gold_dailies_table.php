@@ -16,8 +16,10 @@ class CreateGoldDailiesTable extends Migration
             $table->integer('currency_id')->nullable();
             $table->float('buy')->default(0);
             $table->float('sell')->default(0);
-            $table->float('min')->default(0);
-            $table->float('max')->default(0);
+            $table->float('min_buy')->default(0);
+            $table->float('max_buy')->default(0);
+            $table->float('min_sell')->default(0);
+            $table->float('max_sell')->default(0);
             $table->timestamps();
         });
     }
