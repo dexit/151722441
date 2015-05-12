@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('AppCtrl', function ($rootScope, $scope, $cordovaToast, Device) {
+  .controller('AppCtrl', function ($rootScope, $scope, $cordovaToast, $ionicLoading, Device) {
 
     // Set default disable overflow scrolling for ionic content.
     $rootScope.overflowScrolling = false;
@@ -48,6 +48,28 @@ angular.module('aloPricesApp')
       } else {
         alert(message);
       }
+    };
+
+    /**
+     * Global function for show loading indicator.
+     *
+     * @return void
+     */
+    $rootScope.showLoading = function () {
+      $ionicLoading.show({
+        noBackdrop: true,
+        template: '<p class="item-icon-left">Loading stuff...<ion-spinner icon="lines"></ion-spinner></p>'
+      });
+
+    };
+
+    /**
+     * Global function for hide loading indicator.
+     *
+     * @return void
+     */
+    $rootScope.hideLoading = function () {
+      $ionicLoading.hide();
     };
 
   });

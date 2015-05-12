@@ -80,6 +80,18 @@ class Currency extends Model
         {
             switch ($type)
             {
+                case 'VCB':
+                    $records = BankDaily::whereIn('currency_id', $currencyIds)
+                        ->orderBy('updated_at', 'DESC')
+                        ->get();
+
+                    // Get minus values.
+                    $cdIds = $records->lists('id');
+                    $beforeRecords = BankDaily::whereIn('currency_id', $currencyIds)
+                        ->whereNotIn('id', $cdIds)
+                        ->orderBy('updated_at', 'DESC')
+                        ->get();
+                    break;
                 case 'CURRENCY':
                     $records = CurrencyDaily::whereIn('currency_id', $currencyIds)
                     ->orderBy('updated_at', 'DESC')

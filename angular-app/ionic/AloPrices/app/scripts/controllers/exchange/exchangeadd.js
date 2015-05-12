@@ -8,10 +8,18 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('ExchangeExchangeaddCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('ExchangeExchangeaddCtrl', function ($scope, Currency, appGlobal) {
+
+    $scope.listCurrencies = [];
+    $scope.listGolds      = [];
+
+    $scope.init = function () {
+      console.log(appGlobal);
+      // Get currencies listing.
+      Currency.getListCurrency('CURRENCY,VCB', function (data) {
+
+      });
+    };
+    $scope.init();
+
   });

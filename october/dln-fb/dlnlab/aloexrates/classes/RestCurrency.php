@@ -26,8 +26,7 @@ class RestCurrency extends BaseController
         
         // Validator get params.
         $valids = Validator::make($data, [
-            'page' => 'required|numeric',
-            'type' => 'required_if,type,CURRENCY,GOLD'
+            'types' => 'required'
         ], EXRHelper::getMessage());
         
         // Response error message if not valids
@@ -37,17 +36,18 @@ class RestCurrency extends BaseController
         }
         
         extract($data);
+
+        $types = explode(',', $types);
         
-        $page  = intval($page);
+        /*$page  = intval($page);
         $limit = EXR_PAGINATE;
-        $skip  = $page * $limit;
+        $skip  = $page * $limit;*/
         
         // Get list currency ids
         $records = Currency::where('status', true)
-            ->whereRaw('status = ? AND type = ?', array(true, $type))
-            ->skip($skip)
-            ->take($limit)
-            ->get();
+            ->whereRaw('status = ?', array(true))
+            ->whereIn('type', $types)
+            ->get(array('id', 'code', 'type', 'name', 'flag', 'created_at', 'updated_at'));
         
         return Response::json(array('status' => 'success', 'data' => $records));
     }
@@ -63,9 +63,10 @@ class RestCurrency extends BaseController
         
         // Validator get params.
         $valids = Validator::make($data, [
-            'type' => 'required_if,type,CURRENCY,GOLD,CURRENCY|BANK',
-            'currency_ids' => 'required|array',
-            'week' => 'required|numeric|min:1|max:4'
+            //'type' => 'required_if,type,CURRENCY,GOLD,CURRENCY|BANK',
+            'type' => 'required',
+            'currency_ids' => 'required',
+            'week' => 'numeric|min:1|max:4'
         ], EXRHelper::getMessage());
         
         // Response error message if not valids
@@ -75,7 +76,9 @@ class RestCurrency extends BaseController
         }
         
         extract($data);
-        
+
+        $currency_ids = explode(',', $currency_ids);
+
         // Valids currency ids array
         $newCurrencyIds = array();
         foreach ($currency_ids as $id) 
@@ -88,7 +91,7 @@ class RestCurrency extends BaseController
         }
         
         // Get currencies details.
-        $newCurrencyIds = Currency::getCurrenciesDetails($newCurrencyIds, $type);
+        $newRecords = Currency::getCurrenciesDetails($newCurrencyIds, $type);
         
         return Response::json(array('status' => 'success', 'data' => $newRecords));
     }

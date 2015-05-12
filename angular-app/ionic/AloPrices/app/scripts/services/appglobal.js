@@ -8,7 +8,7 @@
  * Service in the aloPricesApp.
  */
 angular.module('aloPricesApp')
-  .service('appGlobal', function () {
-    host: 'http://home.vivufb.com/api/v1';
-    exrUid: 'storage_uid';
+  .constant('appGlobal', {
+    host: 'http://home.vivufb.com/api/v1',
+    exrUid: 'storage_uid'
   });

@@ -37,8 +37,8 @@ angular.module('aloPricesApp')
       },
 
       exchange_add: {
-        external: 'Ngoại tệ',
-        internal: 'Trong nước'
+        exchange_rates: 'Tỷ giá',
+        golds: 'Vàng'
       }
     };
 
