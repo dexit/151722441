@@ -279,15 +279,14 @@ class RestCrawl extends BaseController
         
         // Get list currency ids.
         $records = Currency::whereIn('code', $cCodes)->get();
-        $listIds = $records->lists('id', 'code');
         
-        if (count($listIds))
+        if (count($records))
         {
             // Get currency type
             $currencyIds = [];
             $goldIds     = [];
             
-            foreach ( $listIds as $item )
+            foreach ( $records as $item )
             {
                 if ($item->code == 'GOLD')
                 {

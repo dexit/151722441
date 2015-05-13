@@ -35,7 +35,7 @@ class RestContact extends BaseController
             'category_id' => 'required|numeric|min:1',
             'lat' => 'required|regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/',
             'lng' => 'required|regex:/^[+-]?\d+\.\d+, ?[+-]?\d+\.\d+$/'
-        ], SNSContactHelper::getMessages());
+        ], SNSContactsHelper::getMessage());
         
         // Check exists error messages
         if ($valids->fails()) {
@@ -56,6 +56,71 @@ class RestContact extends BaseController
         $fulltext = SNSContactsHelper::buildFullTextSearch($fulltexts);
         
         return array();
+    }
+    
+    /**
+     * Api functin for listing contacts.
+     * 
+     * @return Response
+     */
+    public function getContacts()
+    {
+        $data = get();
+        
+        // Validator get params.
+        $valids = Validator::make($data, [
+            'page' => 'numeric',
+            'order' => 'alpha'
+        ], SNSContactsHelper::getMessage());
+        
+        // Check exists error message.
+        if ($valids->fails()) {
+            return Response::json(array('status' => 'error', 'data' => $valids->messages()), 500);
+        }
+        
+        extract($data);
+        
+        // Set default params.
+        $page = (isset($page)) ? $page : 0;
+        $order = (isset($order)) ? $order : 'all';
+        
+        // For paging
+        $limit = SNSC_PAGINATE;
+        $skip  = $page * $limit;
+        
+        $records = Contact::whereRaw('status = ?', array(true))
+            ->take($limit)
+            ->skip($skip);
+        
+        return Response::json(array('status' => 'success', 'data' => $records->get()));
+    }
+    
+    /**
+     * Api function for get contact detail.
+     * 
+     * @param number $id
+     * @return Response
+     */
+    public function getContactDetail($id = 0)
+    {
+        // Validator contact id.
+        $valids = Validator::make([
+            'id' => $id
+        ], [
+            'id' => 'required|min:1'
+        ], SNSContactsHelper::getMessage());
+        
+        // Check validator
+        if ($valids->fails())
+        {
+            return Response::json(array('status' => 'error', 'data' => $valids->messages()), 500);            
+        }
+        
+        // Get contact detail
+        $record = Contact::whereRaw('id = ? AND status = ?', array($id, true))
+            ->get();
+        
+        return Response::json(array('status' => 'success', 'data' => $record));
     }
     
 }

@@ -68,8 +68,9 @@ angular.module('aloPricesApp', [
       }
     });
 
-}).run(function ($ionicPlatform, Device) {
+}).run(function ($ionicPlatform, $cordovaDevice, Device) {
 
+  /* On ionic read platform */
   $ionicPlatform.ready(function () {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -81,8 +82,4 @@ angular.module('aloPricesApp', [
     }
   });
 
-  document.addEventListener('deviceready', function () {
-    // Register device id and get uid.
-    Device.registerDevice();
-  }, false);
 });

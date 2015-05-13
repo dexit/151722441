@@ -12,4 +12,6 @@ App::before(function ($request) {
     Route::get($api_path . '/user/{user_id}', $api_class . '\RestUser@getUser');
     Route::post($api_path . '/user', $api_class . '\RestUser@postUser');
     Route::post($api_path . '/contact', $api_class . '\RestContact@postContact');
+    Route::get($api_path . '/contact', $api_class . '\RestContact@getContacts');
+    Route::get($api_path . '/contact/{id}', $api_class . '\RestContact@getContactDetail');
 });

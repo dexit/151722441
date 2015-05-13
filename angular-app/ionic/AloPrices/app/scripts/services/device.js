@@ -8,47 +8,70 @@
  * Factory in the aloPricesApp.
  */
 angular.module('aloPricesApp')
-  .factory('Device', function ($http, $translate, $cordovaDevice, appGlobal, localStorageService) {
+  .factory('Device', function ($rootScope, $http, $translate, $cordovaDevice, appGlobal, localStorageService) {
     var service = {};
-    var deviceId = '';
 
     /**
-     * Function to get device_id.
+     * Return current user id.
      *
-     * @return string deviceId
+     * @returns integer
      */
-    service.getDeviceId = function () {
-      return $cordovaDevice.getUUID();
+    service.getUserId = function () {
+      if (localStorageService.isSupported && localStorageService.get(appGlobal.exrUid)){
+        return localStorageService.get(appGlobal.exrUid);
+      }
     };
 
     /**
      * Function to register device and get uid.
      *
-     * @return integer uid
+     * @return integer profileId
      */
-    service.registerDevice = function () {
+    service.getProfileId = function () {
       var self = this;
 
+      // Get device id
+      var uuid = $cordovaDevice.getUUID();
+      uuid = 1;
+
+      if (! uuid) {
+        return false;
+      }
+
+      // Return user id if exists in local storage.
+      if (self.getUserId()) {
+        return self.getUserId();
+      }
+
       var url = appGlobal.host + '/devices';
-console.log(self.getDeviceId());
+
+      // Show loading
+      $rootScope.showLoading();
+
+      // Send request for register device.
       $http({
         url: url,
         method: 'POST',
         params: {
-          device_id: self.getDeviceId()
+          device_id: uuid
         }
-      }).success(function (data, status) {
+      }).success(function (resp, status) {
+
+        // Hide loading
+        $rootScope.hideLoading();
 
         // Save uid to storage.
-        if (localStorageService.isSupported && data.id) {
+        if (localStorageService.isSupported && resp.data.id) {
           localStorageService.set(appGlobal.exrUid, data.id);
         }
-        console.log(localStorageService.get(appGlobal.exrUid));
 
       }).error(function (data, status) {
+
+        // Hide loading
+        $rootScope.hideLoading();
         console.log(data);
-        console.log($translate('message.error_get_device'));
         alert($translate('message.error_get_device'))
+
       });
     };
 

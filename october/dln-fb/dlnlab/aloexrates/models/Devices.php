@@ -39,10 +39,10 @@ class Devices extends Model
     /**
      * Static function for add new device id.
      *
-     * @param string $device_id
-     * @return Devices
+     * @param integer $device_id
+     * @return object
      */
-    public static function addDevice($device_id = '')
+    public static function addDevice($device_id = 0)
     {
         if (empty($device_id)) {
             return false;

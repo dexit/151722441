@@ -36,6 +36,7 @@ class RestDevices extends BaseController
             return Response::json(array('status' => 'Error', $valids->messages()));
         }
 
+        // Get device object
         $result = Devices::addDevice($data['device_id']);
 
         return Response::json(array('status' => 'Success', $result));

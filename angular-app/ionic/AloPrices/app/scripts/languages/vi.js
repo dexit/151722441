@@ -27,7 +27,8 @@ angular.module('aloPricesApp')
       },
 
       message: {
-        error_get_device: 'Không thể đăng ký thiết bị!'
+        error_get_device: 'Không thể đăng ký thiết bị!',
+        error_get_currency_detail: 'Không thể lấy danh sách tỷ giá!'
       },
 
       home: {
