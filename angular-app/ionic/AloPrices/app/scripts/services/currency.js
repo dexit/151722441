@@ -29,6 +29,9 @@ angular.module('aloPricesApp')
         method: 'GET'
       }).success(function (resp, status) {
 
+        // Hide loading
+        $rootScope.hideLoading();
+
         if (resp.data) {
           $next(resp.data);
         }

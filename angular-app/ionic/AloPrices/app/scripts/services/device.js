@@ -32,7 +32,6 @@ angular.module('aloPricesApp')
 
       // Get device id
       var uuid = $cordovaDevice.getUUID();
-      uuid = 1;
 
       if (! uuid) {
         return false;

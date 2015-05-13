@@ -8,7 +8,8 @@ angular.module('aloPricesApp')
     /* Translator locale object */
     var translator = {
       common: {
-        save: 'Lưu'
+        save: 'Lưu',
+        loading: 'Đang tải...'
       },
 
       header: {

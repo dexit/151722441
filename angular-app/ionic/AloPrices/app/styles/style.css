@@ -1,1 +1,15 @@
 /* Empty. Add your own CSS if you like */
+.loading-container .item-icon-left {
+  line-height: 24px;
+  margin: 0;
+  position: relative;
+  padding-left: 40px;
+}
+
+.loading-container .item-icon-left .spinner {
+  position: absolute;
+  fill: #fff;
+  stroke: #fff;
+  left: 0;
+  top: 0;
+}

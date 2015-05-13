@@ -11,7 +11,7 @@ angular.module('aloPricesApp')
   .controller('ExchangeExchangeaddCtrl', function ($scope, Currency, appGlobal) {
 
     $scope.items = [];
-    $scope.types = ['CURRENCY', 'GOLD'];
+    $scope.type  = ['CURRENCY'];
 
     /**
      * Prepare items for view.
@@ -34,16 +34,31 @@ angular.module('aloPricesApp')
         return false;
       }
 
-      if ($scope.types.indexOf(type)) {
-        $scope.types.splice(type, 1);
-      } else {
-        $scope.types.push(type);
-      }
-
-      var types = $scope.types;
-
+      $scope.type = type;
+      var types = $scope.type;
       // Save type to local storage
       Currency.saveTypes(types);
+
+      // Listing currencies
+      Currency.getListCurrency(types, $scope.prepareItems);
+    };
+
+    /**
+     * Initialize events
+     *
+     * @return void
+     */
+    $scope.init = function () {
+
+      // Toggle tabs.
+      var tabSelector = '.tabs .tab-item';
+      $(tabSelector).on('click', function (e) {
+        e.preventDefault();
+
+        $(tabSelector).removeClass('active');
+        $(this).addClass('active');
+      });
+
     };
 
     /**
@@ -53,11 +68,14 @@ angular.module('aloPricesApp')
      */
     $scope.$on('$ionicView.enter', function (e, args) {
 
+      // Init events.
+      $scope.init();
+
       // Get types
       var types = $scope.types;
 
       // Check types saved in cache
-      types = (Currency.getSavedTypes().length) ? Currency.getSavedTypes() : types;
+      types = (Currency.getSavedTypes()) ? Currency.getSavedTypes() : types;
 
       // Listing currencies
       Currency.getListCurrency(types, $scope.prepareItems);

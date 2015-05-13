@@ -8,20 +8,12 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('HomeCtrl', function ($rootScope, $scope, Device) {
+  .controller('HomeCtrl', function ($rootScope, $scope, Device, Currency) {
     $scope.allowSwipe = true;
+    $scope.types = ['VCB', 'GOLD'];
 
     // Create sample data for items
-    $scope.items = [
-      {id: 1, name: 'Test 1', price: 125, suffix: '(+12)'},
-      {id: 1, name: 'Test 1', price: 125, suffix: '(+12)'},
-      {id: 1, name: 'Test 1', price: 125, suffix: '(+12)'},
-      {id: 1, name: 'Test 1', price: 125, suffix: '(+12)'},
-      {id: 1, name: 'Test 1', price: 125, suffix: '(+12)'},
-      {id: 1, name: 'Test 1', price: 125, suffix: '(+12)'},
-      {id: 1, name: 'Test 1', price: 125, suffix: '(+12)'},
-      {id: 1, name: 'Test 1', price: 125, suffix: '(+12)'},
-    ];
+    $scope.items = [];
 
     /**
      * Perform share currency to SNS.
@@ -41,8 +33,6 @@ angular.module('aloPricesApp')
      */
     $scope.prepareItems = function (items) {
       $scope.items = items;
-
-
     };
 
     /**
@@ -53,15 +43,18 @@ angular.module('aloPricesApp')
      * @return void
      */
     $scope.$on('$ionicView.enter', function (e, args) {
-      console.log(e, args);
-
       // Get profile id.
-      Device.getProfileId();
+      try {
+        Device.getProfileId();
+      } catch (err) {
+        console.log("Error: " + err.message);
+      }
 
-      var types = 'CURRENCY,GOLD';
+      var types = $scope.types;
+      types = types.join(',');
+
       // Loading exchange rates
       Currency.getListCurrencyDetail(types, $scope.prepareItems);
-
     });
 
   });
