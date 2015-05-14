@@ -1,15 +1,14 @@
 .flag-wrapper {
   height: 100%;
-  left: -72px;
   position: relative;
   top: 0;
-  width: 72px;
 }
 
 .flag-wrapper .flag {
-  height: 40px;
-  width: 40px;
-  position: absolute;
-  left: 50%;
-  margin-left: -20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 25px;
+  position: relative;
+  right: -33px;
+  width: 33px;
 }
