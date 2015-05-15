@@ -14,12 +14,12 @@ angular.module('aloPricesApp')
     /**
      * Function to get currency listing
      *
-     * @param string types
+     * @param string checkedIds
      * @param callback $next
      * @return objects
      */
-    service.getListCurrencyDetail = function (types, $next) {
-      var url = appGlobal.host + '/currencies?types=' + types
+    service.getListCurrencyDetail = function (checkedIds, $next) {
+      var url = appGlobal.host + '/currencies/detail?currency_ids=' + checkedIds
 
       // Show loading.
       $rootScope.showLoading();
@@ -139,32 +139,69 @@ angular.module('aloPricesApp')
     };
 
     /**
-     * Function for get saved types from local storage.
+     * Function for get checked currencies from local storage.
      *
-     * @returns array
+     * @returns {*}
      */
-    service.getSavedTypes = function () {
-      if (localStorageService.isSupported && localStorageService.get(appGlobal.exrSavedTypes)){
-        return localStorageService.get(appGlobal.exrSavedTypes);
+    service.getSavedCheckedCurrency = function (checked) {
+      if (localStorageService.isSupported && localStorageService.get(appGlobal.exrSavedCheckedCurrency)) {
+        return localStorageService.get(appGlobal.exrSavedCheckedCurrency)
+      } else {
+        return checked;
       }
     };
 
     /**
-     * Function for save type to local storage.
+     * Function for save checked currency ids to local storage.
      *
-     * @param types
-     * @returns {boolean}
+     * @param checkedIds
+     * @return void
      */
-    service.saveTypes = function (types) {
-      if (! types.length) {
+    service.saveCheckedCurrency = function (checkedIds) {
+      if (localStorageService.isSupported) {
+        localStorageService.set(appGlobal.exrSavedCheckedCurrency, checkedIds);
+      }
+    };
+
+    /**
+     * Function for get detail currency.
+     *
+     * @param currencyId integer
+     * @param $next callback
+     * @return objects
+     */
+    service.getDetail = function (currencyId, $next) {
+      currencyId = parseInt(currencyId);
+
+      if (! currencyId) {
         return false;
       }
 
-      if (localStorageService.isSupported) {
-        localStorageService.set(appGlobal.exrSavedTypes, types);
-      }
+      // Show loading
+      $rootScope.showLoading();
 
-      return true;
+      var url = appGlobal.host + '/currency/' + currencyId;
+
+      $http({
+        url: url,
+        method: 'GET',
+        params: {}
+      }).success(function (resp, status) {
+        // Hide loading
+        $rootScope.hideLoading();
+
+        if (resp.data) {
+          $next(resp.data);
+        }
+      }).error(function (resp, status) {
+        // Hide loading
+        $rootScope.hideLoading();
+
+        // Show log
+        console.log(resp, status);
+        alert(resp.data[0]);
+      });
+
     };
 
     return service;

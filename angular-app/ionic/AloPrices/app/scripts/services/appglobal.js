@@ -12,5 +12,6 @@ angular.module('aloPricesApp')
     host: 'http://home.vivufb.com/api/v1',
     exrUid: 'storage_uid',
     exrSavedTypes: 'exr_saved_types',
-    exrSavedCurrencies: 'exr_saved_currencies'
+    exrSavedCurrencies: 'exr_saved_currencies',
+    exrSavedCheckedCurrency: 'exr_saved_currencies_checked'
   });

@@ -10,10 +10,8 @@
 angular.module('aloPricesApp')
   .controller('HomeCtrl', function ($rootScope, $scope, Device, Currency) {
     $scope.allowSwipe = true;
-    $scope.types = ['VCB', 'GOLD'];
-
-    // Create sample data for items
     $scope.items = [];
+    var checkedCurrency = [];
 
     /**
      * Perform share currency to SNS.
@@ -50,11 +48,11 @@ angular.module('aloPricesApp')
         console.log("Error: " + err.message);
       }
 
-      var types = $scope.types;
-      types = types.join(',');
+      // Load checked currency ids.
+      checkedCurrency = Currency.getSavedCheckedCurrency(checkedCurrency).join(',');
 
       // Loading exchange rates
-      Currency.getListCurrencyDetail(types, $scope.prepareItems);
+      Currency.getListCurrencyDetail(checkedCurrency, $scope.prepareItems);
     });
 
   });

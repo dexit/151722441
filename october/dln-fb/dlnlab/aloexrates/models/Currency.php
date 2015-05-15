@@ -44,7 +44,7 @@ class Currency extends Model
      * @param string $type
      * @return boolean|objects
      */
-    public static function getCurrenciesByCodes($codes = array(), $type = '') {
+	public static function getCurrenciesByCodes($codes = array(), $type = '') {
         if (! count($codes) || ! $type) {
             return false;
         }
@@ -61,7 +61,7 @@ class Currency extends Model
      * @param string $type
      * @return boolean|Ambigous <NULL, mixed, unknown>
      */
-    public static function getCurrenciesDetails($currencyIds = array(), $type = '')
+    public static function getCurrenciesDetails($currencyIds = array())
     {
         if (! count($currencyIds))
         {
@@ -69,81 +69,77 @@ class Currency extends Model
         }
         
         // Create cache id
-        $cacheId = implode('_', $currencyIds) . '_' . $type;
+        $cacheBank     = 'exr_bank';
+        $cacheCurrency = 'exr_currency';
+        $cacheGold     = 'exr_gold';
         
-        $newRecords = null;
-        if (Cache::has($cacheId))
+        // For banks
+        if (Cache::has($cacheBank)) 
         {
-            $newRecords = json_decode(Cache::get($cacheId, null));
+            $banks = json_decode(Cache::get($cacheBank));
         }
         else
         {
-            switch ($type)
+            $banks = BankDaily::whereRaw('status = ? AND created_at < NOW() - INTERVAL ? DAY', array(true, 1))
+                ->orderBy('created_at', 'DESC')
+                ->get()
+                ->toArray();
+            
+            if (count($banks))
             {
-                case 'VCB':
-                    $records = BankDaily::whereIn('currency_id', $currencyIds)
-                        ->orderBy('updated_at', 'DESC')
-                        ->get();
-
-                    // Get minus values.
-                    $cdIds = $records->lists('id');
-                    $beforeRecords = BankDaily::whereIn('currency_id', $currencyIds)
-                        ->whereNotIn('id', $cdIds)
-                        ->orderBy('updated_at', 'DESC')
-                        ->get();
-                    break;
-                case 'CURRENCY':
-                    $records = CurrencyDaily::whereIn('currency_id', $currencyIds)
-                    ->orderBy('updated_at', 'DESC')
-                    ->get();
-
-                    // Get minus values.
-                    $cdIds = $records->lists('id');
-                    $beforeRecords = CurrencyDaily::whereIn('currency_id', $currencyIds)
-                    ->whereNotIn('id', $cdIds)
-                    ->orderBy('updated_at', 'DESC')
-                    ->get();
-                    break;
-                case 'GOLD':
-                    $records = GoldDaily::whereIn('currency_id', $currencyIds)
-                    ->orderBy('updated_at', 'DESC')
-                    ->get();
-                    
-                    // Get minus values.
-                    $cdIds = $records->lists('id');
-                    $beforeRecords = GoldDaily::whereIn('currency_id', $currencyIds)
-                    ->whereNotIn('id', $cdIds)
-                    ->orderBy('updated_at', 'DESC')
-                    ->get();
-                    break;
+                Cache::put($cacheBank, json_encode($banks), EXR_CACHE_MINUTE);
             }
+        }
         
-            if (count($records))
+        // For currencies
+        if (Cache::has($cacheCurrency))
+        {
+            $currencies = json_decode(Cache::get($cacheCurrency));
+        }
+        else
+        {
+            $currencies = CurrencyDaily::whereRaw('status = ? AND created_at < NOW() - INTERVAL ? DAY', array(true, 1))
+                ->orderBy('created_at', 'DESC')
+                ->get()
+                ->toArray();
+        
+            if (count($currencies))
             {
-                foreach ($records as $item)
+                Cache::put($cacheCurrency, json_encode($currencies), EXR_CACHE_MINUTE);
+            }
+        }
+        
+        // For golds.
+        if (Cache::has($cacheGold))
+        {
+            $golds = json_decode(Cache::get($cacheGold));
+        }
+        else
+        {
+            $golds = GoldDaily::whereRaw('status = ? AND created_at < NOW() - INTERVAL ? DAY', array(true, 1))
+                ->orderBy('created_at', 'DESC')
+                ->get()
+                ->toArray();
+        
+            if (count($golds))
+            {
+                Cache::put($cacheGold, json_encode($golds), EXR_CACHE_MINUTE);
+            }
+        }
+        
+        $newRecords = array();
+        
+        $sources = [$banks, $currencies, $golds];
+        
+        foreach ($sources as $items)
+        {
+            foreach ($items as $item)
+            {
+                if (in_array($item->currency_id, $currencyIds))
                 {
-                    $newRecord = $item;
-                    if (count($beforeRecords))
-                    {
-                        foreach ($beforeRecords as $_item)
-                        {
-                            if ($_item->currency_id == $item->currency_id)
-                            {
-                                $newRecord->before_currency = $_item;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        $newRecord->before_currency = null;
-                    }
-                    $newRecords[] = $newRecord;
+                    $newRecords[] = $item;
+                    unset($currencyIds[$item->currency_id]);
                 }
-            }
-        
-            if (count($newRecords))
-            {
-                Cache::put($cacheId, json_encode($newRecords), EXR_CACHE_MINUTE);
             }
         }
         

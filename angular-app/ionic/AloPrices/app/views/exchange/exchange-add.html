@@ -2,7 +2,7 @@
 
   <!-- BEGIN Navbar -->
   <ion-nav-buttons side="right">
-    <a class="button button-icon button-clear" href="javascript:void(0)">{{ 'common.save' | translate }}</a>
+    <a class="button button-icon button-clear" href="javascript:void(0)" ng-click="onClickSaveCurrency()"><i class="fa fa-save"></i> {{ 'common.save' | translate }}</a>
   </ion-nav-buttons>
   <!-- END Navbar -->
 
@@ -26,28 +26,34 @@
     <div class="bar bar-header item-input-inset">
       <label class="item-input-wrapper">
         <i class="icon ion-ios-search placeholder-icon"></i>
-        <input type="search" placeholder="Search">
+        <input type="search" placeholder="{{ 'common.search' | translate }}" ng-model="query">
       </label>
       <button class="button button-clear">
-        Cancel
+        {{ 'common.cancel' | translate }}
       </button>
     </div>
     <!--END search -->
 
-    <ul>
-      <li class="animate-repeat" class="item item-divider" ng-repeat="item in items">
-        {{ 'home.exchange' | translate }}
-      </li>
-      <li class="animate-repeat" class="item item-checkbox item-icon-right">
+    <div class="list">
+
+      <div class="animate-repeat" class="item item-divider" ng-repeat-start="(code, lists) in items">
+        {{ 'home.exchange.' + code | translate }}
+      </div>
+
+      <div class="animate-repeat" class="item item-checkbox item-icon-right" ng-repeat="item in lists">
         <label class="checkbox">
-          <input type="checkbox">
+          <input type="checkbox" ng-model="checkedCurrency[item.id]">
         </label>
         <div class="flag-wrapper pull-right">
           <div class="img-thumbnail flag flag-icon-background flag-icon-us {{ item.flag }}"></div>
         </div>
+        ({{ item.code }})
         {{ item.name }}
-      </li>
-    </ul>
+      </div>
+
+      <div ng-repeat-end=""></div>
+
+    </div>
 
   </ion-content>
   <!-- END list -->

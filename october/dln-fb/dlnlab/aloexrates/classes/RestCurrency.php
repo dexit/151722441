@@ -47,6 +47,7 @@ class RestCurrency extends BaseController
         $records = Currency::where('status', true)
             ->whereRaw('status = ?', array(true))
             ->whereIn('type', $types)
+            ->orderBy('name', 'DESC')
             ->get(array('id', 'code', 'type', 'name', 'flag', 'created_at', 'updated_at'));
         
         return Response::json(array('status' => 'success', 'data' => $records));
@@ -64,7 +65,6 @@ class RestCurrency extends BaseController
         // Validator get params.
         $valids = Validator::make($data, [
             //'type' => 'required_if,type,CURRENCY,GOLD,CURRENCY|BANK',
-            'type' => 'required',
             'currency_ids' => 'required',
             'week' => 'numeric|min:1|max:4'
         ], EXRHelper::getMessage());
@@ -91,7 +91,7 @@ class RestCurrency extends BaseController
         }
         
         // Get currencies details.
-        $newRecords = Currency::getCurrenciesDetails($newCurrencyIds, $type);
+        $newRecords = Currency::getCurrenciesDetails($newCurrencyIds);
         
         return Response::json(array('status' => 'success', 'data' => $newRecords));
     }

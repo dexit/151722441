@@ -64,41 +64,52 @@ class BankDaily extends Model
             return false;
         }
         
-        $record = self::whereRaw('currency_id = ? AND type = ? AND DATE(created_at) = CURDATE()', array($cId, $type))->first();
-        if ($record) {
+        $records = self::whereRaw('currency_id = ? AND type = ? AND created_at < NOW() - INTERVAL ? DAY', array($cId, $type, 1))
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        
+        $beforeRecord = $records[0];
+        
+        if (count($records) == 2) {
+            $record = $records[0];
             if ($record->buy != $buy || $record->transfer != $transfer || $record->sell != $sell) {
-                if ($record->min_buy > $record->buy)
+                if ($record->min_buy > $buy)
                 {
-                    $record->min_buy = $record->buy;
+                    $record->min_buy = $buy;
                 }
-                if ($record->max_buy < $record->buy)
+                if ($record->max_buy < $buy)
                 {
-                    $record->max_buy = $record->buy;
+                    $record->max_buy = $buy;
                 }
-                if ($record->min_sell > $record->sell)
+                if ($record->min_sell > $sell)
                 {
-                    $record->min_sell = $record->sell;
+                    $record->min_sell = $sell;
                 }
-                if ($record->max_sell < $record->sell)
+                if ($record->max_sell < $sell)
                 {
-                    $record->max_sell = $record->sell;
+                    $record->max_sell = $sell;
                 }
-                $record->buy = $buy;
-                $record->transfer = $transfer;
-                $record->sell = $sell;
+                $record->buy         = $buy;
+                $record->transfer    = $transfer;
+                $record->sell        = $sell;
+                $record->buy_change  = $buy - $beforeRecord->buy;
+                $record->sell_change = $sell - $beforeRecord->sell;
+                
                 $record->save();
             }
         } else {
             $record = new self;
             $record->currency_id = $cId;
-            $record->type = $type;
-            $record->buy = $buy;
-            $record->transfer = $transfer;
-            $record->sell = $sell;
-            $record->min_buy = $buy;
-            $record->max_buy = $buy;
-            $record->min_sell = $sell;
-            $record->max_sell = $sell;
+            $record->type        = $type;
+            $record->buy         = $buy;
+            $record->transfer    = $transfer;
+            $record->sell        = $sell;
+            $record->min_buy     = $buy;
+            $record->max_buy     = $buy;
+            $record->min_sell    = $sell;
+            $record->max_sell    = $sell;
+            $record->buy_change  = $buy - $beforeRecord->buy;
+            $record->sell_change = $sell - $beforeRecord->sell;
             
             $record->save();
         }

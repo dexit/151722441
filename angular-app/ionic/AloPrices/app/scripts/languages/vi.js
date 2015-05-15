@@ -9,7 +9,9 @@ angular.module('aloPricesApp')
     var translator = {
       common: {
         save: 'Lưu',
-        loading: 'Đang tải...'
+        loading: 'Đang tải...',
+        search: 'Tìm kiếm',
+        cancel: 'Huỷ'
       },
 
       header: {
@@ -34,7 +36,12 @@ angular.module('aloPricesApp')
 
       home: {
         share: 'Chia sẻ',
-        exchange: 'Tỷ giá',
+        exchange: {
+          CURRENCY: 'Ngoại tệ',
+          VCB: 'Ngoại tệ Vietcombank',
+          GOLD: 'Vàng',
+          SJC: 'Vàng SJC'
+        },
         chart: 'Lược đồ'
       },
 
