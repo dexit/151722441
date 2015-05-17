@@ -121,28 +121,30 @@ class RestCrawl extends BaseController
                         return false;
                     }
                     
-                    $doc = new \DOMDocument();
-                    @$doc->loadXML($content);
-                    $xpath = new \DOMXpath($doc);
-                    
-                    $items = $xpath->query('//Exrate');
+                    $doc = new \Domdocument();
+                    @$doc->loadxml($content);
+                    $xpath = new \Domxpath($doc);
+
+                    $items = $xpath->query('//exrate');
                     $codes = array();
                     foreach ($items as $item) {
-                        $codes[] = $item->getAttribute('CurrencyCode');
+                        $codes[] = $item->getattribute('currencycode');
                     }
-                    
-                    // Get currency by ids
-                    $currencies = Currency::getCurrenciesByCodes($codes, $type);
-                    
-                    // Get exchange rates over bank api.
+
+                    var_dump($codes);die();
+
+                    // get currency by ids
+                    $currencies = currency::getcurrenciesbycodes($codes, $type);
+
+                    // get exchange rates over bank api.
                     foreach ($currencies as $currency) {
-                        $item = $xpath->query('//Exrate[@CurrencyCode="' . $currency->code . '"]')->item(0);
-                        $currencyId = $currency->id;
-                        $buy = $item->getAttribute('Buy');
-                        $transfer = $item->getAttribute('Transfer');
-                        $sell = $item->getAttribute('Sell');
-                        
-                        BankDaily::updateExratesDaily($currencyId, $buy, $transfer, $sell, $type);
+                        $item = $xpath->query('//exrate[@currencycode="' . $currency->code . '"]')->item(0);
+                        $currencyid = $currency->id;
+                        $buy = $item->getattribute('buy');
+                        $transfer = $item->getattribute('transfer');
+                        $sell = $item->getattribute('sell');
+
+                        bankdaily::updateexratesdaily($currencyid, $buy, $transfer, $sell, $type);
                     }
                     
                     break;

@@ -74,13 +74,13 @@ class Currency extends Model
         $cacheGold     = 'exr_gold';
         
         // For banks
-        if (Cache::has($cacheBank)) 
+        if (! Cache::has($cacheBank))
         {
             $banks = json_decode(Cache::get($cacheBank));
         }
         else
         {
-            $banks = BankDaily::whereRaw('status = ? AND created_at < NOW() - INTERVAL ? DAY', array(true, 1))
+            $banks = BankDaily::whereRaw('created_at > NOW() - INTERVAL ? DAY', array(1))
                 ->orderBy('created_at', 'DESC')
                 ->get()
                 ->toArray();
@@ -98,7 +98,7 @@ class Currency extends Model
         }
         else
         {
-            $currencies = CurrencyDaily::whereRaw('status = ? AND created_at < NOW() - INTERVAL ? DAY', array(true, 1))
+            $currencies = CurrencyDaily::whereRaw('created_at > NOW() - INTERVAL ? DAY', array(1))
                 ->orderBy('created_at', 'DESC')
                 ->get()
                 ->toArray();
@@ -116,7 +116,7 @@ class Currency extends Model
         }
         else
         {
-            $golds = GoldDaily::whereRaw('status = ? AND created_at < NOW() - INTERVAL ? DAY', array(true, 1))
+            $golds = GoldDaily::whereRaw('created_at > NOW() - INTERVAL ? DAY', array(1))
                 ->orderBy('created_at', 'DESC')
                 ->get()
                 ->toArray();
@@ -130,6 +130,7 @@ class Currency extends Model
         $newRecords = array();
         
         $sources = [$banks, $currencies, $golds];
+        var_dump($sources);die();
         
         foreach ($sources as $items)
         {

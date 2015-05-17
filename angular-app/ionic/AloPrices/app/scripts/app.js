@@ -45,7 +45,7 @@ angular.module('aloPricesApp', [
       views: {
         'home-tab': {
           templateUrl: 'views/exchange/exchange-add.html',
-          controller: 'ExchangeExchangeaddCtrl'
+          controller: 'ExchangeAddCtrl'
         }
       }
     })

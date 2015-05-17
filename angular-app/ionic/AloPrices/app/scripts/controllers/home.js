@@ -49,7 +49,9 @@ angular.module('aloPricesApp')
       }
 
       // Load checked currency ids.
-      checkedCurrency = Currency.getSavedCheckedCurrency(checkedCurrency).join(',');
+      checkedCurrency = Currency.getSavedCheckedCurrency(checkedCurrency);
+      checkedCurrency = checkedCurrency.join(',');
+      console.log(checkedCurrency);
 
       // Loading exchange rates
       Currency.getListCurrencyDetail(checkedCurrency, $scope.prepareItems);

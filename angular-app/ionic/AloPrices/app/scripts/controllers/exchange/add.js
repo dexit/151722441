@@ -55,6 +55,7 @@ angular.module('aloPricesApp')
      * @returns {boolean}
      */
     $scope.filterForItems = function (item) {
+      console.log($scope.query);
       var query = $scope.query;
       if (query && (item.name.indexOf(query) >= 0 || item.code.indexOf(query) >= 0)) {
         return true;
@@ -81,9 +82,17 @@ angular.module('aloPricesApp')
     /**
      * Save currency checked to local storage.
      *
+     * @param integer cId
      * @return void
      */
-    $scope.onClickSaveCurrency = function () {
+    $scope.onClickSaveCurrency = function (cId) {
+      var checkedId = $scope.checkedCurrency.indexOf(cId);
+      if (checkedId > -1) {
+        $scope.checkedCurrency.splice(checkedId, 1)
+      } else {
+        $scope.checkedCurrency.push(cId);
+      }
+
       var checkedIds = $scope.checkedCurrency;
 
       // Save currency to local storage.
