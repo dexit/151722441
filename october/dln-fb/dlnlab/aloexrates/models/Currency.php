@@ -74,7 +74,7 @@ class Currency extends Model
         $cacheGold     = 'exr_gold';
         
         // For banks
-        if (! Cache::has($cacheBank))
+        if (Cache::has($cacheBank))
         {
             $banks = json_decode(Cache::get($cacheBank));
         }
@@ -130,20 +130,20 @@ class Currency extends Model
         $newRecords = array();
         
         $sources = [$banks, $currencies, $golds];
-        var_dump($sources);die();
         
         foreach ($sources as $items)
         {
             foreach ($items as $item)
             {
-                if (in_array($item->currency_id, $currencyIds))
+                $currencyId = intval($item->currency_id);
+                if (in_array($currencyId, $currencyIds))
                 {
                     $newRecords[] = $item;
-                    unset($currencyIds[$item->currency_id]);
+                    unset($currencyIds[$currencyId]);
                 }
             }
         }
-        
+
         return $newRecords;
     }
     

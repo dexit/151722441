@@ -18,7 +18,6 @@ class CreateCurrenciesTable extends Migration
             $table->string('flag', 25)->nullable();
             $table->boolean('status')->default(false);
             $table->boolean('crawl')->default(false);
-            $table->boolean('is_send')->default(false);
             $table->timestamps();
         });
     }

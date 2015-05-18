@@ -14,6 +14,7 @@ class CreateCurrencyDailiesTable extends Migration
             $table->increments('id');
             $table->integer('currency_id')->nullable();
             $table->integer('price')->default(0);
+            $table->boolean('is_send')->default(false);
             $table->timestamps();
         });
     }

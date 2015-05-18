@@ -27,8 +27,8 @@ class RestNotification extends BaseController
         
         // Valid post params.
         $valids = Validator::make($data, [
-            'type'        => 'required_if:type,device,facebook',
-            'sender_id'   => 'required',
+            'type'        => 'required',
+            'reg_id'      => 'required',
             'is_min'      => 'required|boolean',
             'is_max'      => 'required|boolean',
             'currency_id' => 'required|numeric|min:1'

@@ -44,20 +44,20 @@ class Notification extends Model
      */
     public static function updateConditions($data = array())
     {
-        if (empty($data['type']) || empty($data['sender_id']) || empty($data['currency_id']))
+        if (empty($data['type']) || empty($data['reg_id']) || empty($data['currency_id']))
         {
             return false;
         }
 
         // Check limit notification number
-        $record = self::whereRaw('sender_id = ? AND type = ?', array($data['sender_id'], $data['type']))->count();
+        $record = self::whereRaw('reg_id = ? AND type = ?', array($data['reg_id'], $data['type']))->count();
         if ($record && $record >= EXR_LIMIT_NTFS)
         {
             return false;
         }
         
-        // Check exists sender_id in db.
-        $record = self::whereRaw('sender_id = ? AND type = ? AND currency_id = ?', array($data['sender_id'], $data['type'], $data['currency_id']))->first();
+        // Check exists reg_id in db.
+        $record = self::whereRaw('reg_id = ? AND type = ? AND currency_id = ?', array($data['reg_id'], $data['type'], $data['currency_id']))->first();
         if ($record)
         {
             if ($record->is_min == $data['is_min'] && $record->is_max == $data['is_max'])
@@ -65,30 +65,15 @@ class Notification extends Model
                 return false;
             }
 
-            if ($data['is_min'] != $record->is_min)
-            {
-                $record->is_min = $data['is_min'];
-            }
-
-            if ($data['is_max'] != $record->is_max)
-            {
-                $record->is_max = $data['is_max'];
-            }
+            $record->is_min = $data['is_min'];
+            $record->is_max = $data['is_max'];
         } else {
             $record = new self;
             $record->type        = $data['type'];
-            $record->sender_id   = $data['sender_id'];
+            $record->reg_id      = $data['reg_id'];
             $record->currency_id = $data['currency_id'];
-            
-            if ($data['is_min'] != $record->is_min)
-            {
-                $record->is_min = $data['is_min'];
-            }
-
-            if ($data['is_max'] != $record->is_max)
-            {
-                $record->is_max = $data['is_max'];
-            }
+            $record->is_min      = $data['is_min'];
+            $record->is_max      = $data['is_max'];
         }
         $record->save();
         

@@ -64,14 +64,12 @@ class BankDaily extends Model
             return false;
         }
         
-        $records = self::whereRaw('currency_id = ? AND type = ? AND created_at < NOW() - INTERVAL ? DAY', array($cId, $type, 1))
+        $records = self::whereRaw('currency_id = ? AND type = ? AND created_at > NOW() - INTERVAL ? DAY', array($cId, $type, 1))
             ->orderBy('created_at', 'DESC')
             ->get();
-        
-        $beforeRecord = $records[0];
-        
-        if (count($records) == 2) {
-            $record = $records[0];
+
+        if (count($records) >= 1) {
+            $record = isset($records[1]) ? $records[1] : $records[0];
             if ($record->buy != $buy || $record->transfer != $transfer || $record->sell != $sell) {
                 if ($record->min_buy > $buy)
                 {
@@ -92,8 +90,10 @@ class BankDaily extends Model
                 $record->buy         = $buy;
                 $record->transfer    = $transfer;
                 $record->sell        = $sell;
-                $record->buy_change  = $buy - $beforeRecord->buy;
-                $record->sell_change = $sell - $beforeRecord->sell;
+                if (isset($records[0])) {
+                    $record->buy_change  = $buy - $records[0]->buy;
+                    $record->sell_change = $sell - $records[0]->sell;
+                }
                 
                 $record->save();
             }
@@ -108,8 +108,10 @@ class BankDaily extends Model
             $record->max_buy     = $buy;
             $record->min_sell    = $sell;
             $record->max_sell    = $sell;
-            $record->buy_change  = $buy - $beforeRecord->buy;
-            $record->sell_change = $sell - $beforeRecord->sell;
+            if (isset($records[0])) {
+                $record->buy_change  = $buy - $records[0]->buy;
+                $record->sell_change = $sell - $records[0]->sell;
+            }
             
             $record->save();
         }

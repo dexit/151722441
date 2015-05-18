@@ -22,6 +22,7 @@ class CreateGoldDailiesTable extends Migration
             $table->float('max_sell')->default(0);
             $table->float('buy_change')->default(0);
             $table->float('sell_change')->default(0);
+            $table->boolean('is_send')->default(false);
             $table->timestamps();
         });
     }
