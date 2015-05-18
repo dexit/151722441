@@ -13,8 +13,20 @@ columns:
         searchable: true
         sortable: true
 
-    price:
-        label: Giá
+    type:
+        label: Type
+        searchable: true
+        sortablt: true
+        type: number
+
+    buy:
+        label: Buy
+        searchable: true
+        sortablt: true
+        type: number
+
+    sell:
+        label: Sell
         searchable: true
         sortablt: true
         type: number

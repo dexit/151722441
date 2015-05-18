@@ -5,8 +5,6 @@ namespace DLNLab\AloExrates\Classes;
 use Illuminate\Routing\Controller as BaseController;
 use DLNLab\AloExrates\Models\Currency;
 use DLNLab\AloExrates\Models\CurrencyDaily;
-use DLNLab\AloExrates\Models\BankDaily;
-use DLNLab\AloExrates\Models\GoldDaily;
 use DLNLab\ALoExrates\Helpers\EXRHelper;
 use Response;
 use Validator;
@@ -59,7 +57,7 @@ class RestCrawl extends BaseController
                             $buy        = $item->getAttribute('buy');
                             $sell       = $item->getAttribute('sell');
 
-                            GoldDaily::updateGoldsDaily($currencyId, $buy, $sell, $type);
+                            CurrencyDaily::updateGoldsDaily($currencyId, $buy, $sell, 'gold');
                         }
                     }
         
@@ -90,7 +88,7 @@ class RestCrawl extends BaseController
         
         // Crawl data
         foreach ($records as $record) {
-            if (CurrencyDaily::updatePriceDaily($record->id, $record->code)) {
+            if (CurrencyDaily::updatePriceDaily($record->id, $record->code, 'currency')) {
                 $record->crawl = true;
                 $record->save();
             }
@@ -132,7 +130,7 @@ class RestCrawl extends BaseController
                     }
 
                     // get currency by ids
-                    $currencies = currency::getcurrenciesbycodes($codes, $type);
+                    $currencies = Currency::getCurrenciesByCodes($codes, $type);
 
                     // get exchange rates over bank api.
                     foreach ($currencies as $currency) {
@@ -144,7 +142,7 @@ class RestCrawl extends BaseController
                         $sell = $item->getattribute('Sell');
 
                         if ($buy && $transfer && $sell) {
-                            BankDaily::updateExratesDaily($currencyid, $buy, $transfer, $sell, $type);
+                            CurrencyDaily::updateExratesDaily($currencyid, $buy, $transfer, $sell, 'bank');
                         }
                     }
                     
@@ -201,34 +199,12 @@ class RestCrawl extends BaseController
             return Response::json(array('status' => 'error', 'data' => $valids->messages()));
         }
 
-        switch($data['type']) {
-            case 'currency':
-                $record = CurrencyDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
+        $record = CurrencyDaily::whereRaw('type = ? AND is_send = ? AND DATE(updated_at) = CURDATE()', array($data['type'], false))->first();
 
-                if (! $record)
-                {
-                    CurrencyDaily::where('is_send', true)->update(array('is_send' => true));
-                    $record = CurrencyDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
-                }
-                break;
-            case 'bank':
-                $record = BankDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
-
-                if (! $record)
-                {
-                    BankDaily::where('is_send', true)->update(array('is_send' => true));
-                    $record = BankDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
-                }
-                break;
-            case 'gold':
-                $record = GoldDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
-
-                if (! $record)
-                {
-                    GoldDaily::where('is_send', true)->update(array('is_send' => true));
-                    $record = GoldDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
-                }
-                break;
+        if (! $record)
+        {
+            CurrencyDaily::where('is_send', true)->update(array('is_send' => true));
+            $record = CurrencyDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
         }
 
         // Check is Min|Max in two week
@@ -244,84 +220,28 @@ class RestCrawl extends BaseController
         } 
         else
         {
-            switch($data['type']) {
-                case 'currency':
-                    // Get min
-                    $min = CurrencyDaily::whereRaw('currency_id = ? AND price < ? AND updated_at > NOW() - INTERVAL ? WEEK', array($currencyId, $record->price, EXR_LIMIT_WEEK))
-                        ->orderBy('price', 'ASC')
-                        ->first();
+            // Get min
+            $min = CurrencyDaily::whereRaw('type = ? AND currency_id = ? AND buy < ? AND updated_at >= NOW() - INTERVAL ? WEEK', array($data['type'], $currencyId, $record->buy, EXR_LIMIT_WEEK))
+                ->orderBy('buy', 'ASC')
+                ->first();
 
-                    if (empty($min)) {
-                        //Get max
-                        $max = CurrencyDaily::whereRaw('currency_id = ? AND price > ? AND updated_at < NOW() - INTERVAL ? WEEK', array($currencyId, $record->price, EXR_LIMIT_WEEK))
-                            ->orderBy('price', 'DESC')
-                            ->first();
-                    }
+            if (empty($min)) {
+                //Get max
+                $max = CurrencyDaily::whereRaw('type = ? AND currency_id = ? AND buy > ? AND updated_at >= NOW() - INTERVAL ? WEEK', array($data['type'], $currencyId, $record->buy, EXR_LIMIT_WEEK))
+                    ->orderBy('buy', 'DESC')
+                    ->first();
+            }
 
-                    // Only get currency today if exist min or max data
-                    $newPrice = $record->price;
-                    if ($min || $max) {
-                        $newPrice = CurrencyDaily::getCurrencyToday($currencyId, $record->price);
-                    }
+            // Only get currency today if exist min or max data
+            $newPrice = $record->buy;
+            if ($min || $max) {
+                $newPrice = CurrencyDaily::getCurrencyToday($currencyId, $record->buy);
+            }
 
-                    if ($min) {
-                        $message = sprintf(EXR_MIN_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
-                    } else if ($max) {
-                        $message = sprintf(EXR_MAX_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
-                    }
-                    break;
-
-                case 'bank':
-                    // Get min
-                    $min = BankDaily::whereRaw('currency_id = ? AND price < ? AND updated_at > NOW() - INTERVAL ? WEEK', array($currencyId, $record->price, EXR_LIMIT_WEEK))
-                        ->orderBy('price', 'ASC')
-                        ->first();
-
-                    if (empty($min)) {
-                        //Get max
-                        $max = BankDaily::whereRaw('currency_id = ? AND price > ? AND updated_at < NOW() - INTERVAL ? WEEK', array($currencyId, $record->price, EXR_LIMIT_WEEK))
-                            ->orderBy('price', 'DESC')
-                            ->first();
-                    }
-
-                    // Only get currency today if exist min or max data
-                    $newPrice = $record->price;
-                    if ($min || $max) {
-                        $newPrice = BankDaily::getCurrencyToday($currencyId, $record->price);
-                    }
-
-                    if ($min) {
-                        $message = sprintf(EXR_MIN_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
-                    } else if ($max) {
-                        $message = sprintf(EXR_MAX_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
-                    }
-                    break;
-
-                case 'gold':
-                    // Get min
-                    $min = GoldDaily::whereRaw('currency_id = ? AND price < ? AND updated_at > NOW() - INTERVAL ? WEEK', array($currencyId, $record->price, EXR_LIMIT_WEEK))
-                        ->orderBy('price', 'ASC')
-                        ->first();
-
-                    if (empty($min)) {
-                        //Get max
-                        $max = GoldDaily::whereRaw('currency_id = ? AND price > ? AND updated_at < NOW() - INTERVAL ? WEEK', array($currencyId, $record->price, EXR_LIMIT_WEEK))
-                            ->orderBy('price', 'DESC')
-                            ->first();
-                    }
-
-                    // Only get currency today if exist min or max data
-                    $newPrice = $record->price;
-                    if ($min || $max) {
-                        $newPrice = GoldDaily::getCurrencyToday($currencyId, $record->price);
-                    }
-
-                    if ($min) {
-                        $message = sprintf(EXR_MIN_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
-                    } else if ($max) {
-                        $message = sprintf(EXR_MAX_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
-                    }
-                    break;
+            if ($min) {
+                $message = sprintf(EXR_MIN_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
+            } else if ($max) {
+                $message = sprintf(EXR_MAX_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
             }
 
             Cache::put('exr_notification_msg_' . $currencyId, $message, EXR_CACHE_MINUTE);

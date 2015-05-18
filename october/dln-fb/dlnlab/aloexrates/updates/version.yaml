@@ -4,7 +4,5 @@
     - create_currencies_table.php
     - create_devices_table.php
     - create_currency_dailies_table.php
-    - create_bank_dailies_table.php
-    - create_gold_dailies_table.php
     - create_notifications_table.php
     - seed_all_tables.php

@@ -55,11 +55,12 @@ class CurrencyDaily extends Model
      *
      * @param int $cId
      * @param string $cCode
+     * @param string $type
      * @return mixed
      */
-    public static function updatePriceDaily($cId = 0, $cCode = '')
+    public static function updatePriceDaily($cId = 0, $cCode = '', $type = '')
     {
-        if (! $cId || ! $cCode) {
+        if (! $cId || ! $cCode || ! $type) {
             return false;
         }
 
@@ -78,19 +79,176 @@ class CurrencyDaily extends Model
         $xpath = new \DOMXpath($doc);
 
         $result = $xpath->query('//*[@id="currency_converter_result"]/span')->item(0)->nodeValue;
-        $price = (int) round($result);
+        $buy = (int) round($result);
 
-        $record = self::whereRaw('currency_id = ? AND DATE(created_at) = CURDATE()', array($cId))->first();
-        if ($record) {
-            // Only update if not same price
-            if ($record->price != $price) {
-                $record->price = $price;
+        $records = self::whereRaw('currency_id = ? AND type = ? AND created_at > NOW() - INTERVAL ? DAY', array($cId, $type, 1))
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        if (count($records) >= 1) {
+            $record = isset($records[1]) ? $records[1] : $records[0];
+            if ($record->buy != $buy) {
+                if ($record->min_buy > $buy) {
+                    $record->min_buy = $buy;
+                }
+                if ($record->max_buy < $buy) {
+                    $record->max_buy = $buy;
+                }
+            }
+            $record->buy = $buy;
+            if (count($records) > 1 && isset($records[0])) {
+                $record->buy_change = $buy - $records[0]->buy;
+            }
+
+            $record->save();
+        } else {
+            $record = new self;
+            $record->type        = $type;
+            $record->currency_id = $cId;
+            $record->min_buy     = $buy;
+            $record->max_buy     = $buy;
+            $record->buy         = $buy;
+            if (isset($records[0])) {
+                $record->buy_change  = $buy - $records[0]->buy;
+            }
+
+            $record->save();
+        }
+
+        return $record;
+    }
+
+    /**
+     * Update new exchange rates using crawl.
+     *
+     * @param number $cId
+     * @param number $buy
+     * @param number $transfer
+     * @param number $sell
+     * @param string $type
+     * @return boolean|\DLNLab\AloExrates\Models\CurrencyDaily
+     */
+    public static function updateExratesDaily($cId = 0, $buy = 0, $transfer = 0, $sell = 0, $type = 'bank')
+    {
+        if (! $cId || ! $buy || ! $transfer || ! $sell || ! $type) {
+            return false;
+        }
+
+        $records = self::whereRaw('currency_id = ? AND type = ? AND created_at > NOW() - INTERVAL ? DAY', array($cId, $type, 1))
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        if (count($records) >= 1) {
+            $record = isset($records[1]) ? $records[1] : $records[0];
+            if ($record->buy != $buy || $record->transfer != $transfer || $record->sell != $sell) {
+                if ($record->min_buy > $buy)
+                {
+                    $record->min_buy = $buy;
+                }
+                if ($record->max_buy < $buy)
+                {
+                    $record->max_buy = $buy;
+                }
+                if ($record->min_sell > $sell)
+                {
+                    $record->min_sell = $sell;
+                }
+                if ($record->max_sell < $sell)
+                {
+                    $record->max_sell = $sell;
+                }
+                $record->buy         = $buy;
+                $record->transfer    = $transfer;
+                $record->sell        = $sell;
+                if (count($records) > 1 && isset($records[0])) {
+                    $record->buy_change  = $buy - $records[0]->buy;
+                    $record->sell_change = $sell - $records[0]->sell;
+                }
+
                 $record->save();
             }
         } else {
             $record = new self;
             $record->currency_id = $cId;
-            $record->price = $price;
+            $record->type        = $type;
+            $record->buy         = $buy;
+            $record->transfer    = $transfer;
+            $record->sell        = $sell;
+            $record->min_buy     = $buy;
+            $record->max_buy     = $buy;
+            $record->min_sell    = $sell;
+            $record->max_sell    = $sell;
+            if (isset($records[0])) {
+                $record->buy_change  = $buy - $records[0]->buy;
+                $record->sell_change = $sell - $records[0]->sell;
+            }
+
+            $record->save();
+        }
+
+        return $record;
+    }
+
+    /**
+     * Update new golds using crawl.
+     *
+     * @param number $cId
+     * @param number $buy
+     * @param number $sell
+     * @param string $type
+     * @return boolean|\DLNLab\AloExrates\Models\CurrencyDaily
+     */
+    public static function updateGoldsDaily($cId = 0, $buy = 0, $sell = 0, $type = 'gold')
+    {
+        if (! $cId || ! $buy || ! $sell || ! $type) {
+            return false;
+        }
+
+        $records = self::whereRaw('currency_id = ? AND type = ? AND created_at > NOW() - INTERVAL ? DAY', array($cId, $type, 1))
+            ->orderBy('created_at', 'DESC')
+            ->get();
+
+        if (count($records) >= 1) {
+            $record = isset($records[1]) ? $records[1] : $records[0];
+            if ($record->buy != $buy || $record->sell != $sell) {
+                if ($record->min_buy > $buy)
+                {
+                    $record->min_buy = $buy;
+                }
+                if ($record->max_buy < $buy)
+                {
+                    $record->max_buy = $buy;
+                }
+                if ($record->min_sell > $sell)
+                {
+                    $record->min_sell = $sell;
+                }
+                if ($record->max_sell < $sell)
+                {
+                    $record->max_sell = $sell;
+                }
+                $record->buy         = $buy;
+                $record->sell        = $sell;
+                if (count($records) > 1 && isset($records[0])) {
+                    $record->buy_change  = $buy - $records[0]->buy;
+                    $record->sell_change = $sell - $records[0]->sell;
+                }
+                $record->save();
+            }
+        } else {
+            $record = new self;
+            $record->currency_id = $cId;
+            $record->type        = $type;
+            $record->buy         = $buy;
+            $record->sell        = $sell;
+            $record->min_buy     = $buy;
+            $record->max_buy     = $buy;
+            $record->min_sell    = $sell;
+            $record->max_sell    = $sell;
+            if (isset($records[0])) {
+                $record->buy_change  = $buy - $records[0]->buy;
+                $record->sell_change = $sell - $records[0]->sell;
+            }
+
             $record->save();
         }
 
@@ -104,9 +262,9 @@ class CurrencyDaily extends Model
      * @param number $price
      * @return boolean|string
      */
-    public static function getCurrencyToday($currencyId = 0, $price = 0)
+    public static function getCurrencyToday($currencyId = 0, $buy = 0)
     {
-        if (! $currencyId || ! $price)
+        if (! $currencyId || ! $buy)
         {
             return false;
         }
@@ -115,33 +273,22 @@ class CurrencyDaily extends Model
             ->orderBy('created_at', 'DESC')
             ->first();
         
-        $templatePrice = "{$price} (%s)";
+        $templatePrice = "{$buy} (%s)";
         
         $newPrice = '';
         if (! $record)
         {
-            $newPrice = sprintf($templatePrice, $price);
+            $newPrice = sprintf($templatePrice, $buy);
         }
         
-        if ($record->price > $price)
+        if ($record->buy > $buy)
         {
-            $newPrice = sprintf($templatePrice, '-' . ($record->price - $price));
+            $newPrice = sprintf($templatePrice, '-' . ($record->buy - $buy));
         } else
         {
-            $newPrice = sprintf($templatePrice, '+' . ($price - $record->price));
+            $newPrice = sprintf($templatePrice, '+' . ($buy - $record->buy));
         }
         
         return $newPrice;
-    }
-    
-    /**
-     * get price attribute
-     * 
-     * @return string
-     */
-    public function getPriceAttribute() {
-        $price = $this->attributes['price'];
-        $price = EXRHelper::numberToMoney($price, ' VND', 0);
-        return $price;
     }
 }

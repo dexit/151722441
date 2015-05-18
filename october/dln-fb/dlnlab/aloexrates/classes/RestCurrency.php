@@ -1,8 +1,6 @@
 <?php namespace DLNLab\AloExrates\Classes;
 
-use DLNLab\AloExrates\Models\BankDaily;
 use DLNLab\AloExrates\Models\CurrencyDaily;
-use DLNLab\AloExrates\Models\GoldDaily;
 use Illuminate\Routing\Controller as BaseController;
 use DLNLab\AloExrates\Models\Currency;
 use DLNLab\ALoExrates\Helpers\EXRHelper;
@@ -111,14 +109,12 @@ class RestCurrency extends BaseController
         $data = get();
 
         $default = array(
-            'currency_id' => $currencyId,
-            'type' => isset($data['type']) ? $data['type'] : ''
+            'currency_id' => $currencyId
         );
 
         // Validator input params.
         $valids = Validator::make($default, [
-            'currency_id' => 'required|numeric|min:1',
-            'type' => 'required'
+            'currency_id' => 'required|numeric|min:1'
         ], EXRHelper::getMessage());
         
         // Check fails.
@@ -130,22 +126,9 @@ class RestCurrency extends BaseController
         $cacheId = 'currency_detail_' . $currencyId;
         if (! Cache::has($cacheId))
         {
-            switch($default['type']) {
-                case 'VCB':
-                    $records = BankDaily::whereRaw('currency_id = ? AND created_at >= NOW() - INTERVAL ? WEEK', array($currencyId, DLN_LIMIT_WEEK))
-                        ->orderBy('updated_at', 'DESC')
-                        ->get();
-                    break;
-                case 'GOLD':
-                    $records = GoldDaily::whereRaw('currency_id = ? AND created_at >= NOW() - INTERVAL ? WEEK', array($currencyId, DLN_LIMIT_WEEK))
-                        ->orderBy('updated_at', 'DESC')
-                        ->get();
-                    break;
-                case 'CURRENCY':
-                    $records = CurrencyDaily::whereRaw('currency_id = ? AND created_at >= NOW() - INTERVAL ? WEEK', array($currencyId, DLN_LIMIT_WEEK))
-                        ->orderBy('updated_at', 'DESC')
-                        ->get();
-            }
+            $records = CurrencyDaily::whereRaw('currency_id = ? AND created_at >= NOW() - INTERVAL ? WEEK', array($currencyId, DLN_LIMIT_WEEK))
+                ->orderBy('updated_at', 'DESC')
+                ->get();
 
             Cache::put($cacheId, json_encode($records->toArray()), EXR_CACHE_MINUTE);
         }

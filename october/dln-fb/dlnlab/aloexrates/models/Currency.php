@@ -69,27 +69,7 @@ class Currency extends Model
         }
         
         // Create cache id
-        $cacheBank     = 'exr_bank';
         $cacheCurrency = 'exr_currency';
-        $cacheGold     = 'exr_gold';
-        
-        // For banks
-        if (Cache::has($cacheBank))
-        {
-            $banks = json_decode(Cache::get($cacheBank));
-        }
-        else
-        {
-            $banks = BankDaily::whereRaw('created_at > NOW() - INTERVAL ? DAY', array(1))
-                ->orderBy('created_at', 'DESC')
-                ->get()
-                ->toArray();
-            
-            if (count($banks))
-            {
-                Cache::put($cacheBank, json_encode($banks), EXR_CACHE_MINUTE);
-            }
-        }
         
         // For currencies
         if (Cache::has($cacheCurrency))
@@ -109,38 +89,15 @@ class Currency extends Model
             }
         }
         
-        // For golds.
-        if (Cache::has($cacheGold))
-        {
-            $golds = json_decode(Cache::get($cacheGold));
-        }
-        else
-        {
-            $golds = GoldDaily::whereRaw('created_at > NOW() - INTERVAL ? DAY', array(1))
-                ->orderBy('created_at', 'DESC')
-                ->get()
-                ->toArray();
-        
-            if (count($golds))
-            {
-                Cache::put($cacheGold, json_encode($golds), EXR_CACHE_MINUTE);
-            }
-        }
-        
         $newRecords = array();
-        
-        $sources = [$banks, $currencies, $golds];
-        
-        foreach ($sources as $items)
+
+        foreach ($currencies as $item)
         {
-            foreach ($items as $item)
+            $currencyId = intval($item->currency_id);
+            if (in_array($currencyId, $currencyIds))
             {
-                $currencyId = intval($item->currency_id);
-                if (in_array($currencyId, $currencyIds))
-                {
-                    $newRecords[] = $item;
-                    unset($currencyIds[$currencyId]);
-                }
+                $newRecords[] = $item;
+                unset($currencyIds[$currencyId]);
             }
         }
 

@@ -40,6 +40,15 @@ angular.module('aloPricesApp', [
         }
       }
     })
+    state('app.gold', {
+      url: 'gia-vang',
+      views: {
+        'gold-tab': {
+          templateUrl: 'views/gold.html',
+          controller: 'GoldCtrl'
+        }
+      }
+    })
     .state('app.exchange_add', {
       url: 'them-ty-gia',
       views: {
