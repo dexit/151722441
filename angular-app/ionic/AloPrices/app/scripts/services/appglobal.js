@@ -13,5 +13,6 @@ angular.module('aloPricesApp')
     exrUid: 'storage_uid',
     exrSavedTypes: 'exr_saved_types',
     exrSavedCurrencies: 'exr_saved_currencies',
-    exrSavedCheckedCurrency: 'exr_saved_currencies_checked'
+    exrSavedCheckedCurrency: 'exr_saved_currencies_checked',
+    exrCachedListCurrency: 'exr_cached_list_currency'
   });

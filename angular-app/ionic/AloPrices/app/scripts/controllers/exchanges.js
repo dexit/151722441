@@ -11,7 +11,9 @@ angular.module('aloPricesApp')
   .controller('ExchangesCtrl', function ($rootScope, $scope, Device, Currency) {
     $scope.allowSwipe = true;
     $scope.items = [];
-    var checkedCurrency = [];
+    $scope.type = 'currency';
+    var checked_currency = [1, 2, 3, 4, 5];
+    var checked_gold = [1, 2, 3, 4, 5];
 
     /**
      * Perform share currency to SNS.
@@ -30,7 +32,30 @@ angular.module('aloPricesApp')
      * @return objects
      */
     $scope.prepareItems = function (items) {
-      $scope.items = items;
+      if (! items.length) {
+        return false;
+      }
+
+      var codes = {};
+      angular.forEach(items, function (item, key) {
+
+        // Check exists code.
+        if (! item.currency.type) {
+          return false;
+        }
+
+        // Check code exists in array.
+        var _type = item.currency.type;
+        if (! codes[_type]) {
+          codes[_type] = [];
+        }
+
+        // Assign to stdClass codes.
+        codes[_type].push(item);
+
+      });
+
+      $scope.items = codes;
     };
 
     /**
@@ -44,9 +69,24 @@ angular.module('aloPricesApp')
         return false;
       }
 
-      // Listing currencies
-      //Currency.getListCurrency(type, $scope.prepareItems);
+      $scope.type = type;
 
+      $scope.loadItems();
+    };
+
+    /**
+     * Function for load items.
+     *
+     * @return void
+     */
+    $scope.loadItems = function () {
+      // Load checked currency ids.
+      var type         = $scope.type;
+      if type ==''
+      checked_= Currency.getSavedCheckedCurrency(checkedCurrency, 'currency');
+
+      // Loading exchange rates
+      Currency.getListCurrencyDetail(checkedCurrency.join(','), $scope.prepareItems);
     };
 
     /**
@@ -85,12 +125,7 @@ angular.module('aloPricesApp')
         console.log("Error: " + err.message);
       }
 
-      // Load checked currency ids.
-      checkedCurrency = Currency.getSavedCheckedCurrency('currency', checkedCurrency);
-      checkedCurrency = checkedCurrency.join(',');
-
-      // Loading exchange rates
-      Currency.getListCurrencyDetail(checkedCurrency, $scope.prepareItems);
+      $scope.loadItems();
     });
 
   });

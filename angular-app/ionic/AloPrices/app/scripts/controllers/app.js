@@ -18,9 +18,7 @@ angular.module('aloPricesApp')
      *
      * @return void
      */
-    $scope.registerDevice = function() {
-
-    };
+    $scope.registerDevice = function() { };
 
     /**
      * Initialize function for controller

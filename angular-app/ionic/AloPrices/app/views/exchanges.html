@@ -10,20 +10,22 @@
   </ion-nav-buttons>
   <!-- END Navbar -->
 
-  <ion-content overflow-scroll="{{ overflowScrolling }}">
-
-    <!-- BEGIN tab header -->
-    <div class="tabs-striped tabs-top tabs-background-balanced tabs-color-light">
-      <div class="tabs tabs-icon-left">
-        <a class="tab-item active" href="javascript:void(0)" data-target="external" ng-click="onClickType('CURRENCY')">
-          {{ 'exchange_add.exchange_rates' | translate }}
-        </a>
-        <a class="tab-item" href="javascript:void(0)" data-target="internal" ng-click="onClickType('GOLD')">
-          {{ 'exchange_add.golds' | translate }}
-        </a>
-      </div>
+  <!-- BEGIN tab header -->
+  <div class="tabs-striped tabs-top tabs-background-balanced tabs-color-light">
+    <div class="tabs tabs-icon-left">
+      <a class="tab-item active" href="javascript:void(0)" data-target="external" ng-click="onClickType('CURRENCY')">
+        <i class="icon fa fa-dollar"></i>
+        {{ 'exchange_add.exchange_rates' | translate }}
+      </a>
+      <a class="tab-item" href="javascript:void(0)" data-target="internal" ng-click="onClickType('GOLD')">
+        <i class="icon fa fa-dollar"></i>
+        {{ 'exchange_add.golds' | translate }}
+      </a>
     </div>
-    <!-- END tab header -->
+  </div>
+  <!-- END tab header -->
+
+  <ion-content overflow-scroll="{{ overflowScrolling }}" class="has-subheader">
 
     <ion-list class="list">
 
@@ -34,13 +36,13 @@
       <!-- END item divider -->
 
       <!-- BEGIN item -->
-      <ion-item class="item item-checkbox item-icon-right" ng-repeat="item in lists | filter:query">
-        <label class="checkbox">
-          <input type="checkbox" ng-checked="checkedCurrency.indexOf(item.id)  > -1" ng-click="onClickSaveCurrency(item.id)">
+      <ion-item class="item item-toggle item-icon-right" ng-repeat="item in lists">
+        <label class="toggle toggle-balanced">
+          <input type="checkbox">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
         </label>
-        <div class="flag-wrapper pull-right">
-          <div class="img-thumbnail flag flag-icon-background flag-icon-us {{ item.flag }}"></div>
-        </div>
         {{ item.name }}
         <br />
         <span ng-hide="item.type == 'GOLD'" class="text-mute">{{ item.code }}</span>

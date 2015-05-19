@@ -21,7 +21,7 @@ angular.module('aloPricesApp', [
   localStorageServiceProvider.setStorageCookie(3, '/');
 
   /* Defalt route */
-  $urlRouterProvider.otherwise('/exchanges');
+  $urlRouterProvider.otherwise('/ty-gia');
 
   /* For routes */
   $stateProvider
@@ -40,12 +40,12 @@ angular.module('aloPricesApp', [
         }
       }
     })
-    state('app.golds', {
+    .state('app.golds', {
       url: 'gia-vang',
       views: {
         'app-content': {
           templateUrl: 'views/golds.html',
-          controller: 'GoldCtrl'
+          controller: 'GoldsCtrl'
         }
       }
     })

@@ -9,7 +9,6 @@
  */
 angular.module('aloPricesApp')
   .controller('ExchangeAddCtrl', function ($scope, $routeParams, Currency, appGlobal) {
-
     $scope.items = [];
     $scope.query = '';
     $scope.checkedCurrency = [];
@@ -69,16 +68,22 @@ angular.module('aloPricesApp')
      * @param integer cId
      * @return void
      */
-    $scope.onClickSaveCurrency = function (cId) {
+    $scope.onCheckedCurrency = function (cId) {
+
       var checkedId = $scope.checkedCurrency.indexOf(cId);
       if (checkedId > -1) {
         $scope.checkedCurrency.splice(checkedId, 1)
       } else {
         $scope.checkedCurrency.push(cId);
       }
+    };
 
-      var checkedIds = $scope.checkedCurrency;
-
+    /**
+     * Save currency to database;
+     *
+     * @return void
+     */
+    $scope.onClickSave = function () {
       // Save currency to local storage.
       Currency.saveCheckedCurrency(checkedIds, type);
     };

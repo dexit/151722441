@@ -2,7 +2,7 @@
 
   <!-- BEGIN Navbar -->
   <ion-nav-buttons side="right">
-    <a class="button button-icon button-clear" href="javascript:void(0)" ng-click="onClickSaveCurrency()"><i class="fa fa-save"></i> {{ 'common.save' | translate }}</a>
+    <a class="button button-icon button-clear" href="javascript:void(0)" ng-click="onClickSave()"><i class="fa fa-save"></i></a>
   </ion-nav-buttons>
   <!-- END Navbar -->
 
@@ -42,7 +42,7 @@
 
       <div class="item item-checkbox item-icon-right" ng-repeat="item in lists | filter:query">
         <label class="checkbox">
-          <input type="checkbox" ng-checked="checkedCurrency.indexOf(item.id)  > -1" ng-click="onClickSaveCurrency(item.id)">
+          <input type="checkbox" ng-checked="checkedCurrency.indexOf(item.id)  > -1" ng-click="onCheckedCurrency(item.id, checkedCurrency)">
         </label>
         <div class="flag-wrapper pull-right">
           <div class="img-thumbnail flag flag-icon-background flag-icon-us {{ item.flag }}"></div>

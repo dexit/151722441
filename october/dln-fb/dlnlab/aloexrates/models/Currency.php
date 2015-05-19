@@ -80,8 +80,8 @@ class Currency extends Model
         {
             $currencies = CurrencyDaily::whereRaw('created_at > NOW() - INTERVAL ? DAY', array(1))
                 ->orderBy('created_at', 'DESC')
-                ->get()
-                ->toArray();
+                ->with('currency')
+                ->get();
         
             if (count($currencies))
             {

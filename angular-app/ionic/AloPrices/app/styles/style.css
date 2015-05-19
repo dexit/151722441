@@ -13,3 +13,9 @@
   left: 0;
   top: 0;
 }
+
+.item {
+  font-size: 14px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}

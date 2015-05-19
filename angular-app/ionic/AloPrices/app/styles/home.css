@@ -5,12 +5,12 @@
 }
 
 .flag-wrapper .flag {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  height: 25px;
+  border-radius: 50%;
+  height: 40px;
   position: relative;
-  right: -33px;
-  width: 33px;
+  right: -40px;
+  width: 40px;
+  background-size: 100% 100%;
 }
 
 .text-mute {

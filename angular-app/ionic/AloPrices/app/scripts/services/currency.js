@@ -56,6 +56,14 @@ angular.module('aloPricesApp')
      * @return void
      */
     service.getListCurrency = function (type, $next) {
+
+      // Check data exists in caches
+      var id = appGlobal.exrCachedListCurrency + '_' + type;
+      if (localStorageService.isSupported && localStorageService.get(id)) {
+        $next(localStorageService.get(id));
+        return false;
+      }
+
       // Show loading
       $rootScope.showLoading();
 
@@ -73,6 +81,11 @@ angular.module('aloPricesApp')
 
         // Fire next function
         if (resp.data) {
+
+          if (localStorageService.isSupported) {
+            localStorageService.set(id, resp.data);
+          }
+
           $next(resp.data);
         }
 
@@ -145,9 +158,9 @@ angular.module('aloPricesApp')
      * @param array checked
      * @returns {*}
      */
-    service.getSavedCheckedCurrency = function (type, checked) {
-      if (localStorageService.isSupported && localStorageService.get(appGlobal.exrSavedCheckedCurrency)) {
-        return localStorageService.get(appGlobal.exrSavedCheckedCurrency)
+    service.getSavedCheckedCurrency = function (checked, type) {
+      if (localStorageService.isSupported && localStorageService.get(appGlobal.exrSavedCheckedCurrency  + '_' + type)) {
+        return localStorageService.get(appGlobal.exrSavedCheckedCurrency  + '_' + type);
       } else {
         return checked;
       }
