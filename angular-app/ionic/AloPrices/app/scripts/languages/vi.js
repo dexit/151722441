@@ -15,7 +15,8 @@ angular.module('aloPricesApp')
       },
 
       header: {
-        title_home: 'Tỷ giá',
+        title_exchanges: 'Tỷ giá',
+        title_golds: 'Vàng',
         title_notifications: 'Thông báo',
         title_setting: 'Tùy chỉnh',
         title_exchange_add: 'Thêm tỷ giá',
@@ -34,7 +35,7 @@ angular.module('aloPricesApp')
         error_get_currency_detail: 'Không thể lấy danh sách tỷ giá!'
       },
 
-      home: {
+      exchanges: {
         share: 'Chia sẻ',
         exchange: {
           CURRENCY: 'Ngoại tệ',

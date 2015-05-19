@@ -21,7 +21,7 @@ angular.module('aloPricesApp', [
   localStorageServiceProvider.setStorageCookie(3, '/');
 
   /* Defalt route */
-  $urlRouterProvider.otherwise('/home');
+  $urlRouterProvider.otherwise('/exchanges');
 
   /* For routes */
   $stateProvider
@@ -31,28 +31,28 @@ angular.module('aloPricesApp', [
       templateUrl: 'views/app.html',
       controller: 'AppCtrl'
     })
-    .state('app.home', {
-      url: 'home',
+    .state('app.exchanges', {
+      url: 'ty-gia',
       views: {
-        'home-tab': {
-          templateUrl: 'views/home.html',
-          controller: 'HomeCtrl'
+        'app-content': {
+          templateUrl: 'views/exchanges.html',
+          controller: 'ExchangesCtrl'
         }
       }
     })
-    state('app.gold', {
+    state('app.golds', {
       url: 'gia-vang',
       views: {
-        'gold-tab': {
-          templateUrl: 'views/gold.html',
+        'app-content': {
+          templateUrl: 'views/golds.html',
           controller: 'GoldCtrl'
         }
       }
     })
     .state('app.exchange_add', {
-      url: 'them-ty-gia',
+      url: 'them-ty-gia/:type',
       views: {
-        'home-tab': {
+        'app-content': {
           templateUrl: 'views/exchange/exchange-add.html',
           controller: 'ExchangeAddCtrl'
         }
@@ -61,7 +61,7 @@ angular.module('aloPricesApp', [
     .state('app.notifications', {
       url: 'notifications',
       views: {
-        'notifications-tab': {
+        'app-content': {
           templateUrl: 'views/notifications.html',
           controller: 'NotificationsCtrl'
         }
@@ -70,7 +70,7 @@ angular.module('aloPricesApp', [
     .state('app.setting', {
       url: 'setting',
       views: {
-        'setting-tab': {
+        'app-content': {
           templateUrl: 'views/setting.html',
           controller: 'SettingCtrl'
         }

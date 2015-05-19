@@ -7,7 +7,7 @@
   <!-- END Navbar -->
 
   <!-- BEGIN tabs -->
-  <div class="tabs-striped tabs-top tabs-background-balanced tabs-color-light">
+  <!--<div class="tabs-striped tabs-top tabs-background-balanced tabs-color-light">
     <div class="tabs">
       <a class="tab-item active" href="javascript:void(0)" data-target="external" ng-click="onClickType('CURRENCY')">
         {{ 'exchange_add.exchange_rates' | translate }}
@@ -16,11 +16,11 @@
         {{ 'exchange_add.golds' | translate }}
       </a>
     </div>
-  </div>
+  </div> -->
   <!-- END tabs -->
 
   <!--BEGIN list -->
-  <ion-content class="has-subheader" overflow-scroll="{{ overflowScrolling }}">
+  <ion-content overflow-scroll="{{ overflowScrolling }}">
 
     <!--BEGIN search -->
     <div class="bar bar-header item-input-inset exr-search">
@@ -37,10 +37,10 @@
     <div class="list">
 
       <div class="item item-divider" ng-repeat-start="(code, lists) in items">
-        {{ 'home.exchange.' + code | translate }}
+        {{ 'exchanges.exchange.' + code | translate }}
       </div>
 
-      <div ng-animate="'animate'" class="item item-checkbox item-icon-right" ng-repeat="item in lists | filter:query">
+      <div class="item item-checkbox item-icon-right" ng-repeat="item in lists | filter:query">
         <label class="checkbox">
           <input type="checkbox" ng-checked="checkedCurrency.indexOf(item.id)  > -1" ng-click="onClickSaveCurrency(item.id)">
         </label>

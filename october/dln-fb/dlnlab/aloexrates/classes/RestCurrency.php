@@ -28,7 +28,7 @@ class RestCurrency extends BaseController
         
         // Validator get params.
         $valids = Validator::make($data, [
-            'types' => 'required'
+            'type' => 'required'
         ], EXRHelper::getMessage());
         
         // Response error message if not valids
@@ -39,7 +39,16 @@ class RestCurrency extends BaseController
         
         extract($data);
 
-        $types = explode(',', $types);
+        $types = array();
+        switch($type) {
+            default:
+            case 'ty-gia':
+                $types = ['CURRENCY', 'VCB'];
+                break;
+            case 'vang':
+                $types = ['GOLD'];
+                break;
+        }
         
         /*$page  = intval($page);
         $limit = EXR_PAGINATE;

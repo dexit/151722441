@@ -186,8 +186,7 @@ class EXRHelper
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-            if (count($fields))
-            {
+            if (count($fields)) {
                 //url-ify the data for the POST
                 foreach ($fields as $key => $value) {
                     $fields_string .= $key . '=' . $value . '&';
@@ -197,8 +196,7 @@ class EXRHelper
                 curl_setopt($ch, CURLOPT_POST, count($fields));
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
             }
-            if (count($headers))
-            {
+            if (count($headers)) {
                 curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             }
 

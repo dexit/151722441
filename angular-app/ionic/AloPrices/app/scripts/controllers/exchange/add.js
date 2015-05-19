@@ -8,12 +8,12 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('ExchangeAddCtrl', function ($scope, Currency, appGlobal) {
+  .controller('ExchangeAddCtrl', function ($scope, $routeParams, Currency, appGlobal) {
 
     $scope.items = [];
     $scope.query = '';
     $scope.checkedCurrency = [];
-    var types = 'CURRENCY,VCB';
+    var type = '';
 
     /**
      * Prepare items for view.
@@ -35,13 +35,13 @@ angular.module('aloPricesApp')
         }
 
         // Check code exists in array.
-        var type = item.type;
-        if (! codes[type]) {
-          codes[type] = [];
+        var _type = item.type;
+        if (! codes[_type]) {
+          codes[_type] = [];
         }
 
         // Assign to stdClass codes.
-        codes[type].push(item);
+        codes[_type].push(item);
 
       });
 
@@ -55,28 +55,12 @@ angular.module('aloPricesApp')
      * @returns {boolean}
      */
     $scope.filterForItems = function (item) {
-      console.log($scope.query);
       var query = $scope.query;
       if (query && (item.name.indexOf(query) >= 0 || item.code.indexOf(query) >= 0)) {
         return true;
       }
 
       return false;
-    };
-
-    /**
-     * Toggle type value
-     *
-     * @param type
-     * @returns {boolean}
-     */
-    $scope.onClickType = function (type) {
-      if (! type) {
-        return false;
-      }
-
-      // Listing currencies
-      Currency.getListCurrency(type, $scope.prepareItems);
     };
 
     /**
@@ -96,25 +80,7 @@ angular.module('aloPricesApp')
       var checkedIds = $scope.checkedCurrency;
 
       // Save currency to local storage.
-      Currency.saveCheckedCurrency(checkedIds);
-    };
-
-    /**
-     * Initialize events
-     *
-     * @return void
-     */
-    $scope.init = function () {
-
-      // Toggle tabs.
-      var tabSelector = '.tabs .tab-item';
-      $(tabSelector).on('click', function (e) {
-        e.preventDefault();
-
-        $(tabSelector).removeClass('active');
-        $(this).addClass('active');
-      });
-
+      Currency.saveCheckedCurrency(checkedIds, type);
     };
 
     /**
@@ -124,15 +90,15 @@ angular.module('aloPricesApp')
      */
     $scope.$on('$ionicView.enter', function (e, args) {
 
-      // Init events.
-      $scope.init();
+      // Get type from routeParams
+      type = ($routeParams.type) ? $routeParams.type : 'ty-gia';
 
       // Get checked currencies.
       var checked = $scope.checkedCurrency;
       $scope.checkedCurrency = Currency.getSavedCheckedCurrency(checked);
 
       // Listing currencies
-      Currency.getListCurrency(types, $scope.prepareItems);
+      Currency.getListCurrency(type, $scope.prepareItems);
 
     });
 

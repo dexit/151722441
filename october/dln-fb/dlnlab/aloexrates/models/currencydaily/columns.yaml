@@ -13,6 +13,12 @@ columns:
         searchable: true
         sortable: true
 
+    code:
+        relation: currency
+        select: code
+        searchable: true
+        sortablt: true
+
     type:
         label: Type
         searchable: true
@@ -27,6 +33,18 @@ columns:
 
     sell:
         label: Sell
+        searchable: true
+        sortablt: true
+        type: number
+
+    buy_change:
+        label: Buy Change
+        searchable: true
+        sortablt: true
+        type: number
+
+    sell_change:
+        label: Sell Change
         searchable: true
         sortablt: true
         type: number

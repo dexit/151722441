@@ -133,16 +133,18 @@ class RestCrawl extends BaseController
                     $currencies = Currency::getCurrenciesByCodes($codes, $type);
 
                     // get exchange rates over bank api.
-                    foreach ($currencies as $currency) {
-                        $item = $xpath->query('//Exrate[@CurrencyCode="' . $currency->code . '"]')->item(0);
+                    if (count($currencies)) {
+                        foreach ($currencies as $currency) {
+                            $item = $xpath->query('//Exrate[@CurrencyCode="' . $currency->code . '"]')->item(0);
 
-                        $currencyid = $currency->id;
-                        $buy = $item->getattribute('Buy');
-                        $transfer = $item->getattribute('Transfer');
-                        $sell = $item->getattribute('Sell');
+                            $currencyid = $currency->id;
+                            $buy = $item->getattribute('Buy');
+                            $transfer = $item->getattribute('Transfer');
+                            $sell = $item->getattribute('Sell');
 
-                        if ($buy && $transfer && $sell) {
-                            CurrencyDaily::updateExratesDaily($currencyid, $buy, $transfer, $sell, 'bank');
+                            if ($buy && $transfer && $sell) {
+                                CurrencyDaily::updateExratesDaily($currencyid, $buy, $transfer, $sell, 'bank');
+                            }
                         }
                     }
                     

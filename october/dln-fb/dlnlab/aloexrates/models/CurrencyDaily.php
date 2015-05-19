@@ -82,10 +82,11 @@ class CurrencyDaily extends Model
         $buy = (int) round($result);
 
         $records = self::whereRaw('currency_id = ? AND type = ? AND created_at > NOW() - INTERVAL ? DAY', array($cId, $type, 1))
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('created_at', 'ASC')
             ->get();
-        if (count($records) >= 1) {
-            $record = isset($records[1]) ? $records[1] : $records[0];
+
+        if (count($records) > 1) {
+            $record = $records[1];
             if ($record->buy != $buy) {
                 if ($record->min_buy > $buy) {
                     $record->min_buy = $buy;
@@ -95,7 +96,7 @@ class CurrencyDaily extends Model
                 }
             }
             $record->buy = $buy;
-            if (count($records) > 1 && isset($records[0])) {
+            if (isset($records[0])) {
                 $record->buy_change = $buy - $records[0]->buy;
             }
 
@@ -134,11 +135,11 @@ class CurrencyDaily extends Model
         }
 
         $records = self::whereRaw('currency_id = ? AND type = ? AND created_at > NOW() - INTERVAL ? DAY', array($cId, $type, 1))
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('created_at', 'ASC')
             ->get();
 
-        if (count($records) >= 1) {
-            $record = isset($records[1]) ? $records[1] : $records[0];
+        if (count($records) > 1) {
+            $record = $records[1];
             if ($record->buy != $buy || $record->transfer != $transfer || $record->sell != $sell) {
                 if ($record->min_buy > $buy)
                 {
@@ -159,7 +160,7 @@ class CurrencyDaily extends Model
                 $record->buy         = $buy;
                 $record->transfer    = $transfer;
                 $record->sell        = $sell;
-                if (count($records) > 1 && isset($records[0])) {
+                if (isset($records[0])) {
                     $record->buy_change  = $buy - $records[0]->buy;
                     $record->sell_change = $sell - $records[0]->sell;
                 }
@@ -204,11 +205,11 @@ class CurrencyDaily extends Model
         }
 
         $records = self::whereRaw('currency_id = ? AND type = ? AND created_at > NOW() - INTERVAL ? DAY', array($cId, $type, 1))
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('created_at', 'ASC')
             ->get();
 
-        if (count($records) >= 1) {
-            $record = isset($records[1]) ? $records[1] : $records[0];
+        if (count($records) > 1) {
+            $record = $records[1];
             if ($record->buy != $buy || $record->sell != $sell) {
                 if ($record->min_buy > $buy)
                 {
@@ -228,7 +229,7 @@ class CurrencyDaily extends Model
                 }
                 $record->buy         = $buy;
                 $record->sell        = $sell;
-                if (count($records) > 1 && isset($records[0])) {
+                if (isset($records[0])) {
                     $record->buy_change  = $buy - $records[0]->buy;
                     $record->sell_change = $sell - $records[0]->sell;
                 }

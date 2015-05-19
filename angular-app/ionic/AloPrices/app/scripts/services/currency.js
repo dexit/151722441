@@ -55,7 +55,7 @@ angular.module('aloPricesApp')
      * @param callback $next
      * @return void
      */
-    service.getListCurrency = function (types, $next) {
+    service.getListCurrency = function (type, $next) {
       // Show loading
       $rootScope.showLoading();
 
@@ -64,7 +64,7 @@ angular.module('aloPricesApp')
         url: url,
         method: 'GET',
         params: {
-          types: types
+          type: type
         }
       }).success(function (resp, status) {
 
@@ -141,9 +141,11 @@ angular.module('aloPricesApp')
     /**
      * Function for get checked currencies from local storage.
      *
+     * @param string type
+     * @param array checked
      * @returns {*}
      */
-    service.getSavedCheckedCurrency = function (checked) {
+    service.getSavedCheckedCurrency = function (type, checked) {
       if (localStorageService.isSupported && localStorageService.get(appGlobal.exrSavedCheckedCurrency)) {
         return localStorageService.get(appGlobal.exrSavedCheckedCurrency)
       } else {
@@ -154,12 +156,13 @@ angular.module('aloPricesApp')
     /**
      * Function for save checked currency ids to local storage.
      *
-     * @param checkedIds
+     * @param array checkedIds
+     * @param string type
      * @return void
      */
-    service.saveCheckedCurrency = function (checkedIds) {
+    service.saveCheckedCurrency = function (checkedIds, type) {
       if (localStorageService.isSupported) {
-        localStorageService.set(appGlobal.exrSavedCheckedCurrency, checkedIds);
+        localStorageService.set(appGlobal.exrSavedCheckedCurrency + '_' + type, checkedIds);
       }
     };
 
