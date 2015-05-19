@@ -1,0 +1,62 @@
+<ion-view view-title="{{ 'header.title_exchanges' | translate }}">
+
+  <!-- BEGIN Navbar -->
+  <!--<ion-nav-buttons side="left">
+		<a class="button button-icon button-clear" href="#/category_filter"><i class="fa fa-ellipsis-v"></i></a>
+	</ion-nav-buttons>
+	 -->
+  <ion-nav-buttons side="right">
+    <a class="button button-icon button-clear" href="#/them-ty-gia/ty-gia"><i class="fa fa-plus"></i></a>
+  </ion-nav-buttons>
+  <!-- END Navbar -->
+
+  <ion-content overflow-scroll="{{ overflowScrolling }}">
+
+    <!-- BEGIN tab header -->
+    <div class="tabs-striped tabs-top tabs-background-balanced tabs-color-light">
+      <div class="tabs tabs-icon-left">
+        <a class="tab-item active" href="javascript:void(0)" data-target="external" ng-click="onClickType('CURRENCY')">
+          {{ 'exchange_add.exchange_rates' | translate }}
+        </a>
+        <a class="tab-item" href="javascript:void(0)" data-target="internal" ng-click="onClickType('GOLD')">
+          {{ 'exchange_add.golds' | translate }}
+        </a>
+      </div>
+    </div>
+    <!-- END tab header -->
+
+    <ion-list class="list">
+
+      <!-- BEGIN item divider -->
+      <ion-item class="item item-divider" ng-repeat-start="(code, lists) in items">
+        {{ 'exchanges.exchange.' + code | translate }}
+      </ion-item>
+      <!-- END item divider -->
+
+      <!-- BEGIN item -->
+      <ion-item class="item item-checkbox item-icon-right" ng-repeat="item in lists | filter:query">
+        <label class="checkbox">
+          <input type="checkbox" ng-checked="checkedCurrency.indexOf(item.id)  > -1" ng-click="onClickSaveCurrency(item.id)">
+        </label>
+        <div class="flag-wrapper pull-right">
+          <div class="img-thumbnail flag flag-icon-background flag-icon-us {{ item.flag }}"></div>
+        </div>
+        {{ item.name }}
+        <br />
+        <span ng-hide="item.type == 'GOLD'" class="text-mute">{{ item.code }}</span>
+
+        <!-- BEGIN swipe options -->
+        <ion-option-button class="button-positive" ng-click="share(item)">
+          {{ 'exchanges.share' | translate }}
+        </ion-option-button>
+        <!-- END swipe options -->
+
+      </ion-item>
+      <!-- END item -->
+
+      <div ng-repeat-end=""></div>
+
+    </ion-list>
+  </ion-content>
+
+</ion-view>
