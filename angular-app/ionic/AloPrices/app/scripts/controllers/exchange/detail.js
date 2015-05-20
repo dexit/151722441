@@ -8,16 +8,15 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('ExchangeDetailCtrl', function ($scope, $stateParams, $translate) {
+  .controller('ExchangeDetailCtrl', function ($scope, $stateParams, $translate, Currency, Device) {
 
-    $scope.type = 'currency';
     /* Setting for chart */
     $scope.chart_options = {
       animation: false,
       responsive: true
     };
     $scope.chart_labels = [];
-    $scope.chart_series = [];
+    $scope.chart_series = ['Series A'];
     $scope.chart_data   = [];
     $scope.items        = [];
 
@@ -44,18 +43,20 @@ angular.module('aloPricesApp')
       }
 
       $scope.chart_labels = [];
-      $scope.chart_data = [];
 
-      switch ($scope.type) {
+      switch (items[0].type) {
         case 'currency':
           $scope.chart_series = [ $translate('exchange_detail.exchange_rates') ];
 
-          angular.forEach(items, function (key, item) {
-            $scope.pushChartData(item.created_at, item.price);
+          var arrData = [];
+          angular.forEach(items, function (item, key) {
+            $scope.pushChartData(item.created_at);
+            arrData.push(item.buy);
           });
+          $scope.chart_data.push(arrData);
           break;
 
-        case gold:
+        case 'gold':
         case 'bank':
           $scope.chart_series = [ $translate('exchange_detail.buy'), $translate('exchange_detail.sell') ];
 
@@ -72,11 +73,10 @@ angular.module('aloPricesApp')
      * Common function for push data to charts.
      *
      * @param labels
-     * @param data
+     * @return void
      */
-    $scope.pushChartData = function (labels, data) {
+    $scope.pushChartData = function (labels) {
       $scope.chart_labels.push(labels);
-      $scope.chart_data.push(data);
     };
 
     /**

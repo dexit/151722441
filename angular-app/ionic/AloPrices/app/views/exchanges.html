@@ -27,7 +27,7 @@
 
   <ion-content overflow-scroll="{{ overflowScrolling }}" class="has-subheader">
 
-    <ion-list class="list">
+    <ion-list class="list exr-list">
 
       <!-- BEGIN item divider -->
       <ion-item class="item item-divider" ng-repeat-start="(code, lists) in items">
@@ -36,14 +36,17 @@
       <!-- END item divider -->
 
       <!-- BEGIN item -->
-      <ion-item class="item item-toggle item-icon-right" ng-repeat="item in lists">
-        <label class="toggle toggle-balanced">
-          <input type="checkbox">
-          <div class="track">
-            <div class="handle"></div>
-          </div>
-        </label>
+      <ion-item class="item item-icon-right" ng-repeat="item in lists" href="#/ty-gia/{{ item.currency.id }}">
+        <div class="item-code">{{ item.currency.code }}</div>
+        <div class="item-info">
+          <a href="javascript:void(0)" class="item-title">
+            {{ item.currency.name }}
+          </a>
+          <span class="item-desc">{{ 'exchanges.buy' | translate }}{{ item.buy }}</span>
+          <span class="item-desc">{{ 'exchanges.sell' | translate }}{{ item.sell }}</span>
+        </div>
         {{ item.name }}
+        <i class="icon icon-right ion-chevron-right"></i>
         <br />
         <span ng-hide="item.type == 'GOLD'" class="text-mute">{{ item.code }}</span>
 

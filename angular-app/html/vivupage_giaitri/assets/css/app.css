@@ -57,10 +57,6 @@ body, #app {
     padding: 0;
 }
 
-.demo-links:hover {
-    opacity: 0.5;
-}
-
 .demo-links > li > a {
     margin-right: 10px;
     color: white;
@@ -71,6 +67,7 @@ body, #app {
     transition: opacity 150ms ease 0s;
     cursor: pointer;
     text-decoration: none;
+    opacity: 0.5;
 }
 
 .demo-links > li > a:hover {

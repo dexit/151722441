@@ -7,7 +7,7 @@
 }
 
 .ui.card {
-    max-width: 660px !important;
+    max-width: 670px !important;
     margin: 7px auto !important;
     width: 95% !important;
     text-align: center;
@@ -18,8 +18,8 @@
 }
 
 .description p {
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 14px;
+    line-height: 24px;
     padding-left: 1em;
     padding-right: 1em;
     margin-bottom: 0.75em;

@@ -44,6 +44,8 @@ angular.module('aloPricesApp')
           GOLD: 'Vàng',
           SJC: 'Vàng SJC'
         },
+        buy: 'Mua vào: ',
+        sell: 'Bán ra: ',
         chart: 'Lược đồ'
       },
 

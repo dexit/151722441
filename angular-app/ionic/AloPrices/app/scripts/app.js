@@ -58,6 +58,15 @@ angular.module('aloPricesApp', [
         }
       }
     })
+    .state('app.exchange_detail', {
+      url: 'ty-gia/:id',
+      views: {
+        'app-content': {
+          templateUrl: 'views/exchange/exchange-detail.html',
+          controller: 'ExchangeDetailCtrl'
+        }
+      }
+    })
     .state('app.notifications', {
       url: 'notifications',
       views: {
