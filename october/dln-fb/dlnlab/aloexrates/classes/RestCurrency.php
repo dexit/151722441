@@ -136,7 +136,8 @@ class RestCurrency extends BaseController
         if (! Cache::has($cacheId))
         {
             $records = CurrencyDaily::whereRaw('currency_id = ? AND created_at >= NOW() - INTERVAL ? WEEK', array($currencyId, DLN_LIMIT_WEEK))
-                ->orderBy('updated_at', 'DESC')
+                ->orderBy('updated_at', 'ASC')
+                ->with('currency')
                 ->get();
 
             Cache::put($cacheId, json_encode($records->toArray()), EXR_CACHE_MINUTE);

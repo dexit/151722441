@@ -81,12 +81,17 @@ angular.module('aloPricesApp')
      */
     $scope.loadItems = function () {
       // Load checked currency ids.
-      var type         = $scope.type;
-      if type ==''
-      checked_= Currency.getSavedCheckedCurrency(checkedCurrency, 'currency');
+      var type    = $scope.type;
+      var checked = '';
+      if (type == 'currency') {
+        checked = checked_currency;
+      } else {
+        checked = checked_gold;
+      }
+      checked = Currency.getSavedCheckedCurrency(checked, type);
 
       // Loading exchange rates
-      Currency.getListCurrencyDetail(checkedCurrency.join(','), $scope.prepareItems);
+      Currency.getListCurrencyDetail(checked.join(','), $scope.prepareItems);
     };
 
     /**

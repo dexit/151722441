@@ -74,5 +74,20 @@ angular.module('aloPricesApp')
       });
     };
 
+    /**
+     * Function to get notifications for current device
+     *
+     * @return objects
+     */
+    service.getListNotifications = function() {
+      if (! localStorageService.isSupported || ! localStorageService.get(appGlobal.exrUid)) {
+        return false;
+      }
+
+      var profileId = localStorageService.get(appGlobal.exrUid);
+
+      var url = appGlobal.host + '/notifications';
+    };
+
     return service;
   });

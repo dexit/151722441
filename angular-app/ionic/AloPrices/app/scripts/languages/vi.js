@@ -20,6 +20,7 @@ angular.module('aloPricesApp')
         title_notifications: 'Thông báo',
         title_setting: 'Tùy chỉnh',
         title_exchange_add: 'Thêm tỷ giá',
+        title_exchange_detail: 'Chi tiết tỷ giá',
         title_facebook: 'Tài khoản Facebook'
       },
 
@@ -49,6 +50,12 @@ angular.module('aloPricesApp')
       exchange_add: {
         exchange_rates: 'Tỷ giá',
         golds: 'Vàng'
+      },
+
+      exchange_detail: {
+        detail: 'Chi tiết',
+        notification: 'Thông báo',
+        exchange_rates: 'Tỷ giá'
       }
     };
 

@@ -1,1 +1,32 @@
-<p>This is the exchange/exchange-detail view.</p>
+<ion-view view-title="{{ 'header.title_exchange_detail' | translate }}">
+
+  <!-- BEGIN tab header -->
+  <div class="tabs-striped tabs-top tabs-background-balanced tabs-color-light">
+    <div class="tabs tabs-icon-left">
+      <a class="tab-item active" href="javascript:void(0)" data-content="detail">
+        {{ 'exchange_detail.detail' | translate }}
+      </a>
+      <a class="tab-item" href="javascript:void(0)" data-content="notification">
+        {{ 'exchange_detail.notification' | translate }}
+      </a>
+    </div>
+  </div>
+  <!-- END tab header -->
+
+  <ion-content overflow-scroll="{{ overflowScrolling }}" class="has-subheader">
+
+    <div class="exr-tab-content exr-detail">
+      <canvas id="exchange_line" class="chart chart-line" data="data"
+        labels="chart_labels" legend="true" series="chart_series" options="chart_options" click="showDetailCurrency">
+      </canvas>
+    </div>
+
+    <div class="exr-tab-content exr-notification">
+      <ion-list class="list">
+
+      </ion-list>
+    </div>
+
+  </ion-content>
+
+</ion-view>
