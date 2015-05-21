@@ -13,7 +13,10 @@ angular.module('aloPricesApp')
     /* Setting for chart */
     $scope.chart_options = {
       animation: false,
-      responsive: true
+      responsive: true,
+      colours: {
+        pointColor: '#33cd5f'
+      }
     };
     $scope.chart_labels = [];
     $scope.chart_series = ['Series A'];

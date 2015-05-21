@@ -36,26 +36,4 @@ class Devices extends Model
     public $attachOne = [];
     public $attachMany = [];
 
-    /**
-     * Static function for add new device id.
-     *
-     * @param integer $device_id
-     * @return object
-     */
-    public static function addDevice($device_id = 0)
-    {
-        if (empty($device_id)) {
-            return false;
-        }
-
-        // Check device_id exists in db
-        $record = self::where('device_id', '=', $device_id)->first();
-        if (empty($record)) {
-            $record = new self;
-            $record->device_id = $device_id;
-            $record->save();
-        }
-
-        return $record;
-    }
 }

@@ -5,6 +5,7 @@ use DLNLab\AloExrates\Models\Devices;
 use DLNLab\ALoExrates\Helpers\EXRHelper;
 use Response;
 use Validator;
+use Input;
 
 /**
  * Restful for Device api.
@@ -22,13 +23,16 @@ class RestDevices extends BaseController
      */
     public function postRegisterDevice()
     {
-        $data = post();
+        $data = Input::all();
 
         // Validator for post params
         $valids = Validator::make($data, [
-            'device_id' => 'required',
+            'device_id' => 'required|alpha_dash',
+            'gcm_reg_id' => 'alpha_dash',
             'phone_number' => 'numeric'
         ]);
+
+        extract($data);
 
         // Check is valid
         if ($valids->fails())
@@ -36,10 +40,16 @@ class RestDevices extends BaseController
             return Response::json(array('status' => 'Error', $valids->messages()));
         }
 
-        // Get device object
-        $result = Devices::addDevice($data['device_id']);
+        // Check device_id exists in db
+        $record = Devices::where('device_id', '=', $device_id)->first();
+        if (empty($record)) {
+            $record = new Devices;
+            $record->device_id = $device_id;
+            $record->gcm_reg_id = $gcm_reg_id;
+            $record->save();
+        }
 
-        return Response::json(array('status' => 'Success', $result));
+        return Response::json(array('status' => 'Success', 'data' => $record));
     }
 
 }

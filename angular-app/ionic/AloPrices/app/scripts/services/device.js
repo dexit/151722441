@@ -27,13 +27,13 @@ angular.module('aloPricesApp')
      *
      * @return integer profileId
      */
-    service.getProfileId = function () {
+    service.getProfileId = function (gcmRegId) {
       var self = this;
 
       // Get device id
       var uuid = $cordovaDevice.getUUID();
 
-      if (appGlobal.testUUID) {
+      if (! uuid && appGlobal.testUUID) {
         uuid = appGlobal.testUUID;
       }
 
@@ -48,20 +48,15 @@ angular.module('aloPricesApp')
 
       var url = appGlobal.host + '/devices';
 
-      // Show loading
-      $rootScope.showLoading();
-
       // Send request for register device.
       $http({
         url: url,
         method: 'POST',
-        params: {
-          device_id: uuid
+        data: {
+          device_id: uuid,
+          gcm_reg_id: gcmRegId
         }
       }).success(function (resp, status) {
-
-        // Hide loading
-        $rootScope.hideLoading();
 
         // Save uid to storage.
         if (localStorageService.isSupported && resp.data.id) {
@@ -69,8 +64,6 @@ angular.module('aloPricesApp')
         }
 
       }).error(function (data, status) {
-        // Hide loading
-        $rootScope.hideLoading();
         console.log(data);
         window.alert($translate('message.error_get_device'));
       });
@@ -99,12 +92,12 @@ angular.module('aloPricesApp')
      * @param callback $next
      * @return void
      */
-    service.registerGCMRegId = function (pid, reg_id, $next) {
-      if (!pid || ! reg_id) {
+    service.registerGCMRegId = function (reg_id, $next) {
+      if (! reg_id) {
         return false;
       }
 
-      var url = appGlobal.host + '/devices/' + pid + '/gcm';
+      var url = appGlobal.host + '/devices';
 
       // Show loading
       $rootScope.showLoading();
@@ -113,8 +106,8 @@ angular.module('aloPricesApp')
       $http({
         url : url,
         method: 'POST',
-        params: {
-          pid: pid,
+        data: {
+          device_id: pid,
           reg_id: reg_id
         }
       }).success(function (resp, status) {

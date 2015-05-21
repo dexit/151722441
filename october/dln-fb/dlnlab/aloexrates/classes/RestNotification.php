@@ -7,6 +7,7 @@ use DLNLab\AloExrates\Models\NotificationCurrency;
 use DLNLab\ALoExrates\Helpers\EXRHelper;
 use Response;
 use Validator;
+use Input;
 
 /**
  * Restful for Follow api.
@@ -23,7 +24,7 @@ class RestNotification extends BaseController
      */
     public function postRegisterNotification()
     {
-        $data = post();
+        $data = Input::all();
         
         // Valid post params.
         $valids = Validator::make($data, [

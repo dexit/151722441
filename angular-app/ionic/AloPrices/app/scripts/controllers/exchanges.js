@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('ExchangesCtrl', function ($rootScope, $scope, $cordovaPush, Device, Currency) {
+  .controller('ExchangesCtrl', function ($rootScope, $scope, $cordovaPush, $timeout, Device, Currency) {
     $scope.allowSwipe = true;
     $scope.items = [];
     $scope.type = 'currency';
@@ -117,10 +117,35 @@ angular.module('aloPricesApp')
         'senderID': '265723301690'
       };
 
-      $cordovaPush.register(androidConfig).then(function (result) {
+      $cordovaPush.register(androidConfig).then(function(result) {
+        // Success
         console.log(result);
       }, function(err) {
+        // Error
         console.log(err);
+      });
+
+      $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
+        switch(notification.event) {
+          case 'registered':
+            if (notification.regid.length > 0 ) {
+              Device.getProfileId(notification.regid);
+            }
+            break;
+
+          case 'message':
+            // this is the actual push notification. its format depends on the data model from the push server
+            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
+            break;
+
+          case 'error':
+            alert('GCM error = ' + notification.msg);
+            break;
+
+          default:
+            alert('An unknown GCM event has occurred');
+            break;
+        }
       });
     };
 
@@ -136,11 +161,9 @@ angular.module('aloPricesApp')
       $scope.init();
 
       // Get profile id.
-      try {
-        Device.getProfileId();
-      } catch (err) {
-        console.log('Error: ' + err.message);
-      }
+      $timeout(function() {
+        $scope.registerGCMAndroid();
+      }, 3000);
 
       $scope.loadItems();
     });
