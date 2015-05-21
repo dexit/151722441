@@ -72,7 +72,7 @@ angular.module('aloPricesApp')
 
       var checkedId = $scope.checkedCurrency.indexOf(cId);
       if (checkedId > -1) {
-        $scope.checkedCurrency.splice(checkedId, 1)
+        $scope.checkedCurrency.splice(checkedId, 1);
       } else {
         $scope.checkedCurrency.push(cId);
       }
@@ -85,7 +85,7 @@ angular.module('aloPricesApp')
      */
     $scope.onClickSave = function () {
       // Save currency to local storage.
-      Currency.saveCheckedCurrency(checkedIds, type);
+      Currency.saveCheckedCurrency($scope.checkedCurrency, type);
     };
 
     /**

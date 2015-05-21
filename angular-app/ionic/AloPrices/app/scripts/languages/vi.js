@@ -2,6 +2,8 @@
  * Created by DinhLN on 28/4/2015.
  */
 
+'use strict';
+
 angular.module('aloPricesApp')
   .config(function ($translateProvider) {
 

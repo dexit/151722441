@@ -44,7 +44,7 @@ angular.module('aloPricesApp')
           // error
         });
       } else {
-        alert(message);
+        window.alert(message);
       }
     };
 

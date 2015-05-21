@@ -33,6 +33,10 @@ angular.module('aloPricesApp')
       // Get device id
       var uuid = $cordovaDevice.getUUID();
 
+      if (appGlobal.testUUID) {
+        uuid = appGlobal.testUUID;
+      }
+
       if (! uuid) {
         return false;
       }
@@ -61,16 +65,14 @@ angular.module('aloPricesApp')
 
         // Save uid to storage.
         if (localStorageService.isSupported && resp.data.id) {
-          localStorageService.set(appGlobal.exrUid, data.id);
+          localStorageService.set(appGlobal.exrUid, resp.data.id);
         }
 
       }).error(function (data, status) {
-
         // Hide loading
         $rootScope.hideLoading();
         console.log(data);
-        alert($translate('message.error_get_device'))
-
+        window.alert($translate('message.error_get_device'));
       });
     };
 
@@ -87,6 +89,47 @@ angular.module('aloPricesApp')
       var profileId = localStorageService.get(appGlobal.exrUid);
 
       var url = appGlobal.host + '/notifications';
+    };
+
+    /**
+     * Function for save gcm registration id to db.
+     *
+     * @param string pid
+     * @param string reg_id
+     * @param callback $next
+     * @return void
+     */
+    service.registerGCMRegId = function (pid, reg_id, $next) {
+      if (!pid || ! reg_id) {
+        return false;
+      }
+
+      var url = appGlobal.host + '/devices/' + pid + '/gcm';
+
+      // Show loading
+      $rootScope.showLoading();
+
+      // Send request for update registration id.
+      $http({
+        url : url,
+        method: 'POST',
+        params: {
+          pid: pid,
+          reg_id: reg_id
+        }
+      }).success(function (resp, status) {
+
+        // Hide loading
+        $rootScope.hideLoading();
+
+        $next(resp.data);
+
+      }).error(function (resp, status) {
+        // Hide loading
+        $rootScope.hideLoading();
+        console.log(resp.data);
+        window.alert($translate('message.error_get_device'));
+      });
     };
 
     return service;

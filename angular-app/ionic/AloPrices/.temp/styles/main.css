@@ -1,2 +1,6 @@
 /* Your application styles go here */
+@import "style.css";
+
 @import "setting.css";
+
+@import "home.css";

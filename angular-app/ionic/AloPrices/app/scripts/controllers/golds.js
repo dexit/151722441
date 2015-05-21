@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('GoldsCtrl', function ($scope) {
+  .controller('GoldsCtrl', function ($rootScope, $scope, Device, Currency) {
     $scope.allowSwipe = true;
     $scope.items = [];
     var checkedCurrency = [];
@@ -45,7 +45,7 @@ angular.module('aloPricesApp')
       try {
         Device.getProfileId();
       } catch (err) {
-        console.log("Error: " + err.message);
+        console.log('Error: ' + err.message);
       }
 
       // Load checked currency ids.

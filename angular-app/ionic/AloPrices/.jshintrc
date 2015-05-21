@@ -3,7 +3,7 @@
   "browser": true,
   "esnext": true,
   "bitwise": true,
-  "camelcase": true,
+  "camelcase": false,
   "curly": true,
   "eqeqeq": true,
   "immed": true,
@@ -13,14 +13,15 @@
   "noarg": true,
   "quotmark": "single",
   "regexp": true,
-  "undef": true,
-  "unused": true,
+  "undef": false,
+  "unused": false,
   "strict": true,
   "trailing": true,
   "smarttabs": true,
   "globals": {
     "angular": false,
     "cordova": false,
-    "StatusBar": false
+    "StatusBar": false,
+    "$": false
   }
 }

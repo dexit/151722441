@@ -10,6 +10,7 @@
 angular.module('aloPricesApp')
   .constant('appGlobal', {
     host: 'http://home.vivufb.com/api/v1',
+    testUUID: 'this-is-web-device',
     exrUid: 'storage_uid',
     exrSavedTypes: 'exr_saved_types',
     exrSavedCurrencies: 'exr_saved_currencies',

@@ -1,0 +1,66 @@
+.flag-wrapper {
+  height: 100%;
+  position: relative;
+  top: 0;
+}
+
+.flag-wrapper .flag {
+  border-radius: 50%;
+  height: 40px;
+  position: relative;
+  right: -40px;
+  width: 40px;
+  background-size: 100% 100%;
+}
+
+.text-mute {
+  color: #ccc;
+}
+
+.exr-search {
+  margin-top: 5px;
+}
+
+.exr-list .item-code {
+  background-color: #33cd5f;
+  color: #fff;
+  float: left;
+  font-weight: 700;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  width: 50px;
+}
+
+.exr-list .item-info {
+  margin-left: 60px;
+}
+
+.exr-list .item-info a {
+  font-weight: 600;
+  color: #3c8dbc;
+  text-decoration: none;
+}
+
+.exr-list .item-desc {
+  color: #999;
+  display: block;
+  float: left;
+  margin-right: 10px;
+  min-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.exr-list .item-info a:hover {
+  color: #72afd2;
+}
+
+.exr-list .item-complex .item-content, .exr-list .item-radio .item-content {
+  padding: 10px;
+}
+
+.exr-list .item-content {
+  color: #ccc;
+}

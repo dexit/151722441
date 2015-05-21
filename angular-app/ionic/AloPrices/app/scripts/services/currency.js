@@ -19,7 +19,7 @@ angular.module('aloPricesApp')
      * @return objects
      */
     service.getListCurrencyDetail = function (checkedIds, $next) {
-      var url = appGlobal.host + '/currencies/detail?currency_ids=' + checkedIds
+      var url = appGlobal.host + '/currencies/detail?currency_ids=' + checkedIds;
 
       // Show loading.
       $rootScope.showLoading();
@@ -43,7 +43,7 @@ angular.module('aloPricesApp')
 
         // Show log
         console.log(resp, status);
-        alert(resp.data[0]);
+        window.alert(resp.data[0]);
 
       });
     };
@@ -96,7 +96,7 @@ angular.module('aloPricesApp')
 
         // Show log
         console.log(resp, status);
-        alert(resp.data[0]);
+        window.alert(resp.data[0]);
 
       });
 
@@ -119,7 +119,7 @@ angular.module('aloPricesApp')
       $rootScope.showLoading();
 
       // Send request for listing
-      url = appGlobal.uri + '/currencies/detail';
+      var url = appGlobal.uri + '/currencies/detail';
 
       $http({
         url: url,
@@ -145,7 +145,7 @@ angular.module('aloPricesApp')
         // Hide loading
         $rootScope.hideLoading();
         console.log(data);
-        alert($translate('message.error_get_currency_detail'));
+        window.alert($translate('message.error_get_currency_detail'));
 
       });
 
@@ -215,7 +215,7 @@ angular.module('aloPricesApp')
 
         // Show log
         console.log(resp, status);
-        alert(resp.data[0]);
+        window.alert(resp.data[0]);
       });
 
     };

@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('ExchangesCtrl', function ($rootScope, $scope, Device, Currency) {
+  .controller('ExchangesCtrl', function ($rootScope, $scope, $cordovaPush, Device, Currency) {
     $scope.allowSwipe = true;
     $scope.items = [];
     $scope.type = 'currency';
@@ -83,7 +83,7 @@ angular.module('aloPricesApp')
       // Load checked currency ids.
       var type    = $scope.type;
       var checked = '';
-      if (type == 'currency') {
+      if (type === 'currency') {
         checked = checked_currency;
       } else {
         checked = checked_gold;
@@ -112,6 +112,18 @@ angular.module('aloPricesApp')
 
     };
 
+    $scope.registerGCMAndroid = function () {
+      var androidConfig = {
+        'senderID': '265723301690'
+      };
+
+      $cordovaPush.register(androidConfig).then(function (result) {
+        console.log(result);
+      }, function(err) {
+        console.log(err);
+      });
+    };
+
     /**
      * Initialize when enter view.
      *
@@ -127,7 +139,7 @@ angular.module('aloPricesApp')
       try {
         Device.getProfileId();
       } catch (err) {
-        console.log("Error: " + err.message);
+        console.log('Error: ' + err.message);
       }
 
       $scope.loadItems();

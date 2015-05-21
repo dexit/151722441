@@ -53,6 +53,7 @@ angular.module('aloPricesApp')
             $scope.pushChartData(item.created_at);
             arrData.push(item.buy);
           });
+
           $scope.chart_data.push(arrData);
           break;
 
@@ -60,9 +61,14 @@ angular.module('aloPricesApp')
         case 'bank':
           $scope.chart_series = [ $translate('exchange_detail.buy'), $translate('exchange_detail.sell') ];
 
+          arrData = [];
           angular.forEach(items, function (key, item) {
-            $scope.pushChartData(item.created_at, [item.buy, item.sell]);
+            $scope.pushChartData(item.created_at);
+
+            arrData.push([item.buy, item.sell]);
           });
+
+          $scope.chart_data.push(arrData);
           break;
       }
 

@@ -13,6 +13,7 @@ class CreateDevicesTable extends Migration
             $table->engine = 'InnoDB';
             $table->increments('id');
             $table->string('device_id')->nullable()->index();
+            $table->string('gcm_reg_id')->nullable();
             $table->boolean('status')->default(false);
             $table->timestamps();
         });
