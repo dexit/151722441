@@ -1,6 +1,7 @@
 <?php namespace DLNLab\AloExrates\Models;
 
 use Model;
+use DLNLab\ALoExrates\Helpers\EXRHelper;
 
 /**
  * Notification Model
@@ -96,15 +97,40 @@ class Notification extends Model
         
         $registration_ids = implode(',', $regIds);
         $fields = array(
-            'registration_ids' => $registration_ids,
-            'message' => $message
+            'registration_ids' => $regIds,
+            'data' => array(
+                'message' => $message
+            )
         );
         $headers = array(
             'Authorization: key=' . GOOGLE_API_KEY,
             'Content-Type: application/json'
         );
-        
-        $result = EXRHelper::curl(GOOGLE_GCM_URL, $fields, $headers);
+        // Open connection
+        $ch = curl_init();
+
+        // Set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, GOOGLE_GCM_URL);
+
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        // Disabling SSL Certificate support temporarly
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+
+        // Execute post
+        $result = curl_exec($ch);
+        if ($result === FALSE) {
+            die('Curl failed: ' . curl_error($ch));
+        }
+
+        // Close connection
+        curl_close($ch);
+
+        //$result = EXRHelper::curl(GOOGLE_GCM_URL, json_encode($fields), $headers);
         
         return $result;
     }

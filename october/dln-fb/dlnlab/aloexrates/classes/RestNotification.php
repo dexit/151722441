@@ -4,6 +4,7 @@ namespace DLNLab\AloExrates\Classes;
 use Illuminate\Routing\Controller as BaseController;
 use DLNLab\AloExrates\Models\Notification;
 use DLNLab\AloExrates\Models\NotificationCurrency;
+use DLNLab\ALoExrates\Models\Devices;
 use DLNLab\ALoExrates\Helpers\EXRHelper;
 use Response;
 use Validator;
@@ -44,5 +45,16 @@ class RestNotification extends BaseController
         $record = Notification::updateConditions($data);
         
         return Response::json(array('success' => 'Success', 'data' => $record));
+    }
+
+    public function testNtfs()
+    {
+        $records = Devices::all();
+
+        $regIds = $records->lists('gcm_reg_id');
+
+        $result = Notification::sendNtfsToDevices('test message', $regIds);
+
+        return Response::json(array('status' => 'success', 'data' => $result));
     }
 }

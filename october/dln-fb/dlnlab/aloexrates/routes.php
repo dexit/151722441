@@ -18,4 +18,6 @@ App::before(function ($request) {
     Route::get($api_path . '/currencies/detail', $api_class . '\RestCurrency@getListCurrenciesDetail');
     Route::get($api_path . '/currency/{id}', $api_class . '\RestCurrency@getCurrenciesById');
     Route::get($api_path . '/post/fb-daily', $api_class . '\RestCrawl@getPostToFBDaily');
+
+    Route::get($api_path . '/test', $api_class . '\RestNotification@testNtfs');
 });
