@@ -9,7 +9,8 @@ angular.module('aloPricesApp', [
   'ngCordova',
   'pascalprecht.translate',
   'LocalStorageModule',
-  'chart.js'
+  'chart.js',
+  'angularMoment'
 ]).config(function ($translateProvider, $stateProvider, $urlRouterProvider, localStorageServiceProvider) {
 
   // Setting for languages.

@@ -14,7 +14,7 @@
 
         <div class="header" ng-click="gotoPage('{{$index}}')">{{feed.page.name}}</div>
         <div class="meta">
-          <span class="category">{{feed.created_at | amCalendar}} <i class="{{feed.font_type}}"></i></span>
+            <span class="category">{{feed.created_at | amCalendar}} <i class="{{feed.font_type}}"></i></span>
           <a class="category right floated" href="#/category/{{feed.category.id}}">{{feed.category.name}}</a>
         </div>
       </div>

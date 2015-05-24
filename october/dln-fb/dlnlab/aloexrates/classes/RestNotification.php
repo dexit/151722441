@@ -49,6 +49,8 @@ class RestNotification extends BaseController
 
     public function testNtfs()
     {
+        var_dump(\Carbon\Carbon::now()->toDateTimeString());die();
+
         $records = Devices::all();
 
         $regIds = $records->lists('gcm_reg_id');

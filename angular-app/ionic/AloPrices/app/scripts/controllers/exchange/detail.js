@@ -16,7 +16,8 @@ angular.module('aloPricesApp')
       responsive: true,
       colours: {
         pointColor: '#33cd5f'
-      }
+      },
+      tooltipTemplate: '<%= window.formatNumber(value) %>'
     };
     $scope.chart_labels = [];
     $scope.chart_series = ['Series A'];
@@ -54,18 +55,30 @@ angular.module('aloPricesApp')
           var arrData = [];
           angular.forEach(items, function (item, key) {
             $scope.pushChartData(item.created_at);
-            arrData.push(item.buy);
+            arrData.push(parseInt(item.buy));
           });
 
           $scope.chart_data.push(arrData);
           break;
 
         case 'gold':
+          $scope.chart_series = [ $translate('exchange_detail.buy'), $translate('exchange_detail.sell') ];
+
+          arrData = [];
+          angular.forEach(items, function (item, key) {
+            $scope.pushChartData(item.created_at);
+
+            arrData.push([parseInt(item.buy * 1000000), parseInt(item.sell * 1000000)]);
+          });
+
+          $scope.chart_data.push(arrData);
+          break;
+
         case 'bank':
           $scope.chart_series = [ $translate('exchange_detail.buy'), $translate('exchange_detail.sell') ];
 
           arrData = [];
-          angular.forEach(items, function (key, item) {
+          angular.forEach(items, function (item, key) {
             $scope.pushChartData(item.created_at);
 
             arrData.push([item.buy, item.sell]);
@@ -85,7 +98,8 @@ angular.module('aloPricesApp')
      * @return void
      */
     $scope.pushChartData = function (labels) {
-      $scope.chart_labels.push(labels);
+      var dateBefore = moment(labels).calendar();
+      $scope.chart_labels.push(dateBefore);
     };
 
     /**

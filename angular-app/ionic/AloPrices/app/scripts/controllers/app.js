@@ -70,4 +70,22 @@ angular.module('aloPricesApp')
       $ionicLoading.hide();
     };
 
+    /**
+     * Global function for format number.
+     *
+     * @param integer num
+     * @returns {*}
+     */
+    window.formatNumber = function (num) {
+      var returnNumber = '';
+      if (angular.isArray(num)) {
+        angular.forEach(num, function (value, key) {
+          returnNumber += value.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' VNĐ ';
+        });
+      } else {
+        returnNumber = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' VNĐ'
+      }
+      return returnNumber;
+    };
+
   });

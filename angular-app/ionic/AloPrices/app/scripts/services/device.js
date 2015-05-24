@@ -58,7 +58,7 @@ angular.module('aloPricesApp')
         }
       }).success(function (resp, status) {
 
-        // Save uid to storage.
+        // Save uid to storage.bower
         if (localStorageService.isSupported && resp.data.id) {
           localStorageService.set(appGlobal.exrUid, resp.data.id);
         }
