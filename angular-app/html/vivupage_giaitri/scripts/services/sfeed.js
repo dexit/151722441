@@ -115,7 +115,7 @@ angular.module('fbFeedsApp')
           $rootScope.hideLoading();
           _scope._page += 1;
 
-          if (_scope.feeds.length === 0 && countRefresh <= 5) {
+          if (_scope.feeds.length === 0 && countRefresh <= 40) {
             countRefresh++;
             self.getFeeds(_scope, isRefreshed);
           }
