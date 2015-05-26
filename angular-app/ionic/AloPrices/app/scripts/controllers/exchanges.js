@@ -100,7 +100,6 @@ angular.module('aloPricesApp')
      * @return void
      */
     $scope.init = function () {
-
       // Toggle tabs.
       var tabSelector = '.tabs .tab-item';
       $(tabSelector).on('click', function (e) {
@@ -109,7 +108,6 @@ angular.module('aloPricesApp')
         $(tabSelector).removeClass('active');
         $(this).addClass('active');
       });
-
     };
 
     $scope.registerGCMAndroid = function () {
@@ -162,8 +160,8 @@ angular.module('aloPricesApp')
 
       // Get profile id.
       $timeout(function() {
-        $scope.registerGCMAndroid();
-      }, 3000);
+        //$scope.registerGCMAndroid();
+      }, 1000);
 
       $scope.loadItems();
     });

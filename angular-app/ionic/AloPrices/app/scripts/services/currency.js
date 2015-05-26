@@ -59,6 +59,7 @@ angular.module('aloPricesApp')
 
       // Check data exists in caches
       var id = appGlobal.exrCachedListCurrency + '_' + type;
+      console.log(id);
       if (localStorageService.isSupported && localStorageService.get(id)) {
         $next(localStorageService.get(id));
         return false;

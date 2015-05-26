@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('ExchangeAddCtrl', function ($scope, $routeParams, Currency, appGlobal) {
+  .controller('ExchangeAddCtrl', function ($scope, $routeParams, $state, Currency, appGlobal) {
     $scope.items = [];
     $scope.query = '';
     $scope.checkedCurrency = [];
@@ -86,6 +86,9 @@ angular.module('aloPricesApp')
     $scope.onClickSave = function () {
       // Save currency to local storage.
       Currency.saveCheckedCurrency($scope.checkedCurrency, type);
+
+      // Goto exchanges list.
+      $state.go('app.exchanges');
     };
 
     /**
@@ -96,7 +99,8 @@ angular.module('aloPricesApp')
     $scope.$on('$ionicView.enter', function (e, args) {
 
       // Get type from routeParams
-      type = ($routeParams.type) ? $routeParams.type : 'ty-gia';
+      console.log($routeParams);
+      type = ($routeParams.type) ? $routeParams.type : 'currency';
 
       // Get checked currencies.
       var checked = $scope.checkedCurrency;
