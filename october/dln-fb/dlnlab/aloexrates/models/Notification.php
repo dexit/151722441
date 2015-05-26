@@ -85,16 +85,24 @@ class Notification extends Model
      * Static function for send message to devices.
      * 
      * @param string $message
-     * @param unknown $regIds
+     * @param unknown $deviceIds
      * @return boolean|unknown
      */
-    public static function sendNtfsToDevices($message = '', $regIds = array())
+    public static function sendNtfsToDevices($message = '', $deviceIds = array())
     {
-        if (! $message || ! $regIds)
+        if (! $message || ! $deviceIds)
         {
             return false;
         }
-        
+
+        // Get registration ids
+        $records = Devices::whereIn('id', $deviceIds)->get();
+        $regIds = $records->lists('gcm_reg_id');
+
+        if (! count($regIds)) {
+            return false;
+        }
+
         $registration_ids = implode(',', $regIds);
         $fields = array(
             'registration_ids' => $regIds,

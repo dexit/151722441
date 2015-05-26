@@ -107,7 +107,7 @@ class CurrencyDaily extends Model
             }
             $record->buy = $buy;
             if ($yesterday) {
-                $record->buy_change = $buy - $record->buy;
+                $record->buy_change = $buy - $yesterday->buy;
             }
 
             $record->save();

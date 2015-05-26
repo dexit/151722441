@@ -170,118 +170,86 @@ class RestCrawl extends BaseController
         
         // Valid get params.
         $valids = Validator::make($data, [
-            'type' => 'required_if:type,defice,facebook'
+            'token' => 'required|in:' + EXR_TOKEN
         ], EXRHelper::getMessage());
-        
+
         // Check valid.
         if ($valids->fails())
         {
-            return Response::json(array('status' => 'Error', 'data' => $valids->messages()));
+            return Response::json(array('status' => 'Error', 'data' => $valids->messages()), 403);
         }
         
         // Get Currency
-    }
-
-    /**
-     * Api function for crawl get min max currency
-     *
-     * @return Response
-     */
-    public function getMinMaxCurrency()
-    {
-        $data = get();
-
-        // Validator get params
-        $valids = Validator::make($data, [
-            'type' => 'required'
-        ], EXRHelper::getMessage());
-
-        // Check valid
-        if ($valids->fails()) {
-            return Response::json(array('status' => 'error', 'data' => $valids->messages()));
-        }
-
-        $record = CurrencyDaily::whereRaw('type = ? AND is_send = ? AND DATE(updated_at) = CURDATE()', array($data['type'], false))->first();
-
-        if (! $record)
-        {
-            CurrencyDaily::where('is_send', true)->update(array('is_send' => true));
-            $record = CurrencyDaily::whereRaw('is_send = ? AND DATE(updated_at) = CURDATE()', array(false))->first();
-        }
-
-        // Check is Min|Max in two week
-        if (! $record) {
-            return Response::json(array('status' => 'error', 'data' => 'Error'));
-        }
-        $currencyId = $record->currency_id;
-
-        $message = '';
-        if (Cache::has('exr_notification_msg_' . $currencyId))
-        {
-            $message = Cache::get('exr_notification_msg_' . $currencyId);
-        } 
-        else
-        {
-            // Get min
-            $min = CurrencyDaily::whereRaw('type = ? AND currency_id = ? AND buy < ? AND updated_at >= NOW() - INTERVAL ? WEEK', array($data['type'], $currencyId, $record->buy, EXR_LIMIT_WEEK))
-                ->orderBy('buy', 'ASC')
-                ->first();
-
-            if (empty($min)) {
-                //Get max
-                $max = CurrencyDaily::whereRaw('type = ? AND currency_id = ? AND buy > ? AND updated_at >= NOW() - INTERVAL ? WEEK', array($data['type'], $currencyId, $record->buy, EXR_LIMIT_WEEK))
-                    ->orderBy('buy', 'DESC')
-                    ->first();
-            }
-
-            // Only get currency today if exist min or max data
-            $newPrice = $record->buy;
-            if ($min || $max) {
-                $newPrice = CurrencyDaily::getCurrencyToday($currencyId, $record->buy);
-            }
-
-            if ($min) {
-                $message = sprintf(EXR_MIN_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
-            } else if ($max) {
-                $message = sprintf(EXR_MAX_MSG, $record->name, EXR_LIMIT_WEEK, $newPrice);
-            }
-
-            Cache::put('exr_notification_msg_' . $currencyId, $message, EXR_CACHE_MINUTE);
-        }
-        
-        // Return false if not exists message
-        if (empty($message))
-        {
-            return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
-        }
-        
-        // Get 1000 devices
-        $records = Notification::whereRaw('currency_id = ? AND type = ? AND is_send = ?', array($currencyId, $data['type'], false))
-            ->take(EXR_LIMIT_DEVICES)
+        $currencies = Currency::whereRaw('is_send = ?', array(false))
+            ->take(5)
             ->get();
-        
-        if (! count($records))
-        {
-            // Update is_send for currency when send all devices.
-            $record->is_send = true;
-            $record->save();
-            
-            // Clear if crawl end devices.
-            Notification::whereRaw('currency_id = ? AND type = ? AND is_send = ? AND DATE(updated_at) != CURDATE()', array($currencyId, 'device', true))
-                ->update(array('is_send', false));
+
+        if (! count($currencies)) {
+            Currency::where('is_send', true)->update(array('is_send' => false));
+            $currencies = Currency::whereRaw('is_send = ?', array(false))
+                ->take(5)
+                ->get();
         }
-        
-        // Convert devices registations ids to array.
-        $regIds = $records->lists('reg_id');
-        
-        $response = '';
-        if (count($regIds) <= 1000 && ! empty($message))
-        {
-            // Send to notification to it
-            $response = Notification::sendNtfsToDevices($message, $regIds);
+
+        foreach ($currencies as $currency) {
+            $message = '';
+            if (Cache::has('exr_notification_msg_' . $currency->id)) {
+                $message = Cache::get('exr_notification_msg_' . $currency->id);
+            } else {
+                // Get today currency
+                $today = CurrencyDaily::whereRaw('currency_id = ? AND DATE(created_at) = CURDATE()', array($currency->id))->first();
+                if (! $today) {
+                    return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
+                }
+
+                $mimax = CurrencyDaily::whereRaw('currency_id = ? AND DATE(created_at) >= NOW() - INTERVAL ? WEEK', array($currency->id, EXR_LIMIT_WEEK))
+                    ->select(DB::raw('MIN(buy) as min, MAX(buy) as max'))
+                    ->first();
+
+                if ($mimax->min > $today->buy) {
+                    $message = sprintf(EXR_MIN_MSG, $today->name, EXR_LIMIT_WEEK, $today->buy);
+                } else if ($mimax->max < $today->buy) {
+                    $message = sprintf(EXR_MAX_MSG, $today->name, EXR_LIMIT_WEEK, $today->buy);
+                } else {
+                    $message = '';
+                }
+
+                if ($message) {
+                    Cache::put('exr_notification_msg_' . $currency->id, $message, EXR_CACHE_MINUTE);
+                }
+            }
+
+            if (! $message) {
+                return Response::json(array('status' => 'error', 'data' => 'Error'), 500);
+            }
+
+            // Get 1000 devices
+            $records = Notification::whereRaw('currency_id = ? AND is_send = ?', array($currency->id, false))
+                ->take(EXR_LIMIT_DEVICES)
+                ->get();
+
+            if (! count($records)) {
+                // Update is_send for currency when send all devices.
+                $currency->is_send = true;
+                $currency->save();
+
+                // Clear if crawl end devices.
+                Notification::whereRaw('currency_id = ? AND type = ? AND is_send = ? AND DATE(updated_at) != CURDATE()', array($currency->id, 'device', true))
+                    ->update(array('is_send', false));
+            }
+
+            // Convert devices registations ids to array.
+            $deviceIds = $records->lists('device_id');
+
+            $response = '';
+            if (count($deviceIds) <= 1000 && ! empty($message))
+            {
+                // Send to notification to it
+                $response = Notification::sendNtfsToDevices($message, $deviceIds);
+            }
+
+            return Response::json(array('status' => 'success', 'data' => $response));
         }
-        
-        return Response::json(array('status' => 'success', 'data' => $response));
     }
 
     /**
