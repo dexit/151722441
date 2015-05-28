@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('ExchangeDetailCtrl', function ($scope, $stateParams, $filter, Currency, Device) {
+  .controller('ExchangeDetailCtrl', function ($rootScope, $scope, $stateParams, $filter, Currency, Device) {
 
     /* Setting for chart */
     $scope.chart_options = {
@@ -24,8 +24,8 @@ angular.module('aloPricesApp')
     $scope.chart_data   = [];
     $scope.items        = [];
     $scope.notifications = [
-      {name: $filter('translate')('exchange_detail.buy_min'), slug: 'min'},
-      {name: $filter('translate')('exchange_detail.buy_max'), slug: 'max'}
+      {name: $filter('translate')('exchange_detail.buy_min'), slug: 'currency_min'},
+      {name: $filter('translate')('exchange_detail.buy_max'), slug: 'currency_max'}
     ];
 
     /**
@@ -102,7 +102,7 @@ angular.module('aloPricesApp')
      * @return void
      */
     $scope.pushChartData = function (labels) {
-      var dateBefore = moment(labels).calendar();
+      var dateBefore = moment(labels).format('DD-MM');
       $scope.chart_labels.push(dateBefore);
     };
 
@@ -121,8 +121,9 @@ angular.module('aloPricesApp')
       // Get list notifications data.
       Device.getListNotifications();
 
-      $scope.ntfsSelections = Notification.getSavedNotifications();
+      //$scope.ntfsSelections = Notification.getSavedNotifications();
 
+      $rootScope.initTabs();
     });
 
   });

@@ -99,7 +99,7 @@ angular.module('aloPricesApp')
     $scope.$on('$ionicView.enter', function (e, args) {
 
       // Get type from routeParams
-      console.log($routeParams);
+      console.log($routeParams, $state);
       type = ($routeParams.type) ? $routeParams.type : 'currency';
 
       // Get checked currencies.

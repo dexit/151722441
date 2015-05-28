@@ -100,14 +100,7 @@ angular.module('aloPricesApp')
      * @return void
      */
     $scope.init = function () {
-      // Toggle tabs.
-      var tabSelector = '.tabs .tab-item';
-      $(tabSelector).on('click', function (e) {
-        e.preventDefault();
-
-        $(tabSelector).removeClass('active');
-        $(this).addClass('active');
-      });
+      $rootScope.initTabs();
     };
 
     $scope.registerGCMAndroid = function () {

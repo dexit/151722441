@@ -3,10 +3,12 @@
   <!-- BEGIN tab header -->
   <div class="tabs-striped tabs-top tabs-background-balanced tabs-color-light">
     <div class="tabs tabs-icon-left">
-      <a class="tab-item active" href="javascript:void(0)" data-content="detail">
+      <a class="tab-item active" href="javascript:void(0)" data-target="detail">
+        <i class="icon fa fa-line-chart"></i>
         {{ 'exchange_detail.detail' | translate }}
       </a>
-      <a class="tab-item" href="javascript:void(0)" data-content="notification">
+      <a class="tab-item" href="javascript:void(0)" data-target="notification">
+        <i class="icon fa fa-globe"></i>
         {{ 'exchange_detail.notification' | translate }}
       </a>
     </div>
@@ -15,13 +17,22 @@
 
   <ion-content overflow-scroll="{{ overflowScrolling }}" class="has-subheader">
 
-    <div class="exr-tab-content exr-detail padding">
+    <!--BEGIN tab detail -->
+    <div class="exr-tab-content exr-detail active">
 
-      <canvas id="exchange_line" class="chart chart-line" data="chart_data" height="450" width="600"
-        labels="chart_labels" legend="true" series="chart_series" options="chart_options" click="showDetailCurrency">
-      </canvas>
+      <div class="padding">
+        <canvas id="exchange_line" class="chart chart-line" data="chart_data" height="450" width="600"
+                labels="chart_labels" legend="true" series="chart_series" options="chart_options" click="showDetailCurrency">
+        </canvas>
+      </div>
 
-      <ion-list class="list">
+      <ion-list class="list exr-list">
+
+        <!-- BEGIN item divider -->
+        <ion-item class="item item-divider">
+          {{ 'exchange_detail.exchange_rates' | translate }}
+        </ion-item>
+        <!-- END item divider -->
 
         <!-- BEGIN item -->
         <ion-item class="item item-icon-right" ng-repeat="item in items | repeatReverse" href="#/ty-gia/{{ item.currency.id }}">
@@ -49,14 +60,22 @@
       </ion-list>
 
     </div>
+    <!-- END tab detail -->
 
+    <!-- BEGIN tab notify -->
     <div class="exr-tab-content exr-notification">
       <ion-list class="list">
 
+        <!-- BEGIN item divider -->
+        <ion-item class="item item-divider">
+          {{ 'exchange_detail.notify_device' | translate }}
+        </ion-item>
+        <!-- END item divider -->
+
         <ion-item class="item item-toggle" ng-repeat="notification in notifications" >
           {{ notification.name }}
-          <label class="toggle toggle-assertive">
-            <input type="checkbox" ng-checked="(notification.)">
+          <label class="toggle toggle-balanced">
+            <input type="checkbox">
             <div class="track">
               <div class="handle"></div>
             </div>
@@ -65,6 +84,7 @@
 
       </ion-list>
     </div>
+    <!-- END tab notify -->
 
   </ion-content>
 

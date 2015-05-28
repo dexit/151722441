@@ -71,6 +71,28 @@ angular.module('aloPricesApp')
     };
 
     /**
+     * Initialize tabs
+     *
+     * @return void
+     */
+    $rootScope.initTabs = function () {
+      // Toggle tabs.
+      var tabSelector = '.tabs .tab-item';
+      $(tabSelector).on('click', function (e) {
+        e.preventDefault();
+
+        $(tabSelector).removeClass('active');
+        $(this).addClass('active');
+
+        var target = $(this).data('target');
+        if (target) {
+          $('.exr-tab-content').removeClass('active');
+          $('.exr-tab-content.exr-' + target).addClass('active');
+        }
+      });
+    };
+
+    /**
      * Global function for format number.
      *
      * @param integer num

@@ -17,3 +17,11 @@
 .item {
   font-size: 14px;
 }
+
+.exr-tab-content {
+  display: none;
+}
+
+.exr-tab-content.active {
+  display: block;
+}
