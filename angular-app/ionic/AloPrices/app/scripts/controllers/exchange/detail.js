@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('ExchangeDetailCtrl', function ($scope, $stateParams, $translate, Currency, Device) {
+  .controller('ExchangeDetailCtrl', function ($scope, $stateParams, $filter, Currency, Device) {
 
     /* Setting for chart */
     $scope.chart_options = {
@@ -23,6 +23,10 @@ angular.module('aloPricesApp')
     $scope.chart_series = ['Series A'];
     $scope.chart_data   = [];
     $scope.items        = [];
+    $scope.notifications = [
+      {name: $filter('translate')('exchange_detail.buy_min'), slug: 'min'},
+      {name: $filter('translate')('exchange_detail.buy_max'), slug: 'max'}
+    ];
 
     /**
      * Show detail currency information when click chart point.
@@ -50,7 +54,7 @@ angular.module('aloPricesApp')
 
       switch (items[0].type) {
         case 'currency':
-          $scope.chart_series = [ $translate('exchange_detail.exchange_rates') ];
+          $scope.chart_series = [ $filter('translate')('exchange_detail.exchange_rates') ];
 
           var arrData = [];
           angular.forEach(items, function (item, key) {
@@ -62,7 +66,7 @@ angular.module('aloPricesApp')
           break;
 
         case 'gold':
-          $scope.chart_series = [ $translate('exchange_detail.buy'), $translate('exchange_detail.sell') ];
+          $scope.chart_series = [ $filter('translate')('exchange_detail.buy'), $filter('translate')('exchange_detail.sell') ];
 
           arrData = [];
           angular.forEach(items, function (item, key) {
@@ -75,7 +79,7 @@ angular.module('aloPricesApp')
           break;
 
         case 'bank':
-          $scope.chart_series = [ $translate('exchange_detail.buy'), $translate('exchange_detail.sell') ];
+          $scope.chart_series = [ $filter('translate')('exchange_detail.buy'), $filter('translate')('exchange_detail.sell') ];
 
           arrData = [];
           angular.forEach(items, function (item, key) {
@@ -116,6 +120,8 @@ angular.module('aloPricesApp')
 
       // Get list notifications data.
       Device.getListNotifications();
+
+      $scope.ntfsSelections = Notification.getSavedNotifications();
 
     });
 

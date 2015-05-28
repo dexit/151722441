@@ -38,50 +38,6 @@ class Notification extends Model
     public $attachMany = [];
 
     /**
-     * Static function for add new notification conditions.
-     * 
-     * @param object $data
-     * @return \DLNLab\AloExrates\Models\Notification|boolean
-     */
-    public static function updateConditions($data = array())
-    {
-        if (empty($data['type']) || empty($data['reg_id']) || empty($data['currency_id']))
-        {
-            return false;
-        }
-
-        // Check limit notification number
-        $record = self::whereRaw('reg_id = ? AND type = ?', array($data['reg_id'], $data['type']))->count();
-        if ($record && $record >= EXR_LIMIT_NTFS)
-        {
-            return false;
-        }
-        
-        // Check exists reg_id in db.
-        $record = self::whereRaw('reg_id = ? AND type = ? AND currency_id = ?', array($data['reg_id'], $data['type'], $data['currency_id']))->first();
-        if ($record)
-        {
-            if ($record->is_min == $data['is_min'] && $record->is_max == $data['is_max'])
-            {
-                return false;
-            }
-
-            $record->is_min = $data['is_min'];
-            $record->is_max = $data['is_max'];
-        } else {
-            $record = new self;
-            $record->type        = $data['type'];
-            $record->reg_id      = $data['reg_id'];
-            $record->currency_id = $data['currency_id'];
-            $record->is_min      = $data['is_min'];
-            $record->is_max      = $data['is_max'];
-        }
-        $record->save();
-        
-        return $record;
-    }
-    
-    /**
      * Static function for send message to devices.
      * 
      * @param string $message

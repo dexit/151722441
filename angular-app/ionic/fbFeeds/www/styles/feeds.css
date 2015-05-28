@@ -1,0 +1,128 @@
+.ui.cards {
+  margin: 0;
+}
+
+.ui.cards > .card {
+  margin: 0.6em 0.5em;
+}
+
+.ui.cards, .ui.cards > .card, .dln-thumb-images {
+  width: 100% !important;
+  text-align: center;
+}
+
+.description p {
+  font-size: 11px;
+  line-height: 16px;
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-bottom: 0.75em;
+}
+
+.description a {
+  text-decoration: none;
+}
+
+.dln-content.content {
+  padding: 0px !important;
+}
+
+.dln-content .dln-item {
+  padding: 0.75em 1em !important;
+}
+.dln-content .meta .category.right {
+  width: 60px;
+  text-align: right;
+}
+
+.dln-item .category {
+  min-width: 100px;
+}
+
+.dln-image-thumb .items {
+  border-left: 0px !important;
+  border-right: 0px !important;
+}
+
+.dln-image-thumb i.icon {
+  position: absolute;
+  width: 50px;
+  font-size: 50px;
+  top: 50%;
+  left: 50%;
+  display: none;
+  color: #fff;
+  opacity: 0.45;
+  z-index: 10;
+  margin-top: 15px;
+}
+
+.dln-link {
+  border-top: 1px solid #ddd !important;
+  border-bottom: 1px solid #ddd !important;
+  padding: 0px !important;
+  border-radius: 0px !important;
+}
+
+.dln-link .header {
+  padding-top: 5px;
+  font-size: 13px !important;
+}
+
+.dln-link .content {
+  max-height: 130px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dln-link .content p {
+  padding: 0;
+  font-size: 11px;
+  white-space: pre-wrap;
+  max-height: 80px;
+}
+.dln-link .content .header {
+  white-space: normal;
+  font-size: 11px !important;
+}
+.dln-link .content .header, .dln-content .header {
+  font-weight: 700;
+}
+
+.ui.items > .item > .image {
+  display: table-cell;
+  float: none;
+}
+
+.dln-small-130 {
+  width: 130px;
+  height: 130px;
+}
+
+.dln-loading {
+  height: 60px;
+  box-shadow: none !important;
+}
+
+.extra.content i {
+  margin-right: 5px;
+  font-size: 14px;
+}
+
+#dln_tab_feed, #dln_header_bar .bar-header {
+  transition: 0.25s ease;
+}
+
+#dln_tab_feed.bar-slide-away {
+  -webkit-transform: translateY(50px); /* Safari */
+  transform: translateY(50px);
+}
+
+#dln_header_bar.bar-slide-away .bar-header {
+  -webkit-transform: translateY(-50px); /* Safari */
+  transform: translateY(-50px);
+}
+
+.no-boxshadow {
+  box-shadow: none !important;
+}

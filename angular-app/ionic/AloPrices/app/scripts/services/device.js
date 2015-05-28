@@ -8,7 +8,7 @@
  * Factory in the aloPricesApp.
  */
 angular.module('aloPricesApp')
-  .factory('Device', function ($rootScope, $http, $translate, $cordovaDevice, appGlobal, localStorageService) {
+  .factory('Device', function ($rootScope, $http, $filter, $cordovaDevice, appGlobal, localStorageService) {
     var service = {};
 
     /**
@@ -65,7 +65,7 @@ angular.module('aloPricesApp')
 
       }).error(function (data, status) {
         console.log(data);
-        window.alert($translate('message.error_get_device'));
+        window.alert($filter('translate')('message.error_get_device'));
       });
     };
 
@@ -121,7 +121,7 @@ angular.module('aloPricesApp')
         // Hide loading
         $rootScope.hideLoading();
         console.log(resp.data);
-        window.alert($translate('message.error_get_device'));
+        window.alert($filter('translate')('message.error_get_device'));
       });
     };
 

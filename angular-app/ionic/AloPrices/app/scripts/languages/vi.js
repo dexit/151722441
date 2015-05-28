@@ -59,7 +59,9 @@ angular.module('aloPricesApp')
       exchange_detail: {
         detail: 'Chi tiết',
         notification: 'Thông báo',
-        exchange_rates: 'Tỷ giá'
+        exchange_rates: 'Tỷ giá',
+        buy_min: 'Khi tỉ giá thấp nhất',
+        buy_max: 'Khi tỉ giá cao nhất'
       }
     };
 

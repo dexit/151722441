@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('AppCtrl', function ($rootScope, $scope, $cordovaToast, $ionicLoading, $translate, Device) {
+  .controller('AppCtrl', function ($rootScope, $scope, $cordovaToast, $ionicLoading, Device) {
 
     // Set default disable overflow scrolling for ionic content.
     $rootScope.overflowScrolling = false;

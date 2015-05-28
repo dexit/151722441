@@ -8,7 +8,7 @@
  * Factory in the aloPricesApp.
  */
 angular.module('aloPricesApp')
-  .factory('Currency', function ($rootScope, $http, $translate, appGlobal, localStorageService) {
+  .factory('Currency', function ($rootScope, $http, $filter, appGlobal, localStorageService) {
     var service = {};
 
     /**
@@ -146,7 +146,7 @@ angular.module('aloPricesApp')
         // Hide loading
         $rootScope.hideLoading();
         console.log(data);
-        window.alert($translate('message.error_get_currency_detail'));
+        window.alert($filter('translate')('message.error_get_currency_detail'));
 
       });
 

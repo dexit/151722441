@@ -13,7 +13,9 @@ App::before(function ($request) {
     Route::get($api_path . '/crawl/exrates', $api_class . '\RestCrawl@getExrates');
     Route::get($api_path . '/crawl/banks', $api_class . '\RestCrawl@getBankDaily');
     Route::get($api_path . '/crawl/golds', $api_class . '\RestCrawl@getGoldDaily');
+    Route::get($api_path . '/crawl/notify', $api_class . 'RestCrawl@getSendNotificationDevices');
     Route::post($api_path . '/notifications', $api_class . '\RestNotification@postRegisterNotification');
+    Route::get($api_path . '/notifications', $api_class . '\RestNotification@getNotificationByDeviceId');
     Route::get($api_path . '/currencies', $api_class . '\RestCurrency@getListCurrencies');
     Route::get($api_path . '/currencies/detail', $api_class . '\RestCurrency@getListCurrenciesDetail');
     Route::get($api_path . '/currency/{id}', $api_class . '\RestCurrency@getCurrenciesById');

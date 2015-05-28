@@ -24,7 +24,7 @@
       <ion-list class="list">
 
         <!-- BEGIN item -->
-        <ion-item class="item item-icon-right" ng-repeat="item in lists" href="#/ty-gia/{{ item.currency.id }}">
+        <ion-item class="item item-icon-right" ng-repeat="item in items | repeatReverse" href="#/ty-gia/{{ item.currency.id }}">
           <div class="item-code">{{ item.currency.code }}</div>
           <div class="item-info">
             <a href="javascript:void(0)" class="item-title">
@@ -43,7 +43,6 @@
             {{ 'exchanges.share' | translate }}
           </ion-option-button>
           <!-- END swipe options -->
-
         </ion-item>
         <!-- END item -->
 
@@ -54,7 +53,15 @@
     <div class="exr-tab-content exr-notification">
       <ion-list class="list">
 
-
+        <ion-item class="item item-toggle" ng-repeat="notification in notifications" >
+          {{ notification.name }}
+          <label class="toggle toggle-assertive">
+            <input type="checkbox" ng-checked="(notification.)">
+            <div class="track">
+              <div class="handle"></div>
+            </div>
+          </label>
+        </ion-item>
 
       </ion-list>
     </div>
