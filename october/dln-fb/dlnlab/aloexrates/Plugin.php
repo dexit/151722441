@@ -50,6 +50,11 @@ class Plugin extends PluginBase
                         'label' => 'Tỷ giá hàng ngày',
                         'icon' => 'icon-list',
                         'url' => Backend::url('dlnlab/aloexrates/currencydaily')
+                    ],
+                    'device' => [
+                        'label' => 'Thiết bị',
+                        'icon' => 'icon-list',
+                        'url' => Backend::url('dlnlab/aloexrates/device')
                     ]
                 ]
             ]

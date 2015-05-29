@@ -6,3 +6,12 @@ fields:
     id:
         label: ID
         disabled: true
+
+    device_id:
+        label: Device ID
+
+    gcm_reg_id:
+        label: GCM
+
+    status:
+        label: Status

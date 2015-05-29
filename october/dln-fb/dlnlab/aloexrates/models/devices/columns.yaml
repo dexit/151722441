@@ -6,3 +6,17 @@ columns:
     id:
         label: ID
         searchable: true
+
+    device_id:
+        label: Device ID
+
+    gcm_reg_id:
+        label: GCM
+
+    status:
+        label: Status
+        type: switch
+
+    updated_at:
+        label: Update
+        type: timesince
