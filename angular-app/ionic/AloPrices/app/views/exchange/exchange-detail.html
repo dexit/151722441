@@ -22,7 +22,8 @@
 
       <div class="padding">
         <canvas id="exchange_line" class="chart chart-line" data="chart_data" height="450" width="600"
-                labels="chart_labels" legend="true" series="chart_series" options="chart_options" click="showDetailCurrency">
+          labels="chart_labels" legend="true" series="chart_series" options="chart_options" click="showDetailCurrency"
+          colours="chart_colours">
         </canvas>
       </div>
 
@@ -39,13 +40,16 @@
           <div class="item-code">{{ item.currency.code }}</div>
           <div class="item-info">
             <a href="javascript:void(0)" class="item-title">
-              {{ item.currency.name }}
+              {{ item.currency.name }} <span class="pull-right">({{ item.updated_at | amDateFormat:'DD/MM' }})</span>
             </a>
-            <span class="item-desc">{{ 'exchanges.buy' | translate }}{{ item.buy }}</span>
-            <span class="item-desc">{{ 'exchanges.sell' | translate }}{{ item.sell }}</span>
+            <span class="item-desc">{{ 'exchanges.buy' | translate }}
+              <span ng-class="(item.buy_change >= 0) ? 'exr-green': 'exr-red'">{{ item.buy | currency:"":0 }} đ ({{ item.buy_change }} đ)</span>
+            </span>
+            <span class="item-desc">{{ 'exchanges.sell' | translate }}
+              <span ng-class="(item.sell_change >= 0) ? 'exr-green': 'exr-red'">{{ item.sell | currency:"":0 }} đ ({{ item.sell_change }} đ)</span>
+            </span>
           </div>
           {{ item.name }}
-          <i class="icon icon-right ion-chevron-right"></i>
           <br />
           <span ng-hide="item.type == 'GOLD'" class="text-mute">{{ item.code }}</span>
 

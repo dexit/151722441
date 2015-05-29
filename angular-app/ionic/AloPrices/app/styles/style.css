@@ -15,7 +15,7 @@
 }
 
 .item {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .exr-tab-content {
@@ -24,4 +24,12 @@
 
 .exr-tab-content.active {
   display: block;
+}
+
+.exr-green {
+  color: #33cd5f !important;
+}
+
+.exr-red {
+  color: #ef473a !important;
 }

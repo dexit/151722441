@@ -14,11 +14,9 @@ angular.module('aloPricesApp')
     $scope.chart_options = {
       animation: false,
       responsive: true,
-      colours: {
-        pointColor: '#33cd5f'
-      },
       tooltipTemplate: '<%= window.formatNumber(value) %>'
     };
+    $scope.chart_colours = ['#33cd5f', '#ef473a'];
     $scope.chart_labels = [];
     $scope.chart_series = ['Series A'];
     $scope.chart_data   = [];
@@ -71,27 +69,33 @@ angular.module('aloPricesApp')
         case 'gold':
           $scope.chart_series = [ $filter('translate')('exchange_detail.buy'), $filter('translate')('exchange_detail.sell') ];
 
-          arrData = [];
+          var arrBuy  = [];
+          var arrSell = [];
           angular.forEach(items, function (item, key) {
             $scope.pushChartData(item.created_at);
 
-            arrData.push([parseInt(item.buy * 1000000), parseInt(item.sell * 1000000)]);
+            arrBuy.push(item.buy);
+            arrSell.push(item.sell);
           });
 
-          $scope.chart_data.push(arrData);
+          $scope.chart_data.push(arrBuy);
+          $scope.chart_data.push(arrSell);
           break;
 
         case 'bank':
           $scope.chart_series = [ $filter('translate')('exchange_detail.buy'), $filter('translate')('exchange_detail.sell') ];
 
-          arrData = [];
+          var arrBuy  = [];
+          var arrSell = [];
           angular.forEach(items, function (item, key) {
             $scope.pushChartData(item.created_at);
 
-            arrData.push([item.buy, item.sell]);
+            arrBuy.push(item.buy);
+            arrSell.push(item.sell);
           });
 
-          $scope.chart_data.push(arrData);
+          $scope.chart_data.push(arrBuy);
+          $scope.chart_data.push(arrSell);
           break;
       }
 
@@ -105,7 +109,7 @@ angular.module('aloPricesApp')
      * @return void
      */
     $scope.pushChartData = function (labels) {
-      var dateBefore = moment(labels).format('DD-MM');
+      var dateBefore = moment(labels).format('DD/MM');
       $scope.chart_labels.push(dateBefore);
     };
 
