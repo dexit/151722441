@@ -27,6 +27,9 @@ angular.module('aloPricesApp')
       {name: $filter('translate')('exchange_detail.buy_min'), slug: 'currency_min'},
       {name: $filter('translate')('exchange_detail.buy_max'), slug: 'currency_max'}
     ];
+    var allow_ntfs_types = [
+      'currency_min', 'currency_max'
+    ];
 
     /**
      * Show detail currency information when click chart point.
@@ -107,6 +110,46 @@ angular.module('aloPricesApp')
     };
 
     /**
+     * Function on toggle notification.
+     *
+     * @param notify_type
+     * @return void
+     */
+    $scope.onToggleNotification = function (notify_type) {
+      if (allow_ntfs_types.indexOf(type) < 0) {
+        return false;
+      }
+
+      var currency_id = $stateParams.id;
+      var device_id   = Device.getDeviceId();
+
+      // Check input params.
+      if (! currency_id || ! device_id || ! notify_type) {
+        return false;
+      }
+
+      // Send request for update notify.
+      var url = appGlobal.host + '/notifications';
+
+      $http({
+        url: url,
+        method: 'POST',
+        data: {
+          device_id: device_id,
+          currency_id: currency_id,
+          notify_type: notify_type
+        }
+      }).success(function (resp, status) {
+
+
+
+      }).error(function (data, status) {
+        console.log(data);
+        window.alert($filter('translate')('message.error_register_notify'));
+      });
+    };
+
+    /**
      * Initialize function on view enter.
      *
      * @return void
@@ -123,6 +166,7 @@ angular.module('aloPricesApp')
 
       //$scope.ntfsSelections = Notification.getSavedNotifications();
 
+      // Init tabs
       $rootScope.initTabs();
     });
 

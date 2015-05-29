@@ -14,12 +14,27 @@ angular.module('aloPricesApp')
     /**
      * Return current user id.
      *
-     * @returns integer
+     * @return integer
      */
     service.getUserId = function () {
       if (localStorageService.isSupported && localStorageService.get(appGlobal.exrUid)){
         return localStorageService.get(appGlobal.exrUid);
       }
+    };
+
+    /**
+     * Return device id.
+     *
+     * @return string
+     */
+    service.getDeviceId = function () {
+      var uuid = $cordovaDevice.getUUID();
+
+      if (! uuid && appGlobal.testUUID) {
+        uuid = appGlobal.testUUID;
+      }
+
+      return uuid;
     };
 
     /**
@@ -31,11 +46,7 @@ angular.module('aloPricesApp')
       var self = this;
 
       // Get device id
-      var uuid = $cordovaDevice.getUUID();
-
-      if (! uuid && appGlobal.testUUID) {
-        uuid = appGlobal.testUUID;
-      }
+      var uuid = this.getDeviceId();
 
       if (! uuid) {
         return false;
