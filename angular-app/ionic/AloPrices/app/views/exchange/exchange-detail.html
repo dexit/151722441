@@ -77,9 +77,9 @@
         <!-- END item divider -->
 
         <ion-item class="item item-toggle" ng-repeat="notification in notifications" >
-          {{ notification.name }}
+          {{ notification.name c
           <label class="toggle toggle-balanced">
-            <input type="checkbox">
+            <input type="checkbox" ng-change="onToggleNotification(notification)">
             <div class="track">
               <div class="handle"></div>
             </div>

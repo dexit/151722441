@@ -120,7 +120,8 @@ angular.module('aloPricesApp')
      * @return void
      */
     $scope.onToggleNotification = function (notify_type) {
-      if (allow_ntfs_types.indexOf(type) < 0) {
+      console.log(notify_type);
+      if (allow_ntfs_types.indexOf(notify_type) < 0) {
         return false;
       }
 
@@ -144,8 +145,6 @@ angular.module('aloPricesApp')
           notify_type: notify_type
         }
       }).success(function (resp, status) {
-
-
 
       }).error(function (data, status) {
         console.log(data);
