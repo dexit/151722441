@@ -17,6 +17,7 @@ angular.module('fbFeedsApp')
     $scope.indexPos = 0;
 
     $scope.gotoPage = function (index) {
+      console.log($scope.feeds[index].page);
       if (! $scope.feeds[index].page) {
         return false;
       }

@@ -1,0 +1,13 @@
+<ion-view view-title="Tin tức">
+
+	<ion-nav-buttons side="right">
+		<a class="button button-icon button-clear" href="#/category_filter"><i class="fa fa-th-list"></i></a>
+	</ion-nav-buttons>
+
+	<ion-content overflow-scroll="true" id="dln_wrapper" scroll-watch="" scroll-infitine="" scroll-wapper="#dln_wrapper .cards" callback-infinite="scollGetFeeds()">
+
+    <div ng-include src="'views/partials/feed-list.html'"></div>
+
+	</ion-content>
+
+</ion-view>

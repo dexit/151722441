@@ -1,0 +1,46 @@
+<ion-view view-title="Fanpage">
+
+	<ion-nav-buttons side="right">
+		<a class="button button-icon button-clear" href="#/page/vote_search"><i class="fa fa-plus"></i></a>
+	</ion-nav-buttons>
+
+	<ion-content overflow-scroll="true" id="dln_pages_wrapper" scroll-watch="" scroll-infitine="" scroll-wapper="#dln_pages_wrapper .tab-item-content.active .cards" callback-infinite="scollGetFeeds()">
+
+		<div class="tab-item-content active" data-type="feed">
+			<div ng-include src="'views/partials/feed-list.html'"></div>
+		</div>
+
+		<div class="tab-item-content" data-type="page">
+			<div class="ui cards">
+				<div class="card" ng-repeat="item in pages" on-last-repeat="ngRepeatFinished">
+					<div class="content dln-item dln-content">
+						<div class="dln-item">
+							<div class="left floated author m-r-5">
+								<img class="ui avatar image lazy-images"
+								     data-original="http://graph.facebook.com/{{item.fb_id}}/picture?type=small"
+								     ng-click="gotoPage('{{$index}}')"/>
+							</div>
+							<div class="header" ng-click="gotoPage('{{$index}}')">{{item.name}}</div>
+							<div class="meta">
+								<span class="category right floated">{{item.category.name}}</span>
+              <span class="category">
+                <span class="left floated m-r-10"><i class="fa fa-thumbs-o-up m-r-5"></i>{{item.like_count|nThousand}}</span>
+					      <span class="left floated m-r-10"><i class="fa fa-bullhorn m-r-5"></i>{{item.talking_about|nThousand}}</span>
+              </span>
+							</div>
+						</div>
+					</div>
+					<div class="extra content">
+						<span class="right floated" ng-click="gotoFBLink('{{$index}}')"><i class="fa fa-facebook-square"></i>Facebook</span>
+						<!--<span class="left floated" ng-click="gotoPage('{{$index}}')"><i class="fa fa-arrow-circle-right"></i>Xem tin</span> -->
+						<!--<i class="right floated like icon"></i> -->
+					</div>
+				</div>
+			</div>
+
+			<div class="text-center dln-full-width" ng-if="pages.length < 1"><h4>Không có fanpage</h4></div>
+		</div>
+
+	</ion-content>
+
+</ion-view>

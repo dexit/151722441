@@ -14,7 +14,7 @@
 
         <div class="header" ng-click="gotopage('{{$index}}')">{{feed.page.name}}</div>
         <div class="meta">
-          <span class="category">{{feed.created_at | amcalendar}} <i class="{{feed.font_type}}"></i></span>
+          <span class="category">{{feed.created_at | amCalendar}} <i class="{{feed.font_type}}"></i></span>
           <a class="category right floated" href="#/category/{{feed.category.id}}">{{feed.category.name}}</a>
         </div>
       </div>
@@ -44,9 +44,9 @@
       </div>
     </div>
     <div class="extra content" ng-if="feed.type != 'ads'">
-      <span class="left floated m-r-10" ng-click="gotolink('{{feed.link}}')"><i class="fa fa-thumbs-o-up"></i>{{feed.like_count|nthousand}}</span>
-      <span class="left floated m-r-10" ng-click="gotolink('{{feed.link}}')"><i class="fa fa-comment-o"></i>{{feed.comment_count|nthousand}}</span>
-      <span class="left floated m-r-10" ng-click="gotolink('{{feed.link}}')"><i class="fa fa-share-alt"></i>{{feed.share_count|nthousand}}</span>
+      <span class="left floated m-r-10" ng-click="gotolink('{{feed.link}}')"><i class="fa fa-thumbs-o-up"></i>{{feed.like_count|nThousand}}</span>
+      <span class="left floated m-r-10" ng-click="gotolink('{{feed.link}}')"><i class="fa fa-comment-o"></i>{{feed.comment_count|nThousand}}</span>
+      <span class="left floated m-r-10" ng-click="gotolink('{{feed.link}}')"><i class="fa fa-share-alt"></i>{{feed.share_count|nThousand}}</span>
       <i class="right floated fa fa-facebook-square" ng-click="gotolink('{{feed.link}}')"></i>
       <!--<i class="right floated like icon"></i> -->
     </div>

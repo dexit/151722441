@@ -29,29 +29,32 @@ angular
       if (/(android)/i.test(navigator.userAgent)) { // for android
         admobid = {
           banner: 'ca-app-pub-9356823423719215/3164925682',
-          interstitial: 'ca-app-pub-xxx/yyy'
+          interstitial: 'ca-app-pub-9356823423719215/9293572881'
         };
       } else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
         admobid = {
           banner: 'ca-app-pub-9356823423719215/2268445281',
-          interstitial: 'ca-app-pub-xxx/kkk'
+          interstitial: 'ca-app-pub-9356823423719215/9293572881'
         };
       } else {
         admobid = {
           banner: 'ca-app-pub-9356823423719215/3164925682',
-          interstitial: 'ca-app-pub-xxx/yyy'
+          interstitial: 'ca-app-pub-9356823423719215/9293572881'
         };
       }
 
       // Run admob
       if (AdMob) {
-        AdMob.createBanner({
-          adId: admobid.banner,
-          overlap: true,
-          position: AdMob.AD_POSITION.BOTTOM_CENTER,
-          autoShow: false});
+        /*AdMob.createBanner({
+         adId: admobid.banner,
+         interstitialAdId: admobid.interstitial,
+         overlap: true,
+         position: AdMob.AD_POSITION.BOTTOM_CENTER,
+         autoShow: false});
 
-        AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);
+         AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);*/
+        AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false} );
+        AdMob.showInterstitial();
       }
 
       // Show ad for 30s
@@ -65,7 +68,7 @@ angular
       // Show first time.
       //showAd();
 
-      //var timeInterval = setInterval(showAd, 18000);
+      var timeInterval = setInterval(AdMob.showInterstitial(), 60000);
     }, false);
 
     $stateProvider

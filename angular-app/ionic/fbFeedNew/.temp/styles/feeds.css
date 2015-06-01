@@ -1,9 +1,21 @@
+body {
+  background-color: #000;
+}
+
 .ui.cards {
-  margin: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0px;
 }
 
 .ui.cards > .card {
   margin: 0.6em 0.5em;
+  width: 100%;
+  max-width: 760px !important;
+}
+
+.ui.card {
+  margin: 7px auto !important;
 }
 
 .ui.cards, .ui.cards > .card, .dln-thumb-images {
@@ -12,7 +24,7 @@
 }
 
 .description p {
-  font-size: 11px;
+  font-size: 12px;
   line-height: 16px;
   padding-left: 1em;
   padding-right: 1em;
@@ -67,7 +79,7 @@
 
 .dln-link .header {
   padding-top: 5px;
-  font-size: 13px !important;
+  font-size: 14px !important;
 }
 
 .dln-link .content {
@@ -78,14 +90,14 @@
 
 .dln-link .content p {
   padding: 0;
-  font-size: 11px;
+  font-size: 12px;
   white-space: pre-wrap;
   max-height: 80px;
 }
 
 .dln-link .content .header {
   white-space: normal;
-  font-size: 11px !important;
+  font-size: 12px !important;
 }
 
 .dln-link .content .header, .dln-content .header {
@@ -116,6 +128,10 @@ a.category {
   font-size: 14px;
 }
 
+.tab-item-content {
+  display: none;
+}
+
 .tab-item-content.active {
   display: block;
 }
@@ -128,11 +144,15 @@ a.category {
   top: 5px;
 }
 
-#dln_tab_feed, #dln_header_bar .bar-header, #dln_tab_pages {
+#dln_tab_feed, #dln_header_bar .bar-header, #dln_tab_pages .tabs {
   transition: 0.25s ease;
 }
 
-#dln_tab_feed.bar-slide-away {
+#dln_tab_pages {
+  display: none;
+}
+
+#dln_tab_feed.bar-slide-away, #dln_tab_pages .bar-slide-away {
   -webkit-transform: translateY(50px); /* Safari */
   transform: translateY(50px);
 }
