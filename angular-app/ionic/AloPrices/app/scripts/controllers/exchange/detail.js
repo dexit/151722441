@@ -120,7 +120,6 @@ angular.module('aloPricesApp')
      * @return void
      */
     $scope.onToggleNotification = function (notify_type) {
-      console.log(notify_type);
       if (allow_ntfs_types.indexOf(notify_type) < 0) {
         return false;
       }
@@ -170,7 +169,7 @@ angular.module('aloPricesApp')
       //$scope.ntfsSelections = Notification.getSavedNotifications();
 
       // Init tabs
-      $rootScope.initTabs();
+      //$rootScope.initTabs();
     });
 
   });

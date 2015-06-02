@@ -22,7 +22,8 @@ angular.module('aloPricesApp')
         title_notifications: 'Thông báo',
         title_setting: 'Tùy chỉnh',
         title_exchange_add: 'Thêm tỷ giá',
-        title_exchange_detail: 'Chi tiết tỷ giá',
+        title_exchange_detail: 'Sơ đồ tỷ giá',
+        title_exchange_detail_list: 'Chi tiết tỷ giá',
         title_facebook: 'Tài khoản Facebook'
       },
 

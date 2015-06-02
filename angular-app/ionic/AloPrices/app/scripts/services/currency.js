@@ -8,7 +8,7 @@
  * Factory in the aloPricesApp.
  */
 angular.module('aloPricesApp')
-  .factory('Currency', function ($rootScope, $http, $filter, appGlobal, localStorageService) {
+  .factory('Currency', function ($rootScope, $http, $filter, $sessionStorage, $localStorage, appGlobal) {
     var service = {};
 
     /**
@@ -59,9 +59,9 @@ angular.module('aloPricesApp')
 
       // Check data exists in caches
       var id = appGlobal.exrCachedListCurrency + '_' + type;
-      console.log(id);
-      if (localStorageService.isSupported && localStorageService.get(id)) {
-        $next(localStorageService.get(id));
+
+      if ($sessionStorage[id]) {
+        $next($sessionStorage[id]);
         return false;
       }
 
@@ -83,9 +83,7 @@ angular.module('aloPricesApp')
         // Fire next function
         if (resp.data) {
 
-          if (localStorageService.isSupported) {
-            localStorageService.set(id, resp.data);
-          }
+          $sessionStorage[id] = resp.data;
 
           $next(resp.data);
         }
@@ -160,10 +158,11 @@ angular.module('aloPricesApp')
      * @returns {*}
      */
     service.getSavedCheckedCurrency = function (checked, type) {
-      if (localStorageService.isSupported && localStorageService.get(appGlobal.exrSavedCheckedCurrency  + '_' + type)) {
-        return localStorageService.get(appGlobal.exrSavedCheckedCurrency  + '_' + type);
+      var id = appGlobal.exrSavedCheckedCurrency  + '_' + type;
+      if ($localStorage[id]) {
+        return $localStorage[id];
       } else {
-        return checked;
+        return checked
       }
     };
 
@@ -175,8 +174,9 @@ angular.module('aloPricesApp')
      * @return void
      */
     service.saveCheckedCurrency = function (checkedIds, type) {
-      if (localStorageService.isSupported) {
-        localStorageService.set(appGlobal.exrSavedCheckedCurrency + '_' + type, checkedIds);
+      var id = appGlobal.exrSavedCheckedCurrency + '_' + type;
+      if ($localStorage[id]) {
+        $localStorage[id] = checkedIds
       }
     };
 
@@ -197,7 +197,7 @@ angular.module('aloPricesApp')
       // Show loading
       $rootScope.showLoading();
 
-      var url = appGlobal.host + '/currency/' + currencyId;
+      var url = appGlobal.host + '/currencies/' + currencyId;
 
       $http({
         url: url,

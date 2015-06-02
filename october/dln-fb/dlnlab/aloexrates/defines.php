@@ -11,7 +11,7 @@ define('EXR_GOLDS', json_encode([
 define('EXR_TOKEN', 'IamGod!');
 define('EXR_PAGINATE', 10);
 define('EXR_LIMIT_NTFS', 3);
-define('EXR_LIMIT_WEEK', 1);
+define('EXR_LIMIT_WEEK', 4);
 define('EXR_LIMIT_DEVICES', 500);
 define('EXR_CACHE_MINUTE', 5);
 define('EXR_MIN_MSG', '[THÔNG BÁO] Tỷ giá %s đang thấp nhất trong %d tuần qua! - %s');

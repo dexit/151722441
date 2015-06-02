@@ -8,7 +8,7 @@
  * Factory in the aloPricesApp.
  */
 angular.module('aloPricesApp')
-  .factory('Device', function ($rootScope, $http, $filter, $cordovaDevice, appGlobal, localStorageService) {
+  .factory('Device', function ($rootScope, $http, $filter, $cordovaDevice, $sessionStorage, $localStorage, appGlobal) {
     var service = {};
 
     /**
@@ -17,8 +17,8 @@ angular.module('aloPricesApp')
      * @return integer
      */
     service.getUserId = function () {
-      if (localStorageService.isSupported && localStorageService.get(appGlobal.exrUid)){
-        return localStorageService.get(appGlobal.exrUid);
+      if ($localStorage[appGlobal.exrUid]) {
+        return $localStorage[appGlobal.exrUid];
       }
     };
 
@@ -70,29 +70,14 @@ angular.module('aloPricesApp')
       }).success(function (resp, status) {
 
         // Save uid to storage.bower
-        if (localStorageService.isSupported && resp.data.id) {
-          localStorageService.set(appGlobal.exrUid, resp.data.id);
+        if (resp.data.id) {
+          $localStorage[appGlobal.exrUid] = resp.data.id;
         }
 
       }).error(function (data, status) {
         console.log(data);
         window.alert($filter('translate')('message.error_get_device'));
       });
-    };
-
-    /**
-     * Function to get notifications for current device
-     *
-     * @return objects
-     */
-    service.getListNotifications = function() {
-      if (! localStorageService.isSupported || ! localStorageService.get(appGlobal.exrUid)) {
-        return false;
-      }
-
-      var profileId = localStorageService.get(appGlobal.exrUid);
-
-      var url = appGlobal.host + '/notifications';
     };
 
     /**

@@ -1,0 +1,41 @@
+<ion-view view-title="{{ 'header.title_exchange_detail_list' | translate }}">
+
+  <ion-content overflow-scroll="{{ overflowScrolling }}" class="has-subheader">
+    <ion-list class="list exr-list">
+
+      <!-- BEGIN item divider -->
+      <ion-item class="item item-divider">
+        {{ 'exchange_detail.exchange_rates' | translate }}
+      </ion-item>
+      <!-- END item divider -->
+
+      <!-- BEGIN item -->
+      <ion-item class="item item-icon-right" ng-repeat="item in items | repeatReverse" href="javascript:void(0);">
+        <div class="item-code">{{ item.currency.code }}</div>
+        <div class="item-info">
+          <a href="javascript:void(0)" class="item-title">
+            {{ item.currency.name }} <span class="pull-right">({{ item.updated_at | amDateFormat:'DD/MM' }})</span>
+          </a>
+          <span class="item-desc">{{ 'exchanges.buy' | translate }}
+            <span ng-class="(item.buy_change >= 0) ? 'exr-green': 'exr-red'">{{ item.buy | currency:"":0 }} đ ({{ item.buy_change }} đ)</span>
+          </span>
+          <span class="item-desc">{{ 'exchanges.sell' | translate }}
+            <span ng-class="(item.sell_change >= 0) ? 'exr-green': 'exr-red'">{{ item.sell | currency:"":0 }} đ ({{ item.sell_change }} đ)</span>
+          </span>
+        </div>
+        {{ item.name }}
+        <br/>
+        <span ng-hide="item.type == 'GOLD'" class="text-mute">{{ item.code }}</span>
+
+        <!-- BEGIN swipe options -->
+        <ion-option-button class="button-positive" ng-click="share(item)">
+          {{ 'exchanges.share' | translate }}
+        </ion-option-button>
+        <!-- END swipe options -->
+      </ion-item>
+      <!-- END item -->
+
+    </ion-list>
+    <!-- END tab detail -->
+  </ion-content>
+</ion-view>

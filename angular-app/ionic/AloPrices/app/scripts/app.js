@@ -8,18 +8,18 @@ angular.module('aloPricesApp', [
   'ionic',
   'ngCordova',
   'pascalprecht.translate',
-  'LocalStorageModule',
   'chart.js',
-  'angularMoment'
-]).config(function ($translateProvider, $stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+  'angularMoment',
+  'ngStorage'
+]).config(function ($translateProvider, $stateProvider, $urlRouterProvider) {
 
   // Setting for languages.
   $translateProvider.preferredLanguage('vi');
 
   // Setting for local-storage.
-  localStorageServiceProvider.setPrefix('aloPricesApp');
-  localStorageServiceProvider.setStorageType('sessionStorage');
-  localStorageServiceProvider.setStorageCookie(3, '/');
+  //localStorageServiceProvider.setPrefix('aloPricesApp');
+  //localStorageServiceProvider.setStorageType('sessionStorage');
+  //localStorageServiceProvider.setStorageCookie(3, '/');
 
   /* Defalt route */
   $urlRouterProvider.otherwise('/ty-gia');
@@ -65,6 +65,15 @@ angular.module('aloPricesApp', [
         'app-content': {
           templateUrl: 'views/exchange/exchange-detail.html',
           controller: 'ExchangeDetailCtrl'
+        }
+      }
+    })
+    .state('app.exchange_detail_list', {
+      url : 'ty-gia/:id/chi-tiet',
+      views: {
+        'app-content': {
+          templateUrl: 'views/exchange/exchange-detail-list.html',
+          controller: 'ExchangeDetailListCtrl'
         }
       }
     })
