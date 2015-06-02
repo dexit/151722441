@@ -1,0 +1,33 @@
+<ion-view view-title="Fanpage">
+
+  <ion-content overflow-scroll="true" id="dln_wrapper" class="dln-page-detail" scroll-watch="">
+
+    <div class="ui cards">
+      <div class="card">
+        <div class="content dln-item dln-content">
+          <div class="dln-item">
+            <div class="left floated author m-r-5">
+              <img class="ui avatar image lazy-images"
+                   data-original="http://graph.facebook.com/{{page.fb_id}}/picture?type=small"/>
+            </div>
+            <div class="header">{{page.name}}</div>
+            <div class="meta">
+              <a class="category right" href="#/category/{{category.id}}">{{category.name}}</a>
+              <span class="category">
+                <span class="left floated m-r-10"><i class="fa fa-thumbs-o-up m-r-5"></i>{{page.like_count|nThousand}}</span>
+					      <span class="left floated m-r-10"><i class="fa fa-bullhorn m-r-5"></i>{{page.talking_about|nThousand}}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="ui bottom attached button" ng-click="gotoPageLink()">
+          <i class="fa fa-facebook-official fs-14"></i> Xem trang
+        </div>
+      </div>
+    </div>
+
+    <div ng-include src="'views/partials/feed-list.html'"></div>
+
+  </ion-content>
+
+</ion-view>

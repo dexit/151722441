@@ -46,29 +46,28 @@ angular
       // Run admob
       if (AdMob) {
         /*AdMob.createBanner({
-          adId: admobid.banner,
-          interstitialAdId: admobid.interstitial,
-          overlap: true,
-          position: AdMob.AD_POSITION.BOTTOM_CENTER,
-          autoShow: false});
+         adId: admobid.banner,
+         interstitialAdId: admobid.interstitial,
+         overlap: true,
+         position: AdMob.AD_POSITION.BOTTOM_CENTER,
+         autoShow: false});
 
-        AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);*/
-        AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:false} );
-        AdMob.showInterstitial();
+         AdMob.showBanner(AdMob.AD_POSITION.BOTTOM_CENTER);*/
+        AdMob.prepareInterstitial( {adId:admobid.interstitial, autoShow:true} );
       }
 
       // Show ad for 30s
-      /*var showAd = function () {
+      var showAd = function () {
 
         var timeOut = setTimeout(function () {
-          AdMob.hideBanner();
-        }, 6000);
-      };*/
+          AdMob.showInterstitial();
+        }, 60000);
+      };
 
       // Show first time.
       //showAd();
 
-      var timeInterval = setInterval(AdMob.showInterstitial(), 60000);
+      var timeInterval = setInterval(showAd(), 6000);
     }, false);
 
     $stateProvider
