@@ -77,15 +77,6 @@ angular.module('aloPricesApp', [
         }
       }
     })
-    .state('app.notifications', {
-      url: 'notifications',
-      views: {
-        'app-content': {
-          templateUrl: 'views/notifications.html',
-          controller: 'NotificationsCtrl'
-        }
-      }
-    })
     .state('app.setting', {
       url: 'setting',
       views: {

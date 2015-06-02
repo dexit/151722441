@@ -121,5 +121,43 @@ angular.module('aloPricesApp')
       });
     };
 
+    /**
+     * Get notification saved by device id.
+     *
+     * @param integer device_id
+     * @param callback $next
+     * @returns {boolean}
+     */
+    service.getCheckedNotify = function (device_id, $next) {
+      if (! parseInt(device_id)) {
+        return false;
+      }
+
+      var url = appGlobal.host + '/notifications';
+
+      // Show loading
+      $rootScope.showLoading();
+
+      // Send request for get notifications.
+      $http({
+        url: url,
+        method: 'GET',
+        params: {
+          device_id: device_id
+        }
+      }).success(function (resp, status) {
+
+        if (resp.data) {
+          $next(resp.data);
+        }
+
+      }).error(function (resp, status) {
+        // Hide loading
+        $rootScope.hideLoading();
+        console.log(resp.data);
+        window.alert($filter('translate')('message.error_get_device_notify'));
+      });
+    };
+
     return service;
   });

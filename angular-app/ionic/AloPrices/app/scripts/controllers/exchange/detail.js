@@ -28,6 +28,7 @@ angular.module('aloPricesApp')
     var allow_ntfs_types = [
       'currency_min', 'currency_max'
     ];
+    $scope.checked_notifies = null;
 
     /**
      * Show detail currency information when click chart point.
@@ -103,6 +104,16 @@ angular.module('aloPricesApp')
     };
 
     /**
+     * Function for prepare checked notifies.
+     *
+     * @param checked_notifies
+     * @return void
+     */
+    $scope.prepareCheckedNotifies = function (checked_notifies) {
+      $scope.checked_notifies = checked_notifies;
+    };
+
+    /**
      * Common function for push data to charts.
      *
      * @param labels
@@ -164,7 +175,7 @@ angular.module('aloPricesApp')
       Currency.getDetail(exchangeId, $scope.prepareItems);
 
       // Get list notifications data.
-      Device.getListNotifications();
+      Device.getCheckedNotify();
 
       //$scope.ntfsSelections = Notification.getSavedNotifications();
 

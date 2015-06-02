@@ -11,7 +11,9 @@ angular.module('aloPricesApp')
   .controller('GoldsCtrl', function ($rootScope, $scope, Device, Currency) {
     $scope.allowSwipe = true;
     $scope.items = [];
+    $scope.type = 'gold';
     var checkedCurrency = [];
+    var checked_gold = [1, 2, 3, 4, 5];
 
     /**
      * Perform share currency to SNS.
@@ -54,5 +56,14 @@ angular.module('aloPricesApp')
 
       // Loading exchange rates
       Currency.getListCurrencyDetail(checkedCurrency, $scope.prepareItems);
+
+      // Load checked currency ids.
+      var type    = $scope.type;
+
+      // Get golds
+      var checked = Currency.getSavedCheckedCurrency(checked_gold, type);
+
+      // Loading exchange rates
+      Currency.getListCurrencyDetail(checked.join(','), $scope.prepareItems);
     });
   });
