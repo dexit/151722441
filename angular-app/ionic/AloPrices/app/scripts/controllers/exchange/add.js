@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('ExchangeAddCtrl', function ($scope, $routeParams, $state, Currency, appGlobal) {
+  .controller('ExchangeAddCtrl', function ($scope, $stateParams, $state, Currency, appGlobal) {
     $scope.items = [];
     $scope.query = '';
     $scope.checkedCurrency = [];
@@ -98,9 +98,8 @@ angular.module('aloPricesApp')
      */
     $scope.$on('$ionicView.enter', function (e, args) {
 
-      // Get type from routeParams
-      console.log($routeParams, $state);
-      type = ($routeParams.type) ? $routeParams.type : 'currency';
+      // Get type from $state
+      type = ($state.current === 'app.exchange_add') ? 'currency' : 'gold';
 
       // Get checked currencies.
       var checked = $scope.checkedCurrency;

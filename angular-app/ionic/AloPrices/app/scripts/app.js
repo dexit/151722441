@@ -35,25 +35,20 @@ angular.module('aloPricesApp', [
     .state('app.exchanges', {
       url: 'ty-gia',
       views: {
-        'app-content': {
+        'exchanges-tab': {
           templateUrl: 'views/exchanges.html',
-          controller: 'ExchangesCtrl'
-        }
-      }
-    })
-    .state('app.golds', {
-      url: 'gia-vang',
-      views: {
-        'app-content': {
-          templateUrl: 'views/golds.html',
-          controller: 'GoldsCtrl'
+          controller: 'ExchangesCtrl',
+          'list-currency': {
+            templateUrl: 'views/partials/list-currency.html',
+            controller: 'PartialsListCurrencyCtrl'
+          }
         }
       }
     })
     .state('app.exchange_add', {
-      url: 'them-ty-gia/:type',
+      url: 'them-ty-gia',
       views: {
-        'app-content': {
+        'exchanges-tab': {
           templateUrl: 'views/exchange/exchange-add.html',
           controller: 'ExchangeAddCtrl'
         }
@@ -62,23 +57,46 @@ angular.module('aloPricesApp', [
     .state('app.exchange_detail', {
       url: 'ty-gia/:id',
       views: {
-        'app-content': {
+        'exchanges-tab': {
           templateUrl: 'views/exchange/exchange-detail.html',
           controller: 'ExchangeDetailCtrl'
         }
       }
     })
     .state('app.exchange_detail_list', {
-      url : 'ty-gia/:id/chi-tiet',
+      url: 'ty-gia/:id/chi-tiet',
       views: {
-        'app-content': {
+        'exchanges-tab': {
           templateUrl: 'views/exchange/exchange-detail-list.html',
           controller: 'ExchangeDetailListCtrl'
         }
       }
     })
+    .state('app.golds', {
+      url: 'gia-vang',
+      views: {
+        'golds-tab': {
+          templateUrl: 'views/golds.html',
+          controller: 'GoldsCtrl',
+
+          'list-currency': {
+            templateUrl: 'views/partials/list-currency.html',
+            controller: 'PartialsListCurrencyCtrl'
+          }
+        }
+      }
+    })
+    .state('app.gold_add', {
+      url: 'them-gia-vang',
+      views: {
+        'golds-tab': {
+          templateUrl: 'views/golds.html',
+          controller: 'GoldsCtrl'
+        }
+      }
+    })
     .state('app.setting', {
-      url: 'setting',
+      url: 'thiet-lap',
       views: {
         'app-content': {
           templateUrl: 'views/setting.html',

@@ -1,1 +1,52 @@
-<p>This is the gold view.</p>
+<ion-view view-title="{{ 'header.title_golds' | translate }}">
+
+  <!-- BEGIN Navbar -->
+  <!--<ion-nav-buttons side="left">
+		<a class="button button-icon button-clear" href="#/category_filter"><i class="fa fa-ellipsis-v"></i></a>
+	</ion-nav-buttons>
+	 -->
+  <ion-nav-buttons side="right">
+    <a class="button button-icon button-clear" href="#/them-gia-vang"><i class="fa fa-plus"></i></a>
+  </ion-nav-buttons>
+  <!-- END Navbar -->
+
+  <ion-content overflow-scroll="{{ overflowScrolling }}">
+
+    <ion-list class="list exr-list">
+
+      <!-- BEGIN item divider -->
+      <ion-item class="item item-divider" ng-repeat-start="(code, lists) in items">
+        {{ 'exchanges.exchange.' + code | translate }}
+      </ion-item>
+      <!-- END item divider -->
+
+      <!-- BEGIN item -->
+      <ion-item class="item item-icon-right" ng-repeat="item in lists" href="#/ty-gia/{{ item.currency.id }}">
+        <div class="item-code">{{ item.currency.code }}</div>
+        <div class="item-info">
+          <a href="javascript:void(0)" class="item-title">
+            {{ item.currency.name }}
+          </a>
+          <span class="item-desc">{{ 'exchanges.buy' | translate }}{{ item.buy }}</span>
+          <span class="item-desc">{{ 'exchanges.sell' | translate }}{{ item.sell }}</span>
+        </div>
+        {{ item.name }}
+        <i class="icon icon-right ion-chevron-right"></i>
+        <br />
+        <span ng-hide="item.type == 'GOLD'" class="text-mute">{{ item.code }}</span>
+
+        <!-- BEGIN swipe options -->
+        <ion-option-button class="button-positive" ng-click="share(item)">
+          {{ 'exchanges.share' | translate }}
+        </ion-option-button>
+        <!-- END swipe options -->
+
+      </ion-item>
+      <!-- END item -->
+
+      <div ng-repeat-end=""></div>
+
+    </ion-list>
+  </ion-content>
+
+</ion-view>

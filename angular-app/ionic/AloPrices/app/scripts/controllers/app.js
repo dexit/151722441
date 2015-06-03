@@ -8,7 +8,7 @@
  * Controller of the aloPricesApp
  */
 angular.module('aloPricesApp')
-  .controller('AppCtrl', function ($rootScope, $scope, $cordovaToast, $ionicLoading, Device) {
+  .controller('AppCtrl', function ($rootScope, $scope, $cordovaToast, $ionicLoading, $timeout) {
 
     // Set default disable overflow scrolling for ionic content.
     $rootScope.overflowScrolling = false;
@@ -19,16 +19,6 @@ angular.module('aloPricesApp')
      * @return void
      */
     $scope.registerDevice = function() { };
-
-    /**
-     * Initialize function for controller
-     *
-     * @return void
-     */
-    $scope.init = function() {
-      // Register device id when start
-    };
-    $scope.init();
 
     /**
      * Global function for show toast message
@@ -108,6 +98,63 @@ angular.module('aloPricesApp')
         returnNumber = num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,") + ' VNĐ'
       }
       return returnNumber;
+    };
+
+    /**
+     * Function for register GCM for current device.
+     *
+     * @return void
+     */
+    $scope.registerGCMAndroid = function () {
+      var androidConfig = {
+        'senderID': '265723301690'
+      };
+
+      $cordovaPush.register(androidConfig).then(function(result) {
+        // Success
+        console.log(result);
+      }, function(err) {
+        // Error
+        console.log(err);
+      });
+
+      // Call back function on received notify
+      $rootScope.$on('$cordovaPush:notificationReceived', function(event, notification) {
+        switch(notification.event) {
+          case 'registered':
+            if (notification.regid.length > 0 ) {
+              Device.getProfileId(notification.regid);
+            }
+            break;
+
+          case 'message':
+            // this is the actual push notification. its format depends on the data model from the push server
+            alert('message = ' + notification.message + ' msgCount = ' + notification.msgcnt);
+            break;
+
+          case 'error':
+            alert('GCM error = ' + notification.msg);
+            break;
+
+          default:
+            alert('An unknown GCM event has occurred');
+            break;
+        }
+      });
+    };
+
+    /**
+     * Initialize function for App controller.
+     *
+     * @return void
+     */
+    $scope.initApp = function () {
+
+      // Get profile id.
+      $timeout(function() {
+        $scope.registerGCMAndroid();
+      }, 1000);
+
     };
 
   });

@@ -61,7 +61,8 @@ angular.module('aloPricesApp')
           var arrData = [];
           angular.forEach(items, function (item, key) {
             $scope.pushChartData(item.created_at);
-            arrData.push(parseInt(item.buy));
+
+            arrData.push(item.buy);
           });
 
           $scope.chart_data.push(arrData);
