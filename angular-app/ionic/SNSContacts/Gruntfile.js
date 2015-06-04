@@ -35,15 +35,27 @@ module.exports = function (grunt) {
     ngconstant: {
       options: {
         space: '  ',
-        wrap: '"use strict";\n\n {%= __ngModule %}',
-        name: 'config',
-        dest: '<%= yeoman.app %>/<%= yeoman.scripts %>/configuration.js'
+        wrap: '\'use strict\';\n\n {%= __ngModule %}',
+        name: 'SNSContactsApp',
+        deps: [
+          'ngAnimate',
+          'ngCookies',
+          'ngResource',
+          'ngRoute',
+          'ngSanitize',
+          'ngTouch',
+          'ionic',
+          'pascalprecht.translate',
+          'ngStorage',
+          'ngCordova'
+        ],
+        dest: '<%= yeoman.app %>/<%= yeoman.scripts %>/config.js'
       },
       development: {
         constants: {
           ENV: {
             name: 'development',
-            apiEndpoint: 'http://dev.yoursite.com:10000/'
+            apiEndpoint: 'http://home.vivufb.com/api/v1'
           }
         }
       },
@@ -157,7 +169,7 @@ module.exports = function (grunt) {
       }
     },
 
-    
+
 
     // Reads HTML for usemin blocks to enable smart builds that automatically
     // concat, minify and revision files. Creates configurations in memory so
@@ -513,7 +525,7 @@ module.exports = function (grunt) {
     'htmlmin'
   ]);
 
-  grunt.registerTask('coverage', 
+  grunt.registerTask('coverage',
     ['karma:continuous',
     'connect:coverage:keepalive'
   ]);
