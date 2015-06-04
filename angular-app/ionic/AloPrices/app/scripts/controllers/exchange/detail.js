@@ -29,6 +29,7 @@ angular.module('aloPricesApp')
       'currency_min', 'currency_max'
     ];
     $scope.checked_notifies = null;
+    var exchangeId = 0;
 
     /**
      * Show detail currency information when click chart point.
@@ -102,6 +103,10 @@ angular.module('aloPricesApp')
       }
 
       $scope.items = items;
+
+      // Save to sessions.
+      var paramId = eval($sessionStorage.currency_ + exchangeId);
+      paramId = items;
     };
 
     /**
@@ -170,7 +175,7 @@ angular.module('aloPricesApp')
      */
     $scope.$on('$ionicView.enter', function (e, args) {
 
-      var exchangeId = $stateParams.id;
+      exchangeId = $stateParams.id;
 
       // Get currency detail
       Currency.getDetail(exchangeId, $scope.prepareItems);

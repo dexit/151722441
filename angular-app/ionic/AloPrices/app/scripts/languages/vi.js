@@ -67,7 +67,8 @@ angular.module('aloPricesApp')
         buy_max: 'Tỉ giá cao nhất',
         notify_device: 'Thông báo qua thiết bị',
         buy: 'Mua vào',
-        sell: 'Bán ra'
+        sell: 'Bán ra',
+        goto_detail: 'Xem theo ngày'
       }
     };
 

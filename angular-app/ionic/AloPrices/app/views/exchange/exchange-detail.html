@@ -4,14 +4,19 @@
 
     <!--BEGIN tab detail -->
     <div class="padding">
-      <canvas id="exchange_line" class="chart chart-line" data="chart_data" height="450" width="600"
+      <canvas id="exchange_line" class="chart chart-line" data="chart_data"
         labels="chart_labels" legend="true" series="chart_series" options="chart_options" click="showDetailCurrency"
         colours="chart_colours">
       </canvas>
     </div>
+    <!-- END tab detail -->
 
     <!-- BEGIN tab notify -->
     <ion-list class="list">
+
+      <ion-item class="item">
+        {{ 'exchange_detail.goto_detail' | translate }}
+      </ion-item>
 
       <!-- BEGIN item divider -->
       <ion-item class="item item-divider">

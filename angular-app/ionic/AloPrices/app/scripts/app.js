@@ -38,6 +38,7 @@ angular.module('aloPricesApp', [
         'exchanges-tab': {
           templateUrl: 'views/exchanges.html',
           controller: 'ExchangesCtrl',
+
           'list-currency': {
             templateUrl: 'views/partials/list-currency.html',
             controller: 'PartialsListCurrencyCtrl'
@@ -92,6 +93,24 @@ angular.module('aloPricesApp', [
         'golds-tab': {
           templateUrl: 'views/golds.html',
           controller: 'GoldsCtrl'
+        }
+      }
+    })
+    .state('app.gold_detail', {
+      url: 'gia-vang/:id',
+      views: {
+        'exchanges-tab': {
+          templateUrl: 'views/exchange/exchange-detail.html',
+          controller: 'ExchangeDetailCtrl'
+        }
+      }
+    })
+    .state('app.exchange_detail_list', {
+      url: 'gia-vang/:id/chi-tiet',
+      views: {
+        'exchanges-tab': {
+          templateUrl: 'views/exchange/exchange-detail-list.html',
+          controller: 'ExchangeDetailListCtrl'
         }
       }
     })

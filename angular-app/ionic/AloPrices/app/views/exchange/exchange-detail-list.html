@@ -19,7 +19,7 @@
           <span class="item-desc">{{ 'exchanges.buy' | translate }}
             <span ng-class="(item.buy_change >= 0) ? 'exr-green': 'exr-red'">{{ item.buy | currency:"":0 }} đ ({{ item.buy_change }} đ)</span>
           </span>
-          <span class="item-desc">{{ 'exchanges.sell' | translate }}
+          <span ng-show="item.sell" class="item-desc">{{ 'exchanges.sell' | translate }}
             <span ng-class="(item.sell_change >= 0) ? 'exr-green': 'exr-red'">{{ item.sell | currency:"":0 }} đ ({{ item.sell_change }} đ)</span>
           </span>
         </div>
@@ -28,7 +28,7 @@
         <span ng-hide="item.type == 'GOLD'" class="text-mute">{{ item.code }}</span>
 
         <!-- BEGIN swipe options -->
-        <ion-option-button class="button-positive" ng-click="share(item)">
+        <ion-option-button class="button-positive" ng-click="onShare(item)">
           {{ 'exchanges.share' | translate }}
         </ion-option-button>
         <!-- END swipe options -->
