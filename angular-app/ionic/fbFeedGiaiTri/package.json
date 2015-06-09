@@ -57,6 +57,7 @@
     "org.apache.cordova.console",
     "org.apache.cordova.device",
     "org.apache.cordova.splashscreen",
-    "com.ionic.keyboard"
+    "com.ionic.keyboard",
+    "org.apache.cordova.splashscreen"
   ]
 }

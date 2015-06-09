@@ -171,7 +171,7 @@ angular
       .setNotify(true, true);
 
   })
-  .run(function ($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability, $cordovaDevice, $state, $window) {
+  .run(function ($rootScope, $ionicPlatform, $ionicLoading, $cordovaAppAvailability, $cordovaDevice, $state, $cordovaSplashscreen, $window) {
 
     $rootScope.state = $state;
 
